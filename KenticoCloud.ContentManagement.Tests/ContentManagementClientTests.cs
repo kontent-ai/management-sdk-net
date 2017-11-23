@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 
@@ -92,7 +91,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier { ItemId = EXISTING_ITEM_ID };
+            var identifier = new ContentItemIdentifier(EXISTING_ITEM_ID, null, null);
 
             var client = new ContentManagementClient(OPTIONS);
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
@@ -104,7 +103,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier { ItemCodename = EXISTING_ITEM_CODENAME };
+            var identifier = new ContentItemIdentifier(null, EXISTING_ITEM_CODENAME, null);
 
             var client = new ContentManagementClient(OPTIONS);
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
@@ -116,7 +115,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier { ItemExternalId = EXTERNAL_ID };
+            var identifier = new ContentItemIdentifier(null, null, EXTERNAL_ID);
 
             var client = new ContentManagementClient(OPTIONS);
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
@@ -251,7 +250,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier() { ItemCodename = EXISTING_ITEM_CODENAME };
+            var identifier = new ContentItemIdentifier(null, EXISTING_ITEM_CODENAME, null);
             var sitemapLocation = new List<ManageApiReference>();
             var item = new ContentItemPutModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
 
@@ -265,7 +264,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier() { ItemId = EXISTING_ITEM_ID };
+            var identifier = new ContentItemIdentifier(EXISTING_ITEM_ID, null, null);
             var sitemapLocation = new List<ManageApiReference>();
             var item = new ContentItemPutModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation};
 
@@ -279,7 +278,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier() { ItemExternalId = EXTERNAL_ID };
+            var identifier = new ContentItemIdentifier(null, null, EXTERNAL_ID);
             var sitemapLocation = new List<ManageApiReference>();
             var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
             var item = new ContentItemUpsertModel() { Name = "Hooray!", SitemapLocations = sitemapLocation, Type = type };
@@ -293,7 +292,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void ViewContentItemById()
         {
             Thread.Sleep(1000);
-            var identifier = new ContentItemIdentifier() { ItemId = EXISTING_ITEM_ID };
+            var identifier = new ContentItemIdentifier(EXISTING_ITEM_ID, null, null);
 
             var client = new ContentManagementClient(OPTIONS);
             var contentItemReponse = await client.GetContentItemAsync(identifier);
@@ -304,7 +303,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void ViewContentItemByCodename()
         {
             Thread.Sleep(1000);
-            var identifier = new ContentItemIdentifier() { ItemCodename = EXISTING_ITEM_CODENAME };
+            var identifier = new ContentItemIdentifier(null, EXISTING_ITEM_CODENAME, null);
 
             var client = new ContentManagementClient(OPTIONS);
             var contentItemReponse = await client.GetContentItemAsync(identifier);
@@ -315,7 +314,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void ViewContentItemByExternalId()
         {
             Thread.Sleep(1000);
-            var identifier = new ContentItemIdentifier() { ItemExternalId = EXTERNAL_ID };
+            var identifier = new ContentItemIdentifier(null, null, EXTERNAL_ID);
 
             var client = new ContentManagementClient(OPTIONS);
             var contentItemReponse = await client.GetContentItemAsync(identifier);
@@ -327,7 +326,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier() { ItemId = "existingID" };
+            var identifier = new ContentItemIdentifier("existingID", null, null);
 
             var client = new ContentManagementClient(OPTIONS);
             var response = await client.DeleteContentItemAsync(identifier);
@@ -339,7 +338,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier() { ItemCodename = "some id" };
+            var identifier = new ContentItemIdentifier(null, "some id", null);
 
             var client = new ContentManagementClient(OPTIONS);
             var response = await client.DeleteContentItemAsync(identifier);
@@ -351,7 +350,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             Thread.Sleep(1000);
 
-            var identifier = new ContentItemIdentifier() { ItemExternalId = "afsa" };
+            var identifier = new ContentItemIdentifier(null, null, "externalId");
 
             var client = new ContentManagementClient(OPTIONS);
             var response = await client.DeleteContentItemAsync(identifier);

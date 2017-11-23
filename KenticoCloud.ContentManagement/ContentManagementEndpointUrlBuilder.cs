@@ -45,7 +45,7 @@ namespace KenticoCloud.ContentManagement
 
         #region Items
 
-        public string BuildItemsUrl()
+        internal string BuildItemsUrl()
         {
             return GetUrl(URL_ITEM);
         }
