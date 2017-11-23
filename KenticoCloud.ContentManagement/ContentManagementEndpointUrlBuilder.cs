@@ -10,7 +10,7 @@ namespace KenticoCloud.ContentManagement
 
         private const string URL_ITEM = "/items";
         private const string URL_TEMPLATE_ITEM_ID = "/items/{0}";
-        private const string URL_TEMPLATE_ITEM_EXTERNAL_ID = "/items/external/{0}";
+        private const string URL_TEMPLATE_ITEM_EXTERNAL_ID = "/items/external-id/{0}";
         private const string URL_TEMPLATE_ITEM_CODENAME = "/items/codename/{0}";
 
         private const string URL_VARIANT = "/variants";
@@ -26,9 +26,9 @@ namespace KenticoCloud.ContentManagement
 
         #region Variants
 
-        internal string BuildListVariantsUrl(string contentItemId)
+        internal string BuildListVariantsUrl(ContentItemIdentifier identifier)
         {
-            var itemSegment = string.Format(URL_TEMPLATE_ITEM_ID, contentItemId);
+            var itemSegment = GetItemUrlSegment(identifier);
 
             return GetUrl(string.Concat(itemSegment, URL_VARIANT));
         }

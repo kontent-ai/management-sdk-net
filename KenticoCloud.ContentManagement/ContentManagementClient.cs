@@ -90,10 +90,10 @@ namespace KenticoCloud.ContentManagement
             return variantReponse;
         }
 
-        public async Task<List<ContentItemVariantResponseModel>> ListContentItemVariantsAsync(string contentItemId)
+        public async Task<List<ContentItemVariantResponseModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
         {
 
-            var endpointUrl = UrlBuilder.BuildListVariantsUrl(contentItemId);
+            var endpointUrl = UrlBuilder.BuildListVariantsUrl(identifier);
 
             var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Get);
 
@@ -128,7 +128,36 @@ namespace KenticoCloud.ContentManagement
             return contentItemReponse;
         }
 
+        public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
+        {
+            var endpointUrl = UrlBuilder.BuildItemUrl(identifier);
+
+            string json = JsonConvert.SerializeObject(contentItem);
+            var body = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, body);
+            var responseString = await response.Content.ReadAsStringAsync();
+            var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
+
+            return contentItemReponse;
+        }
+
         public async Task<ContentItemResponseModel> AddContentItemAsync(ContentItemPostModel contentItem)
+        {
+
+            var endpointUrl = UrlBuilder.BuildItemsUrl();
+
+            string json = JsonConvert.SerializeObject(contentItem, Formatting.None, _serializeSettings);
+            var body = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, body);
+            var responseString = await response.Content.ReadAsStringAsync();
+            var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
+
+            return contentItemReponse;
+        }
+
+        public async Task<ContentItemResponseModel> UpsertContentItemAsync(string externalId, ContentItemPostModel contentItem)
         {
 
             var endpointUrl = UrlBuilder.BuildItemsUrl();
