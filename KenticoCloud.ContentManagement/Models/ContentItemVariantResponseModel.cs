@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+
+using Newtonsoft.Json;
+
+namespace KenticoCloud.ContentManagement
+{
+    public sealed class ContentItemVariantResponseModel
+    {
+        [JsonProperty("item")]
+        public ManageApiReference Item { get; set; }
+
+        [JsonProperty("elements")]
+        public IDictionary<string, object> Elements { get; set; }
+
+        [JsonProperty("language")]
+        public ManageApiReference Language { get; set; }
+
+        [JsonProperty("last_modified")]
+        public DateTime? LastModified { get; set; }
+    }
+}
