@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-
+using KenticoCloud.ContentManagement.Models.Assets;
 using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement
@@ -117,11 +118,8 @@ namespace KenticoCloud.ContentManagement
         public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemPutModel contentItem)
         {
             var endpointUrl = UrlBuilder.BuildItemUrl(identifier);
-
-            string json = JsonConvert.SerializeObject(contentItem);
-            var body = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response =  await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, body);
+            
+            var response =  await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, contentItem);
             var responseString = await response.Content.ReadAsStringAsync();
             var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
 
@@ -146,11 +144,8 @@ namespace KenticoCloud.ContentManagement
         {
 
             var endpointUrl = UrlBuilder.BuildItemsUrl();
-
-            string json = JsonConvert.SerializeObject(contentItem, Formatting.None, _serializeSettings);
-            var body = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, body);
+            
+            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, contentItem);
             var responseString = await response.Content.ReadAsStringAsync();
             var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
 
@@ -207,12 +202,105 @@ namespace KenticoCloud.ContentManagement
 
         #endregion
 
-        private async Task<HttpResponseMessage> GetContentManagementResponseAsync(string endpointUrl, HttpMethod method, StringContent body = null)
+        #region Assets
+
+        public async Task<GetAssetsResponseModel> ListAssets()
+        {
+            string continuationToken = null;
+
+            var assets = new List<AssetModel>();
+
+            AssetListingResponseModel response;
+            do
+            {
+                var endpointUrl = UrlBuilder.BuildAssetListingUrl(continuationToken);
+                response = await GetContentManagementResponseAsync<AssetListingResponseModel>(endpointUrl,
+                    HttpMethod.Get);
+                continuationToken = response.Pagination?.Token;
+                assets.AddRange(response.Assets);
+            }
+            while(response.Pagination != null);
+
+            return new GetAssetsResponseModel {Assets = assets};
+        }
+
+        public async Task<AssetModel> UpdateAssetById(string id, AssetUpdateModel update)
+        {
+            var endpoint = UrlBuilder.BuildAssetsUrlFromId(id);
+
+            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Put, update);
+
+        }
+
+        public async Task<AssetModel> ViewAssetById(string id)
+        {
+            var endpoint = UrlBuilder.BuildAssetsUrlFromId(id);
+            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Get);
+
+        }
+
+        public async Task<AssetModel> DeleteAssetById(string id)
+        {
+            var endpoint = UrlBuilder.BuildAssetsUrlFromId(id);
+            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Delete);
+        }
+
+        public async Task<AssetModel> DeleteAssetByExternalId(string externalId)
+        {
+            var endpoint = UrlBuilder.BuildAssetsUrlFromExternalId(externalId);
+            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Delete);
+        }
+
+        public async Task<AssetModel> UpsertAssetByExternalId(string externalId, AssetUpsertModel upsert)
+        {
+            var endpoint = UrlBuilder.BuildAssetsUrlFromExternalId(externalId);
+            return await GetContentManagementResponseAsync<AssetModel>(
+                endpoint,
+                HttpMethod.Put, 
+                new AssetUpsertServerModel {
+                    Descriptions = upsert.Descriptions,
+                    FileReference = upsert.FileReference,
+                    ExternalId = externalId
+                }
+            );
+        }
+
+        public async Task<AssetModel> ViewAssetByExternalId(string externalId)
+        {
+            var endpoint = UrlBuilder.BuildAssetsUrlFromExternalId(externalId);
+            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Get);
+
+        }
+
+        public async Task<HttpResponseMessage> UploadAsset(string fileName, byte[] file, string contentType)
+        {
+            // TODO: add file size limitation
+            var endpointUrl = UrlBuilder.BuildUploadAssetUrl(fileName);
+
+            var body = new {
+                dataBinary = file, contentType, contentLength = file.Length
+            };
+
+            return await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, body);
+        }
+
+        #endregion
+
+        private async Task<T> GetContentManagementResponseAsync<T>(string endpointUrl, HttpMethod method,
+            object body = null)
+        {
+            var response = await GetContentManagementResponseAsync(endpointUrl, method, body);
+            var responseString = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(responseString);
+        }
+
+
+        private async Task<HttpResponseMessage> GetContentManagementResponseAsync(string endpointUrl, HttpMethod method, object body = null)
         {
             var message = new HttpRequestMessage(method, endpointUrl);
             message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _contentManagementOptions.ApiKey);
-
-            message.Content = body;
+            string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
+            message.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await HttpClient.SendAsync(message);
 

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Web;
+using KenticoCloud.ContentManagement.Models.Assets;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -58,7 +61,7 @@ namespace KenticoCloud.ContentManagement
 
         #endregion
 
-        private string GetUrl(string path, string[] parameters = null)
+        private string GetUrl(string path, params string[] parameters)
         {
             var projectSegment = string.Format(URL_TEMPLATE_PROJECT, _options.ProjectId);
 
@@ -67,7 +70,8 @@ namespace KenticoCloud.ContentManagement
 
             if (parameters != null && parameters.Length > 0)
             {
-                url = string.Concat(url, "?", string.Join("&", parameters));
+                var joinedQuery = string.Join("&", parameters);
+                url = string.Concat(url, "?", HttpUtility.ParseQueryString(joinedQuery));
             }
 
             if (url.Length > URI_MAX_LENGTH)
@@ -134,6 +138,26 @@ namespace KenticoCloud.ContentManagement
             }
 
             return URL_VARIANT;
+        }
+
+        public string BuildUploadAssetUrl(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string BuildAssetListingUrl(string continuationToken = null)
+        {
+            return continuationToken != null ? GetUrl($"/assets" ,$"continuationToken={continuationToken}") : GetUrl("/assets");
+        }
+
+        public string BuildAssetsUrlFromId(string id)
+        {
+            return GetUrl($"/assets/{id}");
+        }
+
+        public string BuildAssetsUrlFromExternalId(string externalId)
+        {
+            return GetUrl($"/assets/external-id/{externalId}");
         }
     }
 }
