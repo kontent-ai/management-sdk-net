@@ -178,8 +178,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = new ContentItemVariantIdentifier() { ItemId = "some id", LanguageId = EXISTING_LANGUAGE_VARIANT_ID };
 
             var client = new ContentManagementClient(OPTIONS);
-            var response = await client.DeleteContentItemVariantAsync(identifier);
-            Assert.True(response.IsSuccessStatusCode);
+            await client.DeleteContentItemVariantAsync(identifier);
         }
 
         [Fact]
@@ -190,8 +189,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = new ContentItemVariantIdentifier() { ItemId = "some id", LanguageCodename = EXISTING_LANGUAGE_VARIANT_CODENAME };
 
             var client = new ContentManagementClient(OPTIONS);
-            var response = await client.DeleteContentItemVariantAsync(identifier);
-            Assert.True(response.IsSuccessStatusCode);
+            await client.DeleteContentItemVariantAsync(identifier);
         }
 
         [Fact]
@@ -202,8 +200,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = new ContentItemVariantIdentifier() { ItemExternalId = "123456555", LanguageId = EXISTING_LANGUAGE_VARIANT_ID };
 
             var client = new ContentManagementClient(OPTIONS);
-            var response = await client.DeleteContentItemVariantAsync(identifier);
-            Assert.True(response.IsSuccessStatusCode);
+            await client.DeleteContentItemVariantAsync(identifier);
         }
 
         [Fact]
@@ -214,8 +211,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = new ContentItemVariantIdentifier() { ItemExternalId = "123456555", LanguageCodename = EXISTING_LANGUAGE_VARIANT_CODENAME };
 
             var client = new ContentManagementClient(OPTIONS);
-            var response = await client.DeleteContentItemVariantAsync(identifier);
-            Assert.True(response.IsSuccessStatusCode);
+            await client.DeleteContentItemVariantAsync(identifier);
         }
 
         #endregion
@@ -242,7 +238,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var client = new ContentManagementClient(OPTIONS);
             var response = await client.ListContentItemsAsync();
-            Assert.True(response.IsSuccessStatusCode);
+            Assert.True(response != null);
         }
 
         [Fact]

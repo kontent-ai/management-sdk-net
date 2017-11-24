@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace KenticoCloud.ContentManagement.Models
+namespace KenticoCloud.ContentManagement
 {
     public sealed class ContentItemsResponseModel
     {

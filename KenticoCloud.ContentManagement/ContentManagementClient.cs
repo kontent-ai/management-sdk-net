@@ -79,11 +79,7 @@ namespace KenticoCloud.ContentManagement
         {
 
             var endpointUrl = UrlBuilder.BuildVariantsUrl(identifier);
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            var variantReponse = JsonConvert.DeserializeObject<ContentItemVariantResponseModel>(responseString);
+            var variantReponse = await GetContentManagementResponseAsync<ContentItemVariantResponseModel, object>(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
 
             return variantReponse;
         }
@@ -92,20 +88,15 @@ namespace KenticoCloud.ContentManagement
         {
 
             var endpointUrl = UrlBuilder.BuildListVariantsUrl(identifier);
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Get);
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            var variantsReponse = JsonConvert.DeserializeObject<List<ContentItemVariantResponseModel>>(responseString);
+            var variantsReponse = await GetContentManagementResponseAsync<List<ContentItemVariantResponseModel>, object>(endpointUrl, HttpMethod.Get);
 
             return variantsReponse;
         }
 
-        public async Task<HttpResponseMessage> DeleteContentItemVariantAsync(ContentItemVariantIdentifier identifier)
+        public async Task DeleteContentItemVariantAsync(ContentItemVariantIdentifier identifier)
         {
             var endpointUrl = UrlBuilder.BuildVariantsUrl(identifier);
-
-            return await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Delete);
+            await GetContentManagementResponseAsync<object, object>(endpointUrl, HttpMethod.Delete);
         }
 
         #endregion
@@ -114,11 +105,8 @@ namespace KenticoCloud.ContentManagement
 
         public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemPutModel contentItem)
         {
-            var endpointUrl = UrlBuilder.BuildItemUrl(identifier);
-            
-            var response =  await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, contentItem);
-            var responseString = await response.Content.ReadAsStringAsync();
-            var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
+            var endpointUrl = UrlBuilder.BuildItemUrl(identifier);     
+            var contentItemReponse =  await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Put, contentItem);
 
             return contentItemReponse;
         }
@@ -126,10 +114,7 @@ namespace KenticoCloud.ContentManagement
         public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
         {
             var endpointUrl = UrlBuilder.BuildItemUrl(identifier);
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, contentItem);
-            var responseString = await response.Content.ReadAsStringAsync();
-            var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
+            var contentItemReponse = await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Put, contentItem);
 
             return contentItemReponse;
         }
@@ -138,10 +123,7 @@ namespace KenticoCloud.ContentManagement
         {
 
             var endpointUrl = UrlBuilder.BuildItemsUrl();
-            
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, contentItem);
-            var responseString = await response.Content.ReadAsStringAsync();
-            var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
+            var contentItemReponse = await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Post, contentItem);
 
             return contentItemReponse;
         }
@@ -151,9 +133,7 @@ namespace KenticoCloud.ContentManagement
 
             var endpointUrl = UrlBuilder.BuildItemsUrl();
 
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, contentItem);
-            var responseString = await response.Content.ReadAsStringAsync();
-            var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
+            var contentItemReponse = await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Post, contentItem);
 
             return contentItemReponse;
         }
@@ -161,10 +141,7 @@ namespace KenticoCloud.ContentManagement
         public async Task<ContentItemResponseModel> GetContentItemAsync(ContentItemIdentifier identifier)
         {
             var endpointUrl = UrlBuilder.BuildItemUrl(identifier);
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Get);
-            var responseString = await response.Content.ReadAsStringAsync();
-            var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
+            var contentItemReponse = await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Get);
 
             return contentItemReponse;
         }
@@ -173,22 +150,21 @@ namespace KenticoCloud.ContentManagement
         {
             var endpointUrl = UrlBuilder.BuildItemUrl(contentItem);
 
-            return await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Delete);
+            return await GetContentManagementResponseAsync<HttpResponseMessage, object>(endpointUrl, HttpMethod.Delete);
         }
 
-        public async Task<HttpResponseMessage> ListContentItemsAsync()
+        public async Task<ContentItemsResponseModel> ListContentItemsAsync()
         {
-
             var endpointUrl = UrlBuilder.BuildItemsUrl();
 
-            return await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Get);
+            return await GetContentManagementResponseAsync<ContentItemsResponseModel, object>(endpointUrl, HttpMethod.Get);
         }
 
         public async Task<HttpResponseMessage> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
         {
             var endpointUrl = UrlBuilder.BuildVariantsUrl(identifier);
 
-            return await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Get);
+            return await GetContentManagementResponseAsync<HttpResponseMessage, object>(endpointUrl, HttpMethod.Get);
         }
 
         #endregion
@@ -205,7 +181,7 @@ namespace KenticoCloud.ContentManagement
             do
             {
                 var endpointUrl = UrlBuilder.BuildAssetListingUrl(continuationToken);
-                response = await GetContentManagementResponseAsync<AssetListingResponseModel>(endpointUrl,
+                response = await GetContentManagementResponseAsync<AssetListingResponseModel, object>(endpointUrl,
                     HttpMethod.Get);
                 continuationToken = response.Pagination?.Token;
                 assets.AddRange(response.Assets);
@@ -219,33 +195,33 @@ namespace KenticoCloud.ContentManagement
         {
             var endpoint = UrlBuilder.BuildAssetsUrlFromId(id);
 
-            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Put, update);
+            return await GetContentManagementResponseAsync<AssetModel, object>(endpoint, HttpMethod.Put, update);
 
         }
 
         public async Task<AssetModel> ViewAssetById(string id)
         {
             var endpoint = UrlBuilder.BuildAssetsUrlFromId(id);
-            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Get);
+            return await GetContentManagementResponseAsync<AssetModel, object>(endpoint, HttpMethod.Get);
 
         }
 
         public async Task<AssetModel> DeleteAssetById(string id)
         {
             var endpoint = UrlBuilder.BuildAssetsUrlFromId(id);
-            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Delete);
+            return await GetContentManagementResponseAsync<AssetModel, object>(endpoint, HttpMethod.Delete);
         }
 
         public async Task<AssetModel> DeleteAssetByExternalId(string externalId)
         {
             var endpoint = UrlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Delete);
+            return await GetContentManagementResponseAsync<AssetModel, object>(endpoint, HttpMethod.Delete);
         }
 
         public async Task<AssetModel> UpsertAssetByExternalId(string externalId, AssetUpsertModel upsert)
         {
             var endpoint = UrlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            return await GetContentManagementResponseAsync<AssetModel>(
+            return await GetContentManagementResponseAsync<AssetModel, object>(
                 endpoint,
                 HttpMethod.Put, 
                 new AssetUpsertServerModel {
@@ -259,7 +235,7 @@ namespace KenticoCloud.ContentManagement
         public async Task<AssetModel> ViewAssetByExternalId(string externalId)
         {
             var endpoint = UrlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            return await GetContentManagementResponseAsync<AssetModel>(endpoint, HttpMethod.Get);
+            return await GetContentManagementResponseAsync<AssetModel, object>(endpoint, HttpMethod.Get);
 
         }
 
@@ -272,32 +248,34 @@ namespace KenticoCloud.ContentManagement
                 dataBinary = file, contentType, contentLength = file.Length
             };
 
-            return await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, body);
+            return await GetContentManagementResponseAsync<HttpResponseMessage, object>(endpointUrl, HttpMethod.Post, body);
         }
 
         #endregion
 
-        private async Task<T> GetContentManagementResponseAsync<T>(string endpointUrl, HttpMethod method,
-            object body = null)
-        {
-            var response = await GetContentManagementResponseAsync(endpointUrl, method, body);
-            var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(responseString);
-        }
-
-
-        private async Task<HttpResponseMessage> GetContentManagementResponseAsync(string endpointUrl, HttpMethod method, object body = null)
+        private async Task<T> GetContentManagementResponseAsync<T, U>(string endpointUrl, HttpMethod method, U body = null) where U : class
         {
             var message = new HttpRequestMessage(method, endpointUrl);
             message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _contentManagementOptions.ApiKey);
-            string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
-            message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            if (body != null)
+            {
+                string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
+                message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+            }
 
             var response = await HttpClient.SendAsync(message);
 
             if (response.IsSuccessStatusCode)
             {
-                return response;
+                // TODO: Temp solution for Delete - delete request does not send body data
+                if(method == HttpMethod.Delete)
+                {
+                    return default(T);
+                }
+
+                var responseString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(responseString);
             }
 
             throw new ContentManagementException(response, await response.Content.ReadAsStringAsync());
