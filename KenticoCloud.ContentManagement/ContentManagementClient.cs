@@ -80,10 +80,7 @@ namespace KenticoCloud.ContentManagement
 
             var endpointUrl = UrlBuilder.BuildVariantsUrl(identifier);
 
-            string json = JsonConvert.SerializeObject(contentItemVariantUpdateModel, Formatting.None, _serializeSettings);
-            var body = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, body);
+            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
 
             var responseString = await response.Content.ReadAsStringAsync();
             var variantReponse = JsonConvert.DeserializeObject<ContentItemVariantResponseModel>(responseString);
@@ -130,10 +127,7 @@ namespace KenticoCloud.ContentManagement
         {
             var endpointUrl = UrlBuilder.BuildItemUrl(identifier);
 
-            string json = JsonConvert.SerializeObject(contentItem);
-            var body = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, body);
+            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Put, contentItem);
             var responseString = await response.Content.ReadAsStringAsync();
             var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
 
@@ -157,10 +151,7 @@ namespace KenticoCloud.ContentManagement
 
             var endpointUrl = UrlBuilder.BuildItemsUrl();
 
-            string json = JsonConvert.SerializeObject(contentItem, Formatting.None, _serializeSettings);
-            var body = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, body);
+            var response = await GetContentManagementResponseAsync(endpointUrl, HttpMethod.Post, contentItem);
             var responseString = await response.Content.ReadAsStringAsync();
             var contentItemReponse = JsonConvert.DeserializeObject<ContentItemResponseModel>(responseString);
 

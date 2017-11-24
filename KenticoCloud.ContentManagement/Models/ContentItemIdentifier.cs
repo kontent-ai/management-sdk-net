@@ -11,7 +11,10 @@
             ItemId = itemId;
             ItemCodename = itemCodename;
             ItemExternalId = itemExternalId;
+        }
 
+        public ContentItemIdentifier()
+        {
         }
     }
 }
