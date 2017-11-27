@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.IO;
+
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Modules.RequestMapper;
@@ -10,6 +12,8 @@ namespace KenticoCloud.ContentManagement
 {
     public sealed class ContentManagementClient
     {
+        const int MAX_FILE_SIZE_MB = 100;
+
         private ActionInvoker _actionInvoker;
         private EndpointUrlBuilder _urlBuilder;
 
@@ -209,5 +213,29 @@ namespace KenticoCloud.ContentManagement
 
         #endregion
 
+        #region Binary files
+
+        public async Task<FileReferenceModel> UploadFile(Stream stream, string fileName, string contentType)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+
+            if (String.IsNullOrEmpty(fileName))
+                throw new ArgumentException(nameof(fileName));
+
+            if (String.IsNullOrEmpty(contentType))
+                throw new ArgumentException(nameof(contentType));
+
+            if (stream.Length > MAX_FILE_SIZE_MB)
+            {
+                throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
+            }
+
+            var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileName);
+
+            return await _actionInvoker.UploadFileAsync<FileReferenceModel>(endpointUrl, stream, contentType);
+        }
+
+        #endregion
     }
 }

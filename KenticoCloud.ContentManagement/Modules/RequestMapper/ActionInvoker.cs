@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+
 using KenticoCloud.ContentManagement.Modules.HttpClient;
+
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace KenticoCloud.ContentManagement.Modules.RequestMapper
 {
@@ -28,9 +30,18 @@ namespace KenticoCloud.ContentManagement.Modules.RequestMapper
             _cmHttpClient = new ContentManagementHttpClient();
         }
 
-        public async Task<TU> InvokeMethodAsync<T, TU>(string endpointUrl, HttpMethod method, T body)
+        private async Task<T> ReadResultAsync<T>(HttpResponseMessage response)
+        {
+            // TODO - handle exception
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<T>(responseString);
+        }
+
+        public async Task<TResponse> InvokeMethodAsync<TPayload, TResponse>(string endpointUrl, HttpMethod method, TPayload body)
         {
             var message = _messageCreator.CreateMessage(method, endpointUrl);
+
             if (body != null)
             {
                 string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
@@ -39,18 +50,16 @@ namespace KenticoCloud.ContentManagement.Modules.RequestMapper
 
             var response = await _cmHttpClient.SendAsync(message);
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TU>(responseString);        // TODO: handle exception
+            return await ReadResultAsync<TResponse>(response);
         }
 
-        public async Task<T> InvokeReadOnlyMethodAsync<T>(string endpointUrl, HttpMethod method)
+        public async Task<TResponse> InvokeReadOnlyMethodAsync<TResponse>(string endpointUrl, HttpMethod method)
         {
             var message = _messageCreator.CreateMessage(method, endpointUrl);
 
             var response = await _cmHttpClient.SendAsync(message);
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(responseString);        // TODO: handle exception
+            return await ReadResultAsync<TResponse>(response);
         }
 
         public async Task InvokeMethodAsync(string endpointUrl, HttpMethod method)
@@ -59,5 +68,25 @@ namespace KenticoCloud.ContentManagement.Modules.RequestMapper
             await _cmHttpClient.SendAsync(message);
         }
 
+        public async Task<TResponse> UploadFileAsync<TResponse>(string endpointUrl, Stream stream, string contentType)
+        {
+            if (stream == null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            var message = _messageCreator.CreateMessage(HttpMethod.Post, endpointUrl);
+
+            var content = new StreamContent(stream);
+
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse(contentType);
+            content.Headers.ContentLength = stream.Length;
+
+            message.Content = content;
+
+            var response = await _cmHttpClient.SendAsync(message);
+
+            return await ReadResultAsync<TResponse>(response);
+        }
     }
 }

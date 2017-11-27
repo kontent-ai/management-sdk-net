@@ -1,5 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using KenticoCloud.ContentManagement.Models.Assets;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading;
+
 using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests
@@ -348,6 +354,28 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var client = new ContentManagementClient(OPTIONS);
             await client.DeleteContentItemAsync(identifier);
+        }
+
+        #endregion
+
+        #region Binary files
+
+        [Fact]
+        public async void UploadFile_UploadsFile()
+        {
+            Thread.Sleep(1000);
+
+            var client = new ContentManagementClient(OPTIONS);
+
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK tests!"));
+
+            var file = await client.UploadFile(stream, "Hello.txt", "text/plain");
+            Assert.Equal(FileReferenceTypeEnum.Internal, file.Type);
+
+            Guid fileId;
+            Assert.True(Guid.TryParse(file.Id, out fileId));
+
+            Assert.NotEqual(Guid.Empty, fileId);
         }
 
         #endregion

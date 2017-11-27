@@ -1,6 +1,6 @@
 ﻿using System;
-using Xunit;
 
+using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
@@ -174,7 +174,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildAssetListingUrl_WithoutContinuationToken_ReturnsExpectedUrl()
         {
-            var expectedResult = "https://manage.kenticocloud.com/projects/bb6882a0-3088-405c-a6ac-4a0da46810b0/assets";
+            var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets";
             var actualResult = _builder.BuildAssetListingUrl();
 
             Assert.Equal(expectedResult, actualResult);
@@ -184,7 +184,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public void BuildAssetListingUrl_WithContinuationToken_ReturnsExpectedUrl()
         {
             var continuationToken = "MjA=";
-            var expectedResult = "https://manage.kenticocloud.com/projects/bb6882a0-3088-405c-a6ac-4a0da46810b0/assets?continuationToken=MjA%3d";
+            var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets?continuationToken=MjA%3d";
             var actualResult = _builder.BuildAssetListingUrl(continuationToken);
 
             Assert.Equal(expectedResult, actualResult);
@@ -194,7 +194,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public void BuildAssetsUrlFromId_WithGivenAssetId_ReturnsExpectedUrl()
         {
             var assetId = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c";
-            var expectedResult = $"https://manage.kenticocloud.com/projects/bb6882a0-3088-405c-a6ac-4a0da46810b0/assets/{assetId}";
+            var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets/{assetId}";
             var actualResult = _builder.BuildAssetsUrlFromId(assetId);
 
             Assert.Equal(expectedResult, actualResult);
@@ -205,12 +205,25 @@ namespace KenticoCloud.ContentManagement.Tests
         public void BuildAssetsUrlFromExternalId_WithGivenAssetId_ReturnsExpectedUrl()
         {
             var externalId = "which-brewing-fits-you";
-            var expectedResult = $"https://manage.kenticocloud.com/projects/bb6882a0-3088-405c-a6ac-4a0da46810b0/assets/external-id/{externalId}";
+            var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets/external-id/{externalId}";
             var actualResult = _builder.BuildAssetsUrlFromExternalId(externalId);
 
             Assert.Equal(expectedResult, actualResult);
         }
 
+        #endregion
+
+        #region File
+
+        [Fact]
+        public void BuildUploadFileUrl_ReturnsExpectedUrl()
+        {
+            var fileName = "which-brewing-fits-you-1080px.jpg";
+            var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/files/{fileName}";
+            var actualResult = _builder.BuildUploadFileUrl(fileName);
+
+            Assert.Equal(expectedResult, actualResult);
+        }
 
         #endregion
     }
