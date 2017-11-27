@@ -325,8 +325,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = new ContentItemIdentifier("existingID", null, null);
 
             var client = new ContentManagementClient(OPTIONS);
-            var response = await client.DeleteContentItemAsync(identifier);
-            Assert.True(response.IsSuccessStatusCode);
+            await client.DeleteContentItemAsync(identifier);
         }
 
         [Fact]
@@ -337,8 +336,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = new ContentItemIdentifier(null, "some id", null);
 
             var client = new ContentManagementClient(OPTIONS);
-            var response = await client.DeleteContentItemAsync(identifier);
-            Assert.True(response.IsSuccessStatusCode);
+            await client.DeleteContentItemAsync(identifier);
         }
 
         [Fact]
@@ -349,8 +347,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = new ContentItemIdentifier(null, null, "externalId");
 
             var client = new ContentManagementClient(OPTIONS);
-            var response = await client.DeleteContentItemAsync(identifier);
-            Assert.True(response.IsSuccessStatusCode);
+            await client.DeleteContentItemAsync(identifier);
         }
 
         #endregion
