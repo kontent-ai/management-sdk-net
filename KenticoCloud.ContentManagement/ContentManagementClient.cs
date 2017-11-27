@@ -111,7 +111,7 @@ namespace KenticoCloud.ContentManagement
             return contentItemReponse;
         }
 
-        public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
+        public async Task<ContentItemResponseModel> UpdateContentItemByExternalIdAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
         {
             var endpointUrl = UrlBuilder.BuildItemUrl(identifier);
             var contentItemReponse = await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Put, contentItem);
@@ -123,16 +123,6 @@ namespace KenticoCloud.ContentManagement
         {
 
             var endpointUrl = UrlBuilder.BuildItemsUrl();
-            var contentItemReponse = await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Post, contentItem);
-
-            return contentItemReponse;
-        }
-
-        public async Task<ContentItemResponseModel> UpsertContentItemAsync(string externalId, ContentItemPostModel contentItem)
-        {
-
-            var endpointUrl = UrlBuilder.BuildItemsUrl();
-
             var contentItemReponse = await GetContentManagementResponseAsync<ContentItemResponseModel, object>(endpointUrl, HttpMethod.Post, contentItem);
 
             return contentItemReponse;

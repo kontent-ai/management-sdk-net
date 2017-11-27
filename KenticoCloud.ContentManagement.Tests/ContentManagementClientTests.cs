@@ -280,7 +280,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var item = new ContentItemUpsertModel() { Name = "Hooray!", SitemapLocations = sitemapLocation, Type = type };
 
             var client = new ContentManagementClient(OPTIONS);
-            var contentItemResponse = await client.UpdateContentItemAsync(identifier, item);
+            var contentItemResponse = await client.UpdateContentItemByExternalIdAsync(identifier, item);
             Assert.Equal("Hooray!", contentItemResponse.Name);
         }
 
