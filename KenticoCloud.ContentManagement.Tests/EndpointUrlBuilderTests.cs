@@ -190,7 +190,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public void BuildAssetListingUrl_WithContinuationToken_ReturnsExpectedUrl()
         {
             var continuationToken = "MjA=";
-            var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets?continuationToken=MjA%3d";
+            var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets?continuationToken=MjA%3D";
             var actualResult = _builder.BuildAssetListingUrl(continuationToken);
 
             Assert.Equal(expectedResult, actualResult);

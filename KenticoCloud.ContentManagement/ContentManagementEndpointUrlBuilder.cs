@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 
 using KenticoCloud.ContentManagement.Models.Items;
 
@@ -68,10 +67,14 @@ namespace KenticoCloud.ContentManagement
             var endpointUrl = string.Format(_options.Endpoint, projectSegment);
             var url = string.Concat(endpointUrl, path);
 
-            if (parameters != null && parameters.Length > 0)
+            if ((parameters != null) && (parameters.Length > 0))
             {
                 var joinedQuery = string.Join("&", parameters);
-                url = string.Concat(url, "?", HttpUtility.ParseQueryString(joinedQuery));
+
+                if (!String.IsNullOrEmpty(joinedQuery))
+                {
+                    url = $"{url}?{joinedQuery}";
+                }
             }
 
             if (url.Length > URI_MAX_LENGTH)
@@ -121,7 +124,7 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetListingUrl(string continuationToken = null)
         {
-            return continuationToken != null ? GetUrl($"/assets", $"continuationToken={continuationToken}") : GetUrl("/assets");
+            return continuationToken != null ? GetUrl($"/assets", $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl("/assets");
         }
 
         public string BuildAssetsUrlFromId(string id)
