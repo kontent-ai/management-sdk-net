@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Linq;
+
+using KenticoCloud.ContentManagement.Exceptions;
 
 using Newtonsoft.Json.Linq;
-using KenticoCloud.ContentManagement.Exceptions;
-using System.Linq;
 
 namespace KenticoCloud.ContentManagement
 {
