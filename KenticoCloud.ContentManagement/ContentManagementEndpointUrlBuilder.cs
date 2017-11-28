@@ -20,8 +20,6 @@ namespace KenticoCloud.ContentManagement
         private const string URL_TEMPLATE_VARIANT_ID = "/variants/{0}";
         private const string URL_TEMPLATE_VARIANT_CODENAME = "/variants/codename/{0}";
 
-        private const string URL_TEMPLATE_UPLOAD_FILE = "/files/{0}";
-
         private readonly ContentManagementOptions _options;
 
         internal EndpointUrlBuilder(ContentManagementOptions options)
@@ -144,7 +142,7 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetListingUrl(string continuationToken = null)
         {
-            return continuationToken != null ? GetUrl($"/assets" ,$"continuationToken={continuationToken}") : GetUrl("/assets");
+            return continuationToken != null ? GetUrl($"/assets", $"continuationToken={continuationToken}") : GetUrl("/assets");
         }
 
         public string BuildAssetsUrlFromId(string id)
@@ -159,12 +157,7 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildUploadFileUrl(string fileName)
         {
-            return GetUrl(GetUploadFileUrlSegment(fileName));
-        }
-
-        private string GetUploadFileUrlSegment(string fileName)
-        {
-            return string.Format(URL_TEMPLATE_UPLOAD_FILE, fileName);
+            return GetUrl($"/files/{fileName}");
         }
     }
 }

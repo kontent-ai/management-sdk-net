@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
+
+using Newtonsoft.Json.Linq;
+using KenticoCloud.ContentManagement.Exceptions;
+using System.Linq;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -31,12 +34,24 @@ namespace KenticoCloud.ContentManagement
 
             try
             {
-                Message = JObject.Parse(responseStr)["message"].ToString();
+                var errorModel = JObject.Parse(responseStr).ToObject<ErrorResponseModel>();
+                var message = errorModel.Message;
+
+                if (errorModel.ValidationErrors != null)
+                {
+                    var errors = String.Join(Environment.NewLine, errorModel.ValidationErrors.Select(error => error.Message));
+
+                    message += $"{Environment.NewLine}Validation errors:{Environment.NewLine}{errors}";
+                }
+
+                Message = message;
             }
             catch (Exception)
             {
                 Message = $"Unknown error. HTTP status code: {StatusCode}. Reason phrase: {response.ReasonPhrase}.";
             }
         }
+
+
     }
 }

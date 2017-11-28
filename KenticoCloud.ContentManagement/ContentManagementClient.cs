@@ -215,6 +215,12 @@ namespace KenticoCloud.ContentManagement
 
         #region Binary files
 
+        /// <summary>
+        /// Uploads the given file.
+        /// </summary>
+        /// <param name="stream">File stream with the binary file data.</param>
+        /// <param name="fileName">The name of the uploaded binary file. It will be used for the asset name when creating an asset. Example: which-brewing-fits-you-1080px.jpg.</param>
+        /// <param name="contentType">Specifies the media type of the binary data. Example: image/jpeg, application/zip.</param>
         public async Task<FileReferenceModel> UploadFile(Stream stream, string fileName, string contentType)
         {
             if (stream == null)

@@ -3,11 +3,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Net.Http.Headers;
 
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 
 namespace KenticoCloud.ContentManagement.Modules.RequestMapper
 {
@@ -32,7 +32,6 @@ namespace KenticoCloud.ContentManagement.Modules.RequestMapper
 
         private async Task<T> ReadResultAsync<T>(HttpResponseMessage response)
         {
-            // TODO - handle exception
             var responseString = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<T>(responseString);
