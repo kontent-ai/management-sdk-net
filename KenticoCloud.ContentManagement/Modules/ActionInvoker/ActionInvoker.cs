@@ -9,7 +9,7 @@ using KenticoCloud.ContentManagement.Modules.HttpClient;
 
 using Newtonsoft.Json;
 
-namespace KenticoCloud.ContentManagement.Modules.RequestMapper
+namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
 {
     internal class ActionInvoker : IActionInvoker
     {
