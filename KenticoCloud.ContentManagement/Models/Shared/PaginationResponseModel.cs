@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace KenticoCloud.ContentManagement
+namespace KenticoCloud.ContentManagement.Models.Shared
 {
     public sealed class PaginationResponseModel
     {

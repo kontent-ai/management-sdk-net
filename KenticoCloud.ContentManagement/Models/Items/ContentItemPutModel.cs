@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 
+using KenticoCloud.ContentManagement.Models.Shared;
+
 using Newtonsoft.Json;
 
-namespace KenticoCloud.ContentManagement
+namespace KenticoCloud.ContentManagement.Models.Items
 {
     public sealed class ContentItemPutModel
     {

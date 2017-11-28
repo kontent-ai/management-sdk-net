@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web;
-using KenticoCloud.ContentManagement.Models.Assets;
+
+using KenticoCloud.ContentManagement.Models.Items;
 
 namespace KenticoCloud.ContentManagement
 {

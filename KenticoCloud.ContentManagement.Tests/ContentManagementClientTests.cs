@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 
 using KenticoCloud.ContentManagement.Models.Assets;
+using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Models.Shared;
 
 using Xunit;
 

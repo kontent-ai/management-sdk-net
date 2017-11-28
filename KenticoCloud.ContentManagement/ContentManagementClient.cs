@@ -8,6 +8,7 @@ using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Shared;
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
+using KenticoCloud.ContentManagement.Models.Items;
 
 namespace KenticoCloud.ContentManagement
 {

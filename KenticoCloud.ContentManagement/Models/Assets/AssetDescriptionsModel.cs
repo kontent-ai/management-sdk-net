@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 
+using KenticoCloud.ContentManagement.Models.Shared;
+
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
     public class AssetDescriptionsModel

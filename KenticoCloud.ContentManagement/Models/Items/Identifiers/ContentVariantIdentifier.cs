@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KenticoCloud.ContentManagement
+namespace KenticoCloud.ContentManagement.Models.Items
 {
     public sealed class ContentVariantIdentifier
     {

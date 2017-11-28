@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using KenticoCloud.ContentManagement.Models.Shared;
+
 using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Assets

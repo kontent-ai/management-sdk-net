@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using KenticoCloud.ContentManagement.Models.Shared;
 
 namespace KenticoCloud.ContentManagement.Models.Assets
