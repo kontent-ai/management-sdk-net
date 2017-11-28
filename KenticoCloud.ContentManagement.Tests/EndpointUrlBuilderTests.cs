@@ -12,11 +12,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
         private static ContentManagementOptions OPTIONS = new ContentManagementOptions() { ProjectId = PROJECT_ID };
 
-        private const string ITEM_ID = "{ITEM_ID}";
+        private static Guid ITEM_ID = Guid.Parse("b444004b-a4c4-43e3-94e0-d5bbd49d6cb8");
         private const string ITEM_CODENAME = "{ITEM_CODENAME}";
         private const string ITEM_EXTERNAL_ID = "{ITEM_EXTERNAL_ID}";
 
-        private const string VARIANT_ID = "{VARIANT_ID}";
+        private static Guid VARIANT_ID = Guid.Parse("5a64af00-a98d-4d2e-adb6-45120cbc0242");
         private const string VARIANT_CODENAME = "{VARIANT_CODENAME}";
 
         private EndpointUrlBuilder _builder;
@@ -31,7 +31,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildListVariantsUrl_ItemId_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemIdentifier() { ItemId = ITEM_ID};
+            var identifier = ContentItemIdentifier.ById(ITEM_ID);
             var actualUrl = _builder.BuildListVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}";
         }
@@ -39,7 +39,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildListVariantsUrl_ItemCodename_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemIdentifier() { ItemCodename = ITEM_CODENAME };
+            var identifier = ContentItemIdentifier.ByCodename(ITEM_CODENAME);
             var actualUrl = _builder.BuildListVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}";
         }
@@ -47,7 +47,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildListVariantsUrl_ItemExternalId_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemIdentifier() { ItemExternalId = ITEM_EXTERNAL_ID };
+            var identifier = ContentItemIdentifier.ByExternalId(ITEM_EXTERNAL_ID);
             var actualUrl = _builder.BuildListVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}";
         }
@@ -55,7 +55,9 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildContentItemVariantsUrl_ItemIdVariantId_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemVariantIdentifier() { ItemId = ITEM_ID, LanguageId = VARIANT_ID };
+            var itemIdentifier = ContentItemIdentifier.ById(ITEM_ID);
+            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(VARIANT_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}/variants/{VARIANT_ID}";
 
@@ -65,7 +67,9 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildContentItemVariantsUrl_ItemIdVariantCodename_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemVariantIdentifier() { ItemId = ITEM_ID, LanguageCodename = VARIANT_CODENAME };
+            var itemIdentifier = ContentItemIdentifier.ById(ITEM_ID);
+            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(VARIANT_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}/variants/codename/{VARIANT_CODENAME}";
 
@@ -75,7 +79,9 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildContentItemVariantsUrl_ItemCodenameVariantId_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemVariantIdentifier() { ItemCodename = ITEM_CODENAME, LanguageId = VARIANT_ID };
+            var itemIdentifier = ContentItemIdentifier.ByCodename(ITEM_CODENAME);
+            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(VARIANT_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}/variants/{VARIANT_ID}";
 
@@ -85,7 +91,9 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildContentItemVariantsUrl_ItemCodenameVariantCodename_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemVariantIdentifier() { ItemCodename = ITEM_CODENAME, LanguageCodename = VARIANT_CODENAME };
+            var itemIdentifier = ContentItemIdentifier.ByCodename(ITEM_CODENAME);
+            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(VARIANT_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}/variants/codename/{VARIANT_CODENAME}";
 
@@ -95,7 +103,9 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildContentItemVariantsUrl_ItemExternalIdVariantId_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemVariantIdentifier() { ItemExternalId = ITEM_EXTERNAL_ID, LanguageId = VARIANT_ID };
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(ITEM_EXTERNAL_ID);
+            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(VARIANT_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}/variants/{VARIANT_ID}";
 
@@ -105,7 +115,9 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildContentItemVariantsUrl_ItemExternalIdVariantCodename_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemVariantIdentifier() { ItemExternalId = ITEM_EXTERNAL_ID, LanguageCodename = VARIANT_CODENAME };
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(ITEM_EXTERNAL_ID);
+            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(VARIANT_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}/variants/codename/{VARIANT_CODENAME}";
 
@@ -132,7 +144,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildItemUrl_ItemId_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemIdentifier(ITEM_ID, null, null);
+            var identifier = ContentItemIdentifier.ById(ITEM_ID);
             var actualUrl = _builder.BuildItemUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}";
 
@@ -142,7 +154,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildItemUrl_ItemCodename_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemIdentifier(null, ITEM_CODENAME, null);
+            var identifier = ContentItemIdentifier.ByCodename(ITEM_CODENAME);
             var actualUrl = _builder.BuildItemUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}";
 
@@ -152,19 +164,11 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildItemUrl_ItemExternalId_ReturnsCorrectUrl()
         {
-            var identifier = new ContentItemIdentifier(null, null, ITEM_EXTERNAL_ID);
+            var identifier = ContentItemIdentifier.ByExternalId(ITEM_EXTERNAL_ID);
             var actualUrl = _builder.BuildItemUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}";
 
             Assert.Equal(expectedUrl, actualUrl);
-        }
-
-        [Fact]
-        public void BuildItemUrl_NoIdentifier_ThrowsEx()
-        {
-            var identifier = new ContentItemIdentifier(null, null, null);
-
-            Assert.ThrowsAny<ArgumentException>(() => _builder.BuildItemUrl(identifier));
         }
 
         #endregion
