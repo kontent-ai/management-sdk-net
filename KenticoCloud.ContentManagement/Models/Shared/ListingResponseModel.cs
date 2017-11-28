@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using KenticoCloud.ContentManagement.Models.Shared;
 
-namespace KenticoCloud.ContentManagement.Models.Assets
+namespace KenticoCloud.ContentManagement.Models
 {
     public class ListingResponseModel<T> : IEnumerable<T>
     {

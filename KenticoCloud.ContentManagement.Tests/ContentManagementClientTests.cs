@@ -279,6 +279,32 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        public async void ListContentItems_WithContinuation()
+        {
+            Thread.Sleep(1000);
+
+            var client = new ContentManagementClient(OPTIONS);
+
+            var response = await client.ListContentItemsAsync();
+            Assert.NotNull(response);
+
+            while (true)
+            {
+                foreach (var item in response)
+                {
+                    Assert.NotNull(item);
+                }
+
+                if (!response.HasNextPage())
+                {
+                    break;
+                }
+                response = await response.GetNextPage();
+                Assert.NotNull(response);
+            }
+        }
+
+        [Fact]
         public async void UpdateContentItemByCodename()
         {
             Thread.Sleep(1000);
@@ -392,10 +418,46 @@ namespace KenticoCloud.ContentManagement.Tests
 
         #endregion
 
-        #region Binary files
+        #region Assets
 
         [Fact]
-        public async void UploadFile_UploadsFile()
+        public async void ListAssets()
+        {
+            Thread.Sleep(1000);
+
+            var client = new ContentManagementClient(OPTIONS);
+            var response = await client.ListAssets();
+            Assert.True(response != null);
+        }
+
+        [Fact]
+        public async void ListAssets_WithContinuation()
+        {
+            Thread.Sleep(1000);
+
+            var client = new ContentManagementClient(OPTIONS);
+
+            var response = await client.ListAssets();
+            Assert.NotNull(response);
+
+            while (true)
+            {
+                foreach (var asset in response)
+                {
+                    Assert.NotNull(asset);
+                }
+
+                if (!response.HasNextPage())
+                {
+                    break;
+                }
+                response = await response.GetNextPage();
+                Assert.NotNull(response);
+            }
+        }
+
+        [Fact]
+        public async void CreateAsset_WithFile_CreatesAssetCorrectly()
         {
             Thread.Sleep(1000);
 

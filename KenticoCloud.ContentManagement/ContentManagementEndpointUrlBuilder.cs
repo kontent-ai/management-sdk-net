@@ -50,6 +50,12 @@ namespace KenticoCloud.ContentManagement
             return GetUrl(URL_ITEM);
         }
 
+        public string BuildItemsListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_ITEM, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_ITEM);
+        }
+
+
         internal string BuildItemUrl(ContentItemIdentifier identifier)
         {
             var itemSegment = GetItemUrlSegment(identifier);
@@ -122,7 +128,7 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetListingUrl(string continuationToken = null)
         {
-            return continuationToken != null ? GetUrl($"/assets", $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl("/assets");
+            return (continuationToken != null) ? GetUrl($"/assets", $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl("/assets");
         }
 
         public string BuildAssetsUrlFromId(string id)
