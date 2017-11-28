@@ -119,14 +119,9 @@ namespace KenticoCloud.ContentManagement
             return URL_VARIANT;
         }
 
-        public string BuildUploadAssetUrl(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
         public string BuildAssetListingUrl(string continuationToken = null)
         {
-            return continuationToken != null ? GetUrl($"/assets" ,$"continuationToken={continuationToken}") : GetUrl("/assets");
+            return continuationToken != null ? GetUrl($"/assets", $"continuationToken={continuationToken}") : GetUrl("/assets");
         }
 
         public string BuildAssetsUrlFromId(string id)
@@ -137,6 +132,11 @@ namespace KenticoCloud.ContentManagement
         public string BuildAssetsUrlFromExternalId(string externalId)
         {
             return GetUrl($"/assets/external-id/{externalId}");
+        }
+
+        public string BuildUploadFileUrl(string fileName)
+        {
+            return GetUrl($"/files/{fileName}");
         }
     }
 }
