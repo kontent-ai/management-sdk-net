@@ -1,5 +1,7 @@
 ﻿using System;
 
+using KenticoCloud.ContentManagement.Models.Items;
+
 using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests

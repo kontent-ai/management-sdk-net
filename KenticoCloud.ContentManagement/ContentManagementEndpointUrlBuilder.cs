@@ -1,5 +1,7 @@
 ﻿using System;
 
+using KenticoCloud.ContentManagement.Models.Items;
+
 namespace KenticoCloud.ContentManagement
 {
     internal sealed class EndpointUrlBuilder

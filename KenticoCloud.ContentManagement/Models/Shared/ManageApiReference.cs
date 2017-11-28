@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 
-namespace KenticoCloud.ContentManagement
+using Newtonsoft.Json;
+
+namespace KenticoCloud.ContentManagement.Models
 {
     public sealed class ManageApiReference
     {
