@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using KenticoCloud.ContentManagement.Models.Assets;
+using KenticoCloud.ContentManagement.Models.Shared;
+using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
-using KenticoCloud.ContentManagement.Modules.RequestMapper;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -16,7 +17,7 @@ namespace KenticoCloud.ContentManagement
 
         public ContentManagementClient(ContentManagementOptions contentManagementOptions)
         {
-            if(contentManagementOptions == null)
+            if (contentManagementOptions == null)
             {
                 throw new ArgumentNullException(nameof(contentManagementOptions), "The Content" +
                 "Management options object is not specified.");
@@ -83,8 +84,8 @@ namespace KenticoCloud.ContentManagement
 
         public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemPutModel contentItem)
         {
-            var endpointUrl = _urlBuilder.BuildItemUrl(identifier);     
-            var contentItemReponse =  await _actionInvoker.InvokeMethodAsync<ContentItemPutModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
+            var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
+            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemPutModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return contentItemReponse;
         }
@@ -139,45 +140,41 @@ namespace KenticoCloud.ContentManagement
 
         #region Assets
 
-        public async Task<GetAssetsResponseModel> ListAssets()
+        private async Task<IListingResponse<AssetResponseModel>> GetNextAssetListingPage(string continuationToken)
         {
-            string continuationToken = null;
-
-            var assets = new List<AssetModel>();
-
-            AssetListingResponseModel response;
-            do
-            {
-                var endpointUrl = _urlBuilder.BuildAssetListingUrl(continuationToken);
-                response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseModel>(endpointUrl,
-                    HttpMethod.Get);
-                continuationToken = response.Pagination?.Token;
-                assets.AddRange(response.Assets);
-            }
-            while(response.Pagination != null);
-
-            return new GetAssetsResponseModel {Assets = assets};
+            var url = _urlBuilder.BuildAssetListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetResponseModel>>(url,
+                HttpMethod.Get);
         }
 
-        public async Task<AssetModel> UpdateAssetById(string id, AssetUpdateModel update)
+        public async Task<ListingResponseModel<AssetResponseModel>> ListAssets()
+        {
+            var endpointUrl = _urlBuilder.BuildAssetListingUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl,
+                HttpMethod.Get);
+
+            return new ListingResponseModel<AssetResponseModel>(GetNextAssetListingPage, response.Pagination?.Token, response.Assets);
+        }
+
+        public async Task<AssetResponseModel> UpdateAssetById(string id, AssetUpdateModel update)
         {
             var endpoint = _urlBuilder.BuildAssetsUrlFromId(id);
 
-            return await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpoint, HttpMethod.Put, update);
+            return await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetResponseModel>(endpoint, HttpMethod.Put, update);
 
         }
 
-        public async Task<AssetModel> ViewAssetById(string id)
+        public async Task<AssetResponseModel> ViewAssetById(string id)
         {
             var endpoint = _urlBuilder.BuildAssetsUrlFromId(id);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpoint, HttpMethod.Get);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetResponseModel>(endpoint, HttpMethod.Get);
 
         }
 
-        public async Task<AssetModel> ViewAssetByExternalId(string externalId)
+        public async Task<AssetResponseModel> ViewAssetByExternalId(string externalId)
         {
             var endpoint = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpoint, HttpMethod.Get);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetResponseModel>(endpoint, HttpMethod.Get);
 
         }
 
@@ -193,13 +190,14 @@ namespace KenticoCloud.ContentManagement
             await _actionInvoker.InvokeMethodAsync(endpoint, HttpMethod.Delete);
         }
 
-        public async Task<AssetModel> UpsertAssetByExternalId(string externalId, AssetUpsertModel upsert)
+        public async Task<AssetResponseModel> UpsertAssetByExternalId(string externalId, AssetUpsertModel upsert)
         {
             var endpoint = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            return await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetModel>(
+            return await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetResponseModel>(
                 endpoint,
-                HttpMethod.Put, 
-                new AssetUpsertServerModel {
+                HttpMethod.Put,
+                new AssetUpsertServerModel
+                {
                     Descriptions = upsert.Descriptions,
                     FileReference = upsert.FileReference,
                     ExternalId = externalId

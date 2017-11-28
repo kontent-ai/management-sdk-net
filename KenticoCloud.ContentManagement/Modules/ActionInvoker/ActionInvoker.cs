@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 using Newtonsoft.Json;
 
-namespace KenticoCloud.ContentManagement.Modules.RequestMapper
+namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
 {
     internal class ActionInvoker : IActionInvoker
     {

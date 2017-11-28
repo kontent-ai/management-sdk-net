@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    public class AssetModel
+    public class AssetResponseModel
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
