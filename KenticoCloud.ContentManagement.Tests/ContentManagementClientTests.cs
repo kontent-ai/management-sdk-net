@@ -1,5 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using KenticoCloud.ContentManagement.Models.Assets;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading;
+
 using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests
@@ -348,6 +354,50 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var client = new ContentManagementClient(OPTIONS);
             await client.DeleteContentItemAsync(identifier);
+        }
+
+        #endregion
+
+        #region Binary files
+
+        [Fact]
+        public async void UploadFile_UploadsFile()
+        {
+            Thread.Sleep(1000);
+
+            var client = new ContentManagementClient(OPTIONS);
+
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK tests!"));
+
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
+
+            var fileResult = await client.UploadFile(stream, fileName, contentType);
+
+            Assert.NotNull(fileResult);
+            Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
+
+            Guid fileId;
+            Assert.True(Guid.TryParse(fileResult.Id, out fileId));
+
+            Assert.NotEqual(Guid.Empty, fileId);
+
+            var asset = new AssetUpsertModel
+            {
+                FileReference = fileResult,
+                Descriptions = new List<AssetDescriptionsModel>()
+            };
+            var externalId = "Hello";
+
+            var assetResult = await client.UpsertAssetByExternalId(externalId, asset);
+
+            Assert.NotNull(assetResult);
+            Assert.Equal(externalId, assetResult.ExternalId);
+            Assert.Equal(contentType, assetResult.Type);
+            Assert.Equal(stream.Length, assetResult.Size);
+            Assert.NotNull(assetResult.LastModified);
+            Assert.Equal(fileName, assetResult.FileName);
+            Assert.NotNull(assetResult.Descriptions);
         }
 
         #endregion
