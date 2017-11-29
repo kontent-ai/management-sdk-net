@@ -164,38 +164,34 @@ namespace KenticoCloud.ContentManagement
             return new ListingResponseModel<AssetResponseModel>(GetNextAssetListingPage, response.Pagination?.Token, response.Assets);
         }
 
-        public async Task<AssetResponseModel> UpdateAssetById(string id, AssetUpdateModel update)
+        public async Task<AssetResponseModel> GetAsset(AssetIdentifier identifier)
         {
-            var endpoint = _urlBuilder.BuildAssetsUrlFromId(id);
+            var endpoint = _urlBuilder.BuildAssetsUrl(identifier);
+
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetResponseModel>(endpoint, HttpMethod.Get);
+        }
+
+        public async Task<AssetResponseModel> UpdateAsset(AssetIdentifier identifier, AssetUpdateModel update)
+        {
+            var endpoint = _urlBuilder.BuildAssetsUrl(identifier);
 
             return await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetResponseModel>(endpoint, HttpMethod.Put, update);
 
         }
 
-        public async Task<AssetResponseModel> ViewAssetById(string id)
+        public async Task DeleteAsset(AssetIdentifier identifier)
         {
-            var endpoint = _urlBuilder.BuildAssetsUrlFromId(id);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetResponseModel>(endpoint, HttpMethod.Get);
+            var endpoint = _urlBuilder.BuildAssetsUrl(identifier);
 
-        }
-
-        public async Task<AssetResponseModel> ViewAssetByExternalId(string externalId)
-        {
-            var endpoint = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetResponseModel>(endpoint, HttpMethod.Get);
-
-        }
-
-        public async Task DeleteAssetById(string id)
-        {
-            var endpoint = _urlBuilder.BuildAssetsUrlFromId(id);
             await _actionInvoker.InvokeMethodAsync(endpoint, HttpMethod.Delete);
         }
-
-        public async Task DeleteAssetByExternalId(string externalId)
+        
+        public async Task<AssetResponseModel> AddAsset(AssetUpsertModel asset)
         {
-            var endpoint = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            await _actionInvoker.InvokeMethodAsync(endpoint, HttpMethod.Delete);
+            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetResponseModel>(endpointUrl, HttpMethod.Post, asset);
+
+            return contentItemReponse;
         }
 
         public async Task<AssetResponseModel> UpsertAssetByExternalId(string externalId, AssetUpsertModel upsert)
@@ -234,7 +230,7 @@ namespace KenticoCloud.ContentManagement
             if (String.IsNullOrEmpty(contentType))
                 throw new ArgumentException(nameof(contentType));
 
-            if (stream.Length > MAX_FILE_SIZE_MB)
+            if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
             {
                 throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
             }

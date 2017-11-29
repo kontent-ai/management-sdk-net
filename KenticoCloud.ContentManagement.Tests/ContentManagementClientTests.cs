@@ -6,9 +6,9 @@ using System.Threading;
 
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Models;
 
 using Xunit;
-using KenticoCloud.ContentManagement.Models;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
@@ -405,13 +405,14 @@ namespace KenticoCloud.ContentManagement.Tests
                 Assert.NotNull(response);
             }
         }
-
+        
         [Fact]
-        public async void CreateAsset_WithFile_CreatesAssetCorrectly()
+        public async void CreateAsset_UploadsFile_CreatesAssetCorrectly()
         {
             var client = new ContentManagementClient(OPTIONS);
 
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK tests!"));
+            var content = "Hello world from CM API .NET SDK test CreateAsset_UploadsFile_CreatesAssetCorrectly!" + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
 
             var fileName = "Hello.txt";
             var contentType = "text/plain";
@@ -431,7 +432,48 @@ namespace KenticoCloud.ContentManagement.Tests
                 FileReference = fileResult,
                 Descriptions = new List<AssetDescriptionsModel>()
             };
-            var externalId = "Hello";
+
+            var assetResult = await client.AddAsset(asset);
+
+            Assert.NotNull(assetResult);
+            Assert.Null(assetResult.ExternalId);
+            Assert.Equal(contentType, assetResult.Type);
+            Assert.Equal(stream.Length, assetResult.Size);
+            Assert.NotNull(assetResult.LastModified);
+            Assert.Equal(fileName, assetResult.FileName);
+            Assert.NotNull(assetResult.Descriptions);
+
+            // Cleanup
+            await client.DeleteAsset(AssetIdentifier.ById(assetResult.Id));
+        }
+
+        [Fact]
+        public async void CreateAsset_WithExternalId_UploadsFile_CreatesAssetCorrectly()
+        {
+            var client = new ContentManagementClient(OPTIONS);
+
+            var content = "Hello world from CM API .NET SDK test CreateAsset_WithExternalId_UploadsFile_CreatesAssetCorrectly! " + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+
+            var fileName = "HelloExternal.txt";
+            var contentType = "text/plain";
+
+            var fileResult = await client.UploadFile(stream, fileName, contentType);
+
+            Assert.NotNull(fileResult);
+            Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
+
+            Guid fileId;
+            Assert.True(Guid.TryParse(fileResult.Id, out fileId));
+
+            Assert.NotEqual(Guid.Empty, fileId);
+
+            var asset = new AssetUpsertModel
+            {
+                FileReference = fileResult,
+                Descriptions = new List<AssetDescriptionsModel>()
+            };
+            var externalId = Guid.NewGuid().ToString();
 
             var assetResult = await client.UpsertAssetByExternalId(externalId, asset);
 
@@ -442,6 +484,9 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
             Assert.NotNull(assetResult.Descriptions);
+
+            // Cleanup
+            await client.DeleteAsset(AssetIdentifier.ByExternalId(externalId));
         }
 
         #endregion

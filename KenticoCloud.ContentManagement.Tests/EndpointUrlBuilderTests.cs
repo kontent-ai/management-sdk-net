@@ -3,6 +3,7 @@
 using KenticoCloud.ContentManagement.Models.Items;
 
 using Xunit;
+using KenticoCloud.ContentManagement.Models.Assets;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
@@ -199,9 +200,9 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void BuildAssetsUrlFromId_WithGivenAssetId_ReturnsExpectedUrl()
         {
-            var assetId = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c";
+            var assetId = Guid.NewGuid();
             var expectedResult = $"https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets/{assetId}";
-            var actualResult = _builder.BuildAssetsUrlFromId(assetId);
+            var actualResult = _builder.BuildAssetsUrl(AssetIdentifier.ById(assetId));
 
             Assert.Equal(expectedResult, actualResult);
         }
