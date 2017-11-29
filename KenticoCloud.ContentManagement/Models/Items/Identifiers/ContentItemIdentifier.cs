@@ -4,22 +4,22 @@ namespace KenticoCloud.ContentManagement.Models.Items
 {
     public class ContentItemIdentifier
     {
-        public Guid ItemId { get; private set; }
-        public string ItemCodename { get; private set; }
-        public string ItemExternalId { get; private set; }
+        public Guid Id { get; private set; }
+        public string Codename { get; private set; }
+        public string ExternalId { get; private set; }
 
-        public static ContentItemIdentifier ById(Guid itemId) {
-            return new ContentItemIdentifier() { ItemId = itemId };
+        public static ContentItemIdentifier ById(Guid id) {
+            return new ContentItemIdentifier() { Id = id };
         }
 
         public static ContentItemIdentifier ByCodename(string codename)
         {
-            return new ContentItemIdentifier() { ItemCodename = codename };
+            return new ContentItemIdentifier() { Codename = codename };
         }
 
         public static ContentItemIdentifier ByExternalId(string externalId)
         {
-            return new ContentItemIdentifier() { ItemExternalId = externalId };
+            return new ContentItemIdentifier() { ExternalId = externalId };
         }
     }
 }

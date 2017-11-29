@@ -38,7 +38,7 @@ namespace KenticoCloud.ContentManagement
         internal string BuildVariantsUrl(ContentItemVariantIdentifier identifier)
         {
             var itemSegment = GetItemUrlSegment(identifier.ItemIdentifier);
-            var variantSegment = GetVariantUrlSegment(identifier.VariantIdentifier);
+            var variantSegment = GetVariantUrlSegment(identifier.LanguageIdentifier);
 
             return GetUrl(string.Concat(itemSegment, variantSegment));
         }
@@ -88,35 +88,35 @@ namespace KenticoCloud.ContentManagement
         private string GetItemUrlSegment(ContentItemIdentifier identifier)
         {
 
-            if (identifier.ItemId != Guid.Empty)
+            if (identifier.Id != Guid.Empty)
             {
-                return string.Format(URL_TEMPLATE_ITEM_ID, identifier.ItemId);
+                return string.Format(URL_TEMPLATE_ITEM_ID, identifier.Id);
             }
 
-            if (!string.IsNullOrEmpty(identifier.ItemCodename))
+            if (!string.IsNullOrEmpty(identifier.Codename))
             {
-                return string.Format(URL_TEMPLATE_ITEM_CODENAME, identifier.ItemCodename);
+                return string.Format(URL_TEMPLATE_ITEM_CODENAME, identifier.Codename);
             }
 
-            if (!string.IsNullOrEmpty(identifier.ItemExternalId))
+            if (!string.IsNullOrEmpty(identifier.ExternalId))
             {
-                return string.Format(URL_TEMPLATE_ITEM_EXTERNAL_ID, identifier.ItemExternalId);
+                return string.Format(URL_TEMPLATE_ITEM_EXTERNAL_ID, identifier.ExternalId);
             }
 
             throw new ArgumentException("You must provide item's id, codename or externalId");
         }
 
-        private string GetVariantUrlSegment(ContentVariantIdentifier identifier)
+        private string GetVariantUrlSegment(LanguageIdentifier identifier)
         {
 
-            if (identifier.LanguageId != Guid.Empty)
+            if (identifier.Id != Guid.Empty)
             {
-                return string.Format(URL_TEMPLATE_VARIANT_ID, identifier.LanguageId);
+                return string.Format(URL_TEMPLATE_VARIANT_ID, identifier.Id);
             }
 
-            if (!string.IsNullOrEmpty(identifier.LanguageCodename))
+            if (!string.IsNullOrEmpty(identifier.Codename))
             {
-                return string.Format(URL_TEMPLATE_VARIANT_CODENAME, identifier.LanguageCodename);
+                return string.Format(URL_TEMPLATE_VARIANT_CODENAME, identifier.Codename);
             }
 
             return URL_VARIANT;
