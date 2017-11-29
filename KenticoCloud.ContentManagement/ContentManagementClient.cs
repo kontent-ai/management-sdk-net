@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.IO;
 
 using KenticoCloud.ContentManagement.Models.Assets;
-using KenticoCloud.ContentManagement.Models.Shared;
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
+using KenticoCloud.ContentManagement.Models;
 using KenticoCloud.ContentManagement.Models.Items;
 
 namespace KenticoCloud.ContentManagement
@@ -24,8 +24,7 @@ namespace KenticoCloud.ContentManagement
         {
             if (contentManagementOptions == null)
             {
-                throw new ArgumentNullException(nameof(contentManagementOptions), "The Content" +
-                "Management options object is not specified.");
+                throw new ArgumentNullException(nameof(contentManagementOptions), "The Content Management options object is not specified.");
             }
 
             if (contentManagementOptions.ProjectId == null)
@@ -105,7 +104,6 @@ namespace KenticoCloud.ContentManagement
 
         public async Task<ContentItemResponseModel> AddContentItemAsync(ContentItemPostModel contentItem)
         {
-
             var endpointUrl = _urlBuilder.BuildItemsUrl();
             var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemPostModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Post, contentItem);
 
@@ -127,11 +125,18 @@ namespace KenticoCloud.ContentManagement
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
 
-        public async Task<ContentItemsResponseModel> ListContentItemsAsync()
+        private async Task<IListingResponse<ContentItemResponseModel>> GetNextItemsListingPage(string continuationToken)
+        {
+            var url = _urlBuilder.BuildItemsListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(url, HttpMethod.Get);
+        }
+
+        public async Task<ListingResponseModel<ContentItemResponseModel>> ListContentItemsAsync()
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemsResponseModel>(endpointUrl, HttpMethod.Get);
+            return new ListingResponseModel<ContentItemResponseModel>(GetNextItemsListingPage, response.Pagination?.Token, response.Items);
         }
 
         public async Task<HttpResponseMessage> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
@@ -148,15 +153,13 @@ namespace KenticoCloud.ContentManagement
         private async Task<IListingResponse<AssetResponseModel>> GetNextAssetListingPage(string continuationToken)
         {
             var url = _urlBuilder.BuildAssetListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetResponseModel>>(url,
-                HttpMethod.Get);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetResponseModel>>(url, HttpMethod.Get);
         }
 
         public async Task<ListingResponseModel<AssetResponseModel>> ListAssets()
         {
             var endpointUrl = _urlBuilder.BuildAssetListingUrl();
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl,
-                HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
             return new ListingResponseModel<AssetResponseModel>(GetNextAssetListingPage, response.Pagination?.Token, response.Assets);
         }

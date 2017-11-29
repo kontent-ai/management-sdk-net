@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KenticoCloud.ContentManagement.Models.Shared
+namespace KenticoCloud.ContentManagement.Models
 {
     public interface IListingResponse<T> : IEnumerable<T>
     {

@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace KenticoCloud.ContentManagement.Models.Shared
+namespace KenticoCloud.ContentManagement.Models
 {
     public sealed class ManageApiReference
     {
