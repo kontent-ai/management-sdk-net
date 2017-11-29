@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using KenticoCloud.ContentManagement.Exceptions;
+
 namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
     internal class ContentManagementHttpClient

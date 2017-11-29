@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 
+using KenticoCloud.ContentManagement.Models;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
-using KenticoCloud.ContentManagement.Models;
 
 using Xunit;
 
@@ -18,14 +18,14 @@ namespace KenticoCloud.ContentManagement.Tests
         private const string API_KEY = "ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAidWlkIjogInVzcl8wdkZrVm9rczdyb2prRmR2Slkzc0ZQIiwNCiAgImp0aSI6ICIwYzUyMTYxZGIwZTU0MDU5YjMwZjUwMGUyMTgxYmU1NiIsDQogICJpYXQiOiAiMTUxMTE3ODYwMCIsDQogICJleHAiOiAiMTUxMzc3MDYwMCIsDQogICJwcm9qZWN0X2lkIjogImJiNjg4MmEwMzA4ODQwNWNhNmFjNGEwZGE0NjgxMGIwIiwNCiAgInZlciI6ICIyLjAuMCIsDQogICJwZXJtaXNzaW9ucyI6IFsNCiAgICAidmlldy1jb250ZW50IiwNCiAgICAiY29tbWVudCIsDQogICAgInVwZGF0ZS13b3JrZmxvdyIsDQogICAgInVwZGF0ZS1jb250ZW50IiwNCiAgICAicHVibGlzaCIsDQogICAgImNvbmZpZ3VyZS1zaXRlbWFwIiwNCiAgICAiY29uZmlndXJlLXRheG9ub215IiwNCiAgICAiY29uZmlndXJlLWNvbnRlbnRfdHlwZXMiLA0KICAgICJjb25maWd1cmUtd2lkZ2V0cyIsDQogICAgImNvbmZpZ3VyZS13b3JrZmxvdyIsDQogICAgIm1hbmFnZS1wcm9qZWN0cyIsDQogICAgIm1hbmFnZS11c2VycyIsDQogICAgImNvbmZpZ3VyZS1wcmV2aWV3LXVybCIsDQogICAgImNvbmZpZ3VyZS1jb2RlbmFtZXMiLA0KICAgICJhY2Nlc3MtYXBpLWtleXMiLA0KICAgICJtYW5hZ2UtYXNzZXRzIiwNCiAgICAibWFuYWdlLWxhbmd1YWdlcyIsDQogICAgIm1hbmFnZS13ZWJob29rcyIsDQogICAgIm1hbmFnZS10cmFja2luZyINCiAgXSwNCiAgImF1ZCI6ICJtYW5hZ2Uua2VudGljb2Nsb3VkLmNvbSINCn0.qixIW1NOmyrbfsqoxzHG0NuMMg5yWtG9r0lpb5y31eo";
         private static Guid EXISTING_ITEM_ID = Guid.Parse("ddc8f48a-6df3-43c6-9933-0d4ea0b2c701");
         private const string EXISTING_ITEM_CODENAME = "introduction";
-        private static Guid EXISTING_VARIANT_ID = Guid.Parse("5f148588-613f-8e32-c023-da82f1308ede");
-        private const string EXISTING_VARIANT_CODENAME = "Another_language";
+        private static Guid EXISTING_LANGUAGE_ID = Guid.Parse("5f148588-613f-8e32-c023-da82f1308ede");
+        private const string EXISTING_LANGUAGE_CODENAME = "Another_language";
         private const string EXISTING_CONTENT_TYPE_CODENAME = "writeapi";
         private const string EXTERNAL_ID = "354136c543gj3154354j1g";
 
-        private static Dictionary<string, object> ELEMENTS = new Dictionary<string, object> { { "name", "Martinko Klingacik44" } };
-        private static ContentManagementOptions OPTIONS = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
-
+        private static Dictionary<string, object> _elements = new Dictionary<string, object> { { "name", "Martinko Klingacik44" } };
+        private static ContentManagementOptions _options = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
+        private static ContentManagementClient _client = new ContentManagementClient(_options);
 
         #region Item Variant
 
@@ -33,70 +33,91 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void UpsertVariantItemIdByLanguageId()
         {
 
-            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = ELEMENTS };
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
 
             var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(EXISTING_VARIANT_ID);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+            var responseVariant = await _client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
             Assert.Equal(EXISTING_ITEM_ID, responseVariant.Item.Id);
         }
 
         [Fact]
         public async void UpsertVariantByItemCodenameLanguageId()
         {
-            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = ELEMENTS };
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
 
             var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(EXISTING_VARIANT_ID);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+            var responseVariant = await _client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
             Assert.False(responseVariant.Item.Id == Guid.Empty);
         }
 
         [Fact]
         public async void UpsertVariantByItemIdLanguageCodename()
         {
-            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = ELEMENTS };
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
 
             var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(EXISTING_VARIANT_CODENAME);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+            var responseVariant = await _client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+            Assert.False(responseVariant.Item.Id == Guid.Empty);
+        }
+
+        [Fact]
+        public async void UpsertVariantByItemIdLanguageId()
+        {
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
+
+            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            var responseVariant = await _client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
             Assert.False(responseVariant.Item.Id == Guid.Empty);
         }
 
         [Fact]
         public async void UpsertVariantByItemCodenameLanguageCodename()
         {
-            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = ELEMENTS };
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
 
             var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(EXISTING_VARIANT_CODENAME);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+            var responseVariant = await _client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
             Assert.False(responseVariant.Item.Id == Guid.Empty);
         }
 
         [Fact]
         public async void UpsertVariantByItemExternalIdLanguageCodename()
         {
-            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = ELEMENTS };
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
 
             var itemIdentifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(EXISTING_VARIANT_CODENAME);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+            var responseVariant = await _client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+            Assert.False(responseVariant.Item.Id == Guid.Empty);
+        }
+
+        [Fact]
+        public async void UpsertVariantByItemExternalIdLanguageId()
+        {
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
+
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            var responseVariant = await _client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
             Assert.False(responseVariant.Item.Id == Guid.Empty);
         }
 
@@ -105,8 +126,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariants = await client.ListContentItemVariantsAsync(identifier);
+            var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID, responseVariants[1].Item.Id);
         }
 
@@ -115,8 +135,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariants = await client.ListContentItemVariantsAsync(identifier);
+            var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID, responseVariants[1].Item.Id);
         }
 
@@ -125,8 +144,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseVariants = await client.ListContentItemVariantsAsync(identifier);
+            var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
             Assert.Equal("cc601fe7-c057-5cb5-98d6-9ca24843b74a", responseVariants[1].Item.Id.ToString());
         }
 
@@ -134,23 +152,43 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void ViewVariantByItemIdLanguageId()
         {
             var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(EXISTING_VARIANT_ID);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var response = await client.GetContentItemVariantAsync(identifier);
+            var response = await _client.GetContentItemVariantAsync(identifier);
             Assert.True(response.IsSuccessStatusCode);
         }
 
         [Fact]
-        public async void ViewVariantByLanguageCodename()
+        public async void ViewVariantByItemIdLanguageCodename()
         {
             var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(EXISTING_VARIANT_CODENAME);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var response = await client.GetContentItemVariantAsync(identifier);
+            var response = await _client.GetContentItemVariantAsync(identifier);
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async void ViewVariantByItemCodenameLanguageId()
+        {
+            var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            var response = await _client.GetContentItemVariantAsync(identifier);
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async void ViewVariantByItemCodenameLanguageCodename()
+        {
+            var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            var response = await _client.GetContentItemVariantAsync(identifier);
             Assert.True(response.IsSuccessStatusCode);
         }
 
@@ -158,11 +196,10 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void ViewVariantByItemExternalIdLanguageCodename()
         {
             var itemIdentifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(EXISTING_VARIANT_CODENAME);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var response = await client.GetContentItemVariantAsync(identifier);
+            var response = await _client.GetContentItemVariantAsync(identifier);
             Assert.True(response.IsSuccessStatusCode);
         }
 
@@ -170,56 +207,110 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void ViewVariantByItemExternalIdLanguageId()
         {
             var itemIdentifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(EXISTING_VARIANT_ID);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var response = await client.GetContentItemVariantAsync(identifier);
+            var response = await _client.GetContentItemVariantAsync(identifier);
             Assert.True(response.IsSuccessStatusCode);
         }
 
         [Fact]
-        public async void DeleteVariantByLanguageId()
+        public async void DeleteVariantByItemCodenameLanguageId()
         {
-            var itemIdentifier = ContentItemIdentifier.ById(Guid.NewGuid());
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(EXISTING_VARIANT_ID);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            // Prepare item
+            var itemResponse = await PrepareItemToDelete();
 
-            var client = new ContentManagementClient(OPTIONS);
-            await client.DeleteContentItemVariantAsync(identifier);
+            var variantUpdateModel = await PrepareVariantToDelete(itemResponse);
+
+            var itemIdentifier = ContentItemIdentifier.ByCodename(itemResponse.CodeName);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            await _client.DeleteContentItemVariantAsync(identifier);
         }
 
         [Fact]
-        public async void DeleteVariantByLanguageCodename()
+        public async void DeleteVariantByItemCodenameLanguageCodename()
         {
-            var itemIdentifier = ContentItemIdentifier.ById(Guid.NewGuid());
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(EXISTING_VARIANT_CODENAME);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            // Prepare item
+            var itemResponse = await PrepareItemToDelete();
 
-            var client = new ContentManagementClient(OPTIONS);
-            await client.DeleteContentItemVariantAsync(identifier);
+            var variantUpdateModel = await PrepareVariantToDelete(itemResponse);
+
+            var itemIdentifier = ContentItemIdentifier.ByCodename(itemResponse.CodeName);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            await _client.DeleteContentItemVariantAsync(identifier);
+        }
+
+        [Fact]
+        public async void DeleteVariantByItemIdLanguageCodename()
+        {
+            var itemResponse = await PrepareItemToDelete();
+            var variantUpdateModel = await PrepareVariantToDelete(itemResponse);
+
+            var itemIdentifier = ContentItemIdentifier.ById(itemResponse.Id);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            await _client.DeleteContentItemVariantAsync(identifier);
+        }
+
+        [Fact]
+        public async void DeleteVariantByItemExternalIdLanguageId()
+        {
+            var externalId = Guid.NewGuid().ToString();
+            var itemResponse = await PrepareItemToDelete(externalId);
+            var variantUpdateModel = await PrepareVariantToDelete(itemResponse);
+
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            await _client.DeleteContentItemVariantAsync(identifier);
+        }
+
+        [Fact]
+        public async void DeleteVariantByItemExternalIdLanguageCodename()
+        {
+            var externalId = Guid.NewGuid().ToString();
+            var itemResponse = await PrepareItemToDelete(externalId);
+            var variantUpdateModel = await PrepareVariantToDelete(itemResponse);
+
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            await _client.DeleteContentItemVariantAsync(identifier);
         }
 
         [Fact]
         public async void DeleteVariantItemExternalIdLanguageId()
         {
-            var itemIdentifier = ContentItemIdentifier.ByExternalId("123456555");
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageId(EXISTING_VARIANT_ID);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var externalId = Guid.NewGuid().ToString();
+            var itemResponse = await PrepareItemToDelete(externalId);
+            var variantResponse = await PrepareVariantToDelete(itemResponse);
 
-            var client = new ContentManagementClient(OPTIONS);
-            await client.DeleteContentItemVariantAsync(identifier);
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            await _client.DeleteContentItemVariantAsync(identifier);
         }
 
         [Fact]
         public async void DeleteVariantItemExternalIdLanguageCodename()
         {
-            var itemIdentifier = ContentItemIdentifier.ByExternalId("123456555");
-            var variantIdentifier = ContentVariantIdentifier.ByLanguageCodename(EXISTING_VARIANT_CODENAME);
-            var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
+            var externalId = Guid.NewGuid().ToString();
+            var itemResponse = await PrepareItemToDelete(externalId);
+            await PrepareVariantToDelete(itemResponse);
 
-            var client = new ContentManagementClient(OPTIONS);
-            await client.DeleteContentItemVariantAsync(identifier);
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
+            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            await _client.DeleteContentItemVariantAsync(identifier);
         }
 
         #endregion
@@ -230,29 +321,23 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void AddContentItem()
         {
             var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
-            var item = new ContentItemPostModel() { Name = "Hooray!", Type = type };
+            var item = new ContentItemCreateModel() { Name = "Hooray!", Type = type };
 
-            var client = new ContentManagementClient(OPTIONS);
-            var responseItem = await client.AddContentItemAsync(item);
+            var responseItem = await _client.AddContentItemAsync(item);
             Assert.Equal("Hooray!", responseItem.Name);
         }
 
         [Fact]
         public async void ListContentItems()
         {
-            var client = new ContentManagementClient(OPTIONS);
-            var response = await client.ListContentItemsAsync();
+            var response = await _client.ListContentItemsAsync();
             Assert.True(response != null);
         }
 
         [Fact]
         public async void ListContentItems_WithContinuation()
         {
-            Thread.Sleep(1000);
-
-            var client = new ContentManagementClient(OPTIONS);
-
-            var response = await client.ListContentItemsAsync();
+            var response = await _client.ListContentItemsAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -276,10 +361,9 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
             var sitemapLocation = new List<ManageApiReference>();
-            var item = new ContentItemPutModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
+            var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
 
-            var client = new ContentManagementClient(OPTIONS);
-            var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
+            var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
             Assert.Equal(EXISTING_ITEM_CODENAME, contentItemReponse.Name);
         }
 
@@ -288,15 +372,14 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
             var sitemapLocation = new List<ManageApiReference>();
-            var item = new ContentItemPutModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation};
+            var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation};
 
-            var client = new ContentManagementClient(OPTIONS);
-            var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
+            var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
             Assert.Equal(EXISTING_ITEM_CODENAME, contentItemReponse.Name);
         }
 
         [Fact]
-        public async void UpdateContentItemByExternalId()
+        public async void UpsertContentItemByExternalId()
         {
             var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
 
@@ -304,8 +387,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
             var item = new ContentItemUpsertModel() { Name = "Hooray!", SitemapLocations = sitemapLocation, Type = type };
 
-            var client = new ContentManagementClient(OPTIONS);
-            var contentItemResponse = await client.UpdateContentItemByExternalIdAsync(identifier, item);
+            var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(identifier, item);
             Assert.Equal("Hooray!", contentItemResponse.Name);
         }
 
@@ -314,8 +396,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var contentItemReponse = await client.GetContentItemAsync(identifier);
+            var contentItemReponse = await _client.GetContentItemAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID.ToString(), contentItemReponse.Id.ToString());
         }
 
@@ -324,8 +405,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var contentItemReponse = await client.GetContentItemAsync(identifier);
+            var contentItemReponse = await _client.GetContentItemAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID.ToString(), contentItemReponse.Id.ToString());
         }
 
@@ -334,36 +414,38 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
 
-            var client = new ContentManagementClient(OPTIONS);
-            var contentItemReponse = await client.GetContentItemAsync(identifier);
+            var contentItemReponse = await _client.GetContentItemAsync(identifier);
             Assert.Equal("cc601fe7-c057-5cb5-98d6-9ca24843b74a", contentItemReponse.Id.ToString());
         }
 
         [Fact]
         public async void DeleteContentItemById()
         {
-            var identifier = ContentItemIdentifier.ById(Guid.NewGuid());
+            var itemToDelete = await PrepareItemToDelete();
 
-            var client = new ContentManagementClient(OPTIONS);
-            await client.DeleteContentItemAsync(identifier);
+            var identifier = ContentItemIdentifier.ById(itemToDelete.Id);
+
+            await _client.DeleteContentItemAsync(identifier);
         }
 
         [Fact]
         public async void DeleteContentItemByCodename()
         {
-            var identifier = ContentItemIdentifier.ByCodename("some id");
+            var itemToDelete = await PrepareItemToDelete();
 
-            var client = new ContentManagementClient(OPTIONS);
-            await client.DeleteContentItemAsync(identifier);
+            var identifier = ContentItemIdentifier.ByCodename(itemToDelete.CodeName);
+
+            await _client.DeleteContentItemAsync(identifier);
         }
 
         [Fact]
         public async void DeleteContentItemByExternalId()
         {
-            var identifier = ContentItemIdentifier.ByExternalId("externalId");
+            var itemToDelete = await PrepareItemToDelete();
 
-            var client = new ContentManagementClient(OPTIONS);
-            await client.DeleteContentItemAsync(identifier);
+            var identifier = ContentItemIdentifier.ByExternalId(itemToDelete.ExternalId);
+
+            await _client.DeleteContentItemAsync(identifier);
         }
 
         #endregion
@@ -373,21 +455,14 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void ListAssets()
         {
-            Thread.Sleep(1000);
-
-            var client = new ContentManagementClient(OPTIONS);
-            var response = await client.ListAssets();
+            var response = await _client.ListAssetsAsync();
             Assert.True(response != null);
         }
 
         [Fact]
         public async void ListAssets_WithContinuation()
         {
-            Thread.Sleep(1000);
-
-            var client = new ContentManagementClient(OPTIONS);
-
-            var response = await client.ListAssets();
+            var response = await _client.ListAssetsAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -409,15 +484,13 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void CreateAsset_UploadsFile_CreatesAssetCorrectly()
         {
-            var client = new ContentManagementClient(OPTIONS);
-
             var content = "Hello world from CM API .NET SDK test CreateAsset_UploadsFile_CreatesAssetCorrectly!" + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
 
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 
-            var fileResult = await client.UploadFile(stream, fileName, contentType);
+            var fileResult = await _client.UploadFileAsync(stream, fileName, contentType);
 
             Assert.NotNull(fileResult);
             Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
@@ -433,7 +506,7 @@ namespace KenticoCloud.ContentManagement.Tests
                 Descriptions = new List<AssetDescriptionsModel>()
             };
 
-            var assetResult = await client.AddAsset(asset);
+            var assetResult = await _client.AddAssetAsync(asset);
 
             Assert.NotNull(assetResult);
             Assert.Null(assetResult.ExternalId);
@@ -444,21 +517,19 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(assetResult.Descriptions);
 
             // Cleanup
-            await client.DeleteAsset(AssetIdentifier.ById(assetResult.Id));
+            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
 
         [Fact]
         public async void CreateAsset_WithExternalId_UploadsFile_CreatesAssetCorrectly()
         {
-            var client = new ContentManagementClient(OPTIONS);
-
             var content = "Hello world from CM API .NET SDK test CreateAsset_WithExternalId_UploadsFile_CreatesAssetCorrectly! " + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
 
             var fileName = "HelloExternal.txt";
             var contentType = "text/plain";
 
-            var fileResult = await client.UploadFile(stream, fileName, contentType);
+            var fileResult = await _client.UploadFileAsync(stream, fileName, contentType);
 
             Assert.NotNull(fileResult);
             Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
@@ -475,7 +546,7 @@ namespace KenticoCloud.ContentManagement.Tests
             };
             var externalId = Guid.NewGuid().ToString();
 
-            var assetResult = await client.UpsertAssetByExternalId(externalId, asset);
+            var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
 
             Assert.NotNull(assetResult);
             Assert.Equal(externalId, assetResult.ExternalId);
@@ -486,7 +557,30 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(assetResult.Descriptions);
 
             // Cleanup
-            await client.DeleteAsset(AssetIdentifier.ByExternalId(externalId));
+            await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
+        }
+
+        #endregion
+
+        #region Utils
+
+        private async Task<ContentItemResponseModel> PrepareItemToDelete(string externalId = null)
+        {
+            var externalIdentifier = string.IsNullOrEmpty(externalId) ? Guid.NewGuid().ToString() : externalId;
+            var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
+            var item = new ContentItemCreateModel() { Name = "Hooray!", Type = type, ExternalId = externalIdentifier };
+
+            return await _client.AddContentItemAsync(item);
+        }
+
+        private async Task<ContentItemVariantResponseModel> PrepareVariantToDelete(ContentItemResponseModel item)
+        {
+            var addedItemIdentifier = ContentItemIdentifier.ByCodename(item.CodeName);
+            var addedLanguageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var addedContentItemLanguageIdentifier = new ContentItemVariantIdentifier(addedItemIdentifier, addedLanguageIdentifier);
+            var variantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
+
+            return await _client.UpsertVariantAsync(addedContentItemLanguageIdentifier, variantUpdateModel);
         }
 
         #endregion

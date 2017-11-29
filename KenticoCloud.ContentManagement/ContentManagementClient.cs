@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
 
-using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Models;
+using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
 
 namespace KenticoCloud.ContentManagement
@@ -86,15 +86,15 @@ namespace KenticoCloud.ContentManagement
 
         #region Manage Items
 
-        public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemPutModel contentItem)
+        public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemPutModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
+            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemUpdateModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return contentItemReponse;
         }
 
-        public async Task<ContentItemResponseModel> UpdateContentItemByExternalIdAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
+        public async Task<ContentItemResponseModel> UpsertContentItemByExternalIdAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
             var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
@@ -102,10 +102,10 @@ namespace KenticoCloud.ContentManagement
             return contentItemReponse;
         }
 
-        public async Task<ContentItemResponseModel> AddContentItemAsync(ContentItemPostModel contentItem)
+        public async Task<ContentItemResponseModel> AddContentItemAsync(ContentItemCreateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
-            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemPostModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Post, contentItem);
+            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemCreateModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Post, contentItem);
 
             return contentItemReponse;
         }
@@ -125,7 +125,7 @@ namespace KenticoCloud.ContentManagement
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
 
-        private async Task<IListingResponse<ContentItemResponseModel>> GetNextItemsListingPage(string continuationToken)
+        private async Task<IListingResponse<ContentItemResponseModel>> GetNextItemsListingPageAsync(string continuationToken)
         {
             var url = _urlBuilder.BuildItemsListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(url, HttpMethod.Get);
@@ -136,7 +136,7 @@ namespace KenticoCloud.ContentManagement
             var endpointUrl = _urlBuilder.BuildItemsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<ContentItemResponseModel>(GetNextItemsListingPage, response.Pagination?.Token, response.Items);
+            return new ListingResponseModel<ContentItemResponseModel>(GetNextItemsListingPageAsync, response.Pagination?.Token, response.Items);
         }
 
         public async Task<HttpResponseMessage> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
@@ -150,18 +150,18 @@ namespace KenticoCloud.ContentManagement
 
         #region Assets
 
-        private async Task<IListingResponse<AssetResponseModel>> GetNextAssetListingPage(string continuationToken)
+        private async Task<IListingResponse<AssetResponseModel>> GetNextAssetListingPageAsync(string continuationToken)
         {
             var url = _urlBuilder.BuildAssetListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetResponseModel>>(url, HttpMethod.Get);
         }
 
-        public async Task<ListingResponseModel<AssetResponseModel>> ListAssets()
+        public async Task<ListingResponseModel<AssetResponseModel>> ListAssetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetListingUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<AssetResponseModel>(GetNextAssetListingPage, response.Pagination?.Token, response.Assets);
+            return new ListingResponseModel<AssetResponseModel>(GetNextAssetListingPageAsync, response.Pagination?.Token, response.Assets);
         }
 
         public async Task<AssetResponseModel> GetAsset(AssetIdentifier identifier)
@@ -179,14 +179,14 @@ namespace KenticoCloud.ContentManagement
 
         }
 
-        public async Task DeleteAsset(AssetIdentifier identifier)
+        public async Task DeleteAssetAsync(AssetIdentifier identifier)
         {
             var endpoint = _urlBuilder.BuildAssetsUrl(identifier);
 
             await _actionInvoker.InvokeMethodAsync(endpoint, HttpMethod.Delete);
         }
         
-        public async Task<AssetResponseModel> AddAsset(AssetUpsertModel asset)
+        public async Task<AssetResponseModel> AddAssetAsync(AssetUpsertModel asset)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
             var contentItemReponse = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetResponseModel>(endpointUrl, HttpMethod.Post, asset);
@@ -194,7 +194,7 @@ namespace KenticoCloud.ContentManagement
             return contentItemReponse;
         }
 
-        public async Task<AssetResponseModel> UpsertAssetByExternalId(string externalId, AssetUpsertModel upsert)
+        public async Task<AssetResponseModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel upsert)
         {
             var endpoint = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
             return await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetResponseModel>(
@@ -219,7 +219,7 @@ namespace KenticoCloud.ContentManagement
         /// <param name="stream">File stream with the binary file data.</param>
         /// <param name="fileName">The name of the uploaded binary file. It will be used for the asset name when creating an asset. Example: which-brewing-fits-you-1080px.jpg.</param>
         /// <param name="contentType">Specifies the media type of the binary data. Example: image/jpeg, application/zip.</param>
-        public async Task<FileReferenceModel> UploadFile(Stream stream, string fileName, string contentType)
+        public async Task<FileReferenceModel> UploadFileAsync(Stream stream, string fileName, string contentType)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));

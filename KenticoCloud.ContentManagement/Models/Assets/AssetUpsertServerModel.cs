@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    internal class AssetUpsertServerModel
+    internal sealed class AssetUpsertServerModel
     {
         [JsonProperty("file_reference")]
         public FileReferenceModel FileReference { get; set; }

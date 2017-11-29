@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    public class AssetUpsertModel
+    public sealed class AssetUpsertModel
     {
         [JsonProperty("file_reference")]
         public FileReferenceModel FileReference { get; set; }

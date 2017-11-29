@@ -2,7 +2,7 @@
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    public class AssetIdentifier : IdentifierWithExternalId<AssetIdentifier>
+    public sealed class AssetIdentifier : IdentifierWithExternalId<AssetIdentifier>
     {
     }
 }

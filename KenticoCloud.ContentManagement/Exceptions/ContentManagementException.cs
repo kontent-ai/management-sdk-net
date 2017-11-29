@@ -3,11 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Linq;
 
-using KenticoCloud.ContentManagement.Exceptions;
-
 using Newtonsoft.Json.Linq;
 
-namespace KenticoCloud.ContentManagement
+namespace KenticoCloud.ContentManagement.Exceptions
 {
     /// <summary>
     /// Represents an error response from the Kentico Cloud Content Management API.

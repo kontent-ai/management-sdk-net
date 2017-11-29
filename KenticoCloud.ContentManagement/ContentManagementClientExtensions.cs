@@ -1,6 +1,7 @@
-﻿using KenticoCloud.ContentManagement.Models.Assets;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+
+using KenticoCloud.ContentManagement.Models.Assets;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -16,7 +17,7 @@ namespace KenticoCloud.ContentManagement
         {
             var stream = File.OpenRead(filePath);
 
-            return await client.UploadFile(stream, Path.GetFileName(filePath), contentType);
+            return await client.UploadFileAsync(stream, Path.GetFileName(filePath), contentType);
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace KenticoCloud.ContentManagement
         {
             var stream = new MemoryStream(data);
 
-            return await client.UploadFile(stream, fileName, contentType);
+            return await client.UploadFileAsync(stream, fileName, contentType);
         }
     }
 }

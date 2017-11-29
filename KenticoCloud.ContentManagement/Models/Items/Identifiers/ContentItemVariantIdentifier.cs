@@ -3,12 +3,12 @@
     public sealed class ContentItemVariantIdentifier
     {
         public ContentItemIdentifier ItemIdentifier { get; private set; }
-        public ContentVariantIdentifier VariantIdentifier { get; private set; }
+        public LanguageIdentifier LanguageIdentifier { get; private set; }
 
-        public ContentItemVariantIdentifier(ContentItemIdentifier itemIdentifier, ContentVariantIdentifier variantIdentifier)
+        public ContentItemVariantIdentifier(ContentItemIdentifier itemIdentifier, LanguageIdentifier languageIdentifier)
         {
             ItemIdentifier = itemIdentifier;
-            VariantIdentifier = variantIdentifier;
+            LanguageIdentifier = languageIdentifier;
         }
     }
 }
