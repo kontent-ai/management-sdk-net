@@ -321,7 +321,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void AddContentItem()
         {
             var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
-            var item = new ContentItemPostModel() { Name = "Hooray!", Type = type };
+            var item = new ContentItemCreateModel() { Name = "Hooray!", Type = type };
 
             var responseItem = await _client.AddContentItemAsync(item);
             Assert.Equal("Hooray!", responseItem.Name);
@@ -361,7 +361,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
             var sitemapLocation = new List<ManageApiReference>();
-            var item = new ContentItemPutModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
+            var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
 
             var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
             Assert.Equal(EXISTING_ITEM_CODENAME, contentItemReponse.Name);
@@ -372,7 +372,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
             var sitemapLocation = new List<ManageApiReference>();
-            var item = new ContentItemPutModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation};
+            var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation};
 
             var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
             Assert.Equal(EXISTING_ITEM_CODENAME, contentItemReponse.Name);
@@ -525,7 +525,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var externalIdentifier = string.IsNullOrEmpty(externalId) ? Guid.NewGuid().ToString() : externalId;
             var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
-            var item = new ContentItemPostModel() { Name = "Hooray!", Type = type, ExternalId = externalIdentifier };
+            var item = new ContentItemCreateModel() { Name = "Hooray!", Type = type, ExternalId = externalIdentifier };
 
             return await _client.AddContentItemAsync(item);
         }

@@ -86,10 +86,10 @@ namespace KenticoCloud.ContentManagement
 
         #region Manage Items
 
-        public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemPutModel contentItem)
+        public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemPutModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
+            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemUpdateModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return contentItemReponse;
         }
@@ -102,10 +102,10 @@ namespace KenticoCloud.ContentManagement
             return contentItemReponse;
         }
 
-        public async Task<ContentItemResponseModel> AddContentItemAsync(ContentItemPostModel contentItem)
+        public async Task<ContentItemResponseModel> AddContentItemAsync(ContentItemCreateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
-            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemPostModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Post, contentItem);
+            var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemCreateModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Post, contentItem);
 
             return contentItemReponse;
         }

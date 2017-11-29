@@ -4,12 +4,18 @@ using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
-    public sealed class ContentItemPutModel
+    public sealed class ContentItemCreateModel
     {
         [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
 
-        [JsonProperty("sitemap_locations", Required = Required.Always)]
+        [JsonProperty("type", Required = Required.Always)]
+        public ManageApiReference Type { get; set; }
+
+        [JsonProperty("sitemap_locations")]
         public ICollection<ManageApiReference> SitemapLocations { get; set; }
+
+        [JsonProperty("external_id")]
+        public string ExternalId { get; set; }
     }
 }
