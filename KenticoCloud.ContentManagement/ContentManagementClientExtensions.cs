@@ -17,7 +17,7 @@ namespace KenticoCloud.ContentManagement
         {
             var stream = File.OpenRead(filePath);
 
-            return await client.UploadFile(stream, Path.GetFileName(filePath), contentType);
+            return await client.UploadFileAsync(stream, Path.GetFileName(filePath), contentType);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace KenticoCloud.ContentManagement
         {
             var stream = new MemoryStream(data);
 
-            return await client.UploadFile(stream, fileName, contentType);
+            return await client.UploadFileAsync(stream, fileName, contentType);
         }
     }
 }

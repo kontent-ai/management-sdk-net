@@ -455,14 +455,14 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void ListAssets()
         {
-            var response = await _client.ListAssets();
+            var response = await _client.ListAssetsAsync();
             Assert.True(response != null);
         }
 
         [Fact]
         public async void ListAssets_WithContinuation()
         {
-            var response = await _client.ListAssets();
+            var response = await _client.ListAssetsAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -489,7 +489,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 
-            var fileResult = await _client.UploadFile(stream, fileName, contentType);
+            var fileResult = await _client.UploadFileAsync(stream, fileName, contentType);
 
             Assert.NotNull(fileResult);
             Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
@@ -506,7 +506,7 @@ namespace KenticoCloud.ContentManagement.Tests
             };
             var externalId = "Hello";
 
-            var assetResult = await _client.UpsertAssetByExternalId(externalId, asset);
+            var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
 
             Assert.NotNull(assetResult);
             Assert.Equal(externalId, assetResult.ExternalId);
