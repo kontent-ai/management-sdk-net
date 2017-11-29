@@ -246,11 +246,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void ListContentItems_WithContinuation()
         {
-            Thread.Sleep(1000);
-
-            var client = new ContentManagementClient(OPTIONS);
-
-            var response = await client.ListContentItemsAsync();
+            var response = await _client.ListContentItemsAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -368,21 +364,14 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void ListAssets()
         {
-            Thread.Sleep(1000);
-
-            var client = new ContentManagementClient(OPTIONS);
-            var response = await client.ListAssets();
+            var response = await _client.ListAssets();
             Assert.True(response != null);
         }
 
         [Fact]
         public async void ListAssets_WithContinuation()
         {
-            Thread.Sleep(1000);
-
-            var client = new ContentManagementClient(OPTIONS);
-
-            var response = await client.ListAssets();
+            var response = await _client.ListAssets();
             Assert.NotNull(response);
 
             while (true)
