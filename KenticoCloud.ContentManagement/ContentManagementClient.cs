@@ -94,7 +94,7 @@ namespace KenticoCloud.ContentManagement
             return contentItemReponse;
         }
 
-        public async Task<ContentItemResponseModel> UpdateContentItemByExternalIdAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
+        public async Task<ContentItemResponseModel> UpsertContentItemByExternalIdAsync(ContentItemIdentifier identifier, ContentItemUpsertModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
             var contentItemReponse = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
