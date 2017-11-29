@@ -2,9 +2,12 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+
+using KenticoCloud.ContentManagement.Exceptions;
+using KenticoCloud.ContentManagement.Modules.HttpClient;
+
 using NSubstitute;
 using Xunit;
-using KenticoCloud.ContentManagement.Modules.HttpClient;
 
 namespace KenticoCloud.ContentManagement.Tests
 {

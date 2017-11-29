@@ -2,7 +2,7 @@
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    public class FileReferenceModel
+    public sealed class FileReferenceModel
     {
         [JsonProperty("id", Required = Required.Always)]
         public string Id { get; set; }

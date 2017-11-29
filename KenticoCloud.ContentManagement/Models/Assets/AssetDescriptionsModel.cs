@@ -2,7 +2,7 @@
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    public class AssetDescriptionsModel
+    public sealed class AssetDescriptionsModel
     {
         [JsonProperty("language", Required = Required.Always)]
         public ManageApiReference Language { get; set; }

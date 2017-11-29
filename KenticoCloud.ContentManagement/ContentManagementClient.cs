@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
 
-using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Models;
+using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
 
 namespace KenticoCloud.ContentManagement

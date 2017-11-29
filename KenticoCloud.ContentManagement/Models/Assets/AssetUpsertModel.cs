@@ -2,7 +2,7 @@
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    public class AssetUpsertModel
+    public sealed class AssetUpsertModel
     {
         public FileReferenceModel FileReference { get; set; }
         

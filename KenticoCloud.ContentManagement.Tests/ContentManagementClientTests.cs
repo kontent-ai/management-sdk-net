@@ -4,11 +4,11 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
+using KenticoCloud.ContentManagement.Models;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
 
 using Xunit;
-using KenticoCloud.ContentManagement.Models;
 
 namespace KenticoCloud.ContentManagement.Tests
 {

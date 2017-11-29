@@ -1,6 +1,7 @@
-﻿using KenticoCloud.ContentManagement.Models.Assets;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+
+using KenticoCloud.ContentManagement.Models.Assets;
 
 namespace KenticoCloud.ContentManagement
 {
