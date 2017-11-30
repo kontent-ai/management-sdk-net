@@ -13,22 +13,17 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
 {
     internal class ActionInvoker : IActionInvoker
     {
-        private ContentManagementHttpClient _cmHttpClient;
+        private IContentManagementHttpClient _cmHttpClient;
         private MessageCreator _messageCreator;
 
         private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
 
-        public ActionInvoker(ContentManagementHttpClient cmHttpClient, MessageCreator messageCreator)
+        public ActionInvoker(IContentManagementHttpClient cmHttpClient, MessageCreator messageCreator)
         {
             _cmHttpClient = cmHttpClient;
             _messageCreator = messageCreator;
         }
-
-
-        public ActionInvoker()
-        {
-            _cmHttpClient = new ContentManagementHttpClient();
-        }
+        
 
         private async Task<T> ReadResultAsync<T>(HttpResponseMessage response)
         {

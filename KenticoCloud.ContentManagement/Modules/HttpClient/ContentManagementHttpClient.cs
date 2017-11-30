@@ -6,7 +6,7 @@ using KenticoCloud.ContentManagement.Exceptions;
 
 namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
-    internal class ContentManagementHttpClient
+    internal class ContentManagementHttpClient : IContentManagementHttpClient
     {
         private IHttpClient _httpClient;
 
@@ -25,7 +25,7 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
         }
 
 
-        internal async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
+        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
         {
             var response = await _httpClient.SendAsync(message);
 

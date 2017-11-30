@@ -4,9 +4,10 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-using KenticoCloud.ContentManagement.Models;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Modules.ActionInvoker;
+using KenticoCloud.ContentManagement.Tests.Mocks;
 
 using Xunit;
 
@@ -23,9 +24,31 @@ namespace KenticoCloud.ContentManagement.Tests
         private const string EXISTING_CONTENT_TYPE_CODENAME = "writeapi";
         private const string EXTERNAL_ID = "354136c543gj3154354j1g";
 
+        private enum TestRunType {
+            LiveEndPoint,
+            LiveEndPoint_SaveToFileSystem,
+            MockFromFileSystem
+        }
+
         private static Dictionary<string, object> _elements = new Dictionary<string, object> { { "name", "Martinko Klingacik44" } };
         private static ContentManagementOptions _options = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
-        private static ContentManagementClient _client = new ContentManagementClient(_options);
+
+        private static ContentManagementClient _client = CreateContentManagementClient(TestRunType.LiveEndPoint);
+       
+        private static ContentManagementClient CreateContentManagementClient(TestRunType runType)
+        {
+            if (runType != TestRunType.LiveEndPoint)
+            {
+                var urlBuilder = new EndpointUrlBuilder(_options);
+                var httpClient = new FileSystemHttpClientMock(runType == TestRunType.LiveEndPoint_SaveToFileSystem);
+                var actionInvoker = new ActionInvoker(httpClient, new MessageCreator(_options.ApiKey));
+
+                return new ContentManagementClient(urlBuilder, actionInvoker);
+            }
+
+            return new ContentManagementClient(_options);
+        }
+
 
         #region Item Variant
 
