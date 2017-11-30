@@ -2,6 +2,8 @@
 using System.Net;
 using System.Net.Http;
 
+using KenticoCloud.ContentManagement.Exceptions;
+
 using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests

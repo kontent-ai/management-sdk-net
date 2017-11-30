@@ -2,7 +2,7 @@
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
-    public class ContentItemIdentifier
+    public sealed class ContentItemIdentifier
     {
         public Guid Id { get; private set; }
         public string Codename { get; private set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Models.Assets;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -133,9 +134,24 @@ namespace KenticoCloud.ContentManagement
             return (continuationToken != null) ? GetUrl($"/assets", $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl("/assets");
         }
 
-        public string BuildAssetsUrlFromId(string id)
+        public string BuildAssetsUrl()
         {
-            return GetUrl($"/assets/{id}");
+            return GetUrl($"/assets");
+        }
+
+        public string BuildAssetsUrl(AssetIdentifier identifier)
+        {
+            if (identifier.Id != Guid.Empty)
+            {
+                return GetUrl($"/assets/{identifier.Id}");
+            }
+
+            if (!string.IsNullOrEmpty(identifier.ExternalId))
+            {
+                return GetUrl($"/assets/external-id/{identifier.ExternalId}");
+            }
+
+            throw new ArgumentException("You must provide asset's id, or externalId");
         }
 
         public string BuildAssetsUrlFromExternalId(string externalId)

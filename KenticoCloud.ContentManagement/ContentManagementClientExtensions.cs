@@ -1,11 +1,39 @@
-﻿using KenticoCloud.ContentManagement.Models.Assets;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+
+using KenticoCloud.ContentManagement.Models.Assets;
+using KenticoCloud.ContentManagement.Models.Items;
 
 namespace KenticoCloud.ContentManagement
 {
     public static class ContentManagementClientExtensions
     {
+        /// <summary>
+        /// Updates the given content item.
+        /// </summary>
+        /// <param name="client">Content management client instance.</param>
+        /// <param name="identifier">Identifies which content item will be updated. </param>
+        /// <param name="contentItem">Specifies data for updated content item.</param>
+        public static async Task<ContentItemModel> UpdateContentItemAsync(this ContentManagementClient client, ContentItemIdentifier identifier, ContentItemModel contentItem)
+        {
+            var contentItemUpdateModel = new ContentItemUpdateModel(contentItem);
+
+            return await client.UpdateContentItemAsync(identifier, contentItemUpdateModel);
+        }
+
+        /// <summary>
+        /// Upserts the given content item variant.
+        /// </summary>
+        /// <param name="client">Content management client instance.</param>
+        /// <param name="identifier">Identifies which content item variant will be upserted. </param>
+        /// <param name="contentItemVariant">Specifies data for upserted content item variant.</param>
+        public static async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(this ContentManagementClient client, ContentItemVariantIdentifier identifier, ContentItemVariantModel contentItemVariant)
+        {
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel(contentItemVariant);
+
+            return await client.UpsertContentItemVariantAsync(identifier, contentItemVariant);
+        }
+
         /// <summary>
         /// Uploads the given file from a file system.
         /// </summary>
@@ -16,7 +44,7 @@ namespace KenticoCloud.ContentManagement
         {
             var stream = File.OpenRead(filePath);
 
-            return await client.UploadFile(stream, Path.GetFileName(filePath), contentType);
+            return await client.UploadFileAsync(stream, Path.GetFileName(filePath), contentType);
         }
 
         /// <summary>
@@ -30,7 +58,7 @@ namespace KenticoCloud.ContentManagement
         {
             var stream = new MemoryStream(data);
 
-            return await client.UploadFile(stream, fileName, contentType);
+            return await client.UploadFileAsync(stream, fileName, contentType);
         }
     }
 }

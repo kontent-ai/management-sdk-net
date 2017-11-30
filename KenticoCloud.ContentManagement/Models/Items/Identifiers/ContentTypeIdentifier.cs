@@ -2,7 +2,7 @@
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
-    public class ContentTypeIdentifier : Identifier<ContentTypeIdentifier>
+    public sealed class ContentTypeIdentifier : Identifier<ContentTypeIdentifier>
     {
     }
 }

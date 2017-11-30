@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-
 using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
     [JsonObject]
-    internal class AssetListingResponseServerModel : IListingResponse<AssetResponseModel>
+    internal sealed class AssetListingResponseServerModel : IListingResponse<AssetResponseModel>
     {
         [JsonProperty("assets")]
         public IEnumerable<AssetResponseModel> Assets { get; set; }
