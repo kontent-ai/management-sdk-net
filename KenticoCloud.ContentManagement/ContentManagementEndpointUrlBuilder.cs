@@ -131,12 +131,12 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetListingUrl(string continuationToken = null)
         {
-            return (continuationToken != null) ? GetUrl($"/assets", $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl("/assets");
+            return (continuationToken != null) ? GetUrl("/assets", $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl("/assets");
         }
 
         public string BuildAssetsUrl()
         {
-            return GetUrl($"/assets");
+            return GetUrl("/assets");
         }
 
         public string BuildAssetsUrl(AssetIdentifier identifier)

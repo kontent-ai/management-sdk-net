@@ -465,54 +465,55 @@ namespace KenticoCloud.ContentManagement.Tests
         }
         
         [Fact]
-        public async void UploadFileAsync_AddAssetAsync_UploadsFile_CreatesAssetCorrectly()
+        public async void UploadFileAsync_WithStream_CreateAssetAsync_UploadsFile_CreatesAssetCorrectly()
         {
-            var content = "Hello world from CM API .NET SDK test CreateAsset_UploadsFile_CreatesAssetCorrectly!" + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+            var content = "Hello world from CM API .NET SDK test UploadFileAsync_CreateAssetAsync_UploadsFile_CreatesAssetCorrectly!" + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
 
-            var fileName = "Hello.txt";
-            var contentType = "text/plain";
-
-            var fileResult = await _client.UploadFileAsync(stream, fileName, contentType);
-
-            Assert.NotNull(fileResult);
-            Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
-
-            Guid fileId;
-            Assert.True(Guid.TryParse(fileResult.Id, out fileId));
-
-            Assert.NotEqual(Guid.Empty, fileId);
-
-            var asset = new AssetUpsertModel
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
             {
-                FileReference = fileResult,
-                Descriptions = new List<AssetDescriptionsModel>()
-            };
+                var fileName = "Hello.txt";
+                var contentType = "text/plain";
 
-            var assetResult = await _client.AddAssetAsync(asset);
+                var fileResult = await _client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
 
-            Assert.NotNull(assetResult);
-            Assert.Null(assetResult.ExternalId);
-            Assert.Equal(contentType, assetResult.Type);
-            Assert.Equal(stream.Length, assetResult.Size);
-            Assert.NotNull(assetResult.LastModified);
-            Assert.Equal(fileName, assetResult.FileName);
-            Assert.NotNull(assetResult.Descriptions);
+                Assert.NotNull(fileResult);
+                Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
 
-            // Cleanup
-            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+                Guid fileId;
+                Assert.True(Guid.TryParse(fileResult.Id, out fileId));
+
+                Assert.NotEqual(Guid.Empty, fileId);
+
+                var asset = new AssetUpsertModel
+                {
+                    FileReference = fileResult,
+                    Descriptions = new List<AssetDescriptionsModel>()
+                };
+
+                var assetResult = await _client.CreateAssetAsync(asset);
+
+                Assert.NotNull(assetResult);
+                Assert.Null(assetResult.ExternalId);
+                Assert.Equal(contentType, assetResult.Type);
+                Assert.Equal(content.Length, assetResult.Size);
+                Assert.NotNull(assetResult.LastModified);
+                Assert.Equal(fileName, assetResult.FileName);
+                Assert.NotNull(assetResult.Descriptions);
+
+                // Cleanup
+                await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+            }
         }
 
         [Fact]
-        public async void UploadFileAsync_UpsertAssetByExternalIdAsync_UploadsFile_CreatesAssetCorrectly()
+        public async void UploadFileAsync_WithByteArray_UpsertAssetByExternalIdAsync_UploadsFile_CreatesAssetCorrectly()
         {
-            var content = "Hello world from CM API .NET SDK test CreateAsset_WithExternalId_UploadsFile_CreatesAssetCorrectly! " + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+            var content = "Hello world from CM API .NET SDK test UploadFileAsync_UpsertAssetByExternalIdAsync_UploadsFile_CreatesAssetCorrectly! " + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
 
             var fileName = "HelloExternal.txt";
             var contentType = "text/plain";
 
-            var fileResult = await _client.UploadFileAsync(stream, fileName, contentType);
+            var fileResult = await _client.UploadFileAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType));
 
             Assert.NotNull(fileResult);
             Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
@@ -522,10 +523,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             Assert.NotEqual(Guid.Empty, fileId);
 
+            var descriptions = new List<AssetDescriptionsModel>();
             var asset = new AssetUpsertModel
             {
                 FileReference = fileResult,
-                Descriptions = new List<AssetDescriptionsModel>()
+                Descriptions = descriptions
             };
             var externalId = Guid.NewGuid().ToString();
 
@@ -534,7 +536,80 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(assetResult);
             Assert.Equal(externalId, assetResult.ExternalId);
             Assert.Equal(contentType, assetResult.Type);
-            Assert.Equal(stream.Length, assetResult.Size);
+            Assert.Equal(content.Length, assetResult.Size);
+            Assert.NotNull(assetResult.LastModified);
+            Assert.Equal(fileName, assetResult.FileName);
+            Assert.NotNull(assetResult.Descriptions);
+
+            // Cleanup
+            await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
+        }
+        
+        [Fact]
+        public async void CreateAssetAsync_WithFile_UploadsFile_CreatesAssetCorrectly()
+        {
+            var content = "Hello world from CM API .NET SDK test CreateAssetAsync_WithFile_UploadsFile_CreatesAssetCorrectly!" + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
+            
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
+            var descriptions = new List<AssetDescriptionsModel>();
+
+            var assetResult = await _client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
+
+            Assert.NotNull(assetResult);
+            Assert.Null(assetResult.ExternalId);
+            Assert.Equal(contentType, assetResult.Type);
+            Assert.Equal(content.Length, assetResult.Size);
+            Assert.NotNull(assetResult.LastModified);
+            Assert.Equal(fileName, assetResult.FileName);
+            Assert.NotNull(assetResult.Descriptions);
+
+            // Cleanup
+            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+        }
+
+
+        [Fact]
+        public async void CreateAssetAsync_WithFile_FromFileSystem_UploadsFile_CreatesAssetCorrectly()
+        {
+            var descriptions = new List<AssetDescriptionsModel>();
+
+            var filePath = Path.Combine(AppContext.BaseDirectory, "Data\\kentico_rgb_bigger.png");
+            var contentType = "image/png";
+
+            var assetResult = await _client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
+
+            Assert.NotNull(assetResult);
+            Assert.Null(assetResult.ExternalId);
+            Assert.Equal(contentType, assetResult.Type);
+            Assert.Equal(new FileInfo(filePath).Length, assetResult.Size);
+            Assert.NotNull(assetResult.LastModified);
+            Assert.Equal("kentico_rgb_bigger.png", assetResult.FileName);
+            Assert.NotNull(assetResult.Descriptions);
+
+            // Cleanup
+            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+        }
+
+
+
+        [Fact]
+        public async void UpsertAssetByExternalIdAsync_WithFile_FromByteArray_UploadsFile_CreatesAssetCorrectly()
+        {
+            var content = "Hello world from CM API .NET SDK test UpsertAssetByExternalIdAsync_WithFile_UploadsFile_CreatesAssetCorrectly! " + "X".PadLeft((int)new Random().NextDouble() * 100, 'X');
+
+            var fileName = "HelloExternal.txt";
+            var contentType = "text/plain";
+
+            var externalId = Guid.NewGuid().ToString();
+            var descriptions = new List<AssetDescriptionsModel>();
+
+            var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
+
+            Assert.NotNull(assetResult);
+            Assert.Equal(externalId, assetResult.ExternalId);
+            Assert.Equal(contentType, assetResult.Type);
+            Assert.Equal(content.Length, assetResult.Size);
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
             Assert.NotNull(assetResult.Descriptions);

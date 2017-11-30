@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.IO;
 
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
@@ -26,13 +25,8 @@ namespace KenticoCloud.ContentManagement
             {
                 throw new ArgumentNullException(nameof(contentManagementOptions), "The Content Management options object is not specified.");
             }
-
-            if (contentManagementOptions.ProjectId == null)
-            {
-                throw new ArgumentNullException(nameof(contentManagementOptions.ProjectId), "Kentico Cloud project identifier is not specified.");
-            }
-
-            if (contentManagementOptions.ProjectId == string.Empty)
+            
+            if (string.IsNullOrEmpty(contentManagementOptions.ProjectId))
             {
                 throw new ArgumentException("Kentico Cloud project identifier is not specified.", nameof(contentManagementOptions.ProjectId));
             }
@@ -42,12 +36,7 @@ namespace KenticoCloud.ContentManagement
                 throw new ArgumentException("Provided string is not a valid project identifier ({ProjectId}). Haven't you accidentally passed the Preview API key instead of the project identifier?", nameof(contentManagementOptions.ProjectId));
             }
 
-            if (contentManagementOptions.ApiKey == null)
-            {
-                throw new ArgumentNullException(nameof(contentManagementOptions.ApiKey), "The API key is not specified.");
-            }
-
-            if (contentManagementOptions.ApiKey == string.Empty)
+            if (string.IsNullOrEmpty(contentManagementOptions.ApiKey))
             {
                 throw new ArgumentException("The API key is not specified.", nameof(contentManagementOptions.ApiKey));
             }
@@ -56,7 +45,7 @@ namespace KenticoCloud.ContentManagement
             _actionInvoker = new ActionInvoker(new ContentManagementHttpClient(), new MessageCreator(contentManagementOptions.ApiKey));
         }
 
-        #region Manage Variants
+        #region Variants
 
         public async Task<List<ContentItemVariantResponseModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
         {
@@ -92,7 +81,7 @@ namespace KenticoCloud.ContentManagement
 
         #endregion
 
-        #region Manage Items
+        #region Items
 
         public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
         {
@@ -151,34 +140,34 @@ namespace KenticoCloud.ContentManagement
 
         #region Assets
 
-        private async Task<IListingResponse<AssetResponseModel>> GetNextAssetListingPageAsync(string continuationToken)
+        private async Task<IListingResponse<AssetModel>> GetNextAssetListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildAssetListingUrl(continuationToken);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetResponseModel>>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetModel>>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
-        public async Task<ListingResponseModel<AssetResponseModel>> ListAssetsAsync()
+        public async Task<ListingResponseModel<AssetModel>> ListAssetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetListingUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<AssetResponseModel>(GetNextAssetListingPageAsync, response.Pagination?.Token, response.Assets);
+            return new ListingResponseModel<AssetModel>(GetNextAssetListingPageAsync, response.Pagination?.Token, response.Assets);
         }
 
-        public async Task<AssetResponseModel> GetAssetAsync(AssetIdentifier identifier)
+        public async Task<AssetModel> GetAssetAsync(AssetIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetResponseModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
-        public async Task<AssetResponseModel> UpdateAssetAsync(AssetIdentifier identifier, AssetUpdateModel update)
+        public async Task<AssetModel> UpdateAssetAsync(AssetIdentifier identifier, AssetUpdateModel update)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetResponseModel>(endpointUrl, HttpMethod.Put, update);
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, update);
 
             return response;
         }
@@ -189,24 +178,25 @@ namespace KenticoCloud.ContentManagement
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
         
-        public async Task<AssetResponseModel> AddAssetAsync(AssetUpsertModel asset)
+        public async Task<AssetModel> CreateAssetAsync(AssetUpsertModel asset)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetResponseModel>(endpointUrl, HttpMethod.Post, asset);
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
 
             return response;
         }
 
-        public async Task<AssetResponseModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel upsert)
+        public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetResponseModel>(
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetModel>(
                 endpointUrl,
                 HttpMethod.Put,
+                // TODO - Endpoint currently requires external ID in both model and URL, this is a bug
                 new AssetUpsertServerModel
                 {
-                    Descriptions = upsert.Descriptions,
-                    FileReference = upsert.FileReference,
+                    Descriptions = asset.Descriptions,
+                    FileReference = asset.FileReference,
                     ExternalId = externalId
                 }
             );
@@ -224,26 +214,29 @@ namespace KenticoCloud.ContentManagement
         /// <param name="stream">File stream with the binary file data.</param>
         /// <param name="fileName">The name of the uploaded binary file. It will be used for the asset name when creating an asset. Example: which-brewing-fits-you-1080px.jpg.</param>
         /// <param name="contentType">Specifies the media type of the binary data. Example: image/jpeg, application/zip.</param>
-        public async Task<FileReferenceModel> UploadFileAsync(Stream stream, string fileName, string contentType)
+        public async Task<FileReferenceModel> UploadFileAsync(FileContentSource fileContent)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
-
-            if (String.IsNullOrEmpty(fileName))
-                throw new ArgumentException(nameof(fileName));
-
-            if (String.IsNullOrEmpty(contentType))
-                throw new ArgumentException(nameof(contentType));
-
-            if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
+            var stream = fileContent.OpenReadStream();
+            try
             {
-                throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
+                if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
+                {
+                    throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
+                }
+
+                var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
+                var response = await _actionInvoker.UploadFileAsync<FileReferenceModel>(endpointUrl, stream, fileContent.ContentType);
+
+                return response;
             }
-
-            var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileName);
-            var response = await _actionInvoker.UploadFileAsync<FileReferenceModel>(endpointUrl, stream, contentType);
-
-            return response;
+            finally
+            {
+                // Dispose the stream only in case new stream was created
+                if (fileContent.CreatesNewStream)
+                {
+                    stream.Dispose();
+                }
+            }
         }
 
         #endregion

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
-    public sealed class AssetResponseModel
+    public sealed class AssetModel
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
@@ -25,7 +25,7 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         [JsonProperty("descriptions")]
         public IEnumerable<AssetDescriptionsModel> Descriptions { get; set; }
 
-        [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("external_id")]
         public string ExternalId { get; set; }
 
         [JsonProperty("last_modified")]

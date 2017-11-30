@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
     [JsonObject]
-    internal sealed class AssetListingResponseServerModel : IListingResponse<AssetResponseModel>
+    internal sealed class AssetListingResponseServerModel : IListingResponse<AssetModel>
     {
         [JsonProperty("assets")]
-        public IEnumerable<AssetResponseModel> Assets { get; set; }
+        public IEnumerable<AssetModel> Assets { get; set; }
 
         [JsonProperty("pagination")]
         public PaginationResponseModel Pagination { get; set; }
@@ -19,7 +19,7 @@ namespace KenticoCloud.ContentManagement.Models.Assets
             return GetEnumerator();
         }
 
-        public IEnumerator<AssetResponseModel> GetEnumerator()
+        public IEnumerator<AssetModel> GetEnumerator()
         {
             return Assets.GetEnumerator();
         }

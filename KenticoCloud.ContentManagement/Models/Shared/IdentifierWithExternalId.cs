@@ -9,5 +9,7 @@
         {
             return new T() { ExternalId = externalId };
         }
+
+        protected IdentifierWithExternalId() { }
     }
 }

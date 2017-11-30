@@ -18,5 +18,7 @@ namespace KenticoCloud.ContentManagement.Models.Identifiers
         {
             return new T() { Codename = codename };
         }
+
+        protected Identifier() { }
     }
 }
