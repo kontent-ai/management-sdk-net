@@ -1,6 +1,8 @@
 ﻿using System;
 
-namespace KenticoCloud.ContentManagement.Models.Identifiers
+using KenticoCloud.ContentManagement.Models.Identifiers;
+
+namespace KenticoCloud.ContentManagement.Models.Items
 {
     public sealed class SitemapNodeIdentifier : Identifier<SitemapNodeIdentifier>
     {

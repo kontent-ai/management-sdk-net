@@ -305,7 +305,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void AddContentItemAsync_AddsContentItem()
         {
-            var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
+            var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
             var item = new ContentItemCreateModel() { Name = "Hooray!", Type = type };
 
             var responseItem = await _client.CreateContentItemAsync(item);
@@ -345,7 +345,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void UpdateContentItemAsync_ByCodename_UpdatesContentItem()
         {
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var sitemapLocation = new List<ManageApiReference>();
+            var sitemapLocation = new List<SitemapNodeIdentifier>();
             var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
 
             var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
@@ -356,7 +356,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void UpdateContentItemAsynx_ById_UpdatesContentItem()
         {
             var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var sitemapLocation = new List<ManageApiReference>();
+            var sitemapLocation = new List<SitemapNodeIdentifier>();
             var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation};
 
             var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
@@ -366,8 +366,8 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void UpsertContentItemByExternalIdAsync_UpdatesContentItem()
         {
-            var sitemapLocation = new List<ManageApiReference>();
-            var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
+            var sitemapLocation = new List<SitemapNodeIdentifier>();
+            var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
             var item = new ContentItemUpsertModel() { Name = "Hooray!", SitemapLocations = sitemapLocation, Type = type };
 
             var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(EXTERNAL_ID, item);
@@ -625,7 +625,7 @@ namespace KenticoCloud.ContentManagement.Tests
         private async Task<ContentItemModel> PrepareItemToDelete(string externalId = null)
         {
             var externalIdentifier = string.IsNullOrEmpty(externalId) ? Guid.NewGuid().ToString() : externalId;
-            var type = new ManageApiReference() { CodeName = EXISTING_CONTENT_TYPE_CODENAME };
+            var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
             var item = new ContentItemCreateModel() { Name = "Hooray!", Type = type, ExternalId = externalIdentifier };
 
             return await _client.CreateContentItemAsync(item);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -11,10 +10,10 @@ namespace KenticoCloud.ContentManagement.Models.Items
         public ManageApiReference Item { get; set; }
 
         [JsonProperty("elements")]
-        public IDictionary<string, object> Elements { get; set; }
+        public dynamic Elements { get; set; }
 
         [JsonProperty("language")]
-        public ManageApiReference Language { get; set; }
+        public LanguageIdentifier Language { get; set; }
 
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -11,7 +11,7 @@ namespace KenticoCloud.ContentManagement.Models.Items
         public string Name { get; set; }
 
         [JsonProperty("sitemap_locations", Required = Required.Always)]
-        public ICollection<ManageApiReference> SitemapLocations { get; set; }
+        public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; }
 
         internal ContentItemUpdateModel()
         {
@@ -20,7 +20,7 @@ namespace KenticoCloud.ContentManagement.Models.Items
         internal ContentItemUpdateModel(ContentItemModel contentItem)
         {
             Name = contentItem.Name;
-            SitemapLocations = contentItem.SitemapLocations.ToList();
+            SitemapLocations = contentItem.SitemapLocations.Select(s => SitemapNodeIdentifier.ById(s.Id));
         }
     }
 }

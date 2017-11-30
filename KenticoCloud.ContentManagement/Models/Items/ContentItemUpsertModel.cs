@@ -10,9 +10,9 @@ namespace KenticoCloud.ContentManagement.Models.Items
         public string Name { get; set; }
 
         [JsonProperty("type")]
-        public ManageApiReference Type { get; set; }
+        public ContentTypeIdentifier Type { get; set; }
 
         [JsonProperty("sitemap_locations")]
-        public ICollection<ManageApiReference> SitemapLocations { get; set; }
+        public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; }
     }
 }

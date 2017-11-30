@@ -44,7 +44,7 @@ namespace KenticoCloud.ContentManagement
             _urlBuilder = new EndpointUrlBuilder(contentManagementOptions);
             _actionInvoker = new ActionInvoker(new ContentManagementHttpClient(), new MessageCreator(contentManagementOptions.ApiKey));
         }
-
+        
         #region Variants
 
         public async Task<List<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)

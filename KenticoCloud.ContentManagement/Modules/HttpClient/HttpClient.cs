@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
-    public class HttpClient : IHttpClient
+    internal class HttpClient : IHttpClient
     {
         private static System.Net.Http.HttpClient _baseClient;
 

@@ -8,5 +8,8 @@ namespace KenticoCloud.ContentManagement.Models.Items
     {
         [Obsolete("For internal purposes. Use static method LanguageIdentifier.ByXYZ instead.")]
         public LanguageIdentifier() { }
+
+
+        public static readonly LanguageIdentifier DEFAULT_LANGUAGE = LanguageIdentifier.ById(Guid.Empty);
     }
 }
