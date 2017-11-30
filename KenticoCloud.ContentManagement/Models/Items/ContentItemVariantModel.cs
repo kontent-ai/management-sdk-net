@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
-    public sealed class ContentItemVariantResponseModel
+    public sealed class ContentItemVariantModel
     {
         [JsonProperty("item")]
         public ManageApiReference Item { get; set; }
