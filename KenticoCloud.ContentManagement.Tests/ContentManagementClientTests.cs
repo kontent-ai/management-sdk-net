@@ -32,8 +32,16 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void UpsertVariantAsync_ById_LanguageId_UpdatesVariant()
         {
+            var elements = new Dictionary<string, object> { { "name", "Martinko Klingacik45" } };
 
-            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = _elements };
+            var selectedChoices = new List<MultipleChoiceOptionIdentifier> ();
+
+            selectedChoices.Add(MultipleChoiceOptionIdentifier.ByCodename("spade"));
+            selectedChoices.Add(MultipleChoiceOptionIdentifier.ByCodename("heart"));
+
+            elements.Add("choose_your_favourite_card_suits", selectedChoices);
+
+            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = elements };
 
             var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
