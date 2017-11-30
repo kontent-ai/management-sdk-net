@@ -19,12 +19,19 @@
 
   <ItemGroup>
     <PackageReference Include="NSubstitute" Version="3.1.0" />
+    <PackageReference Include="RichardSzalay.MockHttp" Version="3.2.1" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\KenticoCloud.ContentManagement\KenticoCloud.ContentManagement.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\contentItem.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
