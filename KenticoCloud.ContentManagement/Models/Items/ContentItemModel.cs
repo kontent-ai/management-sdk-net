@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
-    public sealed class ContentItemResponseModel
+    public sealed class ContentItemModel
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }

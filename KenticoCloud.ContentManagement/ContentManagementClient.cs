@@ -47,28 +47,28 @@ namespace KenticoCloud.ContentManagement
 
         #region Variants
 
-        public async Task<List<ContentItemVariantResponseModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
+        public async Task<List<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
         {
 
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantResponseModel>>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
-        public async Task<ContentItemVariantResponseModel> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
+        public async Task<ContentItemVariantModel> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantResponseModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantModel>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
-        public async Task<ContentItemVariantResponseModel> UpsertVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpdateModel contentItemVariantUpdateModel)
+        public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpdateModel contentItemVariantUpdateModel)
         {
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpdateModel, ContentItemVariantResponseModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpdateModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
 
             return response;
         }
@@ -83,34 +83,34 @@ namespace KenticoCloud.ContentManagement
 
         #region Items
 
-        public async Task<ContentItemResponseModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
+        public async Task<ContentItemModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpdateModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpdateModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return response;
         }
 
-        public async Task<ContentItemResponseModel> UpsertContentItemByExternalIdAsync(string externalId, ContentItemUpsertModel contentItem)
+        public async Task<ContentItemModel> UpsertContentItemByExternalIdAsync(string externalId, ContentItemUpsertModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(ContentItemIdentifier.ByExternalId(externalId));
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Put, contentItem);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return response;
         }
 
-        public async Task<ContentItemResponseModel> AddContentItemAsync(ContentItemCreateModel contentItem)
+        public async Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemCreateModel, ContentItemResponseModel>(endpointUrl, HttpMethod.Post, contentItem);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemCreateModel, ContentItemModel>(endpointUrl, HttpMethod.Post, contentItem);
 
             return response;
         }
 
-        public async Task<ContentItemResponseModel> GetContentItemAsync(ContentItemIdentifier identifier)
+        public async Task<ContentItemModel> GetContentItemAsync(ContentItemIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemResponseModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemModel>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
@@ -122,18 +122,18 @@ namespace KenticoCloud.ContentManagement
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
 
-        private async Task<IListingResponse<ContentItemResponseModel>> GetNextItemsListingPageAsync(string continuationToken)
+        private async Task<IListingResponse<ContentItemModel>> GetNextItemsListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
         }
 
-        public async Task<ListingResponseModel<ContentItemResponseModel>> ListContentItemsAsync()
+        public async Task<ListingResponseModel<ContentItemModel>> ListContentItemsAsync()
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<ContentItemResponseModel>(GetNextItemsListingPageAsync, response.Pagination?.Token, response.Items);
+            return new ListingResponseModel<ContentItemModel>(GetNextItemsListingPageAsync, response.Pagination?.Token, response.Items);
         }
 
         #endregion
