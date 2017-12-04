@@ -18,7 +18,7 @@ You can head over to our Developer Hub for the complete [Content Management API 
 
 To manage content in a Kentico Cloud project via the Content Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Content Management API](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#section-enabling-the-api-for-your-project).
 
-You also need to have the structure of you Kentico Cloud project prepared ahead of time, before importing your content. This means defining at least the [content types](https://help.kenticocloud.com/define-content-structure/structure/creating-and-deleting-content-types) of the imported items, optionally also setting up your languages, taxonomy groups or sitemap locations. 
+You also need to prepare the structure of your Kentico Cloud project before importing your content. At minimum, that means defining the [Content types](https://help.kenticocloud.com/define-content-structure/structure/creating-and-deleting-content-types) of the imported items. You might also need to set up your Languages, Taxonomy groups or Sitemap locations (if you are using them). 
 
 ## Using the ContentManagementClient
 
@@ -27,7 +27,10 @@ The `ContentManagementClient` class is the main class of the SDK. Using this cla
 To create an instance of the class, you need to provide a [project ID](https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id) and a valid [Content Management API Key](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#importing-content-items).
 
 ```csharp
-var OPTIONS = new ContentManagementOptions() { ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0", ApiKey = "ew0...1eo" }; 
+var options = new ContentManagementOptions() { 
+    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+    ApiKey = "ew0...1eo" 
+}; 
 // Initialize an instance of the ContentManagementClient client
 var client = new ContentManagementClient(OPTIONS);
 ```
@@ -45,7 +48,7 @@ var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 ```
 
 * **Codenames** are generated automatically by Kentico Cloud based on the object's name. They can make your code more readable but are not guaranteed to be unique. They should only be used in circumstances with no chance of naming conflicts. 
-* (internal) **IDs** are random [GUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) assignned to objects by Kentico Cloud at the moment of import/creation. They are unique, but only objects that are already in the system have them. 
+* (internal) **IDs** are random [GUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) assignned to objects by Kentico Cloud at the moment of import/creation. They are unique, but only objects that are already in the system have them. You can't use them to refer to content that hasn't yet been imported. 
 * **External IDs** are string-based custom identifiers defined by you. This is useful when importing a batch of cross-referencing content. See [Importing modular and linked content](#importing-modular-and-linked-content). 
 
 ## Quick start
@@ -155,7 +158,7 @@ The content you are importing will often contain references to other pieces of i
 2. When referencing another piece of content, use its external ID. 
 3. Import your content (use upsert methods with external ID). All references will resolve at the end.
 
-This way, you can import your content in any order and run the same process repeatedly to keep your project up to date. 
+This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. 
 
 ```csharp
 // Upset an asset
@@ -190,24 +193,14 @@ TO-DO: Does this work this way? Can I use ManageAPI Reference this way?
 
 ### Content item methods
 
-#### Viewing a content item
+#### Upserting a content item by external ID
 
 ```csharp
-var identifier = ContentItemIdentifier.ByCodename("brno");
-// var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
-// var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+var sitemapLocations = new List<ManageApiReference>();
+var type = new ManageApiReference() { CodeName = "cafe" };
+var item = new ContentItemUpsertModel() { Name = "New or updated name", SitemapLocations = sitemapLocations, Type = type };
 
-var contentItemReponse = await _client.GetContentItemAsync(identifier);
-```
-
-#### Deleting a content item
-
-```csharp
-var identifier = ContentItemIdentifier.ByCodename("brno");
-// var identifier = ContentItemIdentifier.ByExternalId(itemToDelete.ExternalId);
-// var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
-
-client.DeleteContentItemAsync(identifier);
+var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
 ```
 
 #### Updating a content item
@@ -222,14 +215,14 @@ var item = new ContentItemUpdateModel() { Name = "New name", SitemapLocations = 
 var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
 ```
 
-#### Upserting a content item by external ID
+#### Viewing a content item
 
 ```csharp
-var sitemapLocations = new List<ManageApiReference>();
-var type = new ManageApiReference() { CodeName = "cafe" };
-var item = new ContentItemUpsertModel() { Name = "New or updated name", SitemapLocations = sitemapLocations, Type = type };
+var identifier = ContentItemIdentifier.ByCodename("brno");
+// var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
+// var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
-var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+var contentItemReponse = await _client.GetContentItemAsync(identifier);
 ```
 
 #### Listing content items
@@ -256,6 +249,16 @@ while (true)
     response = await response.GetNextPage();
 }
  ```
+
+#### Deleting a content item
+
+```csharp
+var identifier = ContentItemIdentifier.ByCodename("brno");
+// var identifier = ContentItemIdentifier.ByExternalId(itemToDelete.ExternalId);
+// var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+
+client.DeleteContentItemAsync(identifier);
+```
  
 ### Language variant methods
 
@@ -327,35 +330,6 @@ await client.DeleteContentItemVariantAsync(identifier);
 
 ### Asset methods
 
-#### Listing assets
-
-All at once:
-
-```csharp 
-var response = await client.ListAssetsAsync();
-```
-
-With continuation:
-
-```csharp
-
-var response = await _client.ListAssetsAsync();
-
-while (true)
-{
-    foreach (var asset in response)
-    {
-        // Use your asset
-    }
-
-    if (!response.HasNextPage())
-    {
-        break;
-    }
-    response = await response.GetNextPage();
-}
-```
-
 ##### Uploading a file 
 
 ```csharp
@@ -389,6 +363,35 @@ var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 var contentType = "image/png";
 
 var assetResult = await _client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
+```
+
+#### Listing assets
+
+All at once:
+
+```csharp 
+var response = await client.ListAssetsAsync();
+```
+
+With continuation:
+
+```csharp
+
+var response = await _client.ListAssetsAsync();
+
+while (true)
+{
+    foreach (var asset in response)
+    {
+        // Use your asset
+    }
+
+    if (!response.HasNextPage())
+    {
+        break;
+    }
+    response = await response.GetNextPage();
+}
 ```
 
 #### Deleting an asset
