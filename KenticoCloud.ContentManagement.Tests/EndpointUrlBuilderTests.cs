@@ -1,9 +1,9 @@
 ﻿using System;
 
+using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
 
 using Xunit;
-using KenticoCloud.ContentManagement.Models.Assets;
 
 namespace KenticoCloud.ContentManagement.Tests
 {

@@ -8,7 +8,6 @@ using System.Text;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace KenticoCloud.ContentManagement.Tests.Mocks
 {
@@ -80,9 +79,9 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             var rootPath = Path.Combine(AppContext.BaseDirectory, "Data\\Requests");
             var endpointPath = Path.Combine(rootPath, message.RequestUri.PathAndQuery.Replace("/", "\\").Replace("?", "\\").TrimStart('\\'));
 
-            var md5 = MD5.Create();
-            var messageHash = md5.ComputeHash(Encoding.UTF8.GetBytes(serializedRequest));
-            var stringMessageHash = Convert.ToBase64String(messageHash).Replace("/", "-");
+            var hashingAlgorithm = SHA1.Create();
+            var fingerprint = hashingAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(serializedRequest));
+            var stringMessageHash = Convert.ToBase64String(fingerprint).Replace("=", "-");
 
             var uniqueRequestPath = Path.Combine(endpointPath, $"{message.Method}_{stringMessageHash}");
 
