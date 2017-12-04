@@ -137,11 +137,10 @@ Kentico Cloud will generate an internal id that serves as a pointer to your file
 
 #### 2. Create an asset 
 ```csharp
-var asset = new AssetUpsertModel
-    {
-        FileReference = fileResult,
-        Descriptions = new List<AssetDescriptionsModel>()
-    };
+var asset = new AssetUpsertModel {
+    FileReference = fileResult,
+    Descriptions = new List<AssetDescriptionsModel>()
+};
 var externalId = "Hello";
 
 var assetResult = await client.AddAssetAsync(asset);
@@ -162,8 +161,7 @@ This way, you can import your content in any order and run the import process re
 
 ```csharp
 // Upset an asset
-var asset = new AssetUpsertModel
-{
+var asset = new AssetUpsertModel {
     FileReference = fileResult,
     Descriptions = new List<AssetDescriptionsModel>();
 };
@@ -173,7 +171,10 @@ var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
 // Upsert a content item
 var sitemapLocations = new List<ManageApiReference>();
 var type = new ManageApiReference() { CodeName = "cafe" };
-var item = new ContentItemUpsertModel() { Name = "Brno", SitemapLocations = sitemapLocations, Type = type };
+var item = new ContentItemUpsertModel() { 
+    Name = "Brno", SitemapLocations = sitemapLocations,
+    Type = type 
+};
 var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
 
 //Upsert a language variant
@@ -198,7 +199,11 @@ TO-DO: Does this work this way? Can I use ManageAPI Reference this way?
 ```csharp
 var sitemapLocations = new List<ManageApiReference>();
 var type = new ManageApiReference() { CodeName = "cafe" };
-var item = new ContentItemUpsertModel() { Name = "New or updated name", SitemapLocations = sitemapLocations, Type = type };
+var item = new ContentItemUpsertModel() { 
+    Name = "New or updated name",
+    SitemapLocations = sitemapLocations,
+    Type = type 
+};
 
 var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
 ```
@@ -210,7 +215,10 @@ var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
 var newSitemapLocations = new List<ManageApiReference>();
-var item = new ContentItemUpdateModel() { Name = "New name", SitemapLocations = newSitemapLocations };
+var item = new ContentItemUpdateModel() { 
+    Name = "New name",
+    SitemapLocations = newSitemapLocations
+};
 
 var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
 ```
