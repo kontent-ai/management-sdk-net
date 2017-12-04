@@ -149,7 +149,7 @@ TBD: Do we use the basic AddAsset method in the introduction, or do we push exte
 
 ### Importing modular and linked content
 
-The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items used as modular content or links. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not-yet-imported) content. 
+The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items used as modular content or links. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not-yet-imported) content: 
 
 1. Define external IDs for all content you want to import in advance. 
 2. When referencing another piece of content, use its external ID. 
