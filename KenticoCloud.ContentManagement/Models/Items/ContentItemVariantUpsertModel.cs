@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
-
 using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
-    public sealed class ContentItemVariantUpdateModel
+    public sealed class ContentItemVariantUpsertModel
     {
         [JsonProperty("elements", Required = Required.Always)]
-        public object Elements { get; set; }
+        public Dictionary<string,  object> Elements { get; set; }
 
-        public ContentItemVariantUpdateModel()
+        public ContentItemVariantUpsertModel()
         {
         }
 
-        internal ContentItemVariantUpdateModel(ContentItemVariantModel contentItemVariant)
+        internal ContentItemVariantUpsertModel(ContentItemVariantModel contentItemVariant)
         {
             Elements = contentItemVariant.Elements;
         }

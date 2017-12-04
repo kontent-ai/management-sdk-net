@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
@@ -10,7 +11,7 @@ namespace KenticoCloud.ContentManagement.Models.Items
         public ManageApiReference Item { get; set; }
 
         [JsonProperty("elements")]
-        public dynamic Elements { get; set; }
+        public Dictionary<string, object> Elements { get; set; }
 
         [JsonProperty("language")]
         public LanguageIdentifier Language { get; set; }

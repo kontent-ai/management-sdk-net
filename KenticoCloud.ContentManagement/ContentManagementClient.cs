@@ -64,11 +64,11 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
-        public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpdateModel contentItemVariantUpdateModel)
+        public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpsertModel contentItemVariantUpdateModel)
         {
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpdateModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
 
             return response;
         }

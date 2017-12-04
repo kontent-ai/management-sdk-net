@@ -32,7 +32,7 @@ namespace KenticoCloud.ContentManagement
         /// <param name="contentItemVariant">Specifies data for upserted content item variant.</param>
         public static async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(this ContentManagementClient client, ContentItemVariantIdentifier identifier, ContentItemVariantModel contentItemVariant)
         {
-            var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel(contentItemVariant);
+            var contentItemVariantUpdateModel = new ContentItemVariantUpsertModel(contentItemVariant);
 
             return await client.UpsertContentItemVariantAsync(identifier, contentItemVariant);
         }
