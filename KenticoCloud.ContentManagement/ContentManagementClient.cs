@@ -44,6 +44,13 @@ namespace KenticoCloud.ContentManagement
             _urlBuilder = new EndpointUrlBuilder(contentManagementOptions);
             _actionInvoker = new ActionInvoker(new ContentManagementHttpClient(), new MessageCreator(contentManagementOptions.ApiKey));
         }
+
+
+        internal ContentManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker)
+        {
+            _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
+            _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
+        }
         
         #region Variants
 
