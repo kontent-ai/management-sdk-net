@@ -34,7 +34,7 @@ namespace KenticoCloud.ContentManagement
         {
             var contentItemVariantUpdateModel = new ContentItemVariantUpsertModel(contentItemVariant);
 
-            return await client.UpsertContentItemVariantAsync(identifier, contentItemVariant);
+            return await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpdateModel);
         }
 
         /// <summary>

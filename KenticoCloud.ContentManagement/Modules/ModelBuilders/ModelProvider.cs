@@ -48,14 +48,14 @@ namespace KenticoCloud.ContentManagement.Modules.ModelBuilders
             return result;
         }
 
-        public ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(ContentItemVariantUpsertModel<T> variant) where T : new()
+        public ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : new()
         {
             var type = typeof(T);
             var nameMapping = PropertyMapper.GetNameMapping(type);
 
             var elements = type.GetProperties()
                 .Where(x => (x.GetMethod?.IsPublic ?? false) && nameMapping.ContainsKey(x.Name))
-                .ToDictionary(x => nameMapping[x.Name], x => x.GetValue(variant.Elements));
+                .ToDictionary(x => nameMapping[x.Name], x => x.GetValue(variantElements));
 
             var result = new ContentItemVariantUpsertModel
             {
