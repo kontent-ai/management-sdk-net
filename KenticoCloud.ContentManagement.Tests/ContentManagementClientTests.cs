@@ -11,17 +11,17 @@ using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
-    public class ContentManagementClientTests
+    public class ContentManagementClientTests : ClientTestsBase
     {
-        private static Guid EXISTING_ITEM_ID = Guid.Parse("3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5");
-        private const string EXISTING_ITEM_CODENAME = "which_brewing_fits_you_";
-        private static Guid EXISTING_LANGUAGE_ID = Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8");
-        private const string EXISTING_LANGUAGE_CODENAME = "es-ES";
-        private const string EXISTING_CONTENT_TYPE_CODENAME = "article";
+        private static ContentManagementClient _client;
 
-        private static Dictionary<string, object> _elements = new Dictionary<string, object> { { "title", "On Roasts" } };
-        private static ContentManagementClient _client = TestUtils.client;
-
+        /// <summary>
+        /// Setup
+        /// </summary>
+        public ContentManagementClientTests()
+        {
+            _client = GetContentManagementClient(TestRunType.MockFromFileSystem);
+        }
 
         #region Item Variant
 
@@ -85,7 +85,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void UpsertVariantAsync_ByExternalId_LanguageCodename_UpdatesVariant()
         {
             var externalId = "348052a5ad8c44ddac1e9683923d74a5";
-            var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
             var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
@@ -107,8 +107,8 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             // Arrange
             var externalId = "d5e050980baa43b085b909cdea4c6d2b";
-            var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            await TestUtils.PrepareTestVariant(EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
             // Test
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
@@ -151,8 +151,8 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             // Arrange
             var externalId = "0220e6ec5b77401ea113b5273c8cdd5e";
-            var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            await TestUtils.PrepareTestVariant(EXISTING_LANGUAGE_CODENAME, _elements, preparedItem); 
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem); 
 
             // Test
             var identifier = ContentItemIdentifier.ByExternalId(externalId);
@@ -226,8 +226,8 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             // Arrange
             var externalId = "f9cfaa3e00f64e22a144fdacf4cba3e5";
-            var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            await TestUtils.PrepareTestVariant(EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
             // Test
             var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
@@ -249,8 +249,8 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void GetContentItemVariantAsync_ByExternalId_ReturnsVariant()
         {
             var externalId = "ad66f70ed9bb4b8694116c9119c4a930";
-            var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            await TestUtils.PrepareTestVariant(EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
             var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
@@ -271,8 +271,8 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void DeleteContentItemVariant_ByExternalId_LanguageId_DeletesVariant()
         {
             var externalId = "90285b1a983c43299638c8a835f16b81";
-            var itemResponse = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            await TestUtils.PrepareTestVariant(EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
+            var itemResponse = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
             var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
@@ -285,8 +285,8 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void DeleteContentItemVariant_ByExternalId_LanguageCodename_DeletesVariant()
         {
             var externalId = "f4fe87222b6b46739bc673f6e5165c12";
-            var itemResponse = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            await TestUtils.PrepareTestVariant(EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
+            var itemResponse = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
             var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
             var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
@@ -365,7 +365,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             // Arrange
             var externalId = "753f6e965f4d49e5a120ca9a23551b10";
-            var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
             var sitemapLocation = new List<SitemapNodeIdentifier>();
@@ -403,7 +403,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             // Arrange
             var externalId = "e5a8de5b584f4182b879c78b696dff09";
-            var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
             var identifier = ContentItemIdentifier.ByExternalId(externalId);
@@ -420,7 +420,7 @@ namespace KenticoCloud.ContentManagement.Tests
         public async void DeleteContentAsync_ByExternalId_DeletesContentItem()
         {
             var externalId = "341bcf72988d49729ec34c8682710536";
-            var itemToDelete = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            var itemToDelete = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             var identifier = ContentItemIdentifier.ByExternalId(externalId);
 
