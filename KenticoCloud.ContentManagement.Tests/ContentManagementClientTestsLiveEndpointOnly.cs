@@ -10,10 +10,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
         /// <summary>
         /// Setup
+        /// Tests must be run only with LiveEndpoint run test type
         /// </summary>
         public ContentManagementClientTestsLiveEndpointOnly()
         {
-            _client = GetContentManagementClient(TestRunType.LiveEndPoint_SaveToFileSystem);
+            _client = GetContentManagementClient(TestRunType.LiveEndPoint);
         }
 
         [Fact]

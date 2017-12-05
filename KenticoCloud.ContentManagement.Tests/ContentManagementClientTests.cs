@@ -20,7 +20,7 @@ namespace KenticoCloud.ContentManagement.Tests
         /// </summary>
         public ContentManagementClientTests()
         {
-            _client = GetContentManagementClient(TestRunType.MockFromFileSystem);
+            _client = GetContentManagementClient(TestRunType.LiveEndPoint_SaveToFileSystem);
         }
 
         #region Item Variant
@@ -120,6 +120,30 @@ namespace KenticoCloud.ContentManagement.Tests
             var responseVariant = await _client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
 
             Assert.False(responseVariant.Item.Id == Guid.Empty);
+
+            // Cleanup
+            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            await _client.DeleteContentItemAsync(itemToClean);
+        }
+
+        [Fact]
+        public async void UpsertVariantAsync_UsingResponseModel_UpdatesVariant()
+        {
+            // Arrange
+            var externalId = "4357b71d21eb45369d54a635faf7672b";
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            var emptyElements = new Dictionary<string, object>();
+            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, emptyElements, preparedItem);
+
+            // Test
+            preparedVariant.Elements = _elements;
+            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            var responseVariant = await _client.UpsertContentItemVariantAsync(identifier, preparedVariant);
+
+            Assert.Equal(_elements["title"], responseVariant.Elements["title"]);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
@@ -358,6 +382,26 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
             Assert.Equal(EXISTING_ITEM_CODENAME, contentItemReponse.Name);
+        }
+
+        [Fact]
+        public async void UpdateContentItemAsynx_UsingResponseModel_UpdatesContentItem()
+        {
+            // Arrange
+            var externalId = "093afb41b0614a908c8734d2bb840210";
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+
+            // Test
+            preparedItem.Name = "EditedItem";
+            var identifier = ContentItemIdentifier.ByExternalId(externalId);
+            var item = _client.UpdateContentItemAsync(identifier, preparedItem);
+
+            var contentItemReponse = await _client.UpdateContentItemAsync(identifier, preparedItem);
+            Assert.Equal("EditedItem", contentItemReponse.Name);
+
+            // Cleanup
+            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            await _client.DeleteContentItemAsync(itemToClean);
         }
 
         [Fact]
