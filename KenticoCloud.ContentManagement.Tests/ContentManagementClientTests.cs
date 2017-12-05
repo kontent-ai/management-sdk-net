@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 using KenticoCloud.ContentManagement.Models.Assets;
@@ -132,7 +133,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
 
-            Assert.Equal(EXISTING_ITEM_ID, responseVariants[1].Item.Id);
+            Assert.Equal(EXISTING_ITEM_ID, responseVariants.ToList()[1].Item.Id);
         }
 
         [Fact]
@@ -142,14 +143,14 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
 
-            Assert.Equal(EXISTING_ITEM_ID, responseVariants[1].Item.Id);
+            Assert.Equal(EXISTING_ITEM_ID, responseVariants.ToList()[1].Item.Id);
         }
 
         [Fact]
         public async void ListContentItemVariantsAsync_ByExternalId_ListsVariants()
         {
             // Arrange
-            var externalId = "3de10976b4b54c488ac30836475d4edc";
+            var externalId = "0220e6ec5b77401ea113b5273c8cdd5e";
             var preparedItem = await TestUtils.PrepareTestItem(EXISTING_CONTENT_TYPE_CODENAME, externalId);
             await TestUtils.PrepareTestVariant(EXISTING_LANGUAGE_CODENAME, _elements, preparedItem); 
 
@@ -157,7 +158,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = ContentItemIdentifier.ByExternalId(externalId);
             var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
 
-            Assert.True(responseVariants.Count > 0);
+            Assert.True(responseVariants.ToList().Count > 0);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);

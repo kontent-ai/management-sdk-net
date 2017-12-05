@@ -53,10 +53,10 @@ namespace KenticoCloud.ContentManagement
         
         #region Variants
 
-        public async Task<List<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
+        public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
