@@ -9,7 +9,6 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
     internal class ContentManagementHttpClient : IContentManagementHttpClient
     {
         private IHttpClient _httpClient;
-
         private IDelay _delay;
 
         public ContentManagementHttpClient(IDelay delay, IHttpClient httpClient)
@@ -32,7 +31,7 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
             while ((int) response.StatusCode == 429)
             {
                 var retryAfter = response.Headers.RetryAfter.Delta ?? TimeSpan.FromSeconds(1);
-                await _delay.DelayByMs(retryAfter);
+                await _delay.DelayByTimeSpan(retryAfter);
 
                 response = await _httpClient.SendAsync(message);
             }
@@ -42,7 +41,8 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
                 return response;
             }
 
-            throw new ContentManagementException(response, await response.Content.ReadAsStringAsync());
+            var content = response.Content;
+            throw content != null ? new ContentManagementException(response, await response.Content.ReadAsStringAsync()) : new ContentManagementException(response, "CM API returned server error.");
         }
 
     }

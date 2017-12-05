@@ -54,7 +54,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var retryDeltaMilliseconds = 1000;
             var retryDelta = System.TimeSpan.FromMilliseconds(retryDeltaMilliseconds);
-            delay.DelayByMs(Arg.Any<System.TimeSpan>()).Returns(Task.CompletedTask);
+            delay.DelayByTimeSpan(Arg.Any<System.TimeSpan>()).Returns(Task.CompletedTask);
             var successfulMessage = new HttpRequestMessage();
             var tooManyRequestsResponse = new HttpResponseMessage { StatusCode = (HttpStatusCode) 429 };
             tooManyRequestsResponse.Headers.RetryAfter = new RetryConditionHeaderValue(retryDelta);
@@ -64,9 +64,8 @@ namespace KenticoCloud.ContentManagement.Tests
             var response = await _client.SendAsync(successfulMessage);
 
             await httpClient.Received(3).SendAsync(successfulMessage);
-            await delay.Received(2).DelayByMs(retryDelta);
+            await delay.Received(2).DelayByTimeSpan(retryDelta);
             Assert.Equal(successResponse, response);
-
         }
     }
 }

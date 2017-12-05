@@ -26,6 +26,7 @@ namespace KenticoCloud.ContentManagement.Models
             {
                 throw new InvalidOperationException("Next page not available.");
             }
+
             var nextPage = await _nextPageRetriever(_continuationToken);
             return new ListingResponseModel<T>(_nextPageRetriever, nextPage.Pagination?.Token, nextPage);
         }

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Identifiers
 {
-    public class Identifier<T>
+    public abstract class Identifier<T>
         where T : Identifier<T>, new()
     {
         [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]

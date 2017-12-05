@@ -21,7 +21,7 @@ namespace KenticoCloud.ContentManagement.Tests
             if (runType != TestRunType.LiveEndPoint)
             {
                 var urlBuilder = new EndpointUrlBuilder(_options);
-                var httpClient = new FileSystemHttpClientMock(runType == TestRunType.MockFromFileSystem);
+                var httpClient = new FileSystemHttpClientMock(runType == TestRunType.LiveEndPoint_SaveToFileSystem);
                 var actionInvoker = new ActionInvoker(httpClient, new MessageCreator(_options.ApiKey));
 
                 return new ContentManagementClient(urlBuilder, actionInvoker);

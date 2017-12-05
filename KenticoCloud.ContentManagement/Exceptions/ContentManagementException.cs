@@ -26,19 +26,19 @@ namespace KenticoCloud.ContentManagement.Exceptions
         /// Initializes a new instance of the <see cref="ContentManagementException"/> class with information from an error response.
         /// </summary>
         /// <param name="response">The unsuccessful response.</param>
-        /// <param name="responseStr">The error response.</param>
-        public ContentManagementException(HttpResponseMessage response, string responseStr)
+        /// <param name="exceptionMessage">The error response.</param>
+        public ContentManagementException(HttpResponseMessage response, string exceptionMessage)
         {
             StatusCode = response.StatusCode;
 
             try
             {
-                var errorModel = JObject.Parse(responseStr).ToObject<ErrorResponseModel>();
+                var errorModel = JObject.Parse(exceptionMessage).ToObject<ErrorResponseModel>();
                 var message = errorModel.Message;
 
                 if (errorModel.ValidationErrors != null)
                 {
-                    var errors = String.Join(Environment.NewLine, errorModel.ValidationErrors.Select(error => error.Message));
+                    var errors = string.Join(Environment.NewLine, errorModel.ValidationErrors.Select(error => error.Message));
 
                     message += $"{Environment.NewLine}Validation errors:{Environment.NewLine}{errors}";
                 }

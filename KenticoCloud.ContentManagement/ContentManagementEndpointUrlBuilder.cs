@@ -44,6 +44,16 @@ namespace KenticoCloud.ContentManagement
             return GetUrl(string.Concat(itemSegment, variantSegment));
         }
 
+        private string GetVariantUrlSegment(LanguageIdentifier identifier)
+        {
+            if (!string.IsNullOrEmpty(identifier.Codename))
+            {
+                return string.Format(URL_TEMPLATE_VARIANT_CODENAME, identifier.Codename);
+            }
+
+            return string.Format(URL_TEMPLATE_VARIANT_ID, identifier.Id);
+        }
+
         #endregion
 
         #region Items
@@ -53,7 +63,7 @@ namespace KenticoCloud.ContentManagement
             return GetUrl(URL_ITEM);
         }
 
-        public string BuildItemsListingUrl(string continuationToken = null)
+        internal string BuildItemsListingUrl(string continuationToken = null)
         {
             return (continuationToken != null) ? GetUrl(URL_ITEM, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_ITEM);
         }
@@ -63,33 +73,6 @@ namespace KenticoCloud.ContentManagement
         {
             var itemSegment = GetItemUrlSegment(identifier);
             return GetUrl(itemSegment);
-        }
-
-        #endregion
-
-        private string GetUrl(string path, params string[] parameters)
-        {
-            var projectSegment = string.Format(URL_TEMPLATE_PROJECT, _options.ProjectId);
-
-            var endpointUrl = string.Format(_options.Endpoint, projectSegment);
-            var url = string.Concat(endpointUrl, path);
-
-            if ((parameters != null) && (parameters.Length > 0))
-            {
-                var joinedQuery = string.Join("&", parameters);
-
-                if (!String.IsNullOrEmpty(joinedQuery))
-                {
-                    url = $"{url}?{joinedQuery}";
-                }
-            }
-
-            if (url.Length > URI_MAX_LENGTH)
-            {
-                throw new UriFormatException("The request url is too long. Split your query into multiple calls.");
-            }
-
-            return url;
         }
 
         private string GetItemUrlSegment(ContentItemIdentifier identifier)
@@ -113,21 +96,9 @@ namespace KenticoCloud.ContentManagement
             throw new ArgumentException("You must provide item's id, codename or externalId");
         }
 
-        private string GetVariantUrlSegment(LanguageIdentifier identifier)
-        {
+        #endregion
 
-            if (identifier.Id != Guid.Empty)
-            {
-                return string.Format(URL_TEMPLATE_VARIANT_ID, identifier.Id);
-            }
-
-            if (!string.IsNullOrEmpty(identifier.Codename))
-            {
-                return string.Format(URL_TEMPLATE_VARIANT_CODENAME, identifier.Codename);
-            }
-
-            return URL_VARIANT;
-        }
+        #region Assets
 
         public string BuildAssetListingUrl(string continuationToken = null)
         {
@@ -148,7 +119,7 @@ namespace KenticoCloud.ContentManagement
 
             if (!string.IsNullOrEmpty(identifier.ExternalId))
             {
-                return GetUrl($"/assets/external-id/{identifier.ExternalId}");
+                return BuildAssetsUrlFromExternalId(identifier.ExternalId);
             }
 
             throw new ArgumentException("You must provide asset's id, or externalId");
@@ -159,9 +130,40 @@ namespace KenticoCloud.ContentManagement
             return GetUrl($"/assets/external-id/{externalId}");
         }
 
+        #endregion
+
+        #region Binary files
+
         public string BuildUploadFileUrl(string fileName)
         {
             return GetUrl($"/files/{fileName}");
+        }
+
+        #endregion
+
+        private string GetUrl(string path, params string[] parameters)
+        {
+            var projectSegment = string.Format(URL_TEMPLATE_PROJECT, _options.ProjectId);
+
+            var endpointUrl = string.Format(_options.Endpoint, projectSegment);
+            var url = string.Concat(endpointUrl, path);
+
+            if ((parameters != null) && (parameters.Length > 0))
+            {
+                var joinedQuery = string.Join("&", parameters);
+
+                if (!string.IsNullOrEmpty(joinedQuery))
+                {
+                    url = $"{url}?{joinedQuery}";
+                }
+            }
+
+            if (url.Length > URI_MAX_LENGTH)
+            {
+                throw new UriFormatException("The request url is too long. Split your query into multiple calls.");
+            }
+
+            return url;
         }
     }
 }
