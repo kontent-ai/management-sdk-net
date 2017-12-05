@@ -157,7 +157,7 @@ The content you are importing will often contain references to other pieces of i
 2. When referencing another piece of content, use its external ID. 
 3. Import your content (use upsert methods with external ID). All references will resolve at the end.
 
-This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. 
+This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. In the example below we import an asset and a content item that uses it: 
 
 ```csharp
 // Upset an asset
@@ -205,7 +205,19 @@ var item = new ContentItemUpsertModel() {
     Type = type 
 };
 
-var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+```
+
+### Adding a content item 
+
+```csharp
+var type = ContentTypeIdentifier.ByCodename("cafe");
+var item = new ContentItemCreateModel() { 
+    Name = "Brno",
+    Type = type 
+};
+
+var responseItem = await client.CreateContentItemAsync(item);
 ```
 
 #### Updating a content item
