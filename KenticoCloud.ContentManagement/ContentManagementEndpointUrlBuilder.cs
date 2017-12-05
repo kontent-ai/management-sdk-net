@@ -77,8 +77,7 @@ namespace KenticoCloud.ContentManagement
 
         private string GetItemUrlSegment(ContentItemIdentifier identifier)
         {
-
-            if (identifier.Id != Guid.Empty)
+            if (identifier.Id != null)
             {
                 return string.Format(URL_TEMPLATE_ITEM_ID, identifier.Id);
             }
@@ -112,7 +111,7 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetsUrl(AssetIdentifier identifier)
         {
-            if (identifier.Id != Guid.Empty)
+            if (identifier.Id != null)
             {
                 return GetUrl($"/assets/{identifier.Id}");
             }
