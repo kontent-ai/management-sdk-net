@@ -166,7 +166,7 @@ var asset = new AssetUpsertModel {
     Descriptions = new List<AssetDescriptionsModel>();
 };
 var externalId = "Ext-Asset-123-png";
-var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
+var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 
 // Upsert a content item
 var sitemapLocations = new List<ManageApiReference>();
@@ -175,7 +175,7 @@ var item = new ContentItemUpsertModel() {
     Name = "Brno", SitemapLocations = sitemapLocations,
     Type = type 
 };
-var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
 
 //Upsert a language variant
 var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = {
@@ -232,7 +232,7 @@ var item = new ContentItemUpdateModel() {
     SitemapLocations = newSitemapLocations
 };
 
-var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
+var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
 ```
 
 #### Viewing a content item
@@ -242,7 +242,7 @@ var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
-var contentItemReponse = await _client.GetContentItemAsync(identifier);
+var contentItemReponse = await client.GetContentItemAsync(identifier);
 ```
 
 #### Listing content items
@@ -318,7 +318,7 @@ var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-var response = await _client.GetContentItemVariantAsync(identifier);
+var response = await client.GetContentItemVariantAsync(identifier);
 ```
 
 #### Listing language variants
@@ -329,7 +329,7 @@ var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 // var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
-var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
+var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 ```
 
 #### Deleting language variants
@@ -371,7 +371,7 @@ var asset = new AssetUpsertModel
 };
 var externalId = "Ext-Asset-123-png";
 
-var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
+var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```
 
 #### Uploading asset from a file system in a single step (?)
@@ -382,7 +382,7 @@ var descriptions = new List<AssetDescriptionsModel>();
 var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 var contentType = "image/png";
 
-var assetResult = await _client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
+var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
 #### Listing assets
@@ -397,7 +397,7 @@ With continuation:
 
 ```csharp
 
-var response = await _client.ListAssetsAsync();
+var response = await client.ListAssetsAsync();
 
 while (true)
 {
