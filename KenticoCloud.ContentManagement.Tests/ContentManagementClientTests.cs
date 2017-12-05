@@ -555,6 +555,34 @@ namespace KenticoCloud.ContentManagement.Tests
             await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
         }
 
+        [Fact]
+        public async void UpdateAssetByIdAsync_ReturnsUpdatedAsset()
+        {
+            var id = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
+            var updatedDescription = new AssetDescriptionsModel()
+            {
+                Language = LanguageIdentifier.DEFAULT_LANGUAGE,
+                Description = "Dancing Goat Café - Los Angeles - UPDATED",
+            };
+            var update = new AssetUpdateModel() { Descriptions = new List<AssetDescriptionsModel>() { updatedDescription } };
+
+            var response = await _client.UpdateAssetAsync(id, update);
+
+            Assert.Equal(response.Id.ToString(), id.Id.ToString());
+        }
+
+
+        [Fact]
+        public async void GetAssetAsync_WhenGivenAssetId_ReturnsGivenAsset()
+        {
+            var id = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
+            
+            var response = await _client.GetAssetAsync(id);
+
+            Assert.Equal(response.Id.ToString(), id.Id.ToString());
+        }
+
+
         #endregion
     }
 }
