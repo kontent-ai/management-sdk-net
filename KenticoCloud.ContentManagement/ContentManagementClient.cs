@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Models;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Models.StronglyTyped;
+using KenticoCloud.ContentManagement.Modules.ModelBuilders;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -17,7 +20,7 @@ namespace KenticoCloud.ContentManagement
 
         private ActionInvoker _actionInvoker;
         private EndpointUrlBuilder _urlBuilder;
-
+        private IModelProvider _modelProvider;
 
         public ContentManagementClient(ContentManagementOptions contentManagementOptions)
         {
@@ -43,6 +46,7 @@ namespace KenticoCloud.ContentManagement
 
             _urlBuilder = new EndpointUrlBuilder(contentManagementOptions);
             _actionInvoker = new ActionInvoker(new ContentManagementHttpClient(), new MessageCreator(contentManagementOptions.ApiKey));
+            _modelProvider = contentManagementOptions.ModelProvider ?? new ModelProvider();
         }
 
 
@@ -84,6 +88,36 @@ namespace KenticoCloud.ContentManagement
         {
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        #endregion
+
+        #region Strongly typed Variants
+
+        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
+        {
+
+            var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
+
+            return response.Select(x => _modelProvider.GetContentItemVariantModel<T>(x)).ToList();
+        }
+
+        public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : new()
+        {
+            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantModel>(endpointUrl, HttpMethod.Get);
+
+            return _modelProvider.GetContentItemVariantModel<T>(response);
+        }
+
+        public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, ContentItemVariantUpsertModel<T> contentItemVariantUpsertModel) where T : new()
+        {
+            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
+            var variantUpsertModel = _modelProvider.GetContentItemVariantUpsertModel(contentItemVariantUpsertModel);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
+
+            return _modelProvider.GetContentItemVariantModel<T>(response);
         }
 
         #endregion
