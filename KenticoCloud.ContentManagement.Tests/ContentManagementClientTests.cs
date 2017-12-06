@@ -20,7 +20,7 @@ namespace KenticoCloud.ContentManagement.Tests
         /// </summary>
         public ContentManagementClientTests()
         {
-            _client = GetContentManagementClient(TestRunType.LiveEndPoint_SaveToFileSystem);
+            _client = GetContentManagementClient(TestRunType.MockFromFileSystem);
         }
 
         #region Item Variant
