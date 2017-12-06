@@ -1,0 +1,78 @@
+﻿using System.Collections.Generic;
+using System.Reflection;
+using KenticoCloud.ContentManagement.Modules.ModelBuilders;
+using KenticoCloud.ContentManagement.Tests.Data;
+using Newtonsoft.Json;
+using NSubstitute;
+using Xunit;
+
+namespace KenticoCloud.ContentManagement.Tests.ModelBuildersTests
+{
+    public class PropertyMapperTests
+    {
+        [Fact]
+        public void GetNameMapping_ReturnsCorrectNames()
+        {
+            var expected = new Dictionary<string, string>
+            {
+                { "TextElement", "text_element" },
+                { "Number", "number_element" },
+                { "DateTimeElement", "datetime_element" },
+                { "UrlSlugElement", "urlslug_element" },
+                { "RichTextElement", "richtext_element" },
+                { "AssetElement", "asset_element" },
+                { "ModularContentElement", "modular_content_element" },
+                { "MultipleChoiceElementCheck", "multiplechoice_element" },
+                { "TaxonomyElement", "taxonomygroup1" }
+            };
+
+            var actual = new PropertyMapper().GetNameMapping(typeof(ComplexTestModel));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("TextElement", "text_element", "text_element", true)]
+        public void IsMatch_WithJsonProperty_ReturnsCorrectResult(string name, string codename, string elementName, bool expected)
+        {
+            var propertyInfo = Substitute.For<PropertyInfo>();
+            var attr = new JsonPropertyAttribute(codename);
+            propertyInfo.Name.Returns(name);
+            propertyInfo.GetCustomAttributes(typeof(JsonPropertyAttribute)).Returns(new []{attr});
+
+            var actual = new PropertyMapper().IsMatch(propertyInfo, elementName);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("text_element")]
+        [InlineData("rich_text_element")]
+        public void IsMatch_WithJsonIgnore_ReturnsFalse(string elementName)
+        {
+            var propertyInfo = Substitute.For<PropertyInfo>();
+            var attr = new JsonIgnoreAttribute();
+            propertyInfo.GetCustomAttributes(typeof(JsonIgnoreAttribute)).Returns(new[] { attr });
+
+            var actual = new PropertyMapper().IsMatch(propertyInfo, elementName);
+
+            Assert.False(actual);
+        }
+
+        [Theory]
+        [InlineData("TextElement", "text_element", true)]
+        [InlineData("TextElement", "textelement", true)]
+        [InlineData("Textelement", "textelement", true)]
+        [InlineData("TextLement", "text_element", false)]
+        public void IsMatch_WithoutJsonProperty_ReturnsCorrectResult(string name, string elementName, bool expected)
+        {
+            var propertyInfo = Substitute.For<PropertyInfo>();
+            propertyInfo.Name.Returns(name);
+
+            var actual = new PropertyMapper().IsMatch(propertyInfo, elementName);
+
+            Assert.Equal(expected, actual);
+        }
+
+    }
+}

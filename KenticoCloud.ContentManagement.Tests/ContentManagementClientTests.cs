@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
-
+using KenticoCloud.ContentManagement.Models.StronglyTyped;
+using KenticoCloud.ContentManagement.Modules.ModelBuilders;
+using KenticoCloud.ContentManagement.Tests.Data;
+using NSubstitute;
 using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests
@@ -141,7 +144,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var responseVariant = await _client.UpsertContentItemVariantAsync(identifier, preparedVariant);
+            var responseVariant = await _client.UpsertContentItemVariantAsync(identifier, contentItemVariant: preparedVariant);
 
             Assert.Equal(_elements["title"], responseVariant.Elements["title"]);
 
@@ -688,5 +691,51 @@ namespace KenticoCloud.ContentManagement.Tests
 
 
         #endregion
+
+        [Fact]
+        public async Task ListStronglyTypedContentItemVariantsAsync_CallsModelProvider()
+        {
+            var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
+            var modelProvider = Substitute.For<IModelProvider>();
+            modelProvider.GetContentItemVariantModel<ComplexTestModel>(Arg.Any<ContentItemVariantModel>())
+                .Returns(new ContentItemVariantModel<ComplexTestModel>());
+            var client = GetContentManagementClient(TestRunType.LiveEndPoint_SaveToFileSystem, modelProvider);
+
+            var response = await client.ListContentItemVariantsAsync<ComplexTestModel>(identifier);
+
+            Assert.NotNull(response);
+            modelProvider.Received(response.Count).GetContentItemVariantModel<ComplexTestModel>(Arg.Any<ContentItemVariantModel>());
+        }
+
+        [Fact]
+        public async Task GetStronglyTypedContentItemVariantAsync_CallsModelProvider()
+        {
+            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var modelProvider = Substitute.For<IModelProvider>();
+            modelProvider.GetContentItemVariantModel<ComplexTestModel>(Arg.Any<ContentItemVariantModel>())
+                .Returns(new ContentItemVariantModel<ComplexTestModel>());
+            var client = GetContentManagementClient(TestRunType.LiveEndPoint_SaveToFileSystem, modelProvider);
+
+            var response = await client.GetContentItemVariantAsync<ComplexTestModel>(identifier);
+
+            Assert.NotNull(response);
+            modelProvider.Received(1).GetContentItemVariantModel<ComplexTestModel>(Arg.Any<ContentItemVariantModel>());
+        }
+
+        [Fact]
+        public async Task UpsertStronglyTypedContentItemVariantAsync_CallsModelProvider()
+        {
+            var elements = new SimpleTestModel {Title = "On Roasts" };
+            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            var result = await _client.UpsertContentItemVariantAsync(identifier, elements);
+
+            Assert.NotNull(result);
+            Assert.Equal(result.Elements.Title, elements.Title);
+        }
     }
 }

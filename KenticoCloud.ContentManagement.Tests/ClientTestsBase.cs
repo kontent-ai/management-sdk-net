@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
+using KenticoCloud.ContentManagement.Modules.ModelBuilders;
 using KenticoCloud.ContentManagement.Tests.Mocks;
 
 namespace KenticoCloud.ContentManagement.Tests
@@ -21,7 +22,7 @@ namespace KenticoCloud.ContentManagement.Tests
         protected const string EXISTING_CONTENT_TYPE_CODENAME = "article";
         protected static Dictionary<string, object> _elements = new Dictionary<string, object> { { "title", "On Roasts" } };
 
-        internal static ContentManagementClient GetContentManagementClient(TestRunType runType)
+        internal static ContentManagementClient GetContentManagementClient(TestRunType runType, IModelProvider modelProvider = null)
         {
             if (runType != TestRunType.LiveEndPoint)
             {
@@ -29,7 +30,7 @@ namespace KenticoCloud.ContentManagement.Tests
                 var httpClient = new FileSystemHttpClientMock(runType == TestRunType.LiveEndPoint_SaveToFileSystem);
                 var actionInvoker = new ActionInvoker(httpClient, new MessageCreator(_options.ApiKey));
 
-                return new ContentManagementClient(urlBuilder, actionInvoker);
+                return new ContentManagementClient(urlBuilder, actionInvoker, modelProvider);
             }
 
             return new ContentManagementClient(_options);

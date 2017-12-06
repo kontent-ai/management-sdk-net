@@ -49,10 +49,11 @@ namespace KenticoCloud.ContentManagement
             _modelProvider = contentManagementOptions.ModelProvider ?? new ModelProvider();
         }
 
-        internal ContentManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker)
+        internal ContentManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
         {
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
             _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
+            _modelProvider = modelProvider ?? new ModelProvider();
         }
         
         #region Variants
