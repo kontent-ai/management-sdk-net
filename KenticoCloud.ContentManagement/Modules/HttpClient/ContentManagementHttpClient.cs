@@ -8,6 +8,8 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
     internal class ContentManagementHttpClient : IContentManagementHttpClient
     {
+        private const int HTTP_CODE_TOO_MANY_REQUESTS = 429;
+
         private IHttpClient _httpClient;
         private IDelay _delay;
 
@@ -28,7 +30,7 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
         {
             var response = await _httpClient.SendAsync(message);
 
-            while ((int) response.StatusCode == 429)
+            while ((int)response.StatusCode == HTTP_CODE_TOO_MANY_REQUESTS)
             {
                 var retryAfter = response.Headers.RetryAfter.Delta ?? TimeSpan.FromSeconds(1);
                 await _delay.DelayByTimeSpan(retryAfter);
@@ -42,7 +44,10 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
             }
 
             var content = response.Content;
-            throw content != null ? new ContentManagementException(response, await response.Content.ReadAsStringAsync()) : new ContentManagementException(response, "CM API returned server error.");
+
+            throw (content != null) ?
+                new ContentManagementException(response, await response.Content.ReadAsStringAsync()) :
+                new ContentManagementException(response, "CM API returned server error.");
         }
 
     }

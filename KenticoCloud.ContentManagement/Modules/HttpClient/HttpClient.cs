@@ -5,23 +5,11 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
     internal class HttpClient : IHttpClient
     {
-        private static System.Net.Http.HttpClient _baseClient;
-
-        private static System.Net.Http.HttpClient BaseClient
+        private System.Net.Http.HttpClient _baseClient = new System.Net.Http.HttpClient();
+        
+        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
-            get
-            {
-                if (_baseClient == null)
-                {
-                    _baseClient = new System.Net.Http.HttpClient();
-                }
-                return _baseClient;
-            }
-        }
-
-        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
-        {
-            return BaseClient.SendAsync(request);
+            return await _baseClient.SendAsync(request);
         }
     }
 }

@@ -10,17 +10,17 @@ namespace KenticoCloud.ContentManagement.Models
     /// </summary>
     public class ListingResponseModel<T> : IEnumerable<T>
     {
-        private readonly IEnumerable<T> _elements;
+        private readonly IEnumerable<T> _result;
 
         private readonly string _continuationToken;
 
         private readonly Func<string, Task<IListingResponse<T>>> _nextPageRetriever;
 
-        internal ListingResponseModel(Func<string, Task<IListingResponse<T>>> retriever, string continuationToken, IEnumerable<T> elements)
+        internal ListingResponseModel(Func<string, Task<IListingResponse<T>>> retriever, string continuationToken, IEnumerable<T> result)
         {
             _nextPageRetriever = retriever;
             _continuationToken = continuationToken;
-            _elements = elements;
+            _result = result;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace KenticoCloud.ContentManagement.Models
         /// <returns>The <see cref="IEnumerator{T}"/> instance that can be used to iterate through the collection.</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return _elements.GetEnumerator();
+            return _result.GetEnumerator();
         }
     }
 }

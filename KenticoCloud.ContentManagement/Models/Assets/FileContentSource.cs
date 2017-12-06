@@ -26,7 +26,9 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         /// </summary>
         public string FileName { get; set; }
 
-        private FileContentSource() { }
+        private FileContentSource()
+        {
+        }
 
         /// <summary>
         /// Gets an open stream for the file data.

@@ -6,7 +6,7 @@
     public class ContentManagementOptions
     {
         /// <summary>
-        /// Gets or sets the Production endpoint address.
+        /// Gets or sets the Production endpoint address. Optional, defaults to "https://manage.kenticocloud.com/{0}".
         /// </summary>
         public string Endpoint { get; set; } = "https://manage.kenticocloud.com/{0}";
 

@@ -45,14 +45,14 @@ namespace KenticoCloud.ContentManagement
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="descriptions">Represents description for individual language.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
-        public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, List<AssetDescriptionsModel> descriptions)
+        public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, List<AssetDescription> descriptions)
         {
             var fileResult = await client.UploadFileAsync(fileContent);
 
             var asset = new AssetUpsertModel
             {
                 FileReference = fileResult,
-                Descriptions = new List<AssetDescriptionsModel>()
+                Descriptions = new List<AssetDescription>()
             };
 
             var response = await client.CreateAssetAsync(asset);
@@ -68,14 +68,14 @@ namespace KenticoCloud.ContentManagement
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="descriptions">Represents description for individual language.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
-        public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this ContentManagementClient client, string externalId, FileContentSource fileContent, List<AssetDescriptionsModel> descriptions)
+        public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this ContentManagementClient client, string externalId, FileContentSource fileContent, List<AssetDescription> descriptions)
         {
             var fileResult = await client.UploadFileAsync(fileContent);
 
             var asset = new AssetUpsertModel
             {
                 FileReference = fileResult,
-                Descriptions = new List<AssetDescriptionsModel>()
+                Descriptions = new List<AssetDescription>()
             };
 
             var response = await client.UpsertAssetByExternalIdAsync(externalId, asset);

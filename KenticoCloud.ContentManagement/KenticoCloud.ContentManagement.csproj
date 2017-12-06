@@ -2,6 +2,26 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Kentico Software</Authors>
+    <Company>Kentico Software</Company>
+    <Product>Kentico Cloud</Product>
+    <Description>Kentico Cloud Content Management SDK</Description>
+    <Copyright>© 2017 Kentico Software. All rights reserved.</Copyright>
+    <PackageLicenseUrl>https://github.com/Kentico/content-management-sdk-net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/Kentico/content-management-sdk-net</PackageProjectUrl>
+    <PackageIconUrl>http://kentico.com/favicon.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Kentico/content-management-sdk-net.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>kentico;mvc;aspnet;aspnetmvc</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
   </PropertyGroup>
 
   <ItemGroup>

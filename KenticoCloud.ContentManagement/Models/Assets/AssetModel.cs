@@ -38,13 +38,13 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         /// Gets or sets the file reference of the the asset".
         /// </summary>
         [JsonProperty("file_reference")]
-        public FileReferenceModel FileReference { get; set; }
+        public FileReference FileReference { get; set; }
 
         /// <summary>
         /// Gets or sets the descriptions of the asset.
         /// </summary>
         [JsonProperty("descriptions")]
-        public IEnumerable<AssetDescriptionsModel> Descriptions { get; set; }
+        public IEnumerable<AssetDescription> Descriptions { get; set; }
 
         /// <summary>
         /// Gets or sets the external id of the asset.
