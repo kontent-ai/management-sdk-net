@@ -5,7 +5,7 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
     internal class Delay: IDelay
     {
-        public async Task DelayByMs(TimeSpan delay)
+        public async Task DelayByTimeSpan(TimeSpan delay)
         {
             await Task.Delay(delay);
         }

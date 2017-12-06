@@ -2,7 +2,7 @@
 
 namespace KenticoCloud.ContentManagement.Models.Identifiers
 {
-    public class IdentifierWithExternalId<T> : Identifier<T>
+    public abstract class IdentifierWithExternalId<T> : Identifier<T>
         where T : IdentifierWithExternalId<T>, new()
     {
         [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]

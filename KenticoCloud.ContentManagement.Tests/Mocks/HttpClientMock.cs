@@ -39,13 +39,12 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
         public HttpClientMock SetUpGetItemToFail()
         {
-
             mockHandler.When($"{_endpointUrl}/items/*").With(matcher => matcher.Method == HttpMethod.Get).Respond(x =>
             {
                 lastMessage = x;
                 return new HttpResponseMessage
                 {
-                    StatusCode = System.Net.HttpStatusCode.NotFound
+                    StatusCode = HttpStatusCode.NotFound
 
                 };
             });

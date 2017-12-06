@@ -16,7 +16,7 @@ namespace KenticoCloud.ContentManagement
 {
     public sealed class ContentManagementClient
     {
-        const int MAX_FILE_SIZE_MB = 100;
+        private const int MAX_FILE_SIZE_MB = 100;
 
         private ActionInvoker _actionInvoker;
         private EndpointUrlBuilder _urlBuilder;
@@ -36,7 +36,7 @@ namespace KenticoCloud.ContentManagement
 
             if (!Guid.TryParse(contentManagementOptions.ProjectId, out Guid projectIdGuid))
             {
-                throw new ArgumentException("Provided string is not a valid project identifier ({ProjectId}). Haven't you accidentally passed the Preview API key instead of the project identifier?", nameof(contentManagementOptions.ProjectId));
+                throw new ArgumentException($"Provided string is not a valid project identifier ({contentManagementOptions.ProjectId}). Haven't you accidentally passed the Preview API key instead of the project identifier?", nameof(contentManagementOptions.ProjectId));
             }
 
             if (string.IsNullOrEmpty(contentManagementOptions.ApiKey))
@@ -49,7 +49,6 @@ namespace KenticoCloud.ContentManagement
             _modelProvider = contentManagementOptions.ModelProvider ?? new ModelProvider();
         }
 
-
         internal ContentManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker)
         {
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
@@ -58,11 +57,10 @@ namespace KenticoCloud.ContentManagement
         
         #region Variants
 
-        public async Task<List<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
+        public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
         {
-
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
@@ -75,11 +73,10 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
-        public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpsertModel contentItemVariantUpdateModel)
-        {
-
+        public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpsertModel contentItemVariantUpsertModel)
+        { 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpdateModel);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpsertModel);
 
             return response;
         }
@@ -156,9 +153,9 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
-        public async Task DeleteContentItemAsync(ContentItemIdentifier contentItem)
+        public async Task DeleteContentItemAsync(ContentItemIdentifier identifier)
         {
-            var endpointUrl = _urlBuilder.BuildItemUrl(contentItem);
+            var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
 
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
@@ -233,13 +230,13 @@ namespace KenticoCloud.ContentManagement
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetModel>(
                 endpointUrl,
                 HttpMethod.Put,
-                // TODO - Endpoint currently requires external ID in both model and URL, this is a bug
                 new AssetUpsertServerModel
                 {
                     Descriptions = asset.Descriptions,
                     FileReference = asset.FileReference,
                     ExternalId = externalId
                 }
+
             );
 
             return response;
@@ -252,9 +249,6 @@ namespace KenticoCloud.ContentManagement
         /// <summary>
         /// Uploads the given file.
         /// </summary>
-        /// <param name="stream">File stream with the binary file data.</param>
-        /// <param name="fileName">The name of the uploaded binary file. It will be used for the asset name when creating an asset. Example: which-brewing-fits-you-1080px.jpg.</param>
-        /// <param name="contentType">Specifies the media type of the binary data. Example: image/jpeg, application/zip.</param>
         public async Task<FileReferenceModel> UploadFileAsync(FileContentSource fileContent)
         {
             var stream = fileContent.OpenReadStream();

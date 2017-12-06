@@ -8,7 +8,7 @@
 ## Summary
 
 The Kentico Cloud Content Management .NET SDK is a client library used for managing content in Kentico Cloud. It provides read/write access to your Kentico Cloud projects.  
-You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/KenticoCloud.Delivery) to migrate your existing content into your Kentico Cloud project or update content in your content items. 
+You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/KenticoCloud.Delivery) to migrate existing content into your Kentico Cloud project or update content in your content items. You can import content items, their language variants and assets.
 
 The Content Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
 
@@ -22,7 +22,7 @@ You also need to prepare the structure of your Kentico Cloud project before impo
 
 ## Using the ContentManagementClient
 
-The `ContentManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content in your Kentico Cloud projects. 
+The `ContentManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants and assets in your Kentico Cloud projects. 
 
 To create an instance of the class, you need to provide a [project ID](https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id) and a valid [Content Management API Key](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#importing-content-items).
 
@@ -166,7 +166,7 @@ var asset = new AssetUpsertModel {
     Descriptions = new List<AssetDescriptionsModel>();
 };
 var externalId = "Ext-Asset-123-png";
-var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
+var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 
 // Upsert a content item
 var sitemapLocations = new List<ManageApiReference>();
@@ -175,7 +175,7 @@ var item = new ContentItemUpsertModel() {
     Name = "Brno", SitemapLocations = sitemapLocations,
     Type = type 
 };
-var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
 
 //Upsert a language variant
 var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = {
@@ -232,7 +232,7 @@ var item = new ContentItemUpdateModel() {
     SitemapLocations = newSitemapLocations
 };
 
-var contentItemReponse = await _client.UpdateContentItemAsync(identifier, item);
+var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
 ```
 
 #### Viewing a content item
@@ -242,7 +242,7 @@ var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
-var contentItemReponse = await _client.GetContentItemAsync(identifier);
+var contentItemReponse = await client.GetContentItemAsync(identifier);
 ```
 
 #### Listing content items
@@ -318,7 +318,7 @@ var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-var response = await _client.GetContentItemVariantAsync(identifier);
+var response = await client.GetContentItemVariantAsync(identifier);
 ```
 
 #### Listing language variants
@@ -329,7 +329,7 @@ var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 // var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
-var responseVariants = await _client.ListContentItemVariantsAsync(identifier);
+var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 ```
 
 #### Deleting language variants
@@ -371,7 +371,7 @@ var asset = new AssetUpsertModel
 };
 var externalId = "Ext-Asset-123-png";
 
-var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
+var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```
 
 #### Uploading asset from a file system in a single step (?)
@@ -382,7 +382,7 @@ var descriptions = new List<AssetDescriptionsModel>();
 var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 var contentType = "image/png";
 
-var assetResult = await _client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
+var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
 #### Listing assets
@@ -397,7 +397,7 @@ With continuation:
 
 ```csharp
 
-var response = await _client.ListAssetsAsync();
+var response = await client.ListAssetsAsync();
 
 while (true)
 {
