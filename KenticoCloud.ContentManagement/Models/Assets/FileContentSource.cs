@@ -17,20 +17,21 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         internal bool CreatesNewStream { get; private set; }
 
         /// <summary>
-        /// Type of the file content. e.g. "image/jpeg"
+        /// Gets or sets the media type of the asset, for example "image/jpeg".
         /// </summary>
         public string ContentType { get; set; }
 
         /// <summary>
-        /// File name
+        /// Gets or sets the name of the file/
         /// </summary>
         public string FileName { get; set; }
 
         private FileContentSource() { }
 
         /// <summary>
-        /// Gets an open stream for the file data
+        /// Gets an open stream for the file data.
         /// </summary>
+        /// <returns>The <see cref="Stream"/> instance that represents opened stream.</returns>
         public Stream OpenReadStream()
         {
             if (Stream != null)
@@ -51,6 +52,12 @@ namespace KenticoCloud.ContentManagement.Models.Assets
             throw new InvalidOperationException("File content source does not have any source set.");
         }
 
+        /// <summary>
+        /// Creates content source file.
+        /// </summary>
+        /// <param name="data">Binary data of the file.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="contentType">Gets or sets the media type of the asset, for example "image/jpeg.</param>
         public FileContentSource(byte[] data, string fileName, string contentType)
         {
             if (data == null)
@@ -74,7 +81,11 @@ namespace KenticoCloud.ContentManagement.Models.Assets
             CreatesNewStream = true;
         }
 
-
+        /// <summary>
+        /// Creates content source file.
+        /// </summary>
+        /// <param name="filePath">Path to file.</param>
+        /// <param name="contentType">Gets or sets the media type of the asset, for example "image/jpeg.</param>
         public FileContentSource(string filePath, string contentType)
         {
             if (String.IsNullOrEmpty(filePath))
@@ -94,6 +105,12 @@ namespace KenticoCloud.ContentManagement.Models.Assets
             CreatesNewStream = true;
         }
 
+        /// <summary>
+        /// Creates content source file.
+        /// </summary>
+        /// <param name="stream">Stream of the input data</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="contentType">Gets or sets the media typ
         public FileContentSource(Stream stream, string fileName, string contentType)
         {
             if (stream == null)

@@ -17,6 +17,7 @@ namespace KenticoCloud.ContentManagement
         /// <param name="client">Content management client instance.</param>
         /// <param name="identifier">Identifies which content item will be updated. </param>
         /// <param name="contentItem">Specifies data for updated content item.</param>
+        /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
         public static async Task<ContentItemModel> UpdateContentItemAsync(this ContentManagementClient client, ContentItemIdentifier identifier, ContentItemModel contentItem)
         {
             var contentItemUpdateModel = new ContentItemUpdateModel(contentItem);
@@ -25,11 +26,12 @@ namespace KenticoCloud.ContentManagement
         }
 
         /// <summary>
-        /// Upserts the given content item variant.
+        /// Creates or updates the given content item variant.
         /// </summary>
         /// <param name="client">Content management client instance.</param>
-        /// <param name="identifier">Identifies which content item variant will be upserted. </param>
-        /// <param name="contentItemVariant">Specifies data for upserted content item variant.</param>
+        /// <param name="identifier">Identifies which content item variant will be created or updated. </param>
+        /// <param name="contentItemVariant">Specifies data for created ur updated content item variant.</param>
+        /// <returns>The <see cref="ContentItemVariantModel"/> instance that represents created or updated content item variant.</returns>
         public static async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(this ContentManagementClient client, ContentItemVariantIdentifier identifier, ContentItemVariantModel contentItemVariant)
         {
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel(contentItemVariant);
@@ -38,10 +40,11 @@ namespace KenticoCloud.ContentManagement
         }
 
         /// <summary>
-        /// Uploads the given file from a file system.
+        /// Creates asset.
         /// </summary>
-        /// <param name="client">Content management client instance.</param>
-        /// <param name="descriptions">Asset descriptions.</param>
+        /// <param name="fileContent">Represents the content of the file.</param>
+        /// <param name="descriptions">Represents description for individual language.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
         public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, List<AssetDescriptionsModel> descriptions)
         {
             var fileResult = await client.UploadFileAsync(fileContent);
@@ -58,12 +61,13 @@ namespace KenticoCloud.ContentManagement
         }
 
         /// <summary>
-        /// Uploads the given file from a file system.
+        /// Creates or updates the given asset.
         /// </summary>
         /// <param name="client">Content management client instance.</param>
-        /// <param name="externalId"></param>
-        /// <param name="fileContent">File content.</param>
-        /// <param name="descriptions">Asset descriptions.</param>
+        /// <param name="externalId">The external identifier of the asset.</param>
+        /// <param name="fileContent">Represents the content of the file.</param>
+        /// <param name="descriptions">Represents description for individual language.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
         public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this ContentManagementClient client, string externalId, FileContentSource fileContent, List<AssetDescriptionsModel> descriptions)
         {
             var fileResult = await client.UploadFileAsync(fileContent);
