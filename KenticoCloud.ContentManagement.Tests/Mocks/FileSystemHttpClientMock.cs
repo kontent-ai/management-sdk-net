@@ -49,7 +49,6 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             }
             else
             {
-                // TODO - Handle deserialization better, it now hangs on 
                 var serializedResponse = File.ReadAllText(Path.Combine(folderPath, "response.json"));
                 var serializedResponseContent = File.ReadAllText(Path.Combine(folderPath, "response_content.json"));
 
