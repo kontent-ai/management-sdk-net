@@ -11,6 +11,9 @@ using KenticoCloud.ContentManagement.Models.Items;
 
 namespace KenticoCloud.ContentManagement
 {
+    /// <summary>
+    /// Executes requests against the Kentico Cloud Content Management API.
+    /// </summary>
     public sealed class ContentManagementClient
     {
         private const int MAX_FILE_SIZE_MB = 100;
@@ -18,7 +21,10 @@ namespace KenticoCloud.ContentManagement
         private ActionInvoker _actionInvoker;
         private EndpointUrlBuilder _urlBuilder;
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentManagementClient"/> class for managing content of the specified project.
+        /// </summary>
+        /// <param name="contentManagementOptions">The settings of the Kentico Cloud project.</param>
         public ContentManagementClient(ContentManagementOptions contentManagementOptions)
         {
             if (contentManagementOptions == null)
@@ -50,9 +56,14 @@ namespace KenticoCloud.ContentManagement
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
             _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
         }
-        
+
         #region Variants
 
+        /// <summary>
+        /// Returns strongly typed listing of content item variants for specified content item.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
+        /// <returns>The <see cref="IEnumerable{ContentItemVariantModel}"/> instance that represents the listing of content item variants.</returns>
         public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
@@ -61,6 +72,11 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Returns strongly typed content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant.</param>
+        /// <returns>The <see cref="ContentItemVariantModel"/> instance that represents content item variant.</returns>
         public async Task<ContentItemVariantModel> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
@@ -69,6 +85,12 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Inserts or updates given content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant.</param>
+        /// <param name="contentItemVariantUpsertModel">Represents inserted or updated content item variant.</param>
+        /// <returns>The <see cref="ContentItemVariantModel"/> instance that represents inserted or updated content item variant.</returns>
         public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpsertModel contentItemVariantUpsertModel)
         { 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
@@ -77,6 +99,10 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Deletes given content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant.</param>
         public async Task DeleteContentItemVariantAsync(ContentItemVariantIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
@@ -87,6 +113,12 @@ namespace KenticoCloud.ContentManagement
 
         #region Items
 
+        /// <summary>
+        /// Updates given content item.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
+        /// <param name="contentItem">Represents updated content item.</param>
+        /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
         public async Task<ContentItemModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
@@ -95,6 +127,12 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Inserts or updates content item according to external identifier.
+        /// </summary>
+        /// <param name="externalId">The external identifier of the content item.</param>
+        /// <param name="contentItem">Represents inserted or updated content item.</param>
+        /// <returns>The <see cref="ContentItemModel"/> instance that represents inserted or updated content item.</returns>
         public async Task<ContentItemModel> UpsertContentItemByExternalIdAsync(string externalId, ContentItemUpsertModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(ContentItemIdentifier.ByExternalId(externalId));
@@ -103,6 +141,11 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Creates content item.
+        /// </summary>
+        /// <param name="contentItem">Represents content item which will be created.</param>
+        /// <returns>The <see cref="ContentItemModel"/> instance that represents created content item.</returns>
         public async Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
@@ -111,6 +154,11 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Returns strongly typed content item.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
+        /// <returns>The <see cref="ContentItemModel"/> instance that represents requested content item.</returns>
         public async Task<ContentItemModel> GetContentItemAsync(ContentItemIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
@@ -119,6 +167,10 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Deletes given content item.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
         public async Task DeleteContentItemAsync(ContentItemIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
@@ -126,12 +178,12 @@ namespace KenticoCloud.ContentManagement
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
 
-        private async Task<IListingResponse<ContentItemModel>> GetNextItemsListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-        }
-
+        /// <summary>
+        /// Returns strongly typed listing of content items. 
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
+        /// For getting next page use <see cref="GetNextItemsListingPageAsync"/>,
+        /// </summary>
+        /// <returns>The <see cref="ListingResponseModel{ContentItemModel}"/> instance that represents the listing of content items.</returns>
         public async Task<ListingResponseModel<ContentItemModel>> ListContentItemsAsync()
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
@@ -140,18 +192,27 @@ namespace KenticoCloud.ContentManagement
             return new ListingResponseModel<ContentItemModel>(GetNextItemsListingPageAsync, response.Pagination?.Token, response.Items);
         }
 
+        /// <summary>
+        /// Returns next page of strongly typed listing of content items for specified continuation token.
+        /// </summary>
+        /// <param name="continuationToken">Identifier of the next page of results. See also <see cref="PaginationResponseModel"/></param>
+        /// <returns>The <see cref="IListingResponse{ContentItemModel}"/> instance that represents the next page of content items.</returns>
+        private async Task<IListingResponse<ContentItemModel>> GetNextItemsListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        }
+
         #endregion
 
         #region Assets
 
-        private async Task<IListingResponse<AssetModel>> GetNextAssetListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildAssetListingUrl(continuationToken);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetModel>>(endpointUrl, HttpMethod.Get);
-
-            return response;
-        }
-
+        /// <summary>
+        /// Returns strongly typed listing of assets.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
+        /// For getting next page use <see cref="GetNextAssetListingPageAsync"/>,
+        /// </summary>
+        /// <returns>The <see cref="ListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
         public async Task<ListingResponseModel<AssetModel>> ListAssetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetListingUrl();
@@ -160,6 +221,25 @@ namespace KenticoCloud.ContentManagement
             return new ListingResponseModel<AssetModel>(GetNextAssetListingPageAsync, response.Pagination?.Token, response.Assets);
         }
 
+
+        /// <summary>
+        /// Returns next page of strongly typed listing of assets for specified continuation token.
+        /// </summary>
+        /// <param name="continuationToken">Identifier of the next page of results. See also <see cref="PaginationResponseModel"/></param>
+        /// <returns>The <see cref="IListingResponse{AssetModel}"/> instance that represents the next page of assets.</returns>
+        private async Task<IListingResponse<AssetModel>> GetNextAssetListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildAssetListingUrl(continuationToken);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetModel>>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Returns strongly typed asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
         public async Task<AssetModel> GetAssetAsync(AssetIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
@@ -168,20 +248,35 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
-        public async Task<AssetModel> UpdateAssetAsync(AssetIdentifier identifier, AssetUpdateModel update)
+        /// <summary>
+        /// Updates given asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <param name="asset">Represents updated asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
+        public async Task<AssetModel> UpdateAssetAsync(AssetIdentifier identifier, AssetUpdateModel asset)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, update);
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
 
             return response;
         }
 
+        /// <summary>
+        /// Deletes given asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
         public async Task DeleteAssetAsync(AssetIdentifier identifier)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
-        
+
+        /// <summary>
+        /// Creates asset.
+        /// </summary>
+        /// <param name="asset">Represents asset which will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
         public async Task<AssetModel> CreateAssetAsync(AssetUpsertModel asset)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
@@ -190,6 +285,12 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
+        /// <summary>
+        /// Inserts or updates asset according to external identifier.
+        /// </summary>
+        /// <param name="externalId">The external identifier of the content item.</param>
+        /// <param name="asset">Represents asset which will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
         public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
@@ -215,6 +316,9 @@ namespace KenticoCloud.ContentManagement
         /// <summary>
         /// Uploads the given file.
         /// </summary>
+        /// <param name="fileContent">Represents the content of the file</param>
+        /// <param name="asset">Represents asset which will be created.</param>
+        /// <returns>The <see cref="FileReferenceModel"/> instance that represents the reference to created file.</returns>
         public async Task<FileReferenceModel> UploadFileAsync(FileContentSource fileContent)
         {
             var stream = fileContent.OpenReadStream();

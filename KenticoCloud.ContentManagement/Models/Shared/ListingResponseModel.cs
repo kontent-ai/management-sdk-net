@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace KenticoCloud.ContentManagement.Models
 {
+    /// <summary>
+    /// Represents listing response.
+    /// </summary>
     public class ListingResponseModel<T> : IEnumerable<T>
     {
         private readonly IEnumerable<T> _elements;
@@ -20,6 +23,10 @@ namespace KenticoCloud.ContentManagement.Models
             _elements = elements;
         }
 
+        /// <summary>
+        /// Returns strongly typed listing response model.
+        /// </summary>
+        /// <returns>The <see cref="ListingResponseModel{T}"/> instance that represents the listing provided type.</returns>
         public async Task<ListingResponseModel<T>> GetNextPage()
         {
             if (_continuationToken == null)
@@ -31,6 +38,10 @@ namespace KenticoCloud.ContentManagement.Models
             return new ListingResponseModel<T>(_nextPageRetriever, nextPage.Pagination?.Token, nextPage);
         }
 
+        /// <summary>
+        /// Returns existence of next page.
+        /// </summary>
+        /// <returns>The <see cref="bool"/>representing existence of the next page.</returns>
         public bool HasNextPage()
         {
             return _continuationToken != null;
@@ -41,6 +52,10 @@ namespace KenticoCloud.ContentManagement.Models
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerator{T}"/> instance that can be used to iterate through the collection.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             return _elements.GetEnumerator();

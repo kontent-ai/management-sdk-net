@@ -1,5 +1,8 @@
 ﻿namespace KenticoCloud.ContentManagement
 {
+    /// <summary>
+    /// Keeps settings which are provided by customer or have default values, used in <see cref="ContentManagementClient"/>.
+    /// </summary>
     public class ContentManagementOptions
     {
         /// <summary>

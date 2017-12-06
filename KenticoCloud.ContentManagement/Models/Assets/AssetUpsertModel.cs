@@ -1,14 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
 
-using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Models.Assets
 {
+    /// <summary>
+    /// Represents an asset upsert model.
+    /// </summary>
     public sealed class AssetUpsertModel
     {
+        /// <summary>
+        /// Gets or sets file reference for the asset.
+        /// </summary>
         [JsonProperty("file_reference")]
         public FileReferenceModel FileReference { get; set; }
 
+        /// <summary>
+        /// Gets or sets description for the asset.
+        /// </summary>
         [JsonProperty("descriptions", Required = Required.Always)]
         public IEnumerable<AssetDescriptionsModel> Descriptions { get; set; }
 
