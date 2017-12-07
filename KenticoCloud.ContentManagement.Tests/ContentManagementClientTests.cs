@@ -563,7 +563,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             Assert.NotEqual(Guid.Empty, fileId);
 
-            var descriptions = new List<AssetDescription>();
+            var spanishDescription = "Spanish descriptión";
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
+            var descriptions = new List<AssetDescription>() { assetDescription };
+
             var asset = new AssetUpsertModel
             {
                 FileReference = fileResult,
@@ -579,7 +583,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(content.Length, assetResult.Size);
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
-            Assert.NotNull(assetResult.Descriptions);
+            Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
 
             // Cleanup
             await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
@@ -592,7 +596,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var fileName = "Hello.txt";
             var contentType = "text/plain";
-            var descriptions = new List<AssetDescription>();
+
+            var spanishDescription = "Spanish descriptión";
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
+            var descriptions = new List<AssetDescription>() { assetDescription };
 
             var assetResult = await _client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
 
@@ -602,7 +610,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(content.Length, assetResult.Size);
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
-            Assert.NotNull(assetResult.Descriptions);
+            Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
 
             // Cleanup
             await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
@@ -643,7 +651,10 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var externalId = "5bec7f21ad2e44bb8a3a1f4a6a5bf8ca";
 
-            var descriptions = new List<AssetDescription>();
+            var spanishDescription = "Spanish descriptión";
+            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
+            var descriptions = new List<AssetDescription>() { assetDescription };
 
             var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
 
@@ -653,7 +664,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(content.Length, assetResult.Size);
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
-            Assert.NotNull(assetResult.Descriptions);
+            Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
 
             // Cleanup
             await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));

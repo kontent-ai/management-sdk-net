@@ -30,7 +30,6 @@ namespace KenticoCloud.ContentManagement.Tests
 
         [Fact]
         [Trait("Category", "LiveEndpointOnly")]
-        // Caused by DEL-1460
         public async void DeleteContentAsync_ByCodename_DeletesContentItem()
         {
             var itemToDelete = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME);
