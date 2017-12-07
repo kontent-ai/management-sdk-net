@@ -476,6 +476,18 @@
     <None Update="Data\GET_YSLjzu3FtVzJeE5Pk59d3gPXEa8\response_content.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\POST_-JOln-MKfBnVyZMNCfxshPtGBW8\request.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\POST_-JOln-MKfBnVyZMNCfxshPtGBW8\request_content.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\POST_-JOln-MKfBnVyZMNCfxshPtGBW8\response.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\POST_-JOln-MKfBnVyZMNCfxshPtGBW8\response_content.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\POST_0h1PiAPhRL7vqH2XrAhBQX7ncro\request.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -522,6 +534,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Data\POST_8VKynPnN1nqwXtsyYhKHzBLqIao\response_content.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\POST_a1gx70scRrTeD51EH6HWeM3lGXI\request.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\POST_a1gx70scRrTeD51EH6HWeM3lGXI\request_content.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\POST_a1gx70scRrTeD51EH6HWeM3lGXI\response.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\POST_a1gx70scRrTeD51EH6HWeM3lGXI\response_content.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Data\POST_DsivgZVFurv1LD4kZD6Xw_FxiXc\request.json">
@@ -1098,6 +1122,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Data\PUT_xVFmJSHdTDsk-USvOER2jHMsue4\response_content.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\PUT_zEGG6BNRpJFL7uahoZuNE3wVb-c\request.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\PUT_zEGG6BNRpJFL7uahoZuNE3wVb-c\request_content.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\PUT_zEGG6BNRpJFL7uahoZuNE3wVb-c\response.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\PUT_zEGG6BNRpJFL7uahoZuNE3wVb-c\response_content.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Data\PUT__hQcqJ8gP6SC1g5Kx9GCp_Dk-0A\request.json">
