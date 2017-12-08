@@ -39,6 +39,7 @@ namespace KenticoCloud.ContentManagement.Models.Items
         /// </summary>
         [JsonProperty("sitemap_locations")]
         public IEnumerable<ManageApiReference> SitemapLocations { get; set; }
+
         /// <summary>
         /// Gets or sets external identifier of the content item.
         /// </summary>

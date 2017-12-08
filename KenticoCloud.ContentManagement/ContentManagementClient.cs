@@ -33,7 +33,7 @@ namespace KenticoCloud.ContentManagement
         {
             if (contentManagementOptions == null)
             {
-                throw new ArgumentNullException(nameof(contentManagementOptions), "The Content Management options object is not specified.");
+                throw new ArgumentNullException(nameof(contentManagementOptions));
             }
             
             if (string.IsNullOrEmpty(contentManagementOptions.ProjectId))
@@ -43,7 +43,7 @@ namespace KenticoCloud.ContentManagement
 
             if (!Guid.TryParse(contentManagementOptions.ProjectId, out Guid projectIdGuid))
             {
-                throw new ArgumentException($"Provided string is not a valid project identifier ({contentManagementOptions.ProjectId}). Haven't you accidentally passed the Preview API key instead of the project identifier?", nameof(contentManagementOptions.ProjectId));
+                throw new ArgumentException($"Provided string is not a valid project identifier ({contentManagementOptions.ProjectId}). Haven't you accidentally passed the API key instead of the project identifier?", nameof(contentManagementOptions.ProjectId));
             }
 
             if (string.IsNullOrEmpty(contentManagementOptions.ApiKey))
@@ -236,7 +236,8 @@ namespace KenticoCloud.ContentManagement
         /// <summary>
         /// Returns strongly typed listing of content items. 
         /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
-        /// For getting next page use <see cref="GetNextItemsListingPageAsync"/>,
+        /// To check if the next page is available use <see cref="ListingResponseModel{T}.HasNextPage"/>,
+        /// For getting next page use <see cref="ListingResponseModel{T}.GetNextPage"/>,
         /// </summary>
         /// <returns>The <see cref="ListingResponseModel{ContentItemModel}"/> instance that represents the listing of content items.</returns>
         public async Task<ListingResponseModel<ContentItemModel>> ListContentItemsAsync()
@@ -247,11 +248,6 @@ namespace KenticoCloud.ContentManagement
             return new ListingResponseModel<ContentItemModel>(GetNextItemsListingPageAsync, response.Pagination?.Token, response.Items);
         }
 
-        /// <summary>
-        /// Returns next page of strongly typed listing of content items for specified continuation token.
-        /// </summary>
-        /// <param name="continuationToken">Identifier of the next page of results. See also <see cref="PaginationResponseModel"/></param>
-        /// <returns>The <see cref="IListingResponse{ContentItemModel}"/> instance that represents the next page of content items.</returns>
         private async Task<IListingResponse<ContentItemModel>> GetNextItemsListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
@@ -265,7 +261,8 @@ namespace KenticoCloud.ContentManagement
         /// <summary>
         /// Returns strongly typed listing of assets.
         /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
-        /// For getting next page use <see cref="GetNextAssetListingPageAsync"/>,
+        /// To check if the next page is available use <see cref="ListingResponseModel{T}.HasNextPage"/>,
+        /// For getting next page use <see cref="ListingResponseModel{T}.GetNextPage"/>,
         /// </summary>
         /// <returns>The <see cref="ListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
         public async Task<ListingResponseModel<AssetModel>> ListAssetsAsync()
@@ -277,11 +274,6 @@ namespace KenticoCloud.ContentManagement
         }
 
 
-        /// <summary>
-        /// Returns next page of strongly typed listing of assets for specified continuation token.
-        /// </summary>
-        /// <param name="continuationToken">Identifier of the next page of results. See also <see cref="PaginationResponseModel"/></param>
-        /// <returns>The <see cref="IListingResponse{AssetModel}"/> instance that represents the next page of assets.</returns>
         private async Task<IListingResponse<AssetModel>> GetNextAssetListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildAssetListingUrl(continuationToken);
@@ -352,6 +344,7 @@ namespace KenticoCloud.ContentManagement
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetModel>(
                 endpointUrl,
                 HttpMethod.Put,
+                // TODO - Remove this after DEL-1480 is fixed, the model shouldn't need external ID as it is provided already in the URL
                 new AssetUpsertServerModel
                 {
                     Descriptions = asset.Descriptions,
@@ -373,8 +366,8 @@ namespace KenticoCloud.ContentManagement
         /// </summary>
         /// <param name="fileContent">Represents the content of the file</param>
         /// <param name="asset">Represents asset which will be created.</param>
-        /// <returns>The <see cref="FileReferenceModel"/> instance that represents the reference to created file.</returns>
-        public async Task<FileReferenceModel> UploadFileAsync(FileContentSource fileContent)
+        /// <returns>The <see cref="FileReference"/> instance that represents the reference to created file.</returns>
+        public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
         {
             var stream = fileContent.OpenReadStream();
             try
@@ -385,7 +378,7 @@ namespace KenticoCloud.ContentManagement
                 }
 
                 var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
-                var response = await _actionInvoker.UploadFileAsync<FileReferenceModel>(endpointUrl, stream, fileContent.ContentType);
+                var response = await _actionInvoker.UploadFileAsync<FileReference>(endpointUrl, stream, fileContent.ContentType);
 
                 return response;
             }

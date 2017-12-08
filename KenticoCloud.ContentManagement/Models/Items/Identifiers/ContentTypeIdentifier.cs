@@ -1,19 +1,41 @@
-﻿using System;
-
-using KenticoCloud.ContentManagement.Models.Identifiers;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace KenticoCloud.ContentManagement.Models.Items
 {
     /// <summary>
     /// Represents identifier of the content type.
     /// </summary>
-    public sealed class ContentTypeIdentifier : IdentifierWithCodename<ContentTypeIdentifier>
+    public sealed class ContentTypeIdentifier
     {
         /// <summary>
-        /// Constructor for internal use only. 
-        /// Use static method ContentTypeIdentifier.ByXYZ instead.
+        /// Gets id of the identifier.
         /// </summary>
-        [Obsolete("For internal purposes. Use static method ContentTypeIdentifier.ByXYZ instead.")]
-        public ContentTypeIdentifier() { }
+        [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Guid? Id { get; private set; }
+
+        /// <summary>
+        /// Gets codename of the identifier.
+        /// </summary>
+        [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Codename { get; private set; }
+        
+        /// <summary>
+        /// Creates identifier by id.
+        /// </summary>
+        /// <param name="id">The id of the identifier.</param>
+        public static ContentTypeIdentifier ById(Guid id)
+        {
+            return new ContentTypeIdentifier() { Id = id };
+        }
+
+        /// <summary>
+        /// Creates identifier by codename.
+        /// </summary>
+        /// <param name="codename">The codename of the identifier.</param>
+        public static ContentTypeIdentifier ByCodename(string codename)
+        {
+            return new ContentTypeIdentifier() { Codename = codename };
+        }
     }
 }

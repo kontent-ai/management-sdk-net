@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using KenticoCloud.ContentManagement.Models.Assets;
-using KenticoCloud.ContentManagement.Models.Identifiers;
 using KenticoCloud.ContentManagement.Models.Items;
 using KenticoCloud.ContentManagement.Modules.ModelBuilders;
 using KenticoCloud.ContentManagement.Tests.Data;
@@ -69,15 +68,15 @@ namespace KenticoCloud.ContentManagement.Tests.ModelBuildersTests
 
         private static void AssertElements(ComplexTestModel expected, ComplexTestModel actual)
         {
-            AssertIdentifiers(expected.AssetElement, actual.AssetElement);
+            AssertIdentifiers(expected.AssetElement.Select(x=>x.Id.Value), actual.AssetElement.Select(x => x.Id.Value));
             Assert.Equal(expected.DateTimeElement, actual.DateTimeElement);
             Assert.Equal(expected.UrlSlugElement, actual.UrlSlugElement);
-            AssertIdentifiers(expected.ModularContentElement, actual.ModularContentElement);
-            AssertIdentifiers(expected.MultipleChoiceElementCheck, actual.MultipleChoiceElementCheck);
-            AssertIdentifiers(expected.MultipleChoiceElementCheckRadio, actual.MultipleChoiceElementCheckRadio);
+            AssertIdentifiers(expected.ModularContentElement?.Select(x => x.Id.Value), actual.ModularContentElement?.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.MultipleChoiceElementCheck?.Select(x => x.Id.Value), actual.MultipleChoiceElementCheck?.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.MultipleChoiceElementCheckRadio?.Select(x => x.Id.Value), actual.MultipleChoiceElementCheckRadio?.Select(x => x.Id.Value));
             Assert.Equal(expected.Number, actual.Number);
             Assert.Equal(expected.RichTextElement, actual.RichTextElement);
-            AssertIdentifiers(expected.TaxonomyElement, actual.TaxonomyElement);
+            AssertIdentifiers(expected.TaxonomyElement?.Select(x => x.Id.Value), actual.TaxonomyElement?.Select(x => x.Id.Value));
             Assert.Equal(expected.TextElement, actual.TextElement);
         }
 
@@ -108,21 +107,14 @@ namespace KenticoCloud.ContentManagement.Tests.ModelBuildersTests
             }
         }
 
-        private static void AssertIdentifiers<T>(IEnumerable<Identifier<T>> expected, IEnumerable<Identifier<T>> actual) where T : Identifier<T>, new()
+        private static void AssertIdentifiers(IEnumerable<Guid> expected, IEnumerable<Guid> actual)
         {
             if (expected == null && actual == null) return;
             if (expected == null || actual == null)
             {
                 Assert.True(false, "Null check");
             }
-            var expectedList = expected.ToList();
-            var actualList = actual.ToList();
-            Assert.Equal(expectedList.Count, actualList.Count);
-
-            for (var i = 0; i < expectedList.Count; i++)
-            {
-                Assert.Equal(expectedList[i].Id, actualList[i].Id);
-            }
+            Assert.Equal(expected, actual);
         }
     }
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace KenticoCloud.ContentManagement.Models
 {
     /// <summary>
-    /// Represents the identifierof the api object reference.
+    /// Represents the identifier of the api object reference.
     /// </summary>
     public sealed class ManageApiReference
     {

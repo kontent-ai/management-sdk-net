@@ -49,7 +49,6 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             }
             else
             {
-                // TODO - Handle deserialization better, it now hangs on 
                 var serializedResponse = File.ReadAllText(Path.Combine(folderPath, "response.json"));
                 var serializedResponseContent = File.ReadAllText(Path.Combine(folderPath, "response_content.json"));
 
@@ -76,14 +75,13 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
         private string GetMockFileFolder(HttpRequestMessage message, string serializedRequest)
         {
-            var rootPath = Path.Combine(AppContext.BaseDirectory, "Data\\Requests");
-            var endpointPath = Path.Combine(rootPath, message.RequestUri.PathAndQuery.Replace("/", "\\").Replace("?", "\\").TrimStart('\\'));
+            var rootPath = Path.Combine(AppContext.BaseDirectory, "Data\\");
 
             var hashingAlgorithm = SHA1.Create();
             var fingerprint = hashingAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(serializedRequest));
             var stringMessageHash = Convert.ToBase64String(fingerprint).TrimEnd('=').Replace('+', '-').Replace('/', '_');
 
-            var uniqueRequestPath = Path.Combine(endpointPath, $"{message.Method}_{stringMessageHash}");
+            var uniqueRequestPath = Path.Combine(rootPath, $"{message.Method}_{stringMessageHash}");
 
             return uniqueRequestPath;
         }
