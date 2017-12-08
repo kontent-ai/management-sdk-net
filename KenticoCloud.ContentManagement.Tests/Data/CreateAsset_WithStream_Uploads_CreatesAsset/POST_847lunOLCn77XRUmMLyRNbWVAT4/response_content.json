@@ -1,0 +1,25 @@
+{
+  "id": "5188b814-882f-4512-a55d-3a394a27796d",
+  "file_name": "Hello.txt",
+  "size": 84,
+  "type": "text/plain",
+  "file_reference": {
+    "id": "5f8d3e06-54f5-4150-a2ec-c123c5839c23",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    },
+    {
+      "language": {
+        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+      },
+      "description": null
+    }
+  ],
+  "last_modified": "2017-12-08T11:20:22.6949973Z"
+}
