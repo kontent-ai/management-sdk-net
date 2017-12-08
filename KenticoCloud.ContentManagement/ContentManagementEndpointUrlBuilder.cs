@@ -9,8 +9,6 @@ namespace KenticoCloud.ContentManagement
     {
         private const int URI_MAX_LENGTH = 65519;
 
-        private const string URL_TEMPLATE_PROJECT = "projects/{0}";
-
         private const string URL_ITEM = "/items";
         private const string URL_TEMPLATE_ITEM_ID = "/items/{0}";
         private const string URL_TEMPLATE_ITEM_EXTERNAL_ID = "/items/external-id/{0}";
@@ -19,6 +17,12 @@ namespace KenticoCloud.ContentManagement
         private const string URL_VARIANT = "/variants";
         private const string URL_TEMPLATE_VARIANT_ID = "/variants/{0}";
         private const string URL_TEMPLATE_VARIANT_CODENAME = "/variants/codename/{0}";
+
+        private const string URL_ASSET = "/assets";
+        private const string URL_TEMPLATE_ASSET_ID = "/assets/{0}";
+        private const string URL_TEMPLATE_ASSET_EXTERNAL_ID = "/assets/external-id/{0}";
+
+        private const string URL_TEMPLATE_FILE_FILENAME = "/files/{0}";
 
         private readonly ContentManagementOptions _options;
 
@@ -101,19 +105,19 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetListingUrl(string continuationToken = null)
         {
-            return (continuationToken != null) ? GetUrl("/assets", $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl("/assets");
+            return (continuationToken != null) ? GetUrl(URL_ASSET, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_ASSET);
         }
 
         public string BuildAssetsUrl()
         {
-            return GetUrl("/assets");
+            return GetUrl(URL_ASSET);
         }
 
         public string BuildAssetsUrl(AssetIdentifier identifier)
         {
             if (identifier.Id != null)
             {
-                return GetUrl($"/assets/{identifier.Id}");
+                return GetUrl(string.Format(URL_TEMPLATE_ASSET_ID, identifier.Id));
             }
 
             if (!string.IsNullOrEmpty(identifier.ExternalId))
@@ -126,7 +130,7 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetsUrlFromExternalId(string externalId)
         {
-            return GetUrl($"/assets/external-id/{externalId}");
+            return GetUrl(string.Format(URL_TEMPLATE_ASSET_EXTERNAL_ID, externalId));
         }
 
         #endregion
@@ -135,14 +139,14 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildUploadFileUrl(string fileName)
         {
-            return GetUrl($"/files/{fileName}");
+            return GetUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
         }
 
         #endregion
 
         private string GetUrl(string path, params string[] parameters)
         {
-            var projectSegment = string.Format(URL_TEMPLATE_PROJECT, _options.ProjectId);
+            var projectSegment = $"projects/{_options.ProjectId}";
 
             var endpointUrl = string.Format(_options.Endpoint, projectSegment);
             var url = string.Concat(endpointUrl, path);

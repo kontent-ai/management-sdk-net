@@ -67,6 +67,11 @@ namespace KenticoCloud.ContentManagement.Modules.ModelBuilders
 
         private static object GetTypedElementValue(Type propertyType, object elementValue)
         {
+            if (elementValue == null)
+            {
+                return null;
+            }
+
             if (elementValue.GetType() == propertyType)
             {
                 return elementValue;

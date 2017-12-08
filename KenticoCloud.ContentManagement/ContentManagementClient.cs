@@ -72,6 +72,11 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="IEnumerable{ContentItemVariantModel}"/> instance that represents the listing of content item variants.</returns>
         public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
 
@@ -85,6 +90,11 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="ContentItemVariantModel"/> instance that represents content item variant.</returns>
         public async Task<ContentItemVariantModel> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantModel>(endpointUrl, HttpMethod.Get);
 
@@ -98,7 +108,17 @@ namespace KenticoCloud.ContentManagement
         /// <param name="contentItemVariantUpsertModel">Represents inserted or updated content item variant.</param>
         /// <returns>The <see cref="ContentItemVariantModel"/> instance that represents inserted or updated content item variant.</returns>
         public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpsertModel contentItemVariantUpsertModel)
-        { 
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (contentItemVariantUpsertModel == null)
+            {
+                throw new ArgumentNullException(nameof(contentItemVariantUpsertModel));
+            }
+
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpsertModel);
 
@@ -111,6 +131,11 @@ namespace KenticoCloud.ContentManagement
         /// <param name="identifier">The identifier of the content item variant.</param>
         public async Task DeleteContentItemVariantAsync(ContentItemVariantIdentifier identifier)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
@@ -127,6 +152,10 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="IEnumerable{ContentItemVariantModel{T}}"/> instance that represents the listing of content item variants.</returns>
         public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
 
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
@@ -142,6 +171,11 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents content item variant.</returns>
         public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : new()
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantModel>(endpointUrl, HttpMethod.Get);
 
@@ -157,6 +191,16 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents inserted or updated content item variant.</returns>
         public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, T variantElements) where T : new()
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (variantElements == null)
+            {
+                throw new ArgumentNullException(nameof(variantElements));
+            }
+
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             var variantUpsertModel = _modelProvider.GetContentItemVariantUpsertModel(variantElements);
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
@@ -176,6 +220,16 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
         public async Task<ContentItemModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (contentItem == null)
+            {
+                throw new ArgumentNullException(nameof(contentItem));
+            }
+
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpdateModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
 
@@ -190,6 +244,16 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="ContentItemModel"/> instance that represents inserted or updated content item.</returns>
         public async Task<ContentItemModel> UpsertContentItemByExternalIdAsync(string externalId, ContentItemUpsertModel contentItem)
         {
+            if (string.IsNullOrEmpty(externalId))
+            {
+                throw new ArgumentException("The external id is not specified.", nameof(externalId));
+            }
+
+            if (contentItem == null)
+            {
+                throw new ArgumentNullException(nameof(contentItem));
+            }
+
             var endpointUrl = _urlBuilder.BuildItemUrl(ContentItemIdentifier.ByExternalId(externalId));
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
 
@@ -203,6 +267,11 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="ContentItemModel"/> instance that represents created content item.</returns>
         public async Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
         {
+            if (contentItem == null)
+            {
+                throw new ArgumentNullException(nameof(contentItem));
+            }
+
             var endpointUrl = _urlBuilder.BuildItemsUrl();
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemCreateModel, ContentItemModel>(endpointUrl, HttpMethod.Post, contentItem);
 
@@ -216,6 +285,11 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="ContentItemModel"/> instance that represents requested content item.</returns>
         public async Task<ContentItemModel> GetContentItemAsync(ContentItemIdentifier identifier)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemModel>(endpointUrl, HttpMethod.Get);
 
@@ -228,6 +302,11 @@ namespace KenticoCloud.ContentManagement
         /// <param name="identifier">The identifier of the content item.</param>
         public async Task DeleteContentItemAsync(ContentItemIdentifier identifier)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
 
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
@@ -289,6 +368,11 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
         public async Task<AssetModel> GetAssetAsync(AssetIdentifier identifier)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
 
@@ -303,6 +387,16 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
         public async Task<AssetModel> UpdateAssetAsync(AssetIdentifier identifier, AssetUpdateModel asset)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
 
@@ -315,6 +409,11 @@ namespace KenticoCloud.ContentManagement
         /// <param name="identifier">The identifier of the asset.</param>
         public async Task DeleteAssetAsync(AssetIdentifier identifier)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
@@ -326,6 +425,11 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
         public async Task<AssetModel> CreateAssetAsync(AssetUpsertModel asset)
         {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
 
@@ -340,6 +444,16 @@ namespace KenticoCloud.ContentManagement
         /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
         public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
         {
+            if (string.IsNullOrEmpty(externalId))
+            {
+                throw new ArgumentException("The external id is not specified.", nameof(externalId));
+            }
+
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
             var endpointUrl = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetModel>(
                 endpointUrl,
@@ -365,10 +479,14 @@ namespace KenticoCloud.ContentManagement
         /// Uploads the given file.
         /// </summary>
         /// <param name="fileContent">Represents the content of the file</param>
-        /// <param name="asset">Represents asset which will be created.</param>
         /// <returns>The <see cref="FileReference"/> instance that represents the reference to created file.</returns>
         public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
         {
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
             var stream = fileContent.OpenReadStream();
             try
             {

@@ -8,34 +8,34 @@ namespace KenticoCloud.ContentManagement.Tests.Data
 {
     internal class ComplexTestModel
     {
-        [JsonProperty("text_element")]
-        public string TextElement { get; set; }
+        [JsonProperty("title")]
+        public string Title { get; set; }
 
-        [JsonProperty("number_element")]
-        public decimal? Number { get; set; }
+        [JsonProperty("pages")]
+        public decimal? Pages { get; set; }
 
-        [JsonProperty("datetime_element")]
-        public DateTime? DateTimeElement { get; set; }
+        [JsonProperty("post_date")]
+        public DateTime? PostDate { get; set; }
 
-        [JsonProperty("urlslug_element")]
-        public string UrlSlugElement { get; set; }
+        [JsonProperty("url_pattern")]
+        public string UrlPattern { get; set; }
 
-        [JsonProperty("richtext_element")]
-        public string RichTextElement { get; set; }
+        [JsonProperty("body_copy")]
+        public string BodyCopy { get; set; }
 
-        [JsonProperty("asset_element")]
-        public AssetIdentifier[] AssetElement { get; set; }
+        [JsonProperty("teaser_image")]
+        public AssetIdentifier[] TeaserImage { get; set; }
 
-        [JsonProperty("modular_content_element")]
-        public IEnumerable<ContentItemIdentifier> ModularContentElement { get; set; }
+        [JsonProperty("related_articles")]
+        public IEnumerable<ContentItemIdentifier> RelatedArticles { get; set; }
 
-        [JsonProperty("multiplechoice_element")]
-        public HashSet<MultipleChoiceOptionIdentifier> MultipleChoiceElementCheck { get; set; }
+        [JsonProperty("categories")]
+        public HashSet<MultipleChoiceOptionIdentifier> Categories { get; set; }
 
-        [JsonProperty("taxonomygroup1")]
-        public List<TaxonomyTermIdentifier> TaxonomyElement { get; set; }
+        [JsonProperty("personas")]
+        public List<TaxonomyTermIdentifier> Personas { get; set; }
 
         [JsonIgnore]
-        public LinkedList<MultipleChoiceOptionIdentifier> MultipleChoiceElementCheckRadio { get; set; }
+        public LinkedList<MultipleChoiceOptionIdentifier> IgnoredMultipleChoice { get; set; }
     }
 }

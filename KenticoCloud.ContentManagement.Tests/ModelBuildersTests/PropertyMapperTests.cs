@@ -15,15 +15,15 @@ namespace KenticoCloud.ContentManagement.Tests.ModelBuildersTests
         {
             var expected = new Dictionary<string, string>
             {
-                { "TextElement", "text_element" },
-                { "Number", "number_element" },
-                { "DateTimeElement", "datetime_element" },
-                { "UrlSlugElement", "urlslug_element" },
-                { "RichTextElement", "richtext_element" },
-                { "AssetElement", "asset_element" },
-                { "ModularContentElement", "modular_content_element" },
-                { "MultipleChoiceElementCheck", "multiplechoice_element" },
-                { "TaxonomyElement", "taxonomygroup1" }
+                { "Title", "title" },
+                { "Pages", "pages" },
+                { "PostDate", "post_date" },
+                { "UrlPattern", "url_pattern" },
+                { "BodyCopy", "body_copy" },
+                { "TeaserImage", "teaser_image" },
+                { "RelatedArticles", "related_articles" },
+                { "Categories", "categories" },
+                { "Personas", "personas" }
             };
 
             var actual = new PropertyMapper().GetNameMapping(typeof(ComplexTestModel));
