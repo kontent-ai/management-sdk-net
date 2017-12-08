@@ -12,6 +12,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
         {
             JsonProperty prop = base.CreateProperty(member, memberSerialization);
 
+            // HttpContent is an abtract class that cannot be deserialized directly, we handle that separately 
             if (prop.PropertyType == typeof(HttpContent))
             {
                 prop.ShouldDeserialize = obj => false;

@@ -20,7 +20,7 @@ namespace KenticoCloud.ContentManagement.Models.Items
         /// Gets or sets sitemap locations of the content item.
         /// </summary>
         [JsonProperty("sitemap_locations", Required = Required.Always)]
-        public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; }
+        public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; } = Enumerable.Empty<SitemapNodeIdentifier>();
 
         internal ContentItemUpdateModel()
         {

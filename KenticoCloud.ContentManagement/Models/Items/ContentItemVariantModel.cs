@@ -14,13 +14,13 @@ namespace KenticoCloud.ContentManagement.Models.Items
         /// Gets or sets item of the variant.
         /// </summary>
         [JsonProperty("item")]
-        public ManageApiReference Item { get; set; }
+        public ObjectIdentifier Item { get; set; }
 
         /// <summary>
         /// Gets or sets elements of the variant.
         /// </summary>
         [JsonProperty("elements")]
-        public Dictionary<string, object> Elements { get; set; }
+        public dynamic Elements { get; set; }
 
         /// <summary>
         /// Gets or sets language of the variant.

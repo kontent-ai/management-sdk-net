@@ -20,6 +20,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
         private ContentManagementOptions _options;
         private bool _saveToFileSystem;
         private string _testName;
+        private bool _firstRequest;
 
         private IContentManagementHttpClient _nativeClient = new ContentManagementHttpClient();
 
@@ -42,6 +43,9 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
         public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
         {
+            var isFirst = _firstRequest;
+            _firstRequest = false;
+
             var serializationSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
             var serializedRequest = MakeProjectAgnostic(JsonConvert.SerializeObject(message, serializationSettings));
@@ -52,8 +56,16 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
             if (_saveToFileSystem)
             {
-                Directory.CreateDirectory(folderPath);
-
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                else if (isFirst)
+                {
+                    // Cleanup previously recorded data at first request to avoid data overlap upon change
+                    Directory.Delete(folderPath);
+                }
+                
                 var response = await _nativeClient.SendAsync(message);
 
                 File.WriteAllText(Path.Combine(folderPath, "request.json"), serializedRequest);
@@ -92,6 +104,8 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
                 return response;
             }
+
+            _firstRequest = false;
         }
 
         private async Task<string> SerializeContent(HttpContent content)

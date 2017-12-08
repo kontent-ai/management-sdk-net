@@ -32,13 +32,13 @@ namespace KenticoCloud.ContentManagement.Models.Items
         /// Gets or sets type of the content item.
         /// </summary>
         [JsonProperty("type")]
-        public ManageApiReference Type { get; set; }
+        public ObjectIdentifier Type { get; set; }
 
         /// <summary>
         /// Gets or sets sitemap locations of the content item.
         /// </summary>
         [JsonProperty("sitemap_locations")]
-        public IEnumerable<ManageApiReference> SitemapLocations { get; set; }
+        public IEnumerable<ObjectIdentifier> SitemapLocations { get; set; }
 
         /// <summary>
         /// Gets or sets external identifier of the content item.

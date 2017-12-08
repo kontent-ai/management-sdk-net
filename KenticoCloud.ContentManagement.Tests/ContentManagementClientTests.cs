@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Exceptions;
 
 using Xunit;
-using static KenticoCloud.ContentManagement.Tests.TestUtils;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
     public class ContentManagementClientTests
     {
         // Tests configuration
+        // Project used should be a generated sample project because the tests rely on some existing data
         // IMPORTANT: Never commit valid API_KEY - revoke it before commit.
         private const string PROJECT_ID = "49f108e5-2e7e-4405-8369-7e0cf92576f2";
         private const string API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJ1c3JfMHZGa1Zva3M3cm9qa0ZkdkpZM3NGUCIsImp0aSI6ImRjZmFkYzA2OTQ4YTQwNTk4MGI0YTIwYmEzNmIyODZmIiwiaWF0IjoiMTUxMjQ3NDc4OSIsImV4cCI6IjE1MTUwNjY3ODkiLCJwcm9qZWN0X2lkIjoiNDlmMTA4ZTUyZTdlNDQwNTgzNjk3ZTBjZjkyNTc2ZjIiLCJ2ZXIiOiIyLjAuMCIsInBlcm1pc3Npb25zIjpbInZpZXctY29udGVudCIsImNvbW1lbnQiLCJ1cGRhdGUtd29ya2Zsb3ciLCJ1cGRhdGUtY29udGVudCIsInB1Ymxpc2giLCJjb25maWd1cmUtc2l0ZW1hcCIsImNvbmZpZ3VyZS10YXhvbm9teSIsImNvbmZpZ3VyZS1jb250ZW50X3R5cGVzIiwiY29uZmlndXJlLXdpZGdldHMiLCJjb25maWd1cmUtd29ya2Zsb3ciLCJtYW5hZ2UtcHJvamVjdHMiLCJtYW5hZ2UtdXNlcnMiLCJjb25maWd1cmUtcHJldmlldy11cmwiLCJjb25maWd1cmUtY29kZW5hbWVzIiwiYWNjZXNzLWFwaS1rZXlzIiwibWFuYWdlLWFzc2V0cyIsIm1hbmFnZS1sYW5ndWFnZXMiLCJtYW5hZ2Utd2ViaG9va3MiLCJtYW5hZ2UtdHJhY2tpbmciXSwiYXVkIjoibWFuYWdlLmtlbnRpY29jbG91ZC5jb20ifQ.x4_dk2ECfhKZLayxrYOEvwMiArM21CNFdKTMmxI4tiA";
@@ -24,23 +26,40 @@ namespace KenticoCloud.ContentManagement.Tests
         // New data recorded to file system with TestRunType.LiveEndPoint_SaveToFileSystem is placed to /bin/ folder
         // It needs to be synced to the /Data/ folder in the project
         // Copy to output directory = Copy always is automatically ensured by a wildcard in .csproj file
-        private const TestRunType _runType = TestRunType.MockFromFileSystem;
+        private const TestUtils.TestRunType _runType = TestUtils.TestRunType.MockFromFileSystem;
 
 
         #region Helper methods and constants
 
         private static ContentManagementOptions _options = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
 
-        // Test constants
+        // Test constants, existing data references leverage the Dancing Goat sample site project that is generated for everyone
         protected static Guid EXISTING_ITEM_ID = Guid.Parse("3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5");
         protected const string EXISTING_ITEM_CODENAME = "which_brewing_fits_you_";
 
         protected static Guid EXISTING_LANGUAGE_ID = Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8");
         protected const string EXISTING_LANGUAGE_CODENAME = "es-ES";
 
+        protected static Guid EXISTING_CONTENT_TYPE_ID = Guid.Parse("b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89");
         protected const string EXISTING_CONTENT_TYPE_CODENAME = "article";
 
-        protected static Dictionary<string, object> _elements = new Dictionary<string, object> { { "title", "On Roasts" } };
+        protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6a372f43-ccd7-e524-6308-c2094e7b6596");
+        protected const string EXISTING_TAXONOMY_TERM_CODENAME = "barista";
+
+        protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("45a123f3-1c55-c697-7dae-78369c8f1e2c");
+        protected const string EXISTING_SITEMAP_NODE_CODENAME = "articles";
+
+        protected static dynamic _elements = new {
+            title = "On Roasts",
+            post_date = new DateTime(2017, 7, 4),
+            body_copy = @"
+<h1>Light Roasts</h1>
+<p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
+",
+            related_articles = new [] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+            url_pattern = "on-roasts",
+            personas = new [] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
+        };
 
         private ContentManagementClient CreateContentManagementClient(string testName)
         {
@@ -51,7 +70,28 @@ namespace KenticoCloud.ContentManagement.Tests
 
         #region Item Variant
 
+        private string UnifyWhitespace(string text)
+        {
+            return new Regex("\\s+", RegexOptions.Multiline).Replace(text, " ").Trim();
+        }
+
+        private void AssertResponseElements(ContentItemVariantModel responseVariant)
+        {
+            Assert.Equal(_elements.title, responseVariant.Elements.title);
+            Assert.Equal(_elements.post_date, responseVariant.Elements.post_date);
+            Assert.Equal(UnifyWhitespace(_elements.body_copy), UnifyWhitespace(responseVariant.Elements.body_copy));
+            Assert.Equal(_elements.url_pattern, responseVariant.Elements.url_pattern);
+
+            Assert.Single(responseVariant.Elements.related_articles);
+            Assert.Equal(EXISTING_ITEM_ID, responseVariant.Elements.related_articles[0].Id);
+
+            Assert.Single(responseVariant.Elements.personas);
+            Assert.Equal(EXISTING_TAXONOMY_TERM_ID, responseVariant.Elements.personas[0].Id);
+        }
+
+
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ById_LanguageId_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ById_LanguageId_UpdatesVariant));
@@ -66,10 +106,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             Assert.Equal(EXISTING_ITEM_ID, responseVariant.Item.Id);
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByCodename_LanguageId_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ByCodename_LanguageId_UpdatesVariant));
@@ -84,10 +125,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             Assert.Equal(EXISTING_ITEM_ID, responseVariant.Item.Id);
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ById_LanguageCodename_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ById_LanguageCodename_UpdatesVariant));
@@ -102,10 +144,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             Assert.Equal(EXISTING_ITEM_ID, responseVariant.Item.Id);
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByCodename_LanguageCodename_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ByCodename_LanguageCodename_UpdatesVariant));
@@ -120,10 +163,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             Assert.Equal(EXISTING_ITEM_ID, responseVariant.Item.Id);
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageCodename_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ByExternalId_LanguageCodename_UpdatesVariant));
@@ -142,7 +186,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
 
             Assert.Equal(responseVariant.Language.Id, EXISTING_LANGUAGE_ID);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
@@ -150,6 +194,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageCodename_CreatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ByExternalId_LanguageCodename_CreatesVariant));
@@ -167,7 +212,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
 
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
@@ -175,6 +220,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageId_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ByExternalId_LanguageId_UpdatesVariant));
@@ -194,7 +240,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
 
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
@@ -202,6 +248,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageId_CreatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_ByExternalId_LanguageId_CreatesVariant));
@@ -220,7 +267,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
 
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
@@ -228,6 +275,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_UsingResponseModel_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_UsingResponseModel_UpdatesVariant));
@@ -235,7 +283,7 @@ namespace KenticoCloud.ContentManagement.Tests
             // Arrange
             var externalId = "4357b71d21eb45369d54a635faf7672b";
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var emptyElements = new Dictionary<string, object>();
+            var emptyElements = new { };
             var preparedVariant = await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, emptyElements, preparedItem);
 
             // Test
@@ -247,7 +295,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, preparedVariant);
 
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
@@ -255,6 +303,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_UsingResponseModel_CreatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertVariant_UsingResponseModel_CreatesVariant));
@@ -262,7 +311,7 @@ namespace KenticoCloud.ContentManagement.Tests
             // Arrange
             var externalId = "5249f596a8be4d719bc9816e3d416d16";
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var emptyElements = new Dictionary<string, object>();
+            var emptyElements = new { };
             var preparedVariant = await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, emptyElements, preparedItem);
 
             // Test
@@ -274,7 +323,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, preparedVariant);
 
             Assert.Equal(Guid.Empty, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements["title"]);
+            AssertResponseElements(responseVariant);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
@@ -282,6 +331,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void ListContentItemVariants_ById_ListsVariants()
         {
             var client = CreateContentManagementClient(nameof(ListContentItemVariants_ById_ListsVariants));
@@ -290,10 +340,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 
-            Assert.Equal(EXISTING_ITEM_ID, responseVariants.ToList()[1].Item.Id);
+            Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void ListContentItemVariants_ByCodename_ListsVariants()
         {
             var client = CreateContentManagementClient(nameof(ListContentItemVariants_ByCodename_ListsVariants));
@@ -302,10 +353,11 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 
-            Assert.Equal(EXISTING_ITEM_ID, responseVariants.ToList()[1].Item.Id);
+            Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void ListContentItemVariants_ByExternalId_ListsVariants()
         {
             var client = CreateContentManagementClient(nameof(ListContentItemVariants_ByExternalId_ListsVariants));
@@ -313,7 +365,7 @@ namespace KenticoCloud.ContentManagement.Tests
             // Arrange
             var externalId = "0220e6ec5b77401ea113b5273c8cdd5e";
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem); 
+            await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
             // Test
             var identifier = ContentItemIdentifier.ByExternalId(externalId);
@@ -327,6 +379,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ById_LanguageId_GetsVariant()
         {
             var client = CreateContentManagementClient(nameof(GetContentItemVariant_ById_LanguageId_GetsVariant));
@@ -343,6 +396,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ById_LanguageCodeName_GetsVariant()
         {
             var client = CreateContentManagementClient(nameof(GetContentItemVariant_ById_LanguageCodeName_GetsVariant));
@@ -359,6 +413,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByCodename_LanguageId_GetsVariant()
         {
             var client = CreateContentManagementClient(nameof(GetContentItemVariant_ByCodename_LanguageId_GetsVariant));
@@ -375,6 +430,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByCodename_LanguageCodeName_GetsVariant()
         {
             var client = CreateContentManagementClient(nameof(GetContentItemVariant_ByCodename_LanguageCodeName_GetsVariant));
@@ -391,6 +447,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByExternalId_LanguageCodename_GetsVariant()
         {
             var client = CreateContentManagementClient(nameof(GetContentItemVariant_ByExternalId_LanguageCodename_GetsVariant));
@@ -417,6 +474,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByExternalId_ReturnsVariant()
         {
             var client = CreateContentManagementClient(nameof(GetContentItemVariant_ByExternalId_ReturnsVariant));
@@ -439,8 +497,9 @@ namespace KenticoCloud.ContentManagement.Tests
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
-        
+
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ById_LanguageCodename_DeletesVariant()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItemVariant_ById_LanguageCodename_DeletesVariant));
@@ -456,6 +515,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ById_LanguageId_DeletesVariant()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItemVariant_ById_LanguageId_DeletesVariant));
@@ -471,6 +531,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByCodename_LanguageId_DeletesVariant()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItemVariant_ByCodename_LanguageId_DeletesVariant));
@@ -487,6 +548,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByCodename_LanguageCodename_DeletesVariant()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItemVariant_ByCodename_LanguageCodename_DeletesVariant));
@@ -503,6 +565,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByExternalId_LanguageId_DeletesVariant()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItemVariant_ByExternalId_LanguageId_DeletesVariant));
@@ -519,6 +582,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByExternalId_LanguageCodename_DeletesVariant()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItemVariant_ByExternalId_LanguageCodename_DeletesVariant));
@@ -539,28 +603,41 @@ namespace KenticoCloud.ContentManagement.Tests
         #region Item
 
         [Fact]
-        public async void AddContentItem_AddsContentItem()
+        [Trait("Category", "ContentItem")]
+        public async void CreateContentItem_CreatesContentItem()
         {
-            var client = CreateContentManagementClient(nameof(AddContentItem_AddsContentItem));
+            var client = CreateContentManagementClient(nameof(CreateContentItem_CreatesContentItem));
 
             var itemName = "Hooray!";
             var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
-            var item = new ContentItemCreateModel() { Name = itemName, Type = type };
+            var item = new ContentItemCreateModel {
+                Name = itemName,
+                Type = type,
+                SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename(EXISTING_SITEMAP_NODE_CODENAME) }
+            };
 
             var responseItem = await client.CreateContentItemAsync(item);
+
             Assert.Equal(itemName, responseItem.Name);
+            Assert.Equal(EXISTING_CONTENT_TYPE_ID, responseItem.Type.Id);
+            Assert.Single(responseItem.SitemapLocations);
+            Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void ListContentItems_ListsContentItems()
         {
             var client = CreateContentManagementClient(nameof(ListContentItems_ListsContentItems));
 
             var response = await client.ListContentItemsAsync();
+
             Assert.NotNull(response);
+            Assert.NotNull(response.FirstOrDefault());
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void ListContentItems_WithContinuation_ListsAllContentItems()
         {
             var client = CreateContentManagementClient(nameof(ListContentItems_WithContinuation_ListsAllContentItems));
@@ -585,32 +662,50 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_ByCodename_UpdatesContentItem()
         {
             var client = CreateContentManagementClient(nameof(UpdateContentItem_ByCodename_UpdatesContentItem));
 
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var sitemapLocation = new List<SitemapNodeIdentifier>();
-            var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
+            var sitemapLocations = new[] { SitemapNodeIdentifier.ById(EXISTING_SITEMAP_NODE_ID) };
 
-            var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
-            Assert.Equal(EXISTING_ITEM_CODENAME, contentItemReponse.Name);
+            var item = new ContentItemUpdateModel {
+                Name = EXISTING_ITEM_CODENAME,
+                SitemapLocations = sitemapLocations
+            };
+
+            var responseItem = await client.UpdateContentItemAsync(identifier, item);
+
+            Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.Name);
+            Assert.Single(responseItem.SitemapLocations);
+            Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
         }
 
         [Fact]
-        public async void UpdateContentItemAsynx_ById_UpdatesContentItem()
+        [Trait("Category", "ContentItem")]
+        public async void UpdateContentItem_ById_UpdatesContentItem()
         {
-            var client = CreateContentManagementClient(nameof(UpdateContentItemAsynx_ById_UpdatesContentItem));
+            var client = CreateContentManagementClient(nameof(UpdateContentItem_ById_UpdatesContentItem));
 
             var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var sitemapLocation = new List<SitemapNodeIdentifier>();
-            var item = new ContentItemUpdateModel() { Name = EXISTING_ITEM_CODENAME, SitemapLocations = sitemapLocation };
+            var sitemapLocations = new[] { SitemapNodeIdentifier.ById(EXISTING_SITEMAP_NODE_ID) };
 
-            var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
-            Assert.Equal(EXISTING_ITEM_CODENAME, contentItemReponse.Name);
+            var item = new ContentItemUpdateModel
+            {
+                Name = EXISTING_ITEM_CODENAME,
+                SitemapLocations = sitemapLocations
+            };
+
+            var responseItem = await client.UpdateContentItemAsync(identifier, item);
+
+            Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.Name);
+            Assert.Single(responseItem.SitemapLocations);
+            Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_UsingResponseModel_UpdatesContentItem()
         {
             var client = CreateContentManagementClient(nameof(UpdateContentItem_UsingResponseModel_UpdatesContentItem));
@@ -633,6 +728,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_UpdatesContentItem()
         {
             var client = CreateContentManagementClient(nameof(UpsertContentItemByExternalId_UpdatesContentItem));
@@ -643,9 +739,11 @@ namespace KenticoCloud.ContentManagement.Tests
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
-            var sitemapLocation = new List<SitemapNodeIdentifier>();
             var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
-            var item = new ContentItemUpsertModel() { Name = itemName, SitemapLocations = sitemapLocation, Type = type };
+            var item = new ContentItemUpsertModel() {
+                Name = itemName,
+                Type = type
+            };
 
             var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
             Assert.Equal(itemName, contentItemResponse.Name);
@@ -656,6 +754,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_CreatesContentItem()
         {
             var client = CreateContentManagementClient(nameof(UpsertContentItemByExternalId_CreatesContentItem));
@@ -663,9 +762,11 @@ namespace KenticoCloud.ContentManagement.Tests
             // Test
             var externalId = "9d98959eeac446288992b44b5d366e16";
             var itemName = "Hooray!";
-            var sitemapLocation = new List<SitemapNodeIdentifier>();
             var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
-            var item = new ContentItemUpsertModel() { Name = itemName, SitemapLocations = sitemapLocation, Type = type };
+            var item = new ContentItemUpsertModel() {
+                Name = itemName,
+                Type = type
+            };
 
             var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
             Assert.Equal(itemName, contentItemResponse.Name);
@@ -677,6 +778,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void GetContentItem_ById_GetsContentItem()
         {
             var client = CreateContentManagementClient(nameof(GetContentItem_ById_GetsContentItem));
@@ -688,6 +790,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByCodename_GetsContentItem()
         {
             var client = CreateContentManagementClient(nameof(GetContentItem_ByCodename_GetsContentItem));
@@ -699,6 +802,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByExternalId_GetsContentItem()
         {
             var client = CreateContentManagementClient(nameof(GetContentItem_ByExternalId_GetsContentItem));
@@ -717,8 +821,9 @@ namespace KenticoCloud.ContentManagement.Tests
             var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
-        
+
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ById_DeletesContentItem()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItem_ById_DeletesContentItem));
@@ -728,9 +833,16 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = ContentItemIdentifier.ById(itemToDelete.Id);
 
             await client.DeleteContentItemAsync(identifier);
+
+            // Check if not available after deletion
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ContentManagementException>(() => client.GetContentItemAsync(identifier));
+            }
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByCodename_DeletesContentItem()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItem_ByCodename_DeletesContentItem));
@@ -740,9 +852,16 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = ContentItemIdentifier.ByCodename(itemToDelete.CodeName);
 
             await client.DeleteContentItemAsync(identifier);
+
+            // Check if not available after deletion
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ContentManagementException>(() => client.GetContentItemAsync(identifier));
+            }
         }
 
         [Fact]
+        [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByExternalId_DeletesContentItem()
         {
             var client = CreateContentManagementClient(nameof(DeleteContentItem_ByExternalId_DeletesContentItem));
@@ -753,6 +872,12 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = ContentItemIdentifier.ByExternalId(externalId);
 
             await client.DeleteContentItemAsync(identifier);
+
+            // Check if not available after deletion
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ContentManagementException>(() => client.GetContentItemAsync(identifier));
+            }
         }
 
         #endregion
@@ -760,15 +885,18 @@ namespace KenticoCloud.ContentManagement.Tests
         #region Assets
 
         [Fact]
+        [Trait("Category", "Asset")]
         public async void ListAssets_ListsAssets()
         {
             var client = CreateContentManagementClient(nameof(ListAssets_ListsAssets));
 
             var response = await client.ListAssetsAsync();
-            Assert.True(response != null);
+            Assert.NotNull(response);
+            Assert.NotNull(response.FirstOrDefault());
         }
 
         [Fact]
+        [Trait("Category", "Asset")]
         public async void ListAssets_WithContinuation_ListsAllAssets()
         {
             var client = CreateContentManagementClient(nameof(ListAssets_WithContinuation_ListsAllAssets));
@@ -793,6 +921,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "Asset")]
         public async void CreateAsset_WithStream_Uploads_CreatesAsset()
         {
             var client = CreateContentManagementClient(nameof(CreateAsset_WithStream_Uploads_CreatesAsset));
@@ -817,7 +946,6 @@ namespace KenticoCloud.ContentManagement.Tests
                 var asset = new AssetUpsertModel
                 {
                     FileReference = fileResult,
-                    Descriptions = new List<AssetDescription>()
                 };
 
                 var assetResult = await client.CreateAssetAsync(asset);
@@ -836,6 +964,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "Asset")]
         public async void UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset()
         {
             var client = CreateContentManagementClient(nameof(UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset));
@@ -858,7 +987,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var spanishDescription = "Spanish descriptión";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
-            var descriptions = new List<AssetDescription>() { assetDescription };
+            var descriptions = new [] { assetDescription };
 
             var asset = new AssetUpsertModel
             {
@@ -882,6 +1011,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "Asset")]
         public async void CreateAsset_WithFile_Uploads_CreatesAsset()
         {
             var client = CreateContentManagementClient(nameof(CreateAsset_WithFile_Uploads_CreatesAsset));
@@ -894,7 +1024,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var spanishDescription = "Spanish descriptión";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
-            var descriptions = new List<AssetDescription>() { assetDescription };
+            var descriptions = new [] { assetDescription };
 
             var assetResult = await client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
 
@@ -909,9 +1039,9 @@ namespace KenticoCloud.ContentManagement.Tests
             // Cleanup
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
-
-
+        
         [Fact]
+        [Trait("Category", "Asset")]
         public async void CreateAsset_FromFileSystem_Uploads_CreatesAsset()
         {
             var client = CreateContentManagementClient(nameof(CreateAsset_FromFileSystem_Uploads_CreatesAsset));
@@ -935,14 +1065,13 @@ namespace KenticoCloud.ContentManagement.Tests
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
 
-
-
         [Fact]
+        [Trait("Category", "Asset")]
         public async void UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset()
         {
             var client = CreateContentManagementClient(nameof(UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset));
 
-            var content = $"Hello world from CM API .NET SDK test {nameof(UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset)}!";
+            var content = $"Hello world from CM API .NET SDK test {nameof(UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
             var fileName = "HelloExternal.txt";
             var contentType = "text/plain";
@@ -952,7 +1081,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var spanishDescription = "Spanish descriptión";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
-            var descriptions = new List<AssetDescription>() { assetDescription };
+            var descriptions = new [] { assetDescription };
 
             var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
 
@@ -969,36 +1098,37 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "Asset")]
         public async void UpdateAssetById_ReturnsUpdatedAsset()
         {
             var client = CreateContentManagementClient(nameof(UpdateAssetById_ReturnsUpdatedAsset));
 
-            var id = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
+            var identifier = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
             var updatedDescription = new AssetDescription()
             {
                 Language = LanguageIdentifier.DEFAULT_LANGUAGE,
                 Description = "Dancing Goat Café - Los Angeles - UPDATED",
             };
-            var update = new AssetUpdateModel() { Descriptions = new List<AssetDescription>() { updatedDescription } };
+            var update = new AssetUpdateModel() { Descriptions = new [] { updatedDescription } };
 
-            var response = await client.UpdateAssetAsync(id, update);
+            var assetResult = await client.UpdateAssetAsync(identifier, update);
 
-            Assert.Equal(response.Id.ToString(), id.Id.ToString());
+            Assert.Equal(assetResult.Id.ToString(), identifier.Id.ToString());
+            Assert.Equal(updatedDescription.Description, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == Guid.Empty).Description);
         }
 
-
         [Fact]
+        [Trait("Category", "Asset")]
         public async void GetAsset_WhenGivenAssetId_ReturnsGivenAsset()
         {
             var client = CreateContentManagementClient(nameof(GetAsset_WhenGivenAssetId_ReturnsGivenAsset));
 
-            var id = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
-            
-            var response = await client.GetAssetAsync(id);
+            var identifier = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
 
-            Assert.Equal(response.Id.ToString(), id.Id.ToString());
+            var response = await client.GetAssetAsync(identifier);
+
+            Assert.Equal(response.Id, identifier.Id);
         }
-
 
         #endregion
     }
