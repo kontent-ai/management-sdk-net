@@ -64,12 +64,15 @@ Each content item can consist of several localized variants. **The content itsel
 var client = new ContentManagementClient(options);
 
 // Define a content type of the imported item by its codename
-var contentType = new ObjectIdentifier() { CodeName = "cafe" };
+var contentType = ContentTypeIdentifier.ByCodename("article");
 // Define the imported content item
-var item = new ContentItemCreateModel() { Name = "Brno", Type = contentType };
+var item = new ContentItemCreateModel() { 
+    Name = "On Roasts",
+    Type = contentType,
+    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("articles") }};
 
 // Add your content item to your project in Kentico Cloud
-var responseItem = await client.AddContentItemAsync(item);
+var responseItem = await client.CreateContentItemAsync(item);
 );
 ```
 
@@ -106,11 +109,9 @@ var languageIdentifier = LanguageIdentifier.ByLanguageCodename("en-US");
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
 // Upsert a language variant of your content item
-var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
 );
 ```
-
-TO-DO: Example of importing other types of elements besides text (Assets, Modular content, Taxonomy, Numbers...)
 
 ### Importing assets
 
@@ -185,7 +186,7 @@ var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
 ```
 TO-DO: Does this work this way? Can I use ManageAPI Reference this way?
 
@@ -298,7 +299,7 @@ var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpdateModel);
+var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
 
 ```
 
