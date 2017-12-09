@@ -27,7 +27,7 @@ var options = new ContentManagementOptions() {
     ApiKey = "ew0...1eo" 
 }; 
 // Initialize an instance of the ContentManagementClient client
-var client = new ContentManagementClient(OPTIONS);
+var client = new ContentManagementClient(options);
 ```
 
 Once you create a `ContentManagementClient`, you can start managing content in your project by calling methods on the client instance. See [Importing content items](#importing-content-items) for details.
@@ -61,7 +61,7 @@ Each content item can consist of several localized variants. **The content itsel
 
 ```csharp
 // Create an instance of the Content Management client
-var client = new ContentManagementClient(OPTIONS);
+var client = new ContentManagementClient(options);
 
 // Define a content type of the imported item by its codename
 var contentType = new ObjectIdentifier() { CodeName = "cafe" };
@@ -85,18 +85,20 @@ To add localized content, you have to specify:
 * The content elements of the language variant you want to insert or update. Omitted elements will remain unchanged. 
 
 ```csharp
-var client = new ContentManagementClient(OPTIONS);
+var client = new ContentManagementClient(options);
 
-private static Dictionary<string, object> ELEMENTS = new Dictionary<string, object> {
-    { "street", "Nove Sady 25" },
-    { "city", "Brno" },
-    { "country", "Czech Republic" },
-    { "state", "Jihomoravsky kraj" },
-    { "zip_code", "60200" },
-    { "phone", "+420 444 444 444" },
-    { "email", "brnocafe@kentico.com" }
+ protected static dynamic ELEMENTS = new {
+    title = "On Roasts",
+    post_date = new DateTime(2017, 7, 4),
+    body_copy = @"
+        <h1>Light Roasts</h1>
+        <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee                 varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of           coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is           higher.</p>
+    ",
+    related_articles = new [] { ContentItemIdentifier.ByCodename("which_brewing_fits_you_") },
+    url_pattern = "on-roasts",
+    personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") },
 };
-var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = ELEMENTS };
+var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = ELEMENTS };
 
 // Specify the content item and the language varaint 
 var itemIdentifier = ContentItemIdentifier.ByCodename("brno");
@@ -120,7 +122,7 @@ Importing assets using Content Management SDK is a 2-step process:
 #### 1. Upload a file 
 
 ```csharp
-var client = new ContentManagementClient(OPTIONS);
+var client = new ContentManagementClient(options);
 
 var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
 var fileName = "Hello.txt";
@@ -173,7 +175,7 @@ var item = new ContentItemUpsertModel() {
 var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
 
 //Upsert a language variant
-var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = {
+var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
     { "picture", new ObjectIdentifier() { externalID = "Ext-Asset-123-png" } },
     { "city", "Brno" },
     { "country", "Czech Republic" }
@@ -280,7 +282,7 @@ client.DeleteContentItemAsync(identifier);
 #### Upserting language variants
 
 ```csharp
- var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = {
+ var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
     { "street", "Nove Sady 25" },
     { "city", "Brno" },
     { "country", "Czech Republic" }
@@ -348,7 +350,7 @@ await client.DeleteContentItemVariantAsync(identifier);
 ##### Uploading a file 
 
 ```csharp
-var client = new ContentManagementClient(OPTIONS);
+var client = new ContentManagementClient(options);
 
 var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
 var fileName = "Hello.txt";
