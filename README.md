@@ -134,7 +134,7 @@ Kentico Cloud will generate an internal id that serves as a pointer to your file
 ```csharp
 var asset = new AssetUpsertModel {
     FileReference = fileResult,
-    Descriptions = new List<AssetDescriptionsModel>()
+    Descriptions = new List<AssetDescription>()
 };
 var externalId = "Hello";
 
@@ -158,7 +158,7 @@ This way, you can import your content in any order and run the import process re
 // Upset an asset
 var asset = new AssetUpsertModel {
     FileReference = fileResult,
-    Descriptions = new List<AssetDescriptionsModel>();
+    Descriptions = new List<AssetDescription>();
 };
 var externalId = "Ext-Asset-123-png";
 var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
@@ -362,7 +362,7 @@ var fileResult = await client.UploadFileAsync(stream, fileName, contentType);
 var asset = new AssetUpsertModel
 {
     FileReference = fileResult,
-    Descriptions = new List<AssetDescriptionsModel>();
+    Descriptions = new List<AssetDescription>();
 };
 var externalId = "Ext-Asset-123-png";
 
@@ -372,7 +372,7 @@ var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 #### Uploading asset from a file system in a single step (?)
 
 ```csharp 
-var descriptions = new List<AssetDescriptionsModel>();
+var descriptions = new List<AssetDescription>();
 
 var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 var contentType = "image/png";
