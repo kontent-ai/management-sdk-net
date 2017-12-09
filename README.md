@@ -64,7 +64,7 @@ Each content item can consist of several localized variants. **The content itsel
 var client = new ContentManagementClient(OPTIONS);
 
 // Define a content type of the imported item by its codename
-var contentType = new ManageApiReference() { CodeName = "cafe" };
+var contentType = new ObjectIdentifier() { CodeName = "cafe" };
 // Define the imported content item
 var item = new ContentItemCreateModel() { Name = "Brno", Type = contentType };
 
@@ -164,8 +164,8 @@ var externalId = "Ext-Asset-123-png";
 var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 
 // Upsert a content item
-var sitemapLocations = new List<ManageApiReference>();
-var type = new ManageApiReference() { CodeName = "cafe" };
+var sitemapLocations = new List<ObjectIdentifier>();
+var type = new ObjectIdentifier() { CodeName = "cafe" };
 var item = new ContentItemUpsertModel() { 
     Name = "Brno", SitemapLocations = sitemapLocations,
     Type = type 
@@ -174,7 +174,7 @@ var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-I
 
 //Upsert a language variant
 var contentItemVariantUpdateModel = new ContentItemVariantUpdateModel() { Elements = {
-    { "picture", new ManageApiReference() { externalID = "Ext-Asset-123-png" } },
+    { "picture", new ObjectIdentifier() { externalID = "Ext-Asset-123-png" } },
     { "city", "Brno" },
     { "country", "Czech Republic" }
 } };
@@ -192,8 +192,8 @@ TO-DO: Does this work this way? Can I use ManageAPI Reference this way?
 #### Upserting a content item by external ID
 
 ```csharp
-var sitemapLocations = new List<ManageApiReference>();
-var type = new ManageApiReference() { CodeName = "cafe" };
+var sitemapLocations = new List<ObjectIdentifier>();
+var type = new ObjectIdentifier() { CodeName = "cafe" };
 var item = new ContentItemUpsertModel() { 
     Name = "New or updated name",
     SitemapLocations = sitemapLocations,
@@ -221,7 +221,7 @@ var responseItem = await client.CreateContentItemAsync(item);
 var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
-var newSitemapLocations = new List<ManageApiReference>();
+var newSitemapLocations = new List<ObjectIdentifier>();
 var item = new ContentItemUpdateModel() { 
     Name = "New name",
     SitemapLocations = newSitemapLocations
