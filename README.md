@@ -137,6 +137,9 @@ var fileResult = await client.UploadFileAsync(stream, fileName, contentType);
 Kentico Cloud will generate an internal id that serves as a pointer to your file. You will use it in the next step to create the actual asset. 
 
 #### 2. Creating an asset 
+
+Use the file reference you have obtained in the previous step to link the asset with your file. You can specify the asset description for each language in your project.
+
 ```csharp
 
 var englishDescription = "Description of the asset in English Language";
@@ -210,7 +213,7 @@ var item = new ContentItemUpsertModel() {
 var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
 ```
 
-### Adding a content item 
+#### Adding a content item 
 
 ```csharp
 var type = ContentTypeIdentifier.ByCodename("cafe");
@@ -442,5 +445,3 @@ Optional:
 ## Feedback & Contributing
 
 Check out the [contributing](https://github.com/Kentico/content-management-sdk-net/blob/master/CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
-
-
