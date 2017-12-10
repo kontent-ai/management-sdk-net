@@ -13,7 +13,7 @@ You can head over to our Developer Hub for the complete [Content Management API 
 
 To manage content in a Kentico Cloud project via the Content Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Content Management API](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#section-enabling-the-api-for-your-project).
 
-You also need to prepare the structure of your Kentico Cloud project before importing your content. At minimum, that means defining the [Content types](https://help.kenticocloud.com/define-content-structure/structure/creating-and-deleting-content-types) of the imported items. You might also need to set up your Languages, Taxonomy groups or Sitemap locations (if you are using them). 
+You also need to prepare the structure of your Kentico Cloud project before importing your content. At minimum, that means defining the [Content types](https://help.kenticocloud.com/define-content-structure/structure/creating-and-deleting-content-types) of the imported items. You might also need to set up your [Languages](https://help.kenticocloud.com/multilingual-content#managing-languages), [Taxonomy](https://help.kenticocloud.com/categorize-content/working-with-taxonomy) or [Sitemap locations](https://help.kenticocloud.com/categorize-content/using-a-sitemap) (if you are using them). 
 
 ## Using the ContentManagementClient
 
@@ -108,7 +108,7 @@ protected static dynamic ELEMENTS = new {
 var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = ELEMENTS };
 
 // Specify the content item and the language varaint 
-var itemIdentifier = ContentItemIdentifier.ByCodename("brno");
+var itemIdentifier = ContentItemIdentifier.ByCodename("on_roasts");
 var languageIdentifier = LanguageIdentifier.ByLanguageCodename("en-US");
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
