@@ -135,17 +135,20 @@ Kentico Cloud will generate an internal id that serves as a pointer to your file
 
 #### 2. Create an asset 
 ```csharp
+
+var englishDescription = "Description of the asset in English Language";
+var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
+var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
+var descriptions = new [] { assetDescription };
+
 var asset = new AssetUpsertModel {
     FileReference = fileResult,
-    Descriptions = new List<AssetDescription>()
+    Descriptions = descriptions
 };
-var externalId = "Hello";
+var externalId = "Ext-Asset-7483-txt";
 
-var assetResult = await client.AddAssetAsync(asset);
+var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```
-
-TO-DO: How to import asset descriptions
-TBD: Do we use the basic AddAsset method in the introduction, or do we push external IDs right away?
 
 ### Importing modular and linked content
 
@@ -158,22 +161,22 @@ The content you are importing will often contain references to other pieces of i
 This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. In the example below we import an asset and a content item that uses it: 
 
 ```csharp
-// Upset an asset
+// Upsert an asset, assuming you already have the fileResult reference
 var asset = new AssetUpsertModel {
     FileReference = fileResult,
     Descriptions = new List<AssetDescription>();
 };
-var externalId = "Ext-Asset-123-png";
-var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
+var assetExternalId = "Ext-Asset-123-png";
+var assetResult = await client.UpsertAssetByExternalIdAsync(assetExternalId, asset);
 
 // Upsert a content item
-var sitemapLocations = new List<ObjectIdentifier>();
-var type = new ObjectIdentifier() { CodeName = "cafe" };
+var type = ContentTypeIdentifier.ByCodename("cafe");
 var item = new ContentItemUpsertModel() { 
-    Name = "Brno", SitemapLocations = sitemapLocations,
+    Name = "Brno", 
     Type = type 
 };
-var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+var itemExternalId = "Ext-Item-456-Brno";
+var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 
 //Upsert a language variant
 var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
@@ -188,18 +191,16 @@ var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdenti
 
 var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
 ```
-TO-DO: Does this work this way? Can I use ManageAPI Reference this way?
 
 ### Content item methods
 
 #### Upserting a content item by external ID
 
 ```csharp
-var sitemapLocations = new List<ObjectIdentifier>();
-var type = new ObjectIdentifier() { CodeName = "cafe" };
+var type = ContentTypeIdentifier.ByCodename("cafe");
 var item = new ContentItemUpsertModel() { 
     Name = "New or updated name",
-    SitemapLocations = sitemapLocations,
+    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") },
     Type = type 
 };
 
@@ -212,7 +213,8 @@ var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-I
 var type = ContentTypeIdentifier.ByCodename("cafe");
 var item = new ContentItemCreateModel() { 
     Name = "Brno",
-    Type = type 
+    Type = type.
+    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }
 };
 
 var responseItem = await client.CreateContentItemAsync(item);
@@ -224,10 +226,12 @@ var responseItem = await client.CreateContentItemAsync(item);
 var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
-var newSitemapLocations = new List<ObjectIdentifier>();
 var item = new ContentItemUpdateModel() { 
     Name = "New name",
-    SitemapLocations = newSitemapLocations
+    SitemapLocations = new[] { 
+        SitemapNodeIdentifier.ByCodename("cafes"),
+        SitemapNodeIdentifier.ByCodename("europe")
+    }
 };
 
 var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
