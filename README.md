@@ -368,17 +368,22 @@ var fileResult = await client.UploadFileAsync(stream, fileName, contentType);
 
 #### Upserting an asset using external ID 
 ```csharp
+var englishDescription = "Description of the asset in English Language";
+var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
+var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
+var descriptions = new [] { assetDescription };
+
 var asset = new AssetUpsertModel
 {
     FileReference = fileResult,
-    Descriptions = new List<AssetDescription>();
+    Descriptions = descriptions;
 };
 var externalId = "Ext-Asset-123-png";
 
 var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```
 
-#### Uploading asset from a file system in a single step (?)
+#### Uploading asset from a file system in a single step
 
 ```csharp 
 var descriptions = new List<AssetDescription>();
