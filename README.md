@@ -37,7 +37,7 @@ Once you create a `ContentManagementClient`, you can start managing content in y
 Most methods of the SDK accept an *Identifier* object that specifies which content item, language variant or asset you want to perform the given operation on. There are 3 types of identification you can use to create the identifier: 
 
 ```csharp
-var identifier = ContentItemIdentifier.ByCodename("brno");
+var identifier = ContentItemIdentifier.ByCodename("on_roasts");
 var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 ```
@@ -91,12 +91,15 @@ To add localized content, you have to specify:
 ```csharp
 var client = new ContentManagementClient(options);
 
- protected static dynamic ELEMENTS = new {
+protected static dynamic ELEMENTS = new {
     title = "On Roasts",
     post_date = new DateTime(2017, 7, 4),
     body_copy = @"
         <h1>Light Roasts</h1>
-        <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color. This method is used for milder coffee  varieties and for coffee tasting. This type of roasting allows the natural characteristics of each coffee to show. The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
+        <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color. This method
+        is used for milder coffee  varieties and for coffee tasting. This type of roasting allows the natural
+        characteristics of each coffee to show. The aroma of coffees produced from light roasts is usually
+        more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
     ",
     related_articles = new [] { ContentItemIdentifier.ByCodename("which_brewing_fits_you_") },
     url_pattern = "on-roasts",
@@ -288,16 +291,15 @@ client.DeleteContentItemAsync(identifier);
 #### Upserting language variants
 
 ```csharp
- var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
-    { "street", "Nove Sady 25" },
-    { "city", "Brno" },
-    { "country", "Czech Republic" }
+ var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = new {
+    street = "Nove Sady 25",
+    city = "Brno",
+    country = "Czech Republic"
 } };
 
 var itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 // var itemIdentifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 // var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-
 
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 // var languageIdentifier = LanguageIdentifier.ById("00000000-0000-0000-0000-000000000000");
@@ -305,7 +307,6 @@ var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
 var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
-
 ```
 
 #### Viewing a language variant
@@ -314,7 +315,6 @@ var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVar
 var itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 // var itemIdentifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 // var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-
 
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 // var languageIdentifier = LanguageIdentifier.ById("00000000-0000-0000-0000-000000000000");
@@ -327,7 +327,6 @@ var response = await client.GetContentItemVariantAsync(identifier);
 #### Listing language variants
 
 ```csharp
-
 var identifier = ContentItemIdentifier.ByCodename("brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 // var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
@@ -338,11 +337,9 @@ var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 #### Deleting language variants
 
 ```csharp
-
 var itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 // var itemIdentifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 // var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-
 
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 // var languageIdentifier = LanguageIdentifier.ById("00000000-0000-0000-0000-000000000000");
@@ -399,7 +396,6 @@ var response = await client.ListAssetsAsync();
 With continuation:
 
 ```csharp
-
 var response = await client.ListAssetsAsync();
 
 while (true)
