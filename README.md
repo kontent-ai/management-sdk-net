@@ -114,7 +114,6 @@ var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdenti
 
 // Upsert a language variant of your content item
 var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
-);
 ```
 
 ### Importing assets
@@ -184,9 +183,9 @@ var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemEx
 
 //Upsert a language variant
 var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
-    { "picture", new ObjectIdentifier() { externalID = "Ext-Asset-123-png" } },
-    { "city", "Brno" },
-    { "country", "Czech Republic" }
+    picture = new ObjectIdentifier() { externalID = "Ext-Asset-123-png" },
+    city = "Brno",
+    country = "Czech Republic"
 } };
 
 var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
@@ -195,6 +194,11 @@ var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdenti
 
 var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
 ```
+
+picture = new ObjectIdentifier() { externalID = "Ext-Asset-123-png" }; 
+VS ?
+picture = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
+
 
 ### Content item methods
 
