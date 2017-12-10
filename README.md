@@ -120,10 +120,10 @@ var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVar
 
 Importing assets using Content Management SDK is a 2-step process:
 
-1. Upload a file to Kentico Cloud.
-2. Create a new asset using the given file reference.
+1. Uploading a file to Kentico Cloud.
+2. Creating a new asset using the given file reference.
 
-#### 1. Upload a file 
+#### 1. Uploading a file 
 
 ```csharp
 var client = new ContentManagementClient(options);
@@ -136,7 +136,7 @@ var fileResult = await client.UploadFileAsync(stream, fileName, contentType);
 ```
 Kentico Cloud will generate an internal id that serves as a pointer to your file. You will use it in the next step to create the actual asset. 
 
-#### 2. Create an asset 
+#### 2. Creating an asset 
 ```csharp
 
 var englishDescription = "Description of the asset in English Language";
@@ -194,11 +194,6 @@ var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdenti
 
 var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
 ```
-
-picture = new ObjectIdentifier() { externalID = "Ext-Asset-123-png" }; 
-VS ?
-picture = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
-
 
 ### Content item methods
 
@@ -292,7 +287,7 @@ client.DeleteContentItemAsync(identifier);
  
 ### Language variant methods
 
-#### Upserting language variants
+#### Upserting a language variant
 
 ```csharp
  var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = new {
@@ -338,7 +333,7 @@ var identifier = ContentItemIdentifier.ByCodename("brno");
 var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 ```
 
-#### Deleting language variants
+#### Deleting a language variant
 
 ```csharp
 var itemIdentifier = ContentItemIdentifier.ByCodename("brno");
@@ -354,7 +349,7 @@ await client.DeleteContentItemVariantAsync(identifier);
 
 ### Asset methods
 
-##### Uploading a file 
+#### Uploading a file 
 
 ```csharp
 var client = new ContentManagementClient(options);
@@ -383,7 +378,7 @@ var externalId = "Ext-Asset-123-png";
 var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```
 
-#### Uploading asset from a file system in a single step
+#### Uploading an asset from a file system in a single step
 
 ```csharp 
 var descriptions = new List<AssetDescription>();
