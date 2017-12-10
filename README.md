@@ -69,7 +69,8 @@ var contentType = ContentTypeIdentifier.ByCodename("article");
 var item = new ContentItemCreateModel() { 
     Name = "On Roasts",
     Type = contentType,
-    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("articles") }};
+    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("articles") }
+};
 
 // Add your content item to your project in Kentico Cloud
 var responseItem = await client.CreateContentItemAsync(item);
@@ -95,7 +96,7 @@ var client = new ContentManagementClient(options);
     post_date = new DateTime(2017, 7, 4),
     body_copy = @"
         <h1>Light Roasts</h1>
-        <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee                 varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of           coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is           higher.</p>
+        <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color. This method is used for milder coffee  varieties and for coffee tasting. This type of roasting allows the natural characteristics of each coffee to show. The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
     ",
     related_articles = new [] { ContentItemIdentifier.ByCodename("which_brewing_fits_you_") },
     url_pattern = "on-roasts",
@@ -213,7 +214,7 @@ var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-I
 var type = ContentTypeIdentifier.ByCodename("cafe");
 var item = new ContentItemCreateModel() { 
     Name = "Brno",
-    Type = type.
+    Type = type,
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }
 };
 
@@ -241,7 +242,7 @@ var contentItemReponse = await client.UpdateContentItemAsync(identifier, item);
 
 ```csharp
 var identifier = ContentItemIdentifier.ByCodename("brno");
-// var identifier = ContentItemIdentifier.ByExternalId(EXTERNAL_ID);
+// var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
 var contentItemReponse = await client.GetContentItemAsync(identifier);
@@ -276,7 +277,7 @@ while (true)
 
 ```csharp
 var identifier = ContentItemIdentifier.ByCodename("brno");
-// var identifier = ContentItemIdentifier.ByExternalId(itemToDelete.ExternalId);
+// var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 // var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 
 client.DeleteContentItemAsync(identifier);
