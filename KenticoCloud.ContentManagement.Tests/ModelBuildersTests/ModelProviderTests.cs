@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.ModelBuilders;
 using KenticoCloud.ContentManagement.Tests.Data;
 using Newtonsoft.Json;
@@ -24,23 +25,11 @@ namespace KenticoCloud.ContentManagement.Tests.ModelBuildersTests
         public void GetContentItemVariantModel_ReturnsExpected()
         {
             var expected = GetTestModel();
-            expected.IgnoredMultipleChoice = null;
             var model = new ContentItemVariantModel
             {
-                Elements = new Dictionary<string, object>
-                {
-                    {"title", expected.Title},
-                    {"post_date", expected.PostDate.Value},
-                    {"pages", expected.Pages},
-                    {"url_pattern", expected.UrlPattern},
-                    {"body_copy", expected.BodyCopy},
-                    {"teaser_image", JArray.FromObject(expected.TeaserImage)},
-                    {"related_articles", JArray.FromObject(expected.RelatedArticles)},
-                    {"categories", JArray.FromObject(expected.Categories)},
-                    {"personas", JArray.FromObject(expected.Personas)},
-                    {"multiplechoice_2", JArray.FromObject(new LinkedList<MultipleChoiceOptionIdentifier>(new[] {Guid.NewGuid(), Guid.NewGuid()}.Select(MultipleChoiceOptionIdentifier.ById)))}
-                }
+                Elements = ToDynamic(expected)
             };
+            expected.IgnoredMultipleChoice = null;
             var actual = _modelProvider.GetContentItemVariantModel<ComplexTestModel>(model).Elements;
 
             AssertElements(expected, actual);
@@ -50,18 +39,7 @@ namespace KenticoCloud.ContentManagement.Tests.ModelBuildersTests
         public void GetContentItemVariantUpsertModel_ReturnsExpected()
         {
             var model = GetTestModel();
-            var expected = new Dictionary<string, object>
-            {
-                {"title", model.Title},
-                {"post_date", model.PostDate.Value},
-                {"pages", model.Pages},
-                {"url_pattern", model.UrlPattern},
-                {"body_copy", model.BodyCopy},
-                {"teaser_image", JArray.FromObject(model.TeaserImage)},
-                {"related_articles", JArray.FromObject(model.RelatedArticles)},
-                {"categories", JArray.FromObject(model.Categories)},
-                {"personas", JArray.FromObject(model.Personas)},
-            };
+            var expected = ToDynamic(model);
             var actual = _modelProvider.GetContentItemVariantUpsertModel(model).Elements;
 
             AssertElements(expected, actual);
@@ -96,6 +74,12 @@ namespace KenticoCloud.ContentManagement.Tests.ModelBuildersTests
                 Personas = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(TaxonomyTermIdentifier.ById).ToList(),
                 IgnoredMultipleChoice = new LinkedList<MultipleChoiceOptionIdentifier>(new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(MultipleChoiceOptionIdentifier.ById)),
             };
+        }
+
+        private static dynamic ToDynamic(object value)
+        {
+            var serialized = JsonConvert.SerializeObject(value);
+            return JsonConvert.DeserializeObject<dynamic>(serialized, new JsonSerializerSettings{Converters = new JsonConverter[] {new DynamicObjectJsonConverter()}});
         }
 
         private static void AssertElements(IDictionary<string, object> expected, IDictionary<string, object> actual)

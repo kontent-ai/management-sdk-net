@@ -99,7 +99,7 @@ namespace KenticoCloud.ContentManagement.Modules.ModelBuilders
 
             if (IsArrayType(propertyType))
             {
-                return (elementValue as JArray)?.ToObject(propertyType);
+                return JArray.FromObject(elementValue)?.ToObject(propertyType);
             }
 
             return elementValue;

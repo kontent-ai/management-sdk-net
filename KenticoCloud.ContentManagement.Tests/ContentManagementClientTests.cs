@@ -8,10 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
-using KenticoCloud.ContentManagement.Models.StronglyTyped;
-using KenticoCloud.ContentManagement.Modules.ModelBuilders;
 using KenticoCloud.ContentManagement.Tests.Data;
-using NSubstitute;
 using KenticoCloud.ContentManagement.Exceptions;
 
 using Xunit;
@@ -51,9 +48,6 @@ namespace KenticoCloud.ContentManagement.Tests
         protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6a372f43-ccd7-e524-6308-c2094e7b6596");
         protected const string EXISTING_TAXONOMY_TERM_CODENAME = "barista";
 
-        protected static Dictionary<string, object> _elements = new Dictionary<string, object> { { "title", "On Roasts" } };
-        private static ComplexTestModel _stronglyTypedElements = new ComplexTestModel{Title = "On Roast"};
-
         protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("45a123f3-1c55-c697-7dae-78369c8f1e2c");
         protected const string EXISTING_SITEMAP_NODE_CODENAME = "articles";
 
@@ -67,6 +61,18 @@ namespace KenticoCloud.ContentManagement.Tests
             related_articles = new [] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
             url_pattern = "on-roasts",
             personas = new [] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
+        };
+        private static readonly ComplexTestModel StronglyTypedElements = new ComplexTestModel
+        {
+            Title = "On Roast",
+            PostDate = new DateTime(2017, 7, 4),
+            BodyCopy = @"
+<h1>Light Roasts</h1>
+<p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
+",
+            RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+            UrlPattern = "on-roasts",
+            Personas = new List<TaxonomyTermIdentifier> { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
         };
 
         private ContentManagementClient CreateContentManagementClient(string testName)
@@ -95,6 +101,19 @@ namespace KenticoCloud.ContentManagement.Tests
 
             Assert.Single(responseVariant.Elements.personas);
             Assert.Equal(EXISTING_TAXONOMY_TERM_ID, responseVariant.Elements.personas[0].Id);
+        }
+
+        private void AssertStronglyTypedResponseElements(ComplexTestModel elements)
+        {
+            Assert.Equal(StronglyTypedElements.Title, elements.Title);
+            Assert.Equal(StronglyTypedElements.PostDate, elements.PostDate);
+            Assert.Equal(UnifyWhitespace(StronglyTypedElements.BodyCopy), UnifyWhitespace(elements.BodyCopy));
+            Assert.Equal(StronglyTypedElements.UrlPattern, elements.UrlPattern);
+            Assert.Single(elements.RelatedArticles);
+            Assert.Equal(EXISTING_ITEM_ID, elements.RelatedArticles.First().Id);
+
+            Assert.Single(elements.Personas);
+            Assert.Equal(EXISTING_TAXONOMY_TERM_ID, elements.Personas[0].Id);
         }
 
 
@@ -1153,7 +1172,7 @@ namespace KenticoCloud.ContentManagement.Tests
             {
                 Assert.NotNull(x.Elements);
             });
-            Assert.Equal(EXISTING_ITEM_ID, responseVariants.ToList()[1].Item.Id);
+            Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
         [Fact]
@@ -1182,11 +1201,12 @@ namespace KenticoCloud.ContentManagement.Tests
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var responseVariant = await client.UpsertContentItemVariantAsync(identifier, _stronglyTypedElements);
+            var responseVariant = await client.UpsertContentItemVariantAsync(identifier, StronglyTypedElements);
 
             Assert.Equal(EXISTING_ITEM_ID, responseVariant.Item.Id);
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            Assert.Equal("On Roasts", responseVariant.Elements.Title);
+            Assert.NotNull(responseVariant.Elements);
+            AssertStronglyTypedResponseElements(responseVariant.Elements);
         }
     }
 }
