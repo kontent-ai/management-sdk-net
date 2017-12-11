@@ -8,10 +8,23 @@
     "MinorRevision": -1
   },
   "Content": {
-    "Headers": []
+    "Headers": [
+      {
+        "Key": "Content-Length",
+        "Value": [
+          "571"
+        ]
+      },
+      {
+        "Key": "Content-Type",
+        "Value": [
+          "application/json; charset=utf-8"
+        ]
+      }
+    ]
   },
-  "StatusCode": 204,
-  "ReasonPhrase": "No Content",
+  "StatusCode": 201,
+  "ReasonPhrase": "Created",
   "Headers": [
     {
       "Key": "Connection",
@@ -22,7 +35,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Fri, 08 Dec 2017 15:21:49 GMT"
+        "Mon, 11 Dec 2017 15:23:17 GMT"
       ]
     },
     {
@@ -38,6 +51,12 @@
       ]
     },
     {
+      "Key": "Location",
+      "Value": [
+        "https://draft-cdn-master-2.azurewebsites.net/manageApi/projects/{PROJECT_ID}/bbc2264f-3a18-4c49-84e9-fd58a7550d5a"
+      ]
+    },
+    {
       "Key": "Server",
       "Value": [
         "Microsoft-IIS/8.0"
@@ -46,7 +65,7 @@
     {
       "Key": "Set-Cookie",
       "Value": [
-        "ARRAffinity=5dd88b1b095b0bace916bbff8b6816e0a442269c15efc1ddf244384e7f96a14f;Path=/;HttpOnly;Domain=draft-cdn-master-2.azurewebsites.net"
+        "ARRAffinity=5ecc95fa5ba7d2943961f71828ad79ba0870393e24b3a564ea7999feae92443f;Path=/;HttpOnly;Domain=draft-cdn-master-2.azurewebsites.net"
       ]
     },
     {
@@ -58,7 +77,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn1542-HHN"
+        "cache-hhn1550-HHN"
       ]
     },
     {
@@ -76,7 +95,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1512746509.794024,VS0,VE264"
+        "S1513005797.986741,VS0,VE272"
       ]
     }
   ],
@@ -89,11 +108,26 @@
       "MajorRevision": -1,
       "MinorRevision": -1
     },
-    "Content": null,
-    "Method": {
-      "Method": "DELETE"
+    "Content": {
+      "Headers": [
+        {
+          "Key": "Content-Type",
+          "Value": [
+            "application/json; charset=utf-8"
+          ]
+        },
+        {
+          "Key": "Content-Length",
+          "Value": [
+            "91"
+          ]
+        }
+      ]
     },
-    "RequestUri": "https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets/25b07053-0447-423c-b1f7-9c9277db3875",
+    "Method": {
+      "Method": "POST"
+    },
+    "RequestUri": "https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets",
     "Headers": [
       {
         "Key": "Authorization",

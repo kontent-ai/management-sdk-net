@@ -1,10 +1,10 @@
 {
-  "id": "9c295eb5-d1c8-5794-b0ff-89e9d98b5fac",
+  "id": "8617a74f-4470-5582-bc83-0515fdf09990",
   "file_name": "HelloExternal.txt",
   "size": 99,
   "type": "text/plain",
   "file_reference": {
-    "id": "4277fb0a-3d30-4a28-a7d9-a3cc64a68351",
+    "id": "0f6a736e-62ae-4bb4-9d53-0b4018ed2c91",
     "type": "internal"
   },
   "descriptions": [
@@ -21,6 +21,6 @@
       "description": "Spanish descriptión"
     }
   ],
-  "external_id": "5bec7f21ad2e44bb8a3a1f4a6a5bf8ca",
-  "last_modified": "2017-12-08T15:21:38.5566516Z"
+  "external_id": "99877608d1f6448ebb35778f027c92f6",
+  "last_modified": "2017-12-11T15:23:14.8331865Z"
 }

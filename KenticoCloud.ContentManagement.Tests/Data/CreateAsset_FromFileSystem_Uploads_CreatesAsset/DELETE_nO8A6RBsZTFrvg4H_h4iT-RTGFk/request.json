@@ -11,7 +11,7 @@
   "Method": {
     "Method": "DELETE"
   },
-  "RequestUri": "https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets/25b07053-0447-423c-b1f7-9c9277db3875",
+  "RequestUri": "https://manage.kenticocloud.com/projects/{PROJECT_ID}/assets/bbc2264f-3a18-4c49-84e9-fd58a7550d5a",
   "Headers": [
     {
       "Key": "Authorization",

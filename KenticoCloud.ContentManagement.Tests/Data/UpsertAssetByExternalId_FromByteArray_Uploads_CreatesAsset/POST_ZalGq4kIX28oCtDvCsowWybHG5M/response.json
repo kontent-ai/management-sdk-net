@@ -35,7 +35,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Fri, 08 Dec 2017 15:21:38 GMT"
+        "Mon, 11 Dec 2017 15:23:15 GMT"
       ]
     },
     {
@@ -59,7 +59,7 @@
     {
       "Key": "Set-Cookie",
       "Value": [
-        "ARRAffinity=5dd88b1b095b0bace916bbff8b6816e0a442269c15efc1ddf244384e7f96a14f;Path=/;HttpOnly;Domain=draft-cdn-master-2.azurewebsites.net"
+        "ARRAffinity=5ecc95fa5ba7d2943961f71828ad79ba0870393e24b3a564ea7999feae92443f;Path=/;HttpOnly;Domain=draft-cdn-master-2.azurewebsites.net"
       ]
     },
     {
@@ -71,7 +71,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn1548-HHN"
+        "cache-hhn1544-HHN"
       ]
     },
     {
@@ -89,7 +89,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1512746498.727106,VS0,VE723"
+        "S1513005795.728669,VS0,VE732"
       ]
     }
   ],
