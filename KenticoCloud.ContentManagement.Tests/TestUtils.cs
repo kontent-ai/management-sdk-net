@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using KenticoCloud.ContentManagement.Models.Items;
 using KenticoCloud.ContentManagement.Tests.Mocks;
@@ -35,16 +34,29 @@ namespace KenticoCloud.ContentManagement.Tests
         internal static async Task<ContentItemModel> PrepareTestItem(ContentManagementClient client, string typeCodename, string externalId = null)
         {
             var type = ContentTypeIdentifier.ByCodename(typeCodename);
-            var item = new ContentItemCreateModel() {
-                Name = "Hooray!",
-                Type = type,
-                ExternalId = externalId
-            };
+            if (externalId != null)
+            {
+                // We use upsert for preparing item by external ID in order to be able to recover from situation when previous test run didn't clean up properly
+                var item = new ContentItemUpsertModel()
+                {
+                    Name = "Hooray!",
+                    Type = type,
+                };
 
-            return await client.CreateContentItemAsync(item);
+                return await client.UpsertContentItemByExternalIdAsync(externalId, item);
+            }
+            else
+            {
+                var item = new ContentItemCreateModel() {
+                    Name = "Hooray!",
+                    Type = type,
+                };
+
+                return await client.CreateContentItemAsync(item);
+            }
         }
 
-        internal static async Task<ContentItemVariantModel> PrepareTestVariant(ContentManagementClient client, string languageCodename, Dictionary<string, object> elements, ContentItemModel item)
+        internal static async Task<ContentItemVariantModel> PrepareTestVariant(ContentManagementClient client, string languageCodename, object elements, ContentItemModel item)
         {
             var addedItemIdentifier = ContentItemIdentifier.ByCodename(item.CodeName);
             var addedLanguageIdentifier = LanguageIdentifier.ByCodename(languageCodename);

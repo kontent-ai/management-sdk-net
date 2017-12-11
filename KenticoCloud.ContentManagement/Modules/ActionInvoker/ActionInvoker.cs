@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Collections.Generic;
 
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 
@@ -16,7 +17,15 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
         private IContentManagementHttpClient _cmHttpClient;
         private MessageCreator _messageCreator;
 
-        private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+        private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings {
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+
+        private JsonSerializerSettings _deserializeSettings = new JsonSerializerSettings
+        {
+            Converters = new List<JsonConverter> { new DynamicObjectJsonConverter() }
+        };
+
 
         public ActionInvoker(IContentManagementHttpClient cmHttpClient, MessageCreator messageCreator)
         {
@@ -29,7 +38,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
         {
             var responseString = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<T>(responseString);
+            return JsonConvert.DeserializeObject<T>(responseString, _deserializeSettings);
         }
 
         public async Task<TResponse> InvokeMethodAsync<TPayload, TResponse>(string endpointUrl, HttpMethod method, TPayload body)

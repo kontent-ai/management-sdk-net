@@ -35,7 +35,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Fri, 08 Dec 2017 11:20:44 GMT"
+        "Fri, 08 Dec 2017 15:32:10 GMT"
       ]
     },
     {
@@ -53,7 +53,7 @@
     {
       "Key": "Location",
       "Value": [
-        "https://draft-cdn-master-2.azurewebsites.net/manageApi/projects/{PROJECT_ID}/items/7da7cf1a-84ab-4216-ba66-ce2b611251f9"
+        "https://draft-cdn-master-2.azurewebsites.net/manageApi/projects/{PROJECT_ID}/items/af7123c5-6771-40f2-9a6f-c0a594a543e6"
       ]
     },
     {
@@ -77,7 +77,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn1530-HHN"
+        "cache-hhn1541-HHN"
       ]
     },
     {
@@ -95,7 +95,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1512732044.907038,VS0,VE239"
+        "S1512747130.888855,VS0,VE1110"
       ]
     }
   ],

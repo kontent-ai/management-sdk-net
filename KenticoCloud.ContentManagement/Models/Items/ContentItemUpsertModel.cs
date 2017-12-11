@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -24,7 +25,7 @@ namespace KenticoCloud.ContentManagement.Models.Items
         /// <summary>
         /// Gets or sets sitemap locations of the content item.
         /// </summary>
-        [JsonProperty("sitemap_locations")]
-        public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; }
+        [JsonProperty("sitemap_locations", Required = Required.Always)]
+        public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; } = Enumerable.Empty<SitemapNodeIdentifier>();
     }
 }

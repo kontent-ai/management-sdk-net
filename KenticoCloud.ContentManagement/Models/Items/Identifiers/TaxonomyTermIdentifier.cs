@@ -21,6 +21,10 @@ namespace KenticoCloud.ContentManagement.Models.Items
         [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Codename { get; private set; }
 
+        private TaxonomyTermIdentifier()
+        {
+        }
+
         /// <summary>
         /// Creates identifier by id.
         /// </summary>

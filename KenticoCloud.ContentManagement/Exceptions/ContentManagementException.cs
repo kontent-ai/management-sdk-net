@@ -50,7 +50,5 @@ namespace KenticoCloud.ContentManagement.Exceptions
                 Message = $"Unknown error. HTTP status code: {StatusCode}. Reason phrase: {response.ReasonPhrase}.";
             }
         }
-
-
     }
 }

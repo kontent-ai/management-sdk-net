@@ -12,7 +12,7 @@
       {
         "Key": "Content-Length",
         "Value": [
-          "256"
+          "257"
         ]
       },
       {
@@ -35,7 +35,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Fri, 08 Dec 2017 11:21:12 GMT"
+        "Fri, 08 Dec 2017 15:32:14 GMT"
       ]
     },
     {
@@ -53,7 +53,7 @@
     {
       "Key": "Location",
       "Value": [
-        "https://draft-cdn-master-2.azurewebsites.net/manageApi/projects/{PROJECT_ID}/items/741a97e3-0b76-460e-b3ac-09fd28d638fa"
+        "https://draft-cdn-master-2.azurewebsites.net/manageApi/projects/{PROJECT_ID}/items/dfd55c04-6904-4053-bb80-c62b53bfa49e"
       ]
     },
     {
@@ -77,7 +77,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn1538-HHN"
+        "cache-hhn1550-HHN"
       ]
     },
     {
@@ -95,7 +95,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1512732072.632975,VS0,VE749"
+        "S1512747133.477270,VS0,VE762"
       ]
     }
   ],
