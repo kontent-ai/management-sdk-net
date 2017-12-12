@@ -40,7 +40,6 @@ Most methods of the SDK accept an *Identifier* object that specifies which conte
 var identifier = ContentItemIdentifier.ByCodename("on_roasts");
 var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-var sitemapLocations = SitemapNodeIdentifier.ByCodename(EXISTING_SITEMAP_NODE_CODENAME);
 ```
 
 * **Codenames** are generated automatically by Kentico Cloud based on the object's name. They can make your code more readable but are not guaranteed to be unique. They should only be used in circumstances with no chance of naming conflicts. 
@@ -103,7 +102,7 @@ var elements = new {
     ",
     related_articles = new [] { ContentItemIdentifier.ByCodename("which_brewing_fits_you_") },
     url_pattern = "on-roasts",
-    personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") },
+    personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") }
 };
 var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
 
@@ -238,12 +237,6 @@ var contentItemReponse = await client.GetContentItemAsync(identifier);
 
 #### Listing content items
 
-All at once:
-```csharp
- var response = await client.ListContentItemsAsync();
- ```
-
-With continuation:
 ```csharp
 var response = await client.ListContentItemsAsync();
 while (true)
@@ -275,12 +268,12 @@ client.DeleteContentItemAsync(identifier);
 #### Upserting a language variant
 
 ```csharp
- var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = new {
+var elements = new {
     street = "Nove Sady 25",
     city = "Brno",
     country = "Czech Republic"
-} };
-
+};
+var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
 var itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 // var itemIdentifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 // var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
@@ -381,14 +374,6 @@ var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, 
 
 #### Listing assets
 
-All at once:
-
-```csharp 
-var response = await client.ListAssetsAsync();
-```
-
-With continuation:
-
 ```csharp
 var response = await client.ListAssetsAsync();
 
@@ -409,8 +394,10 @@ while (true)
 #### Deleting an asset
 
 ```csharp
-client.DeleteAssetAsync(AssetIdentifier.ById("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
-// client.DeleteAssetAsync(AssetIdentifier.ByExternalId("Ext-Asset-123-png"));
+var identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
+// var identifier = AssetIdentifier.ById("fcbb12e6-66a3-4672-85d9-d502d16b8d9c");
+
+client.DeleteAssetAsync(identifier);
 ```
 
 ## Further information
