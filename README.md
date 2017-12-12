@@ -118,42 +118,23 @@ var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVar
 
 ### Importing assets
 
-Importing assets using Content Management SDK is a 2-step process:
+Importing assets using Content Management API is a 2-step process:
 
 1. Uploading a file to Kentico Cloud.
 2. Creating a new asset using the given file reference.
 
-#### 1. Uploading a file 
+This SDK, however simplifies to process and allows you to uplaod assets using a single method: 
 
-```csharp
-var client = new ContentManagementClient(options);
-
-var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-var fileName = "Hello.txt";
-var contentType = "text/plain";
-
-var fileResult = await client.UploadFileAsync(stream, fileName, contentType);
-```
-Kentico Cloud will generate an internal id that serves as a pointer to your file. You will use it in the next step to create the actual asset. 
-
-#### 2. Creating an asset 
-
-Use the file reference you have obtained in the previous step to link the asset with your file. You can specify the asset description for each language in your project.
-
-```csharp
-
+```csharp 
 var englishDescription = "Description of the asset in English Language";
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
 var descriptions = new [] { assetDescription };
 
-var asset = new AssetUpsertModel {
-    FileReference = fileResult,
-    Descriptions = descriptions
-};
-var externalId = "Ext-Asset-7483-txt";
+var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
+var contentType = "image/png";
 
-var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
+var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
 ### Importing modular and linked content
