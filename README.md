@@ -40,7 +40,7 @@ Most methods of the SDK accept an *Identifier* object that specifies which conte
 var identifier = ContentItemIdentifier.ByCodename("on_roasts");
 var identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
 var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-var sitemapLocations = new[] { SitemapNodeIdentifier.ByCodename(EXISTING_SITEMAP_NODE_CODENAME) }
+var sitemapLocations = SitemapNodeIdentifier.ByCodename(EXISTING_SITEMAP_NODE_CODENAME);
 ```
 
 * **Codenames** are generated automatically by Kentico Cloud based on the object's name. They can make your code more readable but are not guaranteed to be unique. They should only be used in circumstances with no chance of naming conflicts. 
