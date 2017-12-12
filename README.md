@@ -44,7 +44,7 @@ var identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
 * **Codenames** are generated automatically by Kentico Cloud based on the object's name. They can make your code more readable but are not guaranteed to be unique. They should only be used in circumstances with no chance of naming conflicts. 
 * (internal) **IDs** are random [GUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) assigned to objects by Kentico Cloud at the moment of import/creation. They are unique, but only objects that are already in the system have them. You can't use them to refer to content that hasn't yet been imported. 
-* **External IDs** are string-based custom identifiers defined by you. This is useful when importing a batch of cross-referencing content. See [Importing modular and linked content](#importing-modular-and-linked-content). 
+* **External IDs** are string-based custom identifiers defined by you. This is useful when importing a batch of cross-referencing content. See [Importing Modular and linked content](#importing-modular-and-linked-content). 
 
 ## Quick start
 
@@ -74,7 +74,6 @@ var item = new ContentItemCreateModel() {
 
 // Add your content item to your project in Kentico Cloud
 var responseItem = await client.CreateContentItemAsync(item);
-);
 ```
 
 Kentico Cloud will generate an internal ID and codename for the (new and empty) content item and include it in the response. In the next step, we will add the actual (localized) content.
@@ -91,7 +90,7 @@ To add localized content, you have to specify:
 ```csharp
 var client = new ContentManagementClient(options);
 
-protected static dynamic ELEMENTS = new {
+var elements = new {
     title = "On Roasts",
     post_date = new DateTime(2017, 7, 4),
     body_copy = @"
@@ -105,7 +104,7 @@ protected static dynamic ELEMENTS = new {
     url_pattern = "on-roasts",
     personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") },
 };
-var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = ELEMENTS };
+var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
 
 // Specify the content item and the language varaint 
 var itemIdentifier = ContentItemIdentifier.ByCodename("on_roasts");
@@ -128,7 +127,10 @@ This SDK, however simplifies to process and allows you to uplaod assets using a 
 ```csharp 
 var englishDescription = "Description of the asset in English Language";
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
+var assetDescription = new AssetDescription { 
+    Description = englishDescription,
+    Language = languageIdentifier 
+};
 var descriptions = new [] { assetDescription };
 
 var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
@@ -137,7 +139,7 @@ var contentType = "image/png";
 var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
-### Importing modular and linked content
+### Importing Modular and linked content
 
 The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items used as modular content or links. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not-yet-imported) content: 
 
@@ -249,7 +251,6 @@ while (true)
     {
         // use your content item
     }
-
     if (!response.HasNextPage())
     {
         break;
@@ -341,7 +342,7 @@ var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .N
 var fileName = "Hello.txt";
 var contentType = "text/plain";
 
-var fileResult = await client.UploadFileAsync(stream, fileName, contentType);
+var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
 ```
 
 #### Upserting an asset using external ID 
@@ -351,8 +352,7 @@ var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
 var descriptions = new [] { assetDescription };
 
-var asset = new AssetUpsertModel
-{
+var asset = new AssetUpsertModel {
     FileReference = fileResult,
     Descriptions = descriptions;
 };
@@ -366,7 +366,10 @@ var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```csharp 
 var englishDescription = "Description of the asset in English Language";
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
+var assetDescription = new AssetDescription { 
+    Description = englishDescription,
+    Language = languageIdentifier 
+};
 var descriptions = new [] { assetDescription };
 
 var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
@@ -394,7 +397,6 @@ while (true)
     {
         // Use your asset
     }
-
     if (!response.HasNextPage())
     {
         break;
