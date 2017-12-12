@@ -19,7 +19,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
         private ContentManagementOptions _options;
         private bool _saveToFileSystem;
-        private string _testName;
+        private string _directoryName;
         private bool _firstRequest = true;
 
         private IContentManagementHttpClient _nativeClient = new ContentManagementHttpClient();
@@ -28,7 +28,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
         {
             _saveToFileSystem = saveToFileSystem;
             _options = options;
-            _testName = testName;
+            _directoryName = GetTestNameIdentifier(testName);
         }
 
         public string MakeProjectAgnostic(string data)
@@ -63,7 +63,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
                 else if (isFirst)
                 {
                     // Cleanup previously recorded data at first request to avoid data overlap upon change
-                    Directory.Delete(folderPath);
+                    Directory.Delete(folderPath, true);
                 }
                 
                 var response = await _nativeClient.SendAsync(message);
@@ -119,15 +119,32 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
         private string GetMockFileFolder(HttpRequestMessage message, string hashContent)
         {
             var rootPath = Path.Combine(AppContext.BaseDirectory, "Data\\");
-            var testPath = Path.Combine(rootPath, _testName);
-
-            var hashingAlgorithm = SHA1.Create();
-            var fingerprint = hashingAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(hashContent));
-            var stringMessageHash = Convert.ToBase64String(fingerprint).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+            var testPath = Path.Combine(rootPath, _directoryName);
+            var stringMessageHash = GetHashFingerprint(hashContent);
 
             var uniqueRequestPath = Path.Combine(testPath, $"{message.Method}_{stringMessageHash}");
 
             return uniqueRequestPath;
+        }
+
+        /// <summary>
+        /// There is a limit in path length in test framework and git.
+        /// This method shortens test name but persist test area (substring before first underscore).
+        /// </summary>
+        private string GetTestNameIdentifier(string testName)
+        {
+            var testFeature = testName.Split('_')[0];
+            var testNameHash = GetHashFingerprint(testName);
+
+            return $"{testFeature}_{testNameHash}";
+        }
+
+        private string GetHashFingerprint(string input)
+        {
+            var hashingAlgorithm = SHA1.Create();
+            var fingerprint = hashingAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            return Convert.ToBase64String(fingerprint).TrimEnd('=').Replace('+', '-').Replace('/', '_');
         }
     }
 }
