@@ -20,7 +20,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
         private ContentManagementOptions _options;
         private bool _saveToFileSystem;
         private string _testName;
-        private bool _firstRequest;
+        private bool _firstRequest = true;
 
         private IContentManagementHttpClient _nativeClient = new ContentManagementHttpClient();
 
@@ -104,8 +104,6 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
                 return response;
             }
-
-            _firstRequest = false;
         }
 
         private async Task<string> SerializeContent(HttpContent content)
