@@ -169,8 +169,7 @@ This way, you can import your content in any order and run the import process re
 ```csharp
 // Upsert an asset, assuming you already have the fileResult reference
 var asset = new AssetUpsertModel {
-    FileReference = fileResult,
-    Descriptions = new List<AssetDescription>();
+    FileReference = fileResult
 };
 var assetExternalId = "Ext-Asset-123-png";
 var assetResult = await client.UpsertAssetByExternalIdAsync(assetExternalId, asset);
@@ -186,7 +185,7 @@ var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemEx
 
 //Upsert a language variant
 var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
-    picture = new ObjectIdentifier() { externalID = "Ext-Asset-123-png" },
+    picture = new AssetIdentifier() { externalID = "Ext-Asset-123-png" },
     city = "Brno",
     country = "Czech Republic"
 } };
@@ -384,7 +383,10 @@ var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 #### Uploading an asset from a file system in a single step
 
 ```csharp 
-var descriptions = new List<AssetDescription>();
+var englishDescription = "Description of the asset in English Language";
+var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
+var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
+var descriptions = new [] { assetDescription };
 
 var filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 var contentType = "image/png";
