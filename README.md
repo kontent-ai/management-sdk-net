@@ -35,7 +35,7 @@ var client = new ContentManagementClient(options);
 
 Once you create a `ContentManagementClient`, you can start managing content in your project by calling methods on the client instance. See [Importing content items](#importing-content-items) for details.
 
-### Codename vs. ID vs External ID
+### Codename vs. ID vs. External ID
 
 Most methods of the SDK accept an *Identifier* object that specifies which content item, language variant or asset you want to perform the given operation on. There are 3 types of identification you can use to create the identifier: 
 
@@ -121,7 +121,7 @@ Importing assets using Content Management API is usually a 2-step process:
 1. Uploading a file to Kentico Cloud.
 2. Creating a new asset using the given file reference.
 
-This SDK, however, simplifies the process and allows you to uplaod assets using a single method: 
+This SDK, however, simplifies the process and allows you to upload assets using a single method: 
 
 ```csharp 
 var assetDescription = new AssetDescription { 
@@ -147,7 +147,7 @@ The content you are importing will often contain references to other pieces of i
 This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. In the example below we import an asset and a content item that uses it: 
 
 ```csharp
-// Upsert an asset, assuming you already have the fileResult reference to the uplaoded file
+// Upsert an asset, assuming you already have the fileResult reference to the uploaded file
 var asset = new AssetUpsertModel {
     FileReference = fileResult
 };
@@ -324,7 +324,7 @@ await client.DeleteContentItemVariantAsync(identifier);
 
 #### Uploading a file 
 
-Uplaods a file to Kentico Cloud. Returns a `fileResult` reference that can later be used to create or update an asset. 
+Uploads a file to Kentico Cloud. Returns a `fileResult` reference that can later be used to create or update an asset. 
 
 ```csharp
 var client = new ContentManagementClient(options);
@@ -338,7 +338,7 @@ var fileResult = await client.UploadFileAsync(new FileContentSource(stream, file
 
 #### Upserting an asset using external ID
 
-Updates or creates an asset using a `fileResult` reference to previously uploaded file. You can specify an asset description for each language in your Kentico Cloud project.  
+Updates or creates an asset using a `fileResult` reference to a previously uploaded file. You can specify an asset description for each language in your Kentico Cloud project.  
 
 ```csharp
 var assetDescription = new AssetDescription { 
