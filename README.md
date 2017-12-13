@@ -117,12 +117,12 @@ var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVar
 
 ### Importing assets
 
-Importing assets using Content Management API is a 2-step process:
+Importing assets using Content Management API is usually a 2-step process:
 
 1. Uploading a file to Kentico Cloud.
 2. Creating a new asset using the given file reference.
 
-This SDK, however simplifies to process and allows you to uplaod assets using a single method: 
+This SDK, however, simplifies the process and allows you to uplaod assets using a single method: 
 
 ```csharp 
 var englishDescription = "Description of the asset in English Language";
