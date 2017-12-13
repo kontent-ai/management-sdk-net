@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Models;
 using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
+using KenticoCloud.ContentManagement.Models.StronglyTyped;
+using KenticoCloud.ContentManagement.Modules.ModelBuilders;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -20,6 +23,7 @@ namespace KenticoCloud.ContentManagement
 
         private ActionInvoker _actionInvoker;
         private EndpointUrlBuilder _urlBuilder;
+        private IModelProvider _modelProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentManagementClient"/> class for managing content of the specified project.
@@ -49,12 +53,14 @@ namespace KenticoCloud.ContentManagement
 
             _urlBuilder = new EndpointUrlBuilder(contentManagementOptions);
             _actionInvoker = new ActionInvoker(new ContentManagementHttpClient(), new MessageCreator(contentManagementOptions.ApiKey));
+            _modelProvider = contentManagementOptions.ModelProvider ?? new ModelProvider();
         }
 
-        internal ContentManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker)
+        internal ContentManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
         {
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
             _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
+            _modelProvider = modelProvider ?? new ModelProvider();
         }
 
         #region Variants
@@ -132,6 +138,74 @@ namespace KenticoCloud.ContentManagement
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        #endregion
+
+        #region Strongly typed Variants
+
+        /// <summary>
+        /// Returns strongly typed listing of content item variants with strongly typed elements for specified content item.
+        /// </summary>
+        /// <typeparam name="T">Type of the content item elements</typeparam>
+        /// <param name="identifier">The identifier of the content item.</param>
+        /// <returns>The <see cref="IEnumerable{ContentItemVariantModel{T}}"/> instance that represents the listing of content item variants.</returns>
+        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
+
+            return response.Select(x => _modelProvider.GetContentItemVariantModel<T>(x)).ToList();
+        }
+
+        /// <summary>
+        /// Returns strongly typed content item variant with strongly typed elements.
+        /// </summary>
+        /// <typeparam name="T">Type of the content item elements</typeparam>
+        /// <param name="identifier">The identifier of the content item variant.</param>
+        /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents content item variant.</returns>
+        public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : new()
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantModel>(endpointUrl, HttpMethod.Get);
+
+            return _modelProvider.GetContentItemVariantModel<T>(response);
+        }
+   
+        /// <summary>
+        /// Inserts or updates given content item variant.
+        /// </summary>
+        /// <typeparam name="T">Type of the content item elements</typeparam>
+        /// <param name="identifier">The identifier of the content item variant.</param>
+        /// <param name="variantElements">Represents inserted or updated  strongly typed content item variant elements.</param>
+        /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents inserted or updated content item variant.</returns>
+        public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, T variantElements) where T : new()
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (variantElements == null)
+            {
+                throw new ArgumentNullException(nameof(variantElements));
+            }
+
+            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
+            var variantUpsertModel = _modelProvider.GetContentItemVariantUpsertModel(variantElements);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
+
+            return _modelProvider.GetContentItemVariantModel<T>(response);
         }
 
         #endregion
