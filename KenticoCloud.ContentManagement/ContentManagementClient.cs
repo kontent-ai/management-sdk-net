@@ -455,17 +455,10 @@ namespace KenticoCloud.ContentManagement
             }
 
             var endpointUrl = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertServerModel, AssetModel>(
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
                 endpointUrl,
                 HttpMethod.Put,
-                // TODO - Remove this after DEL-1480 is fixed, the model shouldn't need external ID as it is provided already in the URL
-                new AssetUpsertServerModel
-                {
-                    Descriptions = asset.Descriptions,
-                    FileReference = asset.FileReference,
-                    ExternalId = externalId
-                }
-
+                asset
             );
 
             return response;

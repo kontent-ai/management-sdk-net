@@ -1,0 +1,108 @@
+{
+  "Version": {
+    "Major": 1,
+    "Minor": 1,
+    "Build": -1,
+    "Revision": -1,
+    "MajorRevision": -1,
+    "MinorRevision": -1
+  },
+  "Content": {
+    "Headers": []
+  },
+  "StatusCode": 204,
+  "ReasonPhrase": "No Content",
+  "Headers": [
+    {
+      "Key": "Connection",
+      "Value": [
+        "keep-alive"
+      ]
+    },
+    {
+      "Key": "Date",
+      "Value": [
+        "Wed, 13 Dec 2017 08:29:48 GMT"
+      ]
+    },
+    {
+      "Key": "Via",
+      "Value": [
+        "1.1 varnish"
+      ]
+    },
+    {
+      "Key": "Accept-Ranges",
+      "Value": [
+        "bytes"
+      ]
+    },
+    {
+      "Key": "Server",
+      "Value": [
+        "Microsoft-IIS/8.0"
+      ]
+    },
+    {
+      "Key": "Set-Cookie",
+      "Value": [
+        "ARRAffinity=61b530ca89548a0ee53edcd4e6ef21add182fc80cbc1cdf7bbbee3cfc35a51d8;Path=/;HttpOnly;Domain=draft-cdn-master-2.azurewebsites.net"
+      ]
+    },
+    {
+      "Key": "X-Powered-By",
+      "Value": [
+        "ASP.NET"
+      ]
+    },
+    {
+      "Key": "X-Served-By",
+      "Value": [
+        "cache-hhn1539-HHN"
+      ]
+    },
+    {
+      "Key": "X-Cache",
+      "Value": [
+        "MISS"
+      ]
+    },
+    {
+      "Key": "X-Cache-Hits",
+      "Value": [
+        "0"
+      ]
+    },
+    {
+      "Key": "X-Timer",
+      "Value": [
+        "S1513153788.307443,VS0,VE257"
+      ]
+    }
+  ],
+  "RequestMessage": {
+    "Version": {
+      "Major": 1,
+      "Minor": 1,
+      "Build": -1,
+      "Revision": -1,
+      "MajorRevision": -1,
+      "MinorRevision": -1
+    },
+    "Content": null,
+    "Method": {
+      "Method": "DELETE"
+    },
+    "RequestUri": "https://manage.kenticocloud.com/projects/{PROJECT_ID}/items/external-id/e5a8de5b584f4182b879c78b696dff09",
+    "Headers": [
+      {
+        "Key": "Authorization",
+        "Value": [
+          "Bearer {API_KEY}"
+        ]
+      }
+    ],
+    "Properties": {}
+  },
+  "IsSuccessStatusCode": true
+}
