@@ -11,17 +11,14 @@ namespace KenticoCloud.ContentManagement.Tests.Data
         [JsonProperty("title")]
         public string Title { get; set; }
 
-        [JsonProperty("pages")]
-        public decimal? Pages { get; set; }
-
         [JsonProperty("post_date")]
         public DateTime? PostDate { get; set; }
 
-        [JsonProperty("url_pattern")]
-        public string UrlPattern { get; set; }
-
         [JsonProperty("body_copy")]
         public string BodyCopy { get; set; }
+
+        [JsonProperty("summary")]
+        public string Summary { get; set; }
 
         [JsonProperty("teaser_image")]
         public AssetIdentifier[] TeaserImage { get; set; }
@@ -29,13 +26,16 @@ namespace KenticoCloud.ContentManagement.Tests.Data
         [JsonProperty("related_articles")]
         public IEnumerable<ContentItemIdentifier> RelatedArticles { get; set; }
 
-        [JsonProperty("categories")]
-        public HashSet<MultipleChoiceOptionIdentifier> Categories { get; set; }
-
         [JsonProperty("personas")]
         public List<TaxonomyTermIdentifier> Personas { get; set; }
 
-        [JsonIgnore]
-        public LinkedList<MultipleChoiceOptionIdentifier> IgnoredMultipleChoice { get; set; }
+        [JsonProperty("meta_keywords")]
+        public string MetaKeywords { get; set; }
+
+        [JsonProperty("meta_description")]
+        public string MetaDescription { get; set; }
+
+        [JsonProperty("url_pattern")]
+        public string UrlPattern { get; set; }
     }
 }

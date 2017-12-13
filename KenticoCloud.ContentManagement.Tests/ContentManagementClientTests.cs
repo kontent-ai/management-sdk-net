@@ -73,6 +73,7 @@ namespace KenticoCloud.ContentManagement.Tests
             RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
             UrlPattern = "on-roasts",
             Personas = new List<TaxonomyTermIdentifier> { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
+            TeaserImage = new AssetIdentifier[]{}
         };
 
         private ContentManagementClient CreateContentManagementClient(string testName)
@@ -1159,7 +1160,10 @@ namespace KenticoCloud.ContentManagement.Tests
 
         #endregion
 
+        #region Strongly Typed Item Variant
+
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async Task ListStronglyTypedContentItemVariants_ById_ListsVariants()
         {
             var client = CreateContentManagementClient(nameof(ListStronglyTypedContentItemVariants_ById_ListsVariants));
@@ -1176,6 +1180,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async Task GetStronglyTypedContentItemVariantAsync_ById_LanguageId_GetVariant()
         {
             var client = CreateContentManagementClient(nameof(GetStronglyTypedContentItemVariantAsync_ById_LanguageId_GetVariant));
@@ -1193,6 +1198,7 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         [Fact]
+        [Trait("Category", "ContentItemVariant")]
         public async Task UpsertStronglyTypedContentItemVariantAsync_ById_LanguageId_UpdatesVariant()
         {
             var client = CreateContentManagementClient(nameof(UpsertStronglyTypedContentItemVariantAsync_ById_LanguageId_UpdatesVariant));
@@ -1208,5 +1214,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(responseVariant.Elements);
             AssertStronglyTypedResponseElements(responseVariant.Elements);
         }
+
+        #endregion
     }
 }
