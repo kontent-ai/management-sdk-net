@@ -125,10 +125,9 @@ Importing assets using Content Management API is usually a 2-step process:
 This SDK, however, simplifies the process and allows you to uplaod assets using a single method: 
 
 ```csharp 
-var englishDescription = "Description of the asset in English Language";
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var assetDescription = new AssetDescription { 
-    Description = englishDescription,
+    Description = "Description of the asset in English Language",
     Language = languageIdentifier 
 };
 var descriptions = new [] { assetDescription };
@@ -144,13 +143,13 @@ var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, 
 The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items used as modular content or links. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not-yet-imported) content: 
 
 1. Define external IDs for all content you want to import in advance. 
-2. When referencing another piece of content, use its external ID. 
-3. Import your content (use upsert methods with external ID). All references will resolve at the end.
+2. When referencing another content item ar asset, use its external ID. 
+3. Import your content (use upsert methods with external ID). All references will resolve in the end.
 
 This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. In the example below we import an asset and a content item that uses it: 
 
 ```csharp
-// Upsert an asset, assuming you already have the fileResult reference
+// Upsert an asset, assuming you already have the fileResult reference to the uplaoded file
 var asset = new AssetUpsertModel {
     FileReference = fileResult
 };
@@ -166,15 +165,16 @@ var item = new ContentItemUpsertModel() {
 var itemExternalId = "Ext-Item-456-Brno";
 var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 
-//Upsert a language variant
+// Upsert a language variant
 var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
-    picture = AssetIdentifier.ByExternalId("Ext-Asset-123-png"),
+    picture = AssetIdentifier.ByExternalId(assetExternalId),
     city = "Brno",
     country = "Czech Republic"
 } };
 
-var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
+var itemIdentifier = ContentItemIdentifier.ByExternalId(itemExternalId);
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
+// var languageIdentifier = LanguageIdentifier.ById("00000000-0000-0000-0000-000000000000");
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
 var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVariantUpsertModel);
@@ -192,7 +192,8 @@ var item = new ContentItemUpsertModel() {
     Type = type 
 };
 
-var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+var itemExternalId = "Ext-Item-456-Brno";
+var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 ```
 
 #### Adding a content item 
@@ -329,6 +330,8 @@ await client.DeleteContentItemVariantAsync(identifier);
 
 #### Uploading a file 
 
+Uplaods a file to Kentico Cloud. Returns a `fileResult` reference that can later be used to create or update an asset. 
+
 ```csharp
 var client = new ContentManagementClient(options);
 
@@ -339,11 +342,16 @@ var contentType = "text/plain";
 var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
 ```
 
-#### Upserting an asset using external ID 
+#### Upserting an asset using external ID
+
+Updates or creates an asset using a `fileResult` reference to previously uploaded file. You can specifiy an asset description for each language in your Kentico Cloud project.  
+
 ```csharp
-var englishDescription = "Description of the asset in English Language";
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
+var assetDescription = new AssetDescription { 
+    Description = "Description of the asset in English Language", 
+    Language = languageIdentifier 
+};
 var descriptions = new [] { assetDescription };
 
 var asset = new AssetUpsertModel {
@@ -357,11 +365,12 @@ var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 
 #### Uploading an asset from a file system in a single step
 
+Import the asset file and its descriptions using a single method. 
+
 ```csharp 
-var englishDescription = "Description of the asset in English Language";
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var assetDescription = new AssetDescription { 
-    Description = englishDescription,
+    Description = "Description of the asset in English Language",
     Language = languageIdentifier 
 };
 var descriptions = new [] { assetDescription };
