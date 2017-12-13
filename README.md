@@ -138,9 +138,9 @@ var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, 
 
 ### Importing Modular and linked content
 
-The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items used as modular content or links. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not-yet-imported) content: 
+The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items using modular content elements or links. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not-yet-imported) content: 
 
-1. Define external IDs for all content you want to import in advance. 
+1. Define external IDs for all content items and assets you want to import in advance. 
 2. When referencing another content item ar asset, use its external ID. 
 3. Import your content (use upsert methods with external ID). All references will resolve in the end.
 
@@ -186,8 +186,8 @@ var item = new ContentItemUpsertModel() {
     Type = ContentTypeIdentifier.ByCodename("cafe"),
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }   
 };
-
 var itemExternalId = "Ext-Item-456-Brno";
+
 var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 ```
 
