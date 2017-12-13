@@ -129,7 +129,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
         /// <summary>
         /// There is a limit in path length in test framework and git.
-        /// This method shortens test name but persist test area (substring before first underscore).
+        /// This method shortens test name but persists test area (substring before first underscore).
         /// </summary>
         private string GetTestNameIdentifier(string testName)
         {
@@ -144,7 +144,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             var hashingAlgorithm = SHA1.Create();
             var fingerprint = hashingAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-            return Convert.ToBase64String(fingerprint).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+            return Convert.ToBase64String(fingerprint).Replace('+', '-').Replace('/', '_').Substring(0, 10);
         }
     }
 }
