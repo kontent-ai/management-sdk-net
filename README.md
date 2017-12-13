@@ -1,5 +1,8 @@
 # Kentico Cloud Content Management .NET SDK
 
+[![Build status](https://ci.appveyor.com/api/projects/status/6b3tt1kc3ogmcav3/branch/master?svg=true)](https://ci.appveyor.com/project/kentico/content-management-sdk-net/branch/master)
+[![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
+
 ## Summary
 
 The Kentico Cloud Content Management .NET SDK is a client library used for managing content in Kentico Cloud. It provides read/write access to your Kentico Cloud projects.  
@@ -63,12 +66,10 @@ Each content item can consist of several localized variants. **The content itsel
 // Create an instance of the Content Management client
 var client = new ContentManagementClient(options);
 
-// Define a content type of the imported item by its codename
-var contentType = ContentTypeIdentifier.ByCodename("article");
 // Define the imported content item
 var item = new ContentItemCreateModel() { 
     Name = "On Roasts",
-    Type = contentType,
+    Type = ContentTypeIdentifier.ByCodename("article"),
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("articles") }
 };
 
@@ -88,8 +89,6 @@ To add localized content, you have to specify:
 * The content elements of the language variant you want to insert or update. Omitted elements will remain unchanged. 
 
 ```csharp
-var client = new ContentManagementClient(options);
-
 var elements = new {
     title = "On Roasts",
     post_date = new DateTime(2017, 7, 4),
@@ -125,11 +124,9 @@ Importing assets using Content Management API is usually a 2-step process:
 This SDK, however, simplifies the process and allows you to uplaod assets using a single method: 
 
 ```csharp 
-var englishDescription = "Description of the asset in English Language";
-var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var assetDescription = new AssetDescription { 
-    Description = englishDescription,
-    Language = languageIdentifier 
+    Description = "Description of the asset in English Language",
+    Language = LanguageIdentifier.ByCodename("en-US") 
 };
 var descriptions = new [] { assetDescription };
 
@@ -144,13 +141,13 @@ var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, 
 The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items used as modular content or links. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not-yet-imported) content: 
 
 1. Define external IDs for all content you want to import in advance. 
-2. When referencing another piece of content, use its external ID. 
-3. Import your content (use upsert methods with external ID). All references will resolve at the end.
+2. When referencing another content item ar asset, use its external ID. 
+3. Import your content (use upsert methods with external ID). All references will resolve in the end.
 
 This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. In the example below we import an asset and a content item that uses it: 
 
 ```csharp
-// Upsert an asset, assuming you already have the fileResult reference
+// Upsert an asset, assuming you already have the fileResult reference to the uplaoded file
 var asset = new AssetUpsertModel {
     FileReference = fileResult
 };
@@ -158,22 +155,21 @@ var assetExternalId = "Ext-Asset-123-png";
 var assetResult = await client.UpsertAssetByExternalIdAsync(assetExternalId, asset);
 
 // Upsert a content item
-var type = ContentTypeIdentifier.ByCodename("cafe");
 var item = new ContentItemUpsertModel() { 
     Name = "Brno", 
-    Type = type 
+    Type = ContentTypeIdentifier.ByCodename("cafe")
 };
 var itemExternalId = "Ext-Item-456-Brno";
 var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 
-//Upsert a language variant
+// Upsert a language variant which references the asset using external ID
 var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = {
-    picture = AssetIdentifier.ByExternalId("Ext-Asset-123-png"),
+    picture = AssetIdentifier.ByExternalId(assetExternalId),
     city = "Brno",
     country = "Czech Republic"
 } };
 
-var itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
+var itemIdentifier = ContentItemIdentifier.ByExternalId(itemExternalId);
 var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
@@ -185,23 +181,22 @@ var responseVariant = await client.UpsertVariantAsync(identifier, contentItemVar
 #### Upserting a content item by external ID
 
 ```csharp
-var type = ContentTypeIdentifier.ByCodename("cafe");
 var item = new ContentItemUpsertModel() { 
     Name = "New or updated name",
-    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") },
-    Type = type 
+    Type = ContentTypeIdentifier.ByCodename("cafe"),
+    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }   
 };
 
-var contentItemResponse = await client.UpsertContentItemByExternalIdAsync("Ext-Item-456-Brno", item);
+var itemExternalId = "Ext-Item-456-Brno";
+var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 ```
 
 #### Adding a content item 
 
 ```csharp
-var type = ContentTypeIdentifier.ByCodename("cafe");
 var item = new ContentItemCreateModel() { 
     Name = "Brno",
-    Type = type,
+    Type = ContentTypeIdentifier.ByCodename("cafe"),
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }
 };
 
@@ -329,6 +324,8 @@ await client.DeleteContentItemVariantAsync(identifier);
 
 #### Uploading a file 
 
+Uplaods a file to Kentico Cloud. Returns a `fileResult` reference that can later be used to create or update an asset. 
+
 ```csharp
 var client = new ContentManagementClient(options);
 
@@ -339,11 +336,15 @@ var contentType = "text/plain";
 var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
 ```
 
-#### Upserting an asset using external ID 
+#### Upserting an asset using external ID
+
+Updates or creates an asset using a `fileResult` reference to previously uploaded file. You can specify an asset description for each language in your Kentico Cloud project.  
+
 ```csharp
-var englishDescription = "Description of the asset in English Language";
-var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-var assetDescription = new AssetDescription { Description = englishDescription, Language = languageIdentifier };
+var assetDescription = new AssetDescription { 
+    Description = "Description of the asset in English Language", 
+    Language = LanguageIdentifier.ByCodename("en-US")
+};
 var descriptions = new [] { assetDescription };
 
 var asset = new AssetUpsertModel {
@@ -357,12 +358,12 @@ var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 
 #### Uploading an asset from a file system in a single step
 
+Import the asset file and its descriptions using a single method. 
+
 ```csharp 
-var englishDescription = "Description of the asset in English Language";
-var languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 var assetDescription = new AssetDescription { 
-    Description = englishDescription,
-    Language = languageIdentifier 
+    Description = "Description of the asset in English Language", 
+    Language = LanguageIdentifier.ByCodename("en-US")
 };
 var descriptions = new [] { assetDescription };
 

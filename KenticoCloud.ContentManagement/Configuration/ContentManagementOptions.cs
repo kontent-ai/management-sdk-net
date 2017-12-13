@@ -1,4 +1,6 @@
-﻿namespace KenticoCloud.ContentManagement
+﻿using KenticoCloud.ContentManagement.Modules.ModelBuilders;
+
+namespace KenticoCloud.ContentManagement
 {
     /// <summary>
     /// Keeps settings which are provided by customer or have default values, used in <see cref="ContentManagementClient"/>.
@@ -19,5 +21,10 @@
         /// Gets or sets the Preview API key.
         /// </summary>
         public string ApiKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Model provider for strongly typed models
+        /// </summary>
+        public IModelProvider ModelProvider { get; set; }
     }
 }
