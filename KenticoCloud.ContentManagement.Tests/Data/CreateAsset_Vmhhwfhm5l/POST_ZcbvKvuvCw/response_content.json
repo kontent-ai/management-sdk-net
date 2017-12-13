@@ -1,0 +1,25 @@
+{
+  "id": "d7edbcad-e815-481f-a26c-1a43d34b1f0e",
+  "file_name": "kentico_rgb_bigger.png",
+  "size": 5719,
+  "type": "image/png",
+  "file_reference": {
+    "id": "a7bd8d2f-7fd7-4ace-a538-5b1cea70f547",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    },
+    {
+      "language": {
+        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+      },
+      "description": null
+    }
+  ],
+  "last_modified": "2017-12-13T13:15:40.8107339Z"
+}

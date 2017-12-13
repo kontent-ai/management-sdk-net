@@ -1,0 +1,24 @@
+{
+  "Version": {
+    "Major": 1,
+    "Minor": 1,
+    "Build": -1,
+    "Revision": -1,
+    "MajorRevision": -1,
+    "MinorRevision": -1
+  },
+  "Content": null,
+  "Method": {
+    "Method": "DELETE"
+  },
+  "RequestUri": "https://manage.kenticocloud.com/projects/{PROJECT_ID}/items/656d13d8-f783-49c9-a4a1-75650db7fa90/variants/codename/es-ES",
+  "Headers": [
+    {
+      "Key": "Authorization",
+      "Value": [
+        "Bearer {API_KEY}"
+      ]
+    }
+  ],
+  "Properties": {}
+}

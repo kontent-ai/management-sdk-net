@@ -51,7 +51,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             var serializedRequest = MakeProjectAgnostic(JsonConvert.SerializeObject(message, serializationSettings));
             var serializedRequestContent = await SerializeContent(message.Content);
 
-            var hashContent = $"{message.Method} {serializedRequest} {serializedRequestContent}";
+            var hashContent = $"{message.Method} {serializedRequest} {UnifySerializedRequestContent(serializedRequestContent)}";
             var folderPath = GetMockFileFolder(message, hashContent);
 
             if (_saveToFileSystem)
@@ -145,6 +145,16 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             var fingerprint = hashingAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
 
             return Convert.ToBase64String(fingerprint).Replace('+', '-').Replace('/', '_').Substring(0, 10);
+        }
+
+        private string UnifySerializedRequestContent(string content)
+        {
+            if (!string.IsNullOrEmpty(content))
+            {
+                return content.Replace("\\r", string.Empty);
+            }
+
+            return string.Empty;
         }
     }
 }
