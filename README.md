@@ -41,7 +41,7 @@ Most methods of the SDK accept an *Identifier* object that specifies which conte
 
 ```csharp
 ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("on_roasts");
-ContentItemIdentifier identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 ```
 
@@ -208,7 +208,7 @@ ContentItemModel response = await client.CreateContentItemAsync(item);
 
 ```csharp
 ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
 ContentItemUpdateModel item = new ContentItemUpdateModel() { 
     Name = "New name",
@@ -226,7 +226,7 @@ ContentItemModel reponse = await client.UpdateContentItemAsync(identifier, item)
 ```csharp
 ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
 ContentItemModel reponse = await client.GetContentItemAsync(identifier);
 ```
@@ -254,7 +254,7 @@ while (true)
 ```csharp
 ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
 client.DeleteContentItemAsync(identifier);
 ```
@@ -271,11 +271,11 @@ var elements = new {
 };
 ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 // ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById("00000000-0000-0000-0000-000000000000");
+// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
@@ -286,11 +286,11 @@ ContentItemVariantModel response = await client.UpsertContentItemVariantAsync(id
 
 ```csharp
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 // ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById("00000000-0000-0000-0000-000000000000");
+// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
@@ -301,7 +301,7 @@ ContentItemVariantModel response = await client.GetContentItemVariantAsync(ident
 
 ```csharp
 ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 // ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
 List<ContentItemVariantModel> response = await client.ListContentItemVariantsAsync(identifier);
@@ -311,11 +311,11 @@ List<ContentItemVariantModel> response = await client.ListContentItemVariantsAsy
 
 ```csharp
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById("8ceeb2d8-9676-48ae-887d-47ccb0f54a79");
+// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79")));
 // ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById("00000000-0000-0000-0000-000000000000");
+// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
 await client.DeleteContentItemVariantAsync(identifier);
 ```
@@ -372,6 +372,15 @@ string contentType = "image/png";
 AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
+#### Viewing an asset
+
+```csharp
+AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
+// AssetIdentifier identifier = AssetIdentifier.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
+
+client.GetAssetAsync(identifier);
+```
+
 #### Listing assets
 
 ```csharp
@@ -395,7 +404,7 @@ while (true)
 
 ```csharp
 AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
-// AssetIdentifier identifier = AssetIdentifier.ById("fcbb12e6-66a3-4672-85d9-d502d16b8d9c");
+// AssetIdentifier identifier = AssetIdentifier.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
 
 client.DeleteAssetAsync(identifier);
 ```
