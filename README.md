@@ -27,10 +27,12 @@ The `ContentManagementClient` class is the main class of the SDK. Using this cla
 To create an instance of the class, you need to provide a [project ID](https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id) and a valid [Content Management API Key](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#importing-content-items).
 
 ```csharp
-ContentManagementOptions options = new ContentManagementOptions() { 
+ContentManagementOptions options = new ContentManagementOptions()
+{ 
     ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
     ApiKey = "ew0...1eo" 
-}; 
+};
+
 // Initialize an instance of the ContentManagementClient client
 ContentManagementClient client = new ContentManagementClient(options);
 ```
@@ -69,7 +71,8 @@ Each content item can consist of several localized variants. **The content itsel
 ContentManagementClient client = new ContentManagementClient(options);
 
 // Define the imported content item
-ContentItemCreateModel item = new ContentItemCreateModel() { 
+ContentItemCreateModel item = new ContentItemCreateModel() 
+{ 
     Name = "On Roasts",
     Type = ContentTypeIdentifier.ByCodename("article"),
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("articles") }
@@ -91,7 +94,8 @@ To add localized content, you have to specify:
 * The content elements of the language variant you want to insert or update. Omitted elements will remain unchanged. 
 
 ```csharp
-var elements = new {
+var elements = new 
+{
     title = "On Roasts",
     post_date = new DateTime(2017, 7, 4),
     body_copy = @"
@@ -105,6 +109,7 @@ var elements = new {
     url_pattern = "on-roasts",
     personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") }
 };
+
 ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
 
 // Specify the content item and the language varaint 
@@ -126,15 +131,15 @@ Importing assets using Content Management API is usually a 2-step process:
 This SDK, however, simplifies the process and allows you to upload assets using a single method: 
 
 ```csharp 
-AssetDescription assetDescription = new AssetDescription { 
+AssetDescription assetDescription = new AssetDescription 
+{ 
     Description = "Description of the asset in English Language",
     Language = LanguageIdentifier.ByCodename("en-US") 
 };
-AssetDescription[] descriptions = new [] { assetDescription };
 
+AssetDescription[] descriptions = new [] { assetDescription };
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
-
 AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
@@ -150,27 +155,33 @@ This way, you can import your content in any order and run the import process re
 
 ```csharp
 // Upsert an asset, assuming you already have the fileResult reference to the uploaded file
-AssetUpsertModel asset = new AssetUpsertModel {
+AssetUpsertModel asset = new AssetUpsertModel 
+{
     FileReference = fileResult
 };
+
 string assetExternalId = "Ext-Asset-123-png";
 AssetModel assetResponse = await client.UpsertAssetByExternalIdAsync(assetExternalId, asset);
 
 // Upsert a content item
-ContentItemUpsertModel item = new ContentItemUpsertModel() { 
+ContentItemUpsertModel item = new ContentItemUpsertModel
+{ 
     Name = "Brno", 
     Type = ContentTypeIdentifier.ByCodename("cafe")
 };
+
 string itemExternalId = "Ext-Item-456-Brno";
 ContentItemModel itemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 
 // Upsert a language variant which references the asset using external ID
-var elements = {
+var elements = 
+{
     picture = AssetIdentifier.ByExternalId(assetExternalId),
     city = "Brno",
     country = "Czech Republic"
 };
-ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
+
+ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel { Elements = elements };
 
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId(itemExternalId);
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
@@ -184,7 +195,8 @@ ContentItemVariantModel variantResponse = await client.UpsertContentItemVariantA
 #### Upserting a content item by external ID
 
 ```csharp
-ContentItemUpsertModel item = new ContentItemUpsertModel() { 
+ContentItemUpsertModel item = new ContentItemUpsertModel 
+{ 
     Name = "New or updated name",
     Type = ContentTypeIdentifier.ByCodename("cafe"),
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }   
@@ -197,7 +209,8 @@ ContentItemModel response = await client.UpsertContentItemByExternalIdAsync(item
 #### Adding a content item 
 
 ```csharp
-ContentItemCreateModel item = new ContentItemCreateModel() { 
+ContentItemCreateModel item = new ContentItemCreateModel 
+{ 
     Name = "Brno",
     Type = ContentTypeIdentifier.ByCodename("cafe"),
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }
@@ -212,7 +225,8 @@ ContentItemModel response = await client.CreateContentItemAsync(item);
 ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
-ContentItemUpdateModel item = new ContentItemUpdateModel() { 
+ContentItemUpdateModel item = new ContentItemUpdateModel 
+{ 
     Name = "New name",
     SitemapLocations = new[] { 
         SitemapNodeIdentifier.ByCodename("cafes"),
@@ -237,6 +251,7 @@ ContentItemModel reponse = await client.GetContentItemAsync(identifier);
 
 ```csharp
 ListingResponseModel<ContentItemModel> response = await client.ListContentItemsAsync();
+
 while (true)
 {
     foreach (var item in response)
@@ -266,12 +281,14 @@ client.DeleteContentItemAsync(identifier);
 #### Upserting a language variant
 
 ```csharp
-var elements = new {
+var elements = new 
+{
     street = "Nove Sady 25",
     city = "Brno",
     country = "Czech Republic"
 };
-ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
+
+ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel { Elements = elements };
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 // ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
@@ -280,7 +297,6 @@ LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 // LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
-
 ContentItemVariantModel response = await client.UpsertContentItemVariantAsync(identifier, upsertModel);
 ```
 
@@ -342,18 +358,20 @@ FileReference fileResult = await client.UploadFileAsync(new FileContentSource(st
 Updates or creates an asset using a `fileResult` reference to a previously uploaded file. You can specify an asset description for each language in your Kentico Cloud project.  
 
 ```csharp
-AssetDescription assetDescription = new AssetDescription { 
+AssetDescription assetDescription = new AssetDescription 
+{ 
     Description = "Description of the asset in English Language", 
     Language = LanguageIdentifier.ByCodename("en-US")
 };
 AssetDescription[] descriptions = new [] { assetDescription };
 
-AssetUpsertModel asset = new AssetUpsertModel {
+AssetUpsertModel asset = new AssetUpsertModel 
+{
     FileReference = fileResult,
     Descriptions = descriptions;
 };
-string externalId = "Ext-Asset-123-png";
 
+string externalId = "Ext-Asset-123-png";
 AssetModel response = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```
 
@@ -362,15 +380,15 @@ AssetModel response = await client.UpsertAssetByExternalIdAsync(externalId, asse
 Import the asset file and its descriptions using a single method. 
 
 ```csharp 
-AssetDescription assetDescription = new AssetDescription { 
+AssetDescription assetDescription = new AssetDescription 
+{ 
     Description = "Description of the asset in English Language", 
     Language = LanguageIdentifier.ByCodename("en-US")
 };
-AssetDescription[] descriptions = new [] { assetDescription };
 
+AssetDescription[] descriptions = new [] { assetDescription };
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
-
 AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
