@@ -27,7 +27,7 @@ The `ContentManagementClient` class is the main class of the SDK. Using this cla
 To create an instance of the class, you need to provide a [project ID](https://developer.kenticocloud.com/docs/using-delivery-api#section-getting-project-id) and a valid [Content Management API Key](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#importing-content-items).
 
 ```csharp
-ContentManagementOptions options = new ContentManagementOptions()
+ContentManagementOptions options = new ContentManagementOptions
 { 
     ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
     ApiKey = "ew0...1eo" 
