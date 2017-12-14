@@ -8,7 +8,7 @@
 ## Summary
 
 The Kentico Cloud Content Management .NET SDK is a client library used for managing content in Kentico Cloud. It provides read/write access to your Kentico Cloud projects.  
-You can use the SDK to migrate existing content into your Kentico Cloud project or update content in your content items. You can import content items, their language variants, and assets.
+You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/KenticoCloud.ContentManagement/) to migrate existing content into your Kentico Cloud project or update content in your content items. You can import content items, their language variants, and assets.
 
 The Content Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
 
