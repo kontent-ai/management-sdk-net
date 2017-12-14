@@ -1,6 +1,8 @@
 # Kentico Cloud Content Management .NET SDK
 
-[![Build status](https://ci.appveyor.com/api/projects/status/6b3tt1kc3ogmcav3/branch/master?svg=true)](https://ci.appveyor.com/project/kentico/content-management-sdk-net/branch/master) 
+[![Build status](https://ci.appveyor.com/api/projects/status/6b3tt1kc3ogmcav3/branch/master?svg=true)](https://ci.appveyor.com/project/kentico/content-management-sdk-net/branch/master)
+[![NuGet](https://img.shields.io/nuget/v/KenticoCloud.ContentManagement.svg)](https://www.nuget.org/packages/KenticoCloud.ContentManagement)
+[![NuGet](https://img.shields.io/nuget/dt/kenticocloud.ContentManagement.svg)](https://www.nuget.org/packages/KenticoCloud.ContentManagement)
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
 
 ## Summary
