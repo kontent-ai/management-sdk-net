@@ -378,7 +378,7 @@ AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePa
 AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
 // AssetIdentifier identifier = AssetIdentifier.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
 
-client.GetAssetAsync(identifier);
+AssetModel response = await client.GetAssetAsync(identifier);
 ```
 
 #### Listing assets
