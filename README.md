@@ -153,7 +153,7 @@ AssetDescription assetDescription = new AssetDescription
     Language = LanguageIdentifier.ByCodename("en-US") 
 };
 
-AssetDescription[] descriptions = new [] { assetDescription };
+IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
 AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
@@ -375,7 +375,7 @@ AssetDescription assetDescription = new AssetDescription
     Description = "Description of the asset in English Language", 
     Language = LanguageIdentifier.ByCodename("en-US")
 };
-AssetDescription[] descriptions = new [] { assetDescription };
+IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 
 AssetUpsertModel asset = new AssetUpsertModel 
 {
@@ -398,7 +398,7 @@ AssetDescription assetDescription = new AssetDescription
     Language = LanguageIdentifier.ByCodename("en-US")
 };
 
-AssetDescription[] descriptions = new [] { assetDescription };
+IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
 AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
