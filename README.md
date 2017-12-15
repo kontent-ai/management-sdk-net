@@ -334,7 +334,7 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 // ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
-List<ContentItemVariantModel> response = await client.ListContentItemVariantsAsync(identifier);
+IEnumerable<ContentItemVariantModel> response = await client.ListContentItemVariantsAsync(identifier);
 ```
 
 #### Deleting a language variant
