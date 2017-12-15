@@ -53,6 +53,22 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-
 * (internal) **IDs** are random [GUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) assigned to objects by Kentico Cloud at the moment of import/creation. They are unique, but only objects that are already in the system have them. You can't use them to refer to content that hasn't yet been imported. 
 * **External IDs** are string-based custom identifiers defined by you. This is useful when importing a batch of cross-referencing content. See [Importing Modular and linked content](#importing-modular-and-linked-content). 
 
+### Strongly-typed models of your content
+
+The `ContentManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Cloud [model generator utility](https://github.com/Kentico/cloud-generators-net). 
+
+```csharp
+ // Elements to update     
+CafeeModel stronglyTypedElements = new CafeModel
+{
+    Title = "On Roasts",
+    PostDate = new DateTime(2017, 7, 4),
+};
+
+// Upsert a language variant of a content item
+ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, stronglyTypedElements); 
+```
+
 ## Quick start
 
 ### Importing content items
@@ -180,7 +196,6 @@ var elements =
     city = "Brno",
     country = "Czech Republic"
 };
-
 ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel { Elements = elements };
 
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId(itemExternalId);
