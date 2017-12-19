@@ -273,15 +273,20 @@ ContentItemModel reponse = await client.GetContentItemAsync(identifier);
 ```csharp
 ListingResponseModel<ContentItemModel> response = await client.ListContentItemsAsync();
 
-do
+while (true)
 {
     foreach (var item in response)
     {
         // use your content item
     }
+    
+    if (!response.HasNextPage())
+    {
+        break;
+    }
 
     response = await response.GetNextPage();
-} while (response.HasNextPage());
+}
  ```
 
 #### Deleting a content item
@@ -426,15 +431,20 @@ AssetModel response = await client.GetAssetAsync(identifier);
 ```csharp
 ListingResponseModel<AssetModel> response = await client.ListAssetsAsync();
 
-do
+while
 {
     foreach (var asset in response)
     {
         // use your asset
     }
+        
+    if (!response.HasNextPage())
+    {
+        break;
+    }
 
     response = await response.GetNextPage();
-} while (response.HasNextPage());
+}
 ```
 
 #### Deleting an asset
