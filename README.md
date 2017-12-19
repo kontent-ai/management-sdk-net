@@ -60,14 +60,14 @@ The `ContentManagementClient` also supports working with strongly-typed models. 
 
 ```csharp
  // Elements to update
-CafeeModel stronglyTypedElements = new CafeModel
+ArticleModel stronglyTypedElements = new ArticleModel
 {
     Title = "On Roasts",
     PostDate = new DateTime(2017, 7, 4),
 };
 
 // Upsert a language variant of a content item
-ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, stronglyTypedElements);
+ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
 ```
 
 ## Quick start
