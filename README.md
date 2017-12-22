@@ -34,7 +34,7 @@ ContentManagementOptions options = new ContentManagementOptions
     ApiKey = "ew0...1eo"
 };
 
-// Initialize an instance of the ContentManagementClient client
+// Initializes an instance of the ContentManagementClient client
 ContentManagementClient client = new ContentManagementClient(options);
 ```
 
@@ -59,16 +59,33 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-
 The `ContentManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Cloud [model generator utility](https://github.com/Kentico/cloud-generators-net).
 
 ```csharp
- // Elements to update
+// Elements to update
 ArticleModel stronglyTypedElements = new ArticleModel
 {
     Title = "On Roasts",
     PostDate = new DateTime(2017, 7, 4)
 };
 
-// Upsert a language variant of a content item
+// Upserts a language variant of a content item
 ContentItemVariantModel<ArticleModel> response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
 ```
+
+You can also use anonymous objects to achieve the same result:
+
+```csharp
+// Elements to update
+var elements = new
+{
+    title = "On Roasts",
+    post_date = new DateTime(2017, 7, 4)
+};
+ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
+
+// Upserts a language variant of a content item
+ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, upsertModel);
+```
+
+However, we encourage you to use strongly-typed models for their convenience and type safety. Examples in this document use strongly-typed models where possible.
 
 ## Quick start
 
@@ -111,31 +128,29 @@ To add localized content, you have to specify:
 
 ```csharp
 // Defines the content elements to update
-var elements = new
+ArticleModel stronglyTypedElements = new ArticleModel
 {
-    title = "On Roasts",
-    post_date = new DateTime(2017, 7, 4),
-    body_copy = @"
+    Title = "On Roasts",
+    PostDate = new DateTime(2017, 7, 4),
+    BodyCopy = @"
         <h1>Light Roasts</h1>
         <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color. This method
         is used for milder coffee  varieties and for coffee tasting. This type of roasting allows the natural
         characteristics of each coffee to show. The aroma of coffees produced from light roasts is usually
         more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
     ",
-    related_articles = new [] { ContentItemIdentifier.ByCodename("which_brewing_fits_you_") },
-    url_pattern = "on-roasts",
-    personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") }
+    RelatedArticles = new [] { ContentItemIdentifier.ByCodename("which_brewing_fits_you_") },
+    UrlPattern = "on-roasts",
+    Personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") }
 };
 
-ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
-
-// Specifies the content item and the language varaint
+// Specifies the content item and the language variant
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("on_roasts");
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByLanguageCodename("en-US");
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
 // Upserts a language variant of your content item
-ContentItemVariantModel response = await client.UpsertContentItemVariantAsync(identifier, upsertModel);
+ContentItemVariantModel<ArticleModel> response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
 ```
 
 ### Importing assets
@@ -160,7 +175,7 @@ IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
 
-// Uploads the file and links it with a new asset
+// Uploads the file and links it to a new asset
 AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
@@ -195,19 +210,18 @@ string itemExternalId = "Ext-Item-456-Brno";
 ContentItemModel itemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 
 // Upsert a language variant which references the asset using external ID
-var elements =
+CafeModel stronglyTypedElements = new CafeModel
 {
-    picture = AssetIdentifier.ByExternalId(assetExternalId),
-    city = "Brno",
-    country = "Czech Republic"
+    Picture = AssetIdentifier.ByExternalId(assetExternalId),
+    City = "Brno",
+    Country = "Czech Republic"
 };
-ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel { Elements = elements };
 
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId(itemExternalId);
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
-ContentItemVariantModel variantResponse = await client.UpsertContentItemVariantAsync(identifier, upsertModel);
+ContentItemVariantModel<CafeModel> variantResponse = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, stronglyTypedElements);
 ```
 
 ### Content item methods
@@ -215,6 +229,7 @@ ContentItemVariantModel variantResponse = await client.UpsertContentItemVariantA
 #### Upserting a content item by external ID
 
 ```csharp
+// Defines a content item to upsert
 ContentItemUpsertModel item = new ContentItemUpsertModel
 {
     Name = "New or updated name",
@@ -224,12 +239,14 @@ ContentItemUpsertModel item = new ContentItemUpsertModel
 
 string itemExternalId = "Ext-Item-456-Brno";
 
+// Upserts a content item by external ID
 ContentItemModel response = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
 ```
 
 #### Adding a content item
 
 ```csharp
+// Defines a content item to add
 ContentItemCreateModel item = new ContentItemCreateModel
 {
     Name = "Brno",
@@ -237,6 +254,7 @@ ContentItemCreateModel item = new ContentItemCreateModel
     SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }
 };
 
+// Creates a content item
 ContentItemModel response = await client.CreateContentItemAsync(item);
 ```
 
@@ -246,6 +264,7 @@ ContentItemModel response = await client.CreateContentItemAsync(item);
 ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
+// Defines new properties of a content item
 ContentItemUpdateModel item = new ContentItemUpdateModel
 {
     Name = "New name",
@@ -255,6 +274,7 @@ ContentItemUpdateModel item = new ContentItemUpdateModel
     }
 };
 
+// Updates a content item
 ContentItemModel reponse = await client.UpdateContentItemAsync(identifier, item);
 ```
 
@@ -265,12 +285,14 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
+// Retrieves a content item
 ContentItemModel reponse = await client.GetContentItemAsync(identifier);
 ```
 
 #### Listing content items
 
 ```csharp
+// Retrieves a list of content items
 ListingResponseModel<ContentItemModel> response = await client.ListContentItemsAsync();
 
 while (true)
@@ -279,7 +301,7 @@ while (true)
     {
         // use your content item
     }
-    
+
     if (!response.HasNextPage())
     {
         break;
@@ -296,6 +318,7 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
+// Deletes a content item
 client.DeleteContentItemAsync(identifier);
 ```
 
@@ -304,14 +327,14 @@ client.DeleteContentItemAsync(identifier);
 #### Upserting a language variant
 
 ```csharp
-var elements = new
+// Defines the elements to update
+CafeModel stronglyTypedElements = new CafeModel
 {
-    street = "Nove Sady 25",
-    city = "Brno",
-    country = "Czech Republic"
+    Street = "Nove Sady 25",
+    City = "Brno",
+    Country = "Czech Republic"
 };
 
-ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel { Elements = elements };
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 // ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
@@ -319,8 +342,10 @@ ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 // LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
+// Combines item and language identifiers into one
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
-ContentItemVariantModel response = await client.UpsertContentItemVariantAsync(identifier, upsertModel);
+// Upserts a language variant of a content item
+ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, stronglyTypedElements);
 ```
 
 #### Viewing a language variant
@@ -333,9 +358,10 @@ ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 // LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
+// Combines item and language identifiers into one
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
-
-ContentItemVariantModel response = await client.GetContentItemVariantAsync(identifier);
+// Retrieves a language variant of a content item
+ContentItemVariantModel<CafeModel> response = await client.GetContentItemVariantAsync<CafeModel>(identifier);
 ```
 
 #### Listing language variants
@@ -345,7 +371,8 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 // ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
 
-IEnumerable<ContentItemVariantModel> response = await client.ListContentItemVariantsAsync(identifier);
+// Retrieves language variants of a content item
+IEnumerable<ContentItemVariantModel<CafeModel>> response = await client.ListContentItemVariantsAsync<CafeModel>(identifier);
 ```
 
 #### Deleting a language variant
@@ -358,6 +385,9 @@ ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
 LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 // LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
+// Combines item and language identifiers into one
+ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+// Deletes a language variant of a content item
 await client.DeleteContentItemVariantAsync(identifier);
 ```
 
@@ -388,6 +418,7 @@ AssetDescription assetDescription = new AssetDescription
 };
 IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 
+// Defines the asset to upsert
 AssetUpsertModel asset = new AssetUpsertModel
 {
     FileReference = fileResult,
@@ -396,6 +427,7 @@ AssetUpsertModel asset = new AssetUpsertModel
 
 string externalId = "Ext-Asset-123-png";
 
+// Upserts an asset by external ID
 AssetModel response = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 ```
 
@@ -414,6 +446,7 @@ IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
 
+// Creates a new asset using the given file and its descriptions
 AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
 ```
 
@@ -423,21 +456,23 @@ AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePa
 AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
 // AssetIdentifier identifier = AssetIdentifier.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
 
+// Retrieves an asset
 AssetModel response = await client.GetAssetAsync(identifier);
 ```
 
 #### Listing assets
 
 ```csharp
+// Retrieves a list of all assets
 ListingResponseModel<AssetModel> response = await client.ListAssetsAsync();
 
-while
+while (true)
 {
     foreach (var asset in response)
     {
         // use your asset
     }
-        
+
     if (!response.HasNextPage())
     {
         break;
@@ -453,6 +488,7 @@ while
 AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
 // AssetIdentifier identifier = AssetIdentifier.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
 
+// Deletes an asset
 client.DeleteAssetAsync(identifier);
 ```
 
