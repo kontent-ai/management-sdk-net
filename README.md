@@ -146,7 +146,7 @@ ArticleModel stronglyTypedElements = new ArticleModel
 
 // Specifies the content item and the language variant
 ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("on_roasts");
-LanguageIdentifier languageIdentifier = LanguageIdentifier.ByLanguageCodename("en-US");
+LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
 ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
 // Upserts a language variant of your content item
@@ -172,7 +172,7 @@ AssetDescription assetDescription = new AssetDescription
 
 IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 
-string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
+string filePath = "‪C:\\Users\\Kentico\\Desktop\\puppies.png";
 string contentType = "image/png";
 
 // Uploads the file and links it to a new asset
@@ -212,7 +212,7 @@ ContentItemModel itemResponse = await client.UpsertContentItemByExternalIdAsync(
 // Upsert a language variant which references the asset using external ID
 CafeModel stronglyTypedElements = new CafeModel
 {
-    Picture = AssetIdentifier.ByExternalId(assetExternalId),
+    Picture = new [] { AssetIdentifier.ByExternalId(assetExternalId) },
     City = "Brno",
     Country = "Czech Republic"
 };
@@ -422,7 +422,7 @@ IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 AssetUpsertModel asset = new AssetUpsertModel
 {
     FileReference = fileResult,
-    Descriptions = descriptions;
+    Descriptions = descriptions
 };
 
 string externalId = "Ext-Asset-123-png";
