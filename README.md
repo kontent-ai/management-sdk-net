@@ -266,7 +266,7 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
 // ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
 
 // Retrieves a content item
-ContentItemModel reponse = await client.GetContentItemAsync(identifier);
+ContentItemModel response = await client.GetContentItemAsync(identifier);
 ```
 
 #### Listing content items
