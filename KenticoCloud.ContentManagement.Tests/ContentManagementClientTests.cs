@@ -1076,7 +1076,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var descriptions = new List<AssetDescription>();
 
-            var filePath = Path.Combine(AppContext.BaseDirectory, "Data\\kentico_rgb_bigger.png");
+            var filePath = Path.Combine(Environment.CurrentDirectory, "Data\\kentico_rgb_bigger.png");
             var contentType = "image/png";
 
             var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
