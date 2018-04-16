@@ -22,11 +22,11 @@ namespace KenticoCloud.ContentManagement.Models.Items
         [JsonProperty("sitemap_locations", Required = Required.Always)]
         public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; } = Enumerable.Empty<SitemapNodeIdentifier>();
 
-        internal ContentItemUpdateModel()
+        public ContentItemUpdateModel()
         {
         }
 
-        internal ContentItemUpdateModel(ContentItemModel contentItem)
+        public ContentItemUpdateModel(ContentItemModel contentItem)
         {
             Name = contentItem.Name;
             SitemapLocations = contentItem.SitemapLocations.Select(s => SitemapNodeIdentifier.ById(s.Id));
