@@ -290,6 +290,26 @@ while (true)
     response = await response.GetNextPage();
 }
  ```
+ 
+#### Updating a content item
+
+```csharp
+ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
+// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
+
+// Defines new properties of a content item
+ContentItemUpdateModel item = new ContentItemUpdateModel
+{
+    Name = "New name",
+    SitemapLocations = new[] {
+        SitemapNodeIdentifier.ByCodename("cafes"),
+        SitemapNodeIdentifier.ByCodename("europe")
+    }
+};
+
+// Updates a content item
+ContentItemModel reponse = await client.UpdateContentItemAsync(identifier, item);
+```
 
 #### Deleting a content item
 
