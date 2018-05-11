@@ -7,9 +7,9 @@ namespace KenticoCloud.ContentManagement.Helpers
     /// <summary>
     /// Creates URL for redirection to editing of content items.
     /// </summary>
-    public class EditLinkBuilder
+    public class EditLinkBuilder : IEditLinkBuilder
     {
-        private const string URL_EDIT_ITEM_WITH_VARIANT_CODENAME = "goto/edit-item/item/{0}/variant-codename/{1}/project/{2}";
+        private const string URL_TEMPLATE_EDIT_ITEM = "goto/edit-item/item/{0}/variant-codename/{1}/project/{2}";
 
         private readonly ContentManagementHelpersOptions _options;
 
@@ -19,9 +19,9 @@ namespace KenticoCloud.ContentManagement.Helpers
         /// <param name="contentManagementHelpersOptions">The settings of the Kentico Cloud project.</param>
         public EditLinkBuilder(ContentManagementHelpersOptions contentManagementHelpersOptions)
         {
-            if (string.IsNullOrEmpty(contentManagementHelpersOptions.EditAppEndpoint))
+            if (string.IsNullOrEmpty(contentManagementHelpersOptions.AdminUrl))
             {
-                throw new ArgumentException("Kentico Cloud Edit App endpoint is not specified.", nameof(contentManagementHelpersOptions.EditAppEndpoint));
+                throw new ArgumentException("Kentico Cloud Edit App endpoint is not specified.", nameof(contentManagementHelpersOptions.AdminUrl));
             }
 
             if (string.IsNullOrEmpty(contentManagementHelpersOptions.ProjectId))
@@ -40,18 +40,23 @@ namespace KenticoCloud.ContentManagement.Helpers
         /// <summary>
         /// Gets URL to edit page of specified content item.
         /// </summary>
-        /// <param name="variantCodename">Codename of variant.</param>
-        /// <param name="itemId">Unique identifier of content item.</param>
+        /// <param name="language">Language codename.</param>
+        /// <param name="itemId">Identifier of content item.</param>
         /// <returns>URL to edit page of specified item.</returns>
-        public string GetEditItemUrl(string variantCodename, Guid itemId)
+        public string BuildEditItemUrl(string language, string itemId)
         {
-            if (string.IsNullOrEmpty(variantCodename))
+            if (string.IsNullOrEmpty(language))
             {
-                throw new ArgumentException("Variant codename is not specified.", nameof(variantCodename));
+                throw new ArgumentException("Language is not specified.", nameof(language));
             }
 
-            return string.Format(_options.EditAppEndpoint,
-                string.Format(URL_EDIT_ITEM_WITH_VARIANT_CODENAME, itemId, variantCodename, _options.ProjectId));
+            if (string.IsNullOrEmpty(itemId))
+            {
+                throw new ArgumentException("Item is not specified.", nameof(itemId));
+            }
+
+            return string.Format(_options.AdminUrl,
+                string.Format(URL_TEMPLATE_EDIT_ITEM, itemId, language, _options.ProjectId));
         }
     }
 }

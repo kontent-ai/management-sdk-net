@@ -8,33 +8,62 @@ namespace KenticoCloud.ContentManagement.Helpers.Tests
 {
     public class EditLinkBuilderTests
     {
-        private EditLinkBuilder _underTest;
-
-        public EditLinkBuilderTests()
-        {
-            _underTest = new EditLinkBuilder(new ContentManagementHelpersOptions {
-                ProjectId = "14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43"
-            });
-        }
+        private readonly string _itemId = "1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9";
+        private readonly string _language = "some-Language-Codename";
 
         [Fact]
-        public void GetEditItemUrl_ValidInput_ReturnsValidUrl()
+        public void BuildEditItemUrl_ValidInput_ReturnsValidUrl()
         {
-            var itemId = Guid.Parse("1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9");
-            var variantCodename = "some-Variant-Codename";
+            var options = new ContentManagementHelpersOptions
+            {
+                ProjectId = "14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43"
+            };
 
-            var result = _underTest.GetEditItemUrl(variantCodename, itemId);
+            var underTest = new EditLinkBuilder(options);
+            var result = underTest.BuildEditItemUrl(_language, _itemId);
 
-            var expected = "https://app.kenticocloud.com/goto/edit-item/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9/variant-codename/some-Variant-Codename/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43";
+            var expected = "https://app.kenticocloud.com/goto/edit-item/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9/variant-codename/some-Language-Codename/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43";
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void GetEditItemUrl_EmptyVariantCodename_ThrowsException()
+        public void BuildEditItemUrl_AdminUrlOtherThanDefault_ReturnsCorrectUrl()
         {
-            var itemId = Guid.Parse("1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9");
+            var options = new ContentManagementHelpersOptions
+            {
+                AdminUrl = "https://someOther.url/{0}",
+                ProjectId = "34998683-4dd6-441c-b4cb-57493cafcaf0",
+            };
 
-            Assert.Throws<ArgumentException>(() => _underTest.GetEditItemUrl(string.Empty, itemId));
+            var underTest = new EditLinkBuilder(options);
+            var result = underTest.BuildEditItemUrl(_language, _itemId);
+
+            var expected = "https://someOther.url/goto/edit-item/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9/variant-codename/some-Language-Codename/project/34998683-4dd6-441c-b4cb-57493cafcaf0";
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void BuildEditItemUrl_EmptyVariantCodename_ThrowsException()
+        {
+            var options = new ContentManagementHelpersOptions
+            {
+                ProjectId = "14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43"
+            };
+
+            var underTest = new EditLinkBuilder(options);
+            Assert.Throws<ArgumentException>(() => underTest.BuildEditItemUrl(string.Empty, _itemId));
+        }
+
+        [Fact]
+        public void BuildEditItemUrl_EmptyItemId_ThrowsException()
+        {
+            var options = new ContentManagementHelpersOptions
+            {
+                ProjectId = "14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43"
+            };
+
+            var underTest = new EditLinkBuilder(options);
+            Assert.Throws<ArgumentException>(() => underTest.BuildEditItemUrl(_language, string.Empty));
         }
 
         [Fact]
@@ -42,7 +71,7 @@ namespace KenticoCloud.ContentManagement.Helpers.Tests
         {
             var noEditAppEndpointOptions = new ContentManagementHelpersOptions
             {
-                EditAppEndpoint = string.Empty
+                AdminUrl = string.Empty
             };
 
             Assert.Throws<ArgumentException>(() => new EditLinkBuilder(noEditAppEndpointOptions));

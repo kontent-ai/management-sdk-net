@@ -6,9 +6,9 @@
     public class ContentManagementHelpersOptions
     {
         /// <summary>
-        /// Gets or sets the Edit App endpoint address. Optional, defaults to "https://app.kenticocloud.com/{0}".
+        /// Gets or sets the Admin URL. Optional, defaults to "https://app.kenticocloud.com/{0}".
         /// </summary>
-        public string EditAppEndpoint { get; set; } = "https://app.kenticocloud.com/{0}";
+        public string AdminUrl { get; set; } = "https://app.kenticocloud.com/{0}";
 
         /// <summary>
         /// Gets or sets the Project identifier.
