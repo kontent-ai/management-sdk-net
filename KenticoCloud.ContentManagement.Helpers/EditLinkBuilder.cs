@@ -9,7 +9,7 @@ namespace KenticoCloud.ContentManagement.Helpers
     /// </summary>
     public class EditLinkBuilder : IEditLinkBuilder
     {
-        private const string URL_TEMPLATE_EDIT_ITEM = "goto/edit-item/item/{0}/variant-codename/{1}/project/{2}";
+        private const string URL_TEMPLATE_EDIT_ITEM = "goto/edit-item/project/{0}/variant-codename/{1}/item/{2}";
 
         private readonly ContentManagementHelpersOptions _options;
 
@@ -56,7 +56,7 @@ namespace KenticoCloud.ContentManagement.Helpers
             }
 
             return string.Format(_options.AdminUrl,
-                string.Format(URL_TEMPLATE_EDIT_ITEM, itemId, language, _options.ProjectId));
+                string.Format(URL_TEMPLATE_EDIT_ITEM, _options.ProjectId, language, itemId));
         }
     }
 }

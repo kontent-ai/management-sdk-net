@@ -22,7 +22,7 @@ namespace KenticoCloud.ContentManagement.Helpers.Tests
             var underTest = new EditLinkBuilder(options);
             var result = underTest.BuildEditItemUrl(_language, _itemId);
 
-            var expected = "https://app.kenticocloud.com/goto/edit-item/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9/variant-codename/some-Language-Codename/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43";
+            var expected = "https://app.kenticocloud.com/goto/edit-item/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43/variant-codename/some-Language-Codename/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9";
             Assert.Equal(expected, result);
         }
 
@@ -38,7 +38,7 @@ namespace KenticoCloud.ContentManagement.Helpers.Tests
             var underTest = new EditLinkBuilder(options);
             var result = underTest.BuildEditItemUrl(_language, _itemId);
 
-            var expected = "https://someOther.url/goto/edit-item/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9/variant-codename/some-Language-Codename/project/34998683-4dd6-441c-b4cb-57493cafcaf0";
+            var expected = "https://someOther.url/goto/edit-item/project/34998683-4dd6-441c-b4cb-57493cafcaf0/variant-codename/some-Language-Codename/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9";
             Assert.Equal(expected, result);
         }
 
