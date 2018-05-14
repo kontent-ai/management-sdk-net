@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KenticoCloud.ContentManagement", "KenticoCloud.ContentManagement\KenticoCloud.ContentManagement.csproj", "{3F7CE0EF-5E4C-4380-A4BF-14F34E7E6711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenticoCloud.ContentManagement.Tests", "KenticoCloud.ContentManagement.Tests\KenticoCloud.ContentManagement.Tests.csproj", "{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KenticoCloud.ContentManagement.Tests", "KenticoCloud.ContentManagement.Tests\KenticoCloud.ContentManagement.Tests.csproj", "{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenticoCloud.ContentManagement.Helpers", "KenticoCloud.ContentManagement.Helpers\KenticoCloud.ContentManagement.Helpers.csproj", "{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KenticoCloud.ContentManagement.Helpers.Tests", "KenticoCloud.ContentManagement.Helpers.Tests\KenticoCloud.ContentManagement.Helpers.Tests.csproj", "{A320E9B4-77D3-4567-B753-DE12AD4DBD94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
