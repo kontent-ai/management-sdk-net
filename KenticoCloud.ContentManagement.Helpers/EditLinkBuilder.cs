@@ -88,7 +88,7 @@ namespace KenticoCloud.ContentManagement.Helpers
 
         private string BuildSingleElementSegment(ElementIdentifier elementIdentifier)
         {
-            return string.Format(ITEM_ELEMENT_SEGMENT, elementIdentifier.ItemId, elementIdentifier.ElementId);
+            return string.Format(ITEM_ELEMENT_SEGMENT, elementIdentifier.ItemId, elementIdentifier.ElementCodename);
         }
     }
 }

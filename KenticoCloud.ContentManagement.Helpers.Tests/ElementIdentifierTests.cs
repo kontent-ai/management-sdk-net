@@ -28,7 +28,7 @@ namespace KenticoCloud.ContentManagement.Helpers.Tests
         {
             var result = new ElementIdentifier(_itemId, _elementId);
             Assert.Equal(_itemId, result.ItemId);
-            Assert.Equal(_elementId, result.ElementId);
+            Assert.Equal(_elementId, result.ElementCodename);
         }
     }
 }

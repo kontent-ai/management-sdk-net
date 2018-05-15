@@ -13,29 +13,29 @@ namespace KenticoCloud.ContentManagement.Helpers.Models
         public string ItemId { get; }
 
         /// <summary>
-        /// Identifier of element
+        /// Codename of element
         /// </summary>
-        public string ElementId { get; }
+        public string ElementCodename { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ElementIdentifier"/>
         /// </summary>
         /// <param name="itemId">Unique identifier of item</param>
-        /// <param name="elementId">Unique identifier of element</param>
-        public ElementIdentifier(string itemId, string elementId)
+        /// <param name="elementCodename">Codename of element</param>
+        public ElementIdentifier(string itemId, string elementCodename)
         {
             if (string.IsNullOrEmpty(itemId))
             {
                 throw new ArgumentException("Item is not specified.", nameof(itemId));
             }
 
-            if (string.IsNullOrEmpty(elementId))
+            if (string.IsNullOrEmpty(elementCodename))
             {
-                throw new ArgumentException("Element is not specified.", nameof(elementId));
+                throw new ArgumentException("Element is not specified.", nameof(elementCodename));
             }
 
             ItemId = itemId;
-            ElementId = elementId;
+            ElementCodename = elementCodename;
         }
     }
 }
