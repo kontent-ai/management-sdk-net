@@ -7,6 +7,7 @@
     <Product>Kentico Cloud</Product>
     <Description>Kentico Cloud Content Management SDK</Description>
     <Copyright>© 2017 Kentico Software. All rights reserved.</Copyright>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageLicenseUrl>https://github.com/Kentico/content-management-sdk-net/blob/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/Kentico/content-management-sdk-net</PackageProjectUrl>
