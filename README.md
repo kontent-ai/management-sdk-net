@@ -492,6 +492,73 @@ AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
 client.DeleteAssetAsync(identifier);
 ```
 
+### Helper Methods
+
+#### Getting an edit link for a content item
+
+```csharp
+var options = new ContentManagementHelpersOptions
+{
+    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+};
+
+string itemId = "8ceeb2d8-9676-48ae-887d-47ccb0f54a79";
+string languageCodename = "en-US";
+
+var linkBuilder = new EditLinkBuilder(options);
+var result = linkBuilder.BuildEditItemUrl(languageCodename, itemId);
+
+// Result is "https://app.kenticocloud.com/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
+// variant-codename/en-US/item/8ceeb2d8-9676-48ae-887d-47ccb0f54a79"
+```
+
+#### Getting an edit link for a specific content element
+
+```csharp
+var options = new ContentManagementHelpersOptions
+{
+    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+};
+
+string itemId = "8ceeb2d8-9676-48ae-887d-47ccb0f54a79";
+string languageCodename = "en-US";
+var elementIdentifier = new ElementIdentifier(itemId, "single-Element-Codename");
+
+var linkBuilder = new EditLinkBuilder(options);
+var result = linkBuilder.BuildEditItemUrl(languageCodename, elementIdentifier);
+
+// Result is "https://app.kenticocloud.com/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
+// variant-codename/en-US/item/8ceeb2d8-9676-48ae-887d-47ccb0f54a79/element/single-Element-Codename"
+```
+
+#### Getting an edit link for multiple content elements
+
+```csharp
+var options = new ContentManagementHelpersOptions
+{
+    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+};
+
+string languageCodename = "en-US";
+var elements = new ElementIdentifier[]
+{
+    new ElementIdentifier("76c06b74-bae9-4732-b629-1a59395e893d", "some-Element-Codename-1"),
+    new ElementIdentifier("326c63aa-ae71-40b7-a6a8-56455b0b9751", "some-Element-Codename-2"),
+    new ElementIdentifier("ffcd0436-8274-40ee-aaae-86fee1966fce", "some-Element-Codename-3"),
+    new ElementIdentifier("d31d27cf-ddf6-4040-ab67-2f70edc0d46b", "some-Element-Codename-4"),
+};
+
+var linkBuilder = new EditLinkBuilder(options);
+var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
+
+// Result is "https://app.kenticocloud.com/goto/edit-item/"
+//    project/bb6882a0-3088-405c-a6ac-4a0da46810b0/variant-codename/en-US/
+//    item/76c06b74-bae9-4732-b629-1a59395e893d/element/some-Element-Codename-1/
+//    item/326c63aa-ae71-40b7-a6a8-56455b0b9751/element/some-Element-Codename-2/
+//    item/ffcd0436-8274-40ee-aaae-86fee1966fce/element/some-Element-Codename-3/
+//    item/d31d27cf-ddf6-4040-ab67-2f70edc0d46b/element/some-Element-Codename-4"
+```
+
 ## Further information
 
 For more developer resources, visit the Kentico Cloud Developer Hub at <https://developer.kenticocloud.com>.
