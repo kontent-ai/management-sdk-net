@@ -1,3 +1,5 @@
+
+
 # Kentico Cloud Content Management .NET SDK
 
 [![Build status](https://ci.appveyor.com/api/projects/status/6b3tt1kc3ogmcav3/branch/master?svg=true)](https://ci.appveyor.com/project/kentico/content-management-sdk-net/branch/master)
@@ -14,6 +16,8 @@ You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packa
 The Content Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
 
 You can head over to our Developer Hub for the complete [Content Management API Reference](https://developer.kenticocloud.com/v1/reference#content-management-api).
+
+The SDK targets the [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard), which means it can be used in .NET Framework 4.6.1 projects and above, and .NET Core 2.0 projects and above.
 
 ## Prerequisites
 
