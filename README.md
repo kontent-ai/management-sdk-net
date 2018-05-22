@@ -498,6 +498,8 @@ client.DeleteAssetAsync(identifier);
 
 ### Helper Methods
 
+Methods for building links to content items and their elements in Kentico Cloud. Available as a [separate NuGet package](https://www.nuget.org/packages/KenticoCloud.ContentManagement.Helpers/).
+
 #### Getting an edit link for a content item
 
 ```csharp
