@@ -1,0 +1,1044 @@
+{
+  "assets": [
+    {
+      "id": "0013263e-f2a9-40b1-9a3e-7ab6510bafe5",
+      "file_name": "kenya.jpg",
+      "title": "Coffee - Kenya",
+      "size": 74683,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 1080,
+      "file_reference": {
+        "id": "0013263e-f2a9-40b1-9a3e-7ab6510bafe5",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Kenya Gakuyuni AA Coffee Beans"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Granos de cafe de Kenia Gakuyuni AA"
+        }
+      ],
+      "last_modified": "2018-07-23T09:03:54.2767083Z"
+    },
+    {
+      "id": "08bf515c-3b0e-4760-907b-6db0a22d41f3",
+      "file_name": "our-story.jpg",
+      "title": "Background - Coffee Bean Bag",
+      "size": 69622,
+      "type": "image/jpeg",
+      "image_width": 2160,
+      "image_height": 1000,
+      "file_reference": {
+        "id": "08bf515c-3b0e-4760-907b-6db0a22d41f3",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Coffee Bean Bag"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Bolso de cafe en grano"
+        }
+      ],
+      "last_modified": "2018-07-23T09:13:20.0375508Z"
+    },
+    {
+      "id": "0b590263-3fe5-4773-afae-5a3f6e511e66",
+      "file_name": "hario-mini-mill.jpg",
+      "title": "Hario Mini Mill Slim Hand Coffee Grinder",
+      "size": 41478,
+      "type": "image/jpeg",
+      "image_width": 540,
+      "image_height": 540,
+      "file_reference": {
+        "id": "0b590263-3fe5-4773-afae-5a3f6e511e66",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Hario Mini Mill Slim Hand Coffee Grinder"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Hario Mini Mill Slim Hand Coffee Grinder"
+        }
+      ],
+      "last_modified": "2018-07-23T08:53:20.9797964Z"
+    },
+    {
+      "id": "1cfcb6c9-1fe6-4013-a0bb-b26f8ada2ebf",
+      "file_name": "origins-of-arabica-bourbon-1080px.jpg",
+      "title": "Réunion Island",
+      "size": 132229,
+      "type": "image/jpeg",
+      "image_width": 1000,
+      "image_height": 664,
+      "file_reference": {
+        "id": "1cfcb6c9-1fe6-4013-a0bb-b26f8ada2ebf",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Réunion Island"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Reunion de Isla"
+        }
+      ],
+      "last_modified": "2018-07-23T08:56:51.32485Z"
+    },
+    {
+      "id": "222310d5-a416-4fc1-a4c5-b8c77062987d",
+      "file_name": "chemex-filters.jpg",
+      "title": "Chemex Paper Filters",
+      "size": 36927,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 1080,
+      "file_reference": {
+        "id": "222310d5-a416-4fc1-a4c5-b8c77062987d",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Chemex Paper Filters"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Filtros de papel Chemex"
+        }
+      ],
+      "last_modified": "2018-07-23T08:56:14.5879155Z"
+    },
+    {
+      "id": "32d055c4-8b32-48f2-881d-058a1854e36e",
+      "file_name": "cafe06.jpg",
+      "title": "Café - New York",
+      "size": 275350,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "32d055c4-8b32-48f2-881d-058a1854e36e",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - New York"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - New York"
+        }
+      ],
+      "last_modified": "2018-07-23T08:54:17.9829796Z"
+    },
+    {
+      "id": "352b0e8c-2a1b-4aa0-91fd-961e88ab954a",
+      "file_name": "hario-buono-kettle.jpg",
+      "title": "Hario Buono 0.8 Liter Kettle, Silver",
+      "size": 64293,
+      "type": "image/jpeg",
+      "image_width": 540,
+      "image_height": 540,
+      "file_reference": {
+        "id": "352b0e8c-2a1b-4aa0-91fd-961e88ab954a",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Hario Buono 0.8 Liter Kettle, Silver"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Caldera Hario Buono de 0.8 litros, plata"
+        }
+      ],
+      "last_modified": "2018-07-23T08:56:06.8696692Z"
+    },
+    {
+      "id": "3e76909f-599f-4742-b472-77fd4b510e92",
+      "file_name": "sources.jpg",
+      "title": "Coffee Berries",
+      "size": 46469,
+      "type": "image/jpeg",
+      "image_width": 640,
+      "image_height": 457,
+      "file_reference": {
+        "id": "3e76909f-599f-4742-b472-77fd4b510e92",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Coffee Berries"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Cafe de bayas"
+        }
+      ],
+      "last_modified": "2018-07-23T08:53:47.2578101Z"
+    },
+    {
+      "id": "3eee7d6e-0542-48ca-ab1e-35657f36dcfd",
+      "file_name": "aeropress.jpg",
+      "title": "AeroPress Coffee Maker",
+      "size": 72879,
+      "type": "image/jpeg",
+      "image_width": 540,
+      "image_height": 540,
+      "file_reference": {
+        "id": "3eee7d6e-0542-48ca-ab1e-35657f36dcfd",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "AeroPress Coffee Maker"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Cafetera AeroPress"
+        }
+      ],
+      "last_modified": "2018-07-23T08:55:51.4756843Z"
+    },
+    {
+      "id": "40edae81-37df-4d5e-8624-e2f7cfc50427",
+      "file_name": "coffee-processing-techniques-1080px.jpg",
+      "title": "Coffee Processing Techniques",
+      "size": 108409,
+      "type": "image/jpeg",
+      "image_width": 1000,
+      "image_height": 504,
+      "file_reference": {
+        "id": "40edae81-37df-4d5e-8624-e2f7cfc50427",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dry process (also known as unwashed or natural coffee)"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Proceso en seco (también conocido como café sin lavar o natural)"
+        }
+      ],
+      "last_modified": "2018-07-23T09:09:12.3993329Z"
+    },
+    {
+      "id": "4237a2ff-ce1a-45d9-8f59-65eb2ea3e401",
+      "file_name": "cafe04.jpg",
+      "title": "Café - Allendale",
+      "size": 545064,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "4237a2ff-ce1a-45d9-8f59-65eb2ea3e401",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Allendale"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Allendale"
+        }
+      ],
+      "last_modified": "2018-07-23T08:55:37.0843775Z"
+    },
+    {
+      "id": "46470271-4121-43c2-b48f-884f6389496f",
+      "file_name": "chemex.jpg",
+      "title": "Chemex 6-Cup Classic Series Glass Coffee Maker",
+      "size": 66178,
+      "type": "image/jpeg",
+      "image_width": 540,
+      "image_height": 540,
+      "file_reference": {
+        "id": "46470271-4121-43c2-b48f-884f6389496f",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Chemex 6-Cup Classic Series Glass Coffee Maker"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Chemex 6-Cup Classic Series Glass Coffee Maker"
+        }
+      ],
+      "last_modified": "2018-07-23T08:57:12.4246114Z"
+    },
+    {
+      "id": "512047f1-2f7f-45fd-9e90-e71b8feae017",
+      "file_name": "about.jpg",
+      "title": "My super asset",
+      "size": 56264,
+      "type": "image/jpeg",
+      "image_width": 640,
+      "image_height": 426,
+      "file_reference": {
+        "id": "512047f1-2f7f-45fd-9e90-e71b8feae017",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Los Angeles - UPDATED"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Los Angeles"
+        }
+      ],
+      "last_modified": "2018-07-25T06:13:27.0504403Z"
+    },
+    {
+      "id": "542ea709-63a8-4413-ae03-dd9c681efbf2",
+      "file_name": "hario-vacuum-pot.jpg",
+      "title": "Hario Vacuum Pot",
+      "size": 13232,
+      "type": "image/jpeg",
+      "image_width": 540,
+      "image_height": 540,
+      "file_reference": {
+        "id": "542ea709-63a8-4413-ae03-dd9c681efbf2",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Hario Vacuum Pot"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": null
+        }
+      ],
+      "last_modified": "2018-07-23T08:52:38.3945198Z"
+    },
+    {
+      "id": "55caecc2-400c-4ee3-91c3-0f7f067414ec",
+      "file_name": "banner-default.jpg",
+      "title": "Banner - Coffee Bean Bag",
+      "size": 75424,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 380,
+      "file_reference": {
+        "id": "55caecc2-400c-4ee3-91c3-0f7f067414ec",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Coffee Bean Bag"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Bolso de cafe en grano"
+        }
+      ],
+      "last_modified": "2018-07-23T09:02:50.5060092Z"
+    },
+    {
+      "id": "59385147-e43e-4fd8-8083-23d829f8db77",
+      "file_name": "hario-skerton.jpg",
+      "title": "Hario Skerton Ceramic Coffee Mill",
+      "size": 57665,
+      "type": "image/jpeg",
+      "image_width": 540,
+      "image_height": 540,
+      "file_reference": {
+        "id": "59385147-e43e-4fd8-8083-23d829f8db77",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Hario Skerton Ceramic Coffee Mill"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Hario Skerton Ceramic Coffee Mill"
+        }
+      ],
+      "last_modified": "2018-07-23T08:53:11.2911451Z"
+    },
+    {
+      "id": "5c3c4ed8-8f54-4b16-8846-a13db48da7e1",
+      "file_name": "cafe03.jpg",
+      "title": "Café - Sydney",
+      "size": 405527,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "5c3c4ed8-8f54-4b16-8846-a13db48da7e1",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Sydney"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Sydney"
+        }
+      ],
+      "last_modified": "2018-07-23T08:53:39.9184853Z"
+    },
+    {
+      "id": "66d73245-10e5-4478-93e7-5609fee3cdf7",
+      "file_name": "roaster.jpg",
+      "title": "Coffee Roaster",
+      "size": 50240,
+      "type": "image/jpeg",
+      "image_width": 600,
+      "image_height": 457,
+      "file_reference": {
+        "id": "66d73245-10e5-4478-93e7-5609fee3cdf7",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Coffee Roaster"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Cafe tostado"
+        }
+      ],
+      "last_modified": "2018-07-23T08:53:57.4400498Z"
+    },
+    {
+      "id": "787293b4-2a7c-47c7-8875-162c0fcbe911",
+      "file_name": "espro-press.jpg",
+      "title": "Espro Press",
+      "size": 17231,
+      "type": "image/jpeg",
+      "image_width": 600,
+      "image_height": 600,
+      "file_reference": {
+        "id": "787293b4-2a7c-47c7-8875-162c0fcbe911",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Espro Press"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": null
+        }
+      ],
+      "last_modified": "2018-07-23T08:52:30.7722513Z"
+    },
+    {
+      "id": "7e510ff1-13c0-4a03-a19c-05625183df1f",
+      "file_name": "cafe03.jpg",
+      "title": "Café - Boston",
+      "size": 405527,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "7e510ff1-13c0-4a03-a19c-05625183df1f",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Boston"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Boston"
+        }
+      ],
+      "last_modified": "2018-07-23T08:55:12.5027549Z"
+    },
+    {
+      "id": "7e5475fd-1aa0-4545-bd69-15a31437a9b2",
+      "file_name": "cafe04.jpg",
+      "title": "Café – Amsterdam",
+      "size": 545064,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "7e5475fd-1aa0-4545-bd69-15a31437a9b2",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café – Amsterdam"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café – Amsterdam"
+        }
+      ],
+      "last_modified": "2018-07-23T08:55:26.691242Z"
+    },
+    {
+      "id": "80ee78c2-e6cb-4898-8053-91be9e763a4c",
+      "file_name": "colombia.jpg",
+      "title": "Coffee - Colombia",
+      "size": 75568,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 1080,
+      "file_reference": {
+        "id": "80ee78c2-e6cb-4898-8053-91be9e763a4c",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Colombia Carlos Imbachi Coffee Beans"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Granos de cafe Colombianos Carlos Imbachi  "
+        }
+      ],
+      "last_modified": "2018-07-23T09:04:05.1847598Z"
+    },
+    {
+      "id": "83d110b2-3bff-4b4e-9070-f6b30e7802ea",
+      "file_name": "coffee-cup-mug-cafe-small.jpg",
+      "title": "Cup of coffee brewed with a Chemex",
+      "size": 41158,
+      "type": "image/jpeg",
+      "image_width": 604,
+      "image_height": 403,
+      "file_reference": {
+        "id": "83d110b2-3bff-4b4e-9070-f6b30e7802ea",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "A nice cup of coffee brewed with a Chemex"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Una buena taza de café hecho con Chemex"
+        }
+      ],
+      "last_modified": "2018-07-23T09:01:31.1933469Z"
+    },
+    {
+      "id": "8787344e-4d7b-4c17-9e34-3fabb2a5ec92",
+      "file_name": "banner-b2c.jpg",
+      "title": "Banner - Cup of coffee",
+      "size": 106051,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 380,
+      "file_reference": {
+        "id": "8787344e-4d7b-4c17-9e34-3fabb2a5ec92",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Cup of coffee"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Taza de cafe"
+        }
+      ],
+      "last_modified": "2018-07-23T09:02:25.5089846Z"
+    },
+    {
+      "id": "8858d272-777b-43bd-93be-53a98be97569",
+      "file_name": "cafe05.jpg",
+      "title": "Café - Los Angeles",
+      "size": 114844,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "8858d272-777b-43bd-93be-53a98be97569",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Los Angeles"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Los Angeles"
+        }
+      ],
+      "last_modified": "2018-07-23T08:54:45.3258564Z"
+    },
+    {
+      "id": "8fad2e2c-1351-4bfc-be12-007582d61c48",
+      "file_name": "cafe01.jpg",
+      "title": "Café - Brisbane",
+      "size": 493724,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "8fad2e2c-1351-4bfc-be12-007582d61c48",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Brisbane"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Brisbane"
+        }
+      ],
+      "last_modified": "2018-07-23T08:55:04.4393357Z"
+    },
+    {
+      "id": "8fccb3b9-a507-48cc-bccd-0639d7fb69ec",
+      "file_name": "cafe01.jpg",
+      "title": "Café - London",
+      "size": 493724,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "8fccb3b9-a507-48cc-bccd-0639d7fb69ec",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - London"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - London"
+        }
+      ],
+      "last_modified": "2018-07-23T08:54:56.4123442Z"
+    },
+    {
+      "id": "988caa85-d8fe-4c72-9b26-180d8822a14e",
+      "file_name": "brazil.jpg",
+      "title": "Coffee - Brazil",
+      "size": 75217,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 1080,
+      "file_reference": {
+        "id": "988caa85-d8fe-4c72-9b26-180d8822a14e",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Brazil Natural Barra Grande Coffee Beans"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Granos de cafe Brasilenos Barra Natural Grande"
+        }
+      ],
+      "last_modified": "2018-07-23T09:04:23.8257892Z"
+    },
+    {
+      "id": "9a0ab516-0a04-41c7-a7a8-38075d5e4a52",
+      "file_name": "hario-v60.jpg",
+      "title": "Hario V60 Coffee Maker",
+      "size": 84186,
+      "type": "image/jpeg",
+      "image_width": 540,
+      "image_height": 540,
+      "file_reference": {
+        "id": "9a0ab516-0a04-41c7-a7a8-38075d5e4a52",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Hario V60 Coffee Maker"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Hario V60 Coffee Maker"
+        }
+      ],
+      "last_modified": "2018-07-23T08:57:19.7219496Z"
+    },
+    {
+      "id": "9b86141d-b667-4c35-82b1-826bc151d72a",
+      "file_name": "donate-with-us-1080px.jpg",
+      "title": "Donate With Us",
+      "size": 133239,
+      "type": "image/jpeg",
+      "image_width": 1000,
+      "image_height": 667,
+      "file_reference": {
+        "id": "9b86141d-b667-4c35-82b1-826bc151d72a",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Children in Africa"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Niños en África"
+        }
+      ],
+      "last_modified": "2018-07-23T09:16:24.0321035Z"
+    },
+    {
+      "id": "a58bf56b-962e-44dd-9fae-b562e3322119",
+      "file_name": "porlex-tall-ceramic-burr-grinder.jpg",
+      "title": "Hand Coffee Grinder",
+      "size": 37996,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 1080,
+      "file_reference": {
+        "id": "a58bf56b-962e-44dd-9fae-b562e3322119",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Hand Coffee Grinder"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Hand Coffee Grinder"
+        }
+      ],
+      "last_modified": "2018-07-23T08:53:01.6179381Z"
+    },
+    {
+      "id": "a8d0a4d4-4f74-4514-b2d1-3189d81e7e23",
+      "file_name": "cafe02.jpg",
+      "title": "Café - Melbourne",
+      "size": 496224,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "a8d0a4d4-4f74-4514-b2d1-3189d81e7e23",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Melbourne"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Melbourne"
+        }
+      ],
+      "last_modified": "2018-07-23T08:54:26.1423193Z"
+    },
+    {
+      "id": "cb9ca475-61f1-4bc5-8a7d-e524bf4aa715",
+      "file_name": "cafe02.jpg",
+      "title": "Café - Madrid",
+      "size": 496224,
+      "type": "image/jpeg",
+      "image_width": 849,
+      "image_height": 565,
+      "file_reference": {
+        "id": "cb9ca475-61f1-4bc5-8a7d-e524bf4aa715",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Madrid"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Dancing Goat Café - Madrid"
+        }
+      ],
+      "last_modified": "2018-07-23T08:54:34.1494274Z"
+    },
+    {
+      "id": "e700596b-03b0-4cee-ac5c-9212762c027a",
+      "file_name": "coffee-beverages-explained-1080px.jpg",
+      "title": "Professional Espresso Machine",
+      "size": 90895,
+      "type": "image/jpeg",
+      "image_width": 1000,
+      "image_height": 666,
+      "file_reference": {
+        "id": "e700596b-03b0-4cee-ac5c-9212762c027a",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Professional Espresso Machine"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Máquina de Espresso Profesional"
+        }
+      ],
+      "last_modified": "2018-07-23T08:56:23.8433033Z"
+    },
+    {
+      "id": "f6daed1f-3f3b-4036-a9c7-9519359b9601",
+      "file_name": "on-roasts-1080px.jpg",
+      "title": "Coffee Roastery",
+      "size": 121946,
+      "type": "image/jpeg",
+      "image_width": 1000,
+      "image_height": 666,
+      "file_reference": {
+        "id": "f6daed1f-3f3b-4036-a9c7-9519359b9601",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Coffee Roastery"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Tostador del café"
+        }
+      ],
+      "last_modified": "2018-07-23T08:56:44.6723697Z"
+    },
+    {
+      "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+      "file_name": "which-brewing-fits-you-1080px.jpg",
+      "title": "Coffee Brewing Techniques",
+      "size": 125770,
+      "type": "image/jpeg",
+      "image_width": 1000,
+      "image_height": 666,
+      "file_reference": {
+        "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Coffee Brewing Techniques"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Técnicas para hacer café"
+        }
+      ],
+      "last_modified": "2018-07-23T09:08:01.5540267Z"
+    },
+    {
+      "id": "fdd5befd-e730-4c74-a128-b5404ccb7640",
+      "file_name": "aero-press-filters.jpg",
+      "title": "AeroPress Paper Filter",
+      "size": 36967,
+      "type": "image/jpeg",
+      "image_width": 1080,
+      "image_height": 1080,
+      "file_reference": {
+        "id": "fdd5befd-e730-4c74-a128-b5404ccb7640",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "AeroPress Paper Filter"
+        },
+        {
+          "language": {
+            "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+          },
+          "description": "Filtro de papel AeroPress"
+        }
+      ],
+      "last_modified": "2018-07-23T08:55:58.6728821Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}

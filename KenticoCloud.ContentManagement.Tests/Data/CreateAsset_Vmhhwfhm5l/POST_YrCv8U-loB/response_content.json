@@ -1,0 +1,22 @@
+{
+  "id": "4970806a-160c-4d5e-bf6d-97dc0c4fc32f",
+  "file_name": "kentico_rgb_bigger.png",
+  "title": "My new asset",
+  "size": 5719,
+  "type": "image/png",
+  "image_width": 550,
+  "image_height": 250,
+  "file_reference": {
+    "id": "9becb31c-6783-40b2-af7d-2abd07005b10",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    }
+  ],
+  "last_modified": "2018-07-25T06:09:15.7512653Z"
+}

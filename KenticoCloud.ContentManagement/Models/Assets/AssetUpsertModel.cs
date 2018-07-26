@@ -22,5 +22,10 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         [JsonProperty("descriptions", Required = Required.Always)]
         public IEnumerable<AssetDescription> Descriptions { get; set; } = Enumerable.Empty<AssetDescription>();
 
+        /// <summary>
+        /// Gets or sets title for the asset.
+        /// </summary>
+        [JsonProperty("title")]
+        public string Title { get; set; }
     }
 }

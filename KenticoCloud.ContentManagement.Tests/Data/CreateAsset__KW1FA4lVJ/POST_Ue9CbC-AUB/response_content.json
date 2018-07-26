@@ -1,0 +1,28 @@
+{
+  "id": "489271a7-b750-435d-a09e-3508a47ae77d",
+  "file_name": "Hello.txt",
+  "title": "New title",
+  "size": 82,
+  "type": "text/plain",
+  "image_width": null,
+  "image_height": null,
+  "file_reference": {
+    "id": "02186cf8-b6ab-40f7-bd24-080107a6c2da",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    },
+    {
+      "language": {
+        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+      },
+      "description": "Spanish descriptión"
+    }
+  ],
+  "last_modified": "2018-07-26T07:04:16.0328427Z"
+}
