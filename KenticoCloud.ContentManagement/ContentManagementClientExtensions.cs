@@ -64,21 +64,21 @@ namespace KenticoCloud.ContentManagement
         /// </summary>
         /// <param name="client"></param>
         /// <param name="fileContent">Represents the content of the file.</param>
-        /// <param name="updatedAsset">Updated values for asset.</param>
-        public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, AssetUpdateModel updatedAsset)
+        /// <param name="assetUpdateModel">Updated values for asset.</param>
+        public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, AssetUpdateModel assetUpdateModel)
         {
             if (fileContent == null)
             {
                 throw new ArgumentNullException(nameof(fileContent));
             }
-            if (updatedAsset == null)
+            if (assetUpdateModel == null)
             {
-                throw new ArgumentNullException(nameof(updatedAsset));
+                throw new ArgumentNullException(nameof(assetUpdateModel));
             }
 
-            if (updatedAsset.Descriptions == null)
+            if (assetUpdateModel.Descriptions == null)
             {
-                throw new ArgumentNullException(nameof(updatedAsset.Descriptions));
+                throw new ArgumentNullException(nameof(assetUpdateModel.Descriptions));
             }
 
             var fileResult = await client.UploadFileAsync(fileContent);
@@ -86,8 +86,8 @@ namespace KenticoCloud.ContentManagement
             var asset = new AssetUpsertModel
             {
                 FileReference = fileResult,
-                Descriptions = updatedAsset.Descriptions,
-                Title = updatedAsset.Title
+                Descriptions = assetUpdateModel.Descriptions,
+                Title = assetUpdateModel.Title
             };
 
             var response = await client.CreateAssetAsync(asset);

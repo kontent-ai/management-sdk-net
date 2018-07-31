@@ -1129,6 +1129,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(content.Length, assetResult.Size);
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
+            Assert.Equal(title, assetResult.Title);
             Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
 
             // Cleanup
