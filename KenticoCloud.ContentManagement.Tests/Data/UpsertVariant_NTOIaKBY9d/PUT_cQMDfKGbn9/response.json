@@ -35,7 +35,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Wed, 13 Dec 2017 13:15:37 GMT"
+        "Thu, 26 Jul 2018 07:04:02 GMT"
       ]
     },
     {
@@ -53,13 +53,25 @@
     {
       "Key": "Server",
       "Value": [
-        "Microsoft-IIS/8.0"
+        "Microsoft-IIS/10.0"
       ]
     },
     {
       "Key": "Set-Cookie",
       "Value": [
-        "ARRAffinity=8773833a38899c2a865577cfb28e0ee266b69918b8de28bc8081b2eed0aeee2b;Path=/;HttpOnly;Domain=kenticolabs-cdn-master.azurewebsites.net"
+        "ARRAffinity=502c58b9571698197e77247fd8a601beb0c148ad4f18ee18c61c5c5a4c0d37f9;Path=/;HttpOnly;Domain=draft-backend-usaeast.azurewebsites.net"
+      ]
+    },
+    {
+      "Key": "Request-Context",
+      "Value": [
+        "appId=cid-v1:74c4cbc5-b55a-433a-8fa9-c5909b7039d7"
+      ]
+    },
+    {
+      "Key": "Access-Control-Expose-Headers",
+      "Value": [
+        "Request-Context"
       ]
     },
     {
@@ -71,7 +83,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn1538-HHN"
+        "cache-fra19143-FRA"
       ]
     },
     {
@@ -89,7 +101,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1513170937.274424,VS0,VE298"
+        "S1532588642.332841,VS0,VE178"
       ]
     }
   ],

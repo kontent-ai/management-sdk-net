@@ -47,6 +47,12 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         public IEnumerable<AssetDescription> Descriptions { get; set; }
 
         /// <summary>
+        /// Gets or sets title for the asset.
+        /// </summary>
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        /// <summary>
         /// Gets or sets the external id of the asset.
         /// </summary>
         [JsonProperty("external_id")]

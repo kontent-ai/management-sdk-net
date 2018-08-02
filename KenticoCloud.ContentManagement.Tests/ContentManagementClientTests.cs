@@ -51,16 +51,17 @@ namespace KenticoCloud.ContentManagement.Tests
         protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("45a123f3-1c55-c697-7dae-78369c8f1e2c");
         protected const string EXISTING_SITEMAP_NODE_CODENAME = "articles";
 
-        protected static dynamic _elements = new {
+        protected static dynamic _elements = new
+        {
             title = "On Roasts",
             post_date = new DateTime(2017, 7, 4),
             body_copy = @"
 <h1>Light Roasts</h1>
 <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
 ",
-            related_articles = new [] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+            related_articles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
             url_pattern = "on-roasts",
-            personas = new [] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
+            personas = new[] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
         };
         private static readonly ComplexTestModel StronglyTypedElements = new ComplexTestModel
         {
@@ -73,7 +74,7 @@ namespace KenticoCloud.ContentManagement.Tests
             RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
             UrlPattern = "on-roasts",
             Personas = new List<TaxonomyTermIdentifier> { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
-            TeaserImage = new AssetIdentifier[]{}
+            TeaserImage = new AssetIdentifier[] { }
         };
 
         private ContentManagementClient CreateContentManagementClient(string testName)
@@ -638,7 +639,8 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var itemName = "Hooray!";
             var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
-            var item = new ContentItemCreateModel {
+            var item = new ContentItemCreateModel
+            {
                 Name = itemName,
                 Type = type,
                 SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename(EXISTING_SITEMAP_NODE_CODENAME) }
@@ -698,7 +700,8 @@ namespace KenticoCloud.ContentManagement.Tests
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
             var sitemapLocations = new[] { SitemapNodeIdentifier.ById(EXISTING_SITEMAP_NODE_ID) };
 
-            var item = new ContentItemUpdateModel {
+            var item = new ContentItemUpdateModel
+            {
                 Name = EXISTING_ITEM_CODENAME,
                 SitemapLocations = sitemapLocations
             };
@@ -768,7 +771,8 @@ namespace KenticoCloud.ContentManagement.Tests
 
             // Test
             var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
-            var item = new ContentItemUpsertModel() {
+            var item = new ContentItemUpsertModel()
+            {
                 Name = itemName,
                 Type = type
             };
@@ -791,7 +795,8 @@ namespace KenticoCloud.ContentManagement.Tests
             var externalId = "9d98959eeac446288992b44b5d366e16";
             var itemName = "Hooray!";
             var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
-            var item = new ContentItemUpsertModel() {
+            var item = new ContentItemUpsertModel()
+            {
                 Name = itemName,
                 Type = type
             };
@@ -1015,7 +1020,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var spanishDescription = "Spanish descriptión";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
-            var descriptions = new [] { assetDescription };
+            var descriptions = new[] { assetDescription };
 
             var asset = new AssetUpsertModel
             {
@@ -1052,9 +1057,10 @@ namespace KenticoCloud.ContentManagement.Tests
             var spanishDescription = "Spanish descriptión";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
-            var descriptions = new [] { assetDescription };
+            var descriptions = new[] { assetDescription };
+            var title = "New title";
 
-            var assetResult = await client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
+            var assetResult = await client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Null(assetResult.ExternalId);
@@ -1062,12 +1068,13 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(content.Length, assetResult.Size);
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
+            Assert.Equal(title, assetResult.Title);
             Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
 
             // Cleanup
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
-        
+
         [Fact]
         [Trait("Category", "Asset")]
         public async void CreateAsset_FromFileSystem_Uploads_CreatesAsset()
@@ -1075,11 +1082,12 @@ namespace KenticoCloud.ContentManagement.Tests
             var client = CreateContentManagementClient(nameof(CreateAsset_FromFileSystem_Uploads_CreatesAsset));
 
             var descriptions = new List<AssetDescription>();
+            var title = "My new asset";
 
             var filePath = Path.Combine(AppContext.BaseDirectory, "Data\\kentico_rgb_bigger.png");
             var contentType = "image/png";
 
-            var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
+            var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Null(assetResult.ExternalId);
@@ -1088,6 +1096,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal("kentico_rgb_bigger.png", assetResult.FileName);
             Assert.NotNull(assetResult.Descriptions);
+            Assert.Equal(title, assetResult.Title);
 
             // Cleanup
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
@@ -1109,9 +1118,10 @@ namespace KenticoCloud.ContentManagement.Tests
             var spanishDescription = "Spanish descriptión";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
-            var descriptions = new [] { assetDescription };
+            var descriptions = new[] { assetDescription };
+            var title = "New title";
 
-            var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), descriptions);
+            var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Equal(externalId, assetResult.ExternalId);
@@ -1119,6 +1129,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(content.Length, assetResult.Size);
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
+            Assert.Equal(title, assetResult.Title);
             Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
 
             // Cleanup
@@ -1132,17 +1143,19 @@ namespace KenticoCloud.ContentManagement.Tests
             var client = CreateContentManagementClient(nameof(UpdateAssetById_ReturnsUpdatedAsset));
 
             var identifier = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
+            var title = "My super asset";
             var updatedDescription = new AssetDescription()
             {
                 Language = LanguageIdentifier.DEFAULT_LANGUAGE,
                 Description = "Dancing Goat Café - Los Angeles - UPDATED",
             };
-            var update = new AssetUpdateModel() { Descriptions = new [] { updatedDescription } };
+            var update = new AssetUpdateModel() { Descriptions = new[] { updatedDescription }, Title = title };
 
             var assetResult = await client.UpdateAssetAsync(identifier, update);
 
             Assert.Equal(assetResult.Id.ToString(), identifier.Id.ToString());
             Assert.Equal(updatedDescription.Description, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == Guid.Empty).Description);
+            Assert.Equal(title, assetResult.Title);
         }
 
         [Fact]

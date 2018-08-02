@@ -1,0 +1,24 @@
+{
+  "Version": {
+    "Major": 1,
+    "Minor": 1,
+    "Build": -1,
+    "Revision": -1,
+    "MajorRevision": -1,
+    "MinorRevision": -1
+  },
+  "Content": null,
+  "Method": {
+    "Method": "DELETE"
+  },
+  "RequestUri": "https://dev-manage.global.ssl.fastly.net/projects/{PROJECT_ID}/items/codename/hooray__c149e8e/variants/codename/es-ES",
+  "Headers": [
+    {
+      "Key": "Authorization",
+      "Value": [
+        "Bearer {API_KEY}"
+      ]
+    }
+  ],
+  "Properties": {}
+}

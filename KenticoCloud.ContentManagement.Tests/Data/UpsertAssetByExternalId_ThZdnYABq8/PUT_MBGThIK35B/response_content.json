@@ -1,0 +1,29 @@
+{
+  "id": "8617a74f-4470-5582-bc83-0515fdf09990",
+  "file_name": "HelloExternal.txt",
+  "title": null,
+  "size": 99,
+  "type": "text/plain",
+  "image_width": null,
+  "image_height": null,
+  "file_reference": {
+    "id": "82d5f880-cea5-4cea-b8d7-9f6d6f4c3833",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    },
+    {
+      "language": {
+        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+      },
+      "description": "Spanish descriptión"
+    }
+  ],
+  "external_id": "99877608d1f6448ebb35778f027c92f6",
+  "last_modified": "2018-07-26T07:02:19.0031088Z"
+}

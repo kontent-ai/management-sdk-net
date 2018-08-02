@@ -1,8 +1,11 @@
 {
   "id": "512047f1-2f7f-45fd-9e90-e71b8feae017",
   "file_name": "about.jpg",
+  "title": "My super asset",
   "size": 56264,
   "type": "image/jpeg",
+  "image_width": 640,
+  "image_height": 426,
   "file_reference": {
     "id": "512047f1-2f7f-45fd-9e90-e71b8feae017",
     "type": "internal"
@@ -21,5 +24,5 @@
       "description": "Dancing Goat Café - Los Angeles"
     }
   ],
-  "last_modified": "2017-12-13T12:58:01.637365Z"
+  "last_modified": "2018-07-26T07:03:29.4608427Z"
 }

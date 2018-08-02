@@ -1,11 +1,11 @@
 {
   "id": "ee783322-0f7b-5a57-8d8a-89beed9d216c",
   "name": "EditedItem",
-  "codename": "editeditem_ee78332",
+  "codename": "editeditem",
   "type": {
     "id": "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89"
   },
   "sitemap_locations": [],
   "external_id": "093afb41b0614a908c8734d2bb840210",
-  "last_modified": "2017-12-13T13:15:06.7944622Z"
+  "last_modified": "2018-07-26T07:03:48.3125293Z"
 }

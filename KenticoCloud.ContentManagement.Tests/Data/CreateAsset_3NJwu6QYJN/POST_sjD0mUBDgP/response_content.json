@@ -1,0 +1,22 @@
+{
+  "id": "071eca4e-0fde-45ab-89f2-e0b51b073bd5",
+  "file_name": "Hello.txt",
+  "title": null,
+  "size": 84,
+  "type": "text/plain",
+  "image_width": null,
+  "image_height": null,
+  "file_reference": {
+    "id": "2ce31be9-c34d-42b3-8a9b-5c2d9972cbf0",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    }
+  ],
+  "last_modified": "2018-07-25T06:09:26.9359583Z"
+}

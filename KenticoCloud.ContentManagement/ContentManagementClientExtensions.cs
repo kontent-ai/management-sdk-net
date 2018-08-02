@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using KenticoCloud.ContentManagement.Models.Assets;
@@ -63,19 +62,23 @@ namespace KenticoCloud.ContentManagement
         /// <summary>
         /// Creates asset.
         /// </summary>
+        /// <param name="client"></param>
         /// <param name="fileContent">Represents the content of the file.</param>
-        /// <param name="descriptions">Represents description for individual language.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
-        public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, IEnumerable<AssetDescription> descriptions)
+        /// <param name="assetUpdateModel">Updated values for asset.</param>
+        public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, AssetUpdateModel assetUpdateModel)
         {
             if (fileContent == null)
             {
                 throw new ArgumentNullException(nameof(fileContent));
             }
-
-            if (descriptions == null)
+            if (assetUpdateModel == null)
             {
-                throw new ArgumentNullException(nameof(descriptions));
+                throw new ArgumentNullException(nameof(assetUpdateModel));
+            }
+
+            if (assetUpdateModel.Descriptions == null)
+            {
+                throw new ArgumentNullException(nameof(assetUpdateModel.Descriptions));
             }
 
             var fileResult = await client.UploadFileAsync(fileContent);
@@ -83,7 +86,8 @@ namespace KenticoCloud.ContentManagement
             var asset = new AssetUpsertModel
             {
                 FileReference = fileResult,
-                Descriptions = descriptions
+                Descriptions = assetUpdateModel.Descriptions,
+                Title = assetUpdateModel.Title
             };
 
             var response = await client.CreateAssetAsync(asset);
@@ -97,9 +101,9 @@ namespace KenticoCloud.ContentManagement
         /// <param name="client">Content management client instance.</param>
         /// <param name="externalId">The external identifier of the asset.</param>
         /// <param name="fileContent">Represents the content of the file.</param>
-        /// <param name="descriptions">Represents description for individual language.</param>
+        /// <param name="updatedAsset">Updated values for asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
-        public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this ContentManagementClient client, string externalId, FileContentSource fileContent, IEnumerable<AssetDescription> descriptions)
+        public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this ContentManagementClient client, string externalId, FileContentSource fileContent, AssetUpdateModel updatedAsset)
         {
             if (string.IsNullOrEmpty(externalId))
             {
@@ -111,9 +115,14 @@ namespace KenticoCloud.ContentManagement
                 throw new ArgumentNullException(nameof(fileContent));
             }
 
-            if (descriptions == null)
+            if (updatedAsset == null)
             {
-                throw new ArgumentNullException(nameof(descriptions));
+                throw new ArgumentNullException(nameof(updatedAsset));
+            }
+
+            if (updatedAsset.Descriptions == null)
+            {
+                throw new ArgumentNullException(nameof(updatedAsset.Descriptions));
             }
 
             var fileResult = await client.UploadFileAsync(fileContent);
@@ -121,12 +130,22 @@ namespace KenticoCloud.ContentManagement
             var asset = new AssetUpsertModel
             {
                 FileReference = fileResult,
-                Descriptions = descriptions
+                Descriptions = updatedAsset.Descriptions
             };
+
+            UpdateAssetTitle(updatedAsset, asset);
 
             var response = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 
             return response;
+        }
+
+        private static void UpdateAssetTitle(AssetUpdateModel updatedAsset, AssetUpsertModel asset)
+        {
+            if (updatedAsset.Title != null)
+            {
+                asset.Title = updatedAsset.Title;
+            }
         }
     }
 }
