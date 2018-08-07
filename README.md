@@ -177,11 +177,21 @@ AssetDescription assetDescription = new AssetDescription
 
 IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 
+// Title of a new asset
+string title = "Asset title",
+
+// Defines the asset to upsert
+AssetUpdateModel asset = new AssetUpdateModel
+{
+    Descriptions = descriptions,
+    Title = title
+};
+
 string filePath = "‪C:\\Users\\Kentico\\Desktop\\puppies.png";
 string contentType = "image/png";
 
 // Uploads the file and links it to a new asset
-AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
+AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), asset);
 ```
 
 ### Importing Modular and linked content
@@ -413,7 +423,7 @@ FileReference fileResult = await client.UploadFileAsync(new FileContentSource(st
 
 #### Upserting an asset using external ID
 
-Update or create an asset using a `fileResult` reference to a previously uploaded file. You can specify an asset description for each language in your Kentico Cloud project.
+Update or create an asset using a `fileResult` reference to a previously uploaded file. You can specify an asset description for each language in your Kentico Cloud project. Specifying title of a new asset is optional. Use the asset title to better identify and filter your assets in the UI.
 
 ```csharp
 AssetDescription assetDescription = new AssetDescription
@@ -423,11 +433,15 @@ AssetDescription assetDescription = new AssetDescription
 };
 IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 
+// Title of a new asset
+string title = "Asset title";
+
 // Defines the asset to upsert
 AssetUpsertModel asset = new AssetUpsertModel
 {
     FileReference = fileResult,
-    Descriptions = descriptions
+    Descriptions = descriptions,
+    Title = title
 };
 
 string externalId = "Ext-Asset-123-png";
@@ -438,7 +452,7 @@ AssetModel response = await client.UpsertAssetByExternalIdAsync(externalId, asse
 
 #### Uploading an asset from a file system in a single step
 
-Import the asset file and its descriptions using a single method.
+Import the asset file and its descriptions using a single method. Specifying title of an asset is optional. You can use the asset title to better identify and filter your assets in the UI.
 
 ```csharp
 AssetDescription assetDescription = new AssetDescription
@@ -448,11 +462,22 @@ AssetDescription assetDescription = new AssetDescription
 };
 
 IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
+
+// Title of a new asset
+string title = "Asset title";
+
+// Defines the asset to update
+AssetUpdateModel asset = new AssetUpdateModel
+{
+    Descriptions = descriptions,
+    Title = title
+}
+
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
 
 // Creates a new asset using the given file and its descriptions
-AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), descriptions);
+AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), asset);
 ```
 
 #### Viewing an asset
