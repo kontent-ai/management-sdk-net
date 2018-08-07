@@ -127,10 +127,7 @@ namespace KenticoCloud.ContentManagement
 
             return response;
         }
-
-
-
-
+        
         /// <summary>
         /// Creates or updates the given asset.
         /// </summary>
@@ -176,7 +173,6 @@ namespace KenticoCloud.ContentManagement
             return response;
         }
 
-
         /// <summary>
         /// Creates or updates the given asset.
         /// </summary>
@@ -215,7 +211,6 @@ namespace KenticoCloud.ContentManagement
 
             return response;
         }
-
         private static void UpdateAssetTitle(AssetUpdateModel updatedAsset, AssetUpsertModel asset)
         {
             if (updatedAsset.Title != null)
