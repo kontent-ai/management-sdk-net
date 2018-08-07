@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using KenticoCloud.ContentManagement.Models.Assets;
@@ -62,6 +63,38 @@ namespace KenticoCloud.ContentManagement
         /// <summary>
         /// Creates asset.
         /// </summary>
+        /// <param name="fileContent">Represents the content of the file.</param>
+        /// <param name="descriptions">Represents description for individual language.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
+        [Obsolete("CreateAssetAsync is deprecated, please use overloading method with fileContent and assetUpdateModel parameter.")]
+        public static async Task<AssetModel> CreateAssetAsync(this ContentManagementClient client, FileContentSource fileContent, IEnumerable<AssetDescription> descriptions)
+        {
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
+            if (descriptions == null)
+            {
+                throw new ArgumentNullException(nameof(descriptions));
+            }
+
+            var fileResult = await client.UploadFileAsync(fileContent);
+
+            var asset = new AssetUpsertModel
+            {
+                FileReference = fileResult,
+                Descriptions = descriptions
+            };
+
+            var response = await client.CreateAssetAsync(asset);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Creates asset.
+        /// </summary>
         /// <param name="client"></param>
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="assetUpdateModel">Updated values for asset.</param>
@@ -94,6 +127,9 @@ namespace KenticoCloud.ContentManagement
 
             return response;
         }
+
+
+
 
         /// <summary>
         /// Creates or updates the given asset.
@@ -134,6 +170,46 @@ namespace KenticoCloud.ContentManagement
             };
 
             UpdateAssetTitle(updatedAsset, asset);
+
+            var response = await client.UpsertAssetByExternalIdAsync(externalId, asset);
+
+            return response;
+        }
+
+
+        /// <summary>
+        /// Creates or updates the given asset.
+        /// </summary>
+        /// <param name="client">Content management client instance.</param>
+        /// <param name="externalId">The external identifier of the asset.</param>
+        /// <param name="fileContent">Represents the content of the file.</param>
+        /// <param name="descriptions">Represents description for individual language.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
+        [Obsolete("UpsertAssetByExternalIdAsync is deprecated, please use overloading method with externalId, fileContent and updatedAsset parameter.")]
+        public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this ContentManagementClient client, string externalId, FileContentSource fileContent, IEnumerable<AssetDescription> descriptions)
+        {
+            if (string.IsNullOrEmpty(externalId))
+            {
+                throw new ArgumentException("The external id is not specified.", nameof(externalId));
+            }
+
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
+            if (descriptions == null)
+            {
+                throw new ArgumentNullException(nameof(descriptions));
+            }
+
+            var fileResult = await client.UploadFileAsync(fileContent);
+
+            var asset = new AssetUpsertModel
+            {
+                FileReference = fileResult,
+                Descriptions = descriptions
+            };
 
             var response = await client.UpsertAssetByExternalIdAsync(externalId, asset);
 

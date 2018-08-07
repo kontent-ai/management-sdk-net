@@ -471,7 +471,7 @@ AssetUpdateModel asset = new AssetUpdateModel
 {
     Descriptions = descriptions,
     Title = title
-}
+};
 
 string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
 string contentType = "image/png";
