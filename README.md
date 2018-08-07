@@ -178,7 +178,7 @@ AssetDescription assetDescription = new AssetDescription
 IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
 
 // Title of a new asset
-string title = "Asset title",
+string title = "Asset title";
 
 // Defines the asset to upsert
 AssetUpdateModel asset = new AssetUpdateModel
