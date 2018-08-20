@@ -356,7 +356,7 @@ namespace KenticoCloud.ContentManagement
         private async Task<IListingResponse<AssetModel>> GetNextAssetListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildAssetListingUrl(continuationToken);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<AssetModel>>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
