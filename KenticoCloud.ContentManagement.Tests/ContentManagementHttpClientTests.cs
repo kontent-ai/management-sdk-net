@@ -1,13 +1,16 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using KenticoCloud.ContentManagement.Exceptions;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
+using KenticoCloud.ContentManagement.Modules.Extensions;
 
 using NSubstitute;
 using Xunit;
+using System.Collections.Generic;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
@@ -20,6 +23,27 @@ namespace KenticoCloud.ContentManagement.Tests
         public ContentManagementHttpClientTests()
         {
             _client = new ContentManagementHttpClient(delay, httpClient);
+        }
+
+        [Fact]
+        public void CorrectSdkVersionHeaderAdded()
+        {
+            // Assamble
+            var assembly = typeof(ContentManagementHttpClient).Assembly;
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            var sdkVersion = fileVersionInfo.ProductVersion;
+            var sdkPackageId = assembly.GetName().Name;
+
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+
+            // Act
+            httpRequestMessage.Headers.AddSdkTrackingHeader();
+            IEnumerable<string> headerContent = new List<string>();
+            httpRequestMessage.Headers.TryGetValues("X-KC-SDKID", out headerContent);
+
+            // Assert
+            Assert.True(httpRequestMessage.Headers.Contains("X-KC-SDKID"));
+            Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
         }
 
         [Fact]
