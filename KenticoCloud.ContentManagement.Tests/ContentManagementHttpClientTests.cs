@@ -34,7 +34,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var sdkVersion = fileVersionInfo.ProductVersion;
             var sdkPackageId = assembly.GetName().Name;
 
-            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
+            var httpRequestMessage = new HttpRequestMessage();
 
             // Act
             httpRequestMessage.Headers.AddSdkTrackingHeader();
