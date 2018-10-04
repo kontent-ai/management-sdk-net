@@ -20,11 +20,6 @@ namespace KenticoCloud.ContentManagement.Modules.Extensions
             header.Add(SdkTrackingHeaderName, $"{PackageRepositoryHost};{SdkPackageId.Value};{SdkVersion.Value}");
         }
 
-        internal static void AddAuthorizationHeader(this HttpRequestHeaders header, string scheme, string parameter)
-        {
-            header.Authorization = new AuthenticationHeaderValue(scheme, parameter);
-        }
-
         private static string GetSdkVersion()
         {
             var assembly = Assembly.GetExecutingAssembly();
