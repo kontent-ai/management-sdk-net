@@ -28,29 +28,51 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public void CorrectSdkVersionHeaderAdded()
         {
-            // Assamble
+            var assembly = typeof(ContentManagementHttpClient).Assembly;
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            var sdkVersion = fileVersionInfo.ProductVersion;
+            var sdkPackageId = assembly.GetName().Name;
+            var httpRequestMessage = new HttpRequestMessage();
+
+            httpRequestMessage.Headers.AddSdkTrackingHeader();
+
+            IEnumerable<string> headerContent = new List<string>();
+            httpRequestMessage.Headers.TryGetValues("X-KC-SDKID", out headerContent);
+
+            Assert.True(httpRequestMessage.Headers.Contains("X-KC-SDKID"));
+            Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
+        }
+
+
+        [Fact]
+        public async Task SendAsync_AddCorrectSDKTreackingHeader()
+        {
             var assembly = typeof(ContentManagementHttpClient).Assembly;
             var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             var sdkVersion = fileVersionInfo.ProductVersion;
             var sdkPackageId = assembly.GetName().Name;
 
-            var httpRequestMessage = new HttpRequestMessage();
+            IHttpClient httpClient = Substitute.For<IHttpClient>();
+            IDelay delay = Substitute.For<IDelay>();
+            HttpRequestMessage mockRequestMessage = Substitute.For<HttpRequestMessage>();
+            var successfulResponse = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+            httpClient.SendAsync(Arg.Is(mockRequestMessage)).Returns(successfulResponse);
 
-            // Act
-            httpRequestMessage.Headers.AddSdkTrackingHeader();
+            ContentManagementHttpClient client = new ContentManagementHttpClient(delay, httpClient);
+            var response = await client.SendAsync(mockRequestMessage);
+
             IEnumerable<string> headerContent = new List<string>();
-            httpRequestMessage.Headers.TryGetValues("X-KC-SDKID", out headerContent);
-
-            // Assert
-            Assert.True(httpRequestMessage.Headers.Contains("X-KC-SDKID"));
+            mockRequestMessage.Headers.TryGetValues("X-KC-SDKID", out headerContent);
+            Assert.True(mockRequestMessage.Headers.Contains("X-KC-SDKID"));
             Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
         }
+
 
         [Fact]
         public async Task SendAsync_SendsMessageOnSuccessReturnsResponse()
         {
             var successfulMessage = new HttpRequestMessage();
-            var successfulResponse = new HttpResponseMessage {StatusCode = System.Net.HttpStatusCode.OK};
+            var successfulResponse = new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.OK };
             httpClient.SendAsync(Arg.Is(successfulMessage)).Returns(successfulResponse);
 
             var response = await _client.SendAsync(successfulMessage);
@@ -80,9 +102,9 @@ namespace KenticoCloud.ContentManagement.Tests
             var retryDelta = System.TimeSpan.FromMilliseconds(retryDeltaMilliseconds);
             delay.DelayByTimeSpan(Arg.Any<System.TimeSpan>()).Returns(Task.CompletedTask);
             var successfulMessage = new HttpRequestMessage();
-            var tooManyRequestsResponse = new HttpResponseMessage { StatusCode = (HttpStatusCode) 429 };
+            var tooManyRequestsResponse = new HttpResponseMessage { StatusCode = (HttpStatusCode)429 };
             tooManyRequestsResponse.Headers.RetryAfter = new RetryConditionHeaderValue(retryDelta);
-            var successResponse = new HttpResponseMessage { StatusCode =  HttpStatusCode.OK };
+            var successResponse = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
             httpClient.SendAsync(Arg.Is(successfulMessage)).Returns(x => tooManyRequestsResponse, x => tooManyRequestsResponse, x => successResponse);
 
             var response = await _client.SendAsync(successfulMessage);
