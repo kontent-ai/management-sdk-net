@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 using KenticoCloud.ContentManagement.Exceptions;
+using KenticoCloud.ContentManagement.Modules.Extensions;
 
 namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
@@ -28,6 +29,7 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
 
         public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
         {
+            message.Headers.AddSdkTrackingHeader();
             var response = await _httpClient.SendAsync(message);
 
             while ((int)response.StatusCode == HTTP_CODE_TOO_MANY_REQUESTS)
