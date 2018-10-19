@@ -31,12 +31,13 @@ namespace KenticoCloud.ContentManagement.Tests
             
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() {
                 Elements = new {
-                    number = new decimal(0),
+                    zero = new decimal(0),
+                    optZero = new decimal?(0),
                 },
             };
 
             var result = actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get,contentItemVariantUpsertModel);
-            Assert.Equal("{\"elements\":{\"number\":0}}", httpClient.requestBody);
+            Assert.Equal("{\"elements\":{\"zero\":0,\"optZero\":0}}", httpClient.requestBody);
         }
     }
 }
