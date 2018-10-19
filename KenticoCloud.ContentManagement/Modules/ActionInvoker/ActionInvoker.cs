@@ -19,11 +19,12 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
 
         private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings {
             NullValueHandling = NullValueHandling.Ignore,
+            Converters = new List<JsonConverter> { new DecimalObjectConverter() },
         };
 
         private JsonSerializerSettings _deserializeSettings = new JsonSerializerSettings
         {
-            Converters = new List<JsonConverter> { new DynamicObjectJsonConverter() }
+            Converters = new List<JsonConverter> { new DynamicObjectJsonConverter() },
         };
 
 
