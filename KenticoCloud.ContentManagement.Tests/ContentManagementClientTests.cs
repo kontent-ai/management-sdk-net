@@ -1153,7 +1153,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var assetResult = await client.UpdateAssetAsync(identifier, update);
 
-            Assert.Equal(assetResult.Id.ToString(), identifier.Id.ToString());
+            Assert.Equal(identifier.Id.ToString(), assetResult.Id.ToString());
             Assert.Equal(updatedDescription.Description, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == Guid.Empty).Description);
             Assert.Equal(title, assetResult.Title);
         }
@@ -1168,7 +1168,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
             var response = await client.GetAssetAsync(identifier);
 
-            Assert.Equal(response.Id, identifier.Id);
+            Assert.Equal(identifier.Id, response.Id);
         }
 
         #endregion
