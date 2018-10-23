@@ -1,14 +1,12 @@
-﻿using System;
+﻿using KenticoCloud.ContentManagement.Modules.HttpClient;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Net.Http.Headers;
-using System.Collections.Generic;
-
-using KenticoCloud.ContentManagement.Modules.HttpClient;
-
-using Newtonsoft.Json;
 
 namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
 {
@@ -17,8 +15,10 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
         private IContentManagementHttpClient _cmHttpClient;
         private MessageCreator _messageCreator;
 
-        private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings {
+        private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings
+        {
             NullValueHandling = NullValueHandling.Ignore,
+            Converters = new List<JsonConverter> { new DecimalObjectConverter() }
         };
 
         private JsonSerializerSettings _deserializeSettings = new JsonSerializerSettings
@@ -32,7 +32,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
             _cmHttpClient = cmHttpClient;
             _messageCreator = messageCreator;
         }
-        
+
 
         private async Task<T> ReadResultAsync<T>(HttpResponseMessage response)
         {
