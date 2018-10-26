@@ -17,7 +17,8 @@ namespace KenticoCloud.ContentManagement.Tests
 
         private static Guid ITEM_ID = Guid.Parse("b444004b-a4c4-43e3-94e0-d5bbd49d6cb8");
         private const string ITEM_CODENAME = "{ITEM_CODENAME}";
-        private const string ITEM_EXTERNAL_ID = "{ITEM_EXTERNAL_ID}";
+        private const string ITEM_EXTERNAL_ID = "{ITEM_EXT/ERNAL_ID}";
+        private const string EXPECTED_ITEM_EXTERNAL_ID = "%7BITEM_EXT%2FERNAL_ID%7D";
 
         private static Guid VARIANT_ID = Guid.Parse("5a64af00-a98d-4d2e-adb6-45120cbc0242");
         private const string VARIANT_CODENAME = "{VARIANT_CODENAME}";
@@ -110,7 +111,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var variantIdentifier = LanguageIdentifier.ById(VARIANT_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
-            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}/variants/{VARIANT_ID}";
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{EXPECTED_ITEM_EXTERNAL_ID}/variants/{VARIANT_ID}";
 
             Assert.Equal(expectedUrl, actualUrl);
         }
@@ -122,7 +123,7 @@ namespace KenticoCloud.ContentManagement.Tests
             var variantIdentifier = LanguageIdentifier.ByCodename(VARIANT_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
-            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}/variants/codename/{VARIANT_CODENAME}";
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{EXPECTED_ITEM_EXTERNAL_ID}/variants/codename/{VARIANT_CODENAME}";
 
             Assert.Equal(expectedUrl, actualUrl);
         }
@@ -169,7 +170,7 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByExternalId(ITEM_EXTERNAL_ID);
             var actualUrl = _builder.BuildItemUrl(identifier);
-            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}";
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{EXPECTED_ITEM_EXTERNAL_ID}";
 
             Assert.Equal(expectedUrl, actualUrl);
         }

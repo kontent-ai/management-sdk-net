@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Net;
 using KenticoCloud.ContentManagement.Models.Items;
 using KenticoCloud.ContentManagement.Models.Assets;
 
@@ -93,10 +93,15 @@ namespace KenticoCloud.ContentManagement
 
             if (!string.IsNullOrEmpty(identifier.ExternalId))
             {
-                return string.Format(URL_TEMPLATE_ITEM_EXTERNAL_ID, identifier.ExternalId);
+                return BuildItemUrlSegmentFromExternalId(identifier.ExternalId);
             }
-
             throw new ArgumentException("You must provide item's id, codename or externalId");
+        }
+
+        internal string BuildItemUrlSegmentFromExternalId(string externalId)
+        {
+            var escapedExternalId = WebUtility.UrlEncode(externalId);
+            return string.Format(URL_TEMPLATE_ITEM_EXTERNAL_ID, escapedExternalId);
         }
 
         #endregion
@@ -130,7 +135,8 @@ namespace KenticoCloud.ContentManagement
 
         public string BuildAssetsUrlFromExternalId(string externalId)
         {
-            return GetUrl(string.Format(URL_TEMPLATE_ASSET_EXTERNAL_ID, externalId));
+            var escapedExternalId = WebUtility.UrlEncode(externalId);
+            return GetUrl(string.Format(URL_TEMPLATE_ASSET_EXTERNAL_ID, escapedExternalId));
         }
 
         #endregion
