@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace KenticoCloud.ContentManagement.Models.ProjectReport.Metadata
+namespace KenticoCloud.ContentManagement.Models.ProjectReport
 {
     /// <summary>
     /// Represents Metadata object
     /// </summary>
-    public abstract class Metadata
+    public sealed class Metadata
     {
         /// <summary>
         /// Gets or sets id

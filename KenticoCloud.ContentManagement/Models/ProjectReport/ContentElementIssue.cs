@@ -1,5 +1,4 @@
-﻿using KenticoCloud.ContentManagement.Models.ProjectReport.Metadata;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace KenticoCloud.ContentManagement.Models.ProjectReport
@@ -13,7 +12,7 @@ namespace KenticoCloud.ContentManagement.Models.ProjectReport
 		/// Gets or sets information about the content element
 		/// </summary>
 		[JsonProperty("element")]
-		public ContentElementMetadata Element { get; set; }
+		public Metadata Element { get; set; }
 
 		/// <summary>
 		/// Gets or sets validation messages 

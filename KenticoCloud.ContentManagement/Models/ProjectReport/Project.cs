@@ -12,7 +12,7 @@ namespace KenticoCloud.ContentManagement.Models.ProjectReport
         /// Gets or sets id of the project
         /// </summary>
         [JsonProperty("id")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets name of the project

@@ -1,5 +1,4 @@
-﻿using KenticoCloud.ContentManagement.Models.ProjectReport.Metadata;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace KenticoCloud.ContentManagement.Models.ProjectReport
@@ -14,13 +13,13 @@ namespace KenticoCloud.ContentManagement.Models.ProjectReport
 		/// Gets or sets information about content item
 		/// </summary>
 		[JsonProperty("item")]
-		public ContentItemMetadata Item { get; set; }
+		public Metadata Item { get; set; }
 
 		/// <summary>
 		/// Gets or sets information about project language
 		/// </summary>
 		[JsonProperty("language")]
-		public LanguageMetadata Language { get; set; }
+		public Metadata Language { get; set; }
 
 		/// <summary>
 		/// Gets or sets information about issues
