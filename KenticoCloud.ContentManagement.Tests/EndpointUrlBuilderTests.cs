@@ -233,5 +233,18 @@ namespace KenticoCloud.ContentManagement.Tests
         }
 
         #endregion
+
+        #region Validation
+
+        [Fact]
+        public void BuildItemUrl_ReturnsValidationUrl()
+        {
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/validate";
+            var actualUrl = _builder.BuildValidationUrl();
+
+            Assert.Equal(expectedUrl, actualUrl);
+        }
+
+        #endregion
     }
 }
