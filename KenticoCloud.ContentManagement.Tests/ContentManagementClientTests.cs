@@ -34,7 +34,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
         #region Helper methods and constants
 
-        private static ContentManagementOptions _options = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
+        private static readonly ContentManagementOptions _options = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
 
         // Test constants, existing data references leverage the Dancing Goat sample site project that is generated for everyone
         protected static Guid EXISTING_ITEM_ID = Guid.Parse("3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5");
@@ -972,8 +972,7 @@ namespace KenticoCloud.ContentManagement.Tests
                 Assert.NotNull(fileResult);
                 Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
 
-                Guid fileId;
-                Assert.True(Guid.TryParse(fileResult.Id, out fileId));
+                Assert.True(Guid.TryParse(fileResult.Id, out Guid fileId));
 
                 Assert.NotEqual(Guid.Empty, fileId);
 
@@ -1013,8 +1012,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(fileResult);
             Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
 
-            Guid fileId;
-            Assert.True(Guid.TryParse(fileResult.Id, out fileId));
+            Assert.True(Guid.TryParse(fileResult.Id, out Guid fileId));
 
             Assert.NotEqual(Guid.Empty, fileId);
 
