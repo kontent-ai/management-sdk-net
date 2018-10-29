@@ -11,6 +11,7 @@ using KenticoCloud.ContentManagement.Models.Assets;
 using KenticoCloud.ContentManagement.Models.Items;
 using KenticoCloud.ContentManagement.Models.StronglyTyped;
 using KenticoCloud.ContentManagement.Modules.ModelBuilders;
+using KenticoCloud.ContentManagement.Models.ProjectReport;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -501,6 +502,20 @@ namespace KenticoCloud.ContentManagement
                     stream.Dispose();
                 }
             }
+        }
+
+        #endregion
+
+        #region Validation
+        
+        /// <summary>
+        /// Validates the project.
+        /// </summary>
+        /// <returns><see cref="ProjectReportModel"/></returns>
+        public async Task<ProjectReportModel> ValidateProjectAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildValidationUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectReportModel>(endpointUrl, HttpMethod.Post);
         }
 
         #endregion

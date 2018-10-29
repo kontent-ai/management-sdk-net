@@ -24,6 +24,8 @@ namespace KenticoCloud.ContentManagement
 
         private const string URL_TEMPLATE_FILE_FILENAME = "/files/{0}";
 
+        private const string URL_VALIDATE = "/validate";
+
         private readonly ContentManagementOptions _options;
 
         internal EndpointUrlBuilder(ContentManagementOptions options)
@@ -146,6 +148,15 @@ namespace KenticoCloud.ContentManagement
         public string BuildUploadFileUrl(string fileName)
         {
             return GetUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
+        }
+
+        #endregion
+
+        #region Validation
+
+        public string BuildValidationUrl()
+        {
+            return GetUrl(URL_VALIDATE);
         }
 
         #endregion

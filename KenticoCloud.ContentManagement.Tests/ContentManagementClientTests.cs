@@ -12,6 +12,7 @@ using KenticoCloud.ContentManagement.Tests.Data;
 using KenticoCloud.ContentManagement.Exceptions;
 
 using Xunit;
+using KenticoCloud.ContentManagement.Models.ProjectReport;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
@@ -33,7 +34,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
         #region Helper methods and constants
 
-        private static ContentManagementOptions _options = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
+        private static readonly ContentManagementOptions _options = new ContentManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
 
         // Test constants, existing data references leverage the Dancing Goat sample site project that is generated for everyone
         protected static Guid EXISTING_ITEM_ID = Guid.Parse("3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5");
@@ -971,8 +972,7 @@ namespace KenticoCloud.ContentManagement.Tests
                 Assert.NotNull(fileResult);
                 Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
 
-                Guid fileId;
-                Assert.True(Guid.TryParse(fileResult.Id, out fileId));
+                Assert.True(Guid.TryParse(fileResult.Id, out Guid fileId));
 
                 Assert.NotEqual(Guid.Empty, fileId);
 
@@ -1012,8 +1012,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(fileResult);
             Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
 
-            Guid fileId;
-            Assert.True(Guid.TryParse(fileResult.Id, out fileId));
+            Assert.True(Guid.TryParse(fileResult.Id, out Guid fileId));
 
             Assert.NotEqual(Guid.Empty, fileId);
 
@@ -1226,6 +1225,67 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
             Assert.NotNull(responseVariant.Elements);
             AssertStronglyTypedResponseElements(responseVariant.Elements);
+        }
+
+        #endregion
+
+        #region Validation
+
+        [Fact]
+        [Trait("Category", "Validation")]
+        public async void ValidateProject_ReturnsProjectReportModel()
+        {
+            var responseElementIssueMessage = "Element 'Related articles' is required but has no value";
+
+            var project = new Project
+            {
+                Id = PROJECT_ID,
+                Name = "Sample Project"
+            };
+
+            var itemMetadata = new Metadata
+            {
+                Id = new Guid("cf106f4e-30a4-42ef-b313-b8ea3fd3e5c5"),
+                Name = "Coffee Beverages Explained",
+                Codename = "coffee_beverages_explained"
+            };
+
+            var languageMetadata = new Metadata
+            {
+                Id = new Guid("d1f95fde-af02-b3b5-bd9e-f232311ccab8"),
+                Name = "Spanish (Spain)",
+                Codename = "es-ES"
+            };
+
+            var elementMetadata = new Metadata
+            {
+                Id = new Guid("ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5"),
+                Name = "Related articles",
+                Codename = "related_articles"
+            };
+
+            var client = CreateContentManagementClient(nameof(ValidateProject_ReturnsProjectReportModel));
+            var response = await client.ValidateProjectAsync();
+
+            Assert.Equal(project.Id, response.Project.Id);
+            Assert.Equal(project.Name, response.Project.Name);
+            Assert.NotEmpty(response.VariantIssues);
+
+            var firstResponseVariantIssue = response.VariantIssues.First();
+            AssertMetadataEqual(itemMetadata, firstResponseVariantIssue.Item);
+            AssertMetadataEqual(languageMetadata, firstResponseVariantIssue.Language);
+            Assert.NotEmpty(firstResponseVariantIssue.Issues);
+
+            var firstResponseElementIssue = firstResponseVariantIssue.Issues.First();
+            AssertMetadataEqual(elementMetadata, firstResponseElementIssue.Element);
+            Assert.Contains(responseElementIssueMessage, firstResponseElementIssue.Messages);
+        }
+
+        private static void AssertMetadataEqual(Metadata expected, Metadata actual)
+        {
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.Name, actual.Name);
+            Assert.Equal(expected.Codename, actual.Codename);
         }
 
         #endregion
