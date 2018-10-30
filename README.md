@@ -193,7 +193,7 @@ AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePa
 
 ### Importing linked content
 
-The content you are importing will often contain references to other pieces of imported content. A content item can reference assets or point to other content items using *Linked items* elements or links in *Rich text* elements. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not imported yet) content:
+The content you are importing will often contain references to other pieces of imported content. A content item can reference assets, link to other content items in the *Linked items* or *Rich Text* element, and contain hypertext links in the rich text editor. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not imported yet) content:
 
 1. Define external IDs for all content items and assets you want to import in advance.
 1. When referencing another content item or asset, use its external ID.
