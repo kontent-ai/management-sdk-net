@@ -25,7 +25,7 @@ namespace KenticoCloud.ContentManagement.Modules.ModelBuilders
         /// Converts generic upsert model to non-generic model.
         /// </summary>
         /// <typeparam name="T">Strongly typed content item model.</typeparam>
-        /// <param name="variant">Strongly typed content item variant data.</param>
+        /// <param name="variantElements">Strongly typed content item variant data.</param>
         /// <returns>Non-generic model.</returns>
         ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : new();
     }

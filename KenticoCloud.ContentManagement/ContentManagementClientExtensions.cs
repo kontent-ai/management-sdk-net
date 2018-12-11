@@ -63,6 +63,7 @@ namespace KenticoCloud.ContentManagement
         /// <summary>
         /// Creates asset.
         /// </summary>
+        /// <param name="client">Content management client instance.</param>
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="descriptions">Represents description for individual language.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>

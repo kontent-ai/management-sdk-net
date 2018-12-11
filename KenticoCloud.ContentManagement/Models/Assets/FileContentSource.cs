@@ -62,22 +62,17 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         /// <param name="contentType">Gets or sets the media type of the asset, for example "image/jpeg.</param>
         public FileContentSource(byte[] data, string fileName, string contentType)
         {
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
-
-            if (String.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentException("File name cannot be empty.", nameof(fileName));
             }
 
-            if (String.IsNullOrEmpty(contentType))
+            if (string.IsNullOrEmpty(contentType))
             {
                 throw new ArgumentException("Content type cannot be empty.", nameof(contentType));
             }
 
-            Data = data;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
             FileName = fileName;
             ContentType = contentType;
             CreatesNewStream = true;
@@ -90,12 +85,12 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         /// <param name="contentType">Gets or sets the media type of the asset, for example "image/jpeg.</param>
         public FileContentSource(string filePath, string contentType)
         {
-            if (String.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath))
             {
                 throw new ArgumentException("File name cannot be empty.", nameof(filePath));
             }
 
-            if (String.IsNullOrEmpty(contentType))
+            if (string.IsNullOrEmpty(contentType))
             {
                 throw new ArgumentException("Content type cannot be empty.", nameof(contentType));
             }
@@ -112,20 +107,15 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         /// </summary>
         /// <param name="stream">Stream of the input data</param>
         /// <param name="fileName">Name of the file.</param>
-        /// <param name="contentType">Gets or sets the media typ
+        /// <param name="contentType">Gets or sets the media typ</param>
         public FileContentSource(Stream stream, string fileName, string contentType)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            if (String.IsNullOrEmpty(contentType))
+            if (string.IsNullOrEmpty(contentType))
             {
                 throw new ArgumentException("Content type cannot be empty.", nameof(contentType));
             }
 
-            Stream = stream;
+            Stream = stream ?? throw new ArgumentNullException(nameof(stream));
             FileName = fileName;
             ContentType = contentType;
         }

@@ -22,10 +22,17 @@ namespace KenticoCloud.ContentManagement.Models.Items
         [JsonProperty("sitemap_locations", Required = Required.Always)]
         public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; } = Enumerable.Empty<SitemapNodeIdentifier>();
 
+        /// <summary>
+        /// A default constructor.
+        /// </summary>
         public ContentItemUpdateModel()
         {
         }
 
+        /// <summary>
+        /// Instantiates the <see cref="ContentItemUpdateModel"/> using an instance of the <see cref="ContentItemModel"/>.
+        /// </summary>
+        /// <param name="contentItem"></param>
         public ContentItemUpdateModel(ContentItemModel contentItem)
         {
             Name = contentItem.Name;

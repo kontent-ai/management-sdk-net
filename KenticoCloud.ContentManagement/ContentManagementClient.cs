@@ -150,7 +150,7 @@ namespace KenticoCloud.ContentManagement
         /// </summary>
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
-        /// <returns>The <see cref="IEnumerable{ContentItemVariantModel{T}}"/> instance that represents the listing of content item variants.</returns>
+        /// <returns>A strongly-typed collection with content item variants.</returns>
         public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
         {
             if (identifier == null)
