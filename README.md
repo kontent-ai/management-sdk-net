@@ -590,19 +590,22 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 
 ## How to use [SourceLink](https://github.com/dotnet/sourcelink/) for debugging
  This repository is configured to generate SourceLink tag in the Nuget package that allows to debug this repository source code when it is referenced as a Nuget package. Source code is downloaded directly from github to the Visual Studio.
- ### How to configure Source Link
-1. Open solution with the project referencing KenticoCloud.ContentManagement Nuget package
-2. Open Tools >> Options >> Debugging >> General
-    * Uncheck Enable Just My Code 
-    * Check Enable Source Link Support
-    * Optionally Uncheck Require source files to exactly match the original version
-3. Build your solution
-4. Copy pdb files from the KenticoCloud.ContentManagement Nuget package to the bin folder next to your own project pdb files*
-5. Run debugging session and try to step into the KenticoCloud.ContentManagement code
-6. Allow Visual Studio to download source code from GitHub
-  * ![Source link confirmation dialog](/.github/assets/allow_sourcelink_download.png)
- **Now you are able to debug source code of our library without necessity to download source code manually!**
- \* Currently SymbolSource.org server [does not allow to host portable PDB files](https://github.com/SymbolSource/SymbolSource/issues/7) and nuget still [does not come up with best practice solution](https://github.com/NuGet/Home/issues/6104). That is why we recommend to copy PDB files manually instead of using [symbol server](https://github.com/dotnet/designs/blob/master/accepted/diagnostics/debugging-with-symbols-and-sources.md).
+
+### How to configure Source Link
+
+1. Open a solution with a project referencing the KenticoCloud.Delivery (or KenticoCloud.Delivery.RX) Nuget package.
+2. Open Tools -> Options -> Debugging -> General.
+    * Clear **Enable Just My Code**.
+    * Select **Enable Source Link Support**.
+    * (Optional) Clear **Require source files to exactly match the original version**.
+3. Build your solution.
+4. [Add a symbol server `https://symbols.nuget.org/download/symbols`](https://blog.nuget.org/20181116/Improved-debugging-experience-with-the-NuGet-org-symbol-server-and-snupkg.html)
+  * ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
+5. Run a debugging session and try to step into the KenticoCloud.Delivery code.
+6. Allow Visual Studio to download the source code from GitHub.
+  * ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
+
+**Now you are able to debug the source code of our library without needing to download the source code manually!**
 
 ## Further information
 
