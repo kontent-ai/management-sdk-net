@@ -12,6 +12,7 @@ using KenticoCloud.ContentManagement.Models.Items;
 using KenticoCloud.ContentManagement.Models.StronglyTyped;
 using KenticoCloud.ContentManagement.Modules.ModelBuilders;
 using KenticoCloud.ContentManagement.Models.ProjectReport;
+using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
 
 namespace KenticoCloud.ContentManagement
 {
@@ -36,7 +37,7 @@ namespace KenticoCloud.ContentManagement
             {
                 throw new ArgumentNullException(nameof(contentManagementOptions));
             }
-            
+
             if (string.IsNullOrEmpty(contentManagementOptions.ProjectId))
             {
                 throw new ArgumentException("Kentico Cloud project identifier is not specified.", nameof(contentManagementOptions.ProjectId));
@@ -53,7 +54,9 @@ namespace KenticoCloud.ContentManagement
             }
 
             _urlBuilder = new EndpointUrlBuilder(contentManagementOptions);
-            _actionInvoker = new ActionInvoker(new ContentManagementHttpClient(), new MessageCreator(contentManagementOptions.ApiKey));
+            _actionInvoker = new ActionInvoker(
+                new ContentManagementHttpClient(new DefaultResiliencePolicyProvider(contentManagementOptions.MaxRetryAttempts), contentManagementOptions.EnableResilienceLogic),
+                new MessageCreator(contentManagementOptions.ApiKey));
             _modelProvider = contentManagementOptions.ModelProvider ?? new ModelProvider();
         }
 
@@ -182,7 +185,7 @@ namespace KenticoCloud.ContentManagement
 
             return _modelProvider.GetContentItemVariantModel<T>(response);
         }
-   
+
         /// <summary>
         /// Inserts or updates given content item variant.
         /// </summary>
@@ -507,7 +510,7 @@ namespace KenticoCloud.ContentManagement
         #endregion
 
         #region Validation
-        
+
         /// <summary>
         /// Validates the project.
         /// </summary>

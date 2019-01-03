@@ -12,8 +12,9 @@ namespace KenticoCloud.ContentManagement.Tests
     {
         internal string requestBody;
 
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
+        public async Task<HttpResponseMessage> SendAsync(IMessageCreator messageCreator, string endpointUrl, HttpMethod method, HttpContent content = null)
         {
+            var message = messageCreator.CreateMessage(method, endpointUrl, content);
             requestBody = await message.Content.ReadAsStringAsync();
             return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
@@ -21,7 +22,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
     public class ActionInvokerTests
     {
-        [Theory]        
+        [Theory]
         [Trait("Issue", "29")]
         [InlineData(0.0, "0")]
         [InlineData(29.0, "29.0")]

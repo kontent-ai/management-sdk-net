@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 
 namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
 {
-    internal class MessageCreator
+    internal class MessageCreator : IMessageCreator
     {
         private readonly string _apiKey;
 
@@ -12,11 +12,12 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
             _apiKey = apiKey;
         }
 
-        public HttpRequestMessage CreateMessage(HttpMethod method, string url)
+        public HttpRequestMessage CreateMessage(HttpMethod method, string url, HttpContent content = null)
         {
             var message = new HttpRequestMessage(method, url);
             message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+            message.Content = content;
             return message;
-        } 
+        }
     }
 }

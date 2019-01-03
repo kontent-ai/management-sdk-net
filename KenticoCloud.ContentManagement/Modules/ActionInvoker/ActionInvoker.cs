@@ -45,13 +45,15 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
         {
             var message = _messageCreator.CreateMessage(method, endpointUrl);
 
+            HttpContent content = null;
+
             if (body != null)
             {
                 string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
-                message.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                content = new StringContent(json, Encoding.UTF8, "application/json");
             }
 
-            var response = await _cmHttpClient.SendAsync(message);
+            var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, content);
 
             return await ReadResultAsync<TResponse>(response);
         }
@@ -60,7 +62,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
         {
             var message = _messageCreator.CreateMessage(method, endpointUrl);
 
-            var response = await _cmHttpClient.SendAsync(message);
+            var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method);
 
             return await ReadResultAsync<TResponse>(response);
         }
@@ -68,7 +70,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
         public async Task InvokeMethodAsync(string endpointUrl, HttpMethod method)
         {
             var message = _messageCreator.CreateMessage(method, endpointUrl);
-            await _cmHttpClient.SendAsync(message);
+            await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method);
         }
 
         public async Task<TResponse> UploadFileAsync<TResponse>(string endpointUrl, Stream stream, string contentType)
@@ -85,9 +87,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
             content.Headers.ContentType = MediaTypeHeaderValue.Parse(contentType);
             content.Headers.ContentLength = stream.Length;
 
-            message.Content = content;
-
-            var response = await _cmHttpClient.SendAsync(message);
+            var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, HttpMethod.Post, content);
 
             return await ReadResultAsync<TResponse>(response);
         }

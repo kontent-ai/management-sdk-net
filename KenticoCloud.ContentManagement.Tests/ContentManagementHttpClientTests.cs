@@ -1,50 +1,33 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using KenticoCloud.ContentManagement.Exceptions;
+using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
+using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
 
 using NSubstitute;
+using Polly;
 using Xunit;
-using System.Collections.Generic;
 
 namespace KenticoCloud.ContentManagement.Tests
 {
     public class ContentManagementHttpClientTests
     {
-        private ContentManagementHttpClient _client;
+        private readonly IMessageCreator messageCreator = new MessageCreator(string.Empty);
+        private readonly string endpointUrl = string.Empty;
+        private readonly HttpMethod method = HttpMethod.Get;
+
+        private ContentManagementHttpClient _defaultClient;
         private IHttpClient httpClient = Substitute.For<IHttpClient>();
-        private IDelay delay = Substitute.For<IDelay>();
 
         public ContentManagementHttpClientTests()
         {
-            _client = new ContentManagementHttpClient(delay, httpClient);
-        }
-
-        [Fact]
-        public async Task SendAsync_AddCorrectSDKTreackingHeader()
-        {
-            var assembly = typeof(ContentManagementHttpClient).Assembly;
-            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            var sdkVersion = fileVersionInfo.ProductVersion;
-            var sdkPackageId = assembly.GetName().Name;
-
-            IHttpClient httpClient = Substitute.For<IHttpClient>();
-            IDelay delay = Substitute.For<IDelay>();
-            HttpRequestMessage mockRequestMessage = Substitute.For<HttpRequestMessage>();
-            var successfulResponse = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
-            httpClient.SendAsync(Arg.Is(mockRequestMessage)).Returns(successfulResponse);
-
-            ContentManagementHttpClient client = new ContentManagementHttpClient(delay, httpClient);
-            var response = await client.SendAsync(mockRequestMessage);
-
-            IEnumerable<string> headerContent = new List<string>();
-            mockRequestMessage.Headers.TryGetValues("X-KC-SDKID", out headerContent);
-            Assert.True(mockRequestMessage.Headers.Contains("X-KC-SDKID"));
-            Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
+            _defaultClient = new ContentManagementHttpClient(
+                httpClient,
+                new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
+                Constants.ENABLE_RESILIENCE_POLICY);
         }
 
         [Fact]
@@ -52,13 +35,12 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var successfulMessage = new HttpRequestMessage();
             var successfulResponse = new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.OK };
-            httpClient.SendAsync(Arg.Is(successfulMessage)).Returns(successfulResponse);
+            httpClient.SendAsync(successfulMessage).ReturnsForAnyArgs(successfulResponse);
 
-            var response = await _client.SendAsync(successfulMessage);
+            var response = await _defaultClient.SendAsync(messageCreator, endpointUrl, method);
 
-            await httpClient.Received().SendAsync(successfulMessage);
+            await httpClient.ReceivedWithAnyArgs().SendAsync(successfulMessage);
             Assert.Equal(successfulResponse, response);
-
         }
 
         [Fact]
@@ -67,30 +49,112 @@ namespace KenticoCloud.ContentManagement.Tests
             var failfulMessage = new HttpRequestMessage();
             var failfulResponseMessage = "Internal server error";
             var content = new StringContent("Content");
-            var failfulResponse = new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.InternalServerError, ReasonPhrase = failfulResponseMessage, Content = content };
-            httpClient.SendAsync(Arg.Is(failfulMessage)).Returns(failfulResponse);
+            var failfulResponse = new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError, ReasonPhrase = failfulResponseMessage, Content = content };
+            httpClient.SendAsync(failfulMessage).ReturnsForAnyArgs(failfulResponse);
 
-            await Assert.ThrowsAsync<ContentManagementException>(async () => { await _client.SendAsync(failfulMessage); });
-            await httpClient.Received().SendAsync(failfulMessage);
+            await Assert.ThrowsAsync<ContentManagementException>(async () => { await _defaultClient.SendAsync(messageCreator, endpointUrl, method); });
+            await httpClient.ReceivedWithAnyArgs().SendAsync(failfulMessage);
         }
 
         [Fact]
-        public async Task SendAsync_SendsMessageOnTooManyRequestsWaitsRetriesThenSuccess()
+        public async void Retries_WithDefaultSettings_Retries()
         {
-            var retryDeltaMilliseconds = 1000;
-            var retryDelta = System.TimeSpan.FromMilliseconds(retryDeltaMilliseconds);
-            delay.DelayByTimeSpan(Arg.Any<System.TimeSpan>()).Returns(Task.CompletedTask);
-            var successfulMessage = new HttpRequestMessage();
-            var tooManyRequestsResponse = new HttpResponseMessage { StatusCode = (HttpStatusCode)429 };
-            tooManyRequestsResponse.Headers.RetryAfter = new RetryConditionHeaderValue(retryDelta);
-            var successResponse = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
-            httpClient.SendAsync(Arg.Is(successfulMessage)).Returns(x => tooManyRequestsResponse, x => tooManyRequestsResponse, x => successResponse);
+            var failfulMessage = new HttpRequestMessage();
+            httpClient
+                .SendAsync(failfulMessage)
+                .ReturnsForAnyArgs((request) => new HttpResponseMessage(HttpStatusCode.RequestTimeout));
 
-            var response = await _client.SendAsync(successfulMessage);
+            httpClient.ClearReceivedCalls();
+            await Assert.ThrowsAsync<ContentManagementException>(async () => { await _defaultClient.SendAsync(messageCreator, endpointUrl, method); });
+            await httpClient.ReceivedWithAnyArgs(6).SendAsync(failfulMessage);
+        }
 
-            await httpClient.Received(3).SendAsync(successfulMessage);
-            await delay.Received(2).DelayByTimeSpan(retryDelta);
-            Assert.Equal(successResponse, response);
+        [Fact]
+        public async void Retries_EnableResilienceLogicDisabled_DoesNotRetry()
+        {
+            var failfulMessage = new HttpRequestMessage();
+            httpClient
+                .SendAsync(failfulMessage)
+                .ReturnsForAnyArgs((request) => new HttpResponseMessage(HttpStatusCode.RequestTimeout));
+
+            var customClient = new ContentManagementHttpClient(
+                httpClient,
+                new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
+                Constants.DISABLE_RESILIENCE_POLICY);
+
+            httpClient.ClearReceivedCalls();
+            await Assert.ThrowsAsync<ContentManagementException>(async () => { await customClient.SendAsync(messageCreator, endpointUrl, method); });
+            await httpClient.ReceivedWithAnyArgs(1).SendAsync(failfulMessage);
+        }
+
+        [Fact]
+        public async void Retries_WithMaxRetrySet_SettingReflected()
+        {
+            int retryAttempts = 3;
+            int expectedAttempts = retryAttempts + 1;
+
+            var failfulMessage = new HttpRequestMessage();
+            httpClient
+                .SendAsync(failfulMessage)
+                .ReturnsForAnyArgs((request) => new HttpResponseMessage(HttpStatusCode.RequestTimeout));
+
+            var customClient = new ContentManagementHttpClient(
+                httpClient,
+                new DefaultResiliencePolicyProvider(retryAttempts),
+                Constants.ENABLE_RESILIENCE_POLICY);
+
+            httpClient.ClearReceivedCalls();
+            await Assert.ThrowsAsync<ContentManagementException>(async () => { await customClient.SendAsync(messageCreator, endpointUrl, method); });
+            await httpClient.ReceivedWithAnyArgs(expectedAttempts).SendAsync(failfulMessage);
+        }
+
+        [Fact]
+        public async void Retries_WithCustomResilencePolicy_PolicyUsed()
+        {
+            int retryAttempts = 1;
+            int expectedAttempts = retryAttempts + 1;
+
+            var failfulMessage = new HttpRequestMessage();
+            httpClient
+                .SendAsync(failfulMessage)
+                .ReturnsForAnyArgs((request) => new HttpResponseMessage(HttpStatusCode.RequestTimeout));
+
+            var mockResilencePolicyProvider = Substitute.For<IResiliencePolicyProvider>();
+            mockResilencePolicyProvider.Policy
+               .Returns(Policy.HandleResult<HttpResponseMessage>(result => true).RetryAsync(retryAttempts));
+
+            var customClient = new ContentManagementHttpClient(
+                httpClient,
+                mockResilencePolicyProvider,
+                Constants.ENABLE_RESILIENCE_POLICY);
+
+            httpClient.ClearReceivedCalls();
+            await Assert.ThrowsAsync<ContentManagementException>(async () => { await customClient.SendAsync(messageCreator, endpointUrl, method); });
+            var policy = mockResilencePolicyProvider.Received(expectedAttempts).Policy;
+        }
+
+        [Fact]
+        public async void Retries_WithCustomResilencePolicyAndPolicyDisabled_PolicyIgnored()
+        {
+            int retryAttempts = 2;
+
+            var failfulMessage = new HttpRequestMessage();
+            httpClient
+                .SendAsync(failfulMessage)
+                .ReturnsForAnyArgs((request) => new HttpResponseMessage(HttpStatusCode.RequestTimeout));
+
+            var mockResilencePolicyProvider = Substitute.For<IResiliencePolicyProvider>();
+            mockResilencePolicyProvider.Policy
+               .Returns(Policy.HandleResult<HttpResponseMessage>(result => true).RetryAsync(retryAttempts));
+
+            var customClient = new ContentManagementHttpClient(
+                httpClient,
+                mockResilencePolicyProvider,
+                Constants.DISABLE_RESILIENCE_POLICY);
+
+            httpClient.ClearReceivedCalls();
+            await Assert.ThrowsAsync<ContentManagementException>(async () => { await customClient.SendAsync(messageCreator, endpointUrl, method); });
+            var policy = mockResilencePolicyProvider.DidNotReceive().Policy;
         }
     }
 }

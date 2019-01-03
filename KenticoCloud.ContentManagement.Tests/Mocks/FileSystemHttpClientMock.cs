@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
 
+using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
+using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
 
 using Newtonsoft.Json;
 using Xunit;
@@ -22,7 +24,9 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
         private string _directoryName;
         private bool _firstRequest = true;
 
-        private IContentManagementHttpClient _nativeClient = new ContentManagementHttpClient();
+        public IContentManagementHttpClient _nativeClient = new ContentManagementHttpClient(
+            new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
+            Constants.ENABLE_RESILIENCE_POLICY);
 
         public FileSystemHttpClientMock(ContentManagementOptions options, bool saveToFileSystem, string testName)
         {
@@ -41,8 +45,14 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             return data.Replace(PROJECT_ID_REPLACEMENT, _options.ProjectId).Replace(API_KEY_REPLACEMENT, _options.ApiKey);
         }
 
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
+        public async Task<HttpResponseMessage> SendAsync(
+            IMessageCreator messageCreator,
+            string endpointUrl,
+            HttpMethod method,
+            HttpContent content = null)
         {
+            var message = messageCreator.CreateMessage(method, endpointUrl, content);
+
             var isFirst = _firstRequest;
             _firstRequest = false;
 
@@ -65,8 +75,8 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
                     // Cleanup previously recorded data at first request to avoid data overlap upon change
                     Directory.Delete(folderPath, true);
                 }
-                
-                var response = await _nativeClient.SendAsync(message);
+
+                var response = await _nativeClient.SendAsync(messageCreator, endpointUrl, method, content);
 
                 File.WriteAllText(Path.Combine(folderPath, "request.json"), serializedRequest);
                 File.WriteAllText(Path.Combine(folderPath, "request_content.json"), serializedRequestContent);
