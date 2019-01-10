@@ -1,4 +1,4 @@
-﻿using KenticoCloud.ContentManagement.Modules.Extensions;
+using KenticoCloud.ContentManagement.Modules.Extensions;
 using System.Net.Http;
 using System.Net.Http.Headers;
 

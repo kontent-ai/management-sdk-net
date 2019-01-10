@@ -1,4 +1,4 @@
-﻿using KenticoCloud.ContentManagement.Modules.ActionInvoker;
+using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.Extensions;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
@@ -43,7 +43,6 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             HttpContent content = null)
         {
             var message = messageCreator.CreateMessage(method, endpointUrl, content);
-
             var isFirst = _firstRequest;
             _firstRequest = false;
 

@@ -1,4 +1,4 @@
-﻿using KenticoCloud.ContentManagement.Exceptions;
+using KenticoCloud.ContentManagement.Exceptions;
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
