@@ -1,13 +1,15 @@
-﻿using System;
+﻿using KenticoCloud.ContentManagement.Modules.ActionInvoker;
+using KenticoCloud.ContentManagement.Modules.Extensions;
+using KenticoCloud.ContentManagement.Modules.HttpClient;
+using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
-
-using KenticoCloud.ContentManagement.Modules.HttpClient;
-
-using Newtonsoft.Json;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests.Mocks
@@ -15,14 +17,17 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
     public class FileSystemHttpClientMock : IContentManagementHttpClient
     {
         private const string PROJECT_ID_REPLACEMENT = "{PROJECT_ID}";
+        private const string SDK_ID_REPLACEMENT = "{SDK_ID}";
         private const string API_KEY_REPLACEMENT = "{API_KEY}";
 
         private ContentManagementOptions _options;
-        private bool _saveToFileSystem;
-        private string _directoryName;
+        private readonly bool _saveToFileSystem;
+        private readonly string _directoryName;
         private bool _firstRequest = true;
 
-        private IContentManagementHttpClient _nativeClient = new ContentManagementHttpClient();
+        public IContentManagementHttpClient _nativeClient = new ContentManagementHttpClient(
+            new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
+            Constants.ENABLE_RESILIENCE_POLICY);
 
         public FileSystemHttpClientMock(ContentManagementOptions options, bool saveToFileSystem, string testName)
         {
@@ -31,24 +36,20 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
             _directoryName = GetTestNameIdentifier(testName);
         }
 
-        public string MakeProjectAgnostic(string data)
+        public async Task<HttpResponseMessage> SendAsync(
+            IMessageCreator messageCreator,
+            string endpointUrl,
+            HttpMethod method,
+            HttpContent content = null)
         {
-            return data.Replace(_options.ProjectId, PROJECT_ID_REPLACEMENT).Replace(_options.ApiKey, API_KEY_REPLACEMENT);
-        }
+            var message = messageCreator.CreateMessage(method, endpointUrl, content);
 
-        public string ApplyProjectData(string data)
-        {
-            return data.Replace(PROJECT_ID_REPLACEMENT, _options.ProjectId).Replace(API_KEY_REPLACEMENT, _options.ApiKey);
-        }
-
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
-        {
             var isFirst = _firstRequest;
             _firstRequest = false;
 
             var serializationSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
-            var serializedRequest = MakeProjectAgnostic(JsonConvert.SerializeObject(message, serializationSettings));
+            var serializedRequest = MakeAgnostic(JsonConvert.SerializeObject(message, serializationSettings));
             var serializedRequestContent = await SerializeContent(message.Content);
 
             var hashContent = $"{message.Method} {serializedRequest} {UnifySerializedRequestContent(serializedRequestContent)}";
@@ -65,13 +66,13 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
                     // Cleanup previously recorded data at first request to avoid data overlap upon change
                     Directory.Delete(folderPath, true);
                 }
-                
-                var response = await _nativeClient.SendAsync(message);
+
+                var response = await _nativeClient.SendAsync(messageCreator, endpointUrl, method, content);
 
                 File.WriteAllText(Path.Combine(folderPath, "request.json"), serializedRequest);
                 File.WriteAllText(Path.Combine(folderPath, "request_content.json"), serializedRequestContent);
 
-                var serializedResponse = MakeProjectAgnostic(JsonConvert.SerializeObject(response, serializationSettings));
+                var serializedResponse = MakeAgnostic(JsonConvert.SerializeObject(response, serializationSettings));
                 var serializedResponseContent = await SerializeContent(response.Content);
 
                 File.WriteAllText(Path.Combine(folderPath, "response.json"), serializedResponse);
@@ -92,7 +93,7 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
                     serializedRequestContent
                 );
 
-                var serializedResponse = ApplyProjectData(File.ReadAllText(Path.Combine(folderPath, "response.json")));
+                var serializedResponse = ApplyData(File.ReadAllText(Path.Combine(folderPath, "response.json")));
                 var serializedResponseContent = File.ReadAllText(Path.Combine(folderPath, "response_content.json"));
 
                 var deserializationSettings = new JsonSerializerSettings
@@ -104,6 +105,18 @@ namespace KenticoCloud.ContentManagement.Tests.Mocks
 
                 return response;
             }
+        }
+
+        private string MakeAgnostic(string data)
+        {
+            data = Regex.Replace(data, @"""(?<SDK_ID>nuget\.org;KenticoCloud\.ContentManagement;)(?<SDK_VERSION>.*)""", m => "\"" + m.Groups["SDK_ID"].Value + SDK_ID_REPLACEMENT + "\"");
+            return data.Replace(_options.ProjectId, PROJECT_ID_REPLACEMENT).Replace(_options.ApiKey, API_KEY_REPLACEMENT);
+        }
+
+        private string ApplyData(string data)
+        {
+            data = data.Replace(SDK_ID_REPLACEMENT, HttpRequestHeadersExtensions.GetSdkTrackingHeader());
+            return data.Replace(PROJECT_ID_REPLACEMENT, _options.ProjectId).Replace(API_KEY_REPLACEMENT, _options.ApiKey);
         }
 
         private async Task<string> SerializeContent(HttpContent content)

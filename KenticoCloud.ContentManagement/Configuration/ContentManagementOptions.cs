@@ -26,5 +26,15 @@ namespace KenticoCloud.ContentManagement
         /// Gets or sets the Model provider for strongly typed models
         /// </summary>
         public IModelProvider ModelProvider { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether HTTP requests will use a retry logic.
+        /// </summary>
+        public bool EnableResilienceLogic { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the maximum retry attempts.
+        /// </summary>
+        public int MaxRetryAttempts { get; set; } = 5;
     }
 }

@@ -1,43 +1,76 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using KenticoCloud.ContentManagement.Exceptions;
+using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.Extensions;
+using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
+using Newtonsoft.Json.Linq;
 
 namespace KenticoCloud.ContentManagement.Modules.HttpClient
 {
     internal class ContentManagementHttpClient : IContentManagementHttpClient
     {
-        private const int HTTP_CODE_TOO_MANY_REQUESTS = 429;
-
         private IHttpClient _httpClient;
-        private IDelay _delay;
+        private IResiliencePolicyProvider _resiliencePolicyProvider;
+        private readonly bool _enableResilienceLogic;
 
-        public ContentManagementHttpClient(IDelay delay, IHttpClient httpClient)
+        public ContentManagementHttpClient(
+            IHttpClient httpClient,
+            IResiliencePolicyProvider resiliencePolicyProvider,
+            bool enableResilienceLogic)
         {
-            _delay = delay;
             _httpClient = httpClient;
+            _resiliencePolicyProvider = resiliencePolicyProvider;
+            _enableResilienceLogic = enableResilienceLogic;
         }
 
-        public ContentManagementHttpClient()
+        public ContentManagementHttpClient(
+            IResiliencePolicyProvider resiliencePolicyProvider,
+            bool enableResilienceLogic)
         {
-            _delay = new Delay();
             _httpClient = new HttpClient();
+            _resiliencePolicyProvider = resiliencePolicyProvider;
+            _enableResilienceLogic = enableResilienceLogic;
         }
 
-
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage message)
+        public async Task<HttpResponseMessage> SendAsync(
+            IMessageCreator messageCreator,
+            string endpointUrl,
+            HttpMethod method,
+            HttpContent requestContent = null)
         {
-            message.Headers.AddSdkTrackingHeader();
-            var response = await _httpClient.SendAsync(message);
+            HttpResponseMessage response = null;
 
-            while ((int)response.StatusCode == HTTP_CODE_TOO_MANY_REQUESTS)
+            if (_enableResilienceLogic)
             {
-                var retryAfter = response.Headers.RetryAfter.Delta ?? TimeSpan.FromSeconds(1);
-                await _delay.DelayByTimeSpan(retryAfter);
+                if (_resiliencePolicyProvider == null)
+                {
+                    throw new ArgumentNullException(
+                        nameof(_resiliencePolicyProvider),
+                        $"{nameof(_enableResilienceLogic)} is set to true but {nameof(_resiliencePolicyProvider)} is null.");
+                }
 
-                response = await _httpClient.SendAsync(message);
+                if (_resiliencePolicyProvider.Policy == null)
+                {
+                    throw new ArgumentNullException(
+                        nameof(_resiliencePolicyProvider.Policy),
+                        $"{nameof(_resiliencePolicyProvider)}'s {nameof(_resiliencePolicyProvider.Policy)} is null.");
+                }
+
+                // Use the resilience logic.
+                var policyResult = await _resiliencePolicyProvider.Policy.ExecuteAndCaptureAsync(() =>
+                {
+                    return SendHttpMessage(messageCreator, endpointUrl, method, requestContent);
+                });
+
+                response = policyResult.FinalHandledResult ?? policyResult.Result;
+            }
+            else
+            {
+                // Omit using the resilience logic completely.
+                response = await SendHttpMessage(messageCreator, endpointUrl, method, requestContent);
             }
 
             if (response.IsSuccessStatusCode)
@@ -45,12 +78,41 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
                 return response;
             }
 
-            var content = response.Content;
+            var responseContent = response.Content;
 
-            throw (content != null) ?
+            throw (responseContent != null) ?
                 new ContentManagementException(response, await response.Content.ReadAsStringAsync()) :
                 new ContentManagementException(response, "CM API returned server error.");
         }
 
+        private Task<HttpResponseMessage> SendHttpMessage(
+            IMessageCreator messageCreator,
+            string endpointUrl,
+            HttpMethod method,
+            HttpContent content)
+        {
+            var message = messageCreator.CreateMessage(method, endpointUrl, content);
+            return _httpClient.SendAsync(message);
+        }
+
+        private async Task<JObject> GetResponseContent(HttpResponseMessage httpResponseMessage)
+        {
+            if (httpResponseMessage?.StatusCode == HttpStatusCode.OK)
+            {
+                var content = await httpResponseMessage.Content?.ReadAsStringAsync();
+
+                return JObject.Parse(content);
+            }
+
+            string faultContent = null;
+
+            // The null-coallescing operator causes tests to fail for NREs, hence the "if" statement.
+            if (httpResponseMessage?.Content != null)
+            {
+                faultContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            }
+
+            throw new ContentManagementException(httpResponseMessage, faultContent);
+        }
     }
 }
