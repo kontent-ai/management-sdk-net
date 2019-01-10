@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using KenticoCloud.ContentManagement.Modules.Extensions;
+using System.Net.Http;
 using System.Net.Http.Headers;
 
 namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
@@ -17,6 +18,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
             var message = new HttpRequestMessage(method, url);
             message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
             message.Content = content;
+            message.Headers.AddSdkTrackingHeader();
             return message;
         }
     }

@@ -17,7 +17,12 @@ namespace KenticoCloud.ContentManagement.Modules.Extensions
 
         internal static void AddSdkTrackingHeader(this HttpRequestHeaders header)
         {
-            header.Add(SdkTrackingHeaderName, $"{PackageRepositoryHost};{SdkPackageId.Value};{SdkVersion.Value}");
+            header.Add(SdkTrackingHeaderName, GetSdkTrackingHeader());
+        }
+
+        internal static string GetSdkTrackingHeader()
+        {
+            return $"{PackageRepositoryHost};{SdkPackageId.Value};{SdkVersion.Value}";
         }
 
         private static string GetSdkVersion()
