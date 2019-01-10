@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
     {
         private IHttpClient _httpClient;
         private IResiliencePolicyProvider _resiliencePolicyProvider;
-        private bool _enableResilienceLogic;
+        private readonly bool _enableResilienceLogic;
 
         public ContentManagementHttpClient(
             IHttpClient httpClient,
@@ -92,7 +92,6 @@ namespace KenticoCloud.ContentManagement.Modules.HttpClient
             HttpContent content)
         {
             var message = messageCreator.CreateMessage(method, endpointUrl, content);
-            message.Headers.AddSdkTrackingHeader();
             return _httpClient.SendAsync(message);
         }
 

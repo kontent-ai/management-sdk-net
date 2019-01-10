@@ -24,8 +24,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
 
             foreach (var property in obj.Properties())
             {
-                var array = property.Value as JArray;
-                if (array != null)
+                if (property.Value is JArray array)
                 {
                     // Array is always a list of references
                     resultAsDictionary.Add(property.Name, array.ToObject<IEnumerable<ObjectIdentifier>>());
@@ -39,8 +38,7 @@ namespace KenticoCloud.ContentManagement.Modules.ActionInvoker
                     continue;
                 }
 
-                var valueObj = property.Value as JObject;
-                if (valueObj != null)
+                if (property.Value is JObject valueObj)
                 {
                     resultAsDictionary.Add(property.Name, ConvertToDynamicObject(valueObj));
                     continue;

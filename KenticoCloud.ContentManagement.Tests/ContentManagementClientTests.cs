@@ -21,8 +21,8 @@ namespace KenticoCloud.ContentManagement.Tests
         // Tests configuration
         // Project used should be a generated sample project because the tests rely on some existing data
         // IMPORTANT: Never commit valid API_KEY - revoke it before commit.
-        private const string PROJECT_ID = "49f108e5-2e7e-4405-8369-7e0cf92576f2";
-        private const string API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJ1c3JfMHZGa1Zva3M3cm9qa0ZkdkpZM3NGUCIsImp0aSI6ImRjZmFkYzA2OTQ4YTQwNTk4MGI0YTIwYmEzNmIyODZmIiwiaWF0IjoiMTUxMjQ3NDc4OSIsImV4cCI6IjE1MTUwNjY3ODkiLCJwcm9qZWN0X2lkIjoiNDlmMTA4ZTUyZTdlNDQwNTgzNjk3ZTBjZjkyNTc2ZjIiLCJ2ZXIiOiIyLjAuMCIsInBlcm1pc3Npb25zIjpbInZpZXctY29udGVudCIsImNvbW1lbnQiLCJ1cGRhdGUtd29ya2Zsb3ciLCJ1cGRhdGUtY29udGVudCIsInB1Ymxpc2giLCJjb25maWd1cmUtc2l0ZW1hcCIsImNvbmZpZ3VyZS10YXhvbm9teSIsImNvbmZpZ3VyZS1jb250ZW50X3R5cGVzIiwiY29uZmlndXJlLXdpZGdldHMiLCJjb25maWd1cmUtd29ya2Zsb3ciLCJtYW5hZ2UtcHJvamVjdHMiLCJtYW5hZ2UtdXNlcnMiLCJjb25maWd1cmUtcHJldmlldy11cmwiLCJjb25maWd1cmUtY29kZW5hbWVzIiwiYWNjZXNzLWFwaS1rZXlzIiwibWFuYWdlLWFzc2V0cyIsIm1hbmFnZS1sYW5ndWFnZXMiLCJtYW5hZ2Utd2ViaG9va3MiLCJtYW5hZ2UtdHJhY2tpbmciXSwiYXVkIjoibWFuYWdlLmtlbnRpY29jbG91ZC5jb20ifQ.x4_dk2ECfhKZLayxrYOEvwMiArM21CNFdKTMmxI4tiA";
+        private const string PROJECT_ID = "e38f8e94-7d3b-0062-77f5-a4bc505780d4";
+        private const string API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5OWM4ZjliYTRiYzk0ZThjYjg2NTU2MDEyZTMwOWQzNyIsImlhdCI6IjE1NDcxMjA4ODYiLCJleHAiOiIxNTU0ODk2ODg2IiwicHJvamVjdF9pZCI6ImUzOGY4ZTk0N2QzYjAwNjI3N2Y1YTRiYzUwNTc4MGQ0IiwidmVyIjoiMi4xLjAiLCJ1aWQiOiJ1c3JfMHZGa1Zva3M3cm9qa0ZkdkpZM3NGUCIsImF1ZCI6Im1hbmFnZS5rZW50aWNvY2xvdWQuY29tIn0.7owVPVQn8anlKf7Hhlz46io9YV6RKkUKffMCo43_nhc";
 
         // Change run type based on the desired test behavior
         // IMPORTANT: Commit always with TestRunType.MockFromFileSystem

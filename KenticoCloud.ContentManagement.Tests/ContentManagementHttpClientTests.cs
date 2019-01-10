@@ -1,14 +1,14 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-
 using KenticoCloud.ContentManagement.Exceptions;
 using KenticoCloud.ContentManagement.Modules.ActionInvoker;
 using KenticoCloud.ContentManagement.Modules.HttpClient;
 using KenticoCloud.ContentManagement.Modules.ResiliencePolicy;
-
 using NSubstitute;
 using Polly;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace KenticoCloud.ContentManagement.Tests
@@ -28,6 +28,23 @@ namespace KenticoCloud.ContentManagement.Tests
                 httpClient,
                 new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
                 Constants.ENABLE_RESILIENCE_POLICY);
+        }
+
+
+        [Fact]
+        public void CreateMessage_AddCorrectSDKTreackingHeader()
+        {
+            var assembly = typeof(ContentManagementHttpClient).Assembly;
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            var sdkVersion = fileVersionInfo.ProductVersion;
+            var sdkPackageId = assembly.GetName().Name;
+
+            var msg = messageCreator.CreateMessage(HttpMethod.Post, string.Empty);
+
+            IEnumerable<string> headerContent = new List<string>();
+            msg.Headers.TryGetValues("X-KC-SDKID", out headerContent);
+            Assert.True(msg.Headers.Contains("X-KC-SDKID"));
+            Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
         }
 
         [Fact]
@@ -59,6 +76,7 @@ namespace KenticoCloud.ContentManagement.Tests
         [Fact]
         public async void Retries_WithDefaultSettings_Retries()
         {
+            int expectedAttempts = Constants.DEFAULT_MAX_RETRIES + 1;
             var failfulMessage = new HttpRequestMessage();
             httpClient
                 .SendAsync(failfulMessage)
@@ -66,7 +84,7 @@ namespace KenticoCloud.ContentManagement.Tests
 
             httpClient.ClearReceivedCalls();
             await Assert.ThrowsAsync<ContentManagementException>(async () => { await _defaultClient.SendAsync(messageCreator, endpointUrl, method); });
-            await httpClient.ReceivedWithAnyArgs(6).SendAsync(failfulMessage);
+            await httpClient.ReceivedWithAnyArgs(expectedAttempts).SendAsync(failfulMessage);
         }
 
         [Fact]
