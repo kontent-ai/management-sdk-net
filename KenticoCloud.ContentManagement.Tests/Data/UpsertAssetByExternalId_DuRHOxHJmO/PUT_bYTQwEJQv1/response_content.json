@@ -4,6 +4,7 @@
   "title": "New title",
   "size": 99,
   "type": "text/plain",
+  "url": "https://assets-us-01.kc-usercontent.com/e38f8e94-7d3b-0062-77f5-a4bc505780d4/d4205149-3b94-446e-8e35-8b4aad314169/HelloExternal.txt",
   "image_width": null,
   "image_height": null,
   "file_reference": {
@@ -25,5 +26,5 @@
     }
   ],
   "external_id": "5bec7f21ad2e44bb8a3a1f4a6a5bf8ca",
-  "last_modified": "2019-01-10T13:30:47.5460963Z"
+  "last_modified": "2019-10-03T10:35:18.5327648Z"
 }

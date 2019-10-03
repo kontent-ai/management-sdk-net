@@ -4,6 +4,7 @@
   "title": "New title",
   "size": 82,
   "type": "text/plain",
+  "url": "https://assets-us-01.kc-usercontent.com/e38f8e94-7d3b-0062-77f5-a4bc505780d4/a57a09bf-d1f9-42e6-a2d3-4d75016bb892/Hello.txt",
   "image_width": null,
   "image_height": null,
   "file_reference": {
@@ -24,5 +25,5 @@
       "description": "Spanish descriptión"
     }
   ],
-  "last_modified": "2019-01-10T13:31:17.5433775Z"
+  "last_modified": "2019-10-03T10:35:18.5327648Z"
 }

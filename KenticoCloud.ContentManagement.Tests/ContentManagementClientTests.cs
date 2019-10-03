@@ -990,6 +990,7 @@ namespace KenticoCloud.ContentManagement.Tests
                 Assert.NotNull(assetResult.LastModified);
                 Assert.Equal(fileName, assetResult.FileName);
                 Assert.NotNull(assetResult.Descriptions);
+                Assert.NotNull(assetResult.Url);
 
                 // Cleanup
                 await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
@@ -1037,6 +1038,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.NotNull(assetResult.LastModified);
             Assert.Equal(fileName, assetResult.FileName);
             Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
+            Assert.NotNull(assetResult.Url);
 
             // Cleanup
             await client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
@@ -1069,6 +1071,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(fileName, assetResult.FileName);
             Assert.Equal(title, assetResult.Title);
             Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
+            Assert.NotNull(assetResult.Url);
 
             // Cleanup
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
@@ -1096,6 +1099,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal("kentico_rgb_bigger.png", assetResult.FileName);
             Assert.NotNull(assetResult.Descriptions);
             Assert.Equal(title, assetResult.Title);
+            Assert.NotNull(assetResult.Url);
 
             // Cleanup
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
@@ -1130,6 +1134,7 @@ namespace KenticoCloud.ContentManagement.Tests
             Assert.Equal(fileName, assetResult.FileName);
             Assert.Equal(title, assetResult.Title);
             Assert.Equal(spanishDescription, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == EXISTING_LANGUAGE_ID).Description);
+            Assert.NotNull(assetResult.Url);
 
             // Cleanup
             await client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));

@@ -35,6 +35,12 @@ namespace KenticoCloud.ContentManagement.Models.Assets
         public string Type { get; set; }
 
         /// <summary>
+        /// Gets or sets the url to access the asset binary file.
+        /// </summary>
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        /// <summary>
         /// Gets or sets the file reference of the the asset".
         /// </summary>
         [JsonProperty("file_reference")]
