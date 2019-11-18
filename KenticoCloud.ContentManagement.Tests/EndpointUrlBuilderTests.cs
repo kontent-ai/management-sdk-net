@@ -37,7 +37,9 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ById(ITEM_ID);
             var actualUrl = _builder.BuildListVariantsUrl(identifier);
-            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}";
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}/variants";
+
+            Assert.Equal(expectedUrl, actualUrl);
         }
 
         [Fact]
@@ -45,7 +47,9 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByCodename(ITEM_CODENAME);
             var actualUrl = _builder.BuildListVariantsUrl(identifier);
-            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}";
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}/variants";
+
+            Assert.Equal(expectedUrl, actualUrl);
         }
 
         [Fact]
@@ -53,7 +57,9 @@ namespace KenticoCloud.ContentManagement.Tests
         {
             var identifier = ContentItemIdentifier.ByExternalId(ITEM_EXTERNAL_ID);
             var actualUrl = _builder.BuildListVariantsUrl(identifier);
-            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{ITEM_EXTERNAL_ID}";
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{EXPECTED_ITEM_EXTERNAL_ID}/variants";
+
+            Assert.Equal(expectedUrl, actualUrl);
         }
 
         [Fact]
