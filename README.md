@@ -1,33 +1,31 @@
-# Kentico Kontent Content Management .NET SDK
+# Kentico Kontent Management .NET SDK
 
 [![Build status](https://ci.appveyor.com/api/projects/status/6b3tt1kc3ogmcav3/branch/master?svg=true)](https://ci.appveyor.com/project/kentico/content-management-sdk-net/branch/master)
-[![NuGet](https://img.shields.io/nuget/v/KenticoCloud.ContentManagement.svg)](https://www.nuget.org/packages/KenticoCloud.ContentManagement)
-[![NuGet](https://img.shields.io/nuget/dt/kenticocloud.ContentManagement.svg)](https://www.nuget.org/packages/KenticoCloud.ContentManagement)
-[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-cloud)
+[![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)
+[![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)
+[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-kontent)
 
 ## Summary
 
-The Kentico Kontent Content Management .NET SDK is a client library used for managing content in Kentico Kontent. It provides read/write access to your Kentico Kontent projects.
+The Kentico Kontent Management .NET SDK is a client library used for managing content in Kentico Kontent. It provides read/write access to your Kentico Kontent projects.
 
-You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/KenticoCloud.ContentManagement/) to migrate existing content into your Kentico Kontent project or update content in your content items. You can import content items, their language variants, and assets.
+You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management/) to migrate existing content into your Kentico Kontent project or update content in your content items. You can import content items, their language variants, and assets.
 
-The Content Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
+The Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
 
-You can head over to our Developer Hub for the complete [Content Management API Reference](https://developer.kenticocloud.com/v1/reference#content-management-api).
-
-The SDK targets the [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard), which means it can be used in .NET Framework 4.6.1 projects and above, and .NET Core 2.0 projects and above.
+You can head over to our Developer Hub for the complete [Management API Reference](https://docs.kontent.ai/reference/content-management-api-v1).
 
 ## Prerequisites
 
-To manage content in a Kentico Kontent project via the Content Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Content Management API](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#section-enabling-the-api-for-your-project).
+To manage content in a Kentico Kontent project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
 
-You also need to prepare the structure of your Kentico Kontent project before importing your content. This means defining the [Content types](https://help.kenticocloud.com/define-content-structure/structure/creating-and-deleting-content-types) of the items you want to import. You might also need to set up your [Languages](https://help.kenticocloud.com/multilingual-content#managing-languages), [Taxonomy](https://help.kenticocloud.com/categorize-content/working-with-taxonomy) or [Sitemap locations](https://help.kenticocloud.com/categorize-content/using-a-sitemap) (if you plan to use them).
+You also need to prepare the structure of your Kentico Kontent project before importing your content. This means defining the [Content types](https://docs.kontent.ai/tutorials/set-up-projects/define-content-models/creating-and-deleting-content-types) of the items you want to import. You might also need to set up your [Languages](https://docs.kontent.ai/tutorials/set-up-projects/set-up-languages/localization-in-kentico-kontent), [Taxonomy](https://docs.kontent.ai/tutorials/set-up-projects/define-content-models/organizing-your-content-with-taxonomies#a-getting-organized-with-taxonomies-for-release-publishing) or [Sitemap locations](https://docs.kontent.ai/tutorials/develop-apps/optimize-for-the-web/optimizing-content-for-search-engines#a-sitemaps) (if you plan to use them).
 
 ## Using the ContentManagementClient
 
 The `ContentManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kentico Kontent projects.
 
-To create an instance of the class, you need to provide a [project ID](https://developer.kenticocloud.com/v1/docs/getting-content#section-getting-content-items) and a valid [Content Management API Key](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#section-enabling-the-api-for-your-project).
+To create an instance of the class, you need to provide a [project ID](https://docs.kontent.ai/tutorials/develop-apps/get-content/getting-content#a-getting-content-items) and a valid [Management API Key](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
 
 ```csharp
 ContentManagementOptions options = new ContentManagementOptions
@@ -58,7 +56,7 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-
 
 ### Strongly-typed models of your content
 
-The `ContentManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/cloud-generators-net).
+The `ContentManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net).
 
 ```csharp
 // Elements to update
@@ -98,12 +96,12 @@ Importing content items is a 2 step process, using 2 separate methods:
 1. Creating an empty content item which serves as a wrapper for your content.
 1. Adding content inside a language variant of the content item.
 
-Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kentico Kontent](https://developer.kenticocloud.com/v1/docs/importing-to-kentico-cloud#section-importing-your-content) for a more detailed explanation.
+Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kentico Kontent](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-importing-your-content) for a more detailed explanation.
 
 #### 1. Creating a content item
 
 ```csharp
-// Creates an instance of the Content Management client
+// Creates an instance of the Management client
 ContentManagementClient client = new ContentManagementClient(options);
 
 // Defines the content item to import
@@ -157,7 +155,7 @@ ContentItemVariantModel<ArticleModel> response = await client.UpsertContentItemV
 
 ### Importing assets
 
-Importing assets using the Content Management API is usually a 2-step process:
+Importing assets using the Management API is usually a 2-step process:
 
 1. Uploading a file to Kentico Kontent.
 1. Creating a new asset using the given file reference.
@@ -521,7 +519,7 @@ client.DeleteAssetAsync(identifier);
 
 ### Helper Methods
 
-Methods for building links to content items and their elements in Kentico Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/KenticoCloud.ContentManagement.Helpers/).
+Methods for building links to content items and their elements in Kentico Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers/).
 
 #### Getting an edit link for a content item
 
@@ -537,7 +535,7 @@ string languageCodename = "en-US";
 var linkBuilder = new EditLinkBuilder(options);
 var result = linkBuilder.BuildEditItemUrl(languageCodename, itemId);
 
-// Result is "https://app.kenticocloud.com/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
+// Result is "https://app.kontent.ai/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
 // variant-codename/en-US/item/8ceeb2d8-9676-48ae-887d-47ccb0f54a79"
 ```
 
@@ -556,7 +554,7 @@ var elementIdentifier = new ElementIdentifier(itemId, "single-Element-Codename")
 var linkBuilder = new EditLinkBuilder(options);
 var result = linkBuilder.BuildEditItemUrl(languageCodename, elementIdentifier);
 
-// Result is "https://app.kenticocloud.com/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
+// Result is "https://app.kontent.ai/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
 // variant-codename/en-US/item/8ceeb2d8-9676-48ae-887d-47ccb0f54a79/element/single-Element-Codename"
 ```
 
@@ -580,7 +578,7 @@ var elements = new ElementIdentifier[]
 var linkBuilder = new EditLinkBuilder(options);
 var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 
-// Result is "https://app.kenticocloud.com/goto/edit-item/"
+// Result is "https://app.kontent.ai/goto/edit-item/"
 //    project/bb6882a0-3088-405c-a6ac-4a0da46810b0/variant-codename/en-US/
 //    item/76c06b74-bae9-4732-b629-1a59395e893d/element/some-Element-Codename-1/
 //    item/326c63aa-ae71-40b7-a6a8-56455b0b9751/element/some-Element-Codename-2/
@@ -593,7 +591,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 
 ### How to configure Source Link
 
-1. Open a solution with a project referencing the KenticoCloud.Delivery (or KenticoCloud.Delivery.RX) Nuget package.
+1. Open a solution with a project referencing the Kentico.Kontent.Delivery (or Kentico.Kontent.Delivery.RX) Nuget package.
 2. Open Tools -> Options -> Debugging -> General.
     * Clear **Enable Just My Code**.
     * Select **Enable Source Link Support**.
@@ -601,7 +599,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 3. Build your solution.
 4. [Add a symbol server `https://symbols.nuget.org/download/symbols`](https://blog.nuget.org/20181116/Improved-debugging-experience-with-the-NuGet-org-symbol-server-and-snupkg.html)
   * ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
-5. Run a debugging session and try to step into the KenticoCloud.Delivery code.
+5. Run a debugging session and try to step into the Kentico.Kontent.Delivery code.
 6. Allow Visual Studio to download the source code from GitHub.
   * ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
 
@@ -609,7 +607,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 
 ## Further information
 
-For more developer resources, visit the Kentico Kontent Developer Hub at <https://developer.kenticocloud.com>.
+For more developer resources, visit the Kentico Kontent Developer Hub at <https://docs.kontent.ai>.
 
 ### Building the sources
 
