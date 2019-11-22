@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.161
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Kontent.Management", "Kentico.Kontent.Management\Kentico.Kontent.Management.csproj", "{3F7CE0EF-5E4C-4380-A4BF-14F34E7E6711}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Kontent.Management.Tests", "Kentico.Kontent.Management.Tests\Kentico.Kontent.Management.Tests.csproj", "{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Kontent.Management.Helpers", "Kentico.Kontent.Management.Helpers\Kentico.Kontent.Management.Helpers.csproj", "{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Kontent.Management.Helpers.Tests", "Kentico.Kontent.Management.Helpers.Tests\Kentico.Kontent.Management.Helpers.Tests.csproj", "{A320E9B4-77D3-4567-B753-DE12AD4DBD94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F7CE0EF-5E4C-4380-A4BF-14F34E7E6711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F7CE0EF-5E4C-4380-A4BF-14F34E7E6711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F7CE0EF-5E4C-4380-A4BF-14F34E7E6711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F7CE0EF-5E4C-4380-A4BF-14F34E7E6711}.Release|Any CPU.Build.0 = Release|Any CPU
+		{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{296EA7E5-2B55-48D3-B0B5-6FFB5390FEB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A320E9B4-77D3-4567-B753-DE12AD4DBD94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC15DE85-A035-476F-AE59-33B38AB917C4}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,30 @@
+{
+  "Version": {
+    "Major": 2,
+    "Minor": 0,
+    "Build": -1,
+    "Revision": -1,
+    "MajorRevision": -1,
+    "MinorRevision": -1
+  },
+  "Content": null,
+  "Method": {
+    "Method": "GET"
+  },
+  "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5/variants",
+  "Headers": [
+    {
+      "Key": "Authorization",
+      "Value": [
+        "Bearer {API_KEY}"
+      ]
+    },
+    {
+      "Key": "X-KC-SDKID",
+      "Value": [
+        "nuget.org;Kentico.Kontent.Management;{SDK_ID}"
+      ]
+    }
+  ],
+  "Properties": {}
+}
