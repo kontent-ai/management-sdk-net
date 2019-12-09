@@ -1,0 +1,145 @@
+{
+  "Version": {
+    "Major": 1,
+    "Minor": 1,
+    "Build": -1,
+    "Revision": -1,
+    "MajorRevision": -1,
+    "MinorRevision": -1
+  },
+  "Content": {
+    "Headers": [
+      {
+        "Key": "Content-Length",
+        "Value": [
+          "23568"
+        ]
+      },
+      {
+        "Key": "Content-Type",
+        "Value": [
+          "application/json; charset=utf-8"
+        ]
+      }
+    ]
+  },
+  "StatusCode": 200,
+  "ReasonPhrase": "OK",
+  "Headers": [
+    {
+      "Key": "Connection",
+      "Value": [
+        "keep-alive"
+      ]
+    },
+    {
+      "Key": "Date",
+      "Value": [
+        "Mon, 09 Dec 2019 09:47:43 GMT"
+      ]
+    },
+    {
+      "Key": "Via",
+      "Value": [
+        "1.1 varnish"
+      ]
+    },
+    {
+      "Key": "Accept-Ranges",
+      "Value": [
+        "bytes"
+      ]
+    },
+    {
+      "Key": "Server",
+      "Value": [
+        "Microsoft-IIS/10.0"
+      ]
+    },
+    {
+      "Key": "x-continuation",
+      "Value": [
+        ""
+      ]
+    },
+    {
+      "Key": "X-KC-Backend-Name",
+      "Value": [
+        "eu-01"
+      ]
+    },
+    {
+      "Key": "Request-Context",
+      "Value": [
+        "appId=cid-v1:74c4cbc5-b55a-433a-8fa9-c5909b7039d7"
+      ]
+    },
+    {
+      "Key": "Access-Control-Expose-Headers",
+      "Value": [
+        "Request-Context"
+      ]
+    },
+    {
+      "Key": "X-Powered-By",
+      "Value": [
+        "ASP.NET"
+      ]
+    },
+    {
+      "Key": "X-Served-By",
+      "Value": [
+        "cache-vie21646-VIE"
+      ]
+    },
+    {
+      "Key": "X-Cache",
+      "Value": [
+        "MISS"
+      ]
+    },
+    {
+      "Key": "X-Cache-Hits",
+      "Value": [
+        "0"
+      ]
+    },
+    {
+      "Key": "X-Timer",
+      "Value": [
+        "S1575884864.701278,VS0,VE39"
+      ]
+    }
+  ],
+  "RequestMessage": {
+    "Version": {
+      "Major": 1,
+      "Minor": 1,
+      "Build": -1,
+      "Revision": -1,
+      "MajorRevision": -1,
+      "MinorRevision": -1
+    },
+    "Content": null,
+    "Method": {
+      "Method": "GET"
+    },
+    "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/assets?continuationToken=MTAw",
+    "Headers": [
+      {
+        "Key": "Authorization",
+        "Value": [
+          "Bearer {API_KEY}"
+        ]
+      },
+      {
+        "Key": "X-KC-SDKID",
+        "Value": [
+          "nuget.org;Kentico.Kontent.Management;{SDK_ID}"
+        ]
+      }
+    ],
+    "Properties": {}
+  },
+  "IsSuccessStatusCode": true
+}
