@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Tests.Data
 {
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     internal class ComplexTestModel
     {
         [JsonProperty("title")]
