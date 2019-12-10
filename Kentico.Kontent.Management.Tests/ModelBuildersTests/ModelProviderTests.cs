@@ -46,7 +46,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
         private static void AssertElements(ComplexTestModel expected, ComplexTestModel actual)
         {
-            AssertIdentifiers(expected.TeaserImage.Select(x=>x.Id.Value), actual.TeaserImage.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.TeaserImage.Select(x => x.Id.Value), actual.TeaserImage.Select(x => x.Id.Value));
             Assert.Equal(expected.PostDate, actual.PostDate);
             Assert.Equal(expected.UrlPattern, actual.UrlPattern);
             AssertIdentifiers(expected.RelatedArticles?.Select(x => x.Id.Value), actual.RelatedArticles?.Select(x => x.Id.Value));
@@ -74,8 +74,11 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
         private static dynamic ToDynamic(object value)
         {
-            var serialized = JsonConvert.SerializeObject(value);
-            return JsonConvert.DeserializeObject<dynamic>(serialized, new JsonSerializerSettings{Converters = new JsonConverter[] {new DynamicObjectJsonConverter()}});
+            var serialized = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            return JsonConvert.DeserializeObject<dynamic>(serialized, new JsonSerializerSettings { Converters = new JsonConverter[] { new DynamicObjectJsonConverter() } });
         }
 
         private static void AssertElements(IDictionary<string, object> expected, IDictionary<string, object> actual)

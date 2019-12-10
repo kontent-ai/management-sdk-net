@@ -54,7 +54,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             var nameMapping = PropertyMapper.GetNameMapping(type);
 
             var elements = type.GetProperties()
-                .Where(x => (x.GetMethod?.IsPublic ?? false) && nameMapping.ContainsKey(x.Name))
+                .Where(x => (x.GetMethod?.IsPublic ?? false) && nameMapping.ContainsKey(x.Name) && x.GetValue(variantElements) != null)
                 .ToDictionary(x => nameMapping[x.Name], x => x.GetValue(variantElements));
 
             var result = new ContentItemVariantUpsertModel
