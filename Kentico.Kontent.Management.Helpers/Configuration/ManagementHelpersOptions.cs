@@ -6,9 +6,9 @@
     public class ManagementHelpersOptions
     {
         /// <summary>
-        /// Gets or sets the Admin URL. Optional, defaults to "https://app.kenticocloud.com/{0}".
+        /// Gets or sets the Admin URL. Optional, defaults to "https://app.kontent.ai/{0}".
         /// </summary>
-        public string AdminUrl { get; set; } = "https://app.kenticocloud.com/{0}";
+        public string AdminUrl { get; set; } = "https://app.kontent.ai/{0}";
 
         /// <summary>
         /// Gets or sets the Project identifier.

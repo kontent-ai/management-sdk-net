@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Helpers.Tests
             var underTest = new EditLinkBuilder(DefaultOptions);
             var result = underTest.BuildEditItemUrl(_language, _itemId);
 
-            var expected = "https://app.kenticocloud.com/goto/edit-item/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43/variant-codename/some-Language-Codename/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9";
+            var expected = "https://app.kontent.ai/goto/edit-item/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43/variant-codename/some-Language-Codename/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9";
             Assert.Equal(expected, result);
         }
 
@@ -99,7 +99,7 @@ namespace Kentico.Kontent.Management.Helpers.Tests
             var underTest = new EditLinkBuilder(DefaultOptions);
             var result = underTest.BuildEditItemUrl(_language, elementIdentifier);
 
-            var expected = "https://app.kenticocloud.com/goto/edit-item/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43/variant-codename/some-Language-Codename/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9/element/single-element-Codename";
+            var expected = "https://app.kontent.ai/goto/edit-item/project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43/variant-codename/some-Language-Codename/item/1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9/element/single-element-Codename";
             Assert.Equal(expected, result);
         }
 
@@ -117,7 +117,7 @@ namespace Kentico.Kontent.Management.Helpers.Tests
             var underTest = new EditLinkBuilder(DefaultOptions);
             var result = underTest.BuildEditItemUrl(_language, elements);
 
-            var expected = "https://app.kenticocloud.com/goto/edit-item/" +
+            var expected = "https://app.kontent.ai/goto/edit-item/" +
                 "project/14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43/variant-codename/some-Language-Codename/" +
                 "item/76c06b74-bae9-4732-b629-1a59395e893d/element/some-Element-Codename-1/" +
                 "item/326c63aa-ae71-40b7-a6a8-56455b0b9751/element/some-Element-Codename-2/" +

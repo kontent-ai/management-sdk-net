@@ -1,9 +1,12 @@
 # Kentico Kontent Management .NET SDK
 
 [![Build status](https://ci.appveyor.com/api/projects/status/6b3tt1kc3ogmcav3/branch/master?svg=true)](https://ci.appveyor.com/project/kentico/content-management-sdk-net/branch/master)
-[![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)
-[![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-kontent)
+
+| Package        | Version  | Downloads | Documentation |
+| ------------- |:-------------:| :-------------:|  :-------------:|
+| Management SDK | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [📖](#using-the-contentmanagementclient) |
+| Content Item Edit-URL Builder  | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [📖](#helper-methods) |
 
 ## Summary
 
@@ -21,24 +24,24 @@ To manage content in a Kentico Kontent project via the Management API, you first
 
 You also need to prepare the structure of your Kentico Kontent project before importing your content. This means defining the [Content types](https://docs.kontent.ai/tutorials/set-up-projects/define-content-models/creating-and-deleting-content-types) of the items you want to import. You might also need to set up your [Languages](https://docs.kontent.ai/tutorials/set-up-projects/set-up-languages/localization-in-kentico-kontent), [Taxonomy](https://docs.kontent.ai/tutorials/set-up-projects/define-content-models/organizing-your-content-with-taxonomies#a-getting-organized-with-taxonomies-for-release-publishing) or [Sitemap locations](https://docs.kontent.ai/tutorials/develop-apps/optimize-for-the-web/optimizing-content-for-search-engines#a-sitemaps) (if you plan to use them).
 
-## Using the ContentManagementClient
+## Using the ManagementClient
 
-The `ContentManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kentico Kontent projects.
+The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kentico Kontent projects.
 
 To create an instance of the class, you need to provide a [project ID](https://docs.kontent.ai/tutorials/develop-apps/get-content/getting-content#a-getting-content-items) and a valid [Management API Key](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
 
 ```csharp
-ContentManagementOptions options = new ContentManagementOptions
+ManagementOptions options = new ManagementOptions
 {
     ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
     ApiKey = "ew0...1eo"
 };
 
-// Initializes an instance of the ContentManagementClient client
-ContentManagementClient client = new ContentManagementClient(options);
+// Initializes an instance of the ManagementClient client
+ManagementClient client = new ManagementClient(options);
 ```
 
-Once you create a `ContentManagementClient`, you can start managing content in your project by calling methods on the client instance. See [Importing content items](#importing-content-items) for details.
+Once you create a `ManagementClient`, you can start managing content in your project by calling methods on the client instance. See [Importing content items](#importing-content-items) for details.
 
 ### Codename vs. ID vs. External ID
 
@@ -56,7 +59,7 @@ ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-
 
 ### Strongly-typed models of your content
 
-The `ContentManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net).
+The `ManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net).
 
 ```csharp
 // Elements to update
@@ -102,7 +105,7 @@ Each content item can consist of several localized variants. **The content itsel
 
 ```csharp
 // Creates an instance of the Management client
-ContentManagementClient client = new ContentManagementClient(options);
+ManagementClient client = new ManagementClient(options);
 
 // Defines the content item to import
 ContentItemCreateModel item = new ContentItemCreateModel()
@@ -524,7 +527,7 @@ Methods for building links to content items and their elements in Kentico Konten
 #### Getting an edit link for a content item
 
 ```csharp
-var options = new ContentManagementHelpersOptions
+var options = new ManagementHelpersOptions
 {
     ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
 };
@@ -542,7 +545,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, itemId);
 #### Getting an edit link for a specific content element
 
 ```csharp
-var options = new ContentManagementHelpersOptions
+var options = new ManagementHelpersOptions
 {
     ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
 };
@@ -561,7 +564,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elementIdentifier);
 #### Getting an edit link for multiple content elements
 
 ```csharp
-var options = new ContentManagementHelpersOptions
+var options = new ManagementHelpersOptions
 {
     ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
 };
