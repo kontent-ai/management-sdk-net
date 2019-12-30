@@ -5,7 +5,7 @@
 
 | Package        | Version  | Downloads | Documentation |
 | ------------- |:-------------:| :-------------:|  :-------------:|
-| Management SDK | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [📖](#using-the-contentmanagementclient) |
+| Management SDK | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [📖](#using-the-managementclient) |
 | Content Item Edit-URL Builder  | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [📖](#helper-methods) |
 
 ## Summary
