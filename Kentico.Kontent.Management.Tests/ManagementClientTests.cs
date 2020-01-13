@@ -1017,7 +1017,7 @@ namespace Kentico.Kontent.Management.Tests
 
             Assert.NotEqual(Guid.Empty, fileId);
 
-            var spanishDescription = "Spanish descriptión";
+            var spanishDescription = "Spanish descriptiÃ³n";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
             var descriptions = new[] { assetDescription };
@@ -1055,7 +1055,7 @@ namespace Kentico.Kontent.Management.Tests
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 
-            var spanishDescription = "Spanish descriptión";
+            var spanishDescription = "Spanish descriptiÃ³n";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
             var descriptions = new[] { assetDescription };
@@ -1118,7 +1118,7 @@ namespace Kentico.Kontent.Management.Tests
 
             var externalId = "5bec7f21ad2e44bb8a3a1f4a6a5bf8ca";
 
-            var spanishDescription = "Spanish descriptión";
+            var spanishDescription = "Spanish descriptiÃ³n";
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
             var descriptions = new[] { assetDescription };
@@ -1151,7 +1151,7 @@ namespace Kentico.Kontent.Management.Tests
             var updatedDescription = new AssetDescription()
             {
                 Language = LanguageIdentifier.DEFAULT_LANGUAGE,
-                Description = "Dancing Goat Café - Los Angeles - UPDATED",
+                Description = "Dancing Goat CafÃ© - Los Angeles - UPDATED",
             };
             var update = new AssetUpdateModel() { Descriptions = new[] { updatedDescription }, Title = title };
 

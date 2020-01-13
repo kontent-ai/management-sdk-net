@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Converters;
 
 namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
@@ -18,7 +19,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
         private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
-            Converters = new List<JsonConverter> { new DecimalObjectConverter() }
+            Converters = new List<JsonConverter> { new DecimalObjectConverter(), new StringEnumConverter() }
         };
 
         private JsonSerializerSettings _deserializeSettings = new JsonSerializerSettings
