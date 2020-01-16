@@ -8,10 +8,23 @@
     "MinorRevision": -1
   },
   "Content": {
-    "Headers": []
+    "Headers": [
+      {
+        "Key": "Content-Length",
+        "Value": [
+          "303"
+        ]
+      },
+      {
+        "Key": "Content-Type",
+        "Value": [
+          "application/json; charset=utf-8"
+        ]
+      }
+    ]
   },
-  "StatusCode": 204,
-  "ReasonPhrase": "No Content",
+  "StatusCode": 200,
+  "ReasonPhrase": "OK",
   "Headers": [
     {
       "Key": "Connection",
@@ -88,7 +101,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1579172692.618885,VS0,VE218"
+        "S1579172691.120245,VS0,VE445"
       ]
     }
   ],
@@ -101,9 +114,24 @@
       "MajorRevision": -1,
       "MinorRevision": -1
     },
-    "Content": null,
+    "Content": {
+      "Headers": [
+        {
+          "Key": "Content-Type",
+          "Value": [
+            "application/json; charset=utf-8"
+          ]
+        },
+        {
+          "Key": "Content-Length",
+          "Value": [
+            "92"
+          ]
+        }
+      ]
+    },
     "Method": {
-      "Method": "DELETE"
+      "Method": "PUT"
     },
     "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/external-id/9d98959eeac446288992b44b5d366e16",
     "Headers": [

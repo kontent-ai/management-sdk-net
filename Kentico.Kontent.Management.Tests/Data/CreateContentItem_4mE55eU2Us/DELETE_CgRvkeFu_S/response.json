@@ -22,7 +22,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Thu, 16 Jan 2020 11:04:51 GMT"
+        "Thu, 16 Jan 2020 09:30:26 GMT"
       ]
     },
     {
@@ -70,7 +70,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-vie21634-VIE"
+        "cache-vie21650-VIE"
       ]
     },
     {
@@ -88,7 +88,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1579172692.618885,VS0,VE218"
+        "S1579167026.252124,VS0,VE393"
       ]
     }
   ],
@@ -105,7 +105,7 @@
     "Method": {
       "Method": "DELETE"
     },
-    "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/external-id/9d98959eeac446288992b44b5d366e16",
+    "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/codename/hooray_codename",
     "Headers": [
       {
         "Key": "Authorization",

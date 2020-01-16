@@ -8,10 +8,23 @@
     "MinorRevision": -1
   },
   "Content": {
-    "Headers": []
+    "Headers": [
+      {
+        "Key": "Content-Length",
+        "Value": [
+          "335"
+        ]
+      },
+      {
+        "Key": "Content-Type",
+        "Value": [
+          "application/json; charset=utf-8"
+        ]
+      }
+    ]
   },
-  "StatusCode": 204,
-  "ReasonPhrase": "No Content",
+  "StatusCode": 200,
+  "ReasonPhrase": "OK",
   "Headers": [
     {
       "Key": "Connection",
@@ -22,7 +35,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Thu, 16 Jan 2020 11:04:51 GMT"
+        "Thu, 16 Jan 2020 09:40:50 GMT"
       ]
     },
     {
@@ -70,7 +83,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-vie21634-VIE"
+        "cache-vie21651-VIE"
       ]
     },
     {
@@ -88,7 +101,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1579172692.618885,VS0,VE218"
+        "S1579167650.099329,VS0,VE453"
       ]
     }
   ],
@@ -101,11 +114,26 @@
       "MajorRevision": -1,
       "MinorRevision": -1
     },
-    "Content": null,
-    "Method": {
-      "Method": "DELETE"
+    "Content": {
+      "Headers": [
+        {
+          "Key": "Content-Type",
+          "Value": [
+            "application/json; charset=utf-8"
+          ]
+        },
+        {
+          "Key": "Content-Length",
+          "Value": [
+            "123"
+          ]
+        }
+      ]
     },
-    "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/external-id/9d98959eeac446288992b44b5d366e16",
+    "Method": {
+      "Method": "PUT"
+    },
+    "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/codename/which_brewing_fits_you_",
     "Headers": [
       {
         "Key": "Authorization",

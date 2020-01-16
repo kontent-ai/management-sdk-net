@@ -16,6 +16,12 @@ namespace Kentico.Kontent.Management.Models.Items
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets codename of the content item.
+        /// </summary>
+        [JsonProperty("codename")]
+        public string CodeName { get; set; }
+
+        /// <summary>
         /// Gets or sets type of the content item.
         /// </summary>
         [JsonProperty("type", Required = Required.Always)]
