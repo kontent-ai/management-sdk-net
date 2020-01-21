@@ -51,7 +51,7 @@ namespace Kentico.Kontent.Management.Tests
         protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6a372f43-ccd7-e524-6308-c2094e7b6596");
         protected const string EXISTING_TAXONOMY_TERM_CODENAME = "barista";
 
-        protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("45a123f3-1c55-c697-7dae-78369c8f1e2c");
+        protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("e52c65c6-de05-49be-bc54-2b352ef485f8");
         protected const string EXISTING_SITEMAP_NODE_CODENAME = "articles";
 
         protected static dynamic _elements = new
