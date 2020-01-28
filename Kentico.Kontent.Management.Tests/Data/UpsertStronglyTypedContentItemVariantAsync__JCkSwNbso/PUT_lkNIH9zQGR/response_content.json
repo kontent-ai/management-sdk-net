@@ -18,6 +18,11 @@
     ],
     "meta_description": "",
     "url_pattern": "on-roasts",
+    "sitemap": [
+      {
+        "id": "7ca9b56c-6379-46dc-ae90-3df4b9abd217"
+      }
+    ],
     "metadata__meta_title": "Which brewing fits you?",
     "metadata__meta_description": "We have put down three procedures with clearly written steps describing the process of making coffee.",
     "metadata__og_title": "Which brewing fits you?",
@@ -43,5 +48,5 @@
   "language": {
     "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
   },
-  "last_modified": "2019-12-09T15:27:58.8283701Z"
+  "last_modified": "2020-01-21T16:46:41.1347997Z"
 }

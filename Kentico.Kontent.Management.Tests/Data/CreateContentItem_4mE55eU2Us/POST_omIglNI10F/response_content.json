@@ -1,0 +1,14 @@
+{
+  "id": "416c3a0a-90b0-4e99-8aff-ad2c0264e221",
+  "name": "Hooray!",
+  "codename": "hooray_codename",
+  "type": {
+    "id": "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89"
+  },
+  "sitemap_locations": [
+    {
+      "id": "e52c65c6-de05-49be-bc54-2b352ef485f8"
+    }
+  ],
+  "last_modified": "2020-01-21T16:23:02.4814125Z"
+}

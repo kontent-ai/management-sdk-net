@@ -20,7 +20,7 @@
   "Method": {
     "Method": "PUT"
   },
-  "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5/variants/d1f95fde-af02-b3b5-bd9e-f232311ccab8",
+  "RequestUri": "https://manage.kontent.ai/projects/{PROJECT_ID}/items/028f0e05-9f17-45be-962d-62bebe6b6f53",
   "Headers": [
     {
       "Key": "Authorization",
