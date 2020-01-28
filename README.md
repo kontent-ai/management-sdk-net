@@ -629,6 +629,10 @@ Optional:
 * [Visual Studio 2017](https://www.visualstudio.com/vs/) for full experience
 * or [Visual Studio Code](https://code.visualstudio.com/)
 
+### Creating a new release
+
+[Release & version management](https://github.com/Kentico/kontent-management-sdk-net/wiki/Release-&-version-management)
+
 ## Feedback & Contributing
 
 Check out the [contributing](https://github.com/Kentico/content-management-sdk-net/blob/master/CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
