@@ -10,10 +10,9 @@ namespace Kentico.Kontent.Management.Tests
     public class EndpointUrlBuilderTests
     {
         private const string PROJECT_ID = "bb6882a0-3088-405c-a6ac-4a0da46810b0";
-        private const string API_KEY = "SomeFancyApiKey";
         private const string ENDPOINT = "https://manage.kontent.ai";
 
-        private static ManagementOptions OPTIONS = new ManagementOptions() { ProjectId = PROJECT_ID };
+        private static readonly ManagementOptions OPTIONS = new ManagementOptions() { ProjectId = PROJECT_ID };
 
         private static Guid ITEM_ID = Guid.Parse("b444004b-a4c4-43e3-94e0-d5bbd49d6cb8");
         private const string ITEM_CODENAME = "{ITEM_CODENAME}";
@@ -23,7 +22,7 @@ namespace Kentico.Kontent.Management.Tests
         private static Guid VARIANT_ID = Guid.Parse("5a64af00-a98d-4d2e-adb6-45120cbc0242");
         private const string VARIANT_CODENAME = "{VARIANT_CODENAME}";
 
-        private EndpointUrlBuilder _builder;
+        private readonly EndpointUrlBuilder _builder;
 
         public EndpointUrlBuilderTests()
         {

@@ -3,6 +3,7 @@ using System.Linq;
 
 using Kentico.Kontent.Management.Helpers.Configuration;
 using Kentico.Kontent.Management.Helpers.Models;
+using Microsoft.Extensions.Options;
 
 namespace Kentico.Kontent.Management.Helpers
 {
@@ -15,30 +16,52 @@ namespace Kentico.Kontent.Management.Helpers
         private const string URL_TEMPLATE_EDIT_ITEM_ELEMENT = "goto/edit-item/project/{0}/variant-codename/{1}/{2}";
         private const string ITEM_ELEMENT_SEGMENT = "item/{0}/element/{1}";
 
-        private readonly ManagementHelpersOptions _options;
+        private ManagementHelpersOptions managementHelpersOptions;
+        private readonly IOptionsMonitor<ManagementHelpersOptions> managementHelpersOptionsMonitor;
+
+        private ManagementHelpersOptions ManagementHelpersOptions
+        {
+            get
+            {
+                return managementHelpersOptionsMonitor != null ? managementHelpersOptionsMonitor.CurrentValue : managementHelpersOptions;
+            }
+            set
+            {
+                managementHelpersOptions = value;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
         /// </summary>
-        /// <param name="ManagementHelpersOptions">The settings of the Kentico Kontent project.</param>
-        public EditLinkBuilder(ManagementHelpersOptions ManagementHelpersOptions)
+        /// <param name="managementHelpersOptions">The settings of the Kentico Kontent project.</param>
+        public EditLinkBuilder(ManagementHelpersOptions managementHelpersOptions)
         {
-            if (string.IsNullOrEmpty(ManagementHelpersOptions.AdminUrl))
+            if (string.IsNullOrEmpty(managementHelpersOptions.AdminUrl))
             {
-                throw new ArgumentException("Kentico Kontent Edit App endpoint is not specified.", nameof(ManagementHelpersOptions.AdminUrl));
+                throw new ArgumentException("Kentico Kontent Edit App endpoint is not specified.", nameof(managementHelpersOptions.AdminUrl));
             }
 
-            if (string.IsNullOrEmpty(ManagementHelpersOptions.ProjectId))
+            if (string.IsNullOrEmpty(managementHelpersOptions.ProjectId))
             {
-                throw new ArgumentException("Kentico Kontent project identifier is not specified.", nameof(ManagementHelpersOptions.ProjectId));
+                throw new ArgumentException("Kentico Kontent project identifier is not specified.", nameof(managementHelpersOptions.ProjectId));
             }
 
-            if (!Guid.TryParse(ManagementHelpersOptions.ProjectId, out Guid projectIdGuid))
+            if (!Guid.TryParse(managementHelpersOptions.ProjectId, out _))
             {
-                throw new ArgumentException($"Provided string is not a valid project identifier ({ManagementHelpersOptions.ProjectId}).", nameof(ManagementHelpersOptions.ProjectId));
+                throw new ArgumentException($"Provided string is not a valid project identifier ({managementHelpersOptions.ProjectId}).", nameof(managementHelpersOptions.ProjectId));
             }
 
-            _options = ManagementHelpersOptions;
+            ManagementHelpersOptions = managementHelpersOptions;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
+        /// </summary>
+        /// <param name="managementHelpersOptions">The settings of the Kentico Kontent project.</param>
+        public EditLinkBuilder(IOptionsMonitor<ManagementHelpersOptions> managementHelpersOptions)
+        {
+            this.managementHelpersOptionsMonitor = managementHelpersOptions;
         }
 
         /// <summary>
@@ -59,8 +82,8 @@ namespace Kentico.Kontent.Management.Helpers
                 throw new ArgumentException("Item is not specified.", nameof(itemId));
             }
 
-            return string.Format(_options.AdminUrl,
-                string.Format(URL_TEMPLATE_EDIT_ITEM, _options.ProjectId, language, itemId));
+            return string.Format(ManagementHelpersOptions.AdminUrl,
+                string.Format(URL_TEMPLATE_EDIT_ITEM, ManagementHelpersOptions.ProjectId, language, itemId));
         }
 
         /// <summary>
@@ -82,8 +105,8 @@ namespace Kentico.Kontent.Management.Helpers
             }
 
             var elements = string.Join("/", elementIdentifiers.Select(BuildSingleElementSegment));
-            return string.Format(_options.AdminUrl,
-                string.Format(URL_TEMPLATE_EDIT_ITEM_ELEMENT, _options.ProjectId, language, elements));
+            return string.Format(ManagementHelpersOptions.AdminUrl,
+                string.Format(URL_TEMPLATE_EDIT_ITEM_ELEMENT, ManagementHelpersOptions.ProjectId, language, elements));
         }
 
         private string BuildSingleElementSegment(ElementIdentifier elementIdentifier)
