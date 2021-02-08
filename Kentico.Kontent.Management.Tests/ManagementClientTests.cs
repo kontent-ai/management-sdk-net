@@ -29,7 +29,7 @@ namespace Kentico.Kontent.Management.Tests
         // New data recorded to file system with TestRunType.LiveEndPoint_SaveToFileSystem is placed to /bin/ folder
         // It needs to be synced to the /Data/ folder in the project
         // Copy to output directory = Copy always is automatically ensured by a wildcard in .csproj file
-        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.LiveEndPoint;
+        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.MockFromFileSystem;
 
 
         #region Helper methods and constants

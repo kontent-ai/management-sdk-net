@@ -354,7 +354,6 @@ namespace Kentico.Kontent.Management
         /// <returns>The <see cref="ListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
         public async Task<ListingResponseModel<AssetModel>> ListAssetsAsync()
         {
-            //var endpointUrl = _urlBuilder.BuildAssetListingUrl();
             var endpointUrl = _urlBuilderV2.BuildAssetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
