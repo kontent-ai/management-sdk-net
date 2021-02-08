@@ -29,7 +29,7 @@ namespace Kentico.Kontent.Management.Tests
         // New data recorded to file system with TestRunType.LiveEndPoint_SaveToFileSystem is placed to /bin/ folder
         // It needs to be synced to the /Data/ folder in the project
         // Copy to output directory = Copy always is automatically ensured by a wildcard in .csproj file
-        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.MockFromFileSystem;
+        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.LiveEndPoint;
 
 
         #region Helper methods and constants
@@ -971,6 +971,67 @@ namespace Kentico.Kontent.Management.Tests
             var response = await client.ListAssetsAsync();
             Assert.NotNull(response);
             Assert.NotNull(response.FirstOrDefault());
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_ListFolders()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_ListFolders));
+
+            var response = await client.GetAssetFoldersAsync();
+            Assert.NotNull(response);
+            Assert.True(response.Folders.Count() > 0);
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_GetFolderLinkedTree()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_GetFolderLinkedTree));
+
+            var response = await client.GetAssetFoldersAsync();
+            var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
+
+            Assert.NotNull(response);
+            Assert.True(response.Folders.Count() > 0);
+        }
+
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_GetFolderLinkedTreeSearchByFolderId()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_GetFolderLinkedTreeSearchByFolderId));
+
+            var response = await client.GetAssetFoldersAsync();
+            var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
+            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("a5d2b6cd-928b-4623-bc5e-f3f63112d8fc"); //Go one level deep
+            var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyById("52a474a9-606c-4157-8372-1a9edc5f3aeb"); //Go two levels deep
+            var result3 = linkedHierarchy.GetParentLinkedFolderHierarchyById("16a5bf3f-2600-4b97-822b-5e30092f5239"); //Go three levels deep
+            var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById("74bbdcc1-2591-4ba9-b9ee-f6027a8827b4"); //Go three levels deep
+            
+            Assert.NotNull(response);
+            Assert.NotNull(result);
+            Assert.NotNull(result2);
+            Assert.NotNull(result3);
+            Assert.NotNull(result4);
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_GetFolderPathString()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_GetFolderPathString));
+
+            var response = await client.GetAssetFoldersAsync();
+            var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
+            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("16a5bf3f-2600-4b97-822b-5e30092f5239"); //Go three levels deep
+            var pathString = result.GetFullFolderPath(); //Should be a folder path string \TopFolder\2ndFolder\3rdFolder (3 levels deep)
+
+            Assert.NotNull(response);
+            Assert.NotNull(result);
+            Assert.True(pathString == "\\TopFolder\\2ndFolder\\3rdFolder");
         }
 
         [Fact]

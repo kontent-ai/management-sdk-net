@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
@@ -13,7 +15,8 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
         /// <param name="method">The HTTP method.</param>
         /// <param name="url">The url as a string.</param>
         /// <param name="content">The HTTP content.</param>
+        /// <param name="headers">HTTP Headers (optional).</param>
         /// <returns></returns>
-        HttpRequestMessage CreateMessage(HttpMethod method, string url, HttpContent content = null);
+        HttpRequestMessage CreateMessage(HttpMethod method, string url, HttpContent content = null, Dictionary<string,string> headers = null);
     }
 }

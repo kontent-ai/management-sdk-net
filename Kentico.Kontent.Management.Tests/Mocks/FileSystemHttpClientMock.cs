@@ -4,6 +4,7 @@ using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -40,9 +41,10 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             IMessageCreator messageCreator,
             string endpointUrl,
             HttpMethod method,
-            HttpContent content = null)
+            HttpContent content = null,
+            Dictionary<string, string> headers = null)
         {
-            var message = messageCreator.CreateMessage(method, endpointUrl, content);
+            var message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
             var isFirst = _firstRequest;
             _firstRequest = false;
 

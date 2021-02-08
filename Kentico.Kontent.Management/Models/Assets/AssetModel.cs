@@ -69,5 +69,21 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }
+
+        /// <summary>
+        /// Image Height
+        /// </summary>
+        [JsonProperty("image_height")]
+        public int? ImageHeight { get; set; }
+        /// <summary>
+        /// Image WIdth
+        /// </summary>
+        [JsonProperty("image_width")]
+        public int? ImageWidth { get; set; }
+        /// <summary>
+        /// The referenced folder's ID. Not present if the asset is not in a folder.
+        /// </summary>
+        [JsonProperty("folder")]
+        public AssetFolder Folder { get; set; }
     }
 }

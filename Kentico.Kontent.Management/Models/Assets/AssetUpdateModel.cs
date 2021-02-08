@@ -20,5 +20,10 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         [JsonProperty("title")]
         public string Title { get; set; }
+        /// <summary>
+        /// Folder of the asset. If outside of all folders use "id" : "00000000-0000-0000-0000-000000000000".
+        /// </summary>
+        [JsonProperty("folder", Required = Required.Always)]
+        public AssetFolderIdentifier Folder { get; set; }
     }
 }

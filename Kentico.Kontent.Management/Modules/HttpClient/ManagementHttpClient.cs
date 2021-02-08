@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Kentico.Kontent.Management.Exceptions;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
@@ -39,7 +41,8 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             IMessageCreator messageCreator,
             string endpointUrl,
             HttpMethod method,
-            HttpContent requestContent = null)
+            HttpContent requestContent = null,
+            Dictionary<string, string> headers = null)
         {
             HttpResponseMessage response = null;
 
@@ -62,7 +65,7 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
                 // Use the resilience logic.
                 var policyResult = await _resiliencePolicyProvider.Policy.ExecuteAndCaptureAsync(() =>
                 {
-                    return SendHttpMessage(messageCreator, endpointUrl, method, requestContent);
+                    return SendHttpMessage(messageCreator, endpointUrl, method, requestContent, headers);
                 });
 
                 response = policyResult.FinalHandledResult ?? policyResult.Result;
@@ -70,7 +73,7 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             else
             {
                 // Omit using the resilience logic completely.
-                response = await SendHttpMessage(messageCreator, endpointUrl, method, requestContent);
+                response = await SendHttpMessage(messageCreator, endpointUrl, method, requestContent, headers);
             }
 
             if (response.IsSuccessStatusCode)
@@ -89,9 +92,11 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             IMessageCreator messageCreator,
             string endpointUrl,
             HttpMethod method,
-            HttpContent content)
+            HttpContent content,
+            Dictionary<string,string> headers)
         {
-            var message = messageCreator.CreateMessage(method, endpointUrl, content);
+            HttpRequestMessage message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
+
             return _httpClient.SendAsync(message);
         }
 
