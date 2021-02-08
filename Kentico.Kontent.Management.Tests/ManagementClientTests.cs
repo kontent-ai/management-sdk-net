@@ -1027,11 +1027,11 @@ namespace Kentico.Kontent.Management.Tests
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
             var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("16a5bf3f-2600-4b97-822b-5e30092f5239"); //Go three levels deep
-            var pathString = result.GetFullFolderPath(); //Should be a folder path string \TopFolder\2ndFolder\3rdFolder (3 levels deep)
+            var pathString = result.GetFullFolderPath(); //Should be a folder path string TopFolder\2ndFolder\3rdFolder (3 levels deep)
 
             Assert.NotNull(response);
             Assert.NotNull(result);
-            Assert.True(pathString == "\\TopFolder\\2ndFolder\\3rdFolder");
+            Assert.True(pathString == "TopFolder\\2ndFolder\\3rdFolder");
         }
 
         [Fact]
