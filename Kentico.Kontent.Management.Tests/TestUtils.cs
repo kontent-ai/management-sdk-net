@@ -8,10 +8,27 @@ namespace Kentico.Kontent.Management.Tests
 {
     public class TestUtils
     {
+        /// <summary>
+        /// Allows to define whether to run the data against the live endpoint or mocked data or whether to regenerate the mocks.
+        /// </summary>
         internal enum TestRunType
         {
+            /// <summary>
+            /// Runs the test against the live production Management API endpoint.
+            /// </summary>
             LiveEndPoint,
+
+            /// <summary>
+            /// Runs the test against the live production Management API endpoint and records the data in the /bin/ folder.
+            /// To use the newly generated data with the <see cref="TestRunType.MockFromFileSystem"/> configuration, 
+            /// it needs to be synced to the /Data/ folder in the project.
+            /// Copy to output directory = Copy always is automatically ensured by a wildcard in the .csproj file
+            /// </summary>
             LiveEndPoint_SaveToFileSystem,
+
+            /// <summary>
+            /// Runs the tests against data stored in the /Data/ folder in the file system.
+            /// </summary>
             MockFromFileSystem
         }
         

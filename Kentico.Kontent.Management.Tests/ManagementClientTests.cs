@@ -13,28 +13,41 @@ using Kentico.Kontent.Management.Exceptions;
 
 using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
+using Microsoft.Extensions.Configuration;
 
 namespace Kentico.Kontent.Management.Tests
 {
     public class ManagementClientTests
     {
-        // Tests configuration
-        // Project used should be a generated sample project because the tests rely on some existing data
-        // IMPORTANT: Never commit valid API_KEY - revoke it before commit.
+        #region Tests configuration
+
+        /// <summary>
+        /// ID of the project the test data are generated from.
+        /// </summary>
         private const string PROJECT_ID = "e38f8e94-7d3b-0062-77f5-a4bc505780d4";
-        private const string API_KEY = "ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjI5ZWE5MWM4NWZmYjQwNTJhYjk5MjQ3NWY0NzlhZDEzIiwNCiAgImlhdCI6ICIxNTc0NDQ1NjEwIiwNCiAgImV4cCI6ICIxOTIwMDQ1NjEwIiwNCiAgInByb2plY3RfaWQiOiAiZTM4ZjhlOTQ3ZDNiMDA2Mjc3ZjVhNGJjNTA1NzgwZDQiLA0KICAidmVyIjogIjIuMS4wIiwNCiAgInVpZCI6ICJ1c3JfMHZQS2xSNFVpMjY1TW1NQWtmNGp1eSIsDQogICJhdWQiOiAibWFuYWdlLmtlbnRpY29jbG91ZC5jb20iDQp9.vhtFVYRgBjvJaUeS_HfqmK462LRBDLflN4nLniMdog8";
 
-        // Change run type based on the desired test behavior
-        // IMPORTANT: Commit always with TestRunType.MockFromFileSystem
-        // New data recorded to file system with TestRunType.LiveEndPoint_SaveToFileSystem is placed to /bin/ folder
-        // It needs to be synced to the /Data/ folder in the project
-        // Copy to output directory = Copy always is automatically ensured by a wildcard in .csproj file
-        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.MockFromFileSystem;
+        private readonly ManagementOptions _options;
 
+        /// <summary>
+        /// Allows to adjust the test run type to achieve the desired behavior (see the <see cref="TestUtils.TestRunType"/> enum for more details).
+        /// IMPORTANT: Commit always with TestRunType.MockFromFileSystem
+        /// </summary>
+        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem;
+
+        public ManagementClientTests()
+        {
+            // Load configuration from user secrets
+            var configuration = new ConfigurationBuilder()
+                .AddUserSecrets<ManagementClientTests>()
+                .Build();
+
+            // Configurations with TestRunType.LiveEndpoint* require the ApiKey property set in the user secrets
+            _options = new ManagementOptions() { ApiKey = configuration.GetValue<string>("ApiKey"), ProjectId = PROJECT_ID };
+        }
+
+        #endregion
 
         #region Helper methods and constants
-
-        private static readonly ManagementOptions _options = new ManagementOptions() { ApiKey = API_KEY, ProjectId = PROJECT_ID };
 
         // Test constants, existing data references leverage the Dancing Goat sample site project that is generated for everyone
         protected static Guid EXISTING_ITEM_ID = Guid.Parse("3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5");
@@ -1349,7 +1362,7 @@ namespace Kentico.Kontent.Management.Tests
 
             var project = new Project
             {
-                Id = PROJECT_ID,
+                Id = _options.ProjectId,
                 Name = "Sample Project"
             };
 
