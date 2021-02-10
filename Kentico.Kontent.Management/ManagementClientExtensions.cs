@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Kentico.Kontent.Management.Models.Assets;
@@ -128,7 +129,7 @@ namespace Kentico.Kontent.Management
 
             return response;
         }
-        
+
         /// <summary>
         /// Creates or updates the given asset.
         /// </summary>
@@ -218,6 +219,113 @@ namespace Kentico.Kontent.Management
             {
                 asset.Title = updatedAsset.Title;
             }
+        }
+
+        /// <summary>
+        /// Get Folder Hiearchy for a given folder Id
+        /// </summary>
+        /// <param name="folders">Folders</param>
+        /// <param name="folderId">Folder Id</param>
+        /// <returns></returns>
+        public static IEnumerable<AssetFolderHierarchy> GetFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders, string folderId)
+        {
+            if (folders == null)
+            {
+                return null;
+            }
+            // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
+            var folderList = new List<AssetFolderHierarchy>();
+            foreach (var itm in folders)
+            {
+                if (itm.Id == folderId)
+                {
+                    folderList.Add(itm);
+                }
+                if (itm.Folders != null)
+                {
+                    itm.Folders.GetFolderHierarchy(folderId);
+                }
+            }
+            return folderList;
+        }
+
+        /// <summary>
+        /// Gets the full folder path string
+        /// </summary>
+        /// <param name="folder">Folder</param>
+        /// <returns></returns>
+        public static string GetFullFolderPath(this AssetFolderLinkingHierarchy folder)
+        {
+            List<string> folderName = new List<string>();
+            if (folder.Parent != null)
+            {
+                folderName.Add(GetFullFolderPath(folder.Parent));
+            }
+            folderName.Add(folder.Name);
+            return string.Join("\\", folderName);
+        }
+
+        /// <summary>
+        /// Gets the full path to a specific folder id so you can walk back up the parent linking tree
+        /// </summary>
+        /// <param name="folders">Folder</param>
+        /// <param name="folderId">Folder Id</param>
+        /// <returns></returns>
+        public static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(this IEnumerable<AssetFolderLinkingHierarchy> folders, string folderId)
+        {
+            if (folders == null)
+            {
+                return null;
+            }
+            foreach (var folder in folders)
+            {
+                if (folder.Id == folderId)
+                {
+                    return folder;
+                }
+                else if (folder.Folders != null && folder.Folders.Count() > 0)
+                {
+                    var nestedFolder = folder.Folders.GetParentLinkedFolderHierarchyById(folderId);
+                    if (nestedFolder != null)
+                    {
+                        return nestedFolder;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves a recursive linked list of folders with the parent property filled in
+        /// </summary>
+        /// <param name="folders">Folder list from Kentico Kontent</param>
+        /// <param name="parentLinked">Parent linked folder</param>
+        /// <returns></returns>
+        public static IEnumerable<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders,
+            AssetFolderLinkingHierarchy parentLinked = null)
+        {
+            // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
+            var folderList = new List<AssetFolderLinkingHierarchy>();
+            foreach (var itm in folders)
+            {
+                var newFolder = new AssetFolderLinkingHierarchy()
+                {
+                    ExternalId = itm.ExternalId,
+                    Folders = (itm.Folders != null && itm.Folders.Count() > 0) ? new List<AssetFolderLinkingHierarchy>() : null,
+                    Id = itm.Id,
+                    Name = itm.Name
+                };
+                if (itm.Folders != null)
+                {
+                    newFolder.Folders = itm.Folders.GetParentLinkedFolderHierarchy(newFolder);
+                }
+                if (parentLinked != null)
+                {
+                    newFolder.Parent = parentLinked;
+                }
+                folderList.Add(newFolder);
+            }
+            return folderList;
         }
     }
 }

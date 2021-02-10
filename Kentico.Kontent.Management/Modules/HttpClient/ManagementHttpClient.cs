@@ -1,19 +1,17 @@
 using System;
-using System.Net;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Kentico.Kontent.Management.Exceptions;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
-using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
-using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Modules.HttpClient
 {
     internal class ManagementHttpClient : IManagementHttpClient
     {
-        private IHttpClient _httpClient;
-        private IResiliencePolicyProvider _resiliencePolicyProvider;
+        private readonly IHttpClient _httpClient;
+        private readonly IResiliencePolicyProvider _resiliencePolicyProvider;
         private readonly bool _enableResilienceLogic;
 
         public ManagementHttpClient(
@@ -39,7 +37,8 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             IMessageCreator messageCreator,
             string endpointUrl,
             HttpMethod method,
-            HttpContent requestContent = null)
+            HttpContent requestContent = null,
+            Dictionary<string, string> headers = null)
         {
             HttpResponseMessage response = null;
 
@@ -62,7 +61,7 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
                 // Use the resilience logic.
                 var policyResult = await _resiliencePolicyProvider.Policy.ExecuteAndCaptureAsync(() =>
                 {
-                    return SendHttpMessage(messageCreator, endpointUrl, method, requestContent);
+                    return SendHttpMessage(messageCreator, endpointUrl, method, requestContent, headers);
                 });
 
                 response = policyResult.FinalHandledResult ?? policyResult.Result;
@@ -70,7 +69,7 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             else
             {
                 // Omit using the resilience logic completely.
-                response = await SendHttpMessage(messageCreator, endpointUrl, method, requestContent);
+                response = await SendHttpMessage(messageCreator, endpointUrl, method, requestContent, headers);
             }
 
             if (response.IsSuccessStatusCode)
@@ -89,30 +88,12 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             IMessageCreator messageCreator,
             string endpointUrl,
             HttpMethod method,
-            HttpContent content)
+            HttpContent content,
+            Dictionary<string,string> headers)
         {
-            var message = messageCreator.CreateMessage(method, endpointUrl, content);
+            HttpRequestMessage message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
+
             return _httpClient.SendAsync(message);
-        }
-
-        private async Task<JObject> GetResponseContent(HttpResponseMessage httpResponseMessage)
-        {
-            if (httpResponseMessage?.StatusCode == HttpStatusCode.OK)
-            {
-                var content = await httpResponseMessage.Content?.ReadAsStringAsync();
-
-                return JObject.Parse(content);
-            }
-
-            string faultContent = null;
-
-            // The null-coallescing operator causes tests to fail for NREs, hence the "if" statement.
-            if (httpResponseMessage?.Content != null)
-            {
-                faultContent = await httpResponseMessage.Content.ReadAsStringAsync();
-            }
-
-            throw new ManagementException(httpResponseMessage, faultContent);
         }
     }
 }

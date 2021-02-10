@@ -23,9 +23,10 @@ namespace Kentico.Kontent.Management
     {
         private const int MAX_FILE_SIZE_MB = 100;
 
-        private ActionInvoker _actionInvoker;
-        private EndpointUrlBuilder _urlBuilder;
-        private IModelProvider _modelProvider;
+        private readonly ActionInvoker _actionInvoker;
+        private readonly EndpointUrlBuilder _urlBuilder;
+        private readonly EndpointUrlBuilderV2 _urlBuilderV2;
+        private readonly IModelProvider _modelProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified project.
@@ -43,7 +44,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentException("Kentico Kontent project identifier is not specified.", nameof(ManagementOptions.ProjectId));
             }
 
-            if (!Guid.TryParse(ManagementOptions.ProjectId, out Guid projectIdGuid))
+            if (!Guid.TryParse(ManagementOptions.ProjectId, out _))
             {
                 throw new ArgumentException($"Provided string is not a valid project identifier ({ManagementOptions.ProjectId}). Haven't you accidentally passed the API key instead of the project identifier?", nameof(ManagementOptions.ProjectId));
             }
@@ -54,15 +55,17 @@ namespace Kentico.Kontent.Management
             }
 
             _urlBuilder = new EndpointUrlBuilder(ManagementOptions);
+            _urlBuilderV2 = new EndpointUrlBuilderV2(ManagementOptions);
             _actionInvoker = new ActionInvoker(
                 new ManagementHttpClient(new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
                 new MessageCreator(ManagementOptions.ApiKey));
             _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
         }
 
-        internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
+        internal ManagementClient(EndpointUrlBuilder urlBuilder, EndpointUrlBuilderV2 urlBuilderV2, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
         {
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
+            _urlBuilderV2 = urlBuilderV2 ?? throw new ArgumentNullException(nameof(urlBuilderV2));
             _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
             _modelProvider = modelProvider ?? new ModelProvider();
         }
@@ -350,17 +353,18 @@ namespace Kentico.Kontent.Management
         /// <returns>The <see cref="ListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
         public async Task<ListingResponseModel<AssetModel>> ListAssetsAsync()
         {
-            var endpointUrl = _urlBuilder.BuildAssetListingUrl();
+            var endpointUrl = _urlBuilderV2.BuildAssetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
             return new ListingResponseModel<AssetModel>(GetNextAssetListingPageAsync, response.Pagination?.Token, response.Assets);
         }
 
-
         private async Task<IListingResponse<AssetModel>> GetNextAssetListingPageAsync(string continuationToken)
         {
-            var endpointUrl = _urlBuilder.BuildAssetListingUrl(continuationToken);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+            var endpointUrl = _urlBuilderV2.BuildAssetsUrl();
+            var headers = new Dictionary<string, string>();
+            headers.Add("x-continuation", continuationToken);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get, headers);
 
             return response;
         }
@@ -377,8 +381,20 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            var endpointUrl = _urlBuilderV2.BuildAssetsUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Get the Asset Folders
+        /// </summary>
+        /// <returns>Returns the hierarchy of asset folders beginning with the root level</returns>
+        public async Task<AssetFolderList> GetAssetFoldersAsync()
+        {
+            var endpointUrl = _urlBuilderV2.BuildAssetFoldersUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetFolderList>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
@@ -401,7 +417,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(asset));
             }
 
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            var endpointUrl = _urlBuilderV2.BuildAssetsUrl(identifier);
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
 
             return response;
@@ -434,7 +450,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(asset));
             }
 
-            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var endpointUrl = _urlBuilderV2.BuildAssetsUrl();
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
 
             return response;
@@ -458,7 +474,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(asset));
             }
 
-            var endpointUrl = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
+            var endpointUrl = _urlBuilderV2.BuildAssetsUrlFromExternalId(externalId);
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
                 endpointUrl,
                 HttpMethod.Put,

@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
 {
     internal class HttpClient : IHttpClient
     {
-        private System.Net.Http.HttpClient _baseClient = new System.Net.Http.HttpClient();
+        private readonly System.Net.Http.HttpClient _baseClient = new System.Net.Http.HttpClient();
         
         public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {

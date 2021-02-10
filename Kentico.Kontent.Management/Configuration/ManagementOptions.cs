@@ -13,6 +13,11 @@ namespace Kentico.Kontent.Management
         public string Endpoint { get; set; } = "https://manage.kontent.ai/{0}";
 
         /// <summary>
+        /// Gets or sets the Production endpoint address for V2 management API. Optional, defaults to "https://manage.kontent.ai/v2/{0}".
+        /// </summary>
+        public string EndpointV2 { get; set; } = "https://manage.kontent.ai/v2/{0}";
+
+        /// <summary>
         /// Gets or sets the Project identifier.
         /// </summary>
         public string ProjectId { get; set; }

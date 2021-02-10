@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Kentico.Kontent.Management.Models.Assets;
 using Xunit;
+using System.Collections.Generic;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -13,7 +14,7 @@ namespace Kentico.Kontent.Management.Tests
     {
         internal string requestBody;
 
-        public async Task<HttpResponseMessage> SendAsync(IMessageCreator messageCreator, string endpointUrl, HttpMethod method, HttpContent content = null)
+        public async Task<HttpResponseMessage> SendAsync(IMessageCreator messageCreator, string endpointUrl, HttpMethod method, HttpContent content = null, Dictionary<string, string> headers = null)
         {
             var message = messageCreator.CreateMessage(method, endpointUrl, content);
             requestBody = await message.Content.ReadAsStringAsync();

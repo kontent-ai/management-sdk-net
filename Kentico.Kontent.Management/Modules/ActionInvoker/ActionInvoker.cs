@@ -13,16 +13,16 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
     internal class ActionInvoker : IActionInvoker
     {
-        private IManagementHttpClient _cmHttpClient;
-        private MessageCreator _messageCreator;
+        private readonly IManagementHttpClient _cmHttpClient;
+        private readonly MessageCreator _messageCreator;
 
-        private JsonSerializerSettings _serializeSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _serializeSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             Converters = new List<JsonConverter> { new DecimalObjectConverter(), new StringEnumConverter() }
         };
 
-        private JsonSerializerSettings _deserializeSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _deserializeSettings = new JsonSerializerSettings
         {
             Converters = new List<JsonConverter> { new DynamicObjectJsonConverter() }
         };
@@ -59,19 +59,19 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             return await ReadResultAsync<TResponse>(response);
         }
 
-        public async Task<TResponse> InvokeReadOnlyMethodAsync<TResponse>(string endpointUrl, HttpMethod method)
+        public async Task<TResponse> InvokeReadOnlyMethodAsync<TResponse>(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null)
         {
-            var message = _messageCreator.CreateMessage(method, endpointUrl);
+            var message = _messageCreator.CreateMessage(method, endpointUrl, null, headers);
 
-            var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method);
+            var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
 
             return await ReadResultAsync<TResponse>(response);
         }
 
-        public async Task InvokeMethodAsync(string endpointUrl, HttpMethod method)
+        public async Task InvokeMethodAsync(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null)
         {
-            var message = _messageCreator.CreateMessage(method, endpointUrl);
-            await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method);
+            var message = _messageCreator.CreateMessage(method, endpointUrl, null, headers);
+            await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
         }
 
         public async Task<TResponse> UploadFileAsync<TResponse>(string endpointUrl, Stream stream, string contentType)
