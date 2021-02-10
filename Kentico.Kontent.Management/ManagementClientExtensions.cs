@@ -230,8 +230,10 @@ namespace Kentico.Kontent.Management
         public static IEnumerable<AssetFolderHierarchy> GetFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders, string folderId)
         {
             if (folders == null)
+            {
                 return null;
-            //Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
+            }
+            // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
             var folderList = new List<AssetFolderHierarchy>();
             foreach (var itm in folders)
             {
@@ -256,7 +258,9 @@ namespace Kentico.Kontent.Management
         {
             List<string> folderName = new List<string>();
             if (folder.Parent != null)
+            {
                 folderName.Add(GetFullFolderPath(folder.Parent));
+            }
             folderName.Add(folder.Name);
             return string.Join("\\", folderName);
         }
@@ -270,16 +274,22 @@ namespace Kentico.Kontent.Management
         public static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(this IEnumerable<AssetFolderLinkingHierarchy> folders, string folderId)
         {
             if (folders == null)
+            {
                 return null;
+            }
             foreach (var folder in folders)
             {
                 if (folder.Id == folderId)
+                {
                     return folder;
+                }
                 else if (folder.Folders != null && folder.Folders.Count() > 0)
                 {
                     var nestedFolder = folder.Folders.GetParentLinkedFolderHierarchyById(folderId);
                     if (nestedFolder != null)
+                    {
                         return nestedFolder;
+                    }
                 }
             }
             return null;
@@ -294,7 +304,7 @@ namespace Kentico.Kontent.Management
         public static IEnumerable<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders,
             AssetFolderLinkingHierarchy parentLinked = null)
         {
-            //Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
+            // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
             var folderList = new List<AssetFolderLinkingHierarchy>();
             foreach (var itm in folders)
             {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 
@@ -18,7 +17,7 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
         /// <param name="endpointUrl">The url to make request to.</param>
         /// <param name="method">The HTTP method.</param>
         /// <param name="content">The HTTP content.</param>
-        /// <param name="headers">Additional http headers if needed.</param>
+        /// <param name="headers">Additional HTTP headers if needed.</param>
         /// <returns></returns>
         Task<HttpResponseMessage> SendAsync(
             IMessageCreator messageCreator,

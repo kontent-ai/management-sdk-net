@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kentico.Kontent.Management.Models.Assets
 {
@@ -15,18 +13,21 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
+
         /// <summary>
         /// Gets external id of the identifier. The folder's external ID. Only present if specified when adding folders or modifying the folders collection to add new folders.
         /// </summary>
         [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ExternalId { get; private set; }
+
         /// <summary>
-        /// Name of the Folder
+        /// Name of the folder
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
+
         /// <summary>
-        /// Folders
+        /// Nested folders
         /// </summary>
         [JsonProperty("folders")]
         public IEnumerable<AssetFolderHierarchy> Folders { get; set; }

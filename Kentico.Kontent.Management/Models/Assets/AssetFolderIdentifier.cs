@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kentico.Kontent.Management.Models.Assets
 {
@@ -15,7 +13,8 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         public AssetFolderIdentifier()
         {
-            Id = new Guid("00000000-0000-0000-0000-000000000000"); //Default to the Guid that means "outside of any folder"
+            // Default to the Guid that means "outside of any folder"
+            Id = new Guid("00000000-0000-0000-0000-000000000000");
         }
 
         /// <summary>

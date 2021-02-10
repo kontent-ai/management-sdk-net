@@ -10,7 +10,7 @@ namespace Kentico.Kontent.Management.Modules.ResiliencePolicy
     /// </summary>
     public class DefaultResiliencePolicyProvider : IResiliencePolicyProvider
     {
-        private int _maxRetryAttempts;
+        private readonly int _maxRetryAttempts;
 
         /// <summary>
         /// Creates a default retry policy provider with a maximum number of retry attempts.

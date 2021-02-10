@@ -13,7 +13,6 @@ using Kentico.Kontent.Management.Models.StronglyTyped;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
-using System.Net.Http.Headers;
 
 namespace Kentico.Kontent.Management
 {
@@ -24,10 +23,10 @@ namespace Kentico.Kontent.Management
     {
         private const int MAX_FILE_SIZE_MB = 100;
 
-        private ActionInvoker _actionInvoker;
-        private EndpointUrlBuilder _urlBuilder;
-        private EndpointUrlBuilderV2 _urlBuilderV2;
-        private IModelProvider _modelProvider;
+        private readonly ActionInvoker _actionInvoker;
+        private readonly EndpointUrlBuilder _urlBuilder;
+        private readonly EndpointUrlBuilderV2 _urlBuilderV2;
+        private readonly IModelProvider _modelProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified project.
@@ -45,7 +44,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentException("Kentico Kontent project identifier is not specified.", nameof(ManagementOptions.ProjectId));
             }
 
-            if (!Guid.TryParse(ManagementOptions.ProjectId, out Guid projectIdGuid))
+            if (!Guid.TryParse(ManagementOptions.ProjectId, out _))
             {
                 throw new ArgumentException($"Provided string is not a valid project identifier ({ManagementOptions.ProjectId}). Haven't you accidentally passed the API key instead of the project identifier?", nameof(ManagementOptions.ProjectId));
             }
@@ -391,7 +390,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Get the Asset Folders
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns the hierarchy of asset folders beginning with the root level</returns>
         public async Task<AssetFolderList> GetAssetFoldersAsync()
         {
             var endpointUrl = _urlBuilderV2.BuildAssetFoldersUrl();

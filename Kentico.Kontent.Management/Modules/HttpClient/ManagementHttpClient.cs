@@ -1,21 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Kentico.Kontent.Management.Exceptions;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
-using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
-using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Modules.HttpClient
 {
     internal class ManagementHttpClient : IManagementHttpClient
     {
-        private IHttpClient _httpClient;
-        private IResiliencePolicyProvider _resiliencePolicyProvider;
+        private readonly IHttpClient _httpClient;
+        private readonly IResiliencePolicyProvider _resiliencePolicyProvider;
         private readonly bool _enableResilienceLogic;
 
         public ManagementHttpClient(
@@ -98,26 +94,6 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             HttpRequestMessage message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
 
             return _httpClient.SendAsync(message);
-        }
-
-        private async Task<JObject> GetResponseContent(HttpResponseMessage httpResponseMessage)
-        {
-            if (httpResponseMessage?.StatusCode == HttpStatusCode.OK)
-            {
-                var content = await httpResponseMessage.Content?.ReadAsStringAsync();
-
-                return JObject.Parse(content);
-            }
-
-            string faultContent = null;
-
-            // The null-coallescing operator causes tests to fail for NREs, hence the "if" statement.
-            if (httpResponseMessage?.Content != null)
-            {
-                faultContent = await httpResponseMessage.Content.ReadAsStringAsync();
-            }
-
-            throw new ManagementException(httpResponseMessage, faultContent);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         private const string SDK_ID_REPLACEMENT = "{SDK_ID}";
         private const string API_KEY_REPLACEMENT = "{API_KEY}";
 
-        private ManagementOptions _options;
+        private readonly ManagementOptions _options;
         private readonly bool _saveToFileSystem;
         private readonly string _directoryName;
         private bool _firstRequest = true;

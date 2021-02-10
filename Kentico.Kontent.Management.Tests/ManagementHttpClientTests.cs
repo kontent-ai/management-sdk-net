@@ -19,8 +19,8 @@ namespace Kentico.Kontent.Management.Tests
         private readonly string endpointUrl = string.Empty;
         private readonly HttpMethod method = HttpMethod.Get;
 
-        private ManagementHttpClient _defaultClient;
-        private IHttpClient httpClient = Substitute.For<IHttpClient>();
+        private readonly ManagementHttpClient _defaultClient;
+        private readonly IHttpClient httpClient = Substitute.For<IHttpClient>();
 
         public ManagementHttpClientTests()
         {

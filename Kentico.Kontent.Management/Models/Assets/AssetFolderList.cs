@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kentico.Kontent.Management.Models.Assets
 {
@@ -15,6 +14,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         [JsonProperty("folders")]
         public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+
         /// <summary>
         /// Gets or sets the last modified timestamp of the asset.
         /// </summary>
