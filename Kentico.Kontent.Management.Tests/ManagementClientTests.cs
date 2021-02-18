@@ -42,7 +42,8 @@ namespace Kentico.Kontent.Management.Tests
                 .Build();
 
             // Configurations with TestRunType.LiveEndpoint* require the ApiKey property set in the user secrets
-            _options = new ManagementOptions() { ApiKey = "dummy", ProjectId = PROJECT_ID };
+            // Dummy_API_key fallback is needed e.g. for running tests on mocked data - we need to properly init client
+            _options = new ManagementOptions() { ApiKey = configuration.GetValue<string>("ApiKey") ?? "Dummy_API_key", ProjectId = PROJECT_ID };
         }
 
         #endregion
