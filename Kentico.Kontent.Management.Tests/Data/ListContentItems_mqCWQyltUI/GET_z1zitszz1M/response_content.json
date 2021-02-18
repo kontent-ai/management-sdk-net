@@ -1,6 +1,17 @@
 {
   "items": [
     {
+      "id": "ee783322-0f7b-5a57-8d8a-89beed9d216c",
+      "name": "EditedItem",
+      "codename": "editeditem",
+      "type": {
+        "id": "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89"
+      },
+      "sitemap_locations": [],
+      "external_id": "093afb41b0614a908c8734d2bb840210",
+      "last_modified": "2021-02-18T11:10:54.1232174Z"
+    },
+    {
       "id": "028f0e05-9f17-45be-962d-62bebe6b6f53",
       "name": "regenerated_codename",
       "codename": "regenerated_codename",
@@ -8,7 +19,7 @@
         "id": "fe41ae5a-5fe2-420a-8560-f7d6d3533dc2"
       },
       "sitemap_locations": [],
-      "last_modified": "2021-02-18T10:11:02.2003293Z"
+      "last_modified": "2021-02-18T11:10:24.4012829Z"
     },
     {
       "id": "0c9a11bb-6fc3-409c-b3cb-f0b797e15489",

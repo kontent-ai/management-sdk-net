@@ -16,19 +16,13 @@
       }
     ]
   },
-  "StatusCode": 201,
-  "ReasonPhrase": "Created",
+  "StatusCode": 200,
+  "ReasonPhrase": "OK",
   "Headers": [
     {
       "Key": "Connection",
       "Value": [
         "keep-alive"
-      ]
-    },
-    {
-      "Key": "Location",
-      "Value": [
-        "https://manage.kontent.ai/v1.0/projects/{PROJECT_ID}/items/ee783322-0f7b-5a57-8d8a-89beed9d216c"
       ]
     },
     {
@@ -40,7 +34,7 @@
     {
       "Key": "X-Request-ID",
       "Value": [
-        "d6d139d431907745"
+        "151986e65d313c49"
       ]
     },
     {
@@ -76,7 +70,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Thu, 18 Feb 2021 10:15:01 GMT"
+        "Thu, 18 Feb 2021 11:15:17 GMT"
       ]
     },
     {
@@ -88,7 +82,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-vie21621-VIE"
+        "cache-vie21641-VIE"
       ]
     },
     {
@@ -106,7 +100,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1613643302.719011,VS0,VE172"
+        "S1613646917.239972,VS0,VE516"
       ]
     }
   ],

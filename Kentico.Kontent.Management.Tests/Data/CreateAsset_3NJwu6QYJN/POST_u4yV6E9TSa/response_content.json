@@ -1,0 +1,29 @@
+{
+  "id": "48acb0dd-a691-4e48-a68d-ea08e0e5f599",
+  "file_name": "Hello.txt",
+  "title": null,
+  "size": 84,
+  "type": "text/plain",
+  "url": "https://assets-us-01.kc-usercontent.com/e38f8e94-7d3b-0062-77f5-a4bc505780d4/ba83593b-320c-4b74-960f-8fb2594828b1/Hello.txt",
+  "image_width": null,
+  "image_height": null,
+  "file_reference": {
+    "id": "ba83593b-320c-4b74-960f-8fb2594828b1",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    },
+    {
+      "language": {
+        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+      },
+      "description": null
+    }
+  ],
+  "last_modified": "2021-02-18T11:13:09.4091701Z"
+}

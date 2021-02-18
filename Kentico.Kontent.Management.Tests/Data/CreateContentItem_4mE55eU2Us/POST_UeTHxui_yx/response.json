@@ -28,7 +28,7 @@
     {
       "Key": "Location",
       "Value": [
-        "https://manage.kontent.ai/v1.0/projects/{PROJECT_ID}/items/b9b28596-b110-4a6d-812b-dde31e2efa1e"
+        "https://manage.kontent.ai/v1.0/projects/{PROJECT_ID}/items/6dc629bb-9b6d-4749-8295-2ce855b8ff50"
       ]
     },
     {
@@ -40,7 +40,7 @@
     {
       "Key": "X-Request-ID",
       "Value": [
-        "e0cbe201a02ac042"
+        "ad817c83d7b3c84d"
       ]
     },
     {
@@ -76,7 +76,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Thu, 18 Feb 2021 10:15:04 GMT"
+        "Thu, 18 Feb 2021 11:13:18 GMT"
       ]
     },
     {
@@ -88,7 +88,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-vie21623-VIE"
+        "cache-vie21650-VIE"
       ]
     },
     {
@@ -106,7 +106,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1613643305.826112,VS0,VE149"
+        "S1613646798.034903,VS0,VE153"
       ]
     }
   ],
