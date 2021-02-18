@@ -42,7 +42,7 @@ namespace Kentico.Kontent.Management.Tests
                 .Build();
 
             // Configurations with TestRunType.LiveEndpoint* require the ApiKey property set in the user secrets
-            _options = new ManagementOptions() { ApiKey = configuration.GetValue<string>("ApiKey"), ProjectId = PROJECT_ID };
+            _options = new ManagementOptions() { ApiKey = "dummy", ProjectId = PROJECT_ID };
         }
 
         #endregion
