@@ -631,6 +631,15 @@ Optional:
 * [Visual Studio 2017](https://www.visualstudio.com/vs/) for full experience
 * or [Visual Studio Code](https://code.visualstudio.com/)
 
+#### Tests
+Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType` specifies target environemnt for tests. Commit always with TestRunType.MockFromFileSystem. For updating mocked data use `TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem` and before commit update `Data` directory with the content from `\Kentico.Kontent.Management.Tests\bin\Debug\net5.0\Data\`. When using `TestRunType.MockFromFileSystem`, at the build time, data from `Data` directory are copied to bin and tests are running against mocked data.
+
+##### For internal maintainers
+Note source project's got the `Backup` environment with the copy of the project. It might be used to restore if the source environment is corrupted. When changing project data, do not forget to update. or even better create a new environment with commit/issue identifier timestamp. 
+
+##### For external contributors
+Exported backup of the project created by [Template manager](https://kentico.github.io/kontent-template-manager/) is stored in `import-package.zip`. Note, items, language variants, sitemaps, assets,  might be imported with different `Id`s so it might be needed to update tests.
+
 ### Creating a new release
 
 [Release & version management](https://github.com/Kentico/kontent-management-sdk-net/wiki/Release-&-version-management)
