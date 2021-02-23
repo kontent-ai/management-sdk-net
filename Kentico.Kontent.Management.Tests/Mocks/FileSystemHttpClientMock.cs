@@ -68,7 +68,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
                     Directory.Delete(folderPath, true);
                 }
 
-                var response = await _nativeClient.SendAsync(messageCreator, endpointUrl, method, content);
+                var response = await _nativeClient.SendAsync(messageCreator, endpointUrl, method, content, headers);
 
                 File.WriteAllText(Path.Combine(folderPath, "request.json"), serializedRequest);
                 File.WriteAllText(Path.Combine(folderPath, "request_content.json"), serializedRequestContent);
