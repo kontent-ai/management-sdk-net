@@ -42,7 +42,8 @@ namespace Kentico.Kontent.Management.Tests
                 .Build();
 
             // Configurations with TestRunType.LiveEndpoint* require the ApiKey property set in the user secrets
-            _options = new ManagementOptions() { ApiKey = configuration.GetValue<string>("ApiKey"), ProjectId = PROJECT_ID };
+            // Dummy_API_key fallback is needed e.g. for running tests on mocked data - we need to properly init client
+            _options = new ManagementOptions() { ApiKey = configuration.GetValue<string>("ApiKey") ?? "Dummy_API_key", ProjectId = PROJECT_ID };
         }
 
         #endregion
@@ -64,8 +65,15 @@ namespace Kentico.Kontent.Management.Tests
         protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6a372f43-ccd7-e524-6308-c2094e7b6596");
         protected const string EXISTING_TAXONOMY_TERM_CODENAME = "barista";
 
-        protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("e52c65c6-de05-49be-bc54-2b352ef485f8");
+        protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("45a123f3-1c55-c697-7dae-78369c8f1e2c");
         protected const string EXISTING_SITEMAP_NODE_CODENAME = "articles";
+
+        // Root -> 1e5203d8-ae2c-483b-b59b-0defebecf49a > 7194dda7-c5b3-4e85-91a2-026ba2c07e8d > 92c20b68-8f50-4b62-b630-eca6d9b512b3 -> 3b34af2a-526a-47bc-8a27-a40bb37dd3e2
+        protected const string ASSET_FOLDER_ID_1ST_LEVEL = "1e5203d8-ae2c-483b-b59b-0defebecf49a";
+        protected const string ASSET_FOLDER_ID_2ND_LEVEL = "7194dda7-c5b3-4e85-91a2-026ba2c07e8d";
+        protected const string ASSET_FOLDER_ID_3RD_LEVEL = "92c20b68-8f50-4b62-b630-eca6d9b512b3";
+        protected const string ASSET_FOLDER_ID_4TH_LEVEL = "3b34af2a-526a-47bc-8a27-a40bb37dd3e2";
+
 
         protected static dynamic _elements = new
         {
@@ -135,7 +143,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ById_LanguageId_UpdatesVariant()
         {
@@ -154,7 +162,7 @@ namespace Kentico.Kontent.Management.Tests
             AssertResponseElements(responseVariant);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByCodename_LanguageId_UpdatesVariant()
         {
@@ -173,7 +181,7 @@ namespace Kentico.Kontent.Management.Tests
             AssertResponseElements(responseVariant);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ById_LanguageCodename_UpdatesVariant()
         {
@@ -192,7 +200,7 @@ namespace Kentico.Kontent.Management.Tests
             AssertResponseElements(responseVariant);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByCodename_LanguageCodename_UpdatesVariant()
         {
@@ -211,7 +219,7 @@ namespace Kentico.Kontent.Management.Tests
             AssertResponseElements(responseVariant);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageCodename_UpdatesVariant()
         {
@@ -238,7 +246,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageCodename_CreatesVariant()
         {
@@ -264,7 +272,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageId_UpdatesVariant()
         {
@@ -292,7 +300,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_ByExternalId_LanguageId_CreatesVariant()
         {
@@ -319,7 +327,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_UsingResponseModel_UpdatesVariant()
         {
@@ -347,7 +355,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void UpsertVariant_UsingResponseModel_CreatesVariant()
         {
@@ -375,7 +383,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void ListContentItemVariants_ById_ListsVariants()
         {
@@ -388,7 +396,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void ListContentItemVariants_ByCodename_ListsVariants()
         {
@@ -401,7 +409,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void ListContentItemVariants_ByExternalId_ListsVariants()
         {
@@ -423,7 +431,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ById_LanguageId_GetsVariant()
         {
@@ -440,7 +448,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_LANGUAGE_ID, response.Language.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ById_LanguageCodeName_GetsVariant()
         {
@@ -457,7 +465,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_LANGUAGE_ID, response.Language.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByCodename_LanguageId_GetsVariant()
         {
@@ -474,7 +482,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_LANGUAGE_ID, response.Language.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByCodename_LanguageCodeName_GetsVariant()
         {
@@ -491,7 +499,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_LANGUAGE_ID, response.Language.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByExternalId_LanguageCodename_GetsVariant()
         {
@@ -518,7 +526,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void GetContentItemVariant_ByExternalId_ReturnsVariant()
         {
@@ -543,7 +551,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ById_LanguageCodename_DeletesVariant()
         {
@@ -559,7 +567,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemVariantAsync(identifier);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ById_LanguageId_DeletesVariant()
         {
@@ -575,7 +583,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemVariantAsync(identifier);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByCodename_LanguageId_DeletesVariant()
         {
@@ -592,7 +600,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemVariantAsync(identifier);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByCodename_LanguageCodename_DeletesVariant()
         {
@@ -609,7 +617,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemVariantAsync(identifier);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByExternalId_LanguageId_DeletesVariant()
         {
@@ -626,7 +634,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemVariantAsync(identifier);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async void DeleteContentItemVariant_ByExternalId_LanguageCodename_DeletesVariant()
         {
@@ -647,7 +655,7 @@ namespace Kentico.Kontent.Management.Tests
 
         #region Item
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void CreateContentItem_CreatesContentItem()
         {
@@ -677,7 +685,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void ListContentItems_ListsContentItems()
         {
@@ -689,7 +697,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.NotNull(response.FirstOrDefault());
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void ListContentItems_WithContinuation_ListsAllContentItems()
         {
@@ -714,7 +722,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_ByCodename_UpdatesContentItem()
         {
@@ -740,7 +748,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_ById_UpdatesContentItem()
         {
@@ -767,7 +775,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItemName_CodeNameNotSet_RegeneratesCodeNameByName()
         {
@@ -787,7 +795,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(itemName, responseItem.CodeName);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact(Skip = "Kentico.Kontent.Management.Exceptions.ManagementException : The request was not processed because the specified object has been modified by another request.")]
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_UsingResponseModel_UpdatesContentItem()
         {
@@ -810,7 +818,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_UpdatesContentItem()
         {
@@ -840,7 +848,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_CreatesContentItem()
         {
@@ -868,7 +876,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void GetContentItem_ById_GetsContentItem()
         {
@@ -880,7 +888,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_ITEM_ID, contentItemReponse.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByCodename_GetsContentItem()
         {
@@ -892,7 +900,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_ITEM_ID, contentItemReponse.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByExternalId_GetsContentItem()
         {
@@ -913,7 +921,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteContentItemAsync(itemToClean);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ById_DeletesContentItem()
         {
@@ -932,7 +940,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByCodename_DeletesContentItem()
         {
@@ -951,7 +959,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByExternalId_DeletesContentItem()
         {
@@ -975,7 +983,7 @@ namespace Kentico.Kontent.Management.Tests
 
         #region Assets
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void ListAssets_ListsAssets()
         {
@@ -986,7 +994,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.NotNull(response.FirstOrDefault());
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void ListFolders_ListFolders()
         {
@@ -997,7 +1005,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.True(response.Folders.Count() > 0);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void ListFolders_GetFolderLinkedTree()
         {
@@ -1011,7 +1019,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void ListFolders_GetFolderLinkedTreeSearchByFolderId()
         {
@@ -1019,11 +1027,11 @@ namespace Kentico.Kontent.Management.Tests
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
-            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("a5d2b6cd-928b-4623-bc5e-f3f63112d8fc"); //Go one level deep
-            var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyById("52a474a9-606c-4157-8372-1a9edc5f3aeb"); //Go two levels deep
-            var result3 = linkedHierarchy.GetParentLinkedFolderHierarchyById("16a5bf3f-2600-4b97-822b-5e30092f5239"); //Go three levels deep
-            var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById("74bbdcc1-2591-4ba9-b9ee-f6027a8827b4"); //Go three levels deep
-            
+            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_1ST_LEVEL);
+            var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_2ND_LEVEL);
+            var result3 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_3RD_LEVEL);
+            var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
+
             Assert.NotNull(response);
             Assert.NotNull(result);
             Assert.NotNull(result2);
@@ -1031,7 +1039,38 @@ namespace Kentico.Kontent.Management.Tests
             Assert.NotNull(result4);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_GetFolderHierarchy_NonExistingFolder()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_GetFolderHierarchy_NonExistingFolder));
+
+            var response = await client.GetAssetFoldersAsync();
+            var nonExistingFolderId = "2ddaf2dc-8635-4b3f-b04d-5be69a0949e6";
+            var result = response.Folders.GetFolderHierarchy(nonExistingFolderId);
+
+            Assert.Empty(result);
+        }
+
+        [Fact(Skip = "Broken functionality; see the comments below")]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_GetFolderHierarchy_ExistingFolder()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_GetFolderHierarchy_ExistingFolder));
+
+            var response = await client.GetAssetFoldersAsync();
+            var result = response.Folders.GetFolderHierarchy(ASSET_FOLDER_ID_4TH_LEVEL);
+
+            // TODO: Assert expected hierarchy
+            // TODO: why method returns IEnumerable<AssetFolderHierarchy> ?
+            // TODO: GetParentLinkedFolderHierarchyById vs GetFolderHierarchy difference?
+            // TODO: Why `if (itm.Folders != null)` and not `(itm.Folders.Count > 0)` ?
+            // TODO: Method is not returning correct hierarchy
+            // TODO: insufficient comment
+            Assert.NotEmpty(result);
+        }
+
+        [Fact]
         [Trait("Category", "Asset")]
         public async void ListFolders_GetFolderPathString()
         {
@@ -1039,7 +1078,7 @@ namespace Kentico.Kontent.Management.Tests
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
-            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("16a5bf3f-2600-4b97-822b-5e30092f5239"); //Go three levels deep
+            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("92c20b68-8f50-4b62-b630-eca6d9b512b3"); //Go three levels deep
             var pathString = result.GetFullFolderPath(); //Should be a folder path string TopFolder\2ndFolder\3rdFolder (3 levels deep)
 
             Assert.NotNull(response);
@@ -1047,7 +1086,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.True(pathString == "TopFolder\\2ndFolder\\3rdFolder");
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void ListAssets_WithContinuation_ListsAllAssets()
         {
@@ -1072,7 +1111,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void CreateAsset_WithStream_Uploads_CreatesAsset()
         {
@@ -1115,7 +1154,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset()
         {
@@ -1162,7 +1201,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void CreateAsset_WithFile_Uploads_CreatesAsset()
         {
@@ -1195,7 +1234,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void CreateAsset_FromFileSystem_Uploads_CreatesAsset()
         {
@@ -1223,7 +1262,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset()
         {
@@ -1258,7 +1297,7 @@ namespace Kentico.Kontent.Management.Tests
             await client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void UpdateAssetById_ReturnsUpdatedAsset()
         {
@@ -1280,7 +1319,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(title, assetResult.Title);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Asset")]
         public async void GetAsset_WhenGivenAssetId_ReturnsGivenAsset()
         {
@@ -1297,7 +1336,7 @@ namespace Kentico.Kontent.Management.Tests
 
         #region Strongly Typed Item Variant
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async Task ListStronglyTypedContentItemVariants_ById_ListsVariants()
         {
@@ -1314,7 +1353,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async Task GetStronglyTypedContentItemVariantAsync_ById_LanguageId_GetVariant()
         {
@@ -1332,7 +1371,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.NotNull(response.Elements);
         }
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertStronglyTypedContentItemVariantAsync_ById_LanguageId_UpdatesVariant()
         {
@@ -1354,7 +1393,7 @@ namespace Kentico.Kontent.Management.Tests
 
         #region Validation
 
-        [Fact(Skip = "To be fixed in #60")]
+        [Fact]
         [Trait("Category", "Validation")]
         public async void ValidateProject_ReturnsProjectReportModel()
         {
@@ -1363,7 +1402,7 @@ namespace Kentico.Kontent.Management.Tests
             var project = new Project
             {
                 Id = _options.ProjectId,
-                Name = "Sample Project"
+                Name = "Sample Fixtures .NET MAPI SDK"
             };
 
             var itemMetadata = new Metadata
@@ -1375,7 +1414,7 @@ namespace Kentico.Kontent.Management.Tests
 
             var languageMetadata = new Metadata
             {
-                Id = new Guid("d1f95fde-af02-b3b5-bd9e-f232311ccab8"),
+                Id = EXISTING_LANGUAGE_ID,
                 Name = "Spanish (Spain)",
                 Codename = "es-ES"
             };
@@ -1394,14 +1433,15 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(project.Name, response.Project.Name);
             Assert.NotEmpty(response.VariantIssues);
 
-            var firstResponseVariantIssue = response.VariantIssues.First();
-            AssertMetadataEqual(itemMetadata, firstResponseVariantIssue.Item);
-            AssertMetadataEqual(languageMetadata, firstResponseVariantIssue.Language);
-            Assert.NotEmpty(firstResponseVariantIssue.Issues);
+            // select issue we are interested in
+            var relatedArticlesVariantIssue = response.VariantIssues.Where(i => i.Item.Id == itemMetadata.Id && i.Language.Id == EXISTING_LANGUAGE_ID).FirstOrDefault();
+            AssertMetadataEqual(itemMetadata, relatedArticlesVariantIssue.Item);
+            AssertMetadataEqual(languageMetadata, relatedArticlesVariantIssue.Language);
+            Assert.NotEmpty(relatedArticlesVariantIssue.Issues);
 
-            var firstResponseElementIssue = firstResponseVariantIssue.Issues.First();
+            var firstResponseElementIssue = relatedArticlesVariantIssue.Issues.First();
             AssertMetadataEqual(elementMetadata, firstResponseElementIssue.Element);
-            Assert.Contains(responseElementIssueMessage, firstResponseElementIssue.Messages);
+            Assert.Contains(responseElementIssueMessage, firstResponseElementIssue.Messages.First());
         }
 
         private static void AssertMetadataEqual(Metadata expected, Metadata actual)
