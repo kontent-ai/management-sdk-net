@@ -68,6 +68,13 @@ namespace Kentico.Kontent.Management.Tests
         protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("45a123f3-1c55-c697-7dae-78369c8f1e2c");
         protected const string EXISTING_SITEMAP_NODE_CODENAME = "articles";
 
+        // Root -> 1e5203d8-ae2c-483b-b59b-0defebecf49a > 7194dda7-c5b3-4e85-91a2-026ba2c07e8d > 92c20b68-8f50-4b62-b630-eca6d9b512b3 -> 3b34af2a-526a-47bc-8a27-a40bb37dd3e2
+        protected const string ASSET_FOLDER_ID_1ST_LEVEL = "1e5203d8-ae2c-483b-b59b-0defebecf49a";
+        protected const string ASSET_FOLDER_ID_2ND_LEVEL = "7194dda7-c5b3-4e85-91a2-026ba2c07e8d";
+        protected const string ASSET_FOLDER_ID_3RD_LEVEL = "92c20b68-8f50-4b62-b630-eca6d9b512b3";
+        protected const string ASSET_FOLDER_ID_4TH_LEVEL = "3b34af2a-526a-47bc-8a27-a40bb37dd3e2";
+
+
         protected static dynamic _elements = new
         {
             title = "On Roasts",
@@ -788,7 +795,7 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(itemName, responseItem.CodeName);
         }
 
-        [Fact]
+        [Fact(Skip = "Kentico.Kontent.Management.Exceptions.ManagementException : The request was not processed because the specified object has been modified by another request.")]
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_UsingResponseModel_UpdatesContentItem()
         {
@@ -1020,16 +1027,47 @@ namespace Kentico.Kontent.Management.Tests
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
-            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("1e5203d8-ae2c-483b-b59b-0defebecf49a"); //Go one level deep
-            var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyById("7194dda7-c5b3-4e85-91a2-026ba2c07e8d"); //Go two levels deep
-            var result3 = linkedHierarchy.GetParentLinkedFolderHierarchyById("92c20b68-8f50-4b62-b630-eca6d9b512b3"); //Go three levels deep
-            var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById("3b34af2a-526a-47bc-8a27-a40bb37dd3e2"); //Go three levels deep
+            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_1ST_LEVEL);
+            var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_2ND_LEVEL);
+            var result3 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_3RD_LEVEL);
+            var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
 
             Assert.NotNull(response);
             Assert.NotNull(result);
             Assert.NotNull(result2);
             Assert.NotNull(result3);
             Assert.NotNull(result4);
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_GetFolderHierarchy_NonExistingFolder()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_GetFolderHierarchy_NonExistingFolder));
+
+            var response = await client.GetAssetFoldersAsync();
+            var nonExistingFolderId = "2ddaf2dc-8635-4b3f-b04d-5be69a0949e6";
+            var result = response.Folders.GetFolderHierarchy(nonExistingFolderId);
+
+            Assert.Empty(result);
+        }
+
+        [Fact(Skip = "Broken functionality; see the comments below")]
+        [Trait("Category", "Asset")]
+        public async void ListFolders_GetFolderHierarchy_ExistingFolder()
+        {
+            var client = CreateManagementClient(nameof(ListFolders_GetFolderHierarchy_ExistingFolder));
+
+            var response = await client.GetAssetFoldersAsync();
+            var result = response.Folders.GetFolderHierarchy(ASSET_FOLDER_ID_4TH_LEVEL);
+
+            // TODO: Assert expected hierarchy
+            // TODO: why method returns IEnumerable<AssetFolderHierarchy> ?
+            // TODO: GetParentLinkedFolderHierarchyById vs GetFolderHierarchy difference?
+            // TODO: Why `if (itm.Folders != null)` and not `(itm.Folders.Count > 0)` ?
+            // TODO: Method is not returning correct hierarchy
+            // TODO: insufficient comment
+            Assert.NotEmpty(result);
         }
 
         [Fact]
