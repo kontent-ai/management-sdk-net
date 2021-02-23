@@ -648,4 +648,3 @@ Exported backup of the project created by [Template manager](https://kentico.git
 
 Check out the [contributing](https://github.com/Kentico/content-management-sdk-net/blob/master/CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/content-management-sdk-net?pixel)
