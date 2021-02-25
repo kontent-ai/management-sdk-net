@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.Assets
 {
     /// <summary>
     /// Represents the Asset Folder Hiearchy with parent folder traversal links. 
-    /// This class is a derivation of the AssetFolderHierarchy class. To receive an instance of this class <see cref="ManagementClientExtensions.GetParentLinkedFolderHierarchy"/>
+    /// This class is a derivation of the <see cref="AssetFolderHierarchy"/> class. To receive an instance of this class call <see cref="ManagementClientExtensions.GetParentLinkedFolderHierarchy"/>
     /// </summary>
     public sealed class AssetFolderLinkingHierarchy
     {

@@ -224,36 +224,36 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Get Folder Hiearchy for a given folder Id
         /// </summary>
-        /// <param name="folders">Folders</param>
-        /// <param name="folderId">Folder Id</param>
-        /// <returns></returns>
-        public static IEnumerable<AssetFolderHierarchy> GetFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders, string folderId)
+        /// <param name="folders">The <see cref="AssetFolderList.Folders"/> property retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
+        /// <param name="folderId">Folder Identifier</param>
+        /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given folderId. Null if not found.</returns>
+        public static AssetFolderHierarchy GetFolderHierarchyById(this IEnumerable<AssetFolderHierarchy> folders, string folderId)
         {
             if (folders == null)
-            {
                 return null;
-            }
+
             // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
-            var folderList = new List<AssetFolderHierarchy>();
             foreach (var itm in folders)
             {
                 if (itm.Id == folderId)
                 {
-                    folderList.Add(itm);
+                    return itm;
                 }
-                if (itm.Folders != null)
+                else if (itm.Folders != null)
                 {
-                    itm.Folders.GetFolderHierarchy(folderId);
+                    var nestedFolder = itm.Folders.GetFolderHierarchyById(folderId);
+                    if (nestedFolder != null) //This is required so you don't stop processing if the root contains many folders (let the above foreach loop continue)
+                        return nestedFolder;
                 }
             }
-            return folderList;
+            return null;
         }
 
         /// <summary>
         /// Gets the full folder path string
         /// </summary>
-        /// <param name="folder">Folder</param>
-        /// <returns></returns>
+        /// <param name="folder">The <see cref="AssetFolderLinkingHierarchy"/> instance.</param>
+        /// <returns>Folder path string containing backslashes (\)</returns>
         public static string GetFullFolderPath(this AssetFolderLinkingHierarchy folder)
         {
             List<string> folderName = new List<string>();
@@ -266,41 +266,39 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Gets the full path to a specific folder id so you can walk back up the parent linking tree
+        /// Gets the folder hiearchy for a given folder identifier.
+        /// To use this method first convert your <see cref="AssetFolderList.Folders"/> property retrieved from <see cref="ManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.
         /// </summary>
-        /// <param name="folders">Folder</param>
-        /// <param name="folderId">Folder Id</param>
-        /// <returns></returns>
+        /// <param name="folders">The <see cref="IEnumerable{AssetFolderLinkingHierarchy}"/> instance.</param>
+        /// <param name="folderId">Folder Identifier</param>
+        /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder identifier.</returns>
         public static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(this IEnumerable<AssetFolderLinkingHierarchy> folders, string folderId)
         {
             if (folders == null)
-            {
                 return null;
-            }
+
             foreach (var folder in folders)
             {
                 if (folder.Id == folderId)
                 {
                     return folder;
                 }
-                else if (folder.Folders != null && folder.Folders.Count() > 0)
+                else if (folder.Folders != null)
                 {
                     var nestedFolder = folder.Folders.GetParentLinkedFolderHierarchyById(folderId);
-                    if (nestedFolder != null)
-                    {
+                    if (nestedFolder != null) //This is required so you don't stop processing if the root contains many folders (let the above foreach loop continue)
                         return nestedFolder;
-                    }
                 }
             }
             return null;
         }
 
         /// <summary>
-        /// Retrieves a recursive linked list of folders with the parent property filled in
+        /// Retrieves a list of folders with the <see cref="AssetFolderLinkingHierarchy.Parent"/> property filled in.
         /// </summary>
-        /// <param name="folders">Folder list from Kentico Kontent</param>
+        /// <param name="folders">The <see cref="AssetFolderList.Folders"/> instance that contains the entire list of folders retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
         /// <param name="parentLinked">Parent linked folder</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="AssetFolderLinkingHierarchy"/> containing the parent linking folder hierarchy.</returns>
         public static IEnumerable<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders,
             AssetFolderLinkingHierarchy parentLinked = null)
         {
@@ -311,7 +309,7 @@ namespace Kentico.Kontent.Management
                 var newFolder = new AssetFolderLinkingHierarchy()
                 {
                     ExternalId = itm.ExternalId,
-                    Folders = (itm.Folders != null && itm.Folders.Count() > 0) ? new List<AssetFolderLinkingHierarchy>() : null,
+                    Folders = (itm.Folders != null) ? new List<AssetFolderLinkingHierarchy>() : null,
                     Id = itm.Id,
                     Name = itm.Name
                 };

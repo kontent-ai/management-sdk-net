@@ -1033,10 +1033,10 @@ namespace Kentico.Kontent.Management.Tests
             var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
 
             Assert.NotNull(response);
-            Assert.NotNull(result);
-            Assert.NotNull(result2);
-            Assert.NotNull(result3);
-            Assert.NotNull(result4);
+            Assert.True(result != null && result.Name == "TopFolder");
+            Assert.True(result2 != null && result2.Name == "2ndFolder");
+            Assert.True(result3 != null && result3.Name == "3rdFolder");
+            Assert.True(result4 != null && result4.Name == "4thFolder");
         }
 
         [Fact]
@@ -1047,27 +1047,22 @@ namespace Kentico.Kontent.Management.Tests
 
             var response = await client.GetAssetFoldersAsync();
             var nonExistingFolderId = "2ddaf2dc-8635-4b3f-b04d-5be69a0949e6";
-            var result = response.Folders.GetFolderHierarchy(nonExistingFolderId);
+            var result = response.Folders.GetFolderHierarchyById(nonExistingFolderId);
 
-            Assert.Empty(result);
+            Assert.Null(result);
         }
 
-        [Fact(Skip = "Broken functionality; see the comments below")]
+        [Fact()]
         [Trait("Category", "Asset")]
         public async void ListFolders_GetFolderHierarchy_ExistingFolder()
         {
             var client = CreateManagementClient(nameof(ListFolders_GetFolderHierarchy_ExistingFolder));
 
             var response = await client.GetAssetFoldersAsync();
-            var result = response.Folders.GetFolderHierarchy(ASSET_FOLDER_ID_4TH_LEVEL);
+            var result = response.Folders.GetFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
 
-            // TODO: Assert expected hierarchy
-            // TODO: why method returns IEnumerable<AssetFolderHierarchy> ?
-            // TODO: GetParentLinkedFolderHierarchyById vs GetFolderHierarchy difference?
-            // TODO: Why `if (itm.Folders != null)` and not `(itm.Folders.Count > 0)` ?
-            // TODO: Method is not returning correct hierarchy
-            // TODO: insufficient comment
-            Assert.NotEmpty(result);
+            Assert.NotNull(result);
+            Assert.True(result.Name == "4thFolder");
         }
 
         [Fact]
