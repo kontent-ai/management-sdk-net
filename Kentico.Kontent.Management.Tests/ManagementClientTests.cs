@@ -1033,10 +1033,14 @@ namespace Kentico.Kontent.Management.Tests
             var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
 
             Assert.NotNull(response);
-            Assert.True(result != null && result.Name == "TopFolder");
-            Assert.True(result2 != null && result2.Name == "2ndFolder");
-            Assert.True(result3 != null && result3.Name == "3rdFolder");
-            Assert.True(result4 != null && result4.Name == "4thFolder");
+            Assert.NotNull(result);
+            Assert.NotNull(result2);
+            Assert.NotNull(result3);
+            Assert.NotNull(result4);
+            Assert.Equal("TopFolder", result.Name);
+            Assert.Equal("2ndFolder", result2.Name);
+            Assert.Equal("3rdFolder", result3.Name);
+            Assert.Equal("4thFolder", result4.Name);
         }
 
         [Fact]

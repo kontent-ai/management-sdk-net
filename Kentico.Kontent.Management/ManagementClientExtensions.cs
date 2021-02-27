@@ -266,7 +266,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Gets the folder hiearchy for a given folder identifier.
+        /// Gets the folder hierarchy for a given folder identifier.
         /// To use this method first convert your <see cref="AssetFolderList.Folders"/> property retrieved from <see cref="ManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.
         /// </summary>
         /// <param name="folders">The <see cref="IEnumerable{AssetFolderLinkingHierarchy}"/> instance.</param>
@@ -274,20 +274,22 @@ namespace Kentico.Kontent.Management
         /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder identifier.</returns>
         public static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(this IEnumerable<AssetFolderLinkingHierarchy> folders, string folderId)
         {
-            if (folders == null)
-                return null;
-
-            foreach (var folder in folders)
+            if (folders != null)
             {
-                if (folder.Id == folderId)
+                foreach (var folder in folders)
                 {
-                    return folder;
-                }
-                else if (folder.Folders != null)
-                {
-                    var nestedFolder = folder.Folders.GetParentLinkedFolderHierarchyById(folderId);
-                    if (nestedFolder != null) //This is required so you don't stop processing if the root contains many folders (let the above foreach loop continue)
-                        return nestedFolder;
+                    if (folder.Id == folderId)
+                    {
+                        return folder;
+                    }
+                    else if (folder.Folders != null)
+                    {
+                        var nestedFolder = folder.Folders.GetParentLinkedFolderHierarchyById(folderId);
+                        if (nestedFolder != null) // This is required so you don't stop processing if the root contains many folders (let the above for-each loop continue)
+                        {
+                            return nestedFolder;
+                        }
+                    }
                 }
             }
             return null;
