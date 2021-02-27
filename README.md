@@ -1,6 +1,7 @@
 # Kentico Kontent Management .NET SDK
 
 [![Build & Test](https://github.com/Kentico/kontent-management-sdk-net/actions/workflows/integrate.yml/badge.svg)](https://github.com/Kentico/kontent-management-sdk-net/actions/workflows/integrate.yml)
+[![codecov](https://codecov.io/gh/Kentico/kontent-management-sdk-net/branch/master/graph/badge.svg?token=xhM2JrUuA4)](https://codecov.io/gh/Kentico/kontent-management-sdk-net)
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-kontent)
 
 | Package        | Version  | Downloads | Documentation |
