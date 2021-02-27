@@ -1,0 +1,12 @@
+name: Publish to NuGet
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: petrsvihlik/dotnet-flow/integrate@master
