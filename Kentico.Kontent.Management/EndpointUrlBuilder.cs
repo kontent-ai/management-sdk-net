@@ -5,7 +5,7 @@ using System.Net;
 
 namespace Kentico.Kontent.Management
 {
-    internal sealed class EndpointUrlBuilderV2
+    internal sealed class EndpointUrlBuilder
     {
         private const int URI_MAX_LENGTH = 65519;
 
@@ -30,7 +30,7 @@ namespace Kentico.Kontent.Management
 
         private readonly ManagementOptions _options;
 
-        internal EndpointUrlBuilderV2(ManagementOptions options)
+        internal EndpointUrlBuilder(ManagementOptions options)
         {
             _options = options;
         }
@@ -65,6 +65,11 @@ namespace Kentico.Kontent.Management
         #endregion
 
         #region Items
+
+        internal string BuildItemsListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_ITEM, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_ITEM);
+        }
 
         internal string BuildItemsUrl()
         {
@@ -105,6 +110,11 @@ namespace Kentico.Kontent.Management
         #endregion
 
         #region Assets
+
+        public string BuildAssetListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_ASSET, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_ASSET);
+        }
 
         public string BuildAssetsUrl()
         {

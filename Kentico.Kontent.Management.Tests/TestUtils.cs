@@ -40,10 +40,9 @@ namespace Kentico.Kontent.Management.Tests
                 var httpClient = new FileSystemHttpClientMock(options, saveToFileSystem, testName);
 
                 var urlBuilder = new EndpointUrlBuilder(options);
-                var urlBuilderv2 = new EndpointUrlBuilderV2(options);
                 var actionInvoker = new ActionInvoker(httpClient, new MessageCreator(options.ApiKey));
 
-                return new ManagementClient(urlBuilder, urlBuilderv2, actionInvoker);
+                return new ManagementClient(urlBuilder, actionInvoker);
             }
 
             return new ManagementClient(options);
