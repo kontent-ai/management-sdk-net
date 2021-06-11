@@ -5,7 +5,7 @@
       {
         "Key": "Content-Length",
         "Value": [
-          "386"
+          "378"
         ]
       },
       {
@@ -16,8 +16,8 @@
       }
     ]
   },
-  "StatusCode": 200,
-  "ReasonPhrase": "OK",
+  "StatusCode": 201,
+  "ReasonPhrase": "Created",
   "Headers": [
     {
       "Key": "Connection",
@@ -26,9 +26,15 @@
       ]
     },
     {
+      "Key": "Location",
+      "Value": [
+        "https://manage.kontent.ai/v2/projects/{PROJECT_ID}/items/c2667297-d877-5368-a2f3-223b9c6c30a7"
+      ]
+    },
+    {
       "Key": "X-Request-ID",
       "Value": [
-        "62b40ccc7b2a6e4f"
+        "5c8be73d36540a4d"
       ]
     },
     {
@@ -58,7 +64,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Wed, 02 Jun 2021 15:11:04 GMT"
+        "Fri, 11 Jun 2021 10:25:09 GMT"
       ]
     },
     {
@@ -70,7 +76,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn4068-HHN"
+        "cache-hhn4053-HHN"
       ]
     },
     {
@@ -88,7 +94,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1622646664.133806,VS0,VE44"
+        "S1623407109.234535,VS0,VE96"
       ]
     }
   ],

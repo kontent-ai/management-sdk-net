@@ -34,7 +34,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
             foreach (var element in variant.Elements)
             {
-                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, element.Key));
+                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, element.value));
                 if (property == null) continue;
 
                 var value = GetTypedElementValue(property.PropertyType, element.Value);

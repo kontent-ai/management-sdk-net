@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using System.Threading.Tasks;
+using FluentAssertions;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Data;
@@ -14,6 +15,9 @@ using Kentico.Kontent.Management.Exceptions;
 using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Xunit.Sdk;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -52,27 +56,24 @@ namespace Kentico.Kontent.Management.Tests
 
         // Test constants, existing data references leverage the Dancing Goat sample site project that is generated for everyone
         protected static Guid EXISTING_ITEM_ID = Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515");
-        protected const string EXISTING_ITEM_CODENAME = "which_brewing_fits_you_";
+        protected const string EXISTING_ITEM_CODENAME = "on_roasts";
 
-        protected static Guid EXISTING_ITEM_ID2 = Guid.Parse("028f0e05-9f17-45be-962d-62bebe6b6f53");
+        protected static Guid EXISTING_ITEM_ID2 = Guid.Parse("0f79b41f-53d3-41b5-8fa0-153c87f60bc1");
 
         protected static Guid EXISTING_LANGUAGE_ID = Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024");
         protected const string EXISTING_LANGUAGE_CODENAME = "es-ES";
 
-        protected static Guid EXISTING_CONTENT_TYPE_ID = Guid.Parse("b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89");
+        protected static Guid EXISTING_CONTENT_TYPE_ID = Guid.Parse("ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7");
         protected const string EXISTING_CONTENT_TYPE_CODENAME = "article";
 
-        protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6a372f43-ccd7-e524-6308-c2094e7b6596");
+        protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8");
         protected const string EXISTING_TAXONOMY_TERM_CODENAME = "barista";
 
-        protected static Guid EXISTING_SITEMAP_NODE_ID = Guid.Parse("45a123f3-1c55-c697-7dae-78369c8f1e2c");
-        protected const string EXISTING_SITEMAP_NODE_CODENAME = "articles";
-
-        // Root -> 1e5203d8-ae2c-483b-b59b-0defebecf49a > 7194dda7-c5b3-4e85-91a2-026ba2c07e8d > 92c20b68-8f50-4b62-b630-eca6d9b512b3 -> 3b34af2a-526a-47bc-8a27-a40bb37dd3e2
-        protected const string ASSET_FOLDER_ID_1ST_LEVEL = "1e5203d8-ae2c-483b-b59b-0defebecf49a";
-        protected const string ASSET_FOLDER_ID_2ND_LEVEL = "7194dda7-c5b3-4e85-91a2-026ba2c07e8d";
-        protected const string ASSET_FOLDER_ID_3RD_LEVEL = "92c20b68-8f50-4b62-b630-eca6d9b512b3";
-        protected const string ASSET_FOLDER_ID_4TH_LEVEL = "3b34af2a-526a-47bc-8a27-a40bb37dd3e2";
+        // Root -> 0ce98752-a614-51a9-bf69-9539deb6532d > 04bf910c-bcac-5faf-ac32-a1f7169fdc0f > e2fe0a21-eb4c-5fba-8a28-697aeab81f83 -> ae11f9dd-ec34-5ecc-9b83-d4a3ae1d8c6b
+        protected const string ASSET_FOLDER_ID_1ST_LEVEL = "0ce98752-a614-51a9-bf69-9539deb6532d";
+        protected const string ASSET_FOLDER_ID_2ND_LEVEL = "04bf910c-bcac-5faf-ac32-a1f7169fdc0f";
+        protected const string ASSET_FOLDER_ID_3RD_LEVEL = "e2fe0a21-eb4c-5fba-8a28-697aeab81f83";
+        protected const string ASSET_FOLDER_ID_4TH_LEVEL = "ae11f9dd-ec34-5ecc-9b83-d4a3ae1d8c6b";
 
 
         protected static IList<dynamic> _elements = new object[]
@@ -83,12 +84,14 @@ namespace Kentico.Kontent.Management.Tests
                     id = "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
                 },
                 value = "On Roasts",
+                codename = "title"
             },
             new {
                  element = new {
                     id = "0827e079-3754-5a1d-9381-8ff695a5bbf7"
                 },
                 value = new DateTime(2017, 7, 4),
+                codename = "post_date"
             },
             new {
                 element = new {
@@ -98,25 +101,29 @@ namespace Kentico.Kontent.Management.Tests
 <h1>Light Roasts</h1>
 <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
 ",
+                codename = "body_copy"
             },
             new {
                 element = new {
                     id = "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
                 },
-                value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) }
+                value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+                codename = "related_articles"
             },
             new {
                 element = new {
                     id = "1f37e15b-27a0-5f48-b314-03b401c19cee"
                 },
                 mode = "custom",
-                value = "on-roasts"
+                value = "on-roasts",
+                codename = "url_pattern"
             },
             new {
                 element = new {
                     id = "c1dc36b5-558d-55a2-8f31-787430a68e4d"
                 },
-                value = new[] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) }
+                value = new[] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
+                codename = "personas"
             },
         };
 
@@ -136,29 +143,59 @@ namespace Kentico.Kontent.Management.Tests
             return TestUtils.CreateManagementClient(_options, _runType, testName);
         }
 
+        private static IList<dynamic> ElementsToRequest()
+        {
+            var elements = JArray.Parse(JsonConvert.SerializeObject(_elements));
+            IList<dynamic> result = new List<dynamic>();
+            foreach (var element in elements)
+            {
+                if (element is JObject jobject)
+                {
+                    jobject.Remove("codename");
+                    result.Add(jobject);
+                }
+                else
+                {
+                    throw new ArgumentException("_elemetns needs to contain only JObjects");
+                }
+            }
+
+            return result;
+        }
+
+        private static (dynamic expected, dynamic actual) GetElementByCodename(string codename, IEnumerable<dynamic> actualElements)
+        {
+            var expected = _elements.Single(x => x.codename == codename);
+            var actual = actualElements.Single(x => x.element.id == expected.element.id);
+
+            return (expected, actual);
+        }
+
         #endregion
 
         #region Item Variant
 
-        private string UnifyWhitespace(string text)
+private string UnifyWhitespace(string text)
         {
             return new Regex("\\s+", RegexOptions.Multiline).Replace(text, " ").Trim();
         }
 
         private void AssertResponseElements(ContentItemVariantModel responseVariant)
         {
-            // TODO #67 - make Element property strongly typed instead of dynamic to be able to compare
+            var (expected, actual) = GetElementByCodename("body_copy", responseVariant.Elements);
+            Assert.Equal(UnifyWhitespace(expected.value), UnifyWhitespace(actual.value));
 
-             Assert.Equal(_elements[0].value, responseVariant.Elements.ToList()[0].value);
-            // Assert.Equal(_elements.post_date, responseVariant.Elements.post_date);
-            // Assert.Equal(UnifyWhitespace(_elements.body_copy), UnifyWhitespace(responseVariant.Elements.body_copy));
-            // Assert.Equal(_elements.url_pattern, responseVariant.Elements.url_pattern);
+            (expected, actual) = GetElementByCodename("post_date", responseVariant.Elements);
+            Assert.Equal(expected.value, actual.value);
 
-            // Assert.Single(responseVariant.Elements.related_articles);
-            // Assert.Equal(EXISTING_ITEM_ID, responseVariant.Elements.related_articles[0].Id);
+            (expected, actual) = GetElementByCodename("url_pattern", responseVariant.Elements);
+            Assert.Equal(expected.value, actual.value);
 
-            // Assert.Single(responseVariant.Elements.personas);
-            // Assert.Equal(EXISTING_TAXONOMY_TERM_ID, responseVariant.Elements.personas[0].Id);
+            (expected, actual) = GetElementByCodename("related_articles", responseVariant.Elements);
+            Assert.Equal(EXISTING_ITEM_ID, actual.value[0].Id);
+
+            (expected, actual) = GetElementByCodename("personas", responseVariant.Elements);
+            Assert.Equal(EXISTING_TAXONOMY_TERM_ID, actual.value[0].Id);
         }
 
         private void AssertStronglyTypedResponseElements(ComplexTestModel elements)
@@ -181,7 +218,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var client = CreateManagementClient(nameof(UpsertVariant_ById_LanguageId_UpdatesVariant));
 
-            var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
+            var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = ElementsToRequest() };
 
             var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
@@ -368,7 +405,7 @@ namespace Kentico.Kontent.Management.Tests
             // Arrange
             var externalId = "4357b71d21eb45369d54a635faf7672b";
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var emptyElements = new { };
+            var emptyElements = new List<object>();
             var preparedVariant = await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, emptyElements, preparedItem);
 
             // Test
@@ -396,7 +433,7 @@ namespace Kentico.Kontent.Management.Tests
             // Arrange
             var externalId = "5249f596a8be4d719bc9816e3d416d16";
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var emptyElements = new { };
+            var emptyElements = new List<object>();
             var preparedVariant = await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, emptyElements, preparedItem);
 
             // Test
@@ -700,8 +737,7 @@ namespace Kentico.Kontent.Management.Tests
             {
                 CodeName = itemCodeName,
                 Name = itemName,
-                Type = type,
-                SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename(EXISTING_SITEMAP_NODE_CODENAME) }
+                Type = type
             };
 
             var responseItem = await client.CreateContentItemAsync(item);
@@ -709,8 +745,6 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(itemCodeName, responseItem.CodeName);
             Assert.Equal(EXISTING_CONTENT_TYPE_ID, responseItem.Type.Id);
-            Assert.Single(responseItem.SitemapLocations);
-            Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
 
             // Cleanup
             var itemToClean = ContentItemIdentifier.ByCodename(itemCodeName);
@@ -762,22 +796,18 @@ namespace Kentico.Kontent.Management.Tests
 
             var itemName = "Hooray!";
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var sitemapLocations = new[] { SitemapNodeIdentifier.ById(EXISTING_SITEMAP_NODE_ID) };
 
             // Set codename, name and sitemap locations
             var item = new ContentItemUpdateModel
             {
                 CodeName = EXISTING_ITEM_CODENAME,
-                Name = itemName,
-                SitemapLocations = sitemapLocations
+                Name = itemName
             };
 
             var responseItem = await client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.CodeName);
-            Assert.Single(responseItem.SitemapLocations);
-            Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
         }
 
         [Fact]
@@ -789,22 +819,17 @@ namespace Kentico.Kontent.Management.Tests
             var itemName = "Ciao!";
             var itemCodeName = "ciao_codename";
             var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID2);
-            var sitemapLocations = new[] { SitemapNodeIdentifier.ById(EXISTING_SITEMAP_NODE_ID) };
 
-            // Set codename, name and sitemap locations
             var item = new ContentItemUpdateModel
             {
                 CodeName = itemCodeName,
-                Name = itemName,
-                SitemapLocations = sitemapLocations
+                Name = itemName
             };
 
             var responseItem = await client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(itemCodeName, responseItem.CodeName);
-            Assert.Single(responseItem.SitemapLocations);
-            Assert.Equal(EXISTING_SITEMAP_NODE_ID, responseItem.SitemapLocations.Single().Id);
         }
 
         [Fact]
@@ -1109,7 +1134,7 @@ namespace Kentico.Kontent.Management.Tests
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
-            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("92c20b68-8f50-4b62-b630-eca6d9b512b3"); //Go three levels deep
+            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("e2fe0a21-eb4c-5fba-8a28-697aeab81f83"); //Go three levels deep
             var pathString = result.GetFullFolderPath(); //Should be a folder path string TopFolder\2ndFolder\3rdFolder (3 levels deep)
 
             Assert.NotNull(response);
@@ -1334,7 +1359,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var client = CreateManagementClient(nameof(UpdateAssetById_ReturnsUpdatedAsset));
 
-            var identifier = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
+            var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
             var title = "My super asset";
             var updatedDescription = new AssetDescription()
             {
@@ -1356,7 +1381,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var client = CreateManagementClient(nameof(GetAsset_WhenGivenAssetId_ReturnsGivenAsset));
 
-            var identifier = AssetIdentifier.ById(Guid.Parse("512047f1-2f7f-45fd-9e90-e71b8feae017"));
+            var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
 
             var response = await client.GetAssetAsync(identifier);
 
@@ -1433,12 +1458,12 @@ namespace Kentico.Kontent.Management.Tests
             var project = new Project
             {
                 Id = _options.ProjectId,
-                Name = "Sample Fixtures .NET MAPI SDK"
+                Name = ".NET MAPI V2 SDK Tests"
             };
 
             var itemMetadata = new Metadata
             {
-                Id = new Guid("cf106f4e-30a4-42ef-b313-b8ea3fd3e5c5"),
+                Id = new Guid("deee0b3c-7b3c-4841-a603-5ada23f550fd"),
                 Name = "Coffee Beverages Explained",
                 Codename = "coffee_beverages_explained"
             };
@@ -1452,7 +1477,7 @@ namespace Kentico.Kontent.Management.Tests
 
             var elementMetadata = new Metadata
             {
-                Id = new Guid("ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5"),
+                Id = new Guid("77108990-3c30-5ffb-8dcd-8eb85fc52cb1"),
                 Name = "Related articles",
                 Codename = "related_articles"
             };
