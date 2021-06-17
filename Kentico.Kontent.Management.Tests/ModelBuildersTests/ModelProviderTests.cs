@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.StronglyTyped;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Data;
@@ -64,7 +65,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             {
                 Title = "text",
                 PostDate = DateTime.Now,
-                UrlPattern = "urlslug",
+                UrlPattern = new UrlSlug{ Value = "urlslug", Mode = "custom"},
                 BodyCopy = "RichText",
                 TeaserImage = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(AssetIdentifier.ById).ToArray(),
                 RelatedArticles = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray(),

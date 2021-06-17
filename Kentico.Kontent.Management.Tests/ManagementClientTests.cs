@@ -14,6 +14,7 @@ using Kentico.Kontent.Management.Exceptions;
 
 using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
+using Kentico.Kontent.Management.Models.StronglyTyped;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -131,9 +132,9 @@ namespace Kentico.Kontent.Management.Tests
         {
             Title = "On Roast",
             PostDate = new DateTime(2017, 7, 4),
-            BodyCopy = "<h1>Light Roasts</h1><p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>",
+            BodyCopy = "<h1>Light Roasts</h1> <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>",
             RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
-            UrlPattern = "on-roasts",
+            UrlPattern = new UrlSlug{Value = "on-roasts", Mode = "custom"},
             Personas = new List<TaxonomyTermIdentifier> { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
             TeaserImage = new AssetIdentifier[] { }
         };
@@ -175,7 +176,7 @@ namespace Kentico.Kontent.Management.Tests
 
         #region Item Variant
 
-private string UnifyWhitespace(string text)
+        private string UnifyWhitespace(string text)
         {
             return new Regex("\\s+", RegexOptions.Multiline).Replace(text, " ").Trim();
         }
@@ -203,7 +204,8 @@ private string UnifyWhitespace(string text)
             Assert.Equal(StronglyTypedElements.Title, elements.Title);
             Assert.Equal(StronglyTypedElements.PostDate, elements.PostDate);
             Assert.Equal(UnifyWhitespace(StronglyTypedElements.BodyCopy), UnifyWhitespace(elements.BodyCopy));
-            Assert.Equal(StronglyTypedElements.UrlPattern, elements.UrlPattern);
+            Assert.Equal(StronglyTypedElements.UrlPattern.Mode, elements.UrlPattern.Mode);
+            Assert.Equal(StronglyTypedElements.UrlPattern.Value, elements.UrlPattern.Value);
             Assert.Single(elements.RelatedArticles);
             Assert.Equal(EXISTING_ITEM_ID, elements.RelatedArticles.First().Id);
 

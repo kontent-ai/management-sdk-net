@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             PropertyMapper = propertyMapper ?? new PropertyMapper();
         }
 
-        public ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : new()
+        public ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : IGeneratedModel, new()
         {
             var result = new ContentItemVariantModel<T>
             {
@@ -34,10 +34,10 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
             foreach (var element in variant.Elements)
             {
-                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, element.value));
+                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, instance.GetPropertyNameById(element.element.id)));
                 if (property == null) continue;
 
-                var value = GetTypedElementValue(property.PropertyType, element.Value);
+                var value = GetTypedElementValue(property.PropertyType, element);
                 if (value != null)
                 {
                     property.SetValue(instance, value);
@@ -48,14 +48,35 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             return result;
         }
 
-        public ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : new()
+        public ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : IGeneratedModel, new()
         {
             var type = typeof(T);
+            var instance = new T();
+
             var nameMapping = PropertyMapper.GetNameMapping(type);
 
             var elements = type.GetProperties()
                 .Where(x => (x.GetMethod?.IsPublic ?? false) && nameMapping.ContainsKey(x.Name) && x.GetValue(variantElements) != null)
-                .ToDictionary(x => nameMapping[x.Name], x => x.GetValue(variantElements));
+                .Select(x =>
+                {
+                    if (x.PropertyType == typeof(UrlSlug))
+                    {
+                        var slug = (dynamic)x.GetValue(variantElements);
+
+                        return new
+                        {
+                            element = new { id = instance.GetPropertyIdByName(nameMapping[x.Name]) },
+                            value = slug.Value,
+                            mode = slug.Mode
+                        };
+                    }
+                    
+                    return (dynamic)new
+                    {
+                        element = new {id = instance.GetPropertyIdByName(nameMapping[x.Name])},
+                        value = x.GetValue(variantElements)
+                    };
+                });
 
             var result = new ContentItemVariantUpsertModel
             {
@@ -65,44 +86,53 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             return result;
         }
 
-        private static object GetTypedElementValue(Type propertyType, object elementValue)
+        private static object GetTypedElementValue(Type propertyType, dynamic element)
         {
-            if (elementValue == null)
+            if (element.value == null)
             {
                 return null;
             }
 
-            if (elementValue.GetType() == propertyType)
+            if (propertyType == typeof(UrlSlug))
             {
-                return elementValue;
+                return new UrlSlug
+                {
+                    Mode = element.mode.ToString(),
+                    Value = element.value.ToString()
+                };
+            }
+
+            if (element.value.GetType() == propertyType)
+            {
+                return element.value;
             }
 
             if (propertyType == typeof(string))
             {
-                return elementValue.ToString();
+                return element.value.ToString();
             }
 
             if (IsNumericType(propertyType))
             {
-                return Convert.ChangeType(elementValue, propertyType);
+                return Convert.ChangeType(element.value, propertyType);
             }
 
             if (IsNullableType(propertyType) && IsNumericType(Nullable.GetUnderlyingType(propertyType)))
             {
-                return Convert.ChangeType(elementValue, Nullable.GetUnderlyingType(propertyType));
+                return Convert.ChangeType(element.value, Nullable.GetUnderlyingType(propertyType));
             }
 
             if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
             {
-                return Convert.ToDateTime(elementValue);
+                return Convert.ToDateTime(element.value);
             }
 
             if (IsArrayType(propertyType))
             {
-                return JArray.FromObject(elementValue)?.ToObject(propertyType);
+                return JArray.FromObject(element.value)?.ToObject(propertyType);
             }
 
-            return elementValue;
+            return element.value;
         }
 
         private static bool IsNumericType(Type type)

@@ -154,7 +154,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>A strongly-typed collection with content item variants.</returns>
-        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
+        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : IGeneratedModel, new()
         {
             if (identifier == null)
             {
@@ -173,7 +173,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item variant.</param>
         /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents content item variant.</returns>
-        public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : new()
+        public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : IGeneratedModel, new()
         {
             if (identifier == null)
             {
@@ -193,7 +193,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the content item variant.</param>
         /// <param name="variantElements">Represents inserted or updated  strongly typed content item variant elements.</param>
         /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents inserted or updated content item variant.</returns>
-        public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, T variantElements) where T : new()
+        public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, T variantElements) where T : IGeneratedModel, new()
         {
             if (identifier == null)
             {

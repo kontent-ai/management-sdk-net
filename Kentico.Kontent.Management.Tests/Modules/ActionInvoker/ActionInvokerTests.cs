@@ -38,10 +38,13 @@ namespace Kentico.Kontent.Management.Tests
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel()
             {
-                Elements = new
+                Elements = new List<dynamic>
                 {
-                    zero = d,
-                    optZero = new decimal?(d),
+                    new
+                    {
+                        zero = d,
+                        optZero = new decimal?(d),
+                    }
                 },
             };
 
