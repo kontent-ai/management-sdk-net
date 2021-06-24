@@ -220,7 +220,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var client = CreateManagementClient(nameof(UpsertVariant_ById_LanguageId_UpdatesVariant));
 
-            var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = ElementsToRequest() };
+            var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
             var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
             var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);

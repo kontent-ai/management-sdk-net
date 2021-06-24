@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kentico.Kontent.Management.Models.StronglyTyped
+﻿namespace Kentico.Kontent.Management.Models.StronglyTyped
 {
     /// <summary>
     /// 
@@ -16,6 +12,11 @@ namespace Kentico.Kontent.Management.Models.StronglyTyped
         /// <returns></returns>
         string GetPropertyNameById(string id);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         string GetPropertyIdByName(string name);
     }
 }

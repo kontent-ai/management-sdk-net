@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets elements of the variant.
         /// </summary>
         [JsonProperty("elements", Required = Required.Always)]
-        public dynamic Elements { get; set; }
+        public IEnumerable<dynamic> Elements { get; set; }
 
         /// <summary>
         /// Creates instance of content item variant upsert model.

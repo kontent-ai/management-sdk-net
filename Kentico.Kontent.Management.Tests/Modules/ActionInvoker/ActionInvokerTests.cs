@@ -49,7 +49,7 @@ namespace Kentico.Kontent.Management.Tests
             };
 
             var result = actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get, contentItemVariantUpsertModel);
-            Assert.Equal($"{{\"elements\":{{\"zero\":{s},\"optZero\":{s}}}}}", httpClient.requestBody);
+            Assert.Equal($"{{\"elements\":[{{\"zero\":{s},\"optZero\":{s}}}]}}", httpClient.requestBody);
         }
         
         [Fact]

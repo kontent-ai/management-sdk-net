@@ -3,6 +3,7 @@
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Mocks;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
+using System.Collections.Generic;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -73,7 +74,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        internal static async Task<ContentItemVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, object elements, ContentItemModel item)
+        internal static async Task<ContentItemVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
         {
             var addedItemIdentifier = ContentItemIdentifier.ByCodename(item.CodeName);
             var addedLanguageIdentifier = LanguageIdentifier.ByCodename(languageCodename);

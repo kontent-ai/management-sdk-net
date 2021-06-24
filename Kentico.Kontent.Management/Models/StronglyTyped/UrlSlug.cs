@@ -2,6 +2,9 @@
 
 namespace Kentico.Kontent.Management.Models.StronglyTyped
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class UrlSlug
     {
         /// <summary>
