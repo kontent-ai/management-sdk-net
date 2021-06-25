@@ -34,6 +34,11 @@ namespace Kentico.Kontent.Management
         /// <param name="ManagementOptions">The settings of the Kentico Kontent project.</param>
         public ManagementClient(IElementProvider elementProvider, ManagementOptions ManagementOptions)
         {
+            if (elementProvider == null)
+            {
+                throw new ArgumentException(nameof(elementProvider));
+            }
+
             if (ManagementOptions == null)
             {
                 throw new ArgumentNullException(nameof(ManagementOptions));
@@ -53,6 +58,7 @@ namespace Kentico.Kontent.Management
             {
                 throw new ArgumentException("The API key is not specified.", nameof(ManagementOptions.ApiKey));
             }
+
 
             _urlBuilder = new EndpointUrlBuilder(ManagementOptions);
             _actionInvoker = new ActionInvoker(

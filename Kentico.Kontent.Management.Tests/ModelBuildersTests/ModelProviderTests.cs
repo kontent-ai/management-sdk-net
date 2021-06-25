@@ -14,7 +14,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 {
     public class ModelProviderTests
     {
-        private readonly CustomElementProvider _elementProvider;
+        private readonly IElementProvider _elementProvider;
         private readonly IModelProvider _modelProvider;
 
         public ModelProviderTests()

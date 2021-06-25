@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.StronglyTyped;
@@ -8,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Tests.Data
 {
-    public class ComplexTestModel
+    internal class ComplexTestModel
     {
         [JsonProperty("title")]
         public string Title { get; set; }
