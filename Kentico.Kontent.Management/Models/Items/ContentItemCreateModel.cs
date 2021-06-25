@@ -32,5 +32,11 @@ namespace Kentico.Kontent.Management.Models.Items
         /// </summary>
         [JsonProperty("external_id")]
         public string ExternalId { get; set; }
+
+        /// <summary>
+        /// Gets or sets exernal identifier of the content item.
+        /// </summary>
+        [JsonProperty("collection")]
+        public CollectionIdentifier Collection { get; set; }
     }
 }

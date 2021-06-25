@@ -33,5 +33,11 @@ namespace Kentico.Kontent.Management.Models.Items
         /// </summary>
         [JsonProperty("sitemap_locations", Required = Required.Always)]
         public IEnumerable<SitemapNodeIdentifier> SitemapLocations { get; set; } = Enumerable.Empty<SitemapNodeIdentifier>();
+
+        /// <summary>
+        /// Gets or sets collection of the content item.
+        /// </summary>
+        [JsonProperty("collection")]
+        public CollectionIdentifier Collection { get; set; }
     }
 }

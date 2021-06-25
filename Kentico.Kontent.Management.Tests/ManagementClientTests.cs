@@ -15,8 +15,6 @@ using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -777,17 +775,19 @@ namespace Kentico.Kontent.Management.Tests
             var itemName = "Hooray!";
             var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
 
-            // Set codename, name and sitemap locations
+            // Set codename, name and collection
             var item = new ContentItemUpdateModel
             {
                 CodeName = EXISTING_ITEM_CODENAME,
-                Name = itemName
+                Name = itemName,
+                Collection = CollectionIdentifier.DEFAULT_COLLECTION
             };
 
             var responseItem = await client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.CodeName);
+            Assert.Equal(CollectionIdentifier.DEFAULT_COLLECTION.Id, responseItem.Collection.Id);
         }
 
         [Fact]
@@ -873,7 +873,8 @@ namespace Kentico.Kontent.Management.Tests
             {
                 CodeName = itemCodeName,
                 Name = itemName,
-                Type = type
+                Type = type,
+                Collection = CollectionIdentifier.DEFAULT_COLLECTION
             };
 
             var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
@@ -900,7 +901,8 @@ namespace Kentico.Kontent.Management.Tests
             {
                 CodeName = itemCodeName,
                 Name = itemName,
-                Type = type
+                Type = type,
+                Collection = CollectionIdentifier.DEFAULT_COLLECTION
             };
 
             var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
