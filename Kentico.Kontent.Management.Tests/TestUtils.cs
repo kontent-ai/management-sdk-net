@@ -3,6 +3,8 @@
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Mocks;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
+using System.Collections.Generic;
+using Kentico.Kontent.Management.Tests.Data;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -34,6 +36,7 @@ namespace Kentico.Kontent.Management.Tests
         
         internal static ManagementClient CreateManagementClient(ManagementOptions options, TestRunType runType, string testName)
         {
+            var elementProvider = new CustomElementProvider();
             if (runType != TestRunType.LiveEndPoint)
             {
                 var saveToFileSystem = runType == TestRunType.LiveEndPoint_SaveToFileSystem;
@@ -42,10 +45,10 @@ namespace Kentico.Kontent.Management.Tests
                 var urlBuilder = new EndpointUrlBuilder(options);
                 var actionInvoker = new ActionInvoker(httpClient, new MessageCreator(options.ApiKey));
 
-                return new ManagementClient(urlBuilder, actionInvoker);
+                return new ManagementClient(elementProvider, urlBuilder, actionInvoker);
             }
 
-            return new ManagementClient(options);
+            return new ManagementClient(elementProvider, options);
         }
 
         internal static async Task<ContentItemModel> PrepareTestItem(ManagementClient client, string typeCodename, string externalId = null)
@@ -73,7 +76,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        internal static async Task<ContentItemVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, object elements, ContentItemModel item)
+        internal static async Task<ContentItemVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
         {
             var addedItemIdentifier = ContentItemIdentifier.ByCodename(item.CodeName);
             var addedLanguageIdentifier = LanguageIdentifier.ByCodename(languageCodename);
