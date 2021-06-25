@@ -30,8 +30,9 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified project.
         /// </summary>
+        /// <param name="mapProvider"></param>
         /// <param name="ManagementOptions">The settings of the Kentico Kontent project.</param>
-        public ManagementClient(ManagementOptions ManagementOptions)
+        public ManagementClient(IPropertyProvider mapProvider, ManagementOptions ManagementOptions)
         {
             if (ManagementOptions == null)
             {
@@ -57,14 +58,14 @@ namespace Kentico.Kontent.Management
             _actionInvoker = new ActionInvoker(
                 new ManagementHttpClient(new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
                 new MessageCreator(ManagementOptions.ApiKey));
-            _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
+            _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider(mapProvider);
         }
 
-        internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
+        internal ManagementClient(IPropertyProvider mapProvider, EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
         {
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
             _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
-            _modelProvider = modelProvider ?? new ModelProvider();
+            _modelProvider = modelProvider ?? new ModelProvider(mapProvider);
         }
 
         #region Variants
@@ -154,7 +155,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>A strongly-typed collection with content item variants.</returns>
-        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : IGeneratedModel, new()
+        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
         {
             if (identifier == null)
             {
@@ -173,7 +174,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item variant.</param>
         /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents content item variant.</returns>
-        public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : IGeneratedModel, new()
+        public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : new()
         {
             if (identifier == null)
             {
@@ -193,7 +194,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the content item variant.</param>
         /// <param name="variantElements">Represents inserted or updated  strongly typed content item variant elements.</param>
         /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents inserted or updated content item variant.</returns>
-        public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, T variantElements) where T : IGeneratedModel, new()
+        public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, T variantElements) where T : new()
         {
             if (identifier == null)
             {

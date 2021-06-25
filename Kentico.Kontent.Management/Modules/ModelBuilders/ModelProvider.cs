@@ -13,12 +13,15 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
     {
         public IPropertyMapper PropertyMapper { get; set; }
 
-        internal ModelProvider(IPropertyMapper propertyMapper = null)
+        public IPropertyProvider PropertyProvider { get; set; }
+
+        internal ModelProvider(IPropertyProvider mapProvider, IPropertyMapper propertyMapper = null)
         {
             PropertyMapper = propertyMapper ?? new PropertyMapper();
+            PropertyProvider = mapProvider;
         }
 
-        public ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : IGeneratedModel, new()
+        public ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : new()
         {
             var result = new ContentItemVariantModel<T>
             {
@@ -34,7 +37,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
             foreach (var element in variant.Elements)
             {
-                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, instance.GetPropertyNameById(element.element.id)));
+                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, PropertyProvider.GetPropertyNameById(type, element.element.id)));
                 if (property == null) continue;
 
                 var value = GetTypedElementValue(property.PropertyType, element);
@@ -48,10 +51,9 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             return result;
         }
 
-        public ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : IGeneratedModel, new()
+        public ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : new()
         {
             var type = typeof(T);
-            var instance = new T();
 
             var nameMapping = PropertyMapper.GetNameMapping(type);
 
@@ -65,7 +67,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
                         return new
                         {
-                            element = new { id = instance.GetPropertyIdByName(nameMapping[x.Name]) },
+                            element = new { id = PropertyProvider.GetPropertyIdByName(type, nameMapping[x.Name]) },
                             value = slug.Value,
                             mode = slug.Mode
                         };
@@ -73,7 +75,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                     
                     return (dynamic)new
                     {
-                        element = new {id = instance.GetPropertyIdByName(nameMapping[x.Name])},
+                        element = new {id = PropertyProvider.GetPropertyIdByName(type, nameMapping[x.Name])},
                         value = x.GetValue(variantElements)
                     };
                 });

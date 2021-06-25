@@ -14,11 +14,13 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 {
     public class ModelProviderTests
     {
+        private readonly CustomPropertyProvider _propertyProvider;
         private readonly IModelProvider _modelProvider;
 
         public ModelProviderTests()
         {
-            _modelProvider = new ModelProvider();
+            _propertyProvider = new CustomPropertyProvider();
+            _modelProvider = new ModelProvider(_propertyProvider);
         }
 
         [Fact]
@@ -44,16 +46,18 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             AssertElements(expected, actual);
         }
 
-        private static void AssertElements(ComplexTestModel expected, IEnumerable<dynamic> actual)
+        private void AssertElements(ComplexTestModel expected, IEnumerable<dynamic> actual)
         {
-            Assert.Equal(expected.Title, actual.Single(x => x.element.id == expected.GetPropertyIdByName("title")).value);
-            Assert.Equal(expected.PostDate, actual.Single(x => x.element.id == expected.GetPropertyIdByName("post_date")).value);
-            Assert.Equal(expected.UrlPattern.Mode, actual.Single(x => x.element.id == expected.GetPropertyIdByName("url_pattern")).mode);
-            Assert.Equal(expected.UrlPattern.Value, actual.Single(x => x.element.id == expected.GetPropertyIdByName("url_pattern")).value);
-            Assert.Equal(expected.BodyCopy, actual.Single(x => x.element.id == expected.GetPropertyIdByName("body_copy")).value);
-            Assert.Equal(expected.TeaserImage, actual.Single(x => x.element.id == expected.GetPropertyIdByName("teaser_image")).value);
-            Assert.Equal(expected.RelatedArticles, actual.Single(x => x.element.id == expected.GetPropertyIdByName("related_articles")).value);
-            Assert.Equal(expected.Personas, actual.Single(x => x.element.id == expected.GetPropertyIdByName("personas")).value);
+            var type = typeof(ComplexTestModel);
+
+            Assert.Equal(expected.Title, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "title")).value);
+            Assert.Equal(expected.PostDate, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "post_date")).value);
+            Assert.Equal(expected.UrlPattern.Mode, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "url_pattern")).mode);
+            Assert.Equal(expected.UrlPattern.Value, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "url_pattern")).value);
+            Assert.Equal(expected.BodyCopy, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "body_copy")).value);
+            Assert.Equal(expected.TeaserImage, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "teaser_image")).value);
+            Assert.Equal(expected.RelatedArticles, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "related_articles")).value);
+            Assert.Equal(expected.Personas, actual.Single(x => x.element.id == _propertyProvider.GetPropertyIdByName(type, "personas")).value);
         }
 
         private static void AssertElements(ComplexTestModel expected, ComplexTestModel actual)
@@ -83,43 +87,45 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             };
         }
 
-        private static IEnumerable<dynamic> ToDynamic(ComplexTestModel model)
+        private IEnumerable<dynamic> ToDynamic(ComplexTestModel model)
         {
+            var type = typeof(ComplexTestModel);
+
             var elements = new List<dynamic> {
                 new
                 {
-                    element = new { id = model.GetPropertyIdByName("title") },
+                    element = new { id = _propertyProvider.GetPropertyIdByName(type, "title") },
                     value = model.Title
                 },
                 new
                 {
-                    element = new { id = model.GetPropertyIdByName("post_date") },
+                    element = new { id = _propertyProvider.GetPropertyIdByName(type, "post_date") },
                     value = model.PostDate
                 },
                 new
                 {
-                    element = new { id = model.GetPropertyIdByName("url_pattern") },
+                    element = new { id = _propertyProvider.GetPropertyIdByName(type, "url_pattern") },
                     value = model.UrlPattern.Value,
                     mode = model.UrlPattern.Mode
                 },
                 new
                 {
-                    element = new { id = model.GetPropertyIdByName("body_copy") },
+                    element = new { id = _propertyProvider.GetPropertyIdByName(type, "body_copy") },
                     value = model.BodyCopy
                 },
                 new
                 {
-                    element = new { id = model.GetPropertyIdByName("teaser_image") },
+                    element = new { id = _propertyProvider.GetPropertyIdByName(type, "teaser_image") },
                     value = model.TeaserImage
                 },
                 new
                 {
-                    element = new { id = model.GetPropertyIdByName("related_articles") },
+                    element = new { id = _propertyProvider.GetPropertyIdByName(type, "related_articles") },
                     value = model.RelatedArticles
                 },
                 new
                 {
-                    element = new { id = model.GetPropertyIdByName("personas") },
+                    element = new { id = _propertyProvider.GetPropertyIdByName(type, "personas") },
                     value = model.Personas
                 }
             };

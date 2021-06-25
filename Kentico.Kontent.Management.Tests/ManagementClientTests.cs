@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using System.Threading.Tasks;
-using FluentAssertions;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Data;
@@ -18,7 +17,6 @@ using Kentico.Kontent.Management.Models.StronglyTyped;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xunit.Sdk;
 
 namespace Kentico.Kontent.Management.Tests
 {
