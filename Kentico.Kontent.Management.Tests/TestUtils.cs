@@ -36,7 +36,7 @@ namespace Kentico.Kontent.Management.Tests
         
         internal static ManagementClient CreateManagementClient(ManagementOptions options, TestRunType runType, string testName)
         {
-            var propertyProvider = new CustomPropertyProvider();
+            var elementProvider = new CustomElementProvider();
             if (runType != TestRunType.LiveEndPoint)
             {
                 var saveToFileSystem = runType == TestRunType.LiveEndPoint_SaveToFileSystem;
@@ -45,10 +45,10 @@ namespace Kentico.Kontent.Management.Tests
                 var urlBuilder = new EndpointUrlBuilder(options);
                 var actionInvoker = new ActionInvoker(httpClient, new MessageCreator(options.ApiKey));
 
-                return new ManagementClient(propertyProvider, urlBuilder, actionInvoker);
+                return new ManagementClient(elementProvider, urlBuilder, actionInvoker);
             }
 
-            return new ManagementClient(propertyProvider, options);
+            return new ManagementClient(elementProvider, options);
         }
 
         internal static async Task<ContentItemModel> PrepareTestItem(ManagementClient client, string typeCodename, string externalId = null)

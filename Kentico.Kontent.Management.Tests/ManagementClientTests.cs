@@ -142,26 +142,6 @@ namespace Kentico.Kontent.Management.Tests
             return TestUtils.CreateManagementClient(_options, _runType, testName);
         }
 
-        private static IList<dynamic> ElementsToRequest()
-        {
-            var elements = JArray.Parse(JsonConvert.SerializeObject(_elements));
-            IList<dynamic> result = new List<dynamic>();
-            foreach (var element in elements)
-            {
-                if (element is JObject jobject)
-                {
-                    jobject.Remove("codename");
-                    result.Add(jobject);
-                }
-                else
-                {
-                    throw new ArgumentException("_elemetns needs to contain only JObjects");
-                }
-            }
-
-            return result;
-        }
-
         private static (dynamic expected, dynamic actual) GetElementByCodename(string codename, IEnumerable<dynamic> actualElements)
         {
             var expected = _elements.Single(x => x.codename == codename);

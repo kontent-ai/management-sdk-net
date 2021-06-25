@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kentico.Kontent.Management.Tests.Data
 {
-    public class CustomPropertyProvider : IPropertyProvider
+    public class CustomElementProvider : IElementProvider
     {
         private Dictionary<Type, Dictionary<string, string>> _typeMap = new()
         {
@@ -26,12 +26,12 @@ namespace Kentico.Kontent.Management.Tests.Data
 
         private Dictionary<Type, Dictionary<string, string>> _reverseTypeMap;
 
-        public CustomPropertyProvider()
+        public CustomElementProvider()
         {
             _reverseTypeMap = _typeMap.ToDictionary(x => x.Key, x => x.Value.ToDictionary((y) => y.Value, (y) => y.Key));
         }
 
-        public string GetPropertyNameById(Type type, string id)
+        public string GetElementCodenameById(Type type, string id)
         {
             if (_typeMap.TryGetValue(type, out var innerMap))
             {
@@ -44,7 +44,7 @@ namespace Kentico.Kontent.Management.Tests.Data
             return null;
         }
 
-        public string GetPropertyIdByName(Type type, string name)
+        public string GetElementIdByCodename(Type type, string name)
         {
             if (_reverseTypeMap.TryGetValue(type, out var innerMap))
             {

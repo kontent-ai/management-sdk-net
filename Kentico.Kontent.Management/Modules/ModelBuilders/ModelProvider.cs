@@ -13,12 +13,12 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
     {
         public IPropertyMapper PropertyMapper { get; set; }
 
-        public IPropertyProvider PropertyProvider { get; set; }
+        public IElementProvider ElementProvider { get; set; }
 
-        internal ModelProvider(IPropertyProvider mapProvider, IPropertyMapper propertyMapper = null)
+        internal ModelProvider(IElementProvider elementProvider, IPropertyMapper propertyMapper = null)
         {
             PropertyMapper = propertyMapper ?? new PropertyMapper();
-            PropertyProvider = mapProvider;
+            ElementProvider = elementProvider;
         }
 
         public ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : new()
@@ -37,7 +37,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
             foreach (var element in variant.Elements)
             {
-                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, PropertyProvider.GetPropertyNameById(type, element.element.id)));
+                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, ElementProvider.GetElementCodenameById(type, element.element.id)));
                 if (property == null) continue;
 
                 var value = GetTypedElementValue(property.PropertyType, element);
@@ -67,7 +67,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
                         return new
                         {
-                            element = new { id = PropertyProvider.GetPropertyIdByName(type, nameMapping[x.Name]) },
+                            element = new { id = ElementProvider.GetElementIdByCodename(type, nameMapping[x.Name]) },
                             value = slug.Value,
                             mode = slug.Mode
                         };
@@ -75,7 +75,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                     
                     return (dynamic)new
                     {
-                        element = new {id = PropertyProvider.GetPropertyIdByName(type, nameMapping[x.Name])},
+                        element = new {id = ElementProvider.GetElementIdByCodename(type, nameMapping[x.Name])},
                         value = x.GetValue(variantElements)
                     };
                 });
