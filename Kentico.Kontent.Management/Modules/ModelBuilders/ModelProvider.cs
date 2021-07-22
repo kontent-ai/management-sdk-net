@@ -31,7 +31,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             foreach (var elementObject in variant.Elements)
             {
                 // TODO fix element.element
-                var property = properties.FirstOrDefault(x => x.GetCustomAttribute<KontentElementIdAttribute>(true).ElementId == elementObject.element.id);
+                var property = properties.FirstOrDefault(x => x.GetCustomAttribute<KontentElementIdAttribute>().ElementId == elementObject.element.id);
                 if (property == null)
                 {
                     continue;

@@ -57,6 +57,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             foreach (var prop in elementProperties)
             {
                 // TODO we might want to get specific elements to assert rather then iterate through them - rewrite to specific elements
+                // TODO fix GetContentItemVariantUpsertModel_ReturnsExpected
                 var expectedValue = expected.GetType().GetProperty(prop.Name).GetValue(expected);
                 var elementId = expected.GetType().GetProperty(prop.Name)?.GetKontentElementId();
                 Assert.Equal(expectedValue, actual.Single(x => x.element.id == elementId).value);
@@ -97,38 +98,38 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             var elements = new List<dynamic> {
                 new
                 {
-                    element = new { id = type.GetProperty("title")?.GetKontentElementId() },
+                    element = new { id = type.GetProperty("Title")?.GetKontentElementId() },
                     value = model.Title
                 },
                 new
                 {
-                    element = new { id = type.GetProperty("post_date")?.GetKontentElementId() },
+                    element = new { id = type.GetProperty("PostDate")?.GetKontentElementId() },
                     value = model.PostDate
                 },
                 new
                 {
-                    element = new { id = type.GetProperty("url_pattern")?.GetKontentElementId() },
+                    element = new { id = type.GetProperty("UrlPattern")?.GetKontentElementId() },
                     value = model.UrlPattern.Value,
                     mode = model.UrlPattern.Mode
                 },
                 new
                 {
-                    element = new { id = type.GetProperty("body_copy")?.GetKontentElementId() },
+                    element = new { id = type.GetProperty("BodyCopy")?.GetKontentElementId() },
                     value = model.BodyCopy
                 },
                 new
                 {
-                    element = new { id = type.GetProperty("teaser_image")?.GetKontentElementId() },
+                    element = new { id = type.GetProperty("TeaserImage")?.GetKontentElementId() },
                     value = model.TeaserImage
                 },
                 new
                 {
-                    element = new { id = type.GetProperty("related_articles")?.GetKontentElementId()},
+                    element = new { id = type.GetProperty("RelatedArticles")?.GetKontentElementId()},
                     value = model.RelatedArticles
                 },
                 new
                 {
-                    element = new { id = type.GetProperty("personas")?.GetKontentElementId() },
+                    element = new { id = type.GetProperty("Personas")?.GetKontentElementId() },
                     value = model.Personas
                 }
             };
