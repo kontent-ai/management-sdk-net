@@ -30,9 +30,8 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified project.
         /// </summary>
-        /// <param name="elementProvider"></param>
         /// <param name="ManagementOptions">The settings of the Kentico Kontent project.</param>
-        public ManagementClient(IElementProvider elementProvider, ManagementOptions ManagementOptions)
+        public ManagementClient(ManagementOptions ManagementOptions)
         {
             if (ManagementOptions == null)
             {
@@ -58,14 +57,14 @@ namespace Kentico.Kontent.Management
             _actionInvoker = new ActionInvoker(
                 new ManagementHttpClient(new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
                 new MessageCreator(ManagementOptions.ApiKey));
-            _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider(elementProvider);
+            _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
         }
 
-        internal ManagementClient(IElementProvider elementProvider, EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
+        internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
         {
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
             _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
-            _modelProvider = modelProvider ?? new ModelProvider(elementProvider);
+            _modelProvider = modelProvider ?? new ModelProvider();
         }
 
         #region Variants

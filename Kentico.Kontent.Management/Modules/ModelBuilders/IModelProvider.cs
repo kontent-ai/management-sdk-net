@@ -9,11 +9,6 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
     public interface IModelProvider
     {
         /// <summary>
-        /// Ensures mapping between Kentico Kontent content item fields and model properties.
-        /// </summary>
-        IPropertyMapper PropertyMapper { get; set; }
-
-        /// <summary>
         /// Builds a strongly typed model from non-generic model.
         /// </summary>
         /// <typeparam name="T">Strongly typed content item model.</typeparam>

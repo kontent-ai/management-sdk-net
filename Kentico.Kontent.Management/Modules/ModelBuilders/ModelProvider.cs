@@ -5,21 +5,14 @@ using System.Reflection;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.StronglyTyped;
+using Kentico.Kontent.Management.Modules.Extensions;
 using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Modules.ModelBuilders
 {
     internal class ModelProvider : IModelProvider
     {
-        public IPropertyMapper PropertyMapper { get; set; }
-
-        public IElementProvider ElementProvider { get; set; }
-
-        internal ModelProvider(IElementProvider elementProvider, IPropertyMapper propertyMapper = null)
-        {
-            PropertyMapper = propertyMapper ?? new PropertyMapper();
-            ElementProvider = elementProvider;
-        }
+        internal ModelProvider() { }
 
         public ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : new()
         {
@@ -35,12 +28,16 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
             var properties = type.GetProperties().Where(x => x.SetMethod?.IsPublic ?? false).ToList();
 
-            foreach (var element in variant.Elements)
+            foreach (var elementObject in variant.Elements)
             {
-                var property = properties.FirstOrDefault(x => PropertyMapper.IsMatch(x, ElementProvider.GetElementCodenameById(type, element.element.id)));
-                if (property == null) continue;
+                // TODO fix element.element
+                var property = properties.FirstOrDefault(x => x.GetCustomAttribute<KontentElementIdAttribute>(true).ElementId == elementObject.element.id);
+                if (property == null)
+                {
+                    continue;
+                }
 
-                var value = GetTypedElementValue(property.PropertyType, element);
+                var value = GetTypedElementValue(property.PropertyType, elementObject);
                 if (value != null)
                 {
                     property.SetValue(instance, value);
@@ -55,27 +52,27 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
         {
             var type = typeof(T);
 
-            var nameMapping = PropertyMapper.GetNameMapping(type);
-
             var elements = type.GetProperties()
-                .Where(x => (x.GetMethod?.IsPublic ?? false) && nameMapping.ContainsKey(x.Name) && x.GetValue(variantElements) != null)
+                .Where(x => (x.GetMethod?.IsPublic ?? false) && x.GetValue(variantElements) != null)
                 .Select(x =>
                 {
+                    // TODO add strongly typed elements
                     if (x.PropertyType == typeof(UrlSlug))
                     {
+                        var elementId = x.GetKontentElementId();
                         var slug = (dynamic)x.GetValue(variantElements);
 
                         return new
                         {
-                            element = new { id = ElementProvider.GetElementIdByCodename(type, nameMapping[x.Name]) },
+                            element = new { id = elementId },
                             value = slug.Value,
                             mode = slug.Mode
                         };
                     }
-                    
+
                     return (dynamic)new
                     {
-                        element = new {id = ElementProvider.GetElementIdByCodename(type, nameMapping[x.Name])},
+                        element = new { id = x.GetKontentElementId() },
                         value = x.GetValue(variantElements)
                     };
                 });
