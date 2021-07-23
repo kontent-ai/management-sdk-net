@@ -13,6 +13,7 @@ using Kentico.Kontent.Management.Models.StronglyTyped;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
+using Kentico.Kontent.Management.Models.Types;
 
 namespace Kentico.Kontent.Management
 {
@@ -33,11 +34,6 @@ namespace Kentico.Kontent.Management
         /// <param name="ManagementOptions">The settings of the Kentico Kontent project.</param>
         public ManagementClient(ManagementOptions ManagementOptions)
         {
-            if (elementProvider == null)
-            {
-                throw new ArgumentException(nameof(elementProvider));
-            }
-
             if (ManagementOptions == null)
             {
                 throw new ArgumentNullException(nameof(ManagementOptions));
@@ -148,6 +144,28 @@ namespace Kentico.Kontent.Management
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        #endregion
+
+        #region Types
+
+        /// <summary>
+        /// Todo.
+        /// </summary>
+        /// <returns>todo</returns>
+        public async Task<ListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildListTypesUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<ContentTypeModel>(GetNextTypeListingPageAsync, response.Pagination?.Token, response.Types);
+        }
+
+        private async Task<IListingResponse<ContentTypeModel>> GetNextTypeListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildTypesListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
         }
 
         #endregion

@@ -28,6 +28,8 @@ namespace Kentico.Kontent.Management
 
         private const string URL_VALIDATE = "/validate";
 
+        private const string URL_TYPES = "/types";
+
         private readonly ManagementOptions _options;
 
         internal EndpointUrlBuilder(ManagementOptions options)
@@ -64,11 +66,25 @@ namespace Kentico.Kontent.Management
 
         #endregion
 
+        #region Types
+
+        internal string BuildListTypesUrl()
+        {
+            return GetUrl(string.Concat(URL_TYPES));
+        }
+
+        #endregion
+
         #region Items
 
         internal string BuildItemsListingUrl(string continuationToken = null)
         {
             return (continuationToken != null) ? GetUrl(URL_ITEM, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_ITEM);
+        }
+
+        internal string BuildTypesListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_TYPES, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
         }
 
         internal string BuildItemsUrl()

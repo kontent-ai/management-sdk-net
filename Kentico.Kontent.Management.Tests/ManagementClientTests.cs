@@ -15,6 +15,8 @@ using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 using Microsoft.Extensions.Configuration;
+using Kentico.Kontent.Management.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -33,7 +35,7 @@ namespace Kentico.Kontent.Management.Tests
         /// Allows to adjust the test run type to achieve the desired behavior (see the <see cref="TestUtils.TestRunType"/> enum for more details).
         /// IMPORTANT: Commit always with TestRunType.MockFromFileSystem
         /// </summary>
-        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.MockFromFileSystem;
+        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.LiveEndPoint;
 
         public ManagementClientTests()
         {
@@ -1487,6 +1489,50 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Name, actual.Name);
             Assert.Equal(expected.Codename, actual.Codename);
+        }
+
+        #endregion
+
+        #region Type
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void ListContentTypes_ListsContentTypes()
+        {
+            var client = CreateManagementClient(nameof(ListContentTypes_ListsContentTypes));
+
+            var response = await client.ListContentTypesAsync();
+
+            Assert.NotNull(response);
+            Assert.NotNull(response.FirstOrDefault());
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        //Todo
+        //does not really test pagination as the default page size is 50 items 
+        //same applies to content item test (where is page size 100)
+        public async void ListContentTypes_WithContinuation_ListContentTypes()
+        {
+            var client = CreateManagementClient(nameof(ListContentTypes_WithContinuation_ListContentTypes));
+
+            var response = await client.ListContentTypesAsync();
+            Assert.NotNull(response);
+
+            while (true)
+            {
+                foreach (var item in response)
+                {
+                    Assert.NotNull(item);
+                }
+
+                if (!response.HasNextPage())
+                {
+                    break;
+                }
+                response = await response.GetNextPage();
+                Assert.NotNull(response);
+            }
         }
 
         #endregion
