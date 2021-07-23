@@ -16,7 +16,7 @@ namespace Kentico.Kontent.Management.Tests.Data
         public TextElement Title { get; set; }
 
         [JsonProperty("rating")]
-        [KontentElementId("bb5bd83e-18fc-4d9d-bd51-b6a2f4c197b9")]
+        [KontentElementId("773940f4-9e67-4a26-a93f-67e55fd7d837")]
         public NumberElement Rating { get; set; }
 
         [JsonProperty("post_date")]
@@ -28,7 +28,7 @@ namespace Kentico.Kontent.Management.Tests.Data
         public string BodyCopy { get; set; }
 
         [JsonProperty("selected_form")]
-        [KontentElementId("238f5b80-aa0c-4e83-900e-e43c83751dc3")]
+        [KontentElementId("47bf7d6d-285d-4ed0-9919-1d1a98b43acd")]
         public CustomElement SelectedForm { get; set; }
 
         [JsonProperty("summary")]

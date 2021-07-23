@@ -5,7 +5,7 @@
       {
         "Key": "Content-Length",
         "Value": [
-          "324"
+          "331"
         ]
       },
       {
@@ -28,13 +28,13 @@
     {
       "Key": "Location",
       "Value": [
-        "https://manage.kontent.ai/v2/projects/{PROJECT_ID}/items/df0b750f-feee-4350-b386-3b4d3997c81a"
+        "https://manage.kontent.ai/v2/projects/{PROJECT_ID}/items/c8092292-7bc0-4c07-9cbd-67ef263ca92f"
       ]
     },
     {
       "Key": "X-Request-ID",
       "Value": [
-        "89c0eb8f05a08d4a"
+        "e45bc06d00266b4d"
       ]
     },
     {
@@ -64,7 +64,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Fri, 11 Jun 2021 10:25:08 GMT"
+        "Fri, 23 Jul 2021 15:25:06 GMT"
       ]
     },
     {
@@ -76,7 +76,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn4043-HHN"
+        "cache-hhn4026-HHN"
       ]
     },
     {
@@ -94,7 +94,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1623407108.205191,VS0,VE43"
+        "S1627053907.695595,VS0,VE83"
       ]
     }
   ],
