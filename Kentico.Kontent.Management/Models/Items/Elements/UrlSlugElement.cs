@@ -20,12 +20,12 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        public UrlSlugElement(JToken data = null) : base(data)
+        public UrlSlugElement(dynamic data = null)
         {
             if (data != null)
             {
-                Mode = data["mode"]?.ToString();
-                Value = data["value"]?.ToString();
+                Mode = data.mode?.ToString();
+                Value = data.value?.ToString();
             }
         }
 

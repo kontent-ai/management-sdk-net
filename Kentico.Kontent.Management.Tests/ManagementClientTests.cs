@@ -126,8 +126,10 @@ namespace Kentico.Kontent.Management.Tests
 
         private static readonly ComplexTestModel StronglyTypedElements = new ComplexTestModel
         {
-            Title = "On Roast",
-            PostDate = new DateTime(2017, 7, 4),
+            Title = new TextElement { Value = "On Roast" },
+            Rating = new NumberElement { Value = 3.14m },
+            SelectedForm = new CustomElement { Value = "{\"formId\": 42}" },
+            PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
             BodyCopy = "<h1>Light Roasts</h1> <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>",
             RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
             UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },

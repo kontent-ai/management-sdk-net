@@ -15,11 +15,11 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public decimal? Value { get; set; }
 
-        public NumberElement(JToken data = null) : base(data)
+        public NumberElement(dynamic data = null)
         {
             if (data != null)
             {
-                Value = Convert.ToDecimal(data["value"]);
+                Value = Convert.ToDecimal(data.value);
             }
         }
 

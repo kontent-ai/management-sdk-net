@@ -14,11 +14,11 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        public TextElement(JToken data = null) : base(data)
+        public TextElement(dynamic data = null)
         {
             if (data != null)
             {
-                Value = data["value"]?.ToString();
+                Value = data.value?.ToString();
             }
         }
 

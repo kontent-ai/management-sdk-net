@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using Kentico.Kontent.Management.Models.Assets;
@@ -38,9 +39,9 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                     continue;
                 }
 
-                var elementObjectToken = (JToken)elementObject;
+                var elementObjectToken = (object)elementObject;
                 var propertyInstance = property.PropertyType.GetConstructors()
-                    .FirstOrDefault(c => c.GetParameters().Length == 1 && c.GetParameters()[0].ParameterType == typeof(JToken))
+                    .FirstOrDefault(c => c.GetParameters().Length == 1 && c.GetParameters()[0].ParameterType == typeof(object))
                     .Invoke(new object[] { elementObjectToken });
 
                 property.SetValue(instance, propertyInstance);

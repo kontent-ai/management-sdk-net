@@ -15,11 +15,11 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public DateTime Value { get; set; }
 
-        public DateTimeElement(JToken data = null) : base(data)
+        public DateTimeElement(dynamic data = null)
         {
             if (data != null)
             {
-                Value = Convert.ToDateTime(data["value"]);
+                Value = Convert.ToDateTime(data.value);
             }
         }
 
