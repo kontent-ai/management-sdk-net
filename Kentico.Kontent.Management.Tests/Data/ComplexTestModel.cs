@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
-using Kentico.Kontent.Management.Models.StronglyTyped;
+using Kentico.Kontent.Management.Models.Items.Elements;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Newtonsoft.Json;
 
@@ -50,6 +49,6 @@ namespace Kentico.Kontent.Management.Tests.Data
 
         [JsonProperty("url_pattern")]
         [KontentElementId("1f37e15b-27a0-5f48-b314-03b401c19cee")]
-        public UrlSlug UrlPattern { get; set; }
+        public UrlSlugElement UrlPattern { get; set; }
     }
 }

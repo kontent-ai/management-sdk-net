@@ -13,10 +13,8 @@ using Kentico.Kontent.Management.Exceptions;
 
 using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
-using Kentico.Kontent.Management.Models.StronglyTyped;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Kentico.Kontent.Management.Models.Items.Elements;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -132,7 +130,7 @@ namespace Kentico.Kontent.Management.Tests
             PostDate = new DateTime(2017, 7, 4),
             BodyCopy = "<h1>Light Roasts</h1> <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>",
             RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
-            UrlPattern = new UrlSlug{Value = "on-roasts", Mode = "custom"},
+            UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
             Personas = new List<TaxonomyTermIdentifier> { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
             TeaserImage = new AssetIdentifier[] { }
         };

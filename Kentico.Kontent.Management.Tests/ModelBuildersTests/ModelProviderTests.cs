@@ -10,6 +10,7 @@ using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Data;
 using Newtonsoft.Json;
 using Xunit;
+using Kentico.Kontent.Management.Models.Items.Elements;
 
 namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 {
@@ -100,7 +101,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             {
                 Title = "text",
                 PostDate = DateTime.Now,
-                UrlPattern = new UrlSlug { Value = "urlslug", Mode = "custom" },
+                UrlPattern = new UrlSlugElement { Value = "urlslug", Mode = "custom" },
                 BodyCopy = "RichText",
                 TeaserImage = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(AssetIdentifier.ById).ToArray(),
                 RelatedArticles = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray(),
