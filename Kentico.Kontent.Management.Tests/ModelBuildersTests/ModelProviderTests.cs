@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Models.Items;
@@ -40,28 +39,46 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
         public void GetContentItemVariantUpsertModel_ReturnsExpected()
         {
             var model = GetTestModel();
-            var expected = model;
-            var actual = _modelProvider.GetContentItemVariantUpsertModel(model).Elements;
+            var type = model.GetType();
 
-            AssertElements(expected, actual);
-        }
+            var upsertVariantElements = _modelProvider.GetContentItemVariantUpsertModel(model).Elements;
 
-        private void AssertElements(ComplexTestModel expected, IEnumerable<dynamic> actual)
-        {
-            var type = typeof(ComplexTestModel);
+            var titleValue = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.Title))?.GetKontentElementId()
+            ).value;
 
-            var elementProperties = type.GetProperties()
-                .Where(prop => prop.IsDefined(typeof(KontentElementIdAttribute), false))
-                .ToList();
+            var postDateValue = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId()
+            ).value;
 
-            foreach (var prop in elementProperties)
-            {
-                // TODO we might want to get specific elements to assert rather then iterate through them - rewrite to specific elements
-                // TODO fix GetContentItemVariantUpsertModel_ReturnsExpected
-                var expectedValue = expected.GetType().GetProperty(prop.Name).GetValue(expected);
-                var elementId = expected.GetType().GetProperty(prop.Name)?.GetKontentElementId();
-                Assert.Equal(expectedValue, actual.Single(x => x.element.id == elementId).value);
-            }
+            var urlPatternElement = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId()
+            );
+
+            var bodyCopyValue = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
+            ).value;
+
+            var teaserImage = upsertVariantElements.SingleOrDefault(elementObject =>
+                elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
+            ).value as IEnumerable<AssetIdentifier>;
+
+            var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
+            ).value as IEnumerable<TaxonomyTermIdentifier>;
+
+            var relatedArticles = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
+            ).value as IEnumerable<ContentItemIdentifier>;
+
+            Assert.Equal(model.Title, titleValue);
+            Assert.Equal(model.PostDate, postDateValue);
+            Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
+            Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
+            Assert.Equal(model.BodyCopy, bodyCopyValue);
+            AssertIdentifiers(model.TeaserImage.Select(x => x.Id.Value), teaserImage.Select(x => x.Id.Value));
+            AssertIdentifiers(model.RelatedArticles.Select(x => x.Id.Value), relatedArticles.Select(x => x.Id.Value));
+            AssertIdentifiers(model.Personas.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
         }
 
         private static void AssertElements(ComplexTestModel expected, ComplexTestModel actual)
@@ -71,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             Assert.Equal(expected.UrlPattern.Mode, actual.UrlPattern.Mode);
             Assert.Equal(expected.UrlPattern.Value, actual.UrlPattern.Value);
             Assert.Equal(expected.BodyCopy, actual.BodyCopy);
-            AssertIdentifiers(expected.Personas?.Select(x => x.Id.Value), actual.Personas?.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.TeaserImage?.Select(x => x.Id.Value), actual.TeaserImage?.Select(x => x.Id.Value));
             AssertIdentifiers(expected.RelatedArticles?.Select(x => x.Id.Value), actual.RelatedArticles?.Select(x => x.Id.Value));
             AssertIdentifiers(expected.Personas?.Select(x => x.Id.Value), actual.Personas?.Select(x => x.Id.Value));
 
