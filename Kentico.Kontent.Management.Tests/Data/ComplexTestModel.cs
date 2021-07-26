@@ -43,7 +43,7 @@ namespace Kentico.Kontent.Management.Tests.Data
 
         [JsonProperty("personas")]
         [KontentElementId("c1dc36b5-558d-55a2-8f31-787430a68e4d")]
-        public List<TaxonomyTermIdentifier> Personas { get; set; }
+        public TaxonomyElement Personas { get; set; }
 
         [JsonProperty("meta_keywords")]
         [KontentElementId("0ee20a72-0aaa-521f-8801-df3d9293b7dd")]

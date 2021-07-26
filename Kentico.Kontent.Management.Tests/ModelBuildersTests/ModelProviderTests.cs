@@ -71,9 +71,9 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
             ).value as IEnumerable<AssetIdentifier>;
 
-            // var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
-            //      elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
-            // ).value as IEnumerable<TaxonomyTermIdentifier>;
+            var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
+            ).value as IEnumerable<TaxonomyTermIdentifier>;
 
             // var relatedArticles = upsertVariantElements.SingleOrDefault(elementObject =>
             //      elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
@@ -88,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             // Assert.Equal(model.BodyCopy, bodyCopyValue);
             AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
             // AssertIdentifiers(model.RelatedArticles.Select(x => x.Id.Value), relatedArticles.Select(x => x.Id.Value));
-            // AssertIdentifiers(model.Personas.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
+            AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
         }
 
         private static void AssertElements(ComplexTestModel expected, ComplexTestModel actual)
@@ -116,7 +116,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 BodyCopy = "RichText",
                 TeaserImage = new AssetElement { Value = new[] { AssetIdentifier.ById(Guid.NewGuid()), AssetIdentifier.ById(Guid.NewGuid()) } },
                 RelatedArticles = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray(),
-                Personas = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(TaxonomyTermIdentifier.ById).ToList(),
+                Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(TaxonomyTermIdentifier.ById).ToList() },
             };
         }
 
@@ -166,11 +166,11 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 //     element = new { id = type.GetProperty(nameof(ComplexTestModel.RelatedArticles))?.GetKontentElementId()},
                 //     value = model.RelatedArticles
                 // },
-                // new
-                // {
-                //     element = new { id = type.GetProperty(nameof(ComplexTestModel.Personas))?.GetKontentElementId() },
-                //     value = model.Personas
-                // }
+                new
+                {
+                    element = new { id = type.GetProperty(nameof(ComplexTestModel.Personas))?.GetKontentElementId() },
+                    value = model.Personas.Value
+                },
             };
 
             var serialized = JsonConvert.SerializeObject(elements, new JsonSerializerSettings

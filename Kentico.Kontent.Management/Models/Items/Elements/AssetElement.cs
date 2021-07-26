@@ -23,7 +23,7 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
             if (data != null)
             {
                 // TODO - Verify if the internal type <ObjectIdentifier> is ok - maybe AssetIdentifier would fit in DynamicObjectJsonCoverter better
-                Value = ((IEnumerable<ObjectIdentifier>)data.value).Select(item => AssetIdentifier.ById(item.Id));
+                Value = ((IEnumerable<ObjectIdentifier>)data.value).Select(identifier => AssetIdentifier.ById(identifier.Id));
             }
         }
 

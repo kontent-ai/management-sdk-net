@@ -28,13 +28,13 @@
     {
       "Key": "Location",
       "Value": [
-        "https://manage.kontent.ai/v2/projects/{PROJECT_ID}/items/522896e2-cfcb-4381-899f-ce3b4b3fd872"
+        "https://manage.kontent.ai/v2/projects/{PROJECT_ID}/items/85431a9b-c459-4a5c-b485-e71cb86ae17e"
       ]
     },
     {
       "Key": "X-Request-ID",
       "Value": [
-        "2e9855be41a01e41"
+        "e72c5e19500bed42"
       ]
     },
     {
@@ -64,7 +64,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Fri, 23 Jul 2021 15:24:58 GMT"
+        "Mon, 26 Jul 2021 14:34:59 GMT"
       ]
     },
     {
@@ -94,7 +94,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1627053898.950215,VS0,VE138"
+        "S1627310099.483623,VS0,VE55"
       ]
     }
   ],
