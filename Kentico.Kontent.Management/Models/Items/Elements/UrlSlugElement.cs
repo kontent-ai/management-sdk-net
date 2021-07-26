@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 namespace Kentico.Kontent.Management.Models.Items.Elements
 {
     /// <summary>
-    /// Represents strongly typed url  slug element
+    /// Represents strongly typed url slug element.
     /// </summary>
     public class UrlSlugElement : BaseElement
     {
