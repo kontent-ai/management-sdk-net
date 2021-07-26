@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Kentico.Kontent.Management.Models.Assets;
+﻿using System.Collections.Generic;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Items.Elements;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
@@ -37,7 +35,7 @@ namespace Kentico.Kontent.Management.Tests.Data
 
         [JsonProperty("teaser_image")]
         [KontentElementId("9c6a4fbc-3f73-585f-9521-8d57636adf56")]
-        public AssetIdentifier[] TeaserImage { get; set; }
+        public AssetElement TeaserImage { get; set; }
 
         [JsonProperty("related_articles")]
         [KontentElementId("77108990-3c30-5ffb-8dcd-8eb85fc52cb1")]

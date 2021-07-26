@@ -71,7 +71,7 @@ namespace Kentico.Kontent.Management.Tests
         protected const string ASSET_FOLDER_ID_2ND_LEVEL = "04bf910c-bcac-5faf-ac32-a1f7169fdc0f";
         protected const string ASSET_FOLDER_ID_3RD_LEVEL = "e2fe0a21-eb4c-5fba-8a28-697aeab81f83";
         protected const string ASSET_FOLDER_ID_4TH_LEVEL = "ae11f9dd-ec34-5ecc-9b83-d4a3ae1d8c6b";
-
+        protected static Guid EXISTING_ASSET_ID = Guid.Parse("5c08a538-5b58-44eb-81ef-43fb37eeb815");
 
         protected static IList<dynamic> _elements = new object[]
         {
@@ -134,7 +134,10 @@ namespace Kentico.Kontent.Management.Tests
             RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
             UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
             Personas = new List<TaxonomyTermIdentifier> { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) },
-            TeaserImage = new AssetIdentifier[] { }
+            TeaserImage = new AssetElement
+            {
+                Value = new[] { AssetIdentifier.ById(EXISTING_ASSET_ID) },
+            }
         };
 
         private ManagementClient CreateManagementClient(string testName)
@@ -185,6 +188,8 @@ namespace Kentico.Kontent.Management.Tests
             // Assert.Equal(UnifyWhitespace(StronglyTypedElements.BodyCopy), UnifyWhitespace(elements.BodyCopy));
             Assert.Equal(StronglyTypedElements.UrlPattern.Mode, elements.UrlPattern.Mode);
             Assert.Equal(StronglyTypedElements.UrlPattern.Value, elements.UrlPattern.Value);
+            Assert.NotNull(elements.TeaserImage.Value);
+            Assert.Equal(StronglyTypedElements.TeaserImage.Value.FirstOrDefault()?.Id, elements.TeaserImage.Value.FirstOrDefault()?.Id);
             // Assert.Single(elements.RelatedArticles);
             // Assert.Equal(EXISTING_ITEM_ID, elements.RelatedArticles.First().Id);
 

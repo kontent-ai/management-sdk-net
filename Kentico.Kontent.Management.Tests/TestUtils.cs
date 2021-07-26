@@ -4,7 +4,6 @@ using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Mocks;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using System.Collections.Generic;
-using Kentico.Kontent.Management.Tests.Data;
 
 namespace Kentico.Kontent.Management.Tests
 {

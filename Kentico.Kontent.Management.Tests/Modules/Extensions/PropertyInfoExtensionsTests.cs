@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-
-using Kentico.Kontent.Management.Modules.HttpClient;
-using Kentico.Kontent.Management.Modules.Extensions;
+﻿using Kentico.Kontent.Management.Modules.Extensions;
+using Kentico.Kontent.Management.Modules.ModelBuilders;
 
 using Xunit;
-using Kentico.Kontent.Management.Modules.ModelBuilders;
 
 namespace Kentico.Kontent.Management.Tests
 {
