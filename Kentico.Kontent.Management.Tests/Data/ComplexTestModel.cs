@@ -17,6 +17,10 @@ namespace Kentico.Kontent.Management.Tests.Data
         [KontentElementId("773940f4-9e67-4a26-a93f-67e55fd7d837")]
         public NumberElement Rating { get; set; }
 
+        [JsonProperty("options")]
+        [KontentElementId("53a25074-b136-4a1f-a16d-3c130f696c66")]
+        public MultipleChoiceElement Options { get; set; }
+
         [JsonProperty("post_date")]
         [KontentElementId("0827e079-3754-5a1d-9381-8ff695a5bbf7")]
         public DateTimeElement PostDate { get; set; }

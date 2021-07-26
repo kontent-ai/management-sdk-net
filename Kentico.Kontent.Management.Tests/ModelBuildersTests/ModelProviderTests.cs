@@ -67,6 +67,10 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             //      elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
             // ).value;
 
+            // var relatedArticles = upsertVariantElements.SingleOrDefault(elementObject =>
+            //      elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
+            // ).value as IEnumerable<ContentItemIdentifier>;
+
             var teaserImageValue = upsertVariantElements.SingleOrDefault(elementObject =>
                 elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
             ).value as IEnumerable<AssetIdentifier>;
@@ -75,9 +79,9 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                  elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
             ).value as IEnumerable<TaxonomyTermIdentifier>;
 
-            // var relatedArticles = upsertVariantElements.SingleOrDefault(elementObject =>
-            //      elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
-            // ).value as IEnumerable<ContentItemIdentifier>;
+            var optionsValue = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
+            ).value as IEnumerable<MultipleChoiceOptionIdentifier>;
 
             Assert.Equal(model.Title.Value, titleValue);
             Assert.Equal(model.Rating.Value, ratingValue);
@@ -86,9 +90,10 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
             Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
             // Assert.Equal(model.BodyCopy, bodyCopyValue);
-            AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
             // AssertIdentifiers(model.RelatedArticles.Select(x => x.Id.Value), relatedArticles.Select(x => x.Id.Value));
+            AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
+            AssertIdentifiers(model.Options.Value.Select(x => x.Id.Value), optionsValue.Select(x => x.Id.Value));
         }
 
         private static void AssertElements(ComplexTestModel expected, ComplexTestModel actual)
@@ -99,9 +104,10 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             Assert.Equal(expected.UrlPattern.Mode, actual.UrlPattern.Mode);
             Assert.Equal(expected.UrlPattern.Value, actual.UrlPattern.Value);
             // Assert.Equal(expected.BodyCopy, actual.BodyCopy);
-            AssertIdentifiers(expected.TeaserImage?.Value?.Select(x => x.Id.Value), actual.TeaserImage?.Value.Select(x => x.Id.Value));
             // AssertIdentifiers(expected.RelatedArticles?.Select(x => x.Id.Value), actual.RelatedArticles?.Select(x => x.Id.Value));
-            // AssertIdentifiers(expected.Personas?.Select(x => x.Id.Value), actual.Personas?.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.TeaserImage?.Value?.Select(x => x.Id.Value), actual.TeaserImage?.Value.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.Options.Value?.Select(x => x.Id.Value), actual.Options.Value?.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.Personas.Value?.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
         }
 
         private static ComplexTestModel GetTestModel()
@@ -117,6 +123,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 TeaserImage = new AssetElement { Value = new[] { AssetIdentifier.ById(Guid.NewGuid()), AssetIdentifier.ById(Guid.NewGuid()) } },
                 RelatedArticles = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray(),
                 Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(TaxonomyTermIdentifier.ById).ToList() },
+                Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(MultipleChoiceOptionIdentifier.ById).ToList() },
             };
         }
 
@@ -156,11 +163,6 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 //     element = new { id = type.GetProperty(nameof(ComplexTestModel.BodyCopy))?.GetKontentElementId() },
                 //     value = model.BodyCopy
                 // },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.TeaserImage))?.GetKontentElementId() },
-                    value = model.TeaserImage.Value
-                },
                 // new
                 // {
                 //     element = new { id = type.GetProperty(nameof(ComplexTestModel.RelatedArticles))?.GetKontentElementId()},
@@ -168,8 +170,18 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 // },
                 new
                 {
+                    element = new { id = type.GetProperty(nameof(ComplexTestModel.TeaserImage))?.GetKontentElementId() },
+                    value = model.TeaserImage.Value
+                },
+                new
+                {
                     element = new { id = type.GetProperty(nameof(ComplexTestModel.Personas))?.GetKontentElementId() },
                     value = model.Personas.Value
+                },
+                new
+                {
+                    element = new { id = type.GetProperty(nameof(ComplexTestModel.Options))?.GetKontentElementId() },
+                    value = model.Options.Value
                 },
             };
 

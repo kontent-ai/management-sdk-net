@@ -10,11 +10,14 @@ using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Data;
 using Kentico.Kontent.Management.Exceptions;
+using Kentico.Kontent.Management.Modules.Extensions;
 
 using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Microsoft.Extensions.Configuration;
 using Kentico.Kontent.Management.Models.Items.Elements;
+using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -66,6 +69,11 @@ namespace Kentico.Kontent.Management.Tests
         protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8");
         protected const string EXISTING_TAXONOMY_TERM_CODENAME = "barista";
 
+        protected const string EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID = "paid";
+        protected static Guid EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID = Guid.Parse("00c0f86a-7c51-4e60-abeb-a150e9092e53");
+        protected const string EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED = "featured";
+        protected static Guid EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED = Guid.Parse("8972dc90-ae2e-416e-995d-95df6c77e3b2");
+
         // Root -> 0ce98752-a614-51a9-bf69-9539deb6532d > 04bf910c-bcac-5faf-ac32-a1f7169fdc0f > e2fe0a21-eb4c-5fba-8a28-697aeab81f83 -> ae11f9dd-ec34-5ecc-9b83-d4a3ae1d8c6b
         protected const string ASSET_FOLDER_ID_1ST_LEVEL = "0ce98752-a614-51a9-bf69-9539deb6532d";
         protected const string ASSET_FOLDER_ID_2ND_LEVEL = "04bf910c-bcac-5faf-ac32-a1f7169fdc0f";
@@ -78,49 +86,70 @@ namespace Kentico.Kontent.Management.Tests
             new
             {
                 element = new {
-                    id = "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()
                 },
                 value = "On Roasts",
-                codename = "title"
+                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                  element = new {
-                    id = "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()
                 },
                 value = new DateTime(2017, 7, 4),
-                codename = "post_date"
+                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
+//             new {
+//                 element = new {
+//                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId()
+//                 },
+//                 value = @"
+// <h1>Light Roasts</h1>
+// <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
+// ",
+//                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
+//             },
+            // new {
+            //     element = new {
+            //         id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()
+            //     },
+            //     value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+            //     codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
+            // },
             new {
                 element = new {
-                    id = "55a88ab3-4009-5bf9-a590-f32162f09b92"
-                },
-                value = @"
-<h1>Light Roasts</h1>
-<p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
-",
-                codename = "body_copy"
-            },
-            new {
-                element = new {
-                    id = "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
-                },
-                value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
-                codename = "related_articles"
-            },
-            new {
-                element = new {
-                    id = "1f37e15b-27a0-5f48-b314-03b401c19cee"
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()
                 },
                 mode = "custom",
                 value = "on-roasts",
-                codename = "url_pattern"
+                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                 element = new {
-                    id = "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()
                 },
                 value = new[] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
-                codename = "personas"
+                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
+            },
+            new {
+                element = new {
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()
+                },
+                value = new[]
+                {
+                    AssetIdentifier.ById(EXISTING_ASSET_ID),
+                },
+                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
+            },
+            new {
+                element = new {
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetKontentElementId()
+                },
+                value = new[]
+                {
+                    MultipleChoiceOptionIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
+                    MultipleChoiceOptionIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
+                },
+                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
         };
 
@@ -137,7 +166,15 @@ namespace Kentico.Kontent.Management.Tests
             TeaserImage = new AssetElement
             {
                 Value = new[] { AssetIdentifier.ById(EXISTING_ASSET_ID) },
-            }
+            },
+            Options = new MultipleChoiceElement
+            {
+                Value = new[]
+                {
+                    MultipleChoiceOptionIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID),
+                    MultipleChoiceOptionIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED)
+                }
+            },
         };
 
         private ManagementClient CreateManagementClient(string testName)
@@ -164,20 +201,31 @@ namespace Kentico.Kontent.Management.Tests
 
         private void AssertResponseElements(ContentItemVariantModel responseVariant)
         {
-            var (expected, actual) = GetElementByCodename("body_copy", responseVariant.Elements);
-            Assert.Equal(UnifyWhitespace(expected.value), UnifyWhitespace(actual.value));
+            var (expected, actual) = GetElementByCodename("title", responseVariant.Elements);
+            Assert.Equal(expected.value, actual.value);
 
             (expected, actual) = GetElementByCodename("post_date", responseVariant.Elements);
             Assert.Equal(expected.value, actual.value);
 
             (expected, actual) = GetElementByCodename("url_pattern", responseVariant.Elements);
+            Assert.Equal(expected.mode, actual.mode);
             Assert.Equal(expected.value, actual.value);
 
-            (expected, actual) = GetElementByCodename("related_articles", responseVariant.Elements);
-            Assert.Equal(EXISTING_ITEM_ID, actual.value[0].Id);
+            // (expected, actual) = GetElementByCodename("body_copy", responseVariant.Elements);
+            // Assert.Equal(UnifyWhitespace(expected.value), UnifyWhitespace(actual.value));
+
+            // (expected, actual) = GetElementByCodename("related_articles", responseVariant.Elements);
+            // Assert.Equal(EXISTING_ITEM_ID, actual.value[0].Id);
 
             (expected, actual) = GetElementByCodename("personas", responseVariant.Elements);
             Assert.Equal(EXISTING_TAXONOMY_TERM_ID, actual.value[0].Id);
+
+            (expected, actual) = GetElementByCodename("teaser_image", responseVariant.Elements);
+            Assert.Equal(EXISTING_ASSET_ID, actual.value[0].Id);
+
+            (expected, actual) = GetElementByCodename("options", responseVariant.Elements);
+            Assert.Equal(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID, actual.value[0].Id);
+            Assert.Equal(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED, actual.value[1].Id);
         }
 
         private void AssertStronglyTypedResponseElements(ComplexTestModel elements)
@@ -190,11 +238,17 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(StronglyTypedElements.UrlPattern.Value, elements.UrlPattern.Value);
             Assert.NotNull(elements.TeaserImage.Value);
             Assert.Equal(StronglyTypedElements.TeaserImage.Value.FirstOrDefault()?.Id, elements.TeaserImage.Value.FirstOrDefault()?.Id);
+            Assert.NotNull(elements.Options.Value);
+            Assert.NotEmpty(elements.Options.Value);
+            Assert.Equal(StronglyTypedElements.Options.Value.Select(option => option.Id), elements.Options.Value.Select(option => option.Id));
+            Assert.Contains(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID, elements.Options.Value.Select(option => option.Id));
+            Assert.Contains(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED, elements.Options.Value.Select(option => option.Id));
+
             // Assert.Single(elements.RelatedArticles);
             // Assert.Equal(EXISTING_ITEM_ID, elements.RelatedArticles.First().Id);
 
-            // Assert.Single(elements.Personas);
-            // Assert.Equal(EXISTING_TAXONOMY_TERM_ID, elements.Personas[0].Id);
+            Assert.Single(elements.Personas.Value);
+            Assert.Equal(EXISTING_TAXONOMY_TERM_ID, elements.Personas.Value.FirstOrDefault()?.Id);
         }
 
 
