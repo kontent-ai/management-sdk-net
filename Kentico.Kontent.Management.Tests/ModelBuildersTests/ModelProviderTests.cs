@@ -67,9 +67,9 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             //      elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
             // ).value;
 
-            // var relatedArticles = upsertVariantElements.SingleOrDefault(elementObject =>
-            //      elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
-            // ).value as IEnumerable<ContentItemIdentifier>;
+            var relatedArticlesValue = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
+            ).value as IEnumerable<ContentItemIdentifier>;
 
             var teaserImageValue = upsertVariantElements.SingleOrDefault(elementObject =>
                 elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
@@ -90,7 +90,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
             Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
             // Assert.Equal(model.BodyCopy, bodyCopyValue);
-            // AssertIdentifiers(model.RelatedArticles.Select(x => x.Id.Value), relatedArticles.Select(x => x.Id.Value));
+            AssertIdentifiers(model.RelatedArticles.Value.Select(x => x.Id.Value), relatedArticlesValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.Options.Value.Select(x => x.Id.Value), optionsValue.Select(x => x.Id.Value));
@@ -104,7 +104,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             Assert.Equal(expected.UrlPattern.Mode, actual.UrlPattern.Mode);
             Assert.Equal(expected.UrlPattern.Value, actual.UrlPattern.Value);
             // Assert.Equal(expected.BodyCopy, actual.BodyCopy);
-            // AssertIdentifiers(expected.RelatedArticles?.Select(x => x.Id.Value), actual.RelatedArticles?.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.RelatedArticles?.Value?.Select(x => x.Id.Value), actual.RelatedArticles?.Value?.Select(x => x.Id.Value));
             AssertIdentifiers(expected.TeaserImage?.Value?.Select(x => x.Id.Value), actual.TeaserImage?.Value.Select(x => x.Id.Value));
             AssertIdentifiers(expected.Options.Value?.Select(x => x.Id.Value), actual.Options.Value?.Select(x => x.Id.Value));
             AssertIdentifiers(expected.Personas.Value?.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
@@ -121,7 +121,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 UrlPattern = new UrlSlugElement { Value = "urlslug", Mode = "custom" },
                 BodyCopy = "RichText",
                 TeaserImage = new AssetElement { Value = new[] { AssetIdentifier.ById(Guid.NewGuid()), AssetIdentifier.ById(Guid.NewGuid()) } },
-                RelatedArticles = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray(),
+                RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray() },
                 Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(TaxonomyTermIdentifier.ById).ToList() },
                 Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(MultipleChoiceOptionIdentifier.ById).ToList() },
             };
@@ -163,11 +163,11 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 //     element = new { id = type.GetProperty(nameof(ComplexTestModel.BodyCopy))?.GetKontentElementId() },
                 //     value = model.BodyCopy
                 // },
-                // new
-                // {
-                //     element = new { id = type.GetProperty(nameof(ComplexTestModel.RelatedArticles))?.GetKontentElementId()},
-                //     value = model.RelatedArticles
-                // },
+                new
+                {
+                    element = new { id = type.GetProperty(nameof(ComplexTestModel.RelatedArticles))?.GetKontentElementId()},
+                    value = model.RelatedArticles.Value
+                },
                 new
                 {
                     element = new { id = type.GetProperty(nameof(ComplexTestModel.TeaserImage))?.GetKontentElementId() },

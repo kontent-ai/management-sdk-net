@@ -43,7 +43,7 @@ namespace Kentico.Kontent.Management.Tests.Data
 
         [JsonProperty("related_articles")]
         [KontentElementId("77108990-3c30-5ffb-8dcd-8eb85fc52cb1")]
-        public IEnumerable<ContentItemIdentifier> RelatedArticles { get; set; }
+        public LinkedItemsElement RelatedArticles { get; set; }
 
         [JsonProperty("personas")]
         [KontentElementId("c1dc36b5-558d-55a2-8f31-787430a68e4d")]

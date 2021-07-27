@@ -108,13 +108,13 @@ namespace Kentico.Kontent.Management.Tests
 // ",
 //                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
 //             },
-            // new {
-            //     element = new {
-            //         id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()
-            //     },
-            //     value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
-            //     codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
-            // },
+            new {
+                element = new {
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()
+                },
+                value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
+            },
             new {
                 element = new {
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()
@@ -160,7 +160,7 @@ namespace Kentico.Kontent.Management.Tests
             SelectedForm = new CustomElement { Value = "{\"formId\": 42}" },
             PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
             BodyCopy = "<h1>Light Roasts</h1> <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>",
-            RelatedArticles = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+            RelatedArticles = new LinkedItemsElement { Value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) } },
             UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
             Personas = new TaxonomyElement { Value = new[] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } },
             TeaserImage = new AssetElement
@@ -214,8 +214,8 @@ namespace Kentico.Kontent.Management.Tests
             // (expected, actual) = GetElementByCodename("body_copy", responseVariant.Elements);
             // Assert.Equal(UnifyWhitespace(expected.value), UnifyWhitespace(actual.value));
 
-            // (expected, actual) = GetElementByCodename("related_articles", responseVariant.Elements);
-            // Assert.Equal(EXISTING_ITEM_ID, actual.value[0].Id);
+            (expected, actual) = GetElementByCodename("related_articles", responseVariant.Elements);
+            Assert.Equal(EXISTING_ITEM_ID, actual.value[0].Id);
 
             (expected, actual) = GetElementByCodename("personas", responseVariant.Elements);
             Assert.Equal(EXISTING_TAXONOMY_TERM_ID, actual.value[0].Id);
@@ -244,8 +244,8 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Contains(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID, elements.Options.Value.Select(option => option.Id));
             Assert.Contains(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED, elements.Options.Value.Select(option => option.Id));
 
-            // Assert.Single(elements.RelatedArticles);
-            // Assert.Equal(EXISTING_ITEM_ID, elements.RelatedArticles.First().Id);
+            Assert.Single(elements.RelatedArticles.Value);
+            Assert.Equal(EXISTING_ITEM_ID, elements.RelatedArticles.Value.First().Id);
 
             Assert.Single(elements.Personas.Value);
             Assert.Equal(EXISTING_TAXONOMY_TERM_ID, elements.Personas.Value.FirstOrDefault()?.Id);
