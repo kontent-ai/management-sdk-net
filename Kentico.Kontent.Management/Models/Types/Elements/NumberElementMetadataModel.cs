@@ -12,5 +12,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("guidelines")]
         public string Guidelines { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.Number;
     }
 }

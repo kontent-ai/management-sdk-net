@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         [EnumMember(Value = "asset")]
         Asset = 6,
         [EnumMember(Value = "modular_content")]
-        ModularContent = 7,
+        LinkedItems = 7,
         [EnumMember(Value = "guidelines")]
         Guidelines = 8,
         [EnumMember(Value = "taxonomy")]

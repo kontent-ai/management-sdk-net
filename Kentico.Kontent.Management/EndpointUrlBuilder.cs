@@ -29,6 +29,9 @@ namespace Kentico.Kontent.Management
         private const string URL_VALIDATE = "/validate";
 
         private const string URL_TYPES = "/types";
+        private const string URL_TEMPLATE_TYPES_ID = "/types/{0}";
+        private const string URL_TEMPLATE_TYPES_CODENAME = "/types/codename/{0}";
+        private const string URL_TEMPLATE_TYPES_EXTERNAL_ID = "/types/external-id/{0}";
 
         private readonly ManagementOptions _options;
 
@@ -71,6 +74,43 @@ namespace Kentico.Kontent.Management
         internal string BuildListTypesUrl()
         {
             return GetUrl(string.Concat(URL_TYPES));
+        }
+
+        internal string BuildTypeUrl()
+        {
+            return GetUrl(URL_TYPES);
+        }
+
+        internal string BuildTypeUrl(ContentTypeIdentifier identifier)
+        {
+            var itemSegment = GetTypeUrlSegment(identifier);
+            return GetUrl(itemSegment);
+        }
+
+        private string GetTypeUrlSegment(ContentTypeIdentifier identifier)
+        {
+            if (identifier.Id != null)
+            {
+                return string.Format(URL_TEMPLATE_TYPES_ID, identifier.Id);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.Codename))
+            {
+                return string.Format(URL_TEMPLATE_TYPES_CODENAME, identifier.Codename);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.ExternalId))
+            {
+                return BuildTypeUrlSegmentFromExternalId(identifier.ExternalId);
+            }
+
+            throw new ArgumentException("You must provide item's id, codename or externalId");
+        }
+
+        internal string BuildTypeUrlSegmentFromExternalId(string externalId)
+        {
+            var escapedExternalId = WebUtility.UrlEncode(externalId);
+            return string.Format(URL_TEMPLATE_TYPES_EXTERNAL_ID, escapedExternalId);
         }
 
         #endregion

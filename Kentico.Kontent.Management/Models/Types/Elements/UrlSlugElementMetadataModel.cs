@@ -15,5 +15,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("depends_on")]
         public UrlSlugDependency DependsOn { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.UrlSlug;
     }
 }

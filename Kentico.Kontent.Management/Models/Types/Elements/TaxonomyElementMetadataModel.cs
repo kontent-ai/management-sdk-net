@@ -15,5 +15,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("term_count_limit")]
         public LimitModel TermCountLimit { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.Taxonomy;
     }
 }

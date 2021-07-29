@@ -19,5 +19,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("allowed_content_types")]
         public IEnumerable<ObjectIdentifier> AllowedTypes { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.LinkedItems;
     }
 }

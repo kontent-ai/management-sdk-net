@@ -6,5 +6,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
     {
         [JsonProperty("snippet")]
         public ObjectIdentifier Snippet { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.Snippet;
     }
 }

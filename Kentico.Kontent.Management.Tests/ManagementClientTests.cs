@@ -17,6 +17,8 @@ using Kentico.Kontent.Management.Models.StronglyTyped;
 using Microsoft.Extensions.Configuration;
 using Kentico.Kontent.Management.Models;
 using Newtonsoft.Json.Linq;
+using Kentico.Kontent.Management.Models.Types;
+using Kentico.Kontent.Management.Models.Types.Elements;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -1534,6 +1536,81 @@ namespace Kentico.Kontent.Management.Tests
                 Assert.NotNull(response);
             }
         }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void GetContentType_ById_GetsContentType()
+        {
+            var client = CreateManagementClient(nameof(GetContentItem_ById_GetsContentItem));
+
+            var identifier = ContentTypeIdentifier.ById(EXISTING_CONTENT_TYPE_ID);
+
+            var contentItemReponse = await client.GetContentTypeAsync(identifier);
+            Assert.Equal(EXISTING_CONTENT_TYPE_ID, contentItemReponse.Id);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void GetContentType_ByCodename_GetsContentType()
+        {
+            var client = CreateManagementClient(nameof(GetContentItem_ByCodename_GetsContentItem));
+
+            var identifier = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+
+            var contentItemReponse = await client.GetContentTypeAsync(identifier);
+            Assert.Equal(EXISTING_CONTENT_TYPE_CODENAME, contentItemReponse.CodeName);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void GetContentType_ByExternalId_GetsContentType()
+        {
+            var externalId = "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89";
+
+            var client = CreateManagementClient(nameof(GetContentItem_ByExternalId_GetsContentItem));
+
+            var identifier = ContentTypeIdentifier.ByExternalId(externalId);
+
+            var contentItemReponse = await client.GetContentTypeAsync(identifier);
+            Assert.Equal(externalId, contentItemReponse.ExternalId);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void CreateContentType_CreatesContentType()
+        {
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+
+            var typeName = "HoorayType!";
+            var typeCodename = "hooray_codename_type";
+            var typeExternalId = "hooray_codename_external_id";
+            var type = new ContentTypeCreateModel
+            {
+                Name = typeName,
+                CodeName = typeCodename,
+                ExternalId = typeExternalId,
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelinse_codename",
+                        ExternalId = "guidelinse_external_id",
+                        Guidelines = "<h3>Guidelines</h3>",
+                    }
+                }
+            };
+
+            var responseType = await client.CreateContentTypeAsync(type);
+
+            Assert.Equal(typeName, responseType.Name);
+            Assert.Equal(typeCodename, responseType.CodeName);
+            Assert.Equal(typeExternalId, responseType.ExternalId);
+
+            // Cleanup
+            //var itemToClean = ContentItemIdentifier.ByCodename(itemCodeName);
+            //await client.DeleteContentItemAsync(itemToClean);
+        }
+
 
         #endregion
     }

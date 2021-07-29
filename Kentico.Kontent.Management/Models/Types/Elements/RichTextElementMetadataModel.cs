@@ -49,5 +49,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("allowed_table_text_blocks")]
         public ISet<RichTextTextBlockType> AllowedTableTextBlocks { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.RichText;
     }
 }

@@ -18,5 +18,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("MultipleChoiceOptionModel")]
         public MultipleChoiceOptionModel Options { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.MultipleChoice;
     }
 }

@@ -162,6 +162,42 @@ namespace Kentico.Kontent.Management
             return new ListingResponseModel<ContentTypeModel>(GetNextTypeListingPageAsync, response.Pagination?.Token, response.Types);
         }
 
+        /// <summary>
+        /// Returns strongly typed content type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
+        public async Task<ContentTypeModel> GetContentTypeAsync(ContentTypeIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Creates content type.
+        /// </summary>
+        /// <param name="contentType">Represents content type which will be created.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents created content type.</returns>
+        public async Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType)
+        {
+            if (contentType == null)
+            {
+                throw new ArgumentNullException(nameof(contentType));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl();
+            var response = await _actionInvoker.InvokeMethodAsync<ContentTypeCreateModel, ContentTypeModel>(endpointUrl, HttpMethod.Post, contentType);
+
+            return response;
+        }
+
         private async Task<IListingResponse<ContentTypeModel>> GetNextTypeListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildTypesListingUrl(continuationToken);

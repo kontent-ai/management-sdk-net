@@ -22,5 +22,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("allowed_elements")]
         public IEnumerable<ObjectIdentifier> AllowedElements { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.Custom;
     }
 }

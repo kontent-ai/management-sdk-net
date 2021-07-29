@@ -19,7 +19,13 @@ namespace Kentico.Kontent.Management.Models.Items
         /// </summary>
         [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Codename { get; private set; }
-        
+
+        /// <summary>
+        /// Gets external id of the identifier.
+        /// </summary>
+        [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string ExternalId { get; private set; }
+
         /// <summary>
         /// Creates identifier by id.
         /// </summary>
@@ -36,6 +42,15 @@ namespace Kentico.Kontent.Management.Models.Items
         public static ContentTypeIdentifier ByCodename(string codename)
         {
             return new ContentTypeIdentifier() { Codename = codename };
+        }
+
+        /// <summary>
+        /// Creates identifier by external id.
+        /// </summary>
+        /// <param name="externalId">The external id of the identifier.</param>
+        public static ContentTypeIdentifier ByExternalId(string externalId)
+        {
+            return new ContentTypeIdentifier() { ExternalId = externalId };
         }
     }
 }

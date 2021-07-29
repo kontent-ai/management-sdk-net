@@ -7,13 +7,14 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
     [JsonConverter(typeof(ElementMetadataConverter))]
     public abstract class ElementMetadataBase
     {
-        public ElementMetadataType Type { get; set; }
+        [JsonProperty("type", Required = Required.Always)]
+        public abstract ElementMetadataType Type { get; }
 
-        [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("external_id")]
         public string ExternalId { get; set; }
 
         [JsonProperty("id")]
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
         [JsonProperty("codename")]
         public string Codename { get; set; }

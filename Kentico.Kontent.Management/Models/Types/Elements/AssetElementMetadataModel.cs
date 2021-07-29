@@ -27,5 +27,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         [JsonProperty("image_height_limit")]
         public LimitModel ImageHeightLimit { get; set; }
+
+        public override ElementMetadataType Type => ElementMetadataType.Asset;
     }
 }
