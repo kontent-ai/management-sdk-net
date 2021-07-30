@@ -19,6 +19,9 @@ using Kentico.Kontent.Management.Models;
 using Newtonsoft.Json.Linq;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
+using Kentico.Kontent.Management.Models.Types.Patch;
+using Kentico.Kontent.Management.Extenstions;
+using Kentico.Kontent.Management.Models.Items.Identifiers;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -1577,6 +1580,127 @@ namespace Kentico.Kontent.Management.Tests
 
         [Fact]
         [Trait("Category", "ContentType")]
+        public async void DeleteContentType_ById_DeleteContentType()
+        {
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+
+            var typeName = "TestDeleteById!";
+            var typeCodename = "test_delete_id";
+            var typeExternalId = "test_delete_externalId_id";
+            var type = new ContentTypeCreateModel
+            {
+                Name = typeName,
+                CodeName = typeCodename,
+                ExternalId = typeExternalId,
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelines_codename",
+                        ExternalId = "guidelines_test_delete_id",
+                        Guidelines = "<h3>Guidelines</h3>"
+                    }
+                }
+            };
+
+            var responseType = await client.CreateContentTypeAsync(type);
+
+
+            var identifier = ContentTypeIdentifier.ById(responseType.Id);
+            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
+
+
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeAsync(identifier));
+            }
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void DeleteContentType_ByCodename_DeleteContentType()
+        {
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+
+            var typeName = "TestDeleteByCodename!";
+            var typeCodename = "test_delete_codename";
+            var typeExternalId = "test_delete_externalId_codename";
+            var type = new ContentTypeCreateModel
+            {
+                Name = typeName,
+                CodeName = typeCodename,
+                ExternalId = typeExternalId,
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelines_codename",
+                        ExternalId = "guidelines_test_delete_codename",
+                        Guidelines = "<h3>Guidelines</h3>"
+                    }
+                }
+            };
+
+            var responseType = await client.CreateContentTypeAsync(type);
+
+
+            var identifier = ContentTypeIdentifier.ByCodename(typeCodename);
+            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
+
+
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeAsync(identifier));
+            }
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void DeleteContentType_ByExternalId_DeleteContentType()
+        {
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+
+            var typeName = "TestDeleteByExternalId!";
+            var typeCodename = "test_delete_externalid";
+            var typeExternalId = "test_delete_externalId_externalid";
+            var type = new ContentTypeCreateModel
+            {
+                Name = typeName,
+                CodeName = typeCodename,
+                ExternalId = typeExternalId,
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelines_externalid",
+                        ExternalId = "guidelines_test_delete_externalid",
+                        Guidelines = "<h3>Guidelines</h3>"
+                    }
+                }
+            };
+
+            var responseType = await client.CreateContentTypeAsync(type);
+
+
+            var identifier = ContentTypeIdentifier.ByExternalId(typeExternalId);
+            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
+
+
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeAsync(identifier));
+            }
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        //Todo create more elements
         public async void CreateContentType_CreatesContentType()
         {
             var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
@@ -1593,9 +1717,9 @@ namespace Kentico.Kontent.Management.Tests
                 {
                     new GuidelinesElementMetadataModel
                     {
-                        Codename = "guidelinse_codename",
-                        ExternalId = "guidelinse_external_id",
-                        Guidelines = "<h3>Guidelines</h3>",
+                        Codename = "guidelines_codename",
+                        ExternalId = "guidelines_external_id",
+                        Guidelines = "<h3>Guidelines</h3>"
                     }
                 }
             };
@@ -1607,11 +1731,207 @@ namespace Kentico.Kontent.Management.Tests
             Assert.Equal(typeExternalId, responseType.ExternalId);
 
             // Cleanup
-            //var itemToClean = ContentItemIdentifier.ByCodename(itemCodeName);
-            //await client.DeleteContentItemAsync(itemToClean);
+            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            await client.DeleteContentTypeAsync(typeToClean);
         }
 
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void ModifyContentType_AddInto_ModifiesContentType()
+        {
+            //Arrange
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
 
+            var typeCodename = "patch_codename";
+            var type = new ContentTypeCreateModel
+            {
+                Name = "PatchTypeAddInto!",
+                CodeName = typeCodename,
+                ExternalId = "patchAddInto_external_id",
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelines_codename_patchaddinto",
+                        ExternalId = "guidelines_external_id_patchaddinto",
+                        Guidelines = "<h3>Guidelines</h3>"
+                    },
+                    new TextElementMetadataModel
+                    {
+                        Codename = "text_codename_patchaddinto",
+                        ExternalId = "text_external_id_patchaddinto",
+                        Guidelines = "Guidelines",
+                        Name = "textName",
+                        IsRequired = false,
+                        MaximumTextLength = new MaximumTextLengthModel
+                        {
+                            AppliesTo = TextLengthLimitType.Words,
+                            Value = 30
+                        }
+                    },
+                }
+            };
+
+            _ = await client.CreateContentTypeAsync(type);
+
+            var elementCodename = "text_codename2_patchaddinto";
+            var textName = "textName2";
+            var changes = new ContentTypeAddIntoPatchModel
+            {
+                Value = new TextElementMetadataModel
+                {
+                    Codename = elementCodename,
+                    ExternalId = "text_external_id2_patchaddinto",
+                    Guidelines = "Guidelines2",
+                    Name = textName,
+                    IsRequired = false,
+                    MaximumTextLength = new MaximumTextLengthModel
+                    {
+                        AppliesTo = TextLengthLimitType.Words,
+                        Value = 30
+                    }
+                },
+                Before = Identifier.ByCodename("guidelines_codename_patchaddinto"),
+                Path = "/elements"
+            };
+
+
+            //act
+            var modifiedType = await client.ModifyContentTypeAsync(ContentTypeIdentifier.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+
+
+            //assert
+            var addedElement = modifiedType.Elements.FirstOrDefault(x => x.Codename == elementCodename).ToTextElement();
+            Assert.NotNull(addedElement);
+            Assert.Equal(addedElement.Name, textName);
+
+
+            // Cleanup
+            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            await client.DeleteContentTypeAsync(typeToClean);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void ModifyContentType_Replace_ModifiesContentType()
+        {
+            //Act
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+
+            var typeCodename = "patch_codename";
+            var elementCodename = "text_codename_replace";
+            var type = new ContentTypeCreateModel
+            {
+                Name = "PatchTypeReplace!",
+                CodeName = typeCodename,
+                ExternalId = "patch_external_id",
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelines_codename_replace",
+                        ExternalId = "guidelines_external_id_replace",
+                        Guidelines = "<h3>Guidelines</h3>"
+                    },
+                    new TextElementMetadataModel
+                    {
+                        Codename = elementCodename,
+                        ExternalId = "text_external_id_replace",
+                        Guidelines = "Guidelines",
+                        Name = "textName",
+                        IsRequired = false,
+                        MaximumTextLength = new MaximumTextLengthModel
+                        {
+                            AppliesTo = TextLengthLimitType.Words,
+                            Value = 30
+                        }
+                    },
+                }
+            };
+
+            _ = await client.CreateContentTypeAsync(type);
+
+            var expectedValue = "Here you can tell users how to fill in the element.";
+
+            var changes = new ContentTypePatchReplaceModel
+            {
+                Value = expectedValue,
+                After = Identifier.ByCodename("guidelines_codename"),
+                Path = $"/elements/codename:{elementCodename}/guidelines"
+            };
+
+
+            //Act
+            var modifiedType = await client.ModifyContentTypeAsync(ContentTypeIdentifier.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+
+
+            //Assert
+            Assert.Equal(expectedValue, modifiedType.Elements.FirstOrDefault(x => x.Codename == elementCodename)?.ToTextElement().Guidelines);
+
+
+            // Cleanup
+            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            await client.DeleteContentTypeAsync(typeToClean);
+        }
+
+        [Fact]
+        [Trait("Category", "ContentType")]
+        public async void ModifyContentType_Remove_ModifiesContentType()
+        {
+            //Act
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+
+            var typeCodename = "patch_codename";
+            var elementCodename = "text_codename_replace";
+            var type = new ContentTypeCreateModel
+            {
+                Name = "PatchTypeReplace!",
+                CodeName = typeCodename,
+                ExternalId = "patch_external_id",
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelines_codename_replace",
+                        ExternalId = "guidelines_external_id_replace",
+                        Guidelines = "<h3>Guidelines</h3>"
+                    },
+                    new TextElementMetadataModel
+                    {
+                        Codename = elementCodename,
+                        ExternalId = "text_external_id_replace",
+                        Guidelines = "Guidelines",
+                        Name = "textName",
+                        IsRequired = false,
+                        MaximumTextLength = new MaximumTextLengthModel
+                        {
+                            AppliesTo = TextLengthLimitType.Words,
+                            Value = 30
+                        }
+                    },
+                }
+            };
+
+            _ = await client.CreateContentTypeAsync(type);
+
+            var changes = new ContentTypePatchRemoveModel
+            {
+                Path = $"/elements/codename:{elementCodename}"
+            };
+
+
+            //Act
+            var modifiedType = await client.ModifyContentTypeAsync(ContentTypeIdentifier.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+
+
+            //Assert
+            Assert.Null(modifiedType.Elements.FirstOrDefault(x => x.Codename == elementCodename));
+
+
+            // Cleanup
+            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            await client.DeleteContentTypeAsync(typeToClean);
+        }
         #endregion
     }
 }

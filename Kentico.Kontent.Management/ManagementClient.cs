@@ -14,6 +14,7 @@ using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
 using Kentico.Kontent.Management.Models.Types;
+using Kentico.Kontent.Management.Models.Types.Patch;
 
 namespace Kentico.Kontent.Management
 {
@@ -196,6 +197,38 @@ namespace Kentico.Kontent.Management
             var response = await _actionInvoker.InvokeMethodAsync<ContentTypeCreateModel, ContentTypeModel>(endpointUrl, HttpMethod.Post, contentType);
 
             return response;
+        }
+
+        /// <summary>
+        /// Deletes given content type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
+        public async Task DeleteContentTypeAsync(ContentTypeIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <summary>
+        /// Patch given content type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
+        /// /// <param name="changes">to do</param>
+        public async Task<ContentTypeModel> ModifyContentTypeAsync(ContentTypeIdentifier identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
         private async Task<IListingResponse<ContentTypeModel>> GetNextTypeListingPageAsync(string continuationToken)

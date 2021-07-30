@@ -16,6 +16,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         [JsonProperty("maximum_text_length")]
         public MaximumTextLengthModel MaximumTextLength { get; set; }
 
+        //todo possible validation in getter
         public override ElementMetadataType Type => ElementMetadataType.Text;
     }
 }
