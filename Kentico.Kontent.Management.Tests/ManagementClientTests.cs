@@ -15,13 +15,13 @@ using Xunit;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 using Microsoft.Extensions.Configuration;
-using Kentico.Kontent.Management.Models;
-using Newtonsoft.Json.Linq;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Models.Types.Patch;
 using Kentico.Kontent.Management.Extenstions;
 using Kentico.Kontent.Management.Models.Items.Identifiers;
+using Kentico.Kontent.Management.Models.TaxonomyGroups;
+using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -73,6 +73,10 @@ namespace Kentico.Kontent.Management.Tests
         protected static Guid EXISTING_TAXONOMY_TERM_ID = Guid.Parse("6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8");
         protected const string EXISTING_TAXONOMY_TERM_CODENAME = "barista";
 
+        protected static Guid EXISTING_TAXONOMY_GROUP_ID = Guid.Parse("f6851a6e-a342-5253-8bc6-e8abc8f56b15");
+        protected const string EXISTING_TAXONOMY_GROUP_CODENAME = "manufacturer";
+
+        
         // Root -> 0ce98752-a614-51a9-bf69-9539deb6532d > 04bf910c-bcac-5faf-ac32-a1f7169fdc0f > e2fe0a21-eb4c-5fba-8a28-697aeab81f83 -> ae11f9dd-ec34-5ecc-9b83-d4a3ae1d8c6b
         protected const string ASSET_FOLDER_ID_1ST_LEVEL = "0ce98752-a614-51a9-bf69-9539deb6532d";
         protected const string ASSET_FOLDER_ID_2ND_LEVEL = "04bf910c-bcac-5faf-ac32-a1f7169fdc0f";
@@ -1544,7 +1548,7 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Category", "ContentType")]
         public async void GetContentType_ById_GetsContentType()
         {
-            var client = CreateManagementClient(nameof(GetContentItem_ById_GetsContentItem));
+            var client = CreateManagementClient(nameof(GetContentType_ById_GetsContentType));
 
             var identifier = ContentTypeIdentifier.ById(EXISTING_CONTENT_TYPE_ID);
 
@@ -1556,7 +1560,7 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Category", "ContentType")]
         public async void GetContentType_ByCodename_GetsContentType()
         {
-            var client = CreateManagementClient(nameof(GetContentItem_ByCodename_GetsContentItem));
+            var client = CreateManagementClient(nameof(GetContentType_ByCodename_GetsContentType));
 
             var identifier = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
 
@@ -1570,7 +1574,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var externalId = "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89";
 
-            var client = CreateManagementClient(nameof(GetContentItem_ByExternalId_GetsContentItem));
+            var client = CreateManagementClient(nameof(GetContentType_ByExternalId_GetsContentType));
 
             var identifier = ContentTypeIdentifier.ByExternalId(externalId);
 
@@ -1582,7 +1586,7 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Category", "ContentType")]
         public async void DeleteContentType_ById_DeleteContentType()
         {
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            var client = CreateManagementClient(nameof(DeleteContentType_ById_DeleteContentType));
 
             var typeName = "TestDeleteById!";
             var typeCodename = "test_delete_id";
@@ -1622,7 +1626,7 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Category", "ContentType")]
         public async void DeleteContentType_ByCodename_DeleteContentType()
         {
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            var client = CreateManagementClient(nameof(DeleteContentType_ByCodename_DeleteContentType));
 
             var typeName = "TestDeleteByCodename!";
             var typeCodename = "test_delete_codename";
@@ -1662,7 +1666,7 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Category", "ContentType")]
         public async void DeleteContentType_ByExternalId_DeleteContentType()
         {
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            var client = CreateManagementClient(nameof(DeleteContentType_ByExternalId_DeleteContentType));
 
             var typeName = "TestDeleteByExternalId!";
             var typeCodename = "test_delete_externalid";
@@ -1740,9 +1744,9 @@ namespace Kentico.Kontent.Management.Tests
         public async void ModifyContentType_AddInto_ModifiesContentType()
         {
             //Arrange
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            var client = CreateManagementClient(nameof(ModifyContentType_AddInto_ModifiesContentType));
 
-            var typeCodename = "patch_codename";
+            var typeCodename = "patch_codename_add_into";
             var type = new ContentTypeCreateModel
             {
                 Name = "PatchTypeAddInto!",
@@ -1815,16 +1819,17 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Category", "ContentType")]
         public async void ModifyContentType_Replace_ModifiesContentType()
         {
-            //Act
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            //arrange
+            //todo extract creation of type to method
+            var client = CreateManagementClient(nameof(ModifyContentType_Replace_ModifiesContentType));
 
-            var typeCodename = "patch_codename";
+            var typeCodename = "patch_codename_replace";
             var elementCodename = "text_codename_replace";
             var type = new ContentTypeCreateModel
             {
                 Name = "PatchTypeReplace!",
                 CodeName = typeCodename,
-                ExternalId = "patch_external_id",
+                ExternalId = "patch_external_id_replace",
                 Elements = new List<ElementMetadataBase>
                 {
                     new GuidelinesElementMetadataModel
@@ -1878,28 +1883,28 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Category", "ContentType")]
         public async void ModifyContentType_Remove_ModifiesContentType()
         {
-            //Act
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            //arrange
+            var client = CreateManagementClient(nameof(ModifyContentType_Remove_ModifiesContentType));
 
-            var typeCodename = "patch_codename";
+            var typeCodename = "patch_codename_remove";
             var elementCodename = "text_codename_replace";
             var type = new ContentTypeCreateModel
             {
                 Name = "PatchTypeReplace!",
                 CodeName = typeCodename,
-                ExternalId = "patch_external_id",
+                ExternalId = "patch_external_id_remove",
                 Elements = new List<ElementMetadataBase>
                 {
                     new GuidelinesElementMetadataModel
                     {
                         Codename = "guidelines_codename_replace",
-                        ExternalId = "guidelines_external_id_replace",
+                        ExternalId = "guidelines_external_id_remove",
                         Guidelines = "<h3>Guidelines</h3>"
                     },
                     new TextElementMetadataModel
                     {
                         Codename = elementCodename,
-                        ExternalId = "text_external_id_replace",
+                        ExternalId = "text_external_id_remove",
                         Guidelines = "Guidelines",
                         Name = "textName",
                         IsRequired = false,
@@ -1931,6 +1936,399 @@ namespace Kentico.Kontent.Management.Tests
             // Cleanup
             var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
             await client.DeleteContentTypeAsync(typeToClean);
+        }
+        #endregion
+
+        #region TaxonomyGroups
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void ListTaxonomyGroups_ListsTaxonomyGroups()
+        {
+            var client = CreateManagementClient(nameof(ListTaxonomyGroups_ListsTaxonomyGroups));
+
+            var response = await client.ListTaxonomyGroupsAsync();
+
+            Assert.NotNull(response);
+            Assert.NotNull(response.FirstOrDefault(x => x.CodeName == EXISTING_TAXONOMY_GROUP_CODENAME));
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void GetTaxonomyGroup_ById_GetsTaxonomyGroup()
+        {
+            var client = CreateManagementClient(nameof(GetTaxonomyGroup_ById_GetsTaxonomyGroup));
+
+            var identifier = Identifier.ById(EXISTING_TAXONOMY_GROUP_ID);
+
+            var contentItemReponse = await client.GetContentTypeAsync(identifier);
+            Assert.Equal(EXISTING_TAXONOMY_GROUP_ID, contentItemReponse.Id);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void GetTaxonomyGroup_ByCodename_GetsTaxonomyGroup()
+        {
+            var client = CreateManagementClient(nameof(GetTaxonomyGroup_ByCodename_GetsTaxonomyGroup));
+
+            var identifier = Identifier.ByCodename(EXISTING_TAXONOMY_GROUP_CODENAME);
+
+            var contentItemReponse = await client.GetContentTypeAsync(identifier);
+            Assert.Equal(EXISTING_TAXONOMY_GROUP_CODENAME, contentItemReponse.CodeName);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void GetTaxonomyGroup_ByExternalId_GetsTaxonomyGroup()
+        {
+            //todo maybe const?
+            var externalid = "4ce421e9-c403-eee8-fdc2-74f09392a749";
+            var client = CreateManagementClient(nameof(GetTaxonomyGroup_ByExternalId_GetsTaxonomyGroup));
+
+            var identifier = Identifier.ByExternalId(externalid);
+
+            var contentItemReponse = await client.GetContentTypeAsync(identifier);
+            Assert.Equal(externalid, contentItemReponse.ExternalId);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void CreateTaxonomyGroup_CreatesTaxonomyGroup()
+        {
+            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+
+            var taxonomiesName = "taxonomiesCreate!";
+            var taxonomiesCodename = "taxonomies_codename_create";
+            var taxonomiesExternalId = "taxonomies_codename_external_id__create";
+
+            var group = new TaxonomyGroupCreateModel
+            {
+                Name = taxonomiesName,
+                CodeName = taxonomiesCodename,
+                ExternalId = taxonomiesExternalId,
+                Terms = new List<TaxonomyGroupCreateModel>
+                {
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = "taxonomies_term_codename",
+                        Name = "name",
+                        ExternalId = "taxonomies_term_external_id",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+            var responseGroup = await client.CreateTaxonomyGroupAsync(group);
+
+            Assert.Equal(taxonomiesName, responseGroup.Name);
+            Assert.Equal(taxonomiesCodename, responseGroup.CodeName);
+            Assert.Equal(taxonomiesExternalId, responseGroup.ExternalId);
+            Assert.Single(responseGroup.Terms);
+
+            // Cleanup
+            var groupToClean = Identifier.ByCodename(taxonomiesCodename);
+            await client.DeleteTaxonomyGroupAsync(groupToClean);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void DeleteTaxonomyGroup_ByCodename_DeleteTaxonomyGroup()
+        {
+            var client = CreateManagementClient(nameof(DeleteTaxonomyGroup_ByCodename_DeleteTaxonomyGroup));
+
+            var taxonomiesName = "taxonomiesCreate!";
+            var taxonomiesCodename = "taxonomies_codename_create";
+            var taxonomiesExternalId = "taxonomies_codename_external_id_deletecodename";
+
+            var group = new TaxonomyGroupCreateModel
+            {
+                Name = taxonomiesName,
+                CodeName = taxonomiesCodename,
+                ExternalId = taxonomiesExternalId,
+                Terms = new List<TaxonomyGroupCreateModel>
+                {
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = "taxonomies_term_codename_deletecodename",
+                        Name = "name",
+                        ExternalId = "taxonomies_term_external_id_deletecodename",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+            var responseGroup = await client.CreateTaxonomyGroupAsync(group);
+
+
+            var identifier = Identifier.ByCodename(taxonomiesCodename);
+
+
+            var exception = await Record.ExceptionAsync(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+            }
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void DeleteTaxonomyGroup_ById_DeleteTaxonomyGroup()
+        {
+            var client = CreateManagementClient(nameof(DeleteTaxonomyGroup_ById_DeleteTaxonomyGroup));
+
+            var taxonomiesName = "taxonomiesCreate!";
+            var taxonomiesCodename = "taxonomies_codename_create";
+            var taxonomiesExternalId = "taxonomies_codename_external_id_deleteid";
+
+            var group = new TaxonomyGroupCreateModel
+            {
+                Name = taxonomiesName,
+                CodeName = taxonomiesCodename,
+                ExternalId = taxonomiesExternalId,
+                Terms = new List<TaxonomyGroupCreateModel>
+                {
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = "taxonomies_term_codename_deleteid",
+                        Name = "name",
+                        ExternalId = "taxonomies_term_external_id_deleteid",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+            var responseGroup = await client.CreateTaxonomyGroupAsync(group);
+
+
+            var identifier = Identifier.ById(responseGroup.Id);
+
+
+            var exception = await Record.ExceptionAsync(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+            }
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void DeleteTaxonomyGroup_ByExternalId_DeleteTaxonomyGroup()
+        {
+            var client = CreateManagementClient(nameof(DeleteTaxonomyGroup_ByExternalId_DeleteTaxonomyGroup));
+
+            var taxonomiesName = "taxonomiesCreate!";
+            var taxonomiesCodename = "taxonomies_codename_create";
+            var taxonomiesExternalId = "taxonomies_codename_external_id_deleteid";
+
+            var group = new TaxonomyGroupCreateModel
+            {
+                Name = taxonomiesName,
+                CodeName = taxonomiesCodename,
+                ExternalId = taxonomiesExternalId,
+                Terms = new List<TaxonomyGroupCreateModel>
+                {
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = "taxonomies_term_codename_deleteid",
+                        Name = "name",
+                        ExternalId = "taxonomies_term_external_id_deleteid",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+            var responseGroup = await client.CreateTaxonomyGroupAsync(group);
+
+
+            var identifier = Identifier.ByExternalId(taxonomiesExternalId);
+
+
+            var exception = await Record.ExceptionAsync(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+
+            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            {
+                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+            }
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void ModifyTaxonomyGroup_AddInto_ModifiesTaxonomyGroup()
+        {
+            //Arrange
+            var client = CreateManagementClient(nameof(ModifyTaxonomyGroup_AddInto_ModifiesTaxonomyGroup));
+
+            var taxonomiesName = "taxonomiesAddInto!";
+            var taxonomiesCodename = "taxonomies_codename_addinto";
+            var taxonomiesExternalId = "taxonomies_codename_external_id_addinto";
+
+            var group = new TaxonomyGroupCreateModel
+            {
+                Name = taxonomiesName,
+                CodeName = taxonomiesCodename,
+                ExternalId = taxonomiesExternalId,
+                Terms = new List<TaxonomyGroupCreateModel>
+                {
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = "taxonomies_term_codename_addinto",
+                        Name = "name",
+                        ExternalId = "taxonomies_term_external_id_addinto",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+            _ = await client.CreateTaxonomyGroupAsync(group);
+
+            var termName = "New taxonomy term";
+            var changes = new TaxonomyGroupAddIntoPatchModel
+            {
+                Value = new TaxonomyGroupCreateModel
+                {
+                    Name = termName,
+                    ExternalId = "my_new_term_addinto",
+                    Terms = new TaxonomyGroupCreateModel[0]
+                }
+            };
+
+
+            //act
+            var modifiedType = await client.ModifyTaxonomyGroupAsync(Identifier.ByCodename(taxonomiesCodename), new List<TaxonomyGroupAddIntoPatchModel> { changes });
+
+
+            //assert
+            Assert.Equal(2, modifiedType.Terms.Count());
+            Assert.Single(modifiedType.Terms.Where(x => x.Name == termName));
+
+
+            // Cleanup
+            var groupClean = Identifier.ByCodename(taxonomiesCodename);
+            await client.DeleteTaxonomyGroupAsync(groupClean);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void ModifyTaxonomyGroup_Replace_ModifiesTaxonomyGroup()
+        {
+            //Arrange
+            var client = CreateManagementClient(nameof(ModifyTaxonomyGroup_Replace_ModifiesTaxonomyGroup));
+
+            var taxonomiesName = "taxonomiesReplace!";
+            var taxonomiesCodename = "taxonomies_codename_replace";
+            var taxonomiesExternalId = "taxonomies_codename_external_id_replace";
+            var taxonomyTermCodename = "taxonomies_term_codename_replace";
+
+            var group = new TaxonomyGroupCreateModel
+            {
+                Name = taxonomiesName,
+                CodeName = taxonomiesCodename,
+                ExternalId = taxonomiesExternalId,
+                Terms = new List<TaxonomyGroupCreateModel>
+                {
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = taxonomyTermCodename,
+                        Name = "name",
+                        ExternalId = "taxonomies_term_external_id_replace",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+            _ = await client.CreateTaxonomyGroupAsync(group);
+
+            var termName = "New taxonomy term name";
+            var changes = new TaxonomyGroupPatchReplaceModel
+            {
+                PropertyName = PropertyName.Terms,
+                Reference = Identifier.ByCodename(taxonomiesCodename),
+                Value = new List<TaxonomyGroupCreateModel> {
+                    new TaxonomyGroupCreateModel
+                    {
+                        Name = termName,
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+
+            //act
+            var modifiedType = await client.ModifyTaxonomyGroupAsync(Identifier.ByCodename(taxonomiesCodename), new List<TaxonomyGroupPatchReplaceModel> { changes });
+
+
+            //assert
+            Assert.Single(modifiedType.Terms.Where(x => x.Name == termName));
+
+
+            // Cleanup
+            var groupClean = Identifier.ByCodename(taxonomiesCodename);
+            await client.DeleteTaxonomyGroupAsync(groupClean);
+        }
+
+        [Fact]
+        [Trait("Category", "TaxonomyGroups")]
+        public async void ModifyTaxonomyGroup_Remove_ModifiesTaxonomyGroup()
+        {
+            //Arrange
+            var client = CreateManagementClient(nameof(ModifyTaxonomyGroup_Remove_ModifiesTaxonomyGroup));
+
+            var taxonomiesName = "taxonomiesRemove!";
+            var taxonomiesCodename = "taxonomies_codename_remove";
+            var taxonomiesExternalId = "taxonomies_codename_external_id_remove";
+            var taxonomyTermCodename = "taxonomies_term_codename_remove";
+
+            var group = new TaxonomyGroupCreateModel
+            {
+                Name = taxonomiesName,
+                CodeName = taxonomiesCodename,
+                ExternalId = taxonomiesExternalId,
+                Terms = new List<TaxonomyGroupCreateModel>
+                {
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = taxonomyTermCodename,
+                        Name = "name",
+                        ExternalId = "taxonomies_term_external_id_remove",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    },
+                    new TaxonomyGroupCreateModel
+                    {
+                        CodeName = "second_term_codename",
+                        Name = "name13254",
+                        ExternalId = "taxonomies_term_external_id_remove2",
+                        Terms = new TaxonomyGroupCreateModel[0]
+                    }
+                }
+            };
+
+            _ = await client.CreateTaxonomyGroupAsync(group);
+
+            var changes = new TaxonomyGroupPatchRemoveModel
+            {
+                Reference = Identifier.ByCodename(taxonomyTermCodename),
+            };
+
+
+            //act
+            var modifiedType = await client.ModifyTaxonomyGroupAsync(Identifier.ByCodename(taxonomiesCodename), new List<TaxonomyGroupPatchRemoveModel> { changes });
+
+
+            //assert
+            Assert.Single(modifiedType.Terms);
+
+
+            // Cleanup
+            var groupClean = Identifier.ByCodename(taxonomiesCodename);
+            await client.DeleteTaxonomyGroupAsync(groupClean);
         }
         #endregion
     }

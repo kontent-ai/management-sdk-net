@@ -1,5 +1,6 @@
 ﻿using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.Items.Identifiers;
 using System;
 using System.Net;
 
@@ -32,6 +33,11 @@ namespace Kentico.Kontent.Management
         private const string URL_TEMPLATE_TYPES_ID = "/types/{0}";
         private const string URL_TEMPLATE_TYPES_CODENAME = "/types/codename/{0}";
         private const string URL_TEMPLATE_TYPES_EXTERNAL_ID = "/types/external-id/{0}";
+
+        private const string URL_TAXONOMY = "/taxonomies";
+        private const string URL_TEMPLATE_TAXONOMY_ID = "/taxonomies/{0}";
+        private const string URL_TEMPLATE_TAXONOMY_CODENAME = "/taxonomies/codename/{0}";
+        private const string URL_TEMPLATE_TAXONOMY_EXTERNAL_ID = "/taxonomies/external-id/{0}";
 
         private readonly ManagementOptions _options;
 
@@ -111,6 +117,48 @@ namespace Kentico.Kontent.Management
         {
             var escapedExternalId = WebUtility.UrlEncode(externalId);
             return string.Format(URL_TEMPLATE_TYPES_EXTERNAL_ID, escapedExternalId);
+        }
+
+        #endregion
+
+        #region Taxonomies
+        internal string BuildTaxonomyUrl()
+        {
+            return GetUrl(URL_TAXONOMY);
+        }
+
+        internal string BuildTaxonomyUrl(Identifier identifier)
+        {
+            var itemSegment = GetTaxonomyUrlSegment(identifier);
+            return GetUrl(itemSegment);
+        }
+
+        //todo this method is good candidate for refactoring as its here many times (types, items)
+        private string GetTaxonomyUrlSegment(Identifier identifier)
+        {
+            if (identifier.Id != null)
+            {
+                return string.Format(URL_TEMPLATE_TAXONOMY_ID, identifier.Id);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.Codename))
+            {
+                return string.Format(URL_TEMPLATE_TAXONOMY_CODENAME, identifier.Codename);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.ExternalId))
+            {
+                return BuildTaxonomiesUrlSegmentFromExternalId(identifier.ExternalId);
+            }
+
+            throw new ArgumentException("You must provide item's id, codename or externalId");
+        }
+
+        //todo this method is good candidate for refactoring as its here many times (types, items)
+        internal string BuildTaxonomiesUrlSegmentFromExternalId(string externalId)
+        {
+            var escapedExternalId = WebUtility.UrlEncode(externalId);
+            return string.Format(URL_TEMPLATE_TAXONOMY_EXTERNAL_ID, escapedExternalId);
         }
 
         #endregion

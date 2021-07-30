@@ -1,14 +1,14 @@
 ﻿using Kentico.Kontent.Management.Models.Items.Identifiers;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Types.Patch
+namespace Kentico.Kontent.Management.Models.TaxonomyGroups.Patch
 {
-    public class ContentTypeAddIntoPatchModel : ContentTypeOperationBaseModel
+    public class TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBaseModel
     {
         public override string Op => "addInto";
 
         [JsonProperty("value")]
-        public dynamic Value { get; set; }
+        public TaxonomyGroupCreateModel Value { get; set; }
 
         [JsonProperty("before")]
         public Identifier Before { get; set; }

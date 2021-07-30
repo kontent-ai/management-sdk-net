@@ -15,6 +15,9 @@ using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Patch;
+using Kentico.Kontent.Management.Models.TaxonomyGroups;
+using Kentico.Kontent.Management.Models.Items.Identifiers;
+using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
 
 namespace Kentico.Kontent.Management
 {
@@ -235,6 +238,95 @@ namespace Kentico.Kontent.Management
         {
             var endpointUrl = _urlBuilder.BuildTypesListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        #endregion
+
+        #region TaxonomyGroups
+
+        /// <summary>
+        ///todo
+        /// </summary>
+        /// <returns>todo</returns>
+        public async Task<ListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<TaxonomyGroupModel>(GetNextTaxonomyListingPageAsync, response.Pagination?.Token, response.Taxonomies);
+        }
+
+        /// <summary>
+        /// Returns taxonomy group.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
+        public async Task<TaxonomyGroupModel> GetContentTypeAsync(Identifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Creates taxonomy group.
+        /// </summary>
+        /// <param name="taxonomyGroup">Represents taxonomy group which will be created.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents created taxonomy group.</returns>
+        public async Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup)
+        {
+            if (taxonomyGroup == null)
+            {
+                throw new ArgumentNullException(nameof(taxonomyGroup));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
+            return await _actionInvoker.InvokeMethodAsync<TaxonomyGroupCreateModel, TaxonomyGroupModel>(endpointUrl, HttpMethod.Post, taxonomyGroup);
+        }
+
+        /// <summary>
+        /// Deletes given taxonomy group.
+        /// </summary>
+        /// <param name="identifier">The identifier of the taxonomy group.</param>
+        public async Task DeleteTaxonomyGroupAsync(Identifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <summary>
+        /// Patch given taxonomy group.
+        /// </summary>
+        /// <param name="identifier">The identifier of the taxonomy group.</param>
+        /// /// <param name="changes">to do</param>
+        public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Identifier identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        }
+
+        //the same method is 3 times in this class => refactor
+        private async Task<IListingResponse<TaxonomyGroupModel>> GetNextTaxonomyListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
         }
 
         #endregion

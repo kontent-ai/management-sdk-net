@@ -5,7 +5,6 @@ namespace Kentico.Kontent.Management.Models.Types.Patch
 {
     public class ContentTypePatchReplaceModel : ContentTypeOperationBaseModel
     {
-        [JsonProperty("op")]
         public override string Op => "replace";
 
         [JsonProperty("value")]
