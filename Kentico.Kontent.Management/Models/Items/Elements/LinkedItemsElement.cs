@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,12 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         // TODO should be ContentItemIdentifier, or ContentItemVariantIdentifier
         public IEnumerable<ContentItemIdentifier> Value { get; set; }
 
-        public LinkedItemsElement(dynamic data = null)
+        public LinkedItemsElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
                 // TODO - Verify if the internal type <ObjectIdentifier> is ok - maybe ContentItemIdentifier would fit in DynamicObjectJsonCoverter better
-                Value = ((IEnumerable<ObjectIdentifier>)data.value).Select(identifier => ContentItemIdentifier.ById(identifier.Id));
+                Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, ContentItemIdentifier>(item => ContentItemIdentifier.ById(Guid.Parse(item.id)));
             }
         }
 

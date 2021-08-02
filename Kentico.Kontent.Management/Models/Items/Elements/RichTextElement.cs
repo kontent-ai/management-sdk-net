@@ -23,17 +23,17 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        public RichTextElement(dynamic data = null)
+        public RichTextElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
                 Value = data.value;
-                Components = (data.components as IEnumerable<dynamic>).Select(component => new ComponentModel
+                Components = (data.components as IEnumerable<dynamic>)?.Select(component => new ComponentModel
                 {
-                    Id = component.id,
+                    Id = Guid.Parse(component.id),
                     Type = ContentTypeIdentifier.ById(Guid.Parse(component.type.id)),
                     // TODO - probably use reflection for constructor
-                    Elements = component.elements
+                    Elements = (component.elements as IEnumerable<dynamic>)
                 });
             }
         }

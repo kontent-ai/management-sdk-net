@@ -26,7 +26,8 @@ namespace Kentico.Kontent.Management.Models
         /// <summary>
         /// Gets or sets type of the component.
         /// </summary>
+        // TODO validate if IEnumerable<object> would be more suitable
         [JsonProperty("elements", Required = Required.Always)]
-        public IEnumerable<BaseElement> Elements { get; set; }
+        public IEnumerable<dynamic> Elements { get; set; }
     }
 }
