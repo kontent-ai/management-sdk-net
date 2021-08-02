@@ -27,7 +27,7 @@ namespace Kentico.Kontent.Management.Tests.Data
 
         [JsonProperty("body_copy")]
         [KontentElementId("55a88ab3-4009-5bf9-a590-f32162f09b92")]
-        public string BodyCopy { get; set; }
+        public RichTextElement BodyCopy { get; set; }
 
         [JsonProperty("selected_form")]
         [KontentElementId("47bf7d6d-285d-4ed0-9919-1d1a98b43acd")]
