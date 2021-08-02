@@ -33,7 +33,19 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             };
             var actual = _modelProvider.GetContentItemVariantModel<ComplexTestModel>(model).Elements;
 
-            AssertElements(expected, actual);
+            Assert.Equal(expected.Title.Value, actual.Title.Value);
+            Assert.Equal(expected.Rating.Value, actual.Rating.Value);
+            Assert.Equal(expected.PostDate.Value, actual.PostDate.Value);
+            Assert.Equal(expected.UrlPattern.Mode, actual.UrlPattern.Mode);
+            Assert.Equal(expected.UrlPattern.Value, actual.UrlPattern.Value);
+            Assert.Equal(expected.BodyCopy.Value, actual.BodyCopy.Value);
+            Assert.Single(actual.BodyCopy.Components);
+            AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Id), actual.BodyCopy.Components.Select(x => x.Id));
+            AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Type.Id.Value), actual.BodyCopy.Components.Select(x => x.Type.Id.Value));
+            AssertIdentifiers(expected.RelatedArticles.Value.Select(x => x.Id.Value), actual.RelatedArticles.Value.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.TeaserImage.Value.Select(x => x.Id.Value), actual.TeaserImage.Value.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.Options.Value.Select(x => x.Id.Value), actual.Options.Value.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.Personas.Value.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
         }
 
         [Fact]
@@ -97,23 +109,6 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.Options.Value.Select(x => x.Id.Value), optionsValue.Select(x => x.Id.Value));
-        }
-
-        private static void AssertElements(ComplexTestModel expected, ComplexTestModel actual)
-        {
-            Assert.Equal(expected.Title.Value, actual.Title.Value);
-            Assert.Equal(expected.Rating.Value, actual.Rating.Value);
-            Assert.Equal(expected.PostDate.Value, actual.PostDate.Value);
-            Assert.Equal(expected.UrlPattern.Mode, actual.UrlPattern.Mode);
-            Assert.Equal(expected.UrlPattern.Value, actual.UrlPattern.Value);
-            Assert.Equal(expected.BodyCopy.Value, actual.BodyCopy.Value);
-            Assert.Single(actual.BodyCopy.Components);
-            AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Id), actual.BodyCopy.Components.Select(x => x.Id));
-            AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Type.Id.Value), actual.BodyCopy.Components.Select(x => x.Type.Id.Value));
-            AssertIdentifiers(expected.RelatedArticles.Value.Select(x => x.Id.Value), actual.RelatedArticles.Value.Select(x => x.Id.Value));
-            AssertIdentifiers(expected.TeaserImage.Value.Select(x => x.Id.Value), actual.TeaserImage.Value.Select(x => x.Id.Value));
-            AssertIdentifiers(expected.Options.Value.Select(x => x.Id.Value), actual.Options.Value.Select(x => x.Id.Value));
-            AssertIdentifiers(expected.Personas.Value.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
         }
 
         private static ComplexTestModel GetTestModel()

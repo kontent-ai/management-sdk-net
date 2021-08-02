@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public DateTime Value { get; set; }
 
-        public DateTimeElement(dynamic data = null)
+        public DateTimeElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {

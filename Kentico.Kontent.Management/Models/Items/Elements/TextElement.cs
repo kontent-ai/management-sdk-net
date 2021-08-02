@@ -14,7 +14,7 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        public TextElement(dynamic data = null)
+        public TextElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {

@@ -20,7 +20,7 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        public UrlSlugElement(dynamic data = null)
+        public UrlSlugElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {

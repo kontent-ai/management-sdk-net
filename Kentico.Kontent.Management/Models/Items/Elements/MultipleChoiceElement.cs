@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,12 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public IEnumerable<MultipleChoiceOptionIdentifier> Value { get; set; }
 
-        public MultipleChoiceElement(dynamic data = null)
+        public MultipleChoiceElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
                 // TODO - Verify if the internal type <ObjectIdentifier> is ok - maybe TaxonomyTermIdentifier would fit in DynamicObjectJsonCoverter better
-                Value = ((IEnumerable<ObjectIdentifier>)data.value).Select(identifier => MultipleChoiceOptionIdentifier.ById(identifier.Id));
+                Value = (data.value as IEnumerable<dynamic>).Select<dynamic, MultipleChoiceOptionIdentifier>(identifier => MultipleChoiceOptionIdentifier.ById(Guid.Parse(identifier.id)));
             }
         }
 

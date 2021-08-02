@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
         [JsonProperty("value")]
         public decimal? Value { get; set; }
 
-        public NumberElement(dynamic data = null)
+        public NumberElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
