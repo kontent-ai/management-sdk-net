@@ -28,7 +28,8 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
                 if (property.Value is JArray array)
                 {
                     // Array is always a list of references
-                    resultAsDictionary.Add(property.Name, array.ToObject<IEnumerable<ObjectIdentifier>>());
+                    // TODO Does not work for rich text components
+                    resultAsDictionary.Add(property.Name, array.Select(arrayObject => ConvertJComplexObject(arrayObject)));
                     continue;
                 }
 
@@ -51,19 +52,27 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             return result;
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            var defaultResult = serializer.Deserialize(reader);
 
-            switch (defaultResult)
+        private static object ConvertJComplexObject(object input) 
+        {
+            switch (input)
             {
                 case JObject obj:
                     return ConvertToDynamicObject(obj);
                 case JArray array:
-                    return array.Select(obj => ConvertToDynamicObject((JObject)obj));
+                    return array.Select(obj => ConvertJComplexObject(obj));
                 default:
                     throw new ArgumentOutOfRangeException("JSON deserialization did not return either object nor array.");
             }
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var defaultResult = serializer.Deserialize(reader);
+            // TODO - unify this method with ConvertToDynamicObject
+            // var jObject = JToken.Load(reader);
+
+            return ConvertJComplexObject(defaultResult);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

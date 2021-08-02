@@ -10,6 +10,7 @@ using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Data;
 using Newtonsoft.Json;
 using Xunit;
+using Kentico.Kontent.Management.Models;
 
 namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 {
@@ -63,9 +64,9 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                  elementObject.element.id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId()
             );
 
-            // var bodyCopyValue = upsertVariantElements.SingleOrDefault(elementObject =>
-            //      elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
-            // ).value;
+            var bodyCopyElement = upsertVariantElements.SingleOrDefault(elementObject =>
+                 elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
+            );
 
             var relatedArticlesValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
@@ -89,7 +90,9 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             Assert.Equal(model.PostDate.Value, postDateValue);
             Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
             Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
-            // Assert.Equal(model.BodyCopy, bodyCopyValue);
+            Assert.Equal(model.BodyCopy.Value, bodyCopyElement.value);
+            Assert.Single(bodyCopyElement.components as IEnumerable<ComponentModel>);
+            AssertIdentifiers(model.BodyCopy.Components.Select(x => x.Id), (bodyCopyElement.components as IEnumerable<ComponentModel>)?.Select(x => x.Id));
             AssertIdentifiers(model.RelatedArticles.Value.Select(x => x.Id.Value), relatedArticlesValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
@@ -103,15 +106,20 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             Assert.Equal(expected.PostDate.Value, actual.PostDate.Value);
             Assert.Equal(expected.UrlPattern.Mode, actual.UrlPattern.Mode);
             Assert.Equal(expected.UrlPattern.Value, actual.UrlPattern.Value);
-            // Assert.Equal(expected.BodyCopy, actual.BodyCopy);
-            AssertIdentifiers(expected.RelatedArticles?.Value?.Select(x => x.Id.Value), actual.RelatedArticles?.Value?.Select(x => x.Id.Value));
-            AssertIdentifiers(expected.TeaserImage?.Value?.Select(x => x.Id.Value), actual.TeaserImage?.Value.Select(x => x.Id.Value));
-            AssertIdentifiers(expected.Options.Value?.Select(x => x.Id.Value), actual.Options.Value?.Select(x => x.Id.Value));
-            AssertIdentifiers(expected.Personas.Value?.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
+            Assert.Equal(expected.BodyCopy.Value, actual.BodyCopy.Value);
+            Assert.Single(actual.BodyCopy.Components);
+            AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Id), actual.BodyCopy.Components.Select(x => x.Id));
+            AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Type.Id.Value), actual.BodyCopy.Components.Select(x => x.Type.Id.Value));
+            AssertIdentifiers(expected.RelatedArticles.Value.Select(x => x.Id.Value), actual.RelatedArticles.Value.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.TeaserImage.Value.Select(x => x.Id.Value), actual.TeaserImage.Value.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.Options.Value.Select(x => x.Id.Value), actual.Options.Value.Select(x => x.Id.Value));
+            AssertIdentifiers(expected.Personas.Value.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
         }
 
         private static ComplexTestModel GetTestModel()
         {
+            var componentId = Guid.NewGuid();
+            var contentTypeId = Guid.NewGuid();
             return new ComplexTestModel
             {
                 Title = new TextElement { Value = "text" },
@@ -119,7 +127,22 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 SelectedForm = new CustomElement { Value = "{\"formId\": 42}" },
                 PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
                 UrlPattern = new UrlSlugElement { Value = "urlslug", Mode = "custom" },
-                BodyCopy = "RichText",
+                BodyCopy = new RichTextElement
+                {
+                    Value = $"<p>Rich Text</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{componentId}\"></object>",
+                    Components = new ComponentModel[]
+                    {
+                        new ComponentModel
+                        {
+                            Id = componentId,
+                            Type = ContentTypeIdentifier.ById(contentTypeId),
+                            Elements = new BaseElement[] 
+                            {
+                                new TextElement { Value = "text" }
+                            }
+                        }
+                    }
+                },
                 TeaserImage = new AssetElement { Value = new[] { AssetIdentifier.ById(Guid.NewGuid()), AssetIdentifier.ById(Guid.NewGuid()) } },
                 RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray() },
                 Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(TaxonomyTermIdentifier.ById).ToList() },
@@ -131,6 +154,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
         {
             var type = typeof(ComplexTestModel);
 
+            // TODO use toDynamic + implement loading of the atribute in the method
             var elements = new List<dynamic> {
                 new
                 {
@@ -158,11 +182,12 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                     value = model.UrlPattern.Value,
                     mode = model.UrlPattern.Mode
                 },
-                // new
-                // {
-                //     element = new { id = type.GetProperty(nameof(ComplexTestModel.BodyCopy))?.GetKontentElementId() },
-                //     value = model.BodyCopy
-                // },
+                new
+                {
+                    element = new { id = type.GetProperty(nameof(ComplexTestModel.BodyCopy))?.GetKontentElementId() },
+                    value = model.BodyCopy.Value,
+                    components = model.BodyCopy.Components
+                },
                 new
                 {
                     element = new { id = type.GetProperty(nameof(ComplexTestModel.RelatedArticles))?.GetKontentElementId()},
