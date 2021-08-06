@@ -33,5 +33,12 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }
+
+        /// <summary>
+        /// Gets or sets workflow steps of the content item.
+        /// </summary>
+        //todo set?
+        [JsonProperty("workflow_step")]
+        public NoExternalIdIdentifier WorkflowStep { get; set; }
     }
 }
