@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Kentico.Kontent.Management.Models
+namespace Kentico.Kontent.Management.Models.Shared
 {
     /// <summary>
     /// Represents listing response.

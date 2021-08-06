@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kentico.Kontent.Management.Models.Shared;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Kentico.Kontent.Management.Models.Webhooks.Triggers

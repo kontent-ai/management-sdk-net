@@ -1,14 +1,15 @@
 ﻿using System;
+
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Items
+namespace Kentico.Kontent.Management.Models.Shared
 {
     /// <summary>
-    /// Represents identifier of the multiplechoice option.
+    /// Represents identifier of the language.
     /// </summary>
-    public sealed class MultipleChoiceOptionIdentifier
+    //todo rename this class
+    public sealed class NoExternalIdIdentifier
     {
-
         /// <summary>
         /// Gets id of the identifier.
         /// </summary>
@@ -21,26 +22,22 @@ namespace Kentico.Kontent.Management.Models.Items
         [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Codename { get; private set; }
 
-        private MultipleChoiceOptionIdentifier()
-        {
-        }
-
         /// <summary>
         /// Creates identifier by id.
         /// </summary>
         /// <param name="id">The id of the identifier.</param>
-        public static MultipleChoiceOptionIdentifier ById(Guid id)
+        public static NoExternalIdIdentifier ById(Guid id)
         {
-            return new MultipleChoiceOptionIdentifier() { Id = id };
+            return new NoExternalIdIdentifier() { Id = id };
         }
 
         /// <summary>
         /// Creates identifier by codename.
         /// </summary>
         /// <param name="codename">The codename of the identifier.</param>
-        public static MultipleChoiceOptionIdentifier ByCodename(string codename)
+        public static NoExternalIdIdentifier ByCodename(string codename)
         {
-            return new MultipleChoiceOptionIdentifier() { Codename = codename };
+            return new NoExternalIdIdentifier() { Codename = codename };
         }
     }
 }

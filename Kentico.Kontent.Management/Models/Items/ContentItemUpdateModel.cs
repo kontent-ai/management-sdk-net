@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kentico.Kontent.Management.Models.Shared;
+using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Items
 {
@@ -23,7 +24,7 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets collection of the content item.
         /// </summary>
         [JsonProperty("collection")]
-        public CollectionIdentifier Collection { get; set; }
+        public NoExternalIdIdentifier Collection { get; set; }
 
         /// <summary>
         /// A default constructor.

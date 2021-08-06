@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Modules.Extensions;
-using Kentico.Kontent.Management.Models.Items;
-using Kentico.Kontent.Management.Models.Items.Elements;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Data;
 using Newtonsoft.Json;
 using Xunit;
 using Kentico.Kontent.Management.Models;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 
 namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 {
@@ -82,7 +83,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
             var relatedArticlesValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
-            ).value as IEnumerable<ContentItemIdentifier>;
+            ).value as IEnumerable<Reference>;
 
             var teaserImageValue = upsertVariantElements.SingleOrDefault(elementObject =>
                 elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
@@ -90,11 +91,11 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
             var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
-            ).value as IEnumerable<TaxonomyTermIdentifier>;
+            ).value as IEnumerable<NoExternalIdIdentifier>;
 
             var optionsValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
-            ).value as IEnumerable<MultipleChoiceOptionIdentifier>;
+            ).value as IEnumerable<NoExternalIdIdentifier>;
 
             Assert.Equal(model.Title.Value, titleValue);
             Assert.Equal(model.Rating.Value, ratingValue);
@@ -130,7 +131,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                         new ComponentModel
                         {
                             Id = componentId,
-                            Type = ContentTypeIdentifier.ById(contentTypeId),
+                            Type = Reference.ById(contentTypeId),
                             Elements = new BaseElement[] 
                             {
                                 new TextElement { Value = "text" }
@@ -139,9 +140,9 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                     }
                 },
                 TeaserImage = new AssetElement { Value = new[] { AssetIdentifier.ById(Guid.NewGuid()), AssetIdentifier.ById(Guid.NewGuid()) } },
-                RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(ContentItemIdentifier.ById).ToArray() },
-                Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(TaxonomyTermIdentifier.ById).ToList() },
-                Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(MultipleChoiceOptionIdentifier.ById).ToList() },
+                RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToArray() },
+                Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(NoExternalIdIdentifier.ById).ToList() },
+                Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(NoExternalIdIdentifier.ById).ToList() },
             };
         }
 

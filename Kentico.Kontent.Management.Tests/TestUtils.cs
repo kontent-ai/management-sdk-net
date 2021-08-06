@@ -4,6 +4,9 @@ using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Mocks;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using System.Collections.Generic;
+using Kentico.Kontent.Management.Models;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -51,7 +54,7 @@ namespace Kentico.Kontent.Management.Tests
 
         internal static async Task<ContentItemModel> PrepareTestItem(ManagementClient client, string typeCodename, string externalId = null)
         {
-            var type = ContentTypeIdentifier.ByCodename(typeCodename);
+            var type = Reference.ByCodename(typeCodename);
             if (externalId != null)
             {
                 // We use upsert for preparing item by external ID in order to be able to recover from situation when previous test run didn't clean up properly
@@ -76,8 +79,8 @@ namespace Kentico.Kontent.Management.Tests
 
         internal static async Task<ContentItemVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
         {
-            var addedItemIdentifier = ContentItemIdentifier.ByCodename(item.Codename);
-            var addedLanguageIdentifier = LanguageIdentifier.ByCodename(languageCodename);
+            var addedItemIdentifier = Reference.ByCodename(item.Codename);
+            var addedLanguageIdentifier = Reference.ByCodename(languageCodename);
             var addedContentItemLanguageIdentifier = new ContentItemVariantIdentifier(addedItemIdentifier, addedLanguageIdentifier);
             var variantUpdateModel = new ContentItemVariantUpsertModel() { Elements = elements };
 

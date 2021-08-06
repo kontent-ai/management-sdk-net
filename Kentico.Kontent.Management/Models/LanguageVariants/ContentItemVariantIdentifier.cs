@@ -1,4 +1,6 @@
-﻿namespace Kentico.Kontent.Management.Models.Items
+﻿using Kentico.Kontent.Management.Models.Shared;
+
+namespace Kentico.Kontent.Management.Models.LanguageVariants
 {
     /// <summary>
     /// Represents identifier of the content item variant.
@@ -8,19 +10,19 @@
         /// <summary>
         /// Represents identifier of the content item variant.
         /// </summary>
-        public ContentItemIdentifier ItemIdentifier { get; private set; }
+        public Reference ItemIdentifier { get; private set; }
 
         /// <summary>
         /// Represents identifier of the language.
         /// </summary>
-        public LanguageIdentifier LanguageIdentifier { get; private set; }
+        public Reference LanguageIdentifier { get; private set; }
 
         /// <summary>
         /// Creates instance of content item variant identifier.
         /// </summary>
         /// <param name="itemIdentifier">The identifier of the content item.</param>
         /// <param name="languageIdentifier">The identifier of the language.</param>
-        public ContentItemVariantIdentifier(ContentItemIdentifier itemIdentifier, LanguageIdentifier languageIdentifier)
+        public ContentItemVariantIdentifier(Reference itemIdentifier, Reference languageIdentifier)
         {
             ItemIdentifier = itemIdentifier;
             LanguageIdentifier = languageIdentifier;

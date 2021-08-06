@@ -2,7 +2,6 @@
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Modules.Extensions;
-using Kentico.Kontent.Management.Models.Items.Elements;
 using Kentico.Kontent.Management.Tests.Data;
 using Newtonsoft.Json;
 using System;
@@ -12,6 +11,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
@@ -25,8 +27,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
-            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
@@ -44,8 +46,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
-            var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
@@ -63,8 +65,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
-            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
@@ -82,8 +84,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
-            var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
@@ -105,8 +107,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
             // Test
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
 
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
@@ -116,7 +118,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertResponseElements(responseVariant);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -131,8 +133,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
 
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
@@ -142,7 +144,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertResponseElements(responseVariant);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -160,8 +162,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
@@ -170,7 +172,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertResponseElements(responseVariant);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -187,8 +189,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariantUpsertModel);
@@ -197,7 +199,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertResponseElements(responseVariant);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -215,8 +217,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             preparedVariant.Elements = _elements;
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariant: preparedVariant);
@@ -225,7 +227,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertResponseElements(responseVariant);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -243,8 +245,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             preparedVariant.Elements = _elements;
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.DEFAULT_LANGUAGE;
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ById(Guid.Empty);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, contentItemVariant: preparedVariant);
@@ -253,7 +255,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertResponseElements(responseVariant);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -263,7 +265,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(ListContentItemVariants_ById_ListsVariants));
 
-            var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
+            var identifier = Reference.ById(EXISTING_ITEM_ID);
 
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 
@@ -276,7 +278,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(ListContentItemVariants_ByCodename_ListsVariants));
 
-            var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
+            var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 
@@ -295,13 +297,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
             // Test
-            var identifier = ContentItemIdentifier.ByExternalId(externalId);
+            var identifier = Reference.ByExternalId(externalId);
             var responseVariants = await client.ListContentItemVariantsAsync(identifier);
 
             Assert.Single(responseVariants);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -311,8 +313,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentItemVariant_ById_LanguageId_GetsVariant));
 
-            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var response = await client.GetContentItemVariantAsync(identifier);
@@ -328,8 +330,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentItemVariant_ById_LanguageCodename_GetsVariant));
 
-            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var response = await client.GetContentItemVariantAsync(identifier);
@@ -345,8 +347,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentItemVariant_ByCodename_LanguageId_GetsVariant));
 
-            var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var response = await client.GetContentItemVariantAsync(identifier);
@@ -362,8 +364,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentItemVariant_ByCodename_LanguageCodename_GetsVariant));
 
-            var itemIdentifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var response = await client.GetContentItemVariantAsync(identifier);
@@ -385,8 +387,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
             // Test
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var response = await client.GetContentItemVariantAsync(identifier);
@@ -396,7 +398,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(EXISTING_LANGUAGE_ID, response.Language.Id);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -410,8 +412,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, preparedItem);
 
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var response = await client.GetContentItemVariantAsync(identifier);
@@ -421,7 +423,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(EXISTING_LANGUAGE_ID, response.Language.Id);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -434,8 +436,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
-            var itemIdentifier = ContentItemIdentifier.ById(itemResponse.Id);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ById(itemResponse.Id);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await client.DeleteContentItemVariantAsync(identifier);
@@ -450,8 +452,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
-            var itemIdentifier = ContentItemIdentifier.ById(itemResponse.Id);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ById(itemResponse.Id);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await client.DeleteContentItemVariantAsync(identifier);
@@ -467,8 +469,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
-            var itemIdentifier = ContentItemIdentifier.ByCodename(itemResponse.Codename);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByCodename(itemResponse.Codename);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await client.DeleteContentItemVariantAsync(identifier);
@@ -484,8 +486,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
-            var itemIdentifier = ContentItemIdentifier.ByCodename(itemResponse.Codename);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ByCodename(itemResponse.Codename);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await client.DeleteContentItemVariantAsync(identifier);
@@ -501,8 +503,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await client.DeleteContentItemVariantAsync(identifier);
@@ -518,8 +520,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
 
-            var itemIdentifier = ContentItemIdentifier.ByExternalId(externalId);
-            var languageIdentifier = LanguageIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var itemIdentifier = Reference.ByExternalId(externalId);
+            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await client.DeleteContentItemVariantAsync(identifier);
@@ -531,7 +533,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(ListStronglyTypedContentItemVariants_ById_ListsVariants));
 
-            var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
+            var identifier = Reference.ById(EXISTING_ITEM_ID);
 
             var responseVariants = await client.ListContentItemVariantsAsync<ComplexTestModel>(identifier);
 
@@ -548,8 +550,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetStronglyTypedContentItemVariantAsync_ById_LanguageId_GetVariant));
 
-            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var response = await client.GetContentItemVariantAsync<ComplexTestModel>(identifier);
@@ -566,8 +568,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(UpsertStronglyTypedContentItemVariantAsync_ById_LanguageId_UpdatesVariant));
 
-            var itemIdentifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var responseVariant = await client.UpsertContentItemVariantAsync(identifier, StronglyTypedElements);
@@ -630,7 +632,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                                 },
                                 value = new[] {
                                         // TODO - decide whether it is better to use ID instead of codename
-                                        MultipleChoiceOptionIdentifier.ByCodename(TWEET_THEME_ELEMENT_DARK_OPTION_CODENAME)
+                                        NoExternalIdIdentifier.ByCodename(TWEET_THEME_ELEMENT_DARK_OPTION_CODENAME)
                                 }
                             },
                             new
@@ -640,7 +642,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                                 },
                                 value = new[] {
                                     // TODO - decide whether it is better to use ID instead of codename
-                                    MultipleChoiceOptionIdentifier.ByCodename(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME)
+                                    NoExternalIdIdentifier.ByCodename(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME)
                                 }
                             }
                         }
@@ -652,7 +654,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 element = new {
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()
                 },
-                value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) },
+                value = new[] { Reference.ById(EXISTING_ITEM_ID) },
                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
@@ -668,7 +670,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()
                 },
                 // TODO - decide whether it is better to use ID instead of codename
-                value = new[] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
+                value = new[] { NoExternalIdIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
@@ -688,8 +690,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 value = new[]
                 {
                     // TODO - decide whether it is better to use ID instead of codename
-                    MultipleChoiceOptionIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
-                    MultipleChoiceOptionIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
+                    NoExternalIdIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
+                    NoExternalIdIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
                 },
                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
@@ -728,7 +730,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     new ComponentModel
                     {
                         Id = RICH_TEXT_COMPONENT_ID,
-                        Type = ContentTypeIdentifier.ById(TWEET_TYPE_ID),
+                        Type = Reference.ById(TWEET_TYPE_ID),
                         Elements = new BaseElement[]
                         {
                             // TODO use exact Tweet values like in _elements (unify IDs to constants)
@@ -740,12 +742,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                             new MultipleChoiceElement
                             {
                                 Element = ObjectIdentifier.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.Theme)).GetKontentElementId()),
-                                Value = new[] { MultipleChoiceOptionIdentifier.ById(TWEET_THEME_ELEMENT_DARK_OPTION_ID) },
+                                Value = new[] { NoExternalIdIdentifier.ById(TWEET_THEME_ELEMENT_DARK_OPTION_ID) },
                             },
                             new MultipleChoiceElement
                             {
                                 Element = ObjectIdentifier.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.DisplayOptions)).GetKontentElementId()),
-                                Value = new[] { MultipleChoiceOptionIdentifier.ById(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID) },
+                                Value = new[] { NoExternalIdIdentifier.ById(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID) },
                             }
                         }
                     }
@@ -754,7 +756,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             RelatedArticles = new LinkedItemsElement
             {
                 Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()),
-                Value = new[] { ContentItemIdentifier.ById(EXISTING_ITEM_ID) }
+                Value = new[] { Reference.ById(EXISTING_ITEM_ID) }
             },
             UrlPattern = new UrlSlugElement
             {
@@ -765,7 +767,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Personas = new TaxonomyElement
             {
                 Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()),
-                Value = new[] { TaxonomyTermIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) }
+                Value = new[] { NoExternalIdIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) }
             },
             TeaserImage = new AssetElement
             {
@@ -777,8 +779,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetKontentElementId()),
                 Value = new[]
                 {
-                    MultipleChoiceOptionIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID),
-                    MultipleChoiceOptionIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED)
+                    NoExternalIdIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID),
+                    NoExternalIdIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED)
                 }
             },
         };

@@ -1,6 +1,9 @@
 ﻿using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.Workflow;
 using System;
 using System.Net;
 
@@ -47,6 +50,11 @@ namespace Kentico.Kontent.Management
         private const string URL_WEBHOOKS = "/webhooks";
         private const string URL_TEMPLATE_WEBHOOKS_ID = "/webhooks/{0}";
 
+        private const string URL_WORKFLOW = "/workflow";
+        private const string URL_TEMPLATE_WORKFLOW_ID = "/workflow/{0}";
+        private const string URL_TEMPLATE_WORKFLOW_CODENAME = "/workflow/codename/{0}";
+
+
         private readonly ManagementOptions _options;
 
         internal EndpointUrlBuilder(ManagementOptions options)
@@ -56,7 +64,7 @@ namespace Kentico.Kontent.Management
 
         #region Variants
 
-        internal string BuildListVariantsUrl(ContentItemIdentifier identifier)
+        internal string BuildListVariantsUrl(Reference identifier)
         {
             var itemSegment = GetItemUrlSegment(identifier);
 
@@ -71,7 +79,7 @@ namespace Kentico.Kontent.Management
             return GetUrl(string.Concat(itemSegment, variantSegment));
         }
 
-        private string GetVariantUrlSegment(LanguageIdentifier identifier)
+        private string GetVariantUrlSegment(Reference identifier)
         {
             if (!string.IsNullOrEmpty(identifier.Codename))
             {
@@ -99,13 +107,13 @@ namespace Kentico.Kontent.Management
             return GetUrl(URL_TYPES);
         }
 
-        internal string BuildTypeUrl(ContentTypeIdentifier identifier)
+        internal string BuildTypeUrl(Reference identifier)
         {
             var itemSegment = GetTypeUrlSegment(identifier);
             return GetUrl(itemSegment);
         }
 
-        private string GetTypeUrlSegment(ContentTypeIdentifier identifier)
+        private string GetTypeUrlSegment(Reference identifier)
         {
             if (identifier.Id != null)
             {
@@ -211,7 +219,7 @@ namespace Kentico.Kontent.Management
                 return BuildLanguagesUrlSegmentFromExternalId(identifier.ExternalId);
             }
 
-            throw new ArgumentException("You must provide item's id, codename or externalId");
+            throw new ArgumentException("You must provide language's id, codename or externalId");
         }
 
         //todo this method is good candidate for refactoring as its here many times (types, items)
@@ -223,11 +231,6 @@ namespace Kentico.Kontent.Management
         #endregion
 
         #region Webhooks
-
-        internal string BuildWebhooksListingUrl(string continuationToken = null)
-        {
-            return (continuationToken != null) ? GetUrl(URL_WEBHOOKS, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
-        }
 
         internal string BuildWebhooksUrl()
         {
@@ -264,6 +267,38 @@ namespace Kentico.Kontent.Management
         }
         #endregion
 
+        #region WorkflowSteps
+
+        internal string BuildWorkflowUrl()
+        {
+            return GetUrl(URL_WORKFLOW);
+        }
+
+        internal string BuildWorkflowChangeUrl(WorkflowIdentifier identifier)
+        {
+            var itemSegment = GetItemUrlSegment(identifier.ItemIdentifier);
+            var variantSegment = GetVariantUrlSegment(identifier.LanguageIdentifier);
+            var workflowSegment = GetWorkflowUrlSegment(identifier.WorkflowStepIdentifier);
+
+            return GetUrl(string.Concat(itemSegment, variantSegment, workflowSegment));
+        }
+
+        private string GetWorkflowUrlSegment(NoExternalIdIdentifier identifier)
+        {
+            if (identifier.Id != null)
+            {
+                return string.Format(URL_TEMPLATE_WORKFLOW_ID, identifier.Id);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.Codename))
+            {
+                return string.Format(URL_TEMPLATE_WORKFLOW_CODENAME, identifier.Codename);
+            }
+
+            throw new ArgumentException("You must provide language's id, codename or externalId");
+        }
+        #endregion
+
         #region Items
 
         internal string BuildItemsListingUrl(string continuationToken = null)
@@ -276,13 +311,13 @@ namespace Kentico.Kontent.Management
             return GetUrl(URL_ITEM);
         }
 
-        internal string BuildItemUrl(ContentItemIdentifier identifier)
+        internal string BuildItemUrl(Reference identifier)
         {
             var itemSegment = GetItemUrlSegment(identifier);
             return GetUrl(itemSegment);
         }
 
-        private string GetItemUrlSegment(ContentItemIdentifier identifier)
+        private string GetItemUrlSegment(Reference identifier)
         {
             if (identifier.Id != null)
             {

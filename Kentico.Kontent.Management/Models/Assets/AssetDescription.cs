@@ -1,5 +1,4 @@
-﻿using Kentico.Kontent.Management.Models.Items;
-
+﻿using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Assets
@@ -13,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// Gets or sets identifier of the language.
         /// </summary>
         [JsonProperty("language", Required = Required.Always)]
-        public LanguageIdentifier Language { get; set; }
+        public Reference Language { get; set; }
 
         /// <summary>
         /// Gets or sets Description of the asset.

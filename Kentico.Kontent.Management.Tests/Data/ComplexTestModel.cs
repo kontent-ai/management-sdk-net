@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Kentico.Kontent.Management.Models.Items;
-using Kentico.Kontent.Management.Models.Items.Elements;
+﻿using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Newtonsoft.Json;
 

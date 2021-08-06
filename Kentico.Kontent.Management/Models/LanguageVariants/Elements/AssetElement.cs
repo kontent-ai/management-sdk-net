@@ -6,7 +6,7 @@ using Kentico.Kontent.Management.Models.Assets;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Kentico.Kontent.Management.Models.Items.Elements
+namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
     /// Represents strongly typed assets element.

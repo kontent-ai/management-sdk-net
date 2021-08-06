@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Items
+namespace Kentico.Kontent.Management.Models.LanguageVariants
 {
     /// <summary>
     /// Represents content item variant upsert model.

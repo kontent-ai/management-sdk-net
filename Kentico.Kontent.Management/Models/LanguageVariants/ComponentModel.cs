@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Kentico.Kontent.Management.Models.Items;
-using Kentico.Kontent.Management.Models.Items.Elements;
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models
+namespace Kentico.Kontent.Management.Models.LanguageVariants
 {
     /// <summary>
     /// Represents a rich text component model.
@@ -12,7 +11,7 @@ namespace Kentico.Kontent.Management.Models
     public class ComponentModel
     {
         /// <summary>
-        /// Gets or sets id of the content item.
+        /// Gets or sets id of the content component.
         /// </summary>
         [JsonProperty("id")]
         public Guid Id { get; set; }
@@ -21,7 +20,7 @@ namespace Kentico.Kontent.Management.Models
         /// Gets or sets type of the component.
         /// </summary>
         [JsonProperty("type", Required = Required.Always)]
-        public ContentTypeIdentifier Type { get; set; }
+        public Reference Type { get; set; }
 
         /// <summary>
         /// Gets or sets type of the component.

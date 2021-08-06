@@ -2,6 +2,7 @@
 using Kentico.Kontent.Management.Extenstions;
 using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Models.Types.Patch;
@@ -64,7 +65,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentType_ById_GetsContentType));
 
-            var identifier = ContentTypeIdentifier.ById(EXISTING_CONTENT_TYPE_ID);
+            var identifier = Reference.ById(EXISTING_CONTENT_TYPE_ID);
 
             var response = await client.GetContentTypeAsync(identifier);
             Assert.Equal(EXISTING_CONTENT_TYPE_ID, response.Id);
@@ -76,7 +77,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentType_ByCodename_GetsContentType));
 
-            var identifier = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+            var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
 
             var response = await client.GetContentTypeAsync(identifier);
             Assert.Equal(EXISTING_CONTENT_TYPE_CODENAME, response.Codename);
@@ -90,7 +91,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var client = CreateManagementClient(nameof(GetContentType_ByExternalId_GetsContentType));
 
-            var identifier = ContentTypeIdentifier.ByExternalId(externalId);
+            var identifier = Reference.ByExternalId(externalId);
 
             var response = await client.GetContentTypeAsync(identifier);
             Assert.Equal(externalId, response.ExternalId);
@@ -124,7 +125,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var responseType = await client.CreateContentTypeAsync(type);
 
 
-            var identifier = ContentTypeIdentifier.ById(responseType.Id);
+            var identifier = Reference.ById(responseType.Id);
             var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
 
 
@@ -164,7 +165,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var responseType = await client.CreateContentTypeAsync(type);
 
 
-            var identifier = ContentTypeIdentifier.ByCodename(typeCodename);
+            var identifier = Reference.ByCodename(typeCodename);
             var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
 
 
@@ -204,7 +205,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var responseType = await client.CreateContentTypeAsync(type);
 
 
-            var identifier = ContentTypeIdentifier.ByExternalId(typeExternalId);
+            var identifier = Reference.ByExternalId(typeExternalId);
             var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
 
 
@@ -249,7 +250,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(typeExternalId, responseType.ExternalId);
 
             // Cleanup
-            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            var typeToClean = Reference.ByCodename(typeCodename);
             await client.DeleteContentTypeAsync(typeToClean);
         }
 
@@ -315,7 +316,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //act
-            var modifiedType = await client.ModifyContentTypeAsync(ContentTypeIdentifier.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //assert
@@ -325,7 +326,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             // Cleanup
-            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            var typeToClean = Reference.ByCodename(typeCodename);
             await client.DeleteContentTypeAsync(typeToClean);
         }
 
@@ -381,7 +382,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeAsync(ContentTypeIdentifier.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //Assert
@@ -389,7 +390,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             // Cleanup
-            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            var typeToClean = Reference.ByCodename(typeCodename);
             await client.DeleteContentTypeAsync(typeToClean);
         }
 
@@ -440,7 +441,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeAsync(ContentTypeIdentifier.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //Assert
@@ -448,7 +449,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             // Cleanup
-            var typeToClean = ContentTypeIdentifier.ByCodename(typeCodename);
+            var typeToClean = Reference.ByCodename(typeCodename);
             await client.DeleteContentTypeAsync(typeToClean);
         }
         #endregion

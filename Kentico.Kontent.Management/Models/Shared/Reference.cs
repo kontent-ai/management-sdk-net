@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Kentico.Kontent.Management.Models
+namespace Kentico.Kontent.Management.Models.Shared
 {
     /// <summary>
     /// Represents general identifier of object.

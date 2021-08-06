@@ -19,6 +19,9 @@ using Kentico.Kontent.Management.Models.TaxonomyGroups;
 using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.Webhooks;
+using Kentico.Kontent.Management.Models.Workflow;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
 
 namespace Kentico.Kontent.Management
 {
@@ -81,7 +84,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>The <see cref="IEnumerable{ContentItemVariantModel}"/> instance that represents the listing of content item variants.</returns>
-        public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
+        public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -172,7 +175,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
-        public async Task<ContentTypeModel> GetContentTypeAsync(ContentTypeIdentifier identifier)
+        public async Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -207,7 +210,7 @@ namespace Kentico.Kontent.Management
         /// Deletes given content type.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
-        public async Task DeleteContentTypeAsync(ContentTypeIdentifier identifier)
+        public async Task DeleteContentTypeAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -224,7 +227,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// /// <param name="changes">to do</param>
-        public async Task<ContentTypeModel> ModifyContentTypeAsync(ContentTypeIdentifier identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
+        public async Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
         {
             if (identifier == null)
             {
@@ -459,6 +462,28 @@ namespace Kentico.Kontent.Management
 
         #endregion
 
+        #region WorkflowSteps
+
+        public async Task<IEnumerable<WorkflowStep>> ListWorkflowStepsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildWorkflowUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowStep>>(endpointUrl, HttpMethod.Get);
+        }
+
+        public async Task ChangeWorkflowStep(WorkflowIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        #endregion
+
         #region Strongly typed Variants
 
         /// <summary>
@@ -467,7 +492,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>A strongly-typed collection with content item variants.</returns>
-        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
+        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(Reference identifier) where T : new()
         {
             if (identifier == null)
             {
@@ -535,7 +560,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the content item.</param>
         /// <param name="contentItem">Represents updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-        public async Task<ContentItemModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
+        public async Task<ContentItemModel> UpdateContentItemAsync(Reference identifier, ContentItemUpdateModel contentItem)
         {
             if (identifier == null)
             {
@@ -571,7 +596,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(contentItem));
             }
 
-            var endpointUrl = _urlBuilder.BuildItemUrl(ContentItemIdentifier.ByExternalId(externalId));
+            var endpointUrl = _urlBuilder.BuildItemUrl(Reference.ByExternalId(externalId));
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return response;
@@ -600,7 +625,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents requested content item.</returns>
-        public async Task<ContentItemModel> GetContentItemAsync(ContentItemIdentifier identifier)
+        public async Task<ContentItemModel> GetContentItemAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -617,7 +642,7 @@ namespace Kentico.Kontent.Management
         /// Deletes given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
-        public async Task DeleteContentItemAsync(ContentItemIdentifier identifier)
+        public async Task DeleteContentItemAsync(Reference identifier)
         {
             if (identifier == null)
             {

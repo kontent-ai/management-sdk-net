@@ -1,5 +1,8 @@
 ﻿using Kentico.Kontent.Management.Exceptions;
+using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.Shared;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -15,7 +18,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var itemName = "Hooray!";
             var itemCodename = "hooray_codename";
-            var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+            var type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
             var item = new ContentItemCreateModel
             {
                 Codename = itemCodename,
@@ -30,7 +33,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(EXISTING_CONTENT_TYPE_ID, responseItem.Type.Id);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByCodename(itemCodename);
+            var itemToClean = Reference.ByCodename(itemCodename);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -78,21 +81,21 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var client = CreateManagementClient(nameof(UpdateContentItem_ByCodename_UpdatesContentItem));
 
             var itemName = "Hooray!";
-            var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
+            var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
             // Set codename, name and collection
             var item = new ContentItemUpdateModel
             {
                 Codename = EXISTING_ITEM_CODENAME,
                 Name = itemName,
-                Collection = CollectionIdentifier.DEFAULT_COLLECTION
+                Collection = NoExternalIdIdentifier.ById(Guid.Empty)
             };
 
             var responseItem = await client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.Codename);
-            Assert.Equal(CollectionIdentifier.DEFAULT_COLLECTION.Id, responseItem.Collection.Id);
+            Assert.Equal(NoExternalIdIdentifier.ById(Guid.Empty).Id, responseItem.Collection.Id);
         }
 
         [Fact]
@@ -103,7 +106,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var itemName = "Ciao!";
             var itemCodename = "ciao_codename";
-            var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID2);
+            var identifier = Reference.ById(EXISTING_ITEM_ID2);
 
             var item = new ContentItemUpdateModel
             {
@@ -124,7 +127,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var client = CreateManagementClient(nameof(UpdateContentItemName_CodenameNotSet_RegeneratesCodenameByName));
 
             var itemName = "regenerated_codename";
-            var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID2);
+            var identifier = Reference.ById(EXISTING_ITEM_ID2);
 
             var item = new ContentItemUpdateModel
             {
@@ -150,14 +153,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             preparedItem.Name = "EditedItem";
-            var identifier = ContentItemIdentifier.ByExternalId(externalId);
+            var identifier = Reference.ByExternalId(externalId);
             var item = client.UpdateContentItemAsync(identifier, preparedItem);
 
             var contentItemResponse = await client.UpdateContentItemAsync(identifier, preparedItem);
             Assert.Equal("EditedItem", contentItemResponse.Name);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -174,13 +177,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
-            var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+            var type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
             var item = new ContentItemUpsertModel()
             {
                 Codename = itemCodename,
                 Name = itemName,
                 Type = type,
-                Collection = CollectionIdentifier.DEFAULT_COLLECTION
+                Collection = NoExternalIdIdentifier.ById(Guid.Empty)
             };
 
             var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
@@ -188,7 +191,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(itemCodename, contentItemResponse.Codename);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -202,13 +205,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var externalId = "9d98959eeac446288992b44b5d366e16";
             var itemName = "Hi!";
             var itemCodename = "hi_codename";
-            var type = ContentTypeIdentifier.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+            var type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
             var item = new ContentItemUpsertModel()
             {
                 Codename = itemCodename,
                 Name = itemName,
                 Type = type,
-                Collection = CollectionIdentifier.DEFAULT_COLLECTION
+                Collection = NoExternalIdIdentifier.ById(Guid.Empty)
             };
 
             var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
@@ -217,7 +220,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(itemCodename, contentItemResponse.Codename);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -227,7 +230,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentItem_ById_GetsContentItem));
 
-            var identifier = ContentItemIdentifier.ById(EXISTING_ITEM_ID);
+            var identifier = Reference.ById(EXISTING_ITEM_ID);
 
             var contentItemResponse = await client.GetContentItemAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID, contentItemResponse.Id);
@@ -239,7 +242,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var client = CreateManagementClient(nameof(GetContentItem_ByCodename_GetsContentItem));
 
-            var identifier = ContentItemIdentifier.ByCodename(EXISTING_ITEM_CODENAME);
+            var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
             var contentItemResponse = await client.GetContentItemAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID, contentItemResponse.Id);
@@ -256,13 +259,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
-            var identifier = ContentItemIdentifier.ByExternalId(externalId);
+            var identifier = Reference.ByExternalId(externalId);
 
             var contentItemResponse = await client.GetContentItemAsync(identifier);
             Assert.Equal(externalId, contentItemResponse.ExternalId);
 
             // Cleanup
-            var itemToClean = ContentItemIdentifier.ByExternalId(externalId);
+            var itemToClean = Reference.ByExternalId(externalId);
             await client.DeleteContentItemAsync(itemToClean);
         }
 
@@ -274,7 +277,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var itemToDelete = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
 
-            var identifier = ContentItemIdentifier.ById(itemToDelete.Id);
+            var identifier = Reference.ById(itemToDelete.Id);
 
             await client.DeleteContentItemAsync(identifier);
 
@@ -293,7 +296,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var itemToDelete = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
 
-            var identifier = ContentItemIdentifier.ByCodename(itemToDelete.Codename);
+            var identifier = Reference.ByCodename(itemToDelete.Codename);
 
             await client.DeleteContentItemAsync(identifier);
 
@@ -313,7 +316,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var externalId = "341bcf72988d49729ec34c8682710536";
             await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
-            var identifier = ContentItemIdentifier.ByExternalId(externalId);
+            var identifier = Reference.ByExternalId(externalId);
 
             await client.DeleteContentItemAsync(identifier);
 

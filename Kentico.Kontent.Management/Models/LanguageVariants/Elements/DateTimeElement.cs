@@ -1,24 +1,25 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Kentico.Kontent.Management.Models.Items.Elements
+namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
-    /// Represents strongly typed text element.
+    /// Represents strongly typed date and time element.
     /// </summary>
-    public class TextElement : BaseElement
+    public class DateTimeElement : BaseElement
     {
         /// <summary>
-        /// Gets or sets value of the text element.
+        /// Gets or sets value of the date time element.
         /// </summary>
         [JsonProperty("value")]
-        public string Value { get; set; }
+        public DateTime Value { get; set; }
 
-        public TextElement(dynamic data = null) : base((object)data)
+        public DateTimeElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
-                Value = data.value?.ToString();
+                Value = Convert.ToDateTime(data.value);
             }
         }
 

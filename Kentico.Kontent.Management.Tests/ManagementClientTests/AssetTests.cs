@@ -1,5 +1,7 @@
-﻿using Kentico.Kontent.Management.Models.Assets;
+﻿using Kentico.Kontent.Management.Models;
+using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -205,7 +207,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotEqual(Guid.Empty, fileId);
 
             var spanishDescription = "Spanish descriptión";
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
             var descriptions = new[] { assetDescription };
 
@@ -243,7 +245,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var contentType = "text/plain";
 
             var spanishDescription = "Spanish descriptión";
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
             var descriptions = new[] { assetDescription };
             var title = "New title";
@@ -306,7 +308,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var externalId = "5bec7f21ad2e44bb8a3a1f4a6a5bf8ca";
 
             var spanishDescription = "Spanish descriptión";
-            var languageIdentifier = LanguageIdentifier.ById(EXISTING_LANGUAGE_ID);
+            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var assetDescription = new AssetDescription { Description = spanishDescription, Language = languageIdentifier };
             var descriptions = new[] { assetDescription };
             var title = "New title";
@@ -337,7 +339,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var title = "My super asset";
             var updatedDescription = new AssetDescription()
             {
-                Language = LanguageIdentifier.DEFAULT_LANGUAGE,
+                Language = Reference.ById(Guid.Empty),
                 Description = "Dancing Goat Café - Los Angeles - UPDATED",
             };
             var update = new AssetUpdateModel() { Descriptions = new[] { updatedDescription }, Title = title };

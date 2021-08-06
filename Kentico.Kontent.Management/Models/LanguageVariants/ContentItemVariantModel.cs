@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Items
+namespace Kentico.Kontent.Management.Models.LanguageVariants
 {
     /// <summary>
     /// Represents content item variant model.
@@ -25,7 +26,7 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets language of the variant.
         /// </summary>
         [JsonProperty("language")]
-        public LanguageIdentifier Language { get; set; }
+        public Reference Language { get; set; }
 
         /// <summary>
         /// Gets or sets last modified timestamp of the content item.

@@ -17,7 +17,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         /// Allows to adjust the test run type to achieve the desired behavior (see the <see cref="TestUtils.TestRunType"/> enum for more details).
         /// IMPORTANT: Commit always with TestRunType.MockFromFileSystem
         /// </summary>
-        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.MockFromFileSystem;
+        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.LiveEndPoint;
 
         public ManagementClientTests()
         {
@@ -51,6 +51,9 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         protected const string EXISTING_WEBHOOK_NAME = "Webhook_all_triggers";
         protected const string EXISTING_WEBHOOK_ID = "ef6eb5e6-24f6-4a3a-a291-1cff8d4eecc5";
+
+
+        protected static readonly Guid EXISTING_WORKFLOW_STEP_ID = Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9");
 
         protected const string EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID = "paid";
         protected static readonly Guid EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID = Guid.Parse("00c0f86a-7c51-4e60-abeb-a150e9092e53");

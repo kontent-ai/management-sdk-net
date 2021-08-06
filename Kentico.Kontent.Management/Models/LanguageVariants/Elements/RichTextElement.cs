@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Items.Elements
+namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
     /// Represents strongly typed rich text element.
@@ -31,7 +32,7 @@ namespace Kentico.Kontent.Management.Models.Items.Elements
                 Components = (data.components as IEnumerable<dynamic>)?.Select(component => new ComponentModel
                 {
                     Id = Guid.Parse(component.id),
-                    Type = ContentTypeIdentifier.ById(Guid.Parse(component.type.id)),
+                    Type = Reference.ById(Guid.Parse(component.type.id)),
                     // TODO - probably use reflection for constructor
                     Elements = (component.elements as IEnumerable<dynamic>)
                 });

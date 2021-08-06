@@ -1,22 +1,20 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Kentico.Kontent.Management.Models.Items.Elements
+namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
-    /// Represents strongly typed custom element,
+    /// Represents strongly typed text element.
     /// </summary>
-    public class CustomElement : BaseElement
+    public class TextElement : BaseElement
     {
         /// <summary>
-        /// Gets or sets value of the custom element.
+        /// Gets or sets value of the text element.
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        // TODO - add searchable value https://docs.kontent.ai/reference/management-api-v2#section/Custom-element
-
-        public CustomElement(dynamic data = null) : base((object)data)
+        public TextElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {

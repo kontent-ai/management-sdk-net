@@ -1,5 +1,5 @@
 ﻿using System;
-using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.StronglyTyped
@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Models.StronglyTyped
         /// Gets or sets language of the variant.
         /// </summary>
         [JsonProperty("language")]
-        public LanguageIdentifier Language { get; set; }
+        public Reference Language { get; set; }
 
         /// <summary>
         /// Gets or sets last modified timestamp of the content item.
