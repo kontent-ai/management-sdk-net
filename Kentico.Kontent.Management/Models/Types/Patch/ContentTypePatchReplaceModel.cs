@@ -1,5 +1,4 @@
-﻿using Kentico.Kontent.Management.Models.Items.Identifiers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Types.Patch
 {
@@ -12,9 +11,9 @@ namespace Kentico.Kontent.Management.Models.Types.Patch
         public dynamic Value { get; set; }
 
         [JsonProperty("before")]
-        public Identifier Before { get; set; }
+        public Reference Before { get; set; }
 
         [JsonProperty("after")]
-        public Identifier After { get; set; }
+        public Reference After { get; set; }
     }
 }

@@ -16,8 +16,9 @@ using Kentico.Kontent.Management.Modules.ResiliencePolicy;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Patch;
 using Kentico.Kontent.Management.Models.TaxonomyGroups;
-using Kentico.Kontent.Management.Models.Items.Identifiers;
 using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
+using Kentico.Kontent.Management.Models.Languages;
+using Kentico.Kontent.Management.Models.Webhooks;
 
 namespace Kentico.Kontent.Management
 {
@@ -261,7 +262,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
-        public async Task<TaxonomyGroupModel> GetContentTypeAsync(Identifier identifier)
+        public async Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -294,7 +295,7 @@ namespace Kentico.Kontent.Management
         /// Deletes given taxonomy group.
         /// </summary>
         /// <param name="identifier">The identifier of the taxonomy group.</param>
-        public async Task DeleteTaxonomyGroupAsync(Identifier identifier)
+        public async Task DeleteTaxonomyGroupAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -311,7 +312,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the taxonomy group.</param>
         /// /// <param name="changes">to do</param>
-        public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Identifier identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
+        public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
         {
             if (identifier == null)
             {
@@ -325,8 +326,135 @@ namespace Kentico.Kontent.Management
         //the same method is 3 times in this class => refactor
         private async Task<IListingResponse<TaxonomyGroupModel>> GetNextTaxonomyListingPageAsync(string continuationToken)
         {
-            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
+            var endpointUrl = _urlBuilder.BuildTaxonomyListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        #endregion
+
+        #region Webhooks
+
+        /// <summary>
+        ///todo
+        /// </summary>
+        /// <returns>todo</returns>
+        public async Task<IEnumerable<WebhookModel>> ListWebhooksAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WebhookModel>>(endpointUrl, HttpMethod.Get);
+        }
+
+        public async Task<WebhookModel> GetWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<WebhookModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        public async Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook)
+        {
+            if (webhook == null)
+            {
+                throw new ArgumentNullException(nameof(webhook));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl();
+            return await _actionInvoker.InvokeMethodAsync<WebhookCreateModel, WebhookModel>(endpointUrl, HttpMethod.Post, webhook);
+        }
+
+        public async Task DeleteWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        public async Task EnableWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksEnableUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        public async Task DisableWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksDisableUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+        #endregion Webhooks
+
+        #region Languages
+
+        public async Task<ListingResponseModel<LanguageModel>> ListLanguagesAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguagesListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<LanguageModel>(GetNextLanguageListingPageAsync, response.Pagination?.Token, response.Languages);
+        }
+
+        public async Task<LanguageModel> GetLanguageAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        public async Task<LanguageModel> CreateLanguageAsync(LanguageCreateModel language)
+        {
+            if (language == null)
+            {
+                throw new ArgumentNullException(nameof(language));
+            }
+
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl();
+            return await _actionInvoker.InvokeMethodAsync<LanguageCreateModel, LanguageModel>(endpointUrl, HttpMethod.Post, language);
+        }
+
+        public async Task<LanguageModel> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<LanguagePatchModel>, LanguageModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        }
+
+        //the same method is 4 times in this class => refactor
+        private async Task<IListingResponse<LanguageModel>> GetNextLanguageListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<LanguageModel>>(endpointUrl, HttpMethod.Get);
         }
 
         #endregion
@@ -518,8 +646,9 @@ namespace Kentico.Kontent.Management
 
         private async Task<IListingResponse<ContentItemModel>> GetNextItemsListingPageAsync(string continuationToken)
         {
-            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);    
+            var response =    await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+            return response;
         }
 
         #endregion

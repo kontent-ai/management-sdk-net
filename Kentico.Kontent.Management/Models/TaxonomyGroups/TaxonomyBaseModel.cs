@@ -13,7 +13,7 @@ namespace Kentico.Kontent.Management.Models.TaxonomyGroups
         public string Name { get; set; }
 
         [JsonProperty("codename")]
-        public string CodeName { get; set; }
+        public string Codename { get; set; }
 
         [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ExternalId { get; set; }

@@ -1,6 +1,6 @@
-﻿using Kentico.Kontent.Management.Models.Assets;
+﻿using Kentico.Kontent.Management.Models;
+using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
-using Kentico.Kontent.Management.Models.Items.Identifiers;
 using System;
 using System.Net;
 
@@ -39,6 +39,14 @@ namespace Kentico.Kontent.Management
         private const string URL_TEMPLATE_TAXONOMY_CODENAME = "/taxonomies/codename/{0}";
         private const string URL_TEMPLATE_TAXONOMY_EXTERNAL_ID = "/taxonomies/external-id/{0}";
 
+        private const string URL_LANGUAGE = "/languages";
+        private const string URL_TEMPLATE_LANGUAGE_ID = "/languages/{0}";
+        private const string URL_TEMPLATE_LANGUAGE_CODENAME = "/languages/codename/{0}";
+        private const string URL_TEMPLATE_LANGUAGE_EXTERNAL_ID = "/languages/external-id/{0}";
+
+        private const string URL_WEBHOOKS = "/webhooks";
+        private const string URL_TEMPLATE_WEBHOOKS_ID = "/webhooks/{0}";
+
         private readonly ManagementOptions _options;
 
         internal EndpointUrlBuilder(ManagementOptions options)
@@ -76,6 +84,10 @@ namespace Kentico.Kontent.Management
         #endregion
 
         #region Types
+        internal string BuildTypesListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_TYPES, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
+        }
 
         internal string BuildListTypesUrl()
         {
@@ -122,19 +134,25 @@ namespace Kentico.Kontent.Management
         #endregion
 
         #region Taxonomies
+
+        internal string BuildTaxonomyListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_TAXONOMY, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
+        }
+
         internal string BuildTaxonomyUrl()
         {
             return GetUrl(URL_TAXONOMY);
         }
 
-        internal string BuildTaxonomyUrl(Identifier identifier)
+        internal string BuildTaxonomyUrl(Reference identifier)
         {
             var itemSegment = GetTaxonomyUrlSegment(identifier);
             return GetUrl(itemSegment);
         }
 
         //todo this method is good candidate for refactoring as its here many times (types, items)
-        private string GetTaxonomyUrlSegment(Identifier identifier)
+        private string GetTaxonomyUrlSegment(Reference identifier)
         {
             if (identifier.Id != null)
             {
@@ -163,16 +181,94 @@ namespace Kentico.Kontent.Management
 
         #endregion
 
+        #region Languages
+        internal string BuildLanguagesUrl()
+        {
+            return GetUrl(URL_LANGUAGE);
+        }
+
+        internal string BuildLanguagesUrl(Reference identifier)
+        {
+            var itemSegment = GetLanguagesUrlSegment(identifier);
+            return GetUrl(itemSegment);
+        }
+
+        //todo this method is good candidate for refactoring as its here many times (types, items)
+        private string GetLanguagesUrlSegment(Reference identifier)
+        {
+            if (identifier.Id != null)
+            {
+                return string.Format(URL_TEMPLATE_LANGUAGE_ID, identifier.Id);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.Codename))
+            {
+                return string.Format(URL_TEMPLATE_LANGUAGE_CODENAME, identifier.Codename);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.ExternalId))
+            {
+                return BuildLanguagesUrlSegmentFromExternalId(identifier.ExternalId);
+            }
+
+            throw new ArgumentException("You must provide item's id, codename or externalId");
+        }
+
+        //todo this method is good candidate for refactoring as its here many times (types, items)
+        internal string BuildLanguagesUrlSegmentFromExternalId(string externalId)
+        {
+            var escapedExternalId = WebUtility.UrlEncode(externalId);
+            return string.Format(URL_TEMPLATE_LANGUAGE_EXTERNAL_ID, escapedExternalId);
+        }
+        #endregion
+
+        #region Webhooks
+
+        internal string BuildWebhooksListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_WEBHOOKS, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
+        }
+
+        internal string BuildWebhooksUrl()
+        {
+            return GetUrl(URL_WEBHOOKS);
+        }
+
+        internal string BuildWebhooksUrl(ObjectIdentifier identifier)
+        {
+            var itemSegment = GetWebhooksUrlSegment(identifier);
+            return GetUrl(itemSegment);
+        }
+
+        internal string BuildWebhooksEnableUrl(ObjectIdentifier identifier)
+        {
+            var itemSegment = GetWebhooksUrlSegment(identifier) + "/enable";
+            return GetUrl(itemSegment);
+        }
+
+        internal string BuildWebhooksDisableUrl(ObjectIdentifier identifier)
+        {
+            var itemSegment = GetWebhooksUrlSegment(identifier) + "/disable";
+            return GetUrl(itemSegment);
+        }
+
+        //todo this method is good candidate for refactoring as its here many times (types, items)
+        private string GetWebhooksUrlSegment(ObjectIdentifier identifier)
+        {
+            if (identifier.Id != null)
+            {
+                return string.Format(URL_TEMPLATE_WEBHOOKS_ID, identifier.Id);
+            }
+
+            throw new ArgumentException("You must provide webhook's id");
+        }
+        #endregion
+
         #region Items
 
         internal string BuildItemsListingUrl(string continuationToken = null)
         {
             return (continuationToken != null) ? GetUrl(URL_ITEM, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_ITEM);
-        }
-
-        internal string BuildTypesListingUrl(string continuationToken = null)
-        {
-            return (continuationToken != null) ? GetUrl(URL_TYPES, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
         }
 
         internal string BuildItemsUrl()

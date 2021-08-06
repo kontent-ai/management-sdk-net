@@ -1,0 +1,1 @@
+{"name":"webhookTestName","url":"http://url","secret":"secret","enabled":true,"triggers":{"delivery_api_content_changes":[{"type":"content_item_variant","operations":["publish","unpublish"]},{"type":"taxonomy","operations":["archive","restore","upsert"]}]}}

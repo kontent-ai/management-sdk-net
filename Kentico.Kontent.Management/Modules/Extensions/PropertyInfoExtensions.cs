@@ -3,9 +3,9 @@ using Kentico.Kontent.Management.Modules.ModelBuilders;
 
 namespace Kentico.Kontent.Management.Modules.Extensions
 {
-    public static class PropertyInfoExtensions
+    internal static class PropertyInfoExtensions
     {
-        public static string GetKontentElementId(this PropertyInfo property)
+        internal static string GetKontentElementId(this PropertyInfo property)
         {
             return property.GetCustomAttribute<KontentElementIdAttribute>()?.ElementId;
         }

@@ -14,7 +14,7 @@ namespace Kentico.Kontent.Management.Models.Types
         /// Gets or sets codename of the content type.
         /// </summary>
         [JsonProperty("codename")]
-        public string CodeName { get; set; }
+        public string Codename { get; set; }
 
         /// <summary>
         /// Gets or sets name of the content type.

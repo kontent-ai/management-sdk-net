@@ -5,6 +5,7 @@ namespace Kentico.Kontent.Management.Extenstions
 {
     public static class ElementMetadataExtension
     {
+        //todo provide methods for all elementMetada types
         public static TextElementMetadataModel ToTextElement(this ElementMetadataBase source)
         {
             if(source.Type != ElementMetadataType.Text) 
