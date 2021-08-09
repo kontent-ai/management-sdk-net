@@ -1,4 +1,5 @@
 ﻿using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 
 namespace Kentico.Kontent.Management.Modules.ModelBuilders

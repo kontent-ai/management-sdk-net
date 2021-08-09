@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using Kentico.Kontent.Management.Models.Assets;
 using Xunit;
 using System.Collections.Generic;
+using Kentico.Kontent.Management.Models;
+using System;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -66,7 +70,7 @@ namespace Kentico.Kontent.Management.Tests
                     new AssetDescription()
                     {
                         Description = "Description",
-                        Language = LanguageIdentifier.DEFAULT_LANGUAGE
+                        Language = Reference.ById(Guid.Empty)
                     }, 
                 },
                 FileReference = new FileReference()

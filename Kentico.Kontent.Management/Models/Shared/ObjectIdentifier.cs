@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models
+namespace Kentico.Kontent.Management.Models.Shared
 {
     /// <summary>
     /// Represents the identifier of the api object.

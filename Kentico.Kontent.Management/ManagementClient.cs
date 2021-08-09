@@ -13,6 +13,15 @@ using Kentico.Kontent.Management.Models.StronglyTyped;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
+using Kentico.Kontent.Management.Models.Types;
+using Kentico.Kontent.Management.Models.Types.Patch;
+using Kentico.Kontent.Management.Models.TaxonomyGroups;
+using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
+using Kentico.Kontent.Management.Models.Languages;
+using Kentico.Kontent.Management.Models.Webhooks;
+using Kentico.Kontent.Management.Models.Workflow;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
 
 namespace Kentico.Kontent.Management
 {
@@ -53,6 +62,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentException("The API key is not specified.", nameof(ManagementOptions.ApiKey));
             }
 
+
             _urlBuilder = new EndpointUrlBuilder(ManagementOptions);
             _actionInvoker = new ActionInvoker(
                 new ManagementHttpClient(new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
@@ -74,7 +84,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>The <see cref="IEnumerable{ContentItemVariantModel}"/> instance that represents the listing of content item variants.</returns>
-        public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(ContentItemIdentifier identifier)
+        public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -146,6 +156,334 @@ namespace Kentico.Kontent.Management
 
         #endregion
 
+        #region Types
+
+        /// <summary>
+        /// Todo.
+        /// </summary>
+        /// <returns>todo</returns>
+        public async Task<ListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildListTypesUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<ContentTypeModel>(GetNextTypeListingPageAsync, response.Pagination?.Token, response.Types);
+        }
+
+        /// <summary>
+        /// Returns strongly typed content type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
+        public async Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Creates content type.
+        /// </summary>
+        /// <param name="contentType">Represents content type which will be created.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents created content type.</returns>
+        public async Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType)
+        {
+            if (contentType == null)
+            {
+                throw new ArgumentNullException(nameof(contentType));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl();
+            var response = await _actionInvoker.InvokeMethodAsync<ContentTypeCreateModel, ContentTypeModel>(endpointUrl, HttpMethod.Post, contentType);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Deletes given content type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
+        public async Task DeleteContentTypeAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <summary>
+        /// Patch given content type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item.</param>
+        /// /// <param name="changes">to do</param>
+        public async Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        }
+
+        private async Task<IListingResponse<ContentTypeModel>> GetNextTypeListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildTypesListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        #endregion
+
+        #region TaxonomyGroups
+
+        /// <summary>
+        ///todo
+        /// </summary>
+        /// <returns>todo</returns>
+        public async Task<ListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<TaxonomyGroupModel>(GetNextTaxonomyListingPageAsync, response.Pagination?.Token, response.Taxonomies);
+        }
+
+        /// <summary>
+        /// Returns taxonomy group.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
+        public async Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Creates taxonomy group.
+        /// </summary>
+        /// <param name="taxonomyGroup">Represents taxonomy group which will be created.</param>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents created taxonomy group.</returns>
+        public async Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup)
+        {
+            if (taxonomyGroup == null)
+            {
+                throw new ArgumentNullException(nameof(taxonomyGroup));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
+            return await _actionInvoker.InvokeMethodAsync<TaxonomyGroupCreateModel, TaxonomyGroupModel>(endpointUrl, HttpMethod.Post, taxonomyGroup);
+        }
+
+        /// <summary>
+        /// Deletes given taxonomy group.
+        /// </summary>
+        /// <param name="identifier">The identifier of the taxonomy group.</param>
+        public async Task DeleteTaxonomyGroupAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <summary>
+        /// Patch given taxonomy group.
+        /// </summary>
+        /// <param name="identifier">The identifier of the taxonomy group.</param>
+        /// /// <param name="changes">to do</param>
+        public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        }
+
+        //the same method is 3 times in this class => refactor
+        private async Task<IListingResponse<TaxonomyGroupModel>> GetNextTaxonomyListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildTaxonomyListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        #endregion
+
+        #region Webhooks
+
+        /// <summary>
+        ///todo
+        /// </summary>
+        /// <returns>todo</returns>
+        public async Task<IEnumerable<WebhookModel>> ListWebhooksAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WebhookModel>>(endpointUrl, HttpMethod.Get);
+        }
+
+        public async Task<WebhookModel> GetWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<WebhookModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        public async Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook)
+        {
+            if (webhook == null)
+            {
+                throw new ArgumentNullException(nameof(webhook));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl();
+            return await _actionInvoker.InvokeMethodAsync<WebhookCreateModel, WebhookModel>(endpointUrl, HttpMethod.Post, webhook);
+        }
+
+        public async Task DeleteWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        public async Task EnableWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksEnableUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        public async Task DisableWebhookAsync(ObjectIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWebhooksDisableUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+        #endregion Webhooks
+
+        #region Languages
+
+        public async Task<ListingResponseModel<LanguageModel>> ListLanguagesAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguagesListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<LanguageModel>(GetNextLanguageListingPageAsync, response.Pagination?.Token, response.Languages);
+        }
+
+        public async Task<LanguageModel> GetLanguageAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        public async Task<LanguageModel> CreateLanguageAsync(LanguageCreateModel language)
+        {
+            if (language == null)
+            {
+                throw new ArgumentNullException(nameof(language));
+            }
+
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl();
+            return await _actionInvoker.InvokeMethodAsync<LanguageCreateModel, LanguageModel>(endpointUrl, HttpMethod.Post, language);
+        }
+
+        public async Task<LanguageModel> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<LanguagePatchModel>, LanguageModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        }
+
+        //the same method is 4 times in this class => refactor
+        private async Task<IListingResponse<LanguageModel>> GetNextLanguageListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<LanguageModel>>(endpointUrl, HttpMethod.Get);
+        }
+
+        #endregion
+
+        #region WorkflowSteps
+
+        public async Task<IEnumerable<WorkflowStep>> ListWorkflowStepsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildWorkflowUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowStep>>(endpointUrl, HttpMethod.Get);
+        }
+
+        public async Task ChangeWorkflowStep(WorkflowIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        #endregion
+
         #region Strongly typed Variants
 
         /// <summary>
@@ -154,7 +492,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>A strongly-typed collection with content item variants.</returns>
-        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(ContentItemIdentifier identifier) where T : new()
+        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(Reference identifier) where T : new()
         {
             if (identifier == null)
             {
@@ -222,7 +560,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the content item.</param>
         /// <param name="contentItem">Represents updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-        public async Task<ContentItemModel> UpdateContentItemAsync(ContentItemIdentifier identifier, ContentItemUpdateModel contentItem)
+        public async Task<ContentItemModel> UpdateContentItemAsync(Reference identifier, ContentItemUpdateModel contentItem)
         {
             if (identifier == null)
             {
@@ -258,7 +596,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(contentItem));
             }
 
-            var endpointUrl = _urlBuilder.BuildItemUrl(ContentItemIdentifier.ByExternalId(externalId));
+            var endpointUrl = _urlBuilder.BuildItemUrl(Reference.ByExternalId(externalId));
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return response;
@@ -287,7 +625,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents requested content item.</returns>
-        public async Task<ContentItemModel> GetContentItemAsync(ContentItemIdentifier identifier)
+        public async Task<ContentItemModel> GetContentItemAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -304,7 +642,7 @@ namespace Kentico.Kontent.Management
         /// Deletes given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
-        public async Task DeleteContentItemAsync(ContentItemIdentifier identifier)
+        public async Task DeleteContentItemAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -333,8 +671,9 @@ namespace Kentico.Kontent.Management
 
         private async Task<IListingResponse<ContentItemModel>> GetNextItemsListingPageAsync(string continuationToken)
         {
-            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);    
+            var response =    await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+            return response;
         }
 
         #endregion

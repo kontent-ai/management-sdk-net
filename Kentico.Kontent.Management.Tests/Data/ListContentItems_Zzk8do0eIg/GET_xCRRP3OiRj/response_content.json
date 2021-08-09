@@ -2,7 +2,7 @@
   "items": [
     {
       "id": "0f79b41f-53d3-41b5-8fa0-153c87f60bc1",
-      "name": "Ciao!",
+      "name": "regenerated_codename",
       "codename": "ciao_codename",
       "type": {
         "id": "9a622a46-e299-5d1c-b9e0-45ddf3f95803"
@@ -11,7 +11,7 @@
         "id": "00000000-0000-0000-0000-000000000000"
       },
       "sitemap_locations": [],
-      "last_modified": "2021-08-02T18:06:20.9570611Z"
+      "last_modified": "2021-08-06T09:32:45.1959802Z"
     },
     {
       "id": "60214236-d2b8-40dd-a050-b59c1c7a52ef",
@@ -1027,10 +1027,283 @@
       },
       "sitemap_locations": [],
       "last_modified": "2021-08-02T12:33:08.4921044Z"
+    },
+    {
+      "id": "c6804811-24e4-4b56-adc6-1380a060c23f",
+      "name": "Hooray!",
+      "codename": "hooray__c680481",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:41:40.6539968Z"
+    },
+    {
+      "id": "9a8348f3-838b-41c1-a1ce-0a98551907e8",
+      "name": "Hooray!",
+      "codename": "hooray__9a8348f",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:41:42.2321208Z"
+    },
+    {
+      "id": "e434cf5c-8794-4529-924e-9f8633df01d6",
+      "name": "Hooray!",
+      "codename": "hooray__e434cf5",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:41:44.6237471Z"
+    },
+    {
+      "id": "fa782825-42a6-49d5-a0ec-e3b36810dfb6",
+      "name": "Hooray!",
+      "codename": "hooray__fa78282",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:41:45.4362354Z"
+    },
+    {
+      "id": "fc97ef65-ef07-468a-a2e9-ac2d01f7d905",
+      "name": "Hooray!",
+      "codename": "hooray__fc97ef6",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:42:22.443661Z"
+    },
+    {
+      "id": "8b1bd512-de0a-49fa-9285-a750b34cde51",
+      "name": "Hooray!",
+      "codename": "hooray__8b1bd51",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:42:23.7718559Z"
+    },
+    {
+      "id": "3d42dd84-0f2d-4b27-8281-eab07873d205",
+      "name": "Hooray!",
+      "codename": "hooray__3d42dd8",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:42:25.9437092Z"
+    },
+    {
+      "id": "788cccc4-f1f1-4f2b-bb38-1ad9da841eea",
+      "name": "Hooray!",
+      "codename": "hooray__788cccc",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:42:27.3980122Z"
+    },
+    {
+      "id": "09f470bc-573d-4bc5-9420-787119694282",
+      "name": "Hooray!",
+      "codename": "hooray__09f470b",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:51:23.531333Z"
+    },
+    {
+      "id": "41f80c70-dde8-4399-93b9-c32b94426852",
+      "name": "Hooray!",
+      "codename": "hooray__41f80c7",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:51:24.906369Z"
+    },
+    {
+      "id": "b38a4beb-3ce4-4d37-9875-6724c9ebfa5d",
+      "name": "Hooray!",
+      "codename": "hooray__b38a4be",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:51:26.8594824Z"
+    },
+    {
+      "id": "95a09d55-01b6-4ba7-bd41-e4d855491eab",
+      "name": "Hooray!",
+      "codename": "hooray__95a09d5",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T06:51:27.8907605Z"
+    },
+    {
+      "id": "4ed33b0a-fc0f-4bc0-b88c-88ae7609305a",
+      "name": "Hooray!",
+      "codename": "hooray__4ed33b0",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:08:00.0478815Z"
+    },
+    {
+      "id": "1aa77898-fbe1-46b9-afb5-285c8b5ebee7",
+      "name": "Hooray!",
+      "codename": "hooray__1aa7789",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:08:01.54783Z"
+    },
+    {
+      "id": "4f36df44-af56-4bf5-9b36-b04a6f410dc8",
+      "name": "Hooray!",
+      "codename": "hooray__4f36df4",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:08:03.5322411Z"
+    },
+    {
+      "id": "d99da40b-dadf-4fdf-b22b-5a77364b3aeb",
+      "name": "Hooray!",
+      "codename": "hooray__d99da40",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:08:04.5478798Z"
+    },
+    {
+      "id": "9ba97d32-8fb4-441a-92a1-b5ca9b26d19c",
+      "name": "Hooray!",
+      "codename": "hooray__9ba97d3",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:09:38.178909Z"
+    },
+    {
+      "id": "340f6951-332e-4a61-b18a-8f8baa341925",
+      "name": "Hooray!",
+      "codename": "hooray__340f695",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:09:39.569595Z"
+    },
+    {
+      "id": "22f26c4c-c75b-414f-a63e-d2669fe512b3",
+      "name": "Hooray!",
+      "codename": "hooray__22f26c4",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:09:42.0541074Z"
+    },
+    {
+      "id": "c340626d-b51f-42f1-a678-fa40facde2dc",
+      "name": "Hooray!",
+      "codename": "hooray__c340626",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:09:42.8197296Z"
+    },
+    {
+      "id": "911a73f0-9660-45d2-9ee9-293e01df51ff",
+      "name": "Hooray!",
+      "codename": "hooray__911a73f",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-08-06T07:11:01.7382289Z"
     }
   ],
   "pagination": {
-    "continuation_token": null,
-    "next_page": null
+    "continuation_token": "Ww0KICB7DQogICAgInRva2VuIjogIitSSUQ6fnpDazNBTUtyemdZSFRoMEFBQUFBQlE9PSNSVDoxI1RSQzoxMDAjSVNWOjIjSUVPOjY1NTUxI1FDRjo3I0ZQQzpBZ2gxQUFBQUFCUUFBSFVBQUFBQUZBQUFkUUFBQUFBVUFBQVdBQWtPZ0dmRDQrRUIyM3NQSHZCME5RRGdBVUFBS0lBPSIsDQogICAgInJhbmdlIjogew0KICAgICAgIm1pbiI6ICIwNUMxRDdGMTJGNjk5QyIsDQogICAgICAibWF4IjogIjA1QzFFMTU5QzlCQjFBIg0KICAgIH0NCiAgfQ0KXQ==",
+    "next_page": "https://manage.kontent.ai/v2/projects/a9931a80-9af4-010b-0590-ecb1273cf1b8/items"
   }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Items
@@ -26,13 +26,19 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets codename of the content item.
         /// </summary>
         [JsonProperty("codename")]
-        public string CodeName { get; set; }
+        public string Codename { get; set; }
 
         /// <summary>
         /// Gets or sets type of the content item.
         /// </summary>
         [JsonProperty("type")]
         public ObjectIdentifier Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets collection of the content item.
+        /// </summary>
+        [JsonProperty("collection")]
+        public ObjectIdentifier Collection { get; set; }
 
         /// <summary>
         /// Gets or sets sitemap locations of the content item.

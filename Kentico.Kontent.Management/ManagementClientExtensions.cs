@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
+using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.Shared;
 
 namespace Kentico.Kontent.Management
 {
@@ -20,7 +20,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">Identifies which content item will be updated. </param>
         /// <param name="contentItem">Specifies data for updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-        public static async Task<ContentItemModel> UpdateContentItemAsync(this ManagementClient client, ContentItemIdentifier identifier, ContentItemModel contentItem)
+        public static async Task<ContentItemModel> UpdateContentItemAsync(this ManagementClient client, Reference identifier, ContentItemModel contentItem)
         {
             if (identifier == null)
             {

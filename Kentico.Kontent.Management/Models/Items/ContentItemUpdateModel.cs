@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
+﻿using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Items
@@ -20,7 +18,13 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets codename of the content item.
         /// </summary>
         [JsonProperty("codename")]
-        public string CodeName { get; set; }
+        public string Codename { get; set; }
+
+        /// <summary>
+        /// Gets or sets collection of the content item.
+        /// </summary>
+        [JsonProperty("collection")]
+        public NoExternalIdIdentifier Collection { get; set; }
 
         /// <summary>
         /// A default constructor.
