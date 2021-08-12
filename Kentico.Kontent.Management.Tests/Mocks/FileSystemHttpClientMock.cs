@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -24,7 +25,6 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         private readonly ManagementOptions _options;
         private readonly bool _saveToFileSystem;
         private readonly string _directoryName;
-        private bool _firstRequest = true;
 
         public IManagementHttpClient _nativeClient = new ManagementHttpClient(
             new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
@@ -45,14 +45,13 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             Dictionary<string, string> headers = null)
         {
             var message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
-            var isFirst = _firstRequest;
-            _firstRequest = false;
 
             var serializationSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
             var serializedRequest = MakeAgnostic(JsonConvert.SerializeObject(message, serializationSettings));
             var serializedRequestContent = await SerializeContent(message.Content);
 
+            //todo think of better way to match files and test cases
             var hashContent = $"{message.Method} {serializedRequest} {UnifySerializedRequestContent(serializedRequestContent)}";
             var folderPath = GetMockFileFolder(message, hashContent);
 
@@ -62,7 +61,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
                 {
                     Directory.CreateDirectory(folderPath);
                 }
-                else if (isFirst)
+                else
                 {
                     // Cleanup previously recorded data at first request to avoid data overlap upon change
                     Directory.Delete(folderPath, true);
@@ -166,7 +165,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         {
             if (!string.IsNullOrEmpty(content))
             {
-                return content.Replace("\\r", string.Empty);
+                return string.Concat(content.Replace("\\r", string.Empty).OrderBy(c => c));
             }
 
             return string.Empty;

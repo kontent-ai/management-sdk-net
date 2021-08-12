@@ -103,8 +103,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var group = new TaxonomyGroupCreateModel
             {
-                Name = "taxonomiesCreate!",
-                Codename = "taxonomies_codename_create",
+                Name = "taxonomiesDeletecodename!",
+                Codename = "taxonomies_codename_delete",
                 ExternalId = "taxonomies_codename_external_id_deletecodename",
                 Terms = new List<TaxonomyGroupCreateModel>
                 {
@@ -142,8 +142,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var group = new TaxonomyGroupCreateModel
             {
-                Name = "taxonomiesCreate!",
-                Codename = "taxonomies_codename_create",
+                Name = "taxonomiesDeleteId!",
+                Codename = "taxonomies_codename_deleteid",
                 ExternalId = "taxonomies_codename_external_id_deleteid",
                 Terms = new List<TaxonomyGroupCreateModel>
                 {
@@ -181,9 +181,9 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var group = new TaxonomyGroupCreateModel
             {
-                Name = "taxonomiesCreate!",
-                Codename = "taxonomies_codename_create",
-                ExternalId = "taxonomies_codename_external_id_deleteid",
+                Name = "taxonomiesDeletEexternalId!",
+                Codename = "taxonomies_codename_deleteexternalid",
+                ExternalId = "taxonomies_external_id_deleteexternalid",
                 Terms = new List<TaxonomyGroupCreateModel>
                 {
                     new TaxonomyGroupCreateModel

@@ -268,30 +268,6 @@
           ]
         }
       ]
-    },
-    {
-      "item": {
-        "id": "452f515f-0e1d-426f-8b20-874b41f7fac4",
-        "name": "Hooray!",
-        "codename": "hooray__452f515"
-      },
-      "language": {
-        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024",
-        "name": "Spanish (Spain)",
-        "codename": "es-ES"
-      },
-      "issues": [
-        {
-          "element": {
-            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1",
-            "name": "Related articles",
-            "codename": "related_articles"
-          },
-          "messages": [
-            "Element 'Related articles' is required but has no value."
-          ]
-        }
-      ]
     }
   ],
   "type_issues": []

@@ -4,7 +4,7 @@
   "name": "Webhook_all_triggers",
   "url": "http://test",
   "secret": "5OD07VVZ7ZD7Kq0ozmA0SQSn4qWbF2HrXmXh9zb1/Ig=",
-  "enabled": true,
+  "enabled": false,
   "triggers": {
     "delivery_api_content_changes": [
       {

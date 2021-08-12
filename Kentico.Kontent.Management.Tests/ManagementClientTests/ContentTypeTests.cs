@@ -402,7 +402,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var client = CreateManagementClient(nameof(ModifyContentType_Remove_ModifiesContentType));
 
             var typeCodename = "patch_codename_remove";
-            var elementCodename = "text_codename_replace";
+            var elementCodename = "text_codename_remove";
             var type = new ContentTypeCreateModel
             {
                 Name = "PatchTypeReplace!",
@@ -412,7 +412,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 {
                     new GuidelinesElementMetadataModel
                     {
-                        Codename = "guidelines_codename_replace",
+                        Codename = "guidelines_codename_remove",
                         ExternalId = "guidelines_external_id_remove",
                         Guidelines = "<h3>Guidelines</h3>"
                     },
