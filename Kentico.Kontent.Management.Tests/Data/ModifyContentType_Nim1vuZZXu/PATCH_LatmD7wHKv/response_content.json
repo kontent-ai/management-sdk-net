@@ -1,0 +1,43 @@
+{
+  "id": "a000647e-53ad-5e42-af60-26cad670cc33",
+  "codename": "patch_codename_add_into",
+  "last_modified": "2021-08-12T15:57:31.7599324Z",
+  "external_id": "patchAddInto_external_id",
+  "name": "PatchTypeAddInto!",
+  "content_groups": [],
+  "elements": [
+    {
+      "maximum_text_length": {
+        "value": 30,
+        "applies_to": "words"
+      },
+      "name": "textName2",
+      "guidelines": "Guidelines2",
+      "is_required": false,
+      "type": "text",
+      "external_id": "text_external_id2_patchaddinto",
+      "id": "62ad8eee-0939-53ea-9d84-04d84251eedb",
+      "codename": "text_codename2_patchaddinto"
+    },
+    {
+      "guidelines": "<h3>Guidelines</h3>",
+      "type": "guidelines",
+      "external_id": "guidelines_external_id_patchaddinto",
+      "id": "114b968a-9f38-509a-b411-54d5aabd1106",
+      "codename": "guidelines_codename_patchaddinto"
+    },
+    {
+      "maximum_text_length": {
+        "value": 30,
+        "applies_to": "words"
+      },
+      "name": "textName",
+      "guidelines": "Guidelines",
+      "is_required": false,
+      "type": "text",
+      "external_id": "text_external_id_patchaddinto",
+      "id": "893cec78-3161-579b-b9fe-cb9bb0d8f58b",
+      "codename": "text_codename_patchaddinto"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "007ac32d-aa28-54b6-9515-2fb5b5bbf27a",
+  "codename": "test_delete_externalid",
+  "last_modified": "2021-08-12T15:57:29.7130503Z",
+  "external_id": "test_delete_externalId_externalid",
+  "name": "TestDeleteByExternalId!",
+  "content_groups": [],
+  "elements": [
+    {
+      "guidelines": "<h3>Guidelines</h3>",
+      "type": "guidelines",
+      "external_id": "guidelines_test_delete_externalid",
+      "id": "24d8acee-fa99-5fa4-9db1-db81c1a067a3",
+      "codename": "guidelines_externalid"
+    }
+  ]
+}

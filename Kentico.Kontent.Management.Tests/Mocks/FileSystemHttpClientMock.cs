@@ -55,7 +55,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             var serializedRequestContent = await SerializeContent(message.Content);
 
             //todo think of better way to match files and test cases
-            var hashContent = $"{message.Method} {serializedRequest} {UnifySerializedRequestContent(serializedRequestContent)}";
+            var hashContent = $"{message.Method} {UnifySerializedRequestContent(serializedRequest)} {UnifySerializedRequestContent(serializedRequestContent)}";
             var folderPath = GetMockFileFolder(message, hashContent);
 
             if (_saveToFileSystem)
@@ -168,7 +168,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         {
             if (!string.IsNullOrEmpty(content))
             {
-                return string.Concat(content.Replace(Environment.NewLine, string.Empty).OrderBy(c => c));
+                return string.Concat(Regex.Replace(content, @"\s+", "").OrderBy(c => c));
             }
 
             return string.Empty;

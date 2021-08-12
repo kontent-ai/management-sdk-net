@@ -1,0 +1,15 @@
+{
+  "last_modified": "2021-08-12T15:57:05.9294019Z",
+  "id": "256f0698-6bd5-52fb-9317-91944dcf0353",
+  "name": "taxonomiesReplace!",
+  "codename": "taxonomies_codename_replace",
+  "external_id": "taxonomies_external_id_replace",
+  "terms": [
+    {
+      "id": "ab69e47c-1c0e-40f3-a505-a069d4a54031",
+      "name": "New taxonomy term name",
+      "codename": "new_taxonomy_term_name",
+      "terms": []
+    }
+  ]
+}
