@@ -58,7 +58,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(externalid, response.ExternalId);
         }
 
-        [Fact]
+        [Fact(Skip = "Language cannot be deleted")]
         [Trait("Category", "Languages")]
         public async void CreateLanguage_CreatesLanguage()
         {

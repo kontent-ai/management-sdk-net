@@ -25,6 +25,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         private readonly ManagementOptions _options;
         private readonly bool _saveToFileSystem;
         private readonly string _directoryName;
+        private bool _firstRequest = true;
 
         public IManagementHttpClient _nativeClient = new ManagementHttpClient(
             new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
@@ -44,6 +45,8 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             HttpContent content = null,
             Dictionary<string, string> headers = null)
         {
+            var isFirst = _firstRequest;
+            _firstRequest = false;
             var message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
 
             var serializationSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
@@ -61,7 +64,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
                 {
                     Directory.CreateDirectory(folderPath);
                 }
-                else
+                else if (isFirst)
                 {
                     // Cleanup previously recorded data at first request to avoid data overlap upon change
                     Directory.Delete(folderPath, true);

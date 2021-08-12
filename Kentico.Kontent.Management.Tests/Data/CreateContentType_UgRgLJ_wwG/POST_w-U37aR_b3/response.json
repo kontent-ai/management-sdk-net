@@ -28,13 +28,13 @@
     {
       "Key": "Location",
       "Value": [
-        "https://manage.kontent.ai/v2/projects/{PROJECT_ID}/webhooks/44ac5d15-959e-478c-87a9-da050f9b613c"
+        "https://manage.kontent.ai/v2/projects/{PROJECT_ID}/webhooks/e4d63874-0ad2-4bbb-bc07-8dd954b429dc"
       ]
     },
     {
       "Key": "X-Request-ID",
       "Value": [
-        "e2b57fa5b6727141"
+        "32be332c1be64d48"
       ]
     },
     {
@@ -64,7 +64,7 @@
     {
       "Key": "Date",
       "Value": [
-        "Thu, 12 Aug 2021 14:24:05 GMT"
+        "Thu, 12 Aug 2021 15:00:12 GMT"
       ]
     },
     {
@@ -76,7 +76,7 @@
     {
       "Key": "X-Served-By",
       "Value": [
-        "cache-hhn4047-HHN"
+        "cache-hhn4081-HHN"
       ]
     },
     {
@@ -94,7 +94,7 @@
     {
       "Key": "X-Timer",
       "Value": [
-        "S1628778246.945911,VS0,VE48"
+        "S1628780412.335143,VS0,VE48"
       ]
     }
   ],
