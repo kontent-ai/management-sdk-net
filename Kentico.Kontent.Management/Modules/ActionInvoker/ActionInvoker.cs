@@ -74,6 +74,21 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
         }
 
+        public async Task InvokeMethodAsync<TPayload>(string endpointUrl, HttpMethod method, TPayload body)
+        {
+            var message = _messageCreator.CreateMessage(method, endpointUrl);
+
+            HttpContent content = null;
+
+            if (body != null)
+            {
+                string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
+                content = new StringContent(json, Encoding.UTF8, "application/json");
+            }
+
+            await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, content);
+        }
+
         public async Task<TResponse> UploadFileAsync<TResponse>(string endpointUrl, Stream stream, string contentType)
         {
             if (stream == null)

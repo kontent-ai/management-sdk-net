@@ -39,6 +39,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// </summary>
         //todo set?
         [JsonProperty("workflow_step")]
-        public NoExternalIdIdentifier WorkflowStep { get; set; }
+        public ObjectIdentifier WorkflowStep { get; set; }
     }
 }
