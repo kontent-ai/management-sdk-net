@@ -1,7 +1,7 @@
 {
   "id": "007ac32d-aa28-54b6-9515-2fb5b5bbf27a",
   "codename": "test_delete_externalid",
-  "last_modified": "2021-08-12T15:00:13.2828312Z",
+  "last_modified": "2021-08-12T15:41:36.9882493Z",
   "external_id": "test_delete_externalId_externalid",
   "name": "TestDeleteByExternalId!",
   "content_groups": [],

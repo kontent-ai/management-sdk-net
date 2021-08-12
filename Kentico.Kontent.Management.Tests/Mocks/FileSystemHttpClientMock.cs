@@ -135,7 +135,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
 
         private string GetMockFileFolder(HttpRequestMessage message, string hashContent)
         {
-            var rootPath = Path.Combine(Environment.CurrentDirectory, "Data\\");
+            var rootPath = Path.Combine(Environment.CurrentDirectory, $"Data{Path.DirectorySeparatorChar}");
             var testPath = Path.Combine(rootPath, _directoryName);
             var stringMessageHash = GetHashFingerprint(hashContent);
 
@@ -168,7 +168,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         {
             if (!string.IsNullOrEmpty(content))
             {
-                return string.Concat(content.Replace("\\r", string.Empty).OrderBy(c => c));
+                return string.Concat(content.Replace(Environment.NewLine, string.Empty).OrderBy(c => c));
             }
 
             return string.Empty;
