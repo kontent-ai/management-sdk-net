@@ -135,7 +135,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
 
         private string GetMockFileFolder(HttpRequestMessage message, string hashContent)
         {
-            var rootPath = Path.Combine(Environment.CurrentDirectory, $"Data{Path.DirectorySeparatorChar}");
+            var rootPath = Path.Combine(Environment.CurrentDirectory, "Data");
             var testPath = Path.Combine(rootPath, _directoryName);
             var stringMessageHash = GetHashFingerprint(hashContent);
 
