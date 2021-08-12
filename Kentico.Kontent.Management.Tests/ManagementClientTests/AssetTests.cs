@@ -275,7 +275,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var descriptions = new List<AssetDescription>();
             var title = "My new asset";
 
-            var filePath = Path.Combine(Environment.CurrentDirectory, $"Data{Path.DirectorySeparatorChar}kentico_rgb_bigger.png");
+            var filePath = Path.Combine(Environment.CurrentDirectory, $"Data{Path.AltDirectorySeparatorChar}kentico_rgb_bigger.png");
             var contentType = "image/png";
 
             var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
