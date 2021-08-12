@@ -53,7 +53,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         protected const string EXISTING_WEBHOOK_ID = "ef6eb5e6-24f6-4a3a-a291-1cff8d4eecc5";
 
 
-        protected static readonly Guid EXISTING_WORKFLOW_STEP_ID = Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9");
+        protected static readonly Guid CUSTOM_WORKFLOW_STEP_ID = Guid.Parse("0fabe3b3-d366-4bf9-be41-d37d4b4c2bcb");
+        protected static readonly Guid DRAFT_WORKFLOW_STEP_ID = Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9");
+        protected static readonly Guid PUBLISHED_WORKFLOW_STEP_ID = Guid.Parse("c199950d-99f0-4983-b711-6c4c91624b22");
+        protected static readonly Guid ARCHIVED_WORKFLOW_STEP_ID = Guid.Parse("7a535a69-ad34-47f8-806a-def1fdf4d391");
+        protected static readonly Guid SCHEDULED_WORKFLOW_STEP_ID = Guid.Parse("9d2b0228-4d0d-4c23-8b49-01a698857709");
+
 
         protected const string EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID = "paid";
         protected static readonly Guid EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID = Guid.Parse("00c0f86a-7c51-4e60-abeb-a150e9092e53");

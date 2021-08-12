@@ -13,6 +13,8 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
         Task InvokeMethodAsync(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null);
 
+        Task InvokeMethodAsync<TPayload>(string endpointUrl, HttpMethod method, TPayload body);
+
         Task<TResponse> UploadFileAsync<TResponse>(string endpointUrl, Stream stream, string contentType);
     }
 }

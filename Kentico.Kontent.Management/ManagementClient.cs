@@ -482,6 +482,89 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
+        public async Task PublishContentItemVariant(ContentItemVariantIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        public async Task SchedulePublishingOfContentItemVariant(ContentItemVariantIdentifier identifier, ScheduleModel scheduleModel)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
+        }
+
+        public async Task CancelPublishingOfContentItemVariant(ContentItemVariantIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildCancelPublishingVariantUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        public async Task UnpublishContentItemVariant(ContentItemVariantIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        public async Task CancelUnpublishingOfContentItemVariant(ContentItemVariantIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildCancelUnpublishingVariantUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        public async Task ScheduleUnpublishingOfContentItemVariant(ContentItemVariantIdentifier identifier, ScheduleModel scheduleModel)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
+        }
+
+        public async Task CreateNewVersionOfContentItemVariant(ContentItemVariantIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildNewVersionVariantUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
         #endregion
 
         #region Strongly typed Variants

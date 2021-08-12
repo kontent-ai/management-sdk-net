@@ -1,5 +1,4 @@
 ﻿using Kentico.Kontent.Management.Exceptions;
-using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Webhooks.Triggers;

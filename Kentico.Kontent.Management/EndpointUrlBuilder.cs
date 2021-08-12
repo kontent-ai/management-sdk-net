@@ -283,6 +283,46 @@ namespace Kentico.Kontent.Management
             return GetUrl(string.Concat(itemSegment, variantSegment, workflowSegment));
         }
 
+        internal string BuildPublishVariantUrl(ContentItemVariantIdentifier identifier)
+        {
+            var itemSegment = GetItemUrlSegment(identifier.ItemIdentifier);
+            var variantSegment = GetVariantUrlSegment(identifier.LanguageIdentifier);
+
+            return GetUrl(string.Concat(itemSegment, variantSegment, "/publish"));
+        }
+
+        internal string BuildCancelPublishingVariantUrl(ContentItemVariantIdentifier identifier)
+        {
+            var itemSegment = GetItemUrlSegment(identifier.ItemIdentifier);
+            var variantSegment = GetVariantUrlSegment(identifier.LanguageIdentifier);
+
+            return GetUrl(string.Concat(itemSegment, variantSegment, "/cancel-scheduled-publish"));
+        }
+
+        internal string BuildUnpublishVariantUrl(ContentItemVariantIdentifier identifier)
+        {
+            var itemSegment = GetItemUrlSegment(identifier.ItemIdentifier);
+            var variantSegment = GetVariantUrlSegment(identifier.LanguageIdentifier);
+
+            return GetUrl(string.Concat(itemSegment, variantSegment, "/unpublish-and-archive"));
+        }
+
+        internal string BuildCancelUnpublishingVariantUrl(ContentItemVariantIdentifier identifier)
+        {
+            var itemSegment = GetItemUrlSegment(identifier.ItemIdentifier);
+            var variantSegment = GetVariantUrlSegment(identifier.LanguageIdentifier);
+
+            return GetUrl(string.Concat(itemSegment, variantSegment, "/cancel-scheduled-unpublish"));
+        }
+
+        internal string BuildNewVersionVariantUrl(ContentItemVariantIdentifier identifier)
+        {
+            var itemSegment = GetItemUrlSegment(identifier.ItemIdentifier);
+            var variantSegment = GetVariantUrlSegment(identifier.LanguageIdentifier);
+
+            return GetUrl(string.Concat(itemSegment, variantSegment, "/new-version"));
+        }
+
         private string GetWorkflowUrlSegment(NoExternalIdIdentifier identifier)
         {
             if (identifier.Id != null)
