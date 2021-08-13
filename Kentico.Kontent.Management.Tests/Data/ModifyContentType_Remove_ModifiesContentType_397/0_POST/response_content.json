@@ -1,0 +1,30 @@
+{
+  "id": "a4f4a93e-8f4b-536e-9763-264a1e74bd0f",
+  "codename": "patch_codename_remove",
+  "last_modified": "2021-08-13T11:20:41.2085021Z",
+  "external_id": "patch_external_id_remove",
+  "name": "PatchTypeRemove!",
+  "content_groups": [],
+  "elements": [
+    {
+      "guidelines": "<h3>Guidelines</h3>",
+      "type": "guidelines",
+      "external_id": "guidelines_external_id_remove",
+      "id": "338bf648-0938-58b1-b442-3fcb81e86ad4",
+      "codename": "guidelines_codename_remove"
+    },
+    {
+      "maximum_text_length": {
+        "value": 30,
+        "applies_to": "words"
+      },
+      "name": "textName",
+      "guidelines": "Guidelines",
+      "is_required": false,
+      "type": "text",
+      "external_id": "text_external_id_remove",
+      "id": "7df23b01-78d7-5cc5-b73a-a735e947e4a7",
+      "codename": "text_codename_remove"
+    }
+  ]
+}

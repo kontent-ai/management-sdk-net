@@ -1,16 +1,11 @@
 ﻿using Kentico.Kontent.Management.Exceptions;
 using Kentico.Kontent.Management.Extenstions;
-using Kentico.Kontent.Management.Models;
-using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Models.Types.Patch;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
@@ -405,7 +400,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var elementCodename = "text_codename_remove";
             var type = new ContentTypeCreateModel
             {
-                Name = "PatchTypeReplace!",
+                Name = "PatchTypeRemove!",
                 Codename = typeCodename,
                 ExternalId = "patch_external_id_remove",
                 Elements = new List<ElementMetadataBase>
