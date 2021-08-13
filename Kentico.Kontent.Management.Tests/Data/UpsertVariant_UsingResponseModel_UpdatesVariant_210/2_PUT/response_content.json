@@ -94,7 +94,7 @@
       "element": {
         "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
       },
-      "value": "<h1>Light Roasts</h1>\n<p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>\n<object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"46c05bd9-d418-4507-836c-9accc5a39db3\"></object>"
+      "value": "<h1>Light Roasts</h1><p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"46c05bd9-d418-4507-836c-9accc5a39db3\"></object>"
     },
     {
       "element": {
@@ -205,5 +205,5 @@
   "language": {
     "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
   },
-  "last_modified": "2021-08-13T11:20:37.4577322Z"
+  "last_modified": "2021-08-13T13:35:20.5572267Z"
 }

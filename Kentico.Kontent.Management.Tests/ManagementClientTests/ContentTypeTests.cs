@@ -6,19 +6,19 @@ using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Models.Types.Patch;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
     partial class ManagementClientTests
     {
-        #region Type
-
         [Fact]
         [Trait("Category", "ContentType")]
         public async void ListContentTypes_ListsContentTypes()
         {
-            var client = CreateManagementClient(nameof(ListContentTypes_ListsContentTypes));
+            var client = CreateManagementClient();
 
             var response = await client.ListContentTypesAsync();
 
@@ -33,7 +33,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         //same applies to content item test (where is page size 100)
         public async void ListContentTypes_WithContinuation_ListsContentTypes()
         {
-            var client = CreateManagementClient(nameof(ListContentTypes_WithContinuation_ListsContentTypes));
+            var client = CreateManagementClient();
 
             var response = await client.ListContentTypesAsync();
             Assert.NotNull(response);
@@ -58,7 +58,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentType")]
         public async void GetContentType_ById_GetsContentType()
         {
-            var client = CreateManagementClient(nameof(GetContentType_ById_GetsContentType));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ById(EXISTING_CONTENT_TYPE_ID);
 
@@ -70,7 +70,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentType")]
         public async void GetContentType_ByCodename_GetsContentType()
         {
-            var client = CreateManagementClient(nameof(GetContentType_ByCodename_GetsContentType));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
 
@@ -84,7 +84,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var externalId = "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89";
 
-            var client = CreateManagementClient(nameof(GetContentType_ByExternalId_GetsContentType));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ByExternalId(externalId);
 
@@ -96,33 +96,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentType")]
         public async void DeleteContentType_ById_DeletesContentType()
         {
-            var client = CreateManagementClient(nameof(DeleteContentType_ById_DeletesContentType));
+            var client = CreateManagementClient();
 
-            var typeName = "TestDeleteById!";
-            var typeCodename = "test_delete_id";
-            var typeExternalId = "test_delete_externalId_id";
-            var type = new ContentTypeCreateModel
-            {
-                Name = typeName,
-                Codename = typeCodename,
-                ExternalId = typeExternalId,
-                Elements = new List<ElementMetadataBase>
-                {
-                    new GuidelinesElementMetadataModel
-                    {
-                        Codename = "guidelines_codename",
-                        ExternalId = "guidelines_test_delete_id",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    }
-                }
-            };
-
-            var responseType = await client.CreateContentTypeAsync(type);
-
+            var responseType = await CreateContentType(client);
 
             var identifier = Reference.ById(responseType.Id);
             var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
-
 
             if (_runType != TestUtils.TestRunType.MockFromFileSystem)
             {
@@ -136,31 +115,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentType")]
         public async void DeleteContentType_ByCodename_DeletesContentType()
         {
-            var client = CreateManagementClient(nameof(DeleteContentType_ByCodename_DeletesContentType));
+            var client = CreateManagementClient();
 
-            var typeName = "TestDeleteByCodename!";
-            var typeCodename = "test_delete_codename";
-            var typeExternalId = "test_delete_externalId_codename";
-            var type = new ContentTypeCreateModel
-            {
-                Name = typeName,
-                Codename = typeCodename,
-                ExternalId = typeExternalId,
-                Elements = new List<ElementMetadataBase>
-                {
-                    new GuidelinesElementMetadataModel
-                    {
-                        Codename = "guidelines_codename",
-                        ExternalId = "guidelines_test_delete_codename",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    }
-                }
-            };
+            var responseType = await CreateContentType(client);
 
-            var responseType = await client.CreateContentTypeAsync(type);
-
-
-            var identifier = Reference.ByCodename(typeCodename);
+            var identifier = Reference.ByCodename(responseType.Codename);
             var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
 
 
@@ -176,31 +135,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentType")]
         public async void DeleteContentType_ByExternalId_DeletesContentType()
         {
-            var client = CreateManagementClient(nameof(DeleteContentType_ByExternalId_DeletesContentType));
+            var client = CreateManagementClient();
 
-            var typeName = "TestDeleteByExternalId!";
-            var typeCodename = "test_delete_externalid";
-            var typeExternalId = "test_delete_externalId_externalid";
-            var type = new ContentTypeCreateModel
-            {
-                Name = typeName,
-                Codename = typeCodename,
-                ExternalId = typeExternalId,
-                Elements = new List<ElementMetadataBase>
-                {
-                    new GuidelinesElementMetadataModel
-                    {
-                        Codename = "guidelines_externalid",
-                        ExternalId = "guidelines_test_delete_externalid",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    }
-                }
-            };
+            var responseType = await CreateContentType(client);
 
-            var responseType = await client.CreateContentTypeAsync(type);
-
-
-            var identifier = Reference.ByExternalId(typeExternalId);
+            var identifier = Reference.ByExternalId(responseType.ExternalId);
             var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
 
 
@@ -217,7 +156,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         //Todo create more elements
         public async void CreateContentType_CreatesContentType()
         {
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            var client = CreateManagementClient();
 
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
@@ -254,39 +193,9 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public async void ModifyContentType_AddInto_ModifiesContentType()
         {
             //Arrange
-            var client = CreateManagementClient(nameof(ModifyContentType_AddInto_ModifiesContentType));
+            var client = CreateManagementClient();
 
-            var typeCodename = "patch_codename_add_into";
-            var type = new ContentTypeCreateModel
-            {
-                Name = "PatchTypeAddInto!",
-                Codename = typeCodename,
-                ExternalId = "patchAddInto_external_id",
-                Elements = new List<ElementMetadataBase>
-                {
-                    new GuidelinesElementMetadataModel
-                    {
-                        Codename = "guidelines_codename_patchaddinto",
-                        ExternalId = "guidelines_external_id_patchaddinto",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    },
-                    new TextElementMetadataModel
-                    {
-                        Codename = "text_codename_patchaddinto",
-                        ExternalId = "text_external_id_patchaddinto",
-                        Guidelines = "Guidelines",
-                        Name = "textName",
-                        IsRequired = false,
-                        MaximumTextLength = new MaximumTextLengthModel
-                        {
-                            AppliesTo = TextLengthLimitType.Words,
-                            Value = 30
-                        }
-                    },
-                }
-            };
-
-            _ = await client.CreateContentTypeAsync(type);
+            var responseType = await CreateContentType(client);
 
             var elementCodename = "text_codename2_patchaddinto";
             var textName = "textName2";
@@ -305,13 +214,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         Value = 30
                     }
                 },
-                Before = Reference.ByCodename("guidelines_codename_patchaddinto"),
+                Before = Reference.ByCodename(responseType.Elements.First().Codename),
                 Path = "/elements"
             };
 
 
             //act
-            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //assert
@@ -321,7 +230,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             // Cleanup
-            var typeToClean = Reference.ByCodename(typeCodename);
+            var typeToClean = Reference.ByCodename(responseType.Codename);
             await client.DeleteContentTypeAsync(typeToClean);
         }
 
@@ -331,61 +240,30 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             //arrange
             //todo extract creation of type to method
-            var client = CreateManagementClient(nameof(ModifyContentType_Replace_ModifiesContentType));
+            var client = CreateManagementClient();
 
-            var typeCodename = "patch_codename_replace";
-            var elementCodename = "text_codename_replace";
-            var type = new ContentTypeCreateModel
-            {
-                Name = "PatchTypeReplace!",
-                Codename = typeCodename,
-                ExternalId = "patch_external_id_replace",
-                Elements = new List<ElementMetadataBase>
-                {
-                    new GuidelinesElementMetadataModel
-                    {
-                        Codename = "guidelines_codename_replace",
-                        ExternalId = "guidelines_external_id_replace",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    },
-                    new TextElementMetadataModel
-                    {
-                        Codename = elementCodename,
-                        ExternalId = "text_external_id_replace",
-                        Guidelines = "Guidelines",
-                        Name = "textName",
-                        IsRequired = false,
-                        MaximumTextLength = new MaximumTextLengthModel
-                        {
-                            AppliesTo = TextLengthLimitType.Words,
-                            Value = 30
-                        }
-                    },
-                }
-            };
+            var responseType = await CreateContentType(client);
 
-            _ = await client.CreateContentTypeAsync(type);
-
-            var expectedValue = "Here you can tell users how to fill in the element.";
+            var expectedValue = "<h1>Here you can tell users how to fill in the element.</h1>";
 
             var changes = new ContentTypePatchReplaceModel
             {
                 Value = expectedValue,
-                After = Reference.ByCodename("guidelines_codename"),
-                Path = $"/elements/codename:{elementCodename}/guidelines"
+                After = Reference.ByCodename(responseType.Elements.First().Codename),
+                Path = $"/elements/codename:{responseType.Elements.First().Codename}/guidelines"
             };
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //Assert
-            Assert.Equal(expectedValue, modifiedType.Elements.FirstOrDefault(x => x.Codename == elementCodename)?.ToTextElement().Guidelines);
+            Assert.Equal(expectedValue, modifiedType.Elements.FirstOrDefault(x => x.Codename == responseType.Elements.First().Codename)?.ToGuidelines().Guidelines);
 
 
             // Cleanup
-            var typeToClean = Reference.ByCodename(typeCodename);
+            var typeToClean = Reference.ByCodename(responseType.Codename);
             await client.DeleteContentTypeAsync(typeToClean);
         }
 
@@ -394,59 +272,50 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public async void ModifyContentType_Remove_ModifiesContentType()
         {
             //arrange
-            var client = CreateManagementClient(nameof(ModifyContentType_Remove_ModifiesContentType));
+            var client = CreateManagementClient();
 
-            var typeCodename = "patch_codename_remove";
-            var elementCodename = "text_codename_remove";
-            var type = new ContentTypeCreateModel
-            {
-                Name = "PatchTypeRemove!",
-                Codename = typeCodename,
-                ExternalId = "patch_external_id_remove",
-                Elements = new List<ElementMetadataBase>
-                {
-                    new GuidelinesElementMetadataModel
-                    {
-                        Codename = "guidelines_codename_remove",
-                        ExternalId = "guidelines_external_id_remove",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    },
-                    new TextElementMetadataModel
-                    {
-                        Codename = elementCodename,
-                        ExternalId = "text_external_id_remove",
-                        Guidelines = "Guidelines",
-                        Name = "textName",
-                        IsRequired = false,
-                        MaximumTextLength = new MaximumTextLengthModel
-                        {
-                            AppliesTo = TextLengthLimitType.Words,
-                            Value = 30
-                        }
-                    },
-                }
-            };
-
-            _ = await client.CreateContentTypeAsync(type);
+            var responseType = await CreateContentType(client);
 
             var changes = new ContentTypePatchRemoveModel
             {
-                Path = $"/elements/codename:{elementCodename}"
+                Path = $"/elements/codename:{responseType.Elements.First().Codename}"
             };
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(typeCodename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //Assert
-            Assert.Null(modifiedType.Elements.FirstOrDefault(x => x.Codename == elementCodename));
+            Assert.Null(modifiedType.Elements.FirstOrDefault(x => x.Codename == responseType.Elements.First().Codename));
 
 
             // Cleanup
-            var typeToClean = Reference.ByCodename(typeCodename);
+            var typeToClean = Reference.ByCodename(responseType.Codename);
             await client.DeleteContentTypeAsync(typeToClean);
         }
-        #endregion
+
+        private async Task<ContentTypeModel> CreateContentType(ManagementClient client, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            var suffix = $"{memberName.ToLower().Substring(0,40)}_{sourceLineNumber:d}";
+
+            var type = new ContentTypeCreateModel
+            {
+                Name = $"{suffix}",
+                Codename = $"c_{suffix}",
+                ExternalId = $"eid_{suffix}",
+                Elements = new List<ElementMetadataBase>
+                {
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = $"g_c_{suffix}",
+                        ExternalId = $"g_eid_{suffix}",
+                        Guidelines = "<h3>Guidelines</h3>"
+                    }
+                }
+            };
+
+            return await client.CreateContentTypeAsync(type);
+        }
     }
 }

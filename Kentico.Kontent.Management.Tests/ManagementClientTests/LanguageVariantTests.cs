@@ -23,7 +23,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ById_LanguageId_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ById_LanguageId_UpdatesVariant));
+            var client = CreateManagementClient();
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
@@ -42,7 +42,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ByCodename_LanguageId_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ByCodename_LanguageId_UpdatesVariant));
+            var client = CreateManagementClient();
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
@@ -61,7 +61,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ById_LanguageCodename_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ById_LanguageCodename_UpdatesVariant));
+            var client = CreateManagementClient();
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
@@ -80,7 +80,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ByCodename_LanguageCodename_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ByCodename_LanguageCodename_UpdatesVariant));
+            var client = CreateManagementClient();
 
             var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel() { Elements = _elements };
 
@@ -99,7 +99,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ByExternalId_LanguageCodename_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ByExternalId_LanguageCodename_UpdatesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "fe2e8c24f0794f01b36807919602625d";
@@ -126,7 +126,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ByExternalId_LanguageCodename_CreatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ByExternalId_LanguageCodename_CreatesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "348052a5ad8c44ddac1e9683923d74a5";
@@ -152,7 +152,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ByExternalId_LanguageId_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ByExternalId_LanguageId_UpdatesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "d5e050980baa43b085b909cdea4c6d2b";
@@ -180,7 +180,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_ByExternalId_LanguageId_CreatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_ByExternalId_LanguageId_CreatesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "73e02811b05f429284006ea94c68c8f7";
@@ -207,7 +207,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_UsingResponseModel_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_UsingResponseModel_UpdatesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "4357b71d21eb45369d54a635faf7672b";
@@ -235,7 +235,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertVariant_UsingResponseModel_CreatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertVariant_UsingResponseModel_CreatesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "5249f596a8be4d719bc9816e3d416d16";
@@ -263,7 +263,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task ListContentItemVariants_ById_ListsVariants()
         {
-            var client = CreateManagementClient(nameof(ListContentItemVariants_ById_ListsVariants));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ById(EXISTING_ITEM_ID);
 
@@ -276,7 +276,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task ListContentItemVariants_ByCodename_ListsVariants()
         {
-            var client = CreateManagementClient(nameof(ListContentItemVariants_ByCodename_ListsVariants));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
@@ -289,7 +289,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task ListContentItemVariants_ByExternalId_ListsVariants()
         {
-            var client = CreateManagementClient(nameof(ListContentItemVariants_ByExternalId_ListsVariants));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "0220e6ec5b77401ea113b5273c8cdd5e";
@@ -311,7 +311,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task GetContentItemVariant_ById_LanguageId_GetsVariant()
         {
-            var client = CreateManagementClient(nameof(GetContentItemVariant_ById_LanguageId_GetsVariant));
+            var client = CreateManagementClient();
 
             var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
             var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
@@ -328,7 +328,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task GetContentItemVariant_ById_LanguageCodename_GetsVariant()
         {
-            var client = CreateManagementClient(nameof(GetContentItemVariant_ById_LanguageCodename_GetsVariant));
+            var client = CreateManagementClient();
 
             var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
@@ -345,7 +345,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task GetContentItemVariant_ByCodename_LanguageId_GetsVariant()
         {
-            var client = CreateManagementClient(nameof(GetContentItemVariant_ByCodename_LanguageId_GetsVariant));
+            var client = CreateManagementClient();
 
             var itemIdentifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
             var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
@@ -362,7 +362,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task GetContentItemVariant_ByCodename_LanguageCodename_GetsVariant()
         {
-            var client = CreateManagementClient(nameof(GetContentItemVariant_ByCodename_LanguageCodename_GetsVariant));
+            var client = CreateManagementClient();
 
             var itemIdentifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
@@ -379,7 +379,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task GetContentItemVariant_ByExternalId_LanguageCodename_GetsVariant()
         {
-            var client = CreateManagementClient(nameof(GetContentItemVariant_ByExternalId_LanguageCodename_GetsVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "f9cfaa3e00f64e22a144fdacf4cba3e5";
@@ -406,7 +406,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task GetContentItemVariant_ByExternalId_ReturnsVariant()
         {
-            var client = CreateManagementClient(nameof(GetContentItemVariant_ByExternalId_ReturnsVariant));
+            var client = CreateManagementClient();
 
             var externalId = "ad66f70ed9bb4b8694116c9119c4a930";
             var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
@@ -431,7 +431,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task DeleteContentItemVariant_ById_LanguageCodename_DeletesVariant()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItemVariant_ById_LanguageCodename_DeletesVariant));
+            var client = CreateManagementClient();
 
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
@@ -447,7 +447,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task DeleteContentItemVariant_ById_LanguageId_DeletesVariant()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItemVariant_ById_LanguageId_DeletesVariant));
+            var client = CreateManagementClient();
 
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
             await TestUtils.PrepareTestVariant(client, EXISTING_LANGUAGE_CODENAME, _elements, itemResponse);
@@ -463,7 +463,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task DeleteContentItemVariant_ByCodename_LanguageId_DeletesVariant()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItemVariant_ByCodename_LanguageId_DeletesVariant));
+            var client = CreateManagementClient();
 
             // Prepare item
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
@@ -480,7 +480,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task DeleteContentItemVariant_ByCodename_LanguageCodename_DeletesVariant()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItemVariant_ByCodename_LanguageCodename_DeletesVariant));
+            var client = CreateManagementClient();
 
             // Prepare item
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
@@ -497,7 +497,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task DeleteContentItemVariant_ByExternalId_LanguageId_DeletesVariant()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItemVariant_ByExternalId_LanguageId_DeletesVariant));
+            var client = CreateManagementClient();
 
             var externalId = "90285b1a983c43299638c8a835f16b81";
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
@@ -514,7 +514,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task DeleteContentItemVariant_ByExternalId_LanguageCodename_DeletesVariant()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItemVariant_ByExternalId_LanguageCodename_DeletesVariant));
+            var client = CreateManagementClient();
 
             var externalId = "f4fe87222b6b46739bc673f6e5165c12";
             var itemResponse = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
@@ -531,7 +531,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task ListStronglyTypedContentItemVariants_ById_ListsVariants()
         {
-            var client = CreateManagementClient(nameof(ListStronglyTypedContentItemVariants_ById_ListsVariants));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ById(EXISTING_ITEM_ID);
 
@@ -548,7 +548,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task GetStronglyTypedContentItemVariantAsync_ById_LanguageId_GetVariant()
         {
-            var client = CreateManagementClient(nameof(GetStronglyTypedContentItemVariantAsync_ById_LanguageId_GetVariant));
+            var client = CreateManagementClient();
 
             var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
             var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
@@ -566,7 +566,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItemVariant")]
         public async Task UpsertStronglyTypedContentItemVariantAsync_ById_LanguageId_UpdatesVariant()
         {
-            var client = CreateManagementClient(nameof(UpsertStronglyTypedContentItemVariantAsync_ById_LanguageId_UpdatesVariant));
+            var client = CreateManagementClient();
 
             var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
             var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
@@ -795,7 +795,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         private string UnifyWhitespace(string text)
         {
-            return new Regex("\\s+", RegexOptions.Multiline).Replace(text, " ").Trim();
+            return Regex.Replace(text, "\\s+", string.Empty);
         }
 
         private void AssertResponseElements(ContentItemVariantModel responseVariant)

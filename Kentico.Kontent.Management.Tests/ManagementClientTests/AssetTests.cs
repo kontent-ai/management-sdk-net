@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListAssets_ListsAssets()
         {
-            var client = CreateManagementClient(nameof(ListAssets_ListsAssets));
+            var client = CreateManagementClient();
 
             var response = await client.ListAssetsAsync();
             Assert.NotNull(response);
@@ -29,7 +29,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListFolders_ListFolders()
         {
-            var client = CreateManagementClient(nameof(ListFolders_ListFolders));
+            var client = CreateManagementClient();
 
             var response = await client.GetAssetFoldersAsync();
             Assert.NotNull(response);
@@ -40,7 +40,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderLinkedTree()
         {
-            var client = CreateManagementClient(nameof(ListFolders_GetFolderLinkedTree));
+            var client = CreateManagementClient();
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
@@ -54,7 +54,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderLinkedTreeSearchByFolderId()
         {
-            var client = CreateManagementClient(nameof(ListFolders_GetFolderLinkedTreeSearchByFolderId));
+            var client = CreateManagementClient();
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
@@ -78,7 +78,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderHierarchy_NonExistingFolder()
         {
-            var client = CreateManagementClient(nameof(ListFolders_GetFolderHierarchy_NonExistingFolder));
+            var client = CreateManagementClient();
 
             var response = await client.GetAssetFoldersAsync();
             var nonExistingFolderId = "2ddaf2dc-8635-4b3f-b04d-5be69a0949e6";
@@ -91,7 +91,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderHierarchy_ExistingFolder()
         {
-            var client = CreateManagementClient(nameof(ListFolders_GetFolderHierarchy_ExistingFolder));
+            var client = CreateManagementClient();
 
             var response = await client.GetAssetFoldersAsync();
             var result = response.Folders.GetFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
@@ -104,7 +104,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderPathString()
         {
-            var client = CreateManagementClient(nameof(ListFolders_GetFolderPathString));
+            var client = CreateManagementClient();
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
@@ -120,7 +120,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task ListAssets_WithContinuation_ListsAllAssets()
         {
-            var client = CreateManagementClient(nameof(ListAssets_WithContinuation_ListsAllAssets));
+            var client = CreateManagementClient();
 
             var response = await client.ListAssetsAsync();
             Assert.NotNull(response);
@@ -147,7 +147,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task CreateAsset_WithStream_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient(nameof(CreateAsset_WithStream_Uploads_CreatesAsset));
+            var client = CreateManagementClient();
 
             var content = $"Hello world from CM API .NET SDK test {nameof(CreateAsset_WithStream_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
@@ -190,7 +190,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient(nameof(UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset));
+            var client = CreateManagementClient();
 
             var content = $"Hello world from CM API .NET SDK test {nameof(UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
@@ -237,7 +237,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task CreateAsset_WithFile_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient(nameof(CreateAsset_WithFile_Uploads_CreatesAsset));
+            var client = CreateManagementClient();
 
             var content = $"Hello world from CM API .NET SDK test {nameof(CreateAsset_WithFile_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
@@ -270,7 +270,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task CreateAsset_FromFileSystem_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient(nameof(CreateAsset_FromFileSystem_Uploads_CreatesAsset));
+            var client = CreateManagementClient();
 
             var descriptions = new List<AssetDescription>();
             var title = "My new asset";
@@ -298,7 +298,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient(nameof(UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset));
+            var client = CreateManagementClient();
 
             var content = $"Hello world from CM API .NET SDK test {nameof(UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
@@ -333,7 +333,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task UpdateAssetById_ReturnsUpdatedAsset()
         {
-            var client = CreateManagementClient(nameof(UpdateAssetById_ReturnsUpdatedAsset));
+            var client = CreateManagementClient();
 
             var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
             var title = "My super asset";
@@ -355,7 +355,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Asset")]
         public async Task GetAsset_WhenGivenAssetId_ReturnsGivenAsset()
         {
-            var client = CreateManagementClient(nameof(GetAsset_WhenGivenAssetId_ReturnsGivenAsset));
+            var client = CreateManagementClient();
 
             var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
 

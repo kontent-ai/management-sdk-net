@@ -15,5 +15,15 @@ namespace Kentico.Kontent.Management.Extenstions
 
             return source as TextElementMetadataModel;
         }
+
+        public static GuidelinesElementMetadataModel ToGuidelines(this ElementMetadataBase source)
+        {
+            if (source.Type != ElementMetadataType.Guidelines)
+            {
+                throw new InvalidOperationException($"type {source.Type} cannot be converted to {nameof(GuidelinesElementMetadataModel)}");
+            }
+
+            return source as GuidelinesElementMetadataModel;
+        }
     }
 }

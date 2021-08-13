@@ -1,0 +1,30 @@
+{
+  "id": "54f9c828-a864-5742-8007-93f8ce44b5fb",
+  "codename": "c_modifycontenttype_addinto_modifiesconten_198",
+  "last_modified": "2021-08-13T13:35:37.6199331Z",
+  "external_id": "eid_modifycontenttype_addinto_modifiesconten_198",
+  "name": "modifycontenttype_addinto_modifiesconten_198",
+  "content_groups": [],
+  "elements": [
+    {
+      "maximum_text_length": {
+        "value": 30,
+        "applies_to": "words"
+      },
+      "name": "textName2",
+      "guidelines": "Guidelines2",
+      "is_required": false,
+      "type": "text",
+      "external_id": "text_external_id2_patchaddinto",
+      "id": "62ad8eee-0939-53ea-9d84-04d84251eedb",
+      "codename": "text_codename2_patchaddinto"
+    },
+    {
+      "guidelines": "<h3>Guidelines</h3>",
+      "type": "guidelines",
+      "external_id": "g_eid_modifycontenttype_addinto_modifiesconten_198",
+      "id": "9abe6ba7-76f5-5a98-acda-185316b63c53",
+      "codename": "g_c_modifycontenttype_addinto_modifiesconten_198"
+    }
+  ]
+}

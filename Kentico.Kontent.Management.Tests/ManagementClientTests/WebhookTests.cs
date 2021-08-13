@@ -13,7 +13,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Webhooks")]
         public async void ListWebhooks_ListsWebhooks()
         {
-            var client = CreateManagementClient(nameof(ListWebhooks_ListsWebhooks));
+            var client = CreateManagementClient();
 
             var response = await client.ListWebhooksAsync();
 
@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Webhooks")]
         public async void GetWebhook_ById_GetsWebhook()
         {
-            var client = CreateManagementClient(nameof(GetWebhook_ById_GetsWebhook));
+            var client = CreateManagementClient();
 
             var identifier = ObjectIdentifier.ById(EXISTING_WEBHOOK_ID);
 
@@ -37,7 +37,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Webhooks")]
         public async void CreateWebhookGroup_CreatesWebhookGroup()
         {
-            var client = CreateManagementClient(nameof(CreateContentType_CreatesContentType));
+            var client = CreateManagementClient();
 
             var webhook = new WebhookCreateModel
             {
@@ -80,7 +80,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Webhooks")]
         public async void DeleteWebhook_ById_DeletesWebhook()
         {
-            var client = CreateManagementClient(nameof(DeleteWebhook_ById_DeletesWebhook));
+            var client = CreateManagementClient();
 
             var webhook = new WebhookCreateModel
             {
@@ -123,7 +123,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Webhooks")]
         public async void EnableWebhook_ById_EnablesWebhook()
         {
-            var client = CreateManagementClient(nameof(EnableWebhook_ById_EnablesWebhook));
+            var client = CreateManagementClient();
 
             var webhook = new WebhookCreateModel
             {
@@ -162,7 +162,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Webhooks")]
         public async void DisableWebhook_ById_DisablesWebhook()
         {
-            var client = CreateManagementClient(nameof(EnableWebhook_ById_EnablesWebhook));
+            var client = CreateManagementClient();
 
             var webhook = new WebhookCreateModel
             {

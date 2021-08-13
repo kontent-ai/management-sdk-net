@@ -9,8 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
@@ -32,11 +30,11 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
             Constants.ENABLE_RESILIENCE_POLICY);
 
-        public FileSystemHttpClientMock(ManagementOptions options, bool saveToFileSystem, string testName)
+        public FileSystemHttpClientMock(ManagementOptions options, bool saveToFileSystem, string directoryName)
         {
             _saveToFileSystem = saveToFileSystem;
             _options = options;
-            _directoryName = testName;
+            _directoryName = directoryName;
         }
 
         public async Task<HttpResponseMessage> SendAsync(
@@ -156,8 +154,9 @@ namespace Kentico.Kontent.Management.Tests.Mocks
 
         private string GetMockFileFolder(string methodName)
         {
-            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-            var rootPath = Path.Combine(projectDirectory, "Data");
+            string directory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+
+            var rootPath = Path.Combine(directory, "Data");
             var testPath = Path.Combine(rootPath, _directoryName);
             return Path.Combine(testPath, $"{_counter:d}_{methodName}");
         }

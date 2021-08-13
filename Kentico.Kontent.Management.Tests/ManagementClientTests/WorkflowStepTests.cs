@@ -13,7 +13,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void ListWorkflowSteps_ListsWorkflowSteps()
         {
-            var client = CreateManagementClient(nameof(ListWorkflowSteps_ListsWorkflowSteps));
+            var client = CreateManagementClient();
 
             var response = await client.ListWorkflowStepsAsync();
 
@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void ChangeWorkflowStepOfVariant_ChangesWorkflowStepOfVariant()
         {
-            var client = CreateManagementClient(nameof(ChangeWorkflowStepOfVariant_ChangesWorkflowStepOfVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "11102811b05f429284006ea94c68333";
@@ -55,7 +55,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void PublishVariant_PublishesVariant()
         {
-            var client = CreateManagementClient(nameof(PublishVariant_PublishesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "22202811b05f429284006ea94c68333";
@@ -82,7 +82,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void UnpublishVariant_UnpublishesVariant()
         {
-            var client = CreateManagementClient(nameof(PublishVariant_PublishesVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "78902811b05f429284006ea94c68333";
@@ -111,7 +111,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void CreateNewVersionsOfVariant_CreatesNewVersionsOfVariant()
         {
-            var client = CreateManagementClient(nameof(CreateNewVersionsOfVariant_CreatesNewVersionsOfVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "33302811b05f429284006ea94c68333";
@@ -139,7 +139,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void SchedulePublishingOfVariant_SchedulesPublishingOfVariant()
         {
-            var client = CreateManagementClient(nameof(SchedulePublishingOfVariant_SchedulesPublishingOfVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "32302811b05f429284006ea94c68333";
@@ -166,7 +166,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void ScheduleUnpublishingOfVariant_SchedulesUnpublishingOfVariant()
         {
-            var client = CreateManagementClient(nameof(ScheduleUnpublishingOfVariant_SchedulesUnpublishingOfVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "35302811b05f429284006ea94c68333";
@@ -196,7 +196,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void CancelPublishingOfVariant_CancelsPublishingOfVariant()
         {
-            var client = CreateManagementClient(nameof(CancelPublishingOfVariant_CancelsPublishingOfVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "37302811b05f429284006ea94c68333";
@@ -224,7 +224,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Workflow")]
         public async void CancelUnpublishingOfVariant_CancelsUnpublishingOfVariant()
         {
-            var client = CreateManagementClient(nameof(CancelUnpublishingOfVariant_CancelsUnpublishingOfVariant));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "37302811b05f429284006ea94c68333";

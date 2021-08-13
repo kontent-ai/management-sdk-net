@@ -14,7 +14,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void CreateContentItem_CreatesContentItem()
         {
-            var client = CreateManagementClient(nameof(CreateContentItem_CreatesContentItem));
+            var client = CreateManagementClient();
 
             var itemName = "Hooray!";
             var itemCodename = "hooray_codename";
@@ -41,7 +41,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void ListContentItems_ListsContentItems()
         {
-            var client = CreateManagementClient(nameof(ListContentItems_ListsContentItems));
+            var client = CreateManagementClient();
 
             var response = await client.ListContentItemsAsync();
 
@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void ListContentItems_WithContinuation_ListsAllContentItems()
         {
-            var client = CreateManagementClient(nameof(ListContentItems_WithContinuation_ListsAllContentItems));
+            var client = CreateManagementClient();
 
             var response = await client.ListContentItemsAsync();
             Assert.NotNull(response);
@@ -78,7 +78,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_ByCodename_UpdatesContentItem()
         {
-            var client = CreateManagementClient(nameof(UpdateContentItem_ByCodename_UpdatesContentItem));
+            var client = CreateManagementClient();
 
             var itemName = "Hooray!";
             var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
@@ -102,7 +102,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_ById_UpdatesContentItem()
         {
-            var client = CreateManagementClient(nameof(UpdateContentItem_ById_UpdatesContentItem));
+            var client = CreateManagementClient();
 
             var itemName = "Ciao!";
             var itemCodename = "ciao_codename";
@@ -124,7 +124,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItemName_CodenameNotSet_RegeneratesCodenameByName()
         {
-            var client = CreateManagementClient(nameof(UpdateContentItemName_CodenameNotSet_RegeneratesCodenameByName));
+            var client = CreateManagementClient();
 
             var itemName = "regenerated_codename";
             var identifier = Reference.ById(EXISTING_ITEM_ID2);
@@ -145,7 +145,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_UsingResponseModel_UpdatesContentItem()
         {
-            var client = CreateManagementClient(nameof(UpdateContentItem_UsingResponseModel_UpdatesContentItem));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "093afb41b0614a908c8734d2bb840210";
@@ -168,7 +168,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_UpdatesContentItem()
         {
-            var client = CreateManagementClient(nameof(UpsertContentItemByExternalId_UpdatesContentItem));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "753f6e965f4d49e5a120ca9a23551b10";
@@ -199,7 +199,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_CreatesContentItem()
         {
-            var client = CreateManagementClient(nameof(UpsertContentItemByExternalId_CreatesContentItem));
+            var client = CreateManagementClient();
 
             // Test
             var externalId = "9d98959eeac446288992b44b5d366e16";
@@ -228,7 +228,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void GetContentItem_ById_GetsContentItem()
         {
-            var client = CreateManagementClient(nameof(GetContentItem_ById_GetsContentItem));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ById(EXISTING_ITEM_ID);
 
@@ -240,7 +240,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByCodename_GetsContentItem()
         {
-            var client = CreateManagementClient(nameof(GetContentItem_ByCodename_GetsContentItem));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
@@ -252,7 +252,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByExternalId_GetsContentItem()
         {
-            var client = CreateManagementClient(nameof(GetContentItem_ByExternalId_GetsContentItem));
+            var client = CreateManagementClient();
 
             // Arrange
             var externalId = "e5a8de5b584f4182b879c78b696dff09";
@@ -273,7 +273,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ById_DeletesContentItem()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItem_ById_DeletesContentItem));
+            var client = CreateManagementClient();
 
             var itemToDelete = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
 
@@ -292,7 +292,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByCodename_DeletesContentItem()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItem_ByCodename_DeletesContentItem));
+            var client = CreateManagementClient();
 
             var itemToDelete = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
 
@@ -311,7 +311,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByExternalId_DeletesContentItem()
         {
-            var client = CreateManagementClient(nameof(DeleteContentItem_ByExternalId_DeletesContentItem));
+            var client = CreateManagementClient();
 
             var externalId = "341bcf72988d49729ec34c8682710536";
             await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);

@@ -36,12 +36,12 @@ namespace Kentico.Kontent.Management.Tests
             MockFromFileSystem
         }
         
-        internal static ManagementClient CreateManagementClient(ManagementOptions options, TestRunType runType, string testName)
+        internal static ManagementClient CreateManagementClient(ManagementOptions options, TestRunType runType, string directoryName)
         {
             if (runType != TestRunType.LiveEndPoint)
             {
                 var saveToFileSystem = runType == TestRunType.LiveEndPoint_SaveToFileSystem;
-                var httpClient = new FileSystemHttpClientMock(options, saveToFileSystem, testName);
+                var httpClient = new FileSystemHttpClientMock(options, saveToFileSystem, directoryName);
 
                 var urlBuilder = new EndpointUrlBuilder(options);
                 var actionInvoker = new ActionInvoker(httpClient, new MessageCreator(options.ApiKey));

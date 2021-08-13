@@ -13,7 +13,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Languages")]
         public async void ListLanguages_ListsLanguages()
         {
-            var client = CreateManagementClient(nameof(ListLanguages_ListsLanguages));
+            var client = CreateManagementClient();
 
             var response = await client.ListLanguagesAsync();
 
@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Languages")]
         public async void GetLanguage_ById_GetsLanguages()
         {
-            var client = CreateManagementClient(nameof(GetLanguage_ById_GetsLanguages));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ById(EXISTING_LANGUAGE_ID);
 
@@ -37,7 +37,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Trait("Category", "Languages")]
         public async void GetLanguages_ByCodename_GetsLanguages()
         {
-            var client = CreateManagementClient(nameof(GetLanguages_ByCodename_GetsLanguages));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
 
@@ -50,7 +50,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public async void GetLanguages_ByExternalId_GetsLanguages()
         {
             var externalid = "standard_german";
-            var client = CreateManagementClient(nameof(GetLanguages_ByExternalId_GetsLanguages));
+            var client = CreateManagementClient();
 
             var identifier = Reference.ByExternalId(externalid);
 
@@ -68,7 +68,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 return;
             }
 
-            var client = CreateManagementClient(nameof(CreateLanguage_CreatesLanguage));
+            var client = CreateManagementClient();
 
             var newLanguage = new LanguageCreateModel
             {
@@ -91,7 +91,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public async void ModifyLanguages_Replace_ModifiesLanguages()
         {
             //Arrange
-            var client = CreateManagementClient(nameof(ModifyTaxonomyGroup_Replace_ModifiesTaxonomyGroup));
+            var client = CreateManagementClient();
 
             var newCodename = "new codename";
 

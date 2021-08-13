@@ -79,7 +79,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         protected static readonly Guid TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID = Guid.Parse("dd78b09e-4337-599c-9701-20a0a165c63b");
         protected const string TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME = "hide_thread";
 
-        private ManagementClient CreateManagementClient(string testName, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        private ManagementClient CreateManagementClient([CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
             return TestUtils.CreateManagementClient(_options, _runType, $"{memberName}_{sourceLineNumber}");
         }

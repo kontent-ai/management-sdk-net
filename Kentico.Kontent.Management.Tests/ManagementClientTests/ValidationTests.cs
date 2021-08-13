@@ -40,7 +40,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Codename = "related_articles"
             };
 
-            var client = CreateManagementClient(nameof(ValidateProject_ReturnsProjectReportModel));
+            var client = CreateManagementClient();
             var response = await client.ValidateProjectAsync();
 
             Assert.Equal(project.Id, response.Project.Id);
