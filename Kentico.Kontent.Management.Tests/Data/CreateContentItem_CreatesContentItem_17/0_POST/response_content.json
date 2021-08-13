@@ -1,0 +1,13 @@
+{
+  "id": "0abb2caf-825e-40fe-8db4-527fd57072c1",
+  "name": "Hooray!",
+  "codename": "hooray_codename",
+  "type": {
+    "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+  },
+  "collection": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  },
+  "sitemap_locations": [],
+  "last_modified": "2021-08-13T11:20:56.3700807Z"
+}

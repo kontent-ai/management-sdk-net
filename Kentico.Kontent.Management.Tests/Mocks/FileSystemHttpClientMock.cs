@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,7 +26,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         private readonly ManagementOptions _options;
         private readonly bool _saveToFileSystem;
         private readonly string _directoryName;
-        private bool _firstRequest = true;
+        private int _counter = 0;
 
         public IManagementHttpClient _nativeClient = new ManagementHttpClient(
             new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
@@ -35,7 +36,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
         {
             _saveToFileSystem = saveToFileSystem;
             _options = options;
-            _directoryName = GetTestNameIdentifier(testName);
+            _directoryName = testName;
         }
 
         public async Task<HttpResponseMessage> SendAsync(
@@ -45,18 +46,10 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             HttpContent content = null,
             Dictionary<string, string> headers = null)
         {
-            var isFirst = _firstRequest;
-            _firstRequest = false;
             var message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
-
-            var serializationSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
-
-            var serializedRequest = MakeAgnostic(JsonConvert.SerializeObject(message, serializationSettings));
+            var serializedRequest = SerializeRequest(message);
             var serializedRequestContent = await SerializeContent(message.Content);
-
-            //todo think of better way to match files and test cases
-            var hashContent = $"{message.Method} {UnifySerializedRequestContent(serializedRequest)} {UnifySerializedRequestContent(serializedRequestContent)}";
-            var folderPath = GetMockFileFolder(message, hashContent);
+            var folderPath = GetMockFileFolder(method.ToString());
 
             if (_saveToFileSystem)
             {
@@ -64,7 +57,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
                 {
                     Directory.CreateDirectory(folderPath);
                 }
-                else if (isFirst)
+                else
                 {
                     // Cleanup previously recorded data at first request to avoid data overlap upon change
                     Directory.Delete(folderPath, true);
@@ -76,26 +69,21 @@ namespace Kentico.Kontent.Management.Tests.Mocks
                 File.WriteAllText(Path.Combine(folderPath, "request.json"), serializedRequest);
                 File.WriteAllText(Path.Combine(folderPath, "request_content.json"), serializedRequestContent);
 
-                var serializedResponse = MakeAgnostic(JsonConvert.SerializeObject(response, serializationSettings));
+                
+                var serializedResponse = SerializeResponse(response);
                 var serializedResponseContent = await SerializeContent(response.Content);
 
                 File.WriteAllText(Path.Combine(folderPath, "response.json"), serializedResponse);
                 File.WriteAllText(Path.Combine(folderPath, "response_content.json"), serializedResponseContent);
 
+
+                _counter++;
                 return response;
             }
             else
             {
-                // Expected request is validated through the presence of the recorded files
-                Assert.True(
-                    Directory.Exists(folderPath),
-                    $"Cannot find expected data folder {folderPath} for {message.Method} request to {message.RequestUri}. " + Environment.NewLine +
-                    $"Either the request properties or content seem to differ from the expected recorded state." + Environment.NewLine +
-                    $"Request:" + Environment.NewLine +
-                    serializedRequest + Environment.NewLine +
-                    $"Request content:" + Environment.NewLine +
-                    serializedRequestContent
-                );
+                Assert.Equal(serializedRequest, File.ReadAllText(Path.Combine(folderPath, "request.json")), ignoreLineEndingDifferences: true, ignoreWhiteSpaceDifferences: true);
+                Assert.Equal(serializedRequestContent, File.ReadAllText(Path.Combine(folderPath, "request_content.json")), ignoreLineEndingDifferences: true, ignoreWhiteSpaceDifferences: true);
 
                 var serializedResponse = ApplyData(File.ReadAllText(Path.Combine(folderPath, "response.json")));
                 var serializedResponseContent = File.ReadAllText(Path.Combine(folderPath, "response_content.json"));
@@ -107,71 +95,71 @@ namespace Kentico.Kontent.Management.Tests.Mocks
                 var response = JsonConvert.DeserializeObject<HttpResponseMessage>(serializedResponse, deserializationSettings);
                 response.Content = new StringContent(serializedResponseContent);
 
+                _counter++;
                 return response;
             }
+
         }
 
-        private string MakeAgnostic(string data)
+        private string SerializeResponse(HttpResponseMessage response)
         {
-            data = Regex.Replace(data, @"""(?<SDK_ID>nuget\.org;Kentico\.Kontent\.Management;)(?<SDK_VERSION>.*)""", m => "\"" + m.Groups["SDK_ID"].Value + SDK_ID_REPLACEMENT + "\"");
-            return data.Replace(_options.ProjectId, PROJECT_ID_REPLACEMENT).Replace(_options.ApiKey, API_KEY_REPLACEMENT);
+            return MakeAgnostic(response.RequestMessage.Headers, () => JsonConvert.SerializeObject(response));
+        }
+
+        private string SerializeRequest(HttpRequestMessage request)
+        {
+            return MakeAgnostic(request.Headers, () => JsonConvert.SerializeObject(request));
+        }
+
+        private string MakeAgnostic(HttpRequestHeaders headers, Func<string> serialize)
+        {
+            List<KeyValuePair<string, IEnumerable<string>>> tempHeaders = new();
+            tempHeaders.AddRange(headers.Select(x => x));
+
+            if (headers.Contains("X-KC-SDKID"))
+            {
+                headers.Remove("X-KC-SDKID");
+                headers.TryAddWithoutValidation("X-KC-SDKID", new[] { SDK_ID_REPLACEMENT });
+            }
+
+            if (headers.Contains("Authorization"))
+            {
+                headers.Remove("Authorization");
+                headers.TryAddWithoutValidation("Authorization", new[] { API_KEY_REPLACEMENT });
+            }
+
+            var result = serialize().Replace(_options.ProjectId, PROJECT_ID_REPLACEMENT);
+
+            headers.Clear();
+            tempHeaders.ForEach(x => headers.Add(x.Key, x.Value));
+
+            return result;
         }
 
         private string ApplyData(string data)
         {
-            data = data.Replace(SDK_ID_REPLACEMENT, HttpRequestHeadersExtensions.GetSdkTrackingHeader());
-            return data.Replace(PROJECT_ID_REPLACEMENT, _options.ProjectId).Replace(API_KEY_REPLACEMENT, _options.ApiKey);
+            data = data.Replace(PROJECT_ID_REPLACEMENT, _options.ProjectId).Replace(API_KEY_REPLACEMENT, _options.ApiKey);
+            return data.Replace(SDK_ID_REPLACEMENT, HttpRequestHeadersExtensions.GetSdkTrackingHeader());
         }
 
         private async Task<string> SerializeContent(HttpContent content)
         {
             if (content == null)
             {
-                return null;
+                return string.Empty;
             }
 
-            return await content.ReadAsStringAsync();
+            var text = await content.ReadAsStringAsync();
+            text = Regex.Replace(text, @"\\r\\n", string.Empty);
+            return Regex.Replace(text, @"\\n", string.Empty);
         }
 
-        private string GetMockFileFolder(HttpRequestMessage message, string hashContent)
+        private string GetMockFileFolder(string methodName)
         {
-            var rootPath = Path.Combine(Environment.CurrentDirectory, "Data");
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            var rootPath = Path.Combine(projectDirectory, "Data");
             var testPath = Path.Combine(rootPath, _directoryName);
-            var stringMessageHash = GetHashFingerprint(hashContent);
-
-            var uniqueRequestPath = Path.Combine(testPath, $"{message.Method}_{stringMessageHash}");
-
-            return uniqueRequestPath;
-        }
-
-        /// <summary>
-        /// There is a limit in path length in test framework and git.
-        /// This method shortens test name but persists test area (substring before first underscore).
-        /// </summary>
-        private string GetTestNameIdentifier(string testName)
-        {
-            var testFeature = testName.Split('_')[0];
-            var testNameHash = GetHashFingerprint(testName);
-
-            return $"{testFeature}_{testNameHash}";
-        }
-
-        private string GetHashFingerprint(string input)
-        {
-            var hashingAlgorithm = SHA1.Create();
-            var fingerprint = hashingAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-            return Convert.ToBase64String(fingerprint).Replace('+', '-').Replace('/', '_').Substring(0, 10);
-        }
-
-        private string UnifySerializedRequestContent(string content)
-        {
-            if (!string.IsNullOrEmpty(content))
-            {
-                return string.Concat(Regex.Replace(content, @"\s+", "").OrderBy(c => c));
-            }
-
-            return string.Empty;
+            return Path.Combine(testPath, $"{_counter:d}_{methodName}");
         }
     }
 }
