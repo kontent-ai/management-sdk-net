@@ -1,6 +1,5 @@
 ﻿using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Assets;
-using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Workflow;
@@ -54,6 +53,12 @@ namespace Kentico.Kontent.Management
         private const string URL_TEMPLATE_WORKFLOW_ID = "/workflow/{0}";
         private const string URL_TEMPLATE_WORKFLOW_CODENAME = "/workflow/codename/{0}";
 
+        private const string URL_COLLECTIONS = "/collections";
+
+        private const string URL_SNIPPETS = "/snippets";
+        private const string URL_TEMPLATE_SNIPPETS_ID = "/snippets/{0}";
+        private const string URL_TEMPLATE_SNIPPETS_CODENAME = "/snippets/codename/{0}";
+        private const string URL_TEMPLATE_SNIPPETS_EXTERNAL_ID = "/snippets/external-id/{0}";
 
         private readonly ManagementOptions _options;
 
@@ -97,11 +102,6 @@ namespace Kentico.Kontent.Management
             return (continuationToken != null) ? GetUrl(URL_TYPES, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
         }
 
-        internal string BuildListTypesUrl()
-        {
-            return GetUrl(string.Concat(URL_TYPES));
-        }
-
         internal string BuildTypeUrl()
         {
             return GetUrl(URL_TYPES);
@@ -137,6 +137,52 @@ namespace Kentico.Kontent.Management
         {
             var escapedExternalId = WebUtility.UrlEncode(externalId);
             return string.Format(URL_TEMPLATE_TYPES_EXTERNAL_ID, escapedExternalId);
+        }
+
+        #endregion
+
+        #region TypeSnippets
+
+        internal string BuildSnippetsListingUrl(string continuationToken = null)
+        {
+            return (continuationToken != null) ? GetUrl(URL_SNIPPETS, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(URL_TYPES);
+        }
+
+        internal string BuildSnippetsUrl()
+        {
+            return GetUrl(URL_SNIPPETS);
+        }
+
+        internal string BuildSnippetsUrl(Reference identifier)
+        {
+            var itemSegment = GetSnippetUrlSegment(identifier);
+            return GetUrl(itemSegment);
+        }
+
+        private string GetSnippetUrlSegment(Reference identifier)
+        {
+            if (identifier.Id != null)
+            {
+                return string.Format(URL_TEMPLATE_SNIPPETS_ID, identifier.Id);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.Codename))
+            {
+                return string.Format(URL_TEMPLATE_SNIPPETS_CODENAME, identifier.Codename);
+            }
+
+            if (!string.IsNullOrEmpty(identifier.ExternalId))
+            {
+                return BuildSnippetUrlSegmentFromExternalId(identifier.ExternalId);
+            }
+
+            throw new ArgumentException("You must provide item's id, codename or externalId");
+        }
+
+        internal string BuildSnippetUrlSegmentFromExternalId(string externalId)
+        {
+            var escapedExternalId = WebUtility.UrlEncode(externalId);
+            return string.Format(URL_TEMPLATE_SNIPPETS_EXTERNAL_ID, escapedExternalId);
         }
 
         #endregion
@@ -440,6 +486,14 @@ namespace Kentico.Kontent.Management
             return GetUrl(URL_VALIDATE);
         }
 
+        #endregion
+
+        #region Collections
+
+        internal string BuildCollectionsUrl()
+        {
+            return GetUrl(URL_COLLECTIONS);
+        }
         #endregion
 
         private string GetUrl(string path, params string[] parameters)

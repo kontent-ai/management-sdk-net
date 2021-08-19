@@ -22,6 +22,9 @@ using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Workflow;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.Collections;
+using Kentico.Kontent.Management.Models.TypeSnippets;
+using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 
 namespace Kentico.Kontent.Management
 {
@@ -164,7 +167,7 @@ namespace Kentico.Kontent.Management
         /// <returns>todo</returns>
         public async Task<ListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
         {
-            var endpointUrl = _urlBuilder.BuildListTypesUrl();
+            var endpointUrl = _urlBuilder.BuildTypeUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
             return new ListingResponseModel<ContentTypeModel>(GetNextTypeListingPageAsync, response.Pagination?.Token, response.Types);
@@ -242,6 +245,74 @@ namespace Kentico.Kontent.Management
         {
             var endpointUrl = _urlBuilder.BuildTypesListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        #endregion
+
+        #region TypeSnippets
+
+        public async Task<ListingResponseModel<SnippetModel>> ListContentTypeSnippetsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildSnippetsUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<SnippetModel>(GetNextContentTypeSnippetsListingPageAsync, response.Pagination?.Token, response.Snippets);
+        }
+
+        public async Task<SnippetModel> GetContentTypeSnippetAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        private async Task<IListingResponse<SnippetModel>> GetNextContentTypeSnippetsListingPageAsync(string continuationToken)
+        {
+            var endpointUrl = _urlBuilder.BuildSnippetsListingUrl(continuationToken);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        //todo naming SnippetModel vs CreateContentTypeSnippetAsync
+        public async Task<SnippetModel> CreateContentTypeSnippetAsync(SnippetCreateModel contentType)
+        {
+            if (contentType == null)
+            {
+                throw new ArgumentNullException(nameof(contentType));
+            }
+
+            var endpointUrl = _urlBuilder.BuildSnippetsUrl();
+            var response = await _actionInvoker.InvokeMethodAsync<SnippetCreateModel, SnippetModel>(endpointUrl, HttpMethod.Post, contentType);
+
+            return response;
+        }
+
+        public async Task DeleteContentTypeSnippetAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        public async Task<SnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<SnippetOperationBaseModel> changes)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<SnippetOperationBaseModel>, SnippetModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
         #endregion
@@ -954,6 +1025,16 @@ namespace Kentico.Kontent.Management
         {
             var endpointUrl = _urlBuilder.BuildValidationUrl();
             return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectReportModel>(endpointUrl, HttpMethod.Post);
+        }
+
+        #endregion
+
+        #region Collections
+
+        public async Task<CollectionsModel> ListCollectionsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildCollectionsUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<CollectionsModel>(endpointUrl, HttpMethod.Get);
         }
 
         #endregion
