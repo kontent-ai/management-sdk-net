@@ -1,0 +1,1 @@
+{"Version":"1.1","VersionPolicy":0,"Content":null,"Method":{"Method":"GET"},"RequestUri":"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/snippets/external-id/baf884be-531f-441f-ae88-64205efdd0f6","Headers":[{"Key":"Authorization","Value":["{API_KEY}"]},{"Key":"X-KC-SDKID","Value":["{SDK_ID}"]}],"Properties":{},"Options":{}}

@@ -1,0 +1,16 @@
+{
+  "id": "8bb688a4-0845-56f2-bc8f-17a7b55be6db",
+  "codename": "c_modifysnippet_remove_modifiessnippet_274",
+  "last_modified": "2021-08-19T13:26:12.5076604Z",
+  "external_id": "eid_modifysnippet_remove_modifiessnippet_274",
+  "name": "modifysnippet_remove_modifiessnippet_274",
+  "elements": [
+    {
+      "guidelines": "<h3>Guidelines</h3>",
+      "type": "guidelines",
+      "external_id": "g_eid_modifysnippet_remove_modifiessnippet_274",
+      "id": "7c7e4088-c7c9-5f3a-8705-bb46b829a057",
+      "codename": "c_modifysnippet_remove_modifiessnippet_274__g_c_modifysnippet_remove_modifiessnippet_274"
+    }
+  ]
+}

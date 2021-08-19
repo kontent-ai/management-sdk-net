@@ -57,7 +57,6 @@ namespace Kentico.Kontent.Management.Tests.Mocks
                 }
                 else
                 {
-                    // Cleanup previously recorded data at first request to avoid data overlap upon change
                     Directory.Delete(folderPath, true);
                     Directory.CreateDirectory(folderPath);
                 }

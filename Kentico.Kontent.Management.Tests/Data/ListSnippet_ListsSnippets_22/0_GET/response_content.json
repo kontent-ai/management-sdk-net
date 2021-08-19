@@ -1,0 +1,164 @@
+{
+  "snippets": [
+    {
+      "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48",
+      "codename": "metadata",
+      "last_modified": "2021-06-02T11:08:26.6464271Z",
+      "external_id": "baf884be-531f-441f-ae88-64205efdd0f6",
+      "name": "Metadata",
+      "elements": [
+        {
+          "guidelines": "<h1>Browser metadata</h1><p>If you're interested in reading more about meta descriptions, here's a good article about that:&nbsp;<a href=\"https://www.contentkingapp.com/academy/meta-description/\">https://www.contentkingapp.com/academy/meta-description/</a>.</p>",
+          "type": "guidelines",
+          "external_id": "1b923f2b-8b6a-b384-84ae-5be721c005c9",
+          "id": "6b25fd48-28a8-50ad-82e2-acd00cf04cd3",
+          "codename": "metadata__n1b923f2b_8b6a_b384_84ae_5be721c005c9"
+        },
+        {
+          "maximum_text_length": {
+            "value": 60,
+            "applies_to": "characters"
+          },
+          "name": "Meta title",
+          "guidelines": "Length: 30–60 characters",
+          "is_required": false,
+          "type": "text",
+          "external_id": "09398b24-61ed-512e-5b5c-affd54a098e5",
+          "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36",
+          "codename": "metadata__meta_title"
+        },
+        {
+          "maximum_text_length": {
+            "value": 150,
+            "applies_to": "characters"
+          },
+          "name": "Meta description",
+          "guidelines": "Length: 70–150 characters",
+          "is_required": false,
+          "type": "text",
+          "external_id": "2e555cc1-1eae-520c-189e-28548904f529",
+          "id": "e35ad81a-9944-5495-af0e-39eb98236833",
+          "codename": "metadata__meta_description"
+        },
+        {
+          "guidelines": "<h1>Facebook metadata</h1><p>These are required Facebook metadata elements for each page:</p><p>&lt;meta property=\"og:title\"&nbsp;content=\"The Open Graph title of this page\"&nbsp;/&gt;<br/>&lt;meta property=\"og:type\"&nbsp;content=\"website\"&nbsp;/&gt;<br/>&lt;meta property=\"og:url\"&nbsp;content=\"The URL of this page\"&nbsp;/&gt;<br/>&lt;meta property=\"og:image\"&nbsp;content=\"The URL of a descriptive image of this page\"&nbsp;/&gt;</p><p>On top of that we're including:</p><p>&lt;meta property=\"og:description\"&nbsp;content=\"The Open Graph description of this page\"&nbsp;/&gt;</p><p>For more info about Facebook metadata elements, see&nbsp;<a href=\"http://blog.rafflecopter.com/2015/12/facebook-sharing-optimization/\">http://blog.rafflecopter.com/2015/12/facebook-sharing-optimization/</a>.</p>",
+          "type": "guidelines",
+          "external_id": "eb7bfe60-3636-9ee1-3113-18516d5e9cdc",
+          "id": "106ab6c1-1d44-5d1e-bbd5-0aa905984c0f",
+          "codename": "metadata__eb7bfe60_3636_9ee1_3113_18516d5e9cdc"
+        },
+        {
+          "maximum_text_length": {
+            "value": 60,
+            "applies_to": "characters"
+          },
+          "name": "og:title",
+          "guidelines": "Max. 60 characters",
+          "is_required": false,
+          "type": "text",
+          "external_id": "1db86c7a-e836-3c4e-01e6-4f704ad38ba5",
+          "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f",
+          "codename": "metadata__og_title"
+        },
+        {
+          "maximum_text_length": {
+            "value": 150,
+            "applies_to": "characters"
+          },
+          "name": "og:description",
+          "guidelines": "Max. 150 characters",
+          "is_required": false,
+          "type": "text",
+          "external_id": "05987dc9-ebe3-7b61-b949-522eb42dbc0d",
+          "id": "ef0701c9-e0ab-582c-92a0-1405e566a808",
+          "codename": "metadata__og_description"
+        },
+        {
+          "asset_count_limit": null,
+          "maximum_file_size": 1048576,
+          "allowed_file_types": "adjustable",
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "name": "og:image",
+          "guidelines": "Use images that are at least 1200 × 630 px for best display on high resolution devices. At the minimum, you should use images that are 600 × 315 px to display link page posts with larger images. Images may be up to 1 MB in size.",
+          "is_required": false,
+          "type": "asset",
+          "external_id": "ce6cda71-9d38-1d57-3ac3-ec9b2e286edd",
+          "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5",
+          "codename": "metadata__og_image"
+        },
+        {
+          "guidelines": "<h1>Twitter metadata</h1><p>We're using summary_large_image card:</p><p>&lt;meta name=\"twitter:card\" content=\"summary_large_image\"&gt;<br/>&lt;meta name=\"twitter:site\" content=\"@nytimes\"&gt;<br/>&lt;meta name=\"twitter:creator\" content=\"@SarahMaslinNir\"&gt;<br/>&lt;meta name=\"twitter:title\" content=\"Parade of Fans for Houston’s Funeral\"&gt;<br/>&lt;meta name=\"twitter:description\" content=\"NEWARK - The guest list and parade of limousines with celebrities emerging from them seemed more suited to a red carpet event in Hollywood or New York than than a gritty stretch of Sussex Avenue near the former site of the James M. Baxter Terrace public housing project here.\"&gt;<br/>&lt;meta name=\"twitter:image\" content=\"http://graphics8.nytimes.com/images/2012/02/19/us/19whitney-span/19whitney-span-articleLarge.jpg\"&gt;</p>",
+          "type": "guidelines",
+          "external_id": "9b0e3195-e20c-755f-97be-ca675c2d6458",
+          "id": "b5ecbf2a-c3a9-58b9-bf48-16ae4b5ea546",
+          "codename": "metadata__n9b0e3195_e20c_755f_97be_ca675c2d6458"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "twitter:site",
+          "guidelines": null,
+          "is_required": false,
+          "type": "text",
+          "external_id": "34213fdf-0015-8f4f-e5e6-83c6842cff4a",
+          "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5",
+          "codename": "metadata__twitter_site"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "twitter:creator",
+          "guidelines": null,
+          "is_required": false,
+          "type": "text",
+          "external_id": "68f65095-c9b4-05d6-a473-2883c2f0c7af",
+          "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9",
+          "codename": "metadata__twitter_creator"
+        },
+        {
+          "maximum_text_length": {
+            "value": 60,
+            "applies_to": "characters"
+          },
+          "name": "twitter:title",
+          "guidelines": "Max. 60 characters",
+          "is_required": false,
+          "type": "text",
+          "external_id": "b208d3dc-bd8d-b1af-5ef0-747650730ba7",
+          "id": "4646ff8f-3257-519d-ae49-f60f12818f35",
+          "codename": "metadata__twitter_title"
+        },
+        {
+          "maximum_text_length": {
+            "value": 150,
+            "applies_to": "characters"
+          },
+          "name": "twitter:description",
+          "guidelines": "A description that concisely summarizes the content as appropriate for presentation within a Tweet. You should not re-use the title as the description, or use this field to describe the general services provided by the website. Max. 150 characters.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "b7d1dd8b-a5d8-2ad8-2f57-49881363f6f7",
+          "id": "8e2bf605-0286-5662-b68f-129c7930fa0c",
+          "codename": "metadata__twitter_description"
+        },
+        {
+          "asset_count_limit": null,
+          "maximum_file_size": 1048576,
+          "allowed_file_types": "adjustable",
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "name": "twitter:image",
+          "guidelines": "Twitter's recommendation: A URL to a unique image representing the content of the page. You should not use a generic image such as your website logo, author photo, or other image that spans multiple pages. Images for this Card should be at least 280 × 150 px. Images may be up to 1 MB in size.Let's go for 560 × 300 px.",
+          "is_required": false,
+          "type": "asset",
+          "external_id": "63793ba4-6004-a93c-68ca-52a1f0482bca",
+          "id": "19db0028-0169-5833-8aee-ec6e165461c8",
+          "codename": "metadata__twitter_image"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}

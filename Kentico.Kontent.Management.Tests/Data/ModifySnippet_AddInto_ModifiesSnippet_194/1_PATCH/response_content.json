@@ -1,0 +1,29 @@
+{
+  "id": "19faf676-70c2-57a3-812f-5cfe4a011154",
+  "codename": "c_modifysnippet_addinto_modifiessnippet_196",
+  "last_modified": "2021-08-19T13:26:32.2244422Z",
+  "external_id": "eid_modifysnippet_addinto_modifiessnippet_196",
+  "name": "modifysnippet_addinto_modifiessnippet_196",
+  "elements": [
+    {
+      "maximum_text_length": {
+        "value": 30,
+        "applies_to": "words"
+      },
+      "name": "snippetName2",
+      "guidelines": "snippetGuidelines2",
+      "is_required": false,
+      "type": "text",
+      "external_id": "snippet_external_id2_patchaddinto",
+      "id": "64c4c238-7b28-51d7-937d-142f369c42bf",
+      "codename": "c_modifysnippet_addinto_modifiessnippet_196__snippetname2"
+    },
+    {
+      "guidelines": "<h3>Guidelines</h3>",
+      "type": "guidelines",
+      "external_id": "g_eid_modifysnippet_addinto_modifiessnippet_196",
+      "id": "82e402ae-05c4-54a8-8f2d-c0060a948050",
+      "codename": "c_modifysnippet_addinto_modifiessnippet_196__g_c_modifysnippet_addinto_modifiessnippet_196"
+    }
+  ]
+}
