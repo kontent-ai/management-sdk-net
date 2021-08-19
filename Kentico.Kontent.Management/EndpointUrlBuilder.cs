@@ -481,11 +481,20 @@ namespace Kentico.Kontent.Management
 
         #region Validation
 
-        public string BuildValidationUrl()
+        internal string BuildValidationUrl()
         {
             return GetUrl(URL_VALIDATE);
         }
 
+        #endregion
+
+        #region Project
+
+        internal string BuildProjectUrl()
+        {
+            return string.Format(_options.EndpointV2, $"projects/{_options.ProjectId}");
+        }
+        
         #endregion
 
         #region Collections
@@ -498,9 +507,7 @@ namespace Kentico.Kontent.Management
 
         private string GetUrl(string path, params string[] parameters)
         {
-            var projectSegment = $"projects/{_options.ProjectId}";
-
-            var endpointUrl = string.Format(_options.EndpointV2, projectSegment);
+            var endpointUrl = BuildProjectUrl();
             var url = string.Concat(endpointUrl, path);
 
             if ((parameters != null) && (parameters.Length > 0))

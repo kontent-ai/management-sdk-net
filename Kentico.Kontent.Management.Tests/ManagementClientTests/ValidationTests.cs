@@ -1,6 +1,7 @@
 ﻿using Kentico.Kontent.Management.Models.ProjectReport;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
@@ -9,7 +10,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     {
         [Fact]
         [Trait("Category", "Validation")]
-        public async void ValidateProject_ReturnsProjectReportModel()
+        public async Task ValidateProject_ReturnsProjectReportModel()
         {
             var responseElementIssueMessage = "Element 'Related articles' is required but has no value";
 
@@ -40,6 +41,15 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Codename = "related_articles"
             };
 
+            var typeMessage = "Element 'To delete' contains references to non-existing taxonomy group with ID fc563f94-26a2-456f-967c-d130e68c07d8.";
+
+            var typeMetadata = new Metadata
+            {
+                Id = new Guid("cb484d32-414d-4b76-bd69-5578cffd1571"),
+                Name = "With deleted taxonomy",
+                Codename = "with_deleted_taxonomy"
+            };
+
             var client = CreateManagementClient();
             var response = await client.ValidateProjectAsync();
 
@@ -56,6 +66,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var firstResponseElementIssue = relatedArticlesVariantIssue.Issues.First();
             AssertMetadataEqual(elementMetadata, firstResponseElementIssue.Element);
             Assert.Contains(responseElementIssueMessage, firstResponseElementIssue.Messages.First());
+
+            var typeIssue = response.TypeIssues.First();
+            var issue = typeIssue.Issues.First();
+
+            AssertMetadataEqual(typeMetadata, response.TypeIssues.First().Type);
+            Assert.Equal(typeMessage, issue.Messages.First());
         }
 
         private static void AssertMetadataEqual(Metadata expected, Metadata actual)

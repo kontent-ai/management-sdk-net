@@ -26,6 +26,6 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
 		/// found in specific content elements
 		/// </summary>
 		[JsonProperty("issues")]
-		public List<ContentElementIssue> Issues { get; set; }
+		public List<ElementIssue> Issues { get; set; }
 	}
 }

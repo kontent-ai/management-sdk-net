@@ -6,7 +6,7 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
 	/// <summary>
 	/// Represents element issue with messages and element metadata
 	/// </summary>
-	public sealed class ContentElementIssue
+	public sealed class ElementIssue
 	{
 		/// <summary>
 		/// Gets or sets information about the content element

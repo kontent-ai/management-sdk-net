@@ -18,5 +18,11 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets environment of the project
+        /// </summary>
+        [JsonProperty("environment")]
+        public string Environment { get; set; }
     }
 }

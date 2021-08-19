@@ -1029,6 +1029,15 @@ namespace Kentico.Kontent.Management
 
         #endregion
 
+        #region Project
+
+        public async Task<Project> GetProjectInformation()
+        {
+            var endpointUrl = _urlBuilder.BuildProjectUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<Project>(endpointUrl, HttpMethod.Get);
+        }
+        #endregion
+
         #region Collections
 
         public async Task<CollectionsModel> ListCollectionsAsync()
