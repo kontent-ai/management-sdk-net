@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         /// Allows to adjust the test run type to achieve the desired behavior (see the <see cref="TestUtils.TestRunType"/> enum for more details).
         /// IMPORTANT: Commit always with TestRunType.MockFromFileSystem
         /// </summary>
-        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.LiveEndPoint;
+        private static readonly TestUtils.TestRunType _runType = TestUtils.TestRunType.MockFromFileSystem;
 
         public ManagementClientTests()
         {

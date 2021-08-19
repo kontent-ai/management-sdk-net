@@ -606,6 +606,26 @@
       ]
     },
     {
+      "id": "cb484d32-414d-4b76-bd69-5578cffd1571",
+      "codename": "with_deleted_taxonomy",
+      "last_modified": "2021-08-19T13:48:18.3730934Z",
+      "name": "With deleted taxonomy",
+      "content_groups": [],
+      "elements": [
+        {
+          "guidelines": null,
+          "taxonomy_group": {
+            "id": "fc563f94-26a2-456f-967c-d130e68c07d8"
+          },
+          "is_required": false,
+          "term_count_limit": null,
+          "type": "taxonomy",
+          "id": "b4ac2640-eaca-43ea-874b-8bb257c9b6a9",
+          "codename": "to_delete"
+        }
+      ]
+    },
+    {
       "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d",
       "codename": "tweet",
       "last_modified": "2021-06-02T11:08:27.9590033Z",

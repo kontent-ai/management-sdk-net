@@ -1,7 +1,7 @@
 {
-  "id": "db601f1a-dc66-472f-a5e5-e86b238f3426",
+  "id": "1c761fa7-ab12-438d-af1b-a145c1ab736b",
   "name": "Hooray!",
-  "codename": "hooray__db601f1",
+  "codename": "hooray_",
   "type": {
     "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
   },
@@ -9,5 +9,5 @@
     "id": "00000000-0000-0000-0000-000000000000"
   },
   "sitemap_locations": [],
-  "last_modified": "2021-08-19T13:26:03.8038636Z"
+  "last_modified": "2021-08-19T14:23:25.1318255Z"
 }
