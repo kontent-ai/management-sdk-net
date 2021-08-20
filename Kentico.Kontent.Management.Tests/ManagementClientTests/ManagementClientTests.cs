@@ -87,7 +87,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         private ManagementClient CreateManagementClient([CallerMemberName] string memberName = "")
         {
-            return TestUtils.CreateManagementClient(_options, _runType, $"{memberName}");
+            return TestUtils.CreateManagementClient(_options, _runType, memberName);
         }
     }
 }
