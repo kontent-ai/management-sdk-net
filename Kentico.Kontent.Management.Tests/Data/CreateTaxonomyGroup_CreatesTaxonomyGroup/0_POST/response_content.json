@@ -1,0 +1,16 @@
+{
+  "last_modified": "2021-08-20T10:10:40.3126255Z",
+  "id": "66571b03-66fa-509c-9ae8-bdccb3086d21",
+  "name": "taxonomiesCreate!",
+  "codename": "taxonomies_codename_create",
+  "external_id": "taxonomies_codename_external_id__create",
+  "terms": [
+    {
+      "id": "86993383-9bb9-51c9-8808-e22c0bfc2796",
+      "name": "name",
+      "codename": "taxonomies_term_codename",
+      "external_id": "taxonomies_term_external_id",
+      "terms": []
+    }
+  ]
+}

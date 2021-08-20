@@ -34,7 +34,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var identifier = Reference.ById(newCollection.Id);
 
-            var changes = new[] { new CollectionPatchRemoveModel
+            var changes = new[] { new CollectionRemovePatchModel
             {
                 CollectionIdentifier = identifier
             }};
@@ -59,7 +59,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var identifier = Reference.ByCodename(newCollection.Codename);
 
-            var changes = new[] { new CollectionPatchRemoveModel
+            var changes = new[] { new CollectionRemovePatchModel
             {
                 CollectionIdentifier = identifier
             }};
@@ -84,7 +84,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
-            var changes = new[] { new CollectionPatchRemoveModel
+            var changes = new[] { new CollectionRemovePatchModel
             {
                 CollectionIdentifier = identifier
             }};
@@ -109,7 +109,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
-            var changes = new[] { new CollectionPatchMoveModel
+            var changes = new[] { new CollectionMovePatchModel
             {
                 CollectionIdentifier = identifier,
                 After = Reference.ById(Guid.Empty)
@@ -134,7 +134,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
-            var changes = new[] { new CollectionPatchMoveModel
+            var changes = new[] { new CollectionMovePatchModel
             {
                 CollectionIdentifier = identifier,
                 Before = Reference.ById(Guid.Empty)
@@ -188,7 +188,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
-            var changes = new[] { new CollectionPatchReplaceModel
+            var changes = new[] { new CollectionReplacePatchModel
             {
                 CollectionIdentifier = identifier,
                 PropertyName = PropertyName.Name,
@@ -229,7 +229,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var identifier = Reference.ByExternalId(externalId);
 
-            var changes = new[] { new CollectionPatchRemoveModel
+            var changes = new[] { new CollectionRemovePatchModel
             {
                 CollectionIdentifier = identifier
             }};

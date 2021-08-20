@@ -200,7 +200,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var group = await CreateTaxonomyGroup(client);
 
             var termName = "New taxonomy term name";
-            var changes = new TaxonomyGroupPatchReplaceModel
+            var changes = new TaxonomyGroupReplacePatchModel
             {
                 PropertyName = PropertyName.Terms,
                 Reference = Reference.ByCodename(group.Codename),
@@ -214,7 +214,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             };
 
             //act
-            var modifiedType = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupPatchReplaceModel> { changes });
+            var modifiedType = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupReplacePatchModel> { changes });
 
             //assert
             Assert.Single(modifiedType.Terms.Where(x => x.Name == termName));
@@ -233,13 +233,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var group = await CreateTaxonomyGroup(client);
 
-            var changes = new TaxonomyGroupPatchRemoveModel
+            var changes = new TaxonomyGroupRemovePatchModel
             {
                 Reference = Reference.ByCodename(group.Terms.First().Codename),
             };
 
             //act
-            var modifiedType = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupPatchRemoveModel> { changes });
+            var modifiedType = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupRemovePatchModel> { changes });
 
             //assert
             Assert.Single(modifiedType.Terms);

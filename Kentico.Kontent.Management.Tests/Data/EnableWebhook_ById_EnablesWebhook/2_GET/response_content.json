@@ -1,0 +1,23 @@
+{
+  "last_modified": "2021-08-20T10:10:00.4814135Z",
+  "id": "ee7380d1-177d-415f-981b-5a20a4c6abe7",
+  "name": "disabledWebhook",
+  "url": "http://url",
+  "secret": "secret",
+  "enabled": true,
+  "triggers": {
+    "delivery_api_content_changes": [
+      {
+        "type": "taxonomy",
+        "operations": [
+          "archive",
+          "restore",
+          "upsert"
+        ]
+      }
+    ],
+    "preview_delivery_api_content_changes": [],
+    "workflow_step_changes": [],
+    "management_api_content_changes": []
+  }
+}

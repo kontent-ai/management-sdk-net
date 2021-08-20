@@ -1,0 +1,23 @@
+{
+  "last_modified": "2021-08-20T10:10:29.1714801Z",
+  "id": "1cc09e43-9fdf-5f04-b60c-34a1048ad20d",
+  "name": "modifytaxonomygroup_addinto_modifiestaxo_168",
+  "codename": "c_modifytaxonomygroup_addinto_modifiestaxo_168",
+  "external_id": "eid_modifytaxonomygroup_addinto_modifiestaxo_168",
+  "terms": [
+    {
+      "id": "092f19d2-b6e2-5f2f-b1f5-a419031daafd",
+      "name": "name1_modifytaxonomygroup_addinto_modifiestaxo_168",
+      "codename": "t_c_1modifytaxonomygroup_addinto_modifiestaxo_168",
+      "external_id": "eid1_modifytaxonomygroup_addinto_modifiestaxo_168",
+      "terms": []
+    },
+    {
+      "id": "ce41cb19-37ef-53ae-b88a-2c592543a93a",
+      "name": "name2_modifytaxonomygroup_addinto_modifiestaxo_168",
+      "codename": "t_c_2modifytaxonomygroup_addinto_modifiestaxo_168",
+      "external_id": "eid2_modifytaxonomygroup_addinto_modifiestaxo_168",
+      "terms": []
+    }
+  ]
+}

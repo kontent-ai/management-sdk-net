@@ -1,0 +1,21 @@
+{
+  "last_modified": "2021-08-20T10:10:45.641648Z",
+  "collections": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "Default",
+      "codename": "default"
+    },
+    {
+      "id": "53aeb1a8-f834-430a-beff-87b8352ab595",
+      "name": "TestCollection",
+      "codename": "testcollection"
+    },
+    {
+      "id": "8c4dc35c-92f0-5656-a004-d914cbf4c7b2",
+      "external_id": "eid_modifycollection_remove_bycodename_remov_58",
+      "name": "modifycollection_remove_bycodename_remov_58",
+      "codename": "c_modifycollection_remove_bycodename_remov_58"
+    }
+  ]
+}

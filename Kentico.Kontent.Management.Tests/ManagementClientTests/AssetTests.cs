@@ -1,5 +1,6 @@
 ﻿using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Assets;
+using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Shared;
 using System;
@@ -58,10 +59,10 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var response = await client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
-            var result = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_1ST_LEVEL);
-            var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_2ND_LEVEL);
-            var result3 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_3RD_LEVEL);
-            var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
+            var result = linkedHierarchy.GetParentLinkedFolderHierarchyByExternalId(ASSET_FOLDER_ID_1ST_LEVEL);
+            var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyByExternalId(ASSET_FOLDER_ID_2ND_LEVEL);
+            var result3 = linkedHierarchy.GetParentLinkedFolderHierarchyByExternalId(ASSET_FOLDER_ID_3RD_LEVEL);
+            var result4 = linkedHierarchy.GetParentLinkedFolderHierarchyByExternalId(ASSET_FOLDER_ID_4TH_LEVEL);
 
             Assert.NotNull(response);
             Assert.NotNull(result);
@@ -94,7 +95,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var client = CreateManagementClient();
 
             var response = await client.GetAssetFoldersAsync();
-            var result = response.Folders.GetFolderHierarchyById(ASSET_FOLDER_ID_4TH_LEVEL);
+            var result = response.Folders.GetFolderHierarchyByExternalId(ASSET_FOLDER_ID_4TH_LEVEL);
 
             Assert.NotNull(result);
             Assert.True(result.Name == "4thFolder");
@@ -362,6 +363,178 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var response = await client.GetAssetAsync(identifier);
 
             Assert.Equal(identifier.Id, response.Id);
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        //todo this test might be flaky as it might delete folder structure during run of another test
+        public async Task CreateFolders_CreatesFolders()
+        {  
+            var client = CreateManagementClient();
+
+            //prepare - delete exisitng folders
+            var folders = await RemoveFolderStructure(client);
+
+            Assert.Empty(folders.Folders);
+
+            //Act create it once again
+            var newfolders = await CreateFolderStructure(client);
+
+            Assert.Equal(ASSET_FOLDER_ID_1ST_LEVEL, newfolders.Folders.First().ExternalId);
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async Task ModifyAssetFolder_AddInto_RemovesAssetFolder()
+        {
+            
+            var client = CreateManagementClient();
+
+            var change = new AssetFolderAddIntoModel
+            {
+                Reference = Reference.ByExternalId(ASSET_FOLDER_ID_2ND_LEVEL),
+                Value = new AssetFolderHierarchy
+                {
+                    Folders = new List<AssetFolderHierarchy>(),
+                    ExternalId = "externalId123",
+                    Name = "NewFolder"
+                },
+                After = Reference.ByExternalId(ASSET_FOLDER_ID_3RD_LEVEL)
+            };
+
+            var response = await client.ModifyAssetFoldersAsync(new[] { change });
+
+            //we expect 2 folders on third level
+            Assert.Equal(2, response.Folders.First().Folders.First().Folders.Count());
+
+            //clean up 
+            await RemoveFolderByExternalId(client, "externalId123");
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async Task ModifyAssetFolder_Remove_RemovesAssetFolder()
+        {
+            var client = CreateManagementClient();
+
+            await AddIntoFolder(client, "externalID167");
+
+            //check that the folder exists
+            var response = await client.GetAssetFoldersAsync();
+            var hierarchy = response.Folders.GetFolderHierarchyByExternalId("externalID167");
+            Assert.NotNull(hierarchy);
+
+            var change = new AssetFolderRemoveModel
+            {
+                Reference = Reference.ByExternalId("externalID167")
+            };
+
+            var removedResponse = await client.ModifyAssetFoldersAsync(new[] { change });
+            hierarchy = removedResponse.Folders.GetFolderHierarchyByExternalId("externalID167");
+
+            //check that the folder does not exist
+            Assert.Null(hierarchy);
+        }
+
+        [Fact]
+        [Trait("Category", "Asset")]
+        public async Task ModifyAssetFolder_Remame_RenamesAssetFolder()
+        {
+            var client = CreateManagementClient();
+
+            await AddIntoFolder(client, "externalID111");
+
+            var change = new AssetFolderRenameModel
+            {
+                Reference = Reference.ByExternalId("externalID111"),
+                Value = "My unique name"
+            };
+
+            var response = await client.ModifyAssetFoldersAsync(new[] { change });
+            var newFolder = response.Folders.GetFolderHierarchyByExternalId("externalID111");
+
+            Assert.Equal("My unique name", newFolder.Name);
+
+            await RemoveFolderByExternalId(client, "externalID111");
+        }
+
+        private async Task<AssetFoldersModel> CreateFolderStructure(ManagementClient client)
+        {
+            var newFolderStructure = new AssetFolderCreateModel
+            {
+                Folders = new List<AssetFolderHierarchy>
+                {
+                    new AssetFolderHierarchy
+                    {
+                        Folders = new List<AssetFolderHierarchy>
+                                  {
+                                      new AssetFolderHierarchy
+                                      {
+                                          Folders = new List<AssetFolderHierarchy>
+                                          {
+                                              new AssetFolderHierarchy
+                                              {
+                                                  Folders = new List<AssetFolderHierarchy>
+                                                  {
+                                                      new AssetFolderHierarchy
+                                                      {
+                                                          Folders = new List<AssetFolderHierarchy>(),
+                                                          ExternalId = ASSET_FOLDER_ID_4TH_LEVEL,
+                                                          Name = "4thFolder"
+                                                      }
+                                                  },
+                                                  ExternalId = ASSET_FOLDER_ID_3RD_LEVEL,
+                                                  Name = "3rdFolder"
+                                              }
+                                          },
+                                          ExternalId = ASSET_FOLDER_ID_2ND_LEVEL,
+                                          Name = "2ndFolder"
+                                      }
+                                  },
+                        ExternalId = ASSET_FOLDER_ID_1ST_LEVEL,
+                        Name = "TopFolder"
+                    }
+                }
+            };
+
+            return await client.CreateAssetFoldersAsync(newFolderStructure);
+        }
+
+        private async Task<AssetFoldersModel> RemoveFolderStructure(ManagementClient client)
+        {
+            var change = new AssetFolderRemoveModel
+            {
+                Reference = Reference.ByExternalId(ASSET_FOLDER_ID_1ST_LEVEL)
+            };
+
+            return await client.ModifyAssetFoldersAsync(new[] { change });
+        }
+
+        private async Task RemoveFolderByExternalId(ManagementClient client, string externalId)
+        {
+            var change = new AssetFolderRemoveModel
+            {
+                Reference = Reference.ByExternalId(externalId)
+            };
+
+            await client.ModifyAssetFoldersAsync(new[] { change });
+        }
+
+        private async Task<AssetFoldersModel> AddIntoFolder(ManagementClient client, string externalId)
+        {
+            var change = new AssetFolderAddIntoModel
+            {
+                Reference = Reference.ByExternalId(ASSET_FOLDER_ID_1ST_LEVEL),
+                Value = new AssetFolderHierarchy
+                {
+                    Folders = new List<AssetFolderHierarchy>(),
+                    ExternalId = externalId,
+                    Name = externalId
+                },
+                After = Reference.ByExternalId(ASSET_FOLDER_ID_2ND_LEVEL)
+            };
+
+            return await client.ModifyAssetFoldersAsync(new[] { change });
         }
     }
 }

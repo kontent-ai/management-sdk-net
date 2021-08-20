@@ -224,7 +224,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Get Folder Hiearchy for a given folder Id
         /// </summary>
-        /// <param name="folders">The <see cref="AssetFolderList.Folders"/> property retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
+        /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> property retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
         /// <param name="folderId">Folder Identifier</param>
         /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given folderId. Null if not found.</returns>
         public static AssetFolderHierarchy GetFolderHierarchyById(this IEnumerable<AssetFolderHierarchy> folders, string folderId)
@@ -250,6 +250,34 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
+        /// Get Folder Hiearchy for a given folder Id
+        /// </summary>
+        /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> property retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
+        /// <param name="externalId">Folder externalId</param>
+        /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given folderId. Null if not found.</returns>
+        public static AssetFolderHierarchy GetFolderHierarchyByExternalId(this IEnumerable<AssetFolderHierarchy> folders, string externalId)
+        {
+            if (folders == null)
+                return null;
+
+            // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
+            foreach (var itm in folders)
+            {
+                if (itm.ExternalId == externalId)
+                {
+                    return itm;
+                }
+                else if (itm.Folders != null)
+                {
+                    var nestedFolder = itm.Folders.GetFolderHierarchyByExternalId(externalId);
+                    if (nestedFolder != null) //This is required so you don't stop processing if the root contains many folders (let the above foreach loop continue)
+                        return nestedFolder;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Gets the full folder path string
         /// </summary>
         /// <param name="folder">The <see cref="AssetFolderLinkingHierarchy"/> instance.</param>
@@ -267,7 +295,7 @@ namespace Kentico.Kontent.Management
 
         /// <summary>
         /// Gets the folder hierarchy for a given folder identifier.
-        /// To use this method first convert your <see cref="AssetFolderList.Folders"/> property retrieved from <see cref="ManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.
+        /// To use this method first convert your <see cref="AssetFoldersModel.Folders"/> property retrieved from <see cref="ManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.
         /// </summary>
         /// <param name="folders">The <see cref="IEnumerable{AssetFolderLinkingHierarchy}"/> instance.</param>
         /// <param name="folderId">Folder Identifier</param>
@@ -296,9 +324,39 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
+        /// Gets the folder hierarchy for a given folder identifier.
+        /// To use this method first convert your <see cref="AssetFoldersModel.Folders"/> property retrieved from <see cref="ManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.
+        /// </summary>
+        /// <param name="folders">The <see cref="IEnumerable{AssetFolderLinkingHierarchy}"/> instance.</param>
+        /// <param name="externalId">Folder exteernal id</param>
+        /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder identifier.</returns>
+        public static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyByExternalId(this IEnumerable<AssetFolderLinkingHierarchy> folders, string externalId)
+        {
+            if (folders != null)
+            {
+                foreach (var folder in folders)
+                {
+                    if (folder.ExternalId == externalId)
+                    {
+                        return folder;
+                    }
+                    else if (folder.Folders != null)
+                    {
+                        var nestedFolder = folder.Folders.GetParentLinkedFolderHierarchyByExternalId(externalId);
+                        if (nestedFolder != null) // This is required so you don't stop processing if the root contains many folders (let the above for-each loop continue)
+                        {
+                            return nestedFolder;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Retrieves a list of folders with the <see cref="AssetFolderLinkingHierarchy.Parent"/> property filled in.
         /// </summary>
-        /// <param name="folders">The <see cref="AssetFolderList.Folders"/> instance that contains the entire list of folders retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
+        /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> instance that contains the entire list of folders retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
         /// <param name="parentLinked">Parent linked folder</param>
         /// <returns>A <see cref="AssetFolderLinkingHierarchy"/> containing the parent linking folder hierarchy.</returns>
         public static IEnumerable<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders,

@@ -70,22 +70,24 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         protected const string EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED = "featured";
         protected static readonly Guid EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED = Guid.Parse("8972dc90-ae2e-416e-995d-95df6c77e3b2");
 
-        // Root -> 0ce98752-a614-51a9-bf69-9539deb6532d > 04bf910c-bcac-5faf-ac32-a1f7169fdc0f > e2fe0a21-eb4c-5fba-8a28-697aeab81f83 -> ae11f9dd-ec34-5ecc-9b83-d4a3ae1d8c6b
-        protected const string ASSET_FOLDER_ID_1ST_LEVEL = "0ce98752-a614-51a9-bf69-9539deb6532d";
-        protected const string ASSET_FOLDER_ID_2ND_LEVEL = "04bf910c-bcac-5faf-ac32-a1f7169fdc0f";
-        protected const string ASSET_FOLDER_ID_3RD_LEVEL = "e2fe0a21-eb4c-5fba-8a28-697aeab81f83";
-        protected const string ASSET_FOLDER_ID_4TH_LEVEL = "ae11f9dd-ec34-5ecc-9b83-d4a3ae1d8c6b";
+        // Root -> 1e5203d8-ae2c-483b-b59b-0defebecf49a > 7194dda7-c5b3-4e85-91a2-026ba2c07e8d > 92c20b68-8f50-4b62-b630-eca6d9b512b3 -> 3b34af2a-526a-47bc-8a27-a40bb37dd3e2
+        protected const string ASSET_FOLDER_ID_1ST_LEVEL = "1e5203d8-ae2c-483b-b59b-0defebecf49a";
+        protected const string ASSET_FOLDER_ID_2ND_LEVEL = "7194dda7-c5b3-4e85-91a2-026ba2c07e8d";
+        protected const string ASSET_FOLDER_ID_3RD_LEVEL = "92c20b68-8f50-4b62-b630-eca6d9b512b3";
+        protected const string ASSET_FOLDER_ID_4TH_LEVEL = "3b34af2a-526a-47bc-8a27-a40bb37dd3e2";
         protected static readonly Guid EXISTING_ASSET_ID = Guid.Parse("5c08a538-5b58-44eb-81ef-43fb37eeb815");
+
         protected static readonly Guid RICH_TEXT_COMPONENT_ID = Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3");
+
         protected static readonly Guid TWEET_TYPE_ID = Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d");
         protected static readonly Guid TWEET_THEME_ELEMENT_DARK_OPTION_ID = Guid.Parse("061e69f7-0965-5e37-97bc-29963cfaebe8");
         protected const string TWEET_THEME_ELEMENT_DARK_OPTION_CODENAME = "dark";
         protected static readonly Guid TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID = Guid.Parse("dd78b09e-4337-599c-9701-20a0a165c63b");
         protected const string TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME = "hide_thread";
 
-        private ManagementClient CreateManagementClient([CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        private ManagementClient CreateManagementClient([CallerMemberName] string memberName = "")
         {
-            return TestUtils.CreateManagementClient(_options, _runType, $"{memberName}_{sourceLineNumber}");
+            return TestUtils.CreateManagementClient(_options, _runType, $"{memberName}");
         }
     }
 }

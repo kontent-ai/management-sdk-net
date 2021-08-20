@@ -1,0 +1,17 @@
+{
+  "id": "0080ab2e-8ca1-532e-92e5-dcc45ec82138",
+  "codename": "c_deletecontenttype_byid_deletescontenttyp_101",
+  "last_modified": "2021-08-20T10:10:50.9231619Z",
+  "external_id": "eid_deletecontenttype_byid_deletescontenttyp_101",
+  "name": "deletecontenttype_byid_deletescontenttyp_101",
+  "content_groups": [],
+  "elements": [
+    {
+      "guidelines": "<h3>Guidelines</h3>",
+      "type": "guidelines",
+      "external_id": "g_eid_deletecontenttype_byid_deletescontenttyp_101",
+      "id": "bff059c2-2051-5761-babc-198771cdc795",
+      "codename": "g_c_deletecontenttype_byid_deletescontenttyp_101"
+    }
+  ]
+}

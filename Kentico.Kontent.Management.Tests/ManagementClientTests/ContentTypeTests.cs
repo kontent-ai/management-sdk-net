@@ -246,7 +246,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var expectedValue = "<h1>Here you can tell users how to fill in the element.</h1>";
 
-            var changes = new ContentTypePatchReplaceModel
+            var changes = new ContentTypeReplacePatchModel
             {
                 Value = expectedValue,
                 After = Reference.ByCodename(responseType.Elements.First().Codename),
@@ -276,7 +276,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var responseType = await CreateContentType(client);
 
-            var changes = new ContentTypePatchRemoveModel
+            var changes = new ContentTypeRemovePatchModel
             {
                 Path = $"/elements/codename:{responseType.Elements.First().Codename}"
             };

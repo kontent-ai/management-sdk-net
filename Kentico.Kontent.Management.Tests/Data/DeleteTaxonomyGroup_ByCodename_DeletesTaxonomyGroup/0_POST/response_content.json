@@ -1,0 +1,23 @@
+{
+  "last_modified": "2021-08-20T10:10:44.5003124Z",
+  "id": "d954bb72-8a18-5e26-8d2f-a9712783a44d",
+  "name": "deletetaxonomygroup_bycodename_deletesta_105",
+  "codename": "c_deletetaxonomygroup_bycodename_deletesta_105",
+  "external_id": "eid_deletetaxonomygroup_bycodename_deletesta_105",
+  "terms": [
+    {
+      "id": "1d4923bb-a8cd-5b4c-b20d-6a8ec7135b3f",
+      "name": "name1_deletetaxonomygroup_bycodename_deletesta_105",
+      "codename": "t_c_1deletetaxonomygroup_bycodename_deletesta_105",
+      "external_id": "eid1_deletetaxonomygroup_bycodename_deletesta_105",
+      "terms": []
+    },
+    {
+      "id": "0b5de7f3-6d6c-5571-98c3-4d2f805aa170",
+      "name": "name2_deletetaxonomygroup_bycodename_deletesta_105",
+      "codename": "t_c_2deletetaxonomygroup_bycodename_deletesta_105",
+      "external_id": "eid2_deletetaxonomygroup_bycodename_deletesta_105",
+      "terms": []
+    }
+  ]
+}

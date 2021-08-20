@@ -1,0 +1,15 @@
+{
+  "last_modified": "2021-08-20T10:10:03.122157Z",
+  "id": "87461984-ec6e-5dbc-862e-9de6c408f0fa",
+  "name": "modifytaxonomygroup_replace_modifiestaxo_200",
+  "codename": "c_modifytaxonomygroup_replace_modifiestaxo_200",
+  "external_id": "eid_modifytaxonomygroup_replace_modifiestaxo_200",
+  "terms": [
+    {
+      "id": "903de788-47a0-4e4d-b994-a319579a4de9",
+      "name": "New taxonomy term name",
+      "codename": "new_taxonomy_term_name",
+      "terms": []
+    }
+  ]
+}

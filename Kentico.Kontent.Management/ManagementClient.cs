@@ -26,6 +26,7 @@ using Kentico.Kontent.Management.Models.Collections;
 using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Collections.Patch;
+using Kentico.Kontent.Management.Models.Assets.Patch;
 
 namespace Kentico.Kontent.Management
 {
@@ -882,10 +883,36 @@ namespace Kentico.Kontent.Management
         /// Get the Asset Folders
         /// </summary>
         /// <returns>Returns the hierarchy of asset folders beginning with the root level</returns>
-        public async Task<AssetFolderList> GetAssetFoldersAsync()
+        public async Task<AssetFoldersModel> GetAssetFoldersAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetFolderList>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetFoldersModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        public async Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
+        {
+            if (folder == null)
+            {
+                throw new ArgumentNullException(nameof(folder));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
+            var response = await _actionInvoker.InvokeMethodAsync<AssetFolderCreateModel, AssetFoldersModel>(endpointUrl, HttpMethod.Post, folder);
+
+            return response;
+        }
+
+        public async Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
+        {
+            if (changes == null)
+            {
+                throw new ArgumentNullException(nameof(changes));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
+            var response = await _actionInvoker.InvokeMethodAsync<IEnumerable<AssetFolderOperationBaseModel>, AssetFoldersModel>(endpointUrl, new HttpMethod("PATCH"), changes);
 
             return response;
         }
