@@ -25,6 +25,7 @@ using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Collections;
 using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
+using Kentico.Kontent.Management.Models.Collections.Patch;
 
 namespace Kentico.Kontent.Management
 {
@@ -1046,6 +1047,16 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeReadOnlyMethodAsync<CollectionsModel>(endpointUrl, HttpMethod.Get);
         }
 
+        public async Task<CollectionsModel> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes)
+        {
+            if (changes == null)
+            {
+                throw new ArgumentNullException(nameof(changes));
+            }
+
+            var endpointUrl = _urlBuilder.BuildCollectionsUrl();
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<CollectionOperationBaseModel>, CollectionsModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        }
         #endregion
     }
 }

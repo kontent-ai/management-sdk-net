@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         protected const string EXISTING_WEBHOOK_NAME = "Webhook_all_triggers";
         protected const string EXISTING_WEBHOOK_ID = "ef6eb5e6-24f6-4a3a-a291-1cff8d4eecc5";
 
-        protected const string EXISTING_COLLECTION_CODENAME= "default";
+        protected const string EXISTING_COLLECTION_CODENAME= "testcollection";
 
         protected static Guid EXISTING_SNIPPET_ID = Guid.Parse("5482e7b6-9c79-5e81-8c4b-90e172e7ab48");
         protected const string EXISTING_SNIPPET_CODENAME = "metadata";
