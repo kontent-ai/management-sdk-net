@@ -1,14 +1,14 @@
 {
-  "id": "bc887c17-cc94-435d-a161-16d4b71d4bb3",
+  "id": "cefcee1b-3388-4e6f-9910-091bf50d7596",
   "file_name": "kentico_rgb_bigger.png",
   "title": "My new asset",
   "size": 5719,
   "type": "image/png",
-  "url": "https://assets-eu-01.kc-usercontent.com/a9931a80-9af4-010b-0590-ecb1273cf1b8/f6404b0e-84b5-40d9-b1cd-63811b484732/kentico_rgb_bigger.png",
+  "url": "https://assets-eu-01.kc-usercontent.com/a9931a80-9af4-010b-0590-ecb1273cf1b8/f9d63226-a866-4ceb-8023-4189bd2a65f1/kentico_rgb_bigger.png",
   "image_width": 550,
   "image_height": 250,
   "file_reference": {
-    "id": "f6404b0e-84b5-40d9-b1cd-63811b484732",
+    "id": "f9d63226-a866-4ceb-8023-4189bd2a65f1",
     "type": "internal"
   },
   "descriptions": [
@@ -25,5 +25,5 @@
       "description": null
     }
   ],
-  "last_modified": "2021-08-19T14:23:39.9138766Z"
+  "last_modified": "2021-08-20T07:23:28.7738665Z"
 }
