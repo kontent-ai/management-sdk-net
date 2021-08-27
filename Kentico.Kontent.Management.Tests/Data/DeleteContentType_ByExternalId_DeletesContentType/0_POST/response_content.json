@@ -1,17 +1,17 @@
 {
-  "id": "7ab687f3-469c-53de-92d1-ccf060eaf5eb",
-  "codename": "c_deletecontenttype_byexternalid_deletesco_140",
-  "last_modified": "2021-08-20T10:10:44.6565981Z",
-  "external_id": "eid_deletecontenttype_byexternalid_deletesco_140",
-  "name": "deletecontenttype_byexternalid_deletesco_140",
+  "id": "a39bca5e-ae44-59b5-8191-99dfd394b39b",
+  "codename": "c_deletecontenttype_byexternalid_deletesco_ntenttype",
+  "last_modified": "2021-08-27T13:32:56.48265Z",
+  "external_id": "eid_deletecontenttype_byexternalid_deletesco_ntenttype",
+  "name": "deletecontenttype_byexternalid_deletesco_ntenttype",
   "content_groups": [],
   "elements": [
     {
       "guidelines": "<h3>Guidelines</h3>",
       "type": "guidelines",
-      "external_id": "g_eid_deletecontenttype_byexternalid_deletesco_140",
-      "id": "896a4bde-1cc1-57cb-9772-de5efe74cdd6",
-      "codename": "g_c_deletecontenttype_byexternalid_deletesco_140"
+      "external_id": "g_eid_deletecontenttype_byexternalid_deletesco_ntenttype",
+      "id": "6173e6fe-96d6-53f5-a166-7c13d85bedb5",
+      "codename": "g_c_deletecontenttype_byexternalid_deletesco_ntenttype"
     }
   ]
 }

@@ -1,16 +1,16 @@
 {
-  "id": "8bb688a4-0845-56f2-bc8f-17a7b55be6db",
-  "codename": "c_modifysnippet_remove_modifiessnippet_274",
-  "last_modified": "2021-08-20T10:10:09.1693123Z",
-  "external_id": "eid_modifysnippet_remove_modifiessnippet_274",
-  "name": "modifysnippet_remove_modifiessnippet_274",
+  "id": "56725468-0ff8-5ab5-8668-bfd1ad6d77c8",
+  "codename": "c_modifysnippet_remove_modifiessnippet",
+  "last_modified": "2021-08-27T13:32:57.263913Z",
+  "external_id": "eid_modifysnippet_remove_modifiessnippet",
+  "name": "modifysnippet_remove_modifiessnippet",
   "elements": [
     {
       "guidelines": "<h3>Guidelines</h3>",
       "type": "guidelines",
-      "external_id": "g_eid_modifysnippet_remove_modifiessnippet_274",
-      "id": "7c7e4088-c7c9-5f3a-8705-bb46b829a057",
-      "codename": "c_modifysnippet_remove_modifiessnippet_274__g_c_modifysnippet_remove_modifiessnippet_274"
+      "external_id": "g_eid_modifysnippet_remove_modifiessnippet",
+      "id": "920baa86-d36a-5edc-9593-0985cd2461fe",
+      "codename": "c_modifysnippet_remove_modifiessnippet__g_c_modifysnippet_remove_modifiessnippet"
     }
   ]
 }

@@ -29,6 +29,7 @@ namespace Kentico.Kontent.Management.Tests
         }
     }
 
+    [Trait("Test", "1")]
     public class ActionInvokerTests
     {
         [Theory]

@@ -1,16 +1,16 @@
 {
-  "id": "7a88370e-f904-5ec9-b39e-58e936a6b4e8",
-  "codename": "c_deletesnippet_bycodename_deletessnippet_118",
-  "last_modified": "2021-08-20T10:10:18.9510558Z",
-  "external_id": "eid_deletesnippet_bycodename_deletessnippet_118",
-  "name": "deletesnippet_bycodename_deletessnippet_118",
+  "id": "5d33f41a-8f8a-52b7-8889-a49e24e9d581",
+  "codename": "c_deletesnippet_bycodename_deletessnippet",
+  "last_modified": "2021-08-27T13:32:34.6205307Z",
+  "external_id": "eid_deletesnippet_bycodename_deletessnippet",
+  "name": "deletesnippet_bycodename_deletessnippet",
   "elements": [
     {
       "guidelines": "<h3>Guidelines</h3>",
       "type": "guidelines",
-      "external_id": "g_eid_deletesnippet_bycodename_deletessnippet_118",
-      "id": "fe501bcb-b502-5b79-8ca3-907f900c0f41",
-      "codename": "c_deletesnippet_bycodename_deletessnippet_118__g_c_deletesnippet_bycodename_deletessnippet_118"
+      "external_id": "g_eid_deletesnippet_bycodename_deletessnippet",
+      "id": "b0da9290-6125-5e45-870f-3e5964022bf5",
+      "codename": "c_deletesnippet_bycodename_deletessnippet__g_c_deletesnippet_bycodename_deletessnippet"
     }
   ]
 }

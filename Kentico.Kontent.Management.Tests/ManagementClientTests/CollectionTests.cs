@@ -4,33 +4,46 @@ using Kentico.Kontent.Management.Models.Collections.Patch;
 using Kentico.Kontent.Management.Models.Shared;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
+using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    partial class ManagementClientTests
+    [Trait("ManagementClient", "Collections")]
+    public class ClollectionTests
     {
+                private ManagementClient _client;
+        private Scenario _scenario;
+
+        public ClollectionTests(ITestOutputHelper output)
+        {
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
+
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
+        }
         [Fact]
-        [Trait("Category", "Collections")]
+
         public async Task ListCollections_ListsCollections()
         {
-            var client = CreateManagementClient();
-
-            var response = await client.ListCollectionsAsync();
+            var response = await _client.ListCollectionsAsync();
 
             Assert.NotNull(response);
             Assert.NotNull(response.Collections.Where(x => x.Codename == EXISTING_COLLECTION_CODENAME));
         }
 
         [Fact]
-        [Trait("Category", "Collections")]
         public async void ModifyCollection_Remove_ById_RemovesCollection()
         {
-            var client = CreateManagementClient();
-
-            var newCollection = await CreateCollection(client);
+            var newCollection = await CreateCollection();
 
             var identifier = Reference.ById(newCollection.Id);
 
@@ -39,23 +52,20 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 CollectionIdentifier = identifier
             }};
 
-            var exception = await Record.ExceptionAsync(async () => await client.ModifyCollectionAsync(changes));
+            var exception = await Record.ExceptionAsync(async () => await _client.ModifyCollectionAsync(changes));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.ModifyCollectionAsync(changes));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.ModifyCollectionAsync(changes));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "Collections")]
         public async void ModifyCollection_Remove_ByCodename_RemovesCollection()
         {
-            var client = CreateManagementClient();
-
-            var newCollection = await CreateCollection(client);
+            var newCollection = await CreateCollection();
 
             var identifier = Reference.ByCodename(newCollection.Codename);
 
@@ -64,23 +74,20 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 CollectionIdentifier = identifier
             }};
 
-            var exception = await Record.ExceptionAsync(async () => await client.ModifyCollectionAsync(changes));
+            var exception = await Record.ExceptionAsync(async () => await _client.ModifyCollectionAsync(changes));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.ModifyCollectionAsync(changes));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.ModifyCollectionAsync(changes));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "Collections")]
         public async void ModifyCollection_Remove_ByExternalId_RemovesCollection()
         {
-            var client = CreateManagementClient();
-
-            var newCollection = await CreateCollection(client);
+            var newCollection = await CreateCollection();
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
@@ -89,23 +96,20 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 CollectionIdentifier = identifier
             }};
 
-            var exception = await Record.ExceptionAsync(async () => await client.ModifyCollectionAsync(changes));
+            var exception = await Record.ExceptionAsync(async () => await _client.ModifyCollectionAsync(changes));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.ModifyCollectionAsync(changes));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.ModifyCollectionAsync(changes));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "Collections")]
         public async void ModifyCollection_Move_After_MovesCollection()
         {
-            var client = CreateManagementClient();
-
-            var newCollection = await CreateCollection(client);
+            var newCollection = await CreateCollection();
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
@@ -115,22 +119,19 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 After = Reference.ById(Guid.Empty)
             }};
 
-            var collections = await client.ModifyCollectionAsync(changes);
+            var collections = await _client.ModifyCollectionAsync(changes);
 
             //check that new collection is second it the list - index 1
             Assert.Equal(newCollection.Codename, collections.Collections.ToList()[1].Codename);
 
             //clean up
-            await RemoveCollection(client, newCollection.ExternalId);
+            await RemoveCollection(newCollection.ExternalId);
         }
 
         [Fact]
-        [Trait("Category", "Collections")]
         public async void ModifyCollection_Move_Before_MovesCollection()
         {
-            var client = CreateManagementClient();
-
-            var newCollection = await CreateCollection(client);
+            var newCollection = await CreateCollection();
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
@@ -140,21 +141,18 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Before = Reference.ById(Guid.Empty)
             }};
 
-            var collections = await client.ModifyCollectionAsync(changes);
+            var collections = await _client.ModifyCollectionAsync(changes);
 
             //check that new collection is second it the list - index 0
             Assert.Equal(newCollection.Codename, collections.Collections.ToList()[0].Codename);
 
             //clean up
-            await RemoveCollection(client, newCollection.ExternalId);
+            await RemoveCollection(newCollection.ExternalId);
         }
 
         [Fact]
-        [Trait("Category", "Collections")]
         public async void ModifyCollection_AddInto_MovesCollection()
         {
-            var client = CreateManagementClient();
-
             var codename = "new_collection";
 
             var expected = new CollectionCreateModel
@@ -166,7 +164,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var change = new CollectionAddIntoPatchModel { Value = expected };
 
-            var collections = await client.ModifyCollectionAsync(new[] { change });
+            var collections = await _client.ModifyCollectionAsync(new[] { change });
 
             var newCollection = collections.Collections.FirstOrDefault(x => x.Codename == codename);
 
@@ -175,16 +173,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(expected.Name, newCollection.Name);
 
             //clean up
-            await RemoveCollection(client, newCollection.ExternalId);
+            await RemoveCollection(newCollection.ExternalId);
         }
 
         [Fact]
-        [Trait("Category", "Collections")]
         public async void ModifyCollection_Replace_ReplacesCollection()
         {
-            var client = CreateManagementClient();
-
-            var newCollection = await CreateCollection(client);
+            var newCollection = await CreateCollection();
 
             var identifier = Reference.ByExternalId(newCollection.ExternalId);
 
@@ -195,19 +190,19 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Value = "newName"
             }};
 
-            var collections = await client.ModifyCollectionAsync(changes);
+            var collections = await _client.ModifyCollectionAsync(changes);
 
             var modifiedCollection = collections.Collections.FirstOrDefault(x => x.ExternalId == newCollection.ExternalId);
 
             Assert.Equal("newName", modifiedCollection.Name);
 
             //clean up
-            await RemoveCollection(client, newCollection.ExternalId);
+            await RemoveCollection(newCollection.ExternalId);
         }
 
-        private async Task<CollectionModel> CreateCollection(ManagementClient client, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        private async Task<CollectionModel> CreateCollection([CallerMemberName] string memberName = "")
         {
-            var suffix = $"{memberName.ToLower().Substring(0, 40)}_{sourceLineNumber:d}";
+            var suffix = $"{memberName.ToLower().Substring(0, 40)}_{memberName.ToLower().Substring(40, Math.Min(memberName.Length - 40, 9))}";
 
             var externalId = $"eid_{suffix}";
 
@@ -222,10 +217,10 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 After = Reference.ByCodename(EXISTING_COLLECTION_CODENAME)
             };
 
-            return (await client.ModifyCollectionAsync(new[] { change })).Collections.FirstOrDefault(x => x.ExternalId == externalId);
+            return (await _client.ModifyCollectionAsync(new[] { change })).Collections.FirstOrDefault(x => x.ExternalId == externalId);
         }
 
-        private async Task RemoveCollection(ManagementClient client, string externalId)
+        private async Task RemoveCollection(string externalId)
         {
             var identifier = Reference.ByExternalId(externalId);
 
@@ -234,7 +229,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 CollectionIdentifier = identifier
             }};
 
-            await client.ModifyCollectionAsync(changes);
+            await _client.ModifyCollectionAsync(changes);
         }
     }
 }

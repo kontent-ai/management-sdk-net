@@ -1,22 +1,40 @@
 ﻿using Kentico.Kontent.Management.Models.ProjectReport;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
+using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    partial class ManagementClientTests
+    [Trait("ManagementClient", "Validation")]
+    public class ValidationTests
     {
+        private ManagementClient _client;
+        private Scenario _scenario;
+
+        public ValidationTests(ITestOutputHelper output)
+        {
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
+
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
+        }
+
         [Fact]
-        [Trait("Category", "Validation")]
         public async Task ValidateProject_ReturnsProjectReportModel()
         {
             var responseElementIssueMessage = "Element 'Related articles' is required but has no value";
 
             var project = new Project
             {
-                Id = _options.ProjectId,
+                Id = PROJECT_ID,
                 Name = ".NET MAPI V2 SDK Tests"
             };
 
@@ -50,8 +68,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Codename = "with_deleted_taxonomy"
             };
 
-            var client = CreateManagementClient();
-            var response = await client.ValidateProjectAsync();
+            var response = await _client.ValidateProjectAsync();
 
             Assert.Equal(project.Id, response.Project.Id);
             Assert.Equal(project.Name, response.Project.Name);

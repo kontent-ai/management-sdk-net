@@ -1,9 +1,9 @@
 {
-  "id": "54f9c828-a864-5742-8007-93f8ce44b5fb",
-  "codename": "c_modifycontenttype_addinto_modifiesconten_198",
-  "last_modified": "2021-08-20T10:10:47.0323568Z",
-  "external_id": "eid_modifycontenttype_addinto_modifiesconten_198",
-  "name": "modifycontenttype_addinto_modifiesconten_198",
+  "id": "8c6d8a5b-824d-5cf0-915e-7aac3e972188",
+  "codename": "c_modifycontenttype_addinto_modifiesconten_ttype",
+  "last_modified": "2021-08-27T13:32:38.1207123Z",
+  "external_id": "eid_modifycontenttype_addinto_modifiesconten_ttype",
+  "name": "modifycontenttype_addinto_modifiesconten_ttype",
   "content_groups": [],
   "elements": [
     {
@@ -22,9 +22,9 @@
     {
       "guidelines": "<h3>Guidelines</h3>",
       "type": "guidelines",
-      "external_id": "g_eid_modifycontenttype_addinto_modifiesconten_198",
-      "id": "9abe6ba7-76f5-5a98-acda-185316b63c53",
-      "codename": "g_c_modifycontenttype_addinto_modifiesconten_198"
+      "external_id": "g_eid_modifycontenttype_addinto_modifiesconten_ttype",
+      "id": "3949318b-46a9-5f18-be65-945ac71b03e0",
+      "codename": "g_c_modifycontenttype_addinto_modifiesconten_ttype"
     }
   ]
 }

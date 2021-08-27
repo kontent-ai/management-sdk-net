@@ -1,63 +1,74 @@
-﻿using Kentico.Kontent.Management.Models;
-using Kentico.Kontent.Management.Models.Assets;
+﻿using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Assets.Patch;
-using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
+using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    partial class ManagementClientTests
+    [Trait("ManagementClient", "Asset")]
+    public class AssetTests
     {
+        private ManagementClient _client;
+        private Scenario _scenario;
+
+        public AssetTests(ITestOutputHelper output)
+        {
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
+
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
+        }
+
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ListAssets_ListsAssets()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.ListAssetsAsync();
+            var response = await _client.ListAssetsAsync();
             Assert.NotNull(response);
             Assert.NotNull(response.FirstOrDefault());
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ListFolders_ListFolders()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.GetAssetFoldersAsync();
+            var response = await _client.GetAssetFoldersAsync();
             Assert.NotNull(response);
-            Assert.True(response.Folders.Count() > 0);
+            Assert.True(response.Folders.Any());
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderLinkedTree()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.GetAssetFoldersAsync();
-            var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
+            var response = await _client.GetAssetFoldersAsync();
+            response.Folders.GetParentLinkedFolderHierarchy();
 
             Assert.NotNull(response);
-            Assert.True(response.Folders.Count() > 0);
+            Assert.True(response.Folders.Any());
         }
 
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderLinkedTreeSearchByFolderId()
         {
-            var client = CreateManagementClient();
-
-            var response = await client.GetAssetFoldersAsync();
+            var response = await _client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
             var result = linkedHierarchy.GetParentLinkedFolderHierarchyByExternalId(ASSET_FOLDER_ID_1ST_LEVEL);
             var result2 = linkedHierarchy.GetParentLinkedFolderHierarchyByExternalId(ASSET_FOLDER_ID_2ND_LEVEL);
@@ -76,12 +87,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderHierarchy_NonExistingFolder()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.GetAssetFoldersAsync();
+            var response = await _client.GetAssetFoldersAsync();
             var nonExistingFolderId = "2ddaf2dc-8635-4b3f-b04d-5be69a0949e6";
             var result = response.Folders.GetFolderHierarchyById(nonExistingFolderId);
 
@@ -89,12 +99,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact()]
-        [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderHierarchy_ExistingFolder()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.GetAssetFoldersAsync();
+            var response = await _client.GetAssetFoldersAsync();
             var result = response.Folders.GetFolderHierarchyByExternalId(ASSET_FOLDER_ID_4TH_LEVEL);
 
             Assert.NotNull(result);
@@ -102,12 +111,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ListFolders_GetFolderPathString()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.GetAssetFoldersAsync();
+            var response = await _client.GetAssetFoldersAsync();
             var linkedHierarchy = response.Folders.GetParentLinkedFolderHierarchy();
             var result = linkedHierarchy.GetParentLinkedFolderHierarchyById("e2fe0a21-eb4c-5fba-8a28-697aeab81f83"); //Go three levels deep
             var pathString = result.GetFullFolderPath(); //Should be a folder path string TopFolder\2ndFolder\3rdFolder (3 levels deep)
@@ -118,12 +126,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ListAssets_WithContinuation_ListsAllAssets()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.ListAssetsAsync();
+            var response = await _client.ListAssetsAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -145,60 +152,56 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task CreateAsset_WithStream_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient();
+            
 
             var content = $"Hello world from CM API .NET SDK test {nameof(CreateAsset_WithStream_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
+
+            var fileResult = await _client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
+
+            Assert.NotNull(fileResult);
+            Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
+
+            Assert.True(Guid.TryParse(fileResult.Id, out Guid fileId));
+
+            Assert.NotEqual(Guid.Empty, fileId);
+
+            var asset = new AssetUpsertModel
             {
-                var fileName = "Hello.txt";
-                var contentType = "text/plain";
+                FileReference = fileResult,
+            };
 
-                var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
+            var assetResult = await _client.CreateAssetAsync(asset);
 
-                Assert.NotNull(fileResult);
-                Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
+            Assert.NotNull(assetResult);
+            Assert.Null(assetResult.ExternalId);
+            Assert.Equal(contentType, assetResult.Type);
+            Assert.Equal(content.Length, assetResult.Size);
+            Assert.NotNull(assetResult.LastModified);
+            Assert.Equal(fileName, assetResult.FileName);
+            Assert.NotNull(assetResult.Descriptions);
+            Assert.NotNull(assetResult.Url);
 
-                Assert.True(Guid.TryParse(fileResult.Id, out Guid fileId));
-
-                Assert.NotEqual(Guid.Empty, fileId);
-
-                var asset = new AssetUpsertModel
-                {
-                    FileReference = fileResult,
-                };
-
-                var assetResult = await client.CreateAssetAsync(asset);
-
-                Assert.NotNull(assetResult);
-                Assert.Null(assetResult.ExternalId);
-                Assert.Equal(contentType, assetResult.Type);
-                Assert.Equal(content.Length, assetResult.Size);
-                Assert.NotNull(assetResult.LastModified);
-                Assert.Equal(fileName, assetResult.FileName);
-                Assert.NotNull(assetResult.Descriptions);
-                Assert.NotNull(assetResult.Url);
-
-                // Cleanup
-                await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
-            }
+            // Cleanup
+            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient();
+            
 
             var content = $"Hello world from CM API .NET SDK test {nameof(UpsertAssetByExternalId_WithByteArray_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
             var fileName = "HelloExternal.txt";
             var contentType = "text/plain";
 
-            var fileResult = await client.UploadFileAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType));
+            var fileResult = await _client.UploadFileAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType));
 
             Assert.NotNull(fileResult);
             Assert.Equal(FileReferenceTypeEnum.Internal, fileResult.Type);
@@ -219,7 +222,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             };
             var externalId = "99877608d1f6448ebb35778f027c92f6";
 
-            var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, asset);
+            var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, asset);
 
             Assert.NotNull(assetResult);
             Assert.Equal(externalId, assetResult.ExternalId);
@@ -231,14 +234,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
+            await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task CreateAsset_WithFile_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient();
+            
 
             var content = $"Hello world from CM API .NET SDK test {nameof(CreateAsset_WithFile_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
@@ -251,7 +253,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var descriptions = new[] { assetDescription };
             var title = "New title";
 
-            var assetResult = await client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
+            var assetResult = await _client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Null(assetResult.ExternalId);
@@ -264,14 +266,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task CreateAsset_FromFileSystem_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient();
+            
 
             var descriptions = new List<AssetDescription>();
             var title = "My new asset";
@@ -279,7 +280,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var filePath = Path.Combine(Environment.CurrentDirectory, Path.Combine("Data", "kentico_rgb_bigger.png"));
             var contentType = "image/png";
 
-            var assetResult = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
+            var assetResult = await _client.CreateAssetAsync(new FileContentSource(filePath, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Null(assetResult.ExternalId);
@@ -292,14 +293,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset()
         {
-            var client = CreateManagementClient();
+            
 
             var content = $"Hello world from CM API .NET SDK test {nameof(UpsertAssetByExternalId_FromByteArray_Uploads_CreatesAsset)}! {"X".PadLeft((int)new Random().NextDouble() * 100, 'X')}";
 
@@ -314,7 +314,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var descriptions = new[] { assetDescription };
             var title = "New title";
 
-            var assetResult = await client.UpsertAssetByExternalIdAsync(externalId, new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
+            var assetResult = await _client.UpsertAssetByExternalIdAsync(externalId, new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Equal(externalId, assetResult.ExternalId);
@@ -327,14 +327,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
+            await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task UpdateAssetById_ReturnsUpdatedAsset()
         {
-            var client = CreateManagementClient();
+            
 
             var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
             var title = "My super asset";
@@ -345,7 +344,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             };
             var update = new AssetUpdateModel() { Descriptions = new[] { updatedDescription }, Title = title };
 
-            var assetResult = await client.UpdateAssetAsync(identifier, update);
+            var assetResult = await _client.UpdateAssetAsync(identifier, update);
 
             Assert.Equal(identifier.Id.ToString(), assetResult.Id.ToString());
             Assert.Equal(updatedDescription.Description, assetResult.Descriptions.FirstOrDefault(d => d.Language.Id == Guid.Empty).Description);
@@ -353,42 +352,39 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task GetAsset_WhenGivenAssetId_ReturnsGivenAsset()
         {
-            var client = CreateManagementClient();
+            
 
             var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
 
-            var response = await client.GetAssetAsync(identifier);
+            var response = await _client.GetAssetAsync(identifier);
 
             Assert.Equal(identifier.Id, response.Id);
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         //todo this test might be flaky as it might delete folder structure during run of another test
         public async Task CreateFolders_CreatesFolders()
         {  
-            var client = CreateManagementClient();
+            
 
             //prepare - delete exisitng folders
-            var folders = await RemoveFolderStructure(client);
+            var folders = await RemoveFolderStructure();
 
             Assert.Empty(folders.Folders);
 
             //Act create it once again
-            var newfolders = await CreateFolderStructure(client);
+            var newfolders = await CreateFolderStructure();
 
             Assert.Equal(ASSET_FOLDER_ID_1ST_LEVEL, newfolders.Folders.First().ExternalId);
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ModifyAssetFolder_AddInto_RemovesAssetFolder()
         {
             
-            var client = CreateManagementClient();
+            
 
             var change = new AssetFolderAddIntoModel
             {
@@ -402,25 +398,24 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 After = Reference.ByExternalId(ASSET_FOLDER_ID_3RD_LEVEL)
             };
 
-            var response = await client.ModifyAssetFoldersAsync(new[] { change });
+            var response = await _client.ModifyAssetFoldersAsync(new[] { change });
 
             //we expect 2 folders on third level
             Assert.Equal(2, response.Folders.First().Folders.First().Folders.Count());
 
             //clean up 
-            await RemoveFolderByExternalId(client, "externalId123");
+            await RemoveFolderByExternalId("externalId123");
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ModifyAssetFolder_Remove_RemovesAssetFolder()
         {
-            var client = CreateManagementClient();
+            
 
-            await AddIntoFolder(client, "externalID167");
+            await AddIntoFolder("externalID167");
 
             //check that the folder exists
-            var response = await client.GetAssetFoldersAsync();
+            var response = await _client.GetAssetFoldersAsync();
             var hierarchy = response.Folders.GetFolderHierarchyByExternalId("externalID167");
             Assert.NotNull(hierarchy);
 
@@ -429,7 +424,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Reference = Reference.ByExternalId("externalID167")
             };
 
-            var removedResponse = await client.ModifyAssetFoldersAsync(new[] { change });
+            var removedResponse = await _client.ModifyAssetFoldersAsync(new[] { change });
             hierarchy = removedResponse.Folders.GetFolderHierarchyByExternalId("externalID167");
 
             //check that the folder does not exist
@@ -437,12 +432,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "Asset")]
         public async Task ModifyAssetFolder_Remame_RenamesAssetFolder()
         {
-            var client = CreateManagementClient();
+            
 
-            await AddIntoFolder(client, "externalID111");
+            await AddIntoFolder("externalID111");
 
             var change = new AssetFolderRenameModel
             {
@@ -450,15 +444,15 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Value = "My unique name"
             };
 
-            var response = await client.ModifyAssetFoldersAsync(new[] { change });
+            var response = await _client.ModifyAssetFoldersAsync(new[] { change });
             var newFolder = response.Folders.GetFolderHierarchyByExternalId("externalID111");
 
             Assert.Equal("My unique name", newFolder.Name);
 
-            await RemoveFolderByExternalId(client, "externalID111");
+            await RemoveFolderByExternalId("externalID111");
         }
 
-        private async Task<AssetFoldersModel> CreateFolderStructure(ManagementClient client)
+        private async Task<AssetFoldersModel> CreateFolderStructure()
         {
             var newFolderStructure = new AssetFolderCreateModel
             {
@@ -497,30 +491,30 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 }
             };
 
-            return await client.CreateAssetFoldersAsync(newFolderStructure);
+            return await _client.CreateAssetFoldersAsync(newFolderStructure);
         }
 
-        private async Task<AssetFoldersModel> RemoveFolderStructure(ManagementClient client)
+        private async Task<AssetFoldersModel> RemoveFolderStructure()
         {
             var change = new AssetFolderRemoveModel
             {
                 Reference = Reference.ByExternalId(ASSET_FOLDER_ID_1ST_LEVEL)
             };
 
-            return await client.ModifyAssetFoldersAsync(new[] { change });
+            return await _client.ModifyAssetFoldersAsync(new[] { change });
         }
 
-        private async Task RemoveFolderByExternalId(ManagementClient client, string externalId)
+        private async Task RemoveFolderByExternalId(string externalId)
         {
             var change = new AssetFolderRemoveModel
             {
                 Reference = Reference.ByExternalId(externalId)
             };
 
-            await client.ModifyAssetFoldersAsync(new[] { change });
+            await _client.ModifyAssetFoldersAsync(new[] { change });
         }
 
-        private async Task<AssetFoldersModel> AddIntoFolder(ManagementClient client, string externalId)
+        private async Task<AssetFoldersModel> AddIntoFolder(string externalId)
         {
             var change = new AssetFolderAddIntoModel
             {
@@ -534,7 +528,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 After = Reference.ByExternalId(ASSET_FOLDER_ID_2ND_LEVEL)
             };
 
-            return await client.ModifyAssetFoldersAsync(new[] { change });
+            return await _client.ModifyAssetFoldersAsync(new[] { change });
         }
     }
 }

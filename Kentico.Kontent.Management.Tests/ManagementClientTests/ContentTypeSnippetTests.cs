@@ -7,33 +7,39 @@ using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
+using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    partial class ManagementClientTests
+    [Trait("ManagementClient", "Snippets")]
+    public class ContentTypeSnippetTests
     {
-        [Fact]
-        [Trait("Category", "Snippet")]
-        public async void ListSnippet_ListsSnippets()
+        private ManagementClient _client;
+        private Scenario _scenario;
+
+        public ContentTypeSnippetTests(ITestOutputHelper output)
         {
-            var client = CreateManagementClient();
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
 
-            var response = await client.ListContentTypeSnippetsAsync();
-
-            Assert.NotNull(response);
-            Assert.NotNull(response.FirstOrDefault(x => x.Codename == EXISTING_SNIPPET_CODENAME));
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void ListSnippet_WithContinuation_ListsSnippet()
         {
-            var client = CreateManagementClient();
+            
 
-            var response = await client.ListContentTypeSnippetsAsync();
+            var response = await _client.ListContentTypeSnippetsAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -53,108 +59,101 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void GetSnippet_ById_GetsSnippet()
         {
-            var client = CreateManagementClient();
+            
 
             var identifier = Reference.ById(EXISTING_SNIPPET_ID);
 
-            var response = await client.GetContentTypeSnippetAsync(identifier);
+            var response = await _client.GetContentTypeSnippetAsync(identifier);
             Assert.Equal(EXISTING_SNIPPET_ID, response.Id);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void GetSnippet_ByCodename_GetsSnippet()
         {
-            var client = CreateManagementClient();
+            
 
             var identifier = Reference.ByCodename(EXISTING_SNIPPET_CODENAME);
 
-            var response = await client.GetContentTypeSnippetAsync(identifier);
+            var response = await _client.GetContentTypeSnippetAsync(identifier);
             Assert.Equal(EXISTING_SNIPPET_CODENAME, response.Codename);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void GetSnippet_ByExternalId_GetsSnippet()
         {
             var externalId = "baf884be-531f-441f-ae88-64205efdd0f6";
 
-            var client = CreateManagementClient();
+            
 
             var identifier = Reference.ByExternalId(externalId);
 
-            var response = await client.GetContentTypeSnippetAsync(identifier);
+            var response = await _client.GetContentTypeSnippetAsync(identifier);
             Assert.Equal(externalId, response.ExternalId);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void DeleteSnippet_ById_DeletesSnippet()
         {
-            var client = CreateManagementClient();
+            
 
-            var responseType = await CreateSnippet(client);
+            var responseType = await CreateSnippet();
 
             var identifier = Reference.ById(responseType.Id);
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeSnippetAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeSnippetAsync(identifier));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeSnippetAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeSnippetAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void DeleteSnippet_ByCodename_DeletesSnippet()
         {
-            var client = CreateManagementClient();
+            
 
-            var responseType = await CreateSnippet(client);
+            var responseType = await CreateSnippet();
 
             var identifier = Reference.ByCodename(responseType.Codename);
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeSnippetAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeSnippetAsync(identifier));
 
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeSnippetAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeSnippetAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void DeleteSnippet_ByExternalId_DeletesSnippet()
         {
-            var client = CreateManagementClient();
+            
 
-            var responseType = await CreateSnippet(client);
+            var responseType = await CreateSnippet();
 
             var identifier = Reference.ByExternalId(responseType.ExternalId);
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeSnippetAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeSnippetAsync(identifier));
 
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeSnippetAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeSnippetAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         //Todo create more elements
         public async void CreateSnippet_CreatesSnippet()
         {
-            var client = CreateManagementClient();
+            
 
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
@@ -175,7 +174,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 }
             };
 
-            var responseType = await client.CreateContentTypeSnippetAsync(type);
+            var responseType = await _client.CreateContentTypeSnippetAsync(type);
 
             Assert.Equal(typeName, responseType.Name);
             Assert.Equal(typeCodename, responseType.Codename);
@@ -183,17 +182,16 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(typeCodename);
-            await client.DeleteContentTypeSnippetAsync(typeToClean);
+            await _client.DeleteContentTypeSnippetAsync(typeToClean);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void ModifySnippet_AddInto_ModifiesSnippet()
         {
             //Arrange
-            var client = CreateManagementClient();
+            
 
-            var responseType = await CreateSnippet(client);
+            var responseType = await CreateSnippet();
 
             var elementExternalId = "snippet_external_id2_patchaddinto";
             var textName = "snippetName2";
@@ -217,7 +215,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //act
-            var modifiedType = await client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
 
 
             //assert
@@ -228,18 +226,17 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(responseType.Codename);
-            await client.DeleteContentTypeSnippetAsync(typeToClean);
+            await _client.DeleteContentTypeSnippetAsync(typeToClean);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void ModifySnippet_Replace_ModifiesSnippet()
         {
             //arrange
             //todo extract creation of type to method
-            var client = CreateManagementClient();
+            
 
-            var responseType = await CreateSnippet(client);
+            var responseType = await CreateSnippet();
 
             var expectedValue = "<h1>Here you can tell users how to fill in the element.</h1>";
 
@@ -252,7 +249,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
 
 
             //Assert
@@ -261,17 +258,16 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(responseType.Codename);
-            await client.DeleteContentTypeSnippetAsync(typeToClean);
+            await _client.DeleteContentTypeSnippetAsync(typeToClean);
         }
 
         [Fact]
-        [Trait("Category", "Snippet")]
         public async void ModifySnippet_Remove_ModifiesSnippet()
         {
             //arrange
-            var client = CreateManagementClient();
+            
 
-            var responseType = await CreateSnippet(client);
+            var responseType = await CreateSnippet();
 
             var changes = new SnippetPatchRemoveModel
             {
@@ -280,7 +276,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
 
 
             //Assert
@@ -289,12 +285,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(responseType.Codename);
-            await client.DeleteContentTypeSnippetAsync(typeToClean);
+            await _client.DeleteContentTypeSnippetAsync(typeToClean);
         }
 
-        private async Task<SnippetModel> CreateSnippet(ManagementClient client, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        private async Task<SnippetModel> CreateSnippet([CallerMemberName] string memberName = "")
         {
-            var suffix = $"{memberName.ToLower().Substring(0, Math.Min(40, memberName.Length))}_{sourceLineNumber:d}";
+            var suffix = $"{memberName.ToLower().Substring(0, Math.Min(40, memberName.Length))}";
 
             var type = new SnippetCreateModel
             {
@@ -312,7 +308,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 }
             };
 
-            return await client.CreateContentTypeSnippetAsync(type);
+            return await _client.CreateContentTypeSnippetAsync(type);
         }
     }
 }

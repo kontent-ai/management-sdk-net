@@ -1,22 +1,22 @@
 {
-  "last_modified": "2021-08-20T10:10:43.953459Z",
-  "id": "f7396c5c-ac9b-527e-af7a-daba88c8360a",
-  "name": "deletetaxonomygroup_byid_deletestaxonomy_126",
-  "codename": "c_deletetaxonomygroup_byid_deletestaxonomy_126",
-  "external_id": "eid_deletetaxonomygroup_byid_deletestaxonomy_126",
+  "last_modified": "2021-08-27T13:32:31.9786036Z",
+  "id": "7032da72-02d5-5393-99ff-ace8f919e80d",
+  "name": "deletetaxonomygroup_byid_deletestaxonomy_group",
+  "codename": "c_deletetaxonomygroup_byid_deletestaxonomy_group",
+  "external_id": "eid_deletetaxonomygroup_byid_deletestaxonomy_group",
   "terms": [
     {
-      "id": "de2e64b4-be92-5ab0-8062-ecfb50e7dc66",
-      "name": "name1_deletetaxonomygroup_byid_deletestaxonomy_126",
-      "codename": "t_c_1deletetaxonomygroup_byid_deletestaxonomy_126",
-      "external_id": "eid1_deletetaxonomygroup_byid_deletestaxonomy_126",
+      "id": "0fadfbfd-d2d7-52de-babd-e550d99ac4e7",
+      "name": "name1_deletetaxonomygroup_byid_deletestaxonomy_group",
+      "codename": "t_c_1deletetaxonomygroup_byid_deletestaxonomy_group",
+      "external_id": "eid1_deletetaxonomygroup_byid_deletestaxonomy_group",
       "terms": []
     },
     {
-      "id": "330e39c5-5ed1-5868-b82f-e8e59420035b",
-      "name": "name2_deletetaxonomygroup_byid_deletestaxonomy_126",
-      "codename": "t_c_2deletetaxonomygroup_byid_deletestaxonomy_126",
-      "external_id": "eid2_deletetaxonomygroup_byid_deletestaxonomy_126",
+      "id": "3eb1b714-b0aa-5f64-81cc-9f1d36dd5de8",
+      "name": "name2_deletetaxonomygroup_byid_deletestaxonomy_group",
+      "codename": "t_c_2deletetaxonomygroup_byid_deletestaxonomy_group",
+      "external_id": "eid2_deletetaxonomygroup_byid_deletestaxonomy_group",
       "terms": []
     }
   ]

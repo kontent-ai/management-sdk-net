@@ -2,71 +2,78 @@
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.TaxonomyGroups;
 using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
+using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    public partial class ManagementClientTests
+    [Trait("ManagementClient", "TaxonomyGroups")]
+    public class TaxonomyGroupTests
     {
+        private ManagementClient _client;
+        private Scenario _scenario;
+
+        public TaxonomyGroupTests(ITestOutputHelper output)
+        {
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
+
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
+        }
+
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void ListTaxonomyGroups_ListsTaxonomyGroups()
         {
-            var client = CreateManagementClient();
-
-            var response = await client.ListTaxonomyGroupsAsync();
+            var response = await _client.ListTaxonomyGroupsAsync();
 
             Assert.NotNull(response);
             Assert.NotNull(response.FirstOrDefault(x => x.Codename == EXISTING_TAXONOMY_GROUP_CODENAME));
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void GetTaxonomyGroup_ById_GetsTaxonomyGroup()
         {
-            var client = CreateManagementClient();
-
             var identifier = Reference.ById(EXISTING_TAXONOMY_GROUP_ID);
 
-            var response = await client.GetTaxonomyGroupAsync(identifier);
+            var response = await _client.GetTaxonomyGroupAsync(identifier);
             Assert.Equal(EXISTING_TAXONOMY_GROUP_ID, response.Id);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void GetTaxonomyGroup_ByCodename_GetsTaxonomyGroup()
         {
-            var client = CreateManagementClient();
-
             var identifier = Reference.ByCodename(EXISTING_TAXONOMY_GROUP_CODENAME);
 
-            var response = await client.GetTaxonomyGroupAsync(identifier);
+            var response = await _client.GetTaxonomyGroupAsync(identifier);
             Assert.Equal(EXISTING_TAXONOMY_GROUP_CODENAME, response.Codename);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void GetTaxonomyGroup_ByExternalId_GetsTaxonomyGroup()
         {
             var externalid = "4ce421e9-c403-eee8-fdc2-74f09392a749";
-            var client = CreateManagementClient();
+            
 
             var identifier = Reference.ByExternalId(externalid);
 
-            var response = await client.GetTaxonomyGroupAsync(identifier);
+            var response = await _client.GetTaxonomyGroupAsync(identifier);
             Assert.Equal(externalid, response.ExternalId);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void CreateTaxonomyGroup_CreatesTaxonomyGroup()
         {
-            var client = CreateManagementClient();
-
             var group = new TaxonomyGroupCreateModel
             {
                 Name = "taxonomiesCreate!",
@@ -84,7 +91,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 }
             };
 
-            var responseGroup = await client.CreateTaxonomyGroupAsync(group);
+            var responseGroup = await _client.CreateTaxonomyGroupAsync(group);
 
             Assert.Equal(group.Name, responseGroup.Name);
             Assert.Equal(group.Codename, responseGroup.Codename);
@@ -93,79 +100,67 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var groupToClean = Reference.ByCodename(group.Codename);
-            await client.DeleteTaxonomyGroupAsync(groupToClean);
+            await _client.DeleteTaxonomyGroupAsync(groupToClean);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void DeleteTaxonomyGroup_ByCodename_DeletesTaxonomyGroup()
         {
-            var client = CreateManagementClient();
-
-            var responseGroup = await CreateTaxonomyGroup(client);
+            var responseGroup = await CreateTaxonomyGroup();
 
             var identifier = Reference.ByCodename(responseGroup.Codename);
 
 
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void DeleteTaxonomyGroup_ById_DeletesTaxonomyGroup()
         {
-            var client = CreateManagementClient();
-
-            var responseGroup = await CreateTaxonomyGroup(client);
+            var responseGroup = await CreateTaxonomyGroup();
 
             var identifier = Reference.ById(responseGroup.Id);
 
 
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void DeleteTaxonomyGroup_ByExternalId_DeletesTaxonomyGroup()
         {
-            var client = CreateManagementClient();
-
-            var responseGroup = await CreateTaxonomyGroup(client);
+            var responseGroup = await CreateTaxonomyGroup();
 
             var identifier = Reference.ByExternalId(responseGroup.ExternalId);
 
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteTaxonomyGroupAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void ModifyTaxonomyGroup_AddInto_ModifiesTaxonomyGroup()
         {
             //Arrange
-            var client = CreateManagementClient();
-
-            var group = await CreateTaxonomyGroup(client);
+            var group = await CreateTaxonomyGroup();
 
             var termName = "New taxonomy term";
             var changes = new TaxonomyGroupAddIntoPatchModel
@@ -179,7 +174,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             };
 
             //act
-            var modifiedType = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupAddIntoPatchModel> { changes });
+            var modifiedType = await _client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupAddIntoPatchModel> { changes });
 
             //assert
             Assert.Equal(3, modifiedType.Terms.Count());
@@ -187,17 +182,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var groupClean = Reference.ByCodename(group.Codename);
-            await client.DeleteTaxonomyGroupAsync(groupClean);
+            await _client.DeleteTaxonomyGroupAsync(groupClean);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void ModifyTaxonomyGroup_Replace_ModifiesTaxonomyGroup()
         {
             //Arrange
-            var client = CreateManagementClient();
-
-            var group = await CreateTaxonomyGroup(client);
+            var group = await CreateTaxonomyGroup();
 
             var termName = "New taxonomy term name";
             var changes = new TaxonomyGroupReplacePatchModel
@@ -214,24 +206,21 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             };
 
             //act
-            var modifiedType = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupReplacePatchModel> { changes });
+            var modifiedType = await _client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupReplacePatchModel> { changes });
 
             //assert
             Assert.Single(modifiedType.Terms.Where(x => x.Name == termName));
 
             // Cleanup
             var groupClean = Reference.ByCodename(group.Codename);
-            await client.DeleteTaxonomyGroupAsync(groupClean);
+            await _client.DeleteTaxonomyGroupAsync(groupClean);
         }
 
         [Fact]
-        [Trait("Category", "TaxonomyGroups")]
         public async void ModifyTaxonomyGroup_Remove_ModifiesTaxonomyGroup()
         {
             //Arrange
-            var client = CreateManagementClient();
-
-            var group = await CreateTaxonomyGroup(client);
+            var group = await CreateTaxonomyGroup();
 
             var changes = new TaxonomyGroupRemovePatchModel
             {
@@ -239,19 +228,19 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             };
 
             //act
-            var modifiedType = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupRemovePatchModel> { changes });
+            var modifiedType = await _client.ModifyTaxonomyGroupAsync(Reference.ByCodename(group.Codename), new List<TaxonomyGroupRemovePatchModel> { changes });
 
             //assert
             Assert.Single(modifiedType.Terms);
 
             // Cleanup
             var groupClean = Reference.ByCodename(group.Codename);
-            await client.DeleteTaxonomyGroupAsync(groupClean);
+            await _client.DeleteTaxonomyGroupAsync(groupClean);
         }
 
-        private async Task<TaxonomyGroupModel> CreateTaxonomyGroup(ManagementClient client, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        private async Task<TaxonomyGroupModel> CreateTaxonomyGroup([CallerMemberName] string memberName = "")
         {
-            var suffix = $"{memberName.ToLower().Substring(0, 40)}_{sourceLineNumber:d}";
+            var suffix = $"{memberName.ToLower().Substring(0, 40)}_{memberName.ToLower().Substring(40, Math.Min(memberName.Length - 40, 9))}";
 
             var group = new TaxonomyGroupCreateModel
             {
@@ -277,7 +266,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 }
             };
 
-            return await client.CreateTaxonomyGroupAsync(group);
+            return await _client.CreateTaxonomyGroupAsync(group);
         }
     }
 }

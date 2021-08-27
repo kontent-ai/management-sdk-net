@@ -1,16 +1,16 @@
 {
-  "id": "ed22d64f-11e0-5900-94cb-a0dae50addc4",
-  "codename": "c_modifysnippet_replace_modifiessnippet_242",
-  "last_modified": "2021-08-20T10:10:36.1249369Z",
-  "external_id": "eid_modifysnippet_replace_modifiessnippet_242",
-  "name": "modifysnippet_replace_modifiessnippet_242",
+  "id": "2fb9f2b0-39ec-5a06-97cf-e0ca52aa922b",
+  "codename": "c_modifysnippet_replace_modifiessnippet",
+  "last_modified": "2021-08-27T13:32:56.4201152Z",
+  "external_id": "eid_modifysnippet_replace_modifiessnippet",
+  "name": "modifysnippet_replace_modifiessnippet",
   "elements": [
     {
       "guidelines": "<h1>Here you can tell users how to fill in the element.</h1>",
       "type": "guidelines",
-      "external_id": "g_eid_modifysnippet_replace_modifiessnippet_242",
-      "id": "0bc8d01d-8db3-58b4-a3ce-c3eec580433d",
-      "codename": "c_modifysnippet_replace_modifiessnippet_242__g_c_modifysnippet_replace_modifiessnippet_242"
+      "external_id": "g_eid_modifysnippet_replace_modifiessnippet",
+      "id": "18491a62-a209-5921-8c39-19366fbee7cf",
+      "codename": "c_modifysnippet_replace_modifiessnippet__g_c_modifysnippet_replace_modifiessnippet"
     }
   ]
 }

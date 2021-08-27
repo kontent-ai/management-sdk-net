@@ -1,16 +1,16 @@
 {
-  "id": "9b42dc74-2f92-52c6-ae6b-85e5be215aa3",
-  "codename": "c_deletesnippet_byexternalid_deletessnippe_138",
-  "last_modified": "2021-08-20T10:10:37.3124922Z",
-  "external_id": "eid_deletesnippet_byexternalid_deletessnippe_138",
-  "name": "deletesnippet_byexternalid_deletessnippe_138",
+  "id": "78be206f-05f3-5df2-a9f3-615da85e1ee7",
+  "codename": "c_deletesnippet_byexternalid_deletessnippe",
+  "last_modified": "2021-08-27T13:32:42.3397005Z",
+  "external_id": "eid_deletesnippet_byexternalid_deletessnippe",
+  "name": "deletesnippet_byexternalid_deletessnippe",
   "elements": [
     {
       "guidelines": "<h3>Guidelines</h3>",
       "type": "guidelines",
-      "external_id": "g_eid_deletesnippet_byexternalid_deletessnippe_138",
-      "id": "cbd484c0-cc77-59d7-a1f2-7fe14e98dd49",
-      "codename": "c_deletesnippet_byexternalid_deletessnippe_138__g_c_deletesnippet_byexternalid_deletessnippe_138"
+      "external_id": "g_eid_deletesnippet_byexternalid_deletessnippe",
+      "id": "4d33671e-aaa9-5089-8168-1a8e09ed9fcf",
+      "codename": "c_deletesnippet_byexternalid_deletessnippe__g_c_deletesnippet_byexternalid_deletessnippe"
     }
   ]
 }

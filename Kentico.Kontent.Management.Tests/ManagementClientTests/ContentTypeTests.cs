@@ -4,38 +4,52 @@ using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Models.Types.Patch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
+using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    partial class ManagementClientTests
+    [Trait("ManagementClient", "ContentType")]
+    public class ContentTypeTests
     {
+        private ManagementClient _client;
+        private Scenario _scenario;
+
+        public ContentTypeTests(ITestOutputHelper output)
+        {
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
+
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
+        }
+
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void ListContentTypes_ListsContentTypes()
         {
-            var client = CreateManagementClient();
-
-            var response = await client.ListContentTypesAsync();
+            var response = await _client.ListContentTypesAsync();
 
             Assert.NotNull(response);
             Assert.NotNull(response.FirstOrDefault());
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         //Todo
         //does not really test pagination as the default page size is 50 items 
         //same applies to content item test (where is page size 100)
         public async void ListContentTypes_WithContinuation_ListsContentTypes()
         {
-            var client = CreateManagementClient();
-
-            var response = await client.ListContentTypesAsync();
+            var response = await _client.ListContentTypesAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -55,109 +69,90 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void GetContentType_ById_GetsContentType()
         {
-            var client = CreateManagementClient();
-
             var identifier = Reference.ById(EXISTING_CONTENT_TYPE_ID);
 
-            var response = await client.GetContentTypeAsync(identifier);
+            var response = await _client.GetContentTypeAsync(identifier);
             Assert.Equal(EXISTING_CONTENT_TYPE_ID, response.Id);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void GetContentType_ByCodename_GetsContentType()
         {
-            var client = CreateManagementClient();
-
             var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
 
-            var response = await client.GetContentTypeAsync(identifier);
+            var response = await _client.GetContentTypeAsync(identifier);
             Assert.Equal(EXISTING_CONTENT_TYPE_CODENAME, response.Codename);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void GetContentType_ByExternalId_GetsContentType()
         {
             var externalId = "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89";
 
-            var client = CreateManagementClient();
+            
 
             var identifier = Reference.ByExternalId(externalId);
 
-            var response = await client.GetContentTypeAsync(identifier);
+            var response = await _client.GetContentTypeAsync(identifier);
             Assert.Equal(externalId, response.ExternalId);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void DeleteContentType_ById_DeletesContentType()
         {
-            var client = CreateManagementClient();
-
-            var responseType = await CreateContentType(client);
+            var responseType = await CreateContentType();
 
             var identifier = Reference.ById(responseType.Id);
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeAsync(identifier));
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void DeleteContentType_ByCodename_DeletesContentType()
         {
-            var client = CreateManagementClient();
-
-            var responseType = await CreateContentType(client);
+            var responseType = await CreateContentType();
 
             var identifier = Reference.ByCodename(responseType.Codename);
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeAsync(identifier));
 
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void DeleteContentType_ByExternalId_DeletesContentType()
         {
-            var client = CreateManagementClient();
-
-            var responseType = await CreateContentType(client);
+            var responseType = await CreateContentType();
 
             var identifier = Reference.ByExternalId(responseType.ExternalId);
-            var exception = await Record.ExceptionAsync(async () => await client.DeleteContentTypeAsync(identifier));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeAsync(identifier));
 
 
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await client.DeleteContentTypeAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeAsync(identifier));
             }
 
             Assert.Null(exception);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         //Todo create more elements
         public async void CreateContentType_CreatesContentType()
         {
-            var client = CreateManagementClient();
-
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
             var typeExternalId = "hooray_codename_external_id";
@@ -177,7 +172,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 }
             };
 
-            var responseType = await client.CreateContentTypeAsync(type);
+            var responseType = await _client.CreateContentTypeAsync(type);
 
             Assert.Equal(typeName, responseType.Name);
             Assert.Equal(typeCodename, responseType.Codename);
@@ -185,17 +180,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(typeCodename);
-            await client.DeleteContentTypeAsync(typeToClean);
+            await _client.DeleteContentTypeAsync(typeToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void ModifyContentType_AddInto_ModifiesContentType()
         {
             //Arrange
-            var client = CreateManagementClient();
-
-            var responseType = await CreateContentType(client);
+            var responseType = await CreateContentType();
 
             var elementCodename = "text_codename2_patchaddinto";
             var textName = "textName2";
@@ -220,7 +212,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //act
-            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //assert
@@ -231,18 +223,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(responseType.Codename);
-            await client.DeleteContentTypeAsync(typeToClean);
+            await _client.DeleteContentTypeAsync(typeToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void ModifyContentType_Replace_ModifiesContentType()
         {
             //arrange
-            //todo extract creation of type to method
-            var client = CreateManagementClient();
-
-            var responseType = await CreateContentType(client);
+            var responseType = await CreateContentType();
 
             var expectedValue = "<h1>Here you can tell users how to fill in the element.</h1>";
 
@@ -255,7 +243,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //Assert
@@ -264,17 +252,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(responseType.Codename);
-            await client.DeleteContentTypeAsync(typeToClean);
+            await _client.DeleteContentTypeAsync(typeToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentType")]
         public async void ModifyContentType_Remove_ModifiesContentType()
         {
             //arrange
-            var client = CreateManagementClient();
-
-            var responseType = await CreateContentType(client);
+            var responseType = await CreateContentType();
 
             var changes = new ContentTypeRemovePatchModel
             {
@@ -283,7 +268,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Act
-            var modifiedType = await client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeOperationBaseModel> { changes });
 
 
             //Assert
@@ -292,12 +277,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var typeToClean = Reference.ByCodename(responseType.Codename);
-            await client.DeleteContentTypeAsync(typeToClean);
+            await _client.DeleteContentTypeAsync(typeToClean);
         }
 
-        private async Task<ContentTypeModel> CreateContentType(ManagementClient client, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        private async Task<ContentTypeModel> CreateContentType([CallerMemberName] string memberName = "")
         {
-            var suffix = $"{memberName.ToLower().Substring(0,40)}_{sourceLineNumber:d}";
+            var suffix = $"{memberName.ToLower().Substring(0,40)}_{memberName.ToLower().Substring(40, Math.Min(memberName.Length - 40, 10))}";
 
             var type = new ContentTypeCreateModel
             {
@@ -315,7 +300,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 }
             };
 
-            return await client.CreateContentTypeAsync(type);
+            return await _client.CreateContentTypeAsync(type);
         }
     }
 }

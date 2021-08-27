@@ -1,9 +1,9 @@
 {
-  "id": "a4fbe6a8-3e02-581d-96a0-a5ccffd4784c",
-  "codename": "c_modifycontenttype_remove_modifiescontent_277",
-  "last_modified": "2021-08-20T10:10:30.4371701Z",
-  "external_id": "eid_modifycontenttype_remove_modifiescontent_277",
-  "name": "modifycontenttype_remove_modifiescontent_277",
+  "id": "e8540d8a-8b90-5ff7-a0a8-d3351e565080",
+  "codename": "c_modifycontenttype_remove_modifiescontent_type",
+  "last_modified": "2021-08-27T13:32:52.9824699Z",
+  "external_id": "eid_modifycontenttype_remove_modifiescontent_type",
+  "name": "modifycontenttype_remove_modifiescontent_type",
   "content_groups": [],
   "elements": []
 }

@@ -1,13 +1,30 @@
 ﻿using Kentico.Kontent.Management.Models.ProjectReport;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    partial class ManagementClientTests
+    [Trait("ManagementClient", "Validation")]
+    public class ProjectTests
     {
+        private ManagementClient _client;
+        private Scenario _scenario;
+
+        public ProjectTests(ITestOutputHelper output)
+        {
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
+
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
+        }
+
         [Fact]
-        [Trait("Category", "Project")]
         public async Task GetProjectInfo_GetsProjectInfo()
         {
             var expected = new Project
@@ -17,8 +34,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = ".NET MAPI V2 SDK Tests",
             };
 
-            var client = CreateManagementClient();
-            var response = await client.GetProjectInformation();
+            
+            var response = await _client.GetProjectInformation();
 
             Assert.Equal(expected.Id, response.Id);
             Assert.Equal(expected.Name, response.Name);

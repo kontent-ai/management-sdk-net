@@ -1,5 +1,5 @@
 {
-  "last_modified": "2021-08-20T10:10:18.7010429Z",
+  "last_modified": "2021-08-27T13:32:38.9020011Z",
   "collections": [
     {
       "id": "00000000-0000-0000-0000-000000000000",
@@ -12,10 +12,10 @@
       "codename": "testcollection"
     },
     {
-      "id": "d7efa4f7-3a75-580f-9cf4-38e22293cc56",
-      "external_id": "eid_modifycollection_remove_byexternalid_rem_83",
-      "name": "modifycollection_remove_byexternalid_rem_83",
-      "codename": "c_modifycollection_remove_byexternalid_rem_83"
+      "id": "3fd91da8-27df-57be-8836-cff29b7d65f4",
+      "external_id": "eid_modifycollection_remove_byexternalid_rem_ovescolle",
+      "name": "modifycollection_remove_byexternalid_rem_ovescolle",
+      "codename": "c_modifycollection_remove_byexternalid_rem_ovescolle"
     }
   ]
 }

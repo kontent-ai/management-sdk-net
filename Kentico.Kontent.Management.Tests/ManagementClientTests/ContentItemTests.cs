@@ -1,21 +1,36 @@
 ﻿using Kentico.Kontent.Management.Exceptions;
-using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Shared;
 using System;
 using System.Linq;
+using System.Reflection;
 using Xunit;
+using Xunit.Abstractions;
+using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
-    partial class ManagementClientTests
+    [Trait("ManagementClient", "ContentItem")]
+    public class ContentItemTests
     {
+        private ManagementClient _client;
+        private Scenario _scenario;
+
+        public ContentItemTests(ITestOutputHelper output)
+        {
+            //this magic can be replace once new xunit is delivered
+            //https://github.com/xunit/xunit/issues/621
+            var type = output.GetType();
+            var testMember = type.GetField("test", BindingFlags.Instance | BindingFlags.NonPublic);
+            var test = (ITest)testMember.GetValue(output);
+
+            _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
+            _client = _scenario.Client;
+        }
+
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void CreateContentItem_CreatesContentItem()
         {
-            var client = CreateManagementClient();
-
             var itemName = "Hooray!";
             var itemCodename = "hooray_codename";
             var type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
@@ -26,7 +41,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Type = type
             };
 
-            var responseItem = await client.CreateContentItemAsync(item);
+            var responseItem = await _client.CreateContentItemAsync(item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(itemCodename, responseItem.Codename);
@@ -34,28 +49,22 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Cleanup
             var itemToClean = Reference.ByCodename(itemCodename);
-            await client.DeleteContentItemAsync(itemToClean);
+            await _client.DeleteContentItemAsync(itemToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void ListContentItems_ListsContentItems()
         {
-            var client = CreateManagementClient();
-
-            var response = await client.ListContentItemsAsync();
+            var response = await _client.ListContentItemsAsync();
 
             Assert.NotNull(response);
             Assert.NotNull(response.FirstOrDefault());
         }
 
         [Fact(Skip = "Pagination does not work properly")]
-        [Trait("Category", "ContentItem")]
         public async void ListContentItems_WithContinuation_ListsAllContentItems()
         {
-            var client = CreateManagementClient();
-
-            var response = await client.ListContentItemsAsync();
+            var response = await _client.ListContentItemsAsync();
             Assert.NotNull(response);
 
             while (true)
@@ -75,11 +84,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_ByCodename_UpdatesContentItem()
         {
-            var client = CreateManagementClient();
-
             var itemName = "Hooray!";
             var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
@@ -91,7 +97,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Collection = NoExternalIdIdentifier.ById(Guid.Empty)
             };
 
-            var responseItem = await client.UpdateContentItemAsync(identifier, item);
+            var responseItem = await _client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.Codename);
@@ -99,11 +105,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_ById_UpdatesContentItem()
         {
-            var client = CreateManagementClient();
-
             var itemName = "Ciao!";
             var itemCodename = "ciao_codename";
             var identifier = Reference.ById(EXISTING_ITEM_ID2);
@@ -114,18 +117,15 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = itemName
             };
 
-            var responseItem = await client.UpdateContentItemAsync(identifier, item);
+            var responseItem = await _client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(itemCodename, responseItem.Codename);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void UpdateContentItemName_CodenameNotSet_RegeneratesCodenameByName()
         {
-            var client = CreateManagementClient();
-
             var itemName = "regenerated_codename";
             var identifier = Reference.ById(EXISTING_ITEM_ID2);
 
@@ -134,7 +134,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = itemName,
             };
 
-            var responseItem = await client.UpdateContentItemAsync(identifier, item);
+            var responseItem = await _client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             // TODO validate why this have been implemented KCL-3078 https://github.com/Kentico/kontent-management-sdk-net/commit/9d9e6c286c622921da8e638e80d4ca9b7de67ed1
@@ -142,39 +142,33 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact(Skip = "Kentico.Kontent.Management.Exceptions.ManagementException : The request was not processed because the specified object has been modified by another request.")]
-        [Trait("Category", "ContentItem")]
         public async void UpdateContentItem_UsingResponseModel_UpdatesContentItem()
         {
-            var client = CreateManagementClient();
-
             // Arrange
             var externalId = "093afb41b0614a908c8734d2bb840210";
-            var preparedItem = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
             preparedItem.Name = "EditedItem";
             var identifier = Reference.ByExternalId(externalId);
-            var item = client.UpdateContentItemAsync(identifier, preparedItem);
+            var item = _client.UpdateContentItemAsync(identifier, preparedItem);
 
-            var contentItemResponse = await client.UpdateContentItemAsync(identifier, preparedItem);
+            var contentItemResponse = await _client.UpdateContentItemAsync(identifier, preparedItem);
             Assert.Equal("EditedItem", contentItemResponse.Name);
 
             // Cleanup
             var itemToClean = Reference.ByExternalId(externalId);
-            await client.DeleteContentItemAsync(itemToClean);
+            await _client.DeleteContentItemAsync(itemToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_UpdatesContentItem()
         {
-            var client = CreateManagementClient();
-
             // Arrange
             var externalId = "753f6e965f4d49e5a120ca9a23551b10";
             var itemName = "Aloha!";
             var itemCodename = "aloha_codename";
-            await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
             var type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
@@ -186,21 +180,18 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Collection = NoExternalIdIdentifier.ById(Guid.Empty)
             };
 
-            var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
+            var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(externalId, item);
             Assert.Equal(itemName, contentItemResponse.Name);
             Assert.Equal(itemCodename, contentItemResponse.Codename);
 
             // Cleanup
             var itemToClean = Reference.ByExternalId(externalId);
-            await client.DeleteContentItemAsync(itemToClean);
+            await _client.DeleteContentItemAsync(itemToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void UpsertContentItemByExternalId_CreatesContentItem()
         {
-            var client = CreateManagementClient();
-
             // Test
             var externalId = "9d98959eeac446288992b44b5d366e16";
             var itemName = "Hi!";
@@ -214,116 +205,98 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Collection = NoExternalIdIdentifier.ById(Guid.Empty)
             };
 
-            var contentItemResponse = await client.UpsertContentItemByExternalIdAsync(externalId, item);
+            var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(externalId, item);
             Assert.Equal(itemName, contentItemResponse.Name);
             Assert.Equal(externalId, contentItemResponse.ExternalId);
             Assert.Equal(itemCodename, contentItemResponse.Codename);
 
             // Cleanup
             var itemToClean = Reference.ByExternalId(externalId);
-            await client.DeleteContentItemAsync(itemToClean);
+            await _client.DeleteContentItemAsync(itemToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void GetContentItem_ById_GetsContentItem()
         {
-            var client = CreateManagementClient();
-
             var identifier = Reference.ById(EXISTING_ITEM_ID);
 
-            var contentItemResponse = await client.GetContentItemAsync(identifier);
+            var contentItemResponse = await _client.GetContentItemAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID, contentItemResponse.Id);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByCodename_GetsContentItem()
         {
-            var client = CreateManagementClient();
-
             var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
-            var contentItemResponse = await client.GetContentItemAsync(identifier);
+            var contentItemResponse = await _client.GetContentItemAsync(identifier);
             Assert.Equal(EXISTING_ITEM_ID, contentItemResponse.Id);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void GetContentItem_ByExternalId_GetsContentItem()
         {
-            var client = CreateManagementClient();
-
             // Arrange
             var externalId = "e5a8de5b584f4182b879c78b696dff09";
-            await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             // Test
             var identifier = Reference.ByExternalId(externalId);
 
-            var contentItemResponse = await client.GetContentItemAsync(identifier);
+            var contentItemResponse = await _client.GetContentItemAsync(identifier);
             Assert.Equal(externalId, contentItemResponse.ExternalId);
 
             // Cleanup
             var itemToClean = Reference.ByExternalId(externalId);
-            await client.DeleteContentItemAsync(itemToClean);
+            await _client.DeleteContentItemAsync(itemToClean);
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ById_DeletesContentItem()
         {
-            var client = CreateManagementClient();
-
-            var itemToDelete = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
+            var itemToDelete = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME);
 
             var identifier = Reference.ById(itemToDelete.Id);
 
-            await client.DeleteContentItemAsync(identifier);
+            await _client.DeleteContentItemAsync(identifier);
 
             // Check if not available after deletion
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(() => client.GetContentItemAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(() => _client.GetContentItemAsync(identifier));
             }
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByCodename_DeletesContentItem()
         {
-            var client = CreateManagementClient();
-
-            var itemToDelete = await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME);
+            var itemToDelete = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME);
 
             var identifier = Reference.ByCodename(itemToDelete.Codename);
 
-            await client.DeleteContentItemAsync(identifier);
+            await _client.DeleteContentItemAsync(identifier);
 
             // Check if not available after deletion
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(() => client.GetContentItemAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(() => _client.GetContentItemAsync(identifier));
             }
         }
 
         [Fact]
-        [Trait("Category", "ContentItem")]
         public async void DeleteContentItem_ByExternalId_DeletesContentItem()
         {
-            var client = CreateManagementClient();
-
             var externalId = "341bcf72988d49729ec34c8682710536";
-            await TestUtils.PrepareTestItem(client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
+            await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
 
             var identifier = Reference.ByExternalId(externalId);
 
-            await client.DeleteContentItemAsync(identifier);
+            await _client.DeleteContentItemAsync(identifier);
 
             // Check if not available after deletion
-            if (_runType != TestUtils.TestRunType.MockFromFileSystem)
+            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(() => client.GetContentItemAsync(identifier));
+                await Assert.ThrowsAsync<ManagementException>(() => _client.GetContentItemAsync(identifier));
             }
         }
     }

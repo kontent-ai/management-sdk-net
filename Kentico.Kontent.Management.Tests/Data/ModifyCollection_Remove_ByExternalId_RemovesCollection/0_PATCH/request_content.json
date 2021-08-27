@@ -1,1 +1,1 @@
-[{"op":"addInto","value":{"name":"modifycollection_remove_byexternalid_rem_83","codename":"c_modifycollection_remove_byexternalid_rem_83","external_id":"eid_modifycollection_remove_byexternalid_rem_83"},"after":{"codename":"testcollection"}}]
+[{"op":"addInto","value":{"name":"modifycollection_remove_byexternalid_rem_ovescolle","codename":"c_modifycollection_remove_byexternalid_rem_ovescolle","external_id":"eid_modifycollection_remove_byexternalid_rem_ovescolle"},"after":{"codename":"testcollection"}}]

@@ -1,7 +1,7 @@
 {
   "id": "327b547d-58e8-5b57-b0cc-7660f33fbaaf",
   "name": "Hooray!",
-  "codename": "hooray_",
+  "codename": "aloha_codename",
   "type": {
     "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
   },
@@ -10,5 +10,5 @@
   },
   "sitemap_locations": [],
   "external_id": "753f6e965f4d49e5a120ca9a23551b10",
-  "last_modified": "2021-08-20T10:10:25.0919894Z"
+  "last_modified": "2021-08-27T13:32:29.2751011Z"
 }
