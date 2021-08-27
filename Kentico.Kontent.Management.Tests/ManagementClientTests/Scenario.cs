@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
     internal class Scenario
     {
-        private ManagementClient _client;
+        private readonly ManagementClient _client;
 
         private readonly ManagementOptions _options;
 
@@ -51,7 +51,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         public ManagementClient Client => _client;
 
-        public TestRunType RunType => _runType;
+        public static TestRunType RunType => _runType;
 
         // Test constants, existing data references leverage the Dancing Goat sample site project that is generated for everyone
         public static readonly Guid EXISTING_ITEM_ID = Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515");
@@ -106,7 +106,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public static readonly Guid TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID = Guid.Parse("dd78b09e-4337-599c-9701-20a0a165c63b");
         public const string TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME = "hide_thread";
 
-        public IReadOnlyList<dynamic> Elements => new object[]
+        public static IReadOnlyList<dynamic> Elements => new object[]
         {
             new
             {
@@ -221,7 +221,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             },
         };
 
-        public ComplexTestModel StronglyTypedElements => new()
+        public static ComplexTestModel StronglyTypedElements => new()
         {
             Title = new TextElement
             {

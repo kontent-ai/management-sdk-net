@@ -139,7 +139,7 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             return data.Replace(SDK_ID_REPLACEMENT, HttpRequestHeadersExtensions.GetSdkTrackingHeader());
         }
 
-        private async Task<string> SerializeContent(HttpContent content)
+        private static async Task<string> SerializeContent(HttpContent content)
         {
             if (content == null)
             {

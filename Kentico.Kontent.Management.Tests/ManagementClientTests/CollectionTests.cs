@@ -16,8 +16,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "Collections")]
     public class ClollectionTests
     {
-                private ManagementClient _client;
-        private Scenario _scenario;
+        private readonly ManagementClient _client;
+        private readonly Scenario _scenario;
 
         public ClollectionTests(ITestOutputHelper output)
         {
@@ -54,7 +54,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var exception = await Record.ExceptionAsync(async () => await _client.ModifyCollectionAsync(changes));
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.ModifyCollectionAsync(changes));
             }
@@ -76,7 +76,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var exception = await Record.ExceptionAsync(async () => await _client.ModifyCollectionAsync(changes));
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.ModifyCollectionAsync(changes));
             }
@@ -98,7 +98,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var exception = await Record.ExceptionAsync(async () => await _client.ModifyCollectionAsync(changes));
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.ModifyCollectionAsync(changes));
             }

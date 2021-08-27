@@ -2,6 +2,9 @@
 
 namespace Kentico.Kontent.Management.Models.Collections
 {
+    /// <summary>
+    /// Represents collection create model.
+    /// </summary>
     public class CollectionCreateModel
     {
         /// <summary>

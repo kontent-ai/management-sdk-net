@@ -13,8 +13,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "ContentItem")]
     public class ContentItemTests
     {
-        private ManagementClient _client;
-        private Scenario _scenario;
+        private readonly ManagementClient _client;
+        private readonly Scenario _scenario;
 
         public ContentItemTests(ITestOutputHelper output)
         {
@@ -151,7 +151,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             preparedItem.Name = "EditedItem";
             var identifier = Reference.ByExternalId(externalId);
-            var item = _client.UpdateContentItemAsync(identifier, preparedItem);
+            await _client.UpdateContentItemAsync(identifier, preparedItem);
 
             var contentItemResponse = await _client.UpdateContentItemAsync(identifier, preparedItem);
             Assert.Equal("EditedItem", contentItemResponse.Name);
@@ -261,7 +261,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await _client.DeleteContentItemAsync(identifier);
 
             // Check if not available after deletion
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(() => _client.GetContentItemAsync(identifier));
             }
@@ -277,7 +277,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await _client.DeleteContentItemAsync(identifier);
 
             // Check if not available after deletion
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(() => _client.GetContentItemAsync(identifier));
             }
@@ -294,7 +294,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await _client.DeleteContentItemAsync(identifier);
 
             // Check if not available after deletion
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(() => _client.GetContentItemAsync(identifier));
             }

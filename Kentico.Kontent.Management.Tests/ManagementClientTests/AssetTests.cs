@@ -17,8 +17,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "Asset")]
     public class AssetTests
     {
-        private ManagementClient _client;
-        private Scenario _scenario;
+        private readonly ManagementClient _client;
+        private readonly Scenario _scenario;
 
         public AssetTests(ITestOutputHelper output)
         {

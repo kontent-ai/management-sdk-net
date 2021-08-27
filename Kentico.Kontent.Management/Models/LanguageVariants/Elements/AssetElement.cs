@@ -19,6 +19,10 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public IEnumerable<AssetIdentifier> Value { get; set; }
 
+        /// <summary>
+        /// Creates new instance of AssertElement 
+        /// <paramref name="data"/>Value of asset element
+        /// </summary>
         public AssetElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
@@ -28,6 +32,9 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
             }
         }
 
+        /// <summary>
+        /// Transforms the asset element to dynamic object.
+        /// </summary>
         public override dynamic ToDynamic(string elementId)
         {
             return new

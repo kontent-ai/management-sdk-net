@@ -13,8 +13,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "Languages")]
     public class LanguageTests
     {
-        private ManagementClient _client;
-        private Scenario _scenario;
+        private readonly ManagementClient _client;
+        private readonly Scenario _scenario;
 
         public LanguageTests(ITestOutputHelper output)
         {
@@ -68,7 +68,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public async void CreateLanguage_CreatesLanguage()
         {
             //language can't be deleted...
-            if(_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if(RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 return;
             }

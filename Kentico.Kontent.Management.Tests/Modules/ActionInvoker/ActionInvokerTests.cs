@@ -36,7 +36,7 @@ namespace Kentico.Kontent.Management.Tests
         [Trait("Issue", "29")]
         [InlineData(0.0, "0")]
         [InlineData(29.0, "29.0")]
-        public void ActionInvokerSerializeElementContainingZero_SerializedJsonContainsZero(decimal d, string s)
+        public async Task ActionInvokerSerializeElementContainingZero_SerializedJsonContainsZero(decimal d, string s)
         {
             var httpClient = new FakeManagementHttpClient();
             var actionInvoker = new ActionInvoker(httpClient, new MessageCreator("{api_key}"));
@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Tests
                 },
             };
 
-            var result = actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get, contentItemVariantUpsertModel);
+            await actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get, contentItemVariantUpsertModel);
             Assert.Equal($"{{\"elements\":[{{\"zero\":{s},\"optZero\":{s}}}]}}", httpClient.requestBody);
         }
         

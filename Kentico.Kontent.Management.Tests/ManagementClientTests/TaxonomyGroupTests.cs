@@ -17,8 +17,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "TaxonomyGroups")]
     public class TaxonomyGroupTests
     {
-        private ManagementClient _client;
-        private Scenario _scenario;
+        private readonly ManagementClient _client;
+        private readonly Scenario _scenario;
 
         public TaxonomyGroupTests(ITestOutputHelper output)
         {
@@ -86,7 +86,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         Codename = "taxonomies_term_codename",
                         Name = "name",
                         ExternalId = "taxonomies_term_external_id",
-                        Terms = new TaxonomyGroupCreateModel[0]
+                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
                     }
                 }
             };
@@ -113,7 +113,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var exception = await Record.ExceptionAsync(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
             }
@@ -131,7 +131,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var exception = await Record.ExceptionAsync(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
             }
@@ -148,7 +148,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var exception = await Record.ExceptionAsync(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteTaxonomyGroupAsync(identifier));
             }
@@ -169,7 +169,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 {
                     Name = termName,
                     ExternalId = "my_new_term_addinto",
-                    Terms = new TaxonomyGroupCreateModel[0]
+                    Terms = Array.Empty<TaxonomyGroupCreateModel>()
                 }
             };
 
@@ -200,7 +200,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     new TaxonomyGroupCreateModel
                     {
                         Name = termName,
-                        Terms = new TaxonomyGroupCreateModel[0]
+                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
                     }
                 }
             };
@@ -254,14 +254,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         Codename = $"t_c_1{suffix}",
                         Name = $"name1_{suffix}",
                         ExternalId = $"eid1_{suffix}",
-                        Terms = new TaxonomyGroupCreateModel[0]
+                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
                     },
                     new TaxonomyGroupCreateModel
                     {
                         Codename = $"t_c_2{suffix}",
                         Name = $"name2_{suffix}",
                         ExternalId = $"eid2_{suffix}",
-                        Terms = new TaxonomyGroupCreateModel[0]
+                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
                     }
                 }
             };

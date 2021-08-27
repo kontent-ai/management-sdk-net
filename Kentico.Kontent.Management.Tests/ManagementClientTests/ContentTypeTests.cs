@@ -19,8 +19,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "ContentType")]
     public class ContentTypeTests
     {
-        private ManagementClient _client;
-        private Scenario _scenario;
+        private readonly ManagementClient _client;
+        private readonly Scenario _scenario;
 
         public ContentTypeTests(ITestOutputHelper output)
         {
@@ -107,7 +107,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var identifier = Reference.ById(responseType.Id);
             var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeAsync(identifier));
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeAsync(identifier));
             }
@@ -124,7 +124,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeAsync(identifier));
 
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeAsync(identifier));
             }
@@ -141,7 +141,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var exception = await Record.ExceptionAsync(async () => await _client.DeleteContentTypeAsync(identifier));
 
 
-            if (_scenario.RunType != TestUtils.TestRunType.MockFromFileSystem)
+            if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
                 await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteContentTypeAsync(identifier));
             }

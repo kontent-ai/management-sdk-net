@@ -13,8 +13,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "Workflow")]
     public class WorkflowStepTests
     {
-        private ManagementClient _client;
-        private Scenario _scenario;
+        private readonly ManagementClient _client;
+        private readonly Scenario _scenario;
 
         public WorkflowStepTests(ITestOutputHelper output)
         {
@@ -43,7 +43,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "11102811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
@@ -55,7 +55,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await _client.ChangeWorkflowStep(identifier);
 
             var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
-            var workflowSteps = await _client.ListWorkflowStepsAsync();
+            _ = await _client.ListWorkflowStepsAsync();
 
             Assert.Equal(CUSTOM_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
@@ -70,7 +70,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "22202811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
@@ -94,7 +94,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "78902811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
@@ -120,7 +120,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "33302811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
@@ -145,7 +145,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "32302811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
@@ -169,7 +169,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "35302811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
@@ -196,7 +196,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "37302811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
@@ -221,7 +221,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "37302811b05f429284006ea94c68333";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, _scenario.Elements, preparedItem);
+            _ = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, Elements, preparedItem);
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
