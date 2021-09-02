@@ -84,7 +84,7 @@ namespace Kentico.Kontent.Management
             return GetUrl(string.Concat(itemSegment, variantSegment));
         }
 
-        private string GetVariantUrlSegment(Reference identifier)
+        private string GetVariantUrlSegment(NoExternalIdIdentifier identifier)
         {
             if (!string.IsNullOrEmpty(identifier.Codename))
             {

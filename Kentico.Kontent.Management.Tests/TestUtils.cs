@@ -80,7 +80,7 @@ namespace Kentico.Kontent.Management.Tests
         internal static async Task<ContentItemVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
         {
             var addedItemIdentifier = Reference.ByCodename(item.Codename);
-            var addedLanguageIdentifier = Reference.ByCodename(languageCodename);
+            var addedLanguageIdentifier = NoExternalIdIdentifier.ByCodename(languageCodename);
             var addedContentItemLanguageIdentifier = new ContentItemVariantIdentifier(addedItemIdentifier, addedLanguageIdentifier);
             var variantUpdateModel = new ContentItemVariantUpsertModel() { Elements = elements };
 

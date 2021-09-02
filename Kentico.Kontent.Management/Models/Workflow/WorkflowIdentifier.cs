@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// <summary>
         /// Represents identifier of the language.
         /// </summary>
-        public Reference LanguageIdentifier { get; }
+        public NoExternalIdIdentifier LanguageIdentifier { get; }
 
         /// <summary>
         /// Represents identifier of the workflow step.
@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// <param name="itemIdentifier">The identifier of the content item.</param>
         /// <param name="languageIdentifier">The identifier of the language.</param>
         /// /// <param name="stepIdentifier">The identifier of the workflow step.</param>
-        public WorkflowIdentifier(Reference itemIdentifier, Reference languageIdentifier, NoExternalIdIdentifier stepIdentifier)
+        public WorkflowIdentifier(Reference itemIdentifier, NoExternalIdIdentifier languageIdentifier, NoExternalIdIdentifier stepIdentifier)
         {
             ItemIdentifier = itemIdentifier;
             LanguageIdentifier = languageIdentifier;

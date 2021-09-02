@@ -47,7 +47,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var identifier = new WorkflowIdentifier(itemIdentifier, languageIdentifier, NoExternalIdIdentifier.ByCodename("test"));
@@ -74,7 +74,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await _client.PublishContentItemVariant(variantIdentifier);
@@ -98,7 +98,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await _client.PublishContentItemVariant(variantIdentifier);
@@ -124,7 +124,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await _client.PublishContentItemVariant(variantIdentifier);
@@ -149,7 +149,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await _client.SchedulePublishingOfContentItemVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
@@ -173,7 +173,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await _client.PublishContentItemVariant(variantIdentifier);
@@ -200,7 +200,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await _client.SchedulePublishingOfContentItemVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
@@ -225,7 +225,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
-            var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
+            var languageIdentifier = NoExternalIdIdentifier.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
 
             await _client.PublishContentItemVariant(variantIdentifier);
