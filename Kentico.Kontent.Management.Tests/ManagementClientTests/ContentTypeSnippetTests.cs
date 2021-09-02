@@ -37,8 +37,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async void ListSnippet_WithContinuation_ListsSnippet()
         {
-            
-
             var response = await _client.ListContentTypeSnippetsAsync();
             Assert.NotNull(response);
 
@@ -61,8 +59,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async void GetSnippet_ById_GetsSnippet()
         {
-            
-
             var identifier = Reference.ById(EXISTING_SNIPPET_ID);
 
             var response = await _client.GetContentTypeSnippetAsync(identifier);
@@ -72,8 +68,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async void GetSnippet_ByCodename_GetsSnippet()
         {
-            
-
             var identifier = Reference.ByCodename(EXISTING_SNIPPET_CODENAME);
 
             var response = await _client.GetContentTypeSnippetAsync(identifier);
@@ -85,8 +79,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var externalId = "baf884be-531f-441f-ae88-64205efdd0f6";
 
-            
-
             var identifier = Reference.ByExternalId(externalId);
 
             var response = await _client.GetContentTypeSnippetAsync(identifier);
@@ -96,8 +88,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async void DeleteSnippet_ById_DeletesSnippet()
         {
-            
-
             var responseType = await CreateSnippet();
 
             var identifier = Reference.ById(responseType.Id);
@@ -114,8 +104,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async void DeleteSnippet_ByCodename_DeletesSnippet()
         {
-            
-
             var responseType = await CreateSnippet();
 
             var identifier = Reference.ByCodename(responseType.Codename);
@@ -133,8 +121,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async void DeleteSnippet_ByExternalId_DeletesSnippet()
         {
-            
-
             var responseType = await CreateSnippet();
 
             var identifier = Reference.ByExternalId(responseType.ExternalId);
@@ -153,8 +139,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         //Todo create more elements
         public async void CreateSnippet_CreatesSnippet()
         {
-            
-
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
             var typeExternalId = "hooray_codename_external_id";
@@ -189,8 +173,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public async void ModifySnippet_AddInto_ModifiesSnippet()
         {
             //Arrange
-            
-
             var responseType = await CreateSnippet();
 
             var elementExternalId = "snippet_external_id2_patchaddinto";
@@ -219,7 +201,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //assert
-            var addedElement = modifiedType.Elements.FirstOrDefault(x => x.ExternalId == elementExternalId).ToTextElement();
+            var addedElement = modifiedType.Elements.FirstOrDefault(x => x.ExternalId == elementExternalId).ToElement<TextElementMetadataModel>();
             Assert.NotNull(addedElement);
             Assert.Equal(addedElement.Name, textName);
 
@@ -233,9 +215,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public async void ModifySnippet_Replace_ModifiesSnippet()
         {
             //arrange
-            //todo extract creation of type to method
-            
-
             var responseType = await CreateSnippet();
 
             var expectedValue = "<h1>Here you can tell users how to fill in the element.</h1>";
@@ -253,7 +232,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Assert
-            Assert.Equal(expectedValue, modifiedType.Elements.FirstOrDefault(x => x.Codename == responseType.Elements.First().Codename)?.ToGuidelines().Guidelines);
+            Assert.Equal(expectedValue, 
+                modifiedType.Elements.FirstOrDefault(x => x.Codename == responseType.Elements.First().Codename)?.ToElement<GuidelinesElementMetadataModel>().Guidelines);
 
 
             // Cleanup

@@ -216,7 +216,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //assert
-            var addedElement = modifiedType.Elements.FirstOrDefault(x => x.Codename == elementCodename).ToTextElement();
+            var addedElement = modifiedType.Elements.FirstOrDefault(x => x.Codename == elementCodename).ToElement<TextElementMetadataModel>();
             Assert.NotNull(addedElement);
             Assert.Equal(addedElement.Name, textName);
 
@@ -247,7 +247,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Assert
-            Assert.Equal(expectedValue, modifiedType.Elements.FirstOrDefault(x => x.Codename == responseType.Elements.First().Codename)?.ToGuidelines().Guidelines);
+            Assert.Equal(expectedValue,
+                modifiedType.Elements.FirstOrDefault(x => x.Codename == responseType.Elements.First().Codename)?.ToElement<GuidelinesElementMetadataModel>().Guidelines);
 
 
             // Cleanup

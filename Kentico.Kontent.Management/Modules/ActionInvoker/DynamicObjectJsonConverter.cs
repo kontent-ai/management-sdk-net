@@ -27,7 +27,6 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             {
                 if (property.Value is JArray array)
                 {
-                    // Array is always a list of references
                     // TODO Does not work for rich text components
                     resultAsDictionary.Add(property.Name, array.Select(arrayObject => ConvertJComplexObject(arrayObject)));
                     continue;

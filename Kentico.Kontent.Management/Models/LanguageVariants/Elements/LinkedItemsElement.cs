@@ -18,14 +18,12 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// Gets or sets value of linked items element.
         /// </summary>
         [JsonProperty("value")]
-        // TODO should be ContentItemIdentifier, or ContentItemVariantIdentifier
         public IEnumerable<Reference> Value { get; set; }
 
         public LinkedItemsElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
-                // TODO - Verify if the internal type <ObjectIdentifier> is ok - maybe ContentItemIdentifier would fit in DynamicObjectJsonCoverter better
                 Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(item => Reference.ById(Guid.Parse(item.id)));
             }
         }

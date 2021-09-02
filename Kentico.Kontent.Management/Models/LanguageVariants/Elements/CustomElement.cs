@@ -14,13 +14,18 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        // TODO - add searchable value https://docs.kontent.ai/reference/management-api-v2#section/Custom-element
+        /// <summary>
+        /// Gets or sets searchable value of the custom element.
+        /// </summary>
+        [JsonProperty("searchable_value")]
+        public string SearchableValue { get; set; }
 
         public CustomElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
                 Value = data.value?.ToString();
+                //todo SearchableValue
             }
         }
 

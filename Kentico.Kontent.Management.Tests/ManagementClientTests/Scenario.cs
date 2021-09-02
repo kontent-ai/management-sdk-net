@@ -155,7 +155,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                                     id = typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.Theme)).GetKontentElementId()
                                 },
                                 value = new[] {
-                                        // TODO - decide whether it is better to use ID instead of codename
                                         NoExternalIdIdentifier.ByCodename(TWEET_THEME_ELEMENT_DARK_OPTION_CODENAME)
                                 }
                             },
@@ -165,7 +164,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                                     id = typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.DisplayOptions)).GetKontentElementId()
                                 },
                                 value = new[] {
-                                    // TODO - decide whether it is better to use ID instead of codename
                                     NoExternalIdIdentifier.ByCodename(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME)
                                 }
                             }
@@ -193,7 +191,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 element = new {
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()
                 },
-                // TODO - decide whether it is better to use ID instead of codename
                 value = new[] { NoExternalIdIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
@@ -213,7 +210,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 },
                 value = new[]
                 {
-                    // TODO - decide whether it is better to use ID instead of codename
                     NoExternalIdIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
                     NoExternalIdIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
                 },

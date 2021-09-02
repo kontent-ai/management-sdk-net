@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Kentico.Kontent.Management.Models.Assets;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {

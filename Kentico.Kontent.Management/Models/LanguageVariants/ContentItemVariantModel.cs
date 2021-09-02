@@ -37,7 +37,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// <summary>
         /// Gets or sets workflow steps of the content item.
         /// </summary>
-        //todo set?
         [JsonProperty("workflow_step")]
         public ObjectIdentifier WorkflowStep { get; set; }
     }

@@ -13,7 +13,6 @@ namespace Kentico.Kontent.Management.Models.Languages
         [JsonProperty("property_name")]
         public LanguangePropertyName PropertyName { get; set; }
 
-        //todo make it strongly typed
         [JsonProperty("value")]
         public dynamic Value { get; set; }
     }

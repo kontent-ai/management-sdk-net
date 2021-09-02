@@ -9,7 +9,6 @@ namespace Kentico.Kontent.Management.Models.TaxonomyGroups.Patch
         [JsonProperty("property_name")]
         public PropertyName PropertyName { get; set; }
 
-        //todo make it strongly typed
         [JsonProperty("value")]
         public dynamic Value { get; set; }
     }

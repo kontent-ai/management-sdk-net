@@ -8,7 +8,6 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets.Patch
         public override string Op => "replace";
 
         [JsonProperty("value")]
-        //todo make it strongly typed
         public dynamic Value { get; set; }
 
         [JsonProperty("before")]
