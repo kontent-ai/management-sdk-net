@@ -4,9 +4,9 @@ using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Mocks;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using System.Collections.Generic;
-using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.UrlBuilder;
 
 namespace Kentico.Kontent.Management.Tests
 {

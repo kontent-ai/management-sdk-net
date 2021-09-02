@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.HttpClient;
-using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.StronglyTyped;
@@ -27,6 +26,7 @@ using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Collections.Patch;
 using Kentico.Kontent.Management.Models.Assets.Patch;
+using Kentico.Kontent.Management.UrlBuilder;
 
 namespace Kentico.Kontent.Management
 {
@@ -992,7 +992,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(asset));
             }
 
-            var endpointUrl = _urlBuilder.BuildAssetsUrlFromExternalId(externalId);
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(AssetIdentifier.ByExternalId(externalId));
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
                 endpointUrl,
                 HttpMethod.Put,

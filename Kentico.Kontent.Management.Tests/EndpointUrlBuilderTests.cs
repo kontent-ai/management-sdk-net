@@ -1,9 +1,8 @@
 ﻿using System;
-using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.Assets;
-using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.UrlBuilder;
 using Xunit;
 
 namespace Kentico.Kontent.Management.Tests
@@ -220,7 +219,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var externalId = "which-brewing-fits-you";
             var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/assets/external-id/{externalId}";
-            var actualResult = _builder.BuildAssetsUrlFromExternalId(externalId);
+            var actualResult = _builder.BuildAssetsUrl(AssetIdentifier.ByExternalId(externalId));
 
             Assert.Equal(expectedResult, actualResult);
         }
