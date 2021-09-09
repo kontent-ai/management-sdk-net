@@ -4,8 +4,7 @@ using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Tests.Data
 {
-
-    public partial class ComplexTestModel
+    internal partial class ComplexTestModel
     {
         [JsonProperty("title")]
         [KontentElementId("ba7c8840-bcbc-5e3b-b292-24d0a60f3977")]
