@@ -65,9 +65,9 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                  elementObject.element.id == type.GetProperty(nameof(model.Rating))?.GetKontentElementId()
             ).value;
 
-            var selectedFormValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var selectedForm = upsertVariantElements.SingleOrDefault(elementObject =>
                     elementObject.element.id == type.GetProperty(nameof(model.SelectedForm))?.GetKontentElementId()
-            ).value;
+            );
 
             var postDateValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId()
@@ -99,7 +99,8 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
             Assert.Equal(model.Title.Value, titleValue);
             Assert.Equal(model.Rating.Value, ratingValue);
-            Assert.Equal(model.SelectedForm.Value, selectedFormValue);
+            Assert.Equal(model.SelectedForm.Value, selectedForm.value);
+            Assert.Equal(model.SelectedForm.SearchableValue, selectedForm.searchable_value);
             Assert.Equal(model.PostDate.Value, postDateValue);
             Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
             Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
@@ -120,7 +121,12 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             {
                 Title = new TextElement { Value = "text" },
                 Rating = new NumberElement { Value = 3.14m },
-                SelectedForm = new CustomElement { Value = "{\"formId\": 42}" },
+                SelectedForm = new CustomElement
+                {
+                    Value = "{\"formId\": 42}",
+                    SearchableValue = "Almighty form!",
+
+                },
                 PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
                 UrlPattern = new UrlSlugElement { Value = "urlslug", Mode = "custom" },
                 BodyCopy = new RichTextElement
@@ -132,7 +138,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                         {
                             Id = componentId,
                             Type = Reference.ById(contentTypeId),
-                            Elements = new BaseElement[] 
+                            Elements = new BaseElement[]
                             {
                                 new TextElement { Value = "text" }
                             }
@@ -165,7 +171,8 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 new
                 {
                     element = new { id = type.GetProperty(nameof(ComplexTestModel.SelectedForm))?.GetKontentElementId() },
-                    value = model.SelectedForm.Value
+                    value = model.SelectedForm.Value,
+                    searchable_value = model.SelectedForm.SearchableValue
                 },
                 new
                 {

@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
             if (data != null)
             {
                 Value = data.value?.ToString();
-                //todo SearchableValue
+                SearchableValue = data.searchable_value?.ToString();
             }
         }
 
@@ -35,6 +35,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
             {
                 element = new { id = elementId },
                 value = Value,
+                searchable_value = SearchableValue
             };
         }
     }
