@@ -5,6 +5,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 {
     /// <summary>
     /// Represents move operation.
+    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
     /// </summary>
     public sealed class CollectionMovePatchModel : CollectionOperationBaseModel
     {
@@ -13,7 +14,6 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
         /// </summary>
         public override string Op => "move";
 
-        //todo naming reference vs CollectionIdentifier
         /// <summary>
         /// Gets or sets the reference of collection to move.
         /// </summary>

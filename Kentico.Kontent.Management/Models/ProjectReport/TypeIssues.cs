@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace Kentico.Kontent.Management.Models.ProjectReport
 {
-    public class TypeIssues
+	/// <summary>
+	/// Represents the report of the problems found in the project's content types.
+	/// </summary>
+	public class TypeIssues
     {
 		/// <summary>
 		/// Gets or sets information about content type

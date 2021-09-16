@@ -1,16 +1,16 @@
 ﻿using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Types.Patch
+namespace Kentico.Kontent.Management.Models.TypeSnippets.Patch
 {
     /// <summary>
-    /// Represents the operation on the content type.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type
+    /// Represents the operation on the content type snippet.
+    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type-snippet
     /// </summary>
-    public abstract class ContentTypeOperationBaseModel
+    public abstract class ContentTypeSnippetOperationBaseModel
     {
         /// <summary>
         /// Gets specification of the operation to perform.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type
+        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type-snippet
         /// </summary>
         [JsonProperty("op", Required = Required.Always)]
         public abstract string Op { get; }

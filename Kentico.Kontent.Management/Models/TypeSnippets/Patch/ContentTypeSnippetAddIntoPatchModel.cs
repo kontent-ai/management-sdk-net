@@ -1,13 +1,13 @@
 ﻿using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Collections.Patch
+namespace Kentico.Kontent.Management.Models.TypeSnippets.Patch
 {
     /// <summary>
     /// Represents the addInto operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
+    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type-snippet
     /// </summary>
-    public sealed class CollectionAddIntoPatchModel : CollectionOperationBaseModel
+    public class ContentTypeSnippetAddIntoPatchModel : ContentTypeSnippetOperationBaseModel
     {
         /// <summary>
         /// Represents the addInto operation.
@@ -15,21 +15,21 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
         public override string Op => "addInto";
 
         /// <summary>
-        /// Gets or sets the collection to be added.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
+        /// Gets or sets the object to be added. The value depends on the selected path.
+        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type-snippet
         /// </summary>
         [JsonProperty("value")]
-        public CollectionCreateModel Value { get; set; }
+        public dynamic Value { get; set; }
 
         /// <summary>
-        /// Gets or sets reference of the existing collection before which you want to add the new collection.
+        /// Gets or sets reference of the existing object before which you want to add the new object.
         /// Note: The before and after properties are mutually exclusive.
         /// </summary>
         [JsonProperty("before")]
         public Reference Before { get; set; }
 
         /// <summary>
-        /// Gets or sets reference of the existing collection after which you want to add the new collection.
+        /// Gets or sets reference of the existing object before which you want to add the new object.
         /// Note: The before and after properties are mutually exclusive.
         /// </summary>
         [JsonProperty("after")]

@@ -237,7 +237,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var changes = new ContentTypeReplacePatchModel
             {
                 Value = expectedValue,
-                After = Reference.ByCodename(responseType.Elements.First().Codename),
                 Path = $"/elements/codename:{responseType.Elements.First().Codename}/guidelines"
             };
 

@@ -25,7 +25,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         {
             if (data != null)
             {
-                // TODO - Verify if the internal type <ObjectIdentifier> is ok - maybe AssetIdentifier would fit in DynamicObjectJsonCoverter better
                 Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, AssetIdentifier>(identifier => AssetIdentifier.ById(Guid.Parse(identifier.id)));
             }
         }

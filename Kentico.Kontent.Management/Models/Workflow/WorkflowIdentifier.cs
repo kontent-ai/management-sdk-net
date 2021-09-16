@@ -2,6 +2,9 @@
 
 namespace Kentico.Kontent.Management.Models.Workflow
 {
+    /// <summary>
+    /// Represents work flow step identifier.
+    /// </summary>
     public class WorkflowIdentifier
     {
         /// <summary>

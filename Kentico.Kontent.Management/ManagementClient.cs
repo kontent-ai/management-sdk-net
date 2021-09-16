@@ -253,15 +253,15 @@ namespace Kentico.Kontent.Management
 
         #region TypeSnippets
 
-        public async Task<ListingResponseModel<SnippetModel>> ListContentTypeSnippetsAsync()
+        public async Task<ListingResponseModel<ContentTypeSnippet>> ListContentTypeSnippetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<SnippetModel>(GetNextContentTypeSnippetsListingPageAsync, response.Pagination?.Token, response.Snippets);
+            return new ListingResponseModel<ContentTypeSnippet>(GetNextContentTypeSnippetsListingPageAsync, response.Pagination?.Token, response.Snippets);
         }
 
-        public async Task<SnippetModel> GetContentTypeSnippetAsync(Reference identifier)
+        public async Task<ContentTypeSnippet> GetContentTypeSnippetAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -269,19 +269,18 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeSnippet>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
-        private async Task<IListingResponse<SnippetModel>> GetNextContentTypeSnippetsListingPageAsync(string continuationToken)
+        private async Task<IListingResponse<ContentTypeSnippet>> GetNextContentTypeSnippetsListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildSnippetsListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
         }
 
-        //todo naming SnippetModel vs CreateContentTypeSnippetAsync
-        public async Task<SnippetModel> CreateContentTypeSnippetAsync(SnippetCreateModel contentType)
+        public async Task<ContentTypeSnippet> CreateContentTypeSnippetAsync(CreateContentSnippetCreateModel contentType)
         {
             if (contentType == null)
             {
@@ -289,7 +288,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<SnippetCreateModel, SnippetModel>(endpointUrl, HttpMethod.Post, contentType);
+            var response = await _actionInvoker.InvokeMethodAsync<CreateContentSnippetCreateModel, ContentTypeSnippet>(endpointUrl, HttpMethod.Post, contentType);
 
             return response;
         }
@@ -306,7 +305,7 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
 
-        public async Task<SnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<SnippetOperationBaseModel> changes)
+        public async Task<ContentTypeSnippet> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
         {
             if (identifier == null)
             {
@@ -314,7 +313,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-            return await _actionInvoker.InvokeMethodAsync<IEnumerable<SnippetOperationBaseModel>, SnippetModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeSnippetOperationBaseModel>, ContentTypeSnippet>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
         #endregion
@@ -537,10 +536,10 @@ namespace Kentico.Kontent.Management
 
         #region WorkflowSteps
 
-        public async Task<IEnumerable<WorkflowStep>> ListWorkflowStepsAsync()
+        public async Task<IEnumerable<WorkflowStepModel>> ListWorkflowStepsAsync()
         {
             var endpointUrl = _urlBuilder.BuildWorkflowUrl();
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowStep>>(endpointUrl, HttpMethod.Get);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowStepModel>>(endpointUrl, HttpMethod.Get);
         }
 
         public async Task ChangeWorkflowStep(WorkflowIdentifier identifier)

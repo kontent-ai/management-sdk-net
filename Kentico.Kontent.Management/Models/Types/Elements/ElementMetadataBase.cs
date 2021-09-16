@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
     public abstract class ElementMetadataBase
     {
         /// <summary>
-        /// Gets or sets the element's display name.
+        /// Represents type of the content type element.
         /// </summary>
         [JsonProperty("type", Required = Required.Always)]
         public abstract ElementMetadataType Type { get; }

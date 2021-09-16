@@ -2,23 +2,44 @@
 
 namespace Kentico.Kontent.Management.Models.Types.Elements
 {
+    /// <summary>
+    /// Represents a multiple choice element in content types.
+    /// </summary>
     public class MultipleChoiceElementMetadataModel : ElementMetadataBase
     {
+        /// <summary>
+        /// Gets or sets the element's display name.
+        /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets a flag determining whether the element must be filled in.
+        /// </summary>
         [JsonProperty("is_required")]
         public bool IsRequired { get; set; }
 
+        /// <summary>
+        /// Gets or sets the element's guidelines, providing instructions on what to fill in.
+        /// </summary>
         [JsonProperty("guidelines")]
         public string Guidelines { get; set; }
 
+        /// <summary>
+        /// Defines whether the multiple choice element acts as a single choice (shown as radio buttons in the UI) or multiple choice (shown as checkboxes in the UI).
+        /// </summary>
         [JsonProperty("mode")]
         public MultipleChoiceMode Mode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the element's multiple choice options.
+        /// </summary>
         [JsonProperty("MultipleChoiceOptionModel")]
         public MultipleChoiceOptionModel Options { get; set; }
 
+        /// <summary>
+        /// Represents type of the content type element.
+        /// </summary>
         public override ElementMetadataType Type => ElementMetadataType.MultipleChoice;
     }
 }
