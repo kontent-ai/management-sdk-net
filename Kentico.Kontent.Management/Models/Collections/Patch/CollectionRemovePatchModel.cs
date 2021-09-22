@@ -5,6 +5,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 {
     /// <summary>
     /// Represents the remove operation.
+    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
     /// </summary>
     public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel
     {
@@ -13,7 +14,6 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
         /// </summary>
         public override string Op => "remove";
 
-        //todo naming reference vs CollectionIdentifier
         /// <summary>
         /// Represents the reference of the collection which should be removed.
         /// </summary>

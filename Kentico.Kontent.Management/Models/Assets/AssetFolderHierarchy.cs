@@ -21,13 +21,13 @@ namespace Kentico.Kontent.Management.Models.Assets
         public string ExternalId { get; set; }
 
         /// <summary>
-        /// Name of the folder
+        /// Gets or sets the name of the folder
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
-        /// Nested folders
+        /// Gets or sets nested folders
         /// </summary>
         [JsonProperty("folders")]
         public IEnumerable<AssetFolderHierarchy> Folders { get; set; }

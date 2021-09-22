@@ -22,8 +22,6 @@ namespace Kentico.Kontent.Management.Extenstions
 
             switch (source.Type)
             {
-                case ElementMetadataType.Undefined:
-                        throw new InvalidOperationException($"Type {source.Type} cannot be converted.");
                 case ElementMetadataType.Text:
                     if (source.Type != ElementMetadataType.Text)
                     {
@@ -94,8 +92,8 @@ namespace Kentico.Kontent.Management.Extenstions
                     }
 
                     return source as T;
-                case ElementMetadataType.Snippet:
-                    if (source.Type != ElementMetadataType.Snippet)
+                case ElementMetadataType.ContentTypeSnippet:
+                    if (source.Type != ElementMetadataType.ContentTypeSnippet)
                     {
                         throw new InvalidOperationException($"Type {source.Type} cannot be converted to {nameof(ContentTypeSnippetElementMetadataModel)}");
                     }

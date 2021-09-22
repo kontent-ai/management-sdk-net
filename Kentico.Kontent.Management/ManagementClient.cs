@@ -164,9 +164,9 @@ namespace Kentico.Kontent.Management
         #region Types
 
         /// <summary>
-        /// Todo.
+        /// Returns listing of content type.
         /// </summary>
-        /// <returns>todo</returns>
+        /// <returns>The <see cref="ListingResponseModel{ContentTypeModel}"/> instance that represents the listing of content types.</returns>
         public async Task<ListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
         {
             var endpointUrl = _urlBuilder.BuildTypeUrl();
@@ -179,7 +179,7 @@ namespace Kentico.Kontent.Management
         /// Returns strongly typed content type.
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
-        /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
+        /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content type.</returns>
         public async Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
         {
             if (identifier == null)
@@ -214,7 +214,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Deletes given content type.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item.</param>
+        /// <param name="identifier">The identifier of the content type.</param>
         public async Task DeleteContentTypeAsync(Reference identifier)
         {
             if (identifier == null)
@@ -228,10 +228,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Patch given content type.
+        /// Modifies content type.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item.</param>
-        /// /// <param name="changes">to do</param>
+        /// <param name="identifier">The identifier of the content type.</param>
+        /// /// <param name="changes">Represents changes that will be apply to the content type.</param>
         public async Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
         {
             if (identifier == null)
@@ -253,15 +253,24 @@ namespace Kentico.Kontent.Management
 
         #region TypeSnippets
 
-        public async Task<ListingResponseModel<SnippetModel>> ListContentTypeSnippetsAsync()
+        /// <summary>
+        /// Returns listing of content type snippets.
+        /// </summary>
+        /// <returns>The <see cref="ListingResponseModel{ContentTypeSnippet}"/> instance that represents the listing of content type snippets.</returns>
+        public async Task<ListingResponseModel<ContentTypeSnippet>> ListContentTypeSnippetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<SnippetModel>(GetNextContentTypeSnippetsListingPageAsync, response.Pagination?.Token, response.Snippets);
+            return new ListingResponseModel<ContentTypeSnippet>(GetNextContentTypeSnippetsListingPageAsync, response.Pagination?.Token, response.Snippets);
         }
 
-        public async Task<SnippetModel> GetContentTypeSnippetAsync(Reference identifier)
+        /// <summary>
+        /// Returns content type snippet.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type snippet.</param>
+        /// <returns>The <see cref="ContentTypeSnippet"/> instance that represents requested content type snippet.</returns>
+        public async Task<ContentTypeSnippet> GetContentTypeSnippetAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -269,31 +278,39 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeSnippet>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
-        private async Task<IListingResponse<SnippetModel>> GetNextContentTypeSnippetsListingPageAsync(string continuationToken)
+        private async Task<IListingResponse<ContentTypeSnippet>> GetNextContentTypeSnippetsListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildSnippetsListingUrl(continuationToken);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
         }
 
-        //todo naming SnippetModel vs CreateContentTypeSnippetAsync
-        public async Task<SnippetModel> CreateContentTypeSnippetAsync(SnippetCreateModel contentType)
+        /// <summary>
+        /// Creates content type snippet.
+        /// </summary>
+        /// <param name="contentTypeSnippet">Represents content type snippet which will be created.</param>
+        /// <returns>The <see cref="ContentTypeSnippet"/> instance that represents created content type snippet.</returns>
+        public async Task<ContentTypeSnippet> CreateContentTypeSnippetAsync(CreateContentSnippetCreateModel contentTypeSnippet)
         {
-            if (contentType == null)
+            if (contentTypeSnippet == null)
             {
-                throw new ArgumentNullException(nameof(contentType));
+                throw new ArgumentNullException(nameof(contentTypeSnippet));
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<SnippetCreateModel, SnippetModel>(endpointUrl, HttpMethod.Post, contentType);
+            var response = await _actionInvoker.InvokeMethodAsync<CreateContentSnippetCreateModel, ContentTypeSnippet>(endpointUrl, HttpMethod.Post, contentTypeSnippet);
 
             return response;
         }
 
+        /// <summary>
+        /// Deletes given content type snippet.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type snippet.</param>
         public async Task DeleteContentTypeSnippetAsync(Reference identifier)
         {
             if (identifier == null)
@@ -306,7 +323,12 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
 
-        public async Task<SnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<SnippetOperationBaseModel> changes)
+        /// <summary>
+        /// Modifies content type snippet.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type snippet.</param>
+        /// <param name="changes">Represents changes that will be apply to the content type snippet.</param>
+        public async Task<ContentTypeSnippet> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
         {
             if (identifier == null)
             {
@@ -314,7 +336,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-            return await _actionInvoker.InvokeMethodAsync<IEnumerable<SnippetOperationBaseModel>, SnippetModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeSnippetOperationBaseModel>, ContentTypeSnippet>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
         #endregion
@@ -322,9 +344,9 @@ namespace Kentico.Kontent.Management
         #region TaxonomyGroups
 
         /// <summary>
-        ///todo
+        /// Returns listing of taxonomy groups.
         /// </summary>
-        /// <returns>todo</returns>
+        /// <returns>The <see cref="ListingResponseModel{ContentTypeSnippet}"/> instance that represents the listing of taxonomy groups.</returns>
         public async Task<ListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
         {
             var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
@@ -336,8 +358,8 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Returns taxonomy group.
         /// </summary>
-        /// <param name="identifier">The identifier of the content type.</param>
-        /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content item.</returns>
+        /// <param name="identifier">The identifier of the taxonomy group.</param>
+        /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents requested taxonomy group.</returns>
         public async Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier)
         {
             if (identifier == null)
@@ -355,7 +377,7 @@ namespace Kentico.Kontent.Management
         /// Creates taxonomy group.
         /// </summary>
         /// <param name="taxonomyGroup">Represents taxonomy group which will be created.</param>
-        /// <returns>The <see cref="ContentTypeModel"/> instance that represents created taxonomy group.</returns>
+        /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents created taxonomy group.</returns>
         public async Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup)
         {
             if (taxonomyGroup == null)
@@ -384,10 +406,11 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Patch given taxonomy group.
+        /// Modifies given taxonomy group.
         /// </summary>
         /// <param name="identifier">The identifier of the taxonomy group.</param>
-        /// /// <param name="changes">to do</param>
+        /// <param name="changes">Represents changes that will be apply to the taxonomy group.</param>
+        /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents the created taxonomy group.</returns>
         public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
         {
             if (identifier == null)
@@ -399,7 +422,7 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
-        //the same method is 3 times in this class => refactor
+        //todo the same method is 3 times in this class => refactor
         private async Task<IListingResponse<TaxonomyGroupModel>> GetNextTaxonomyListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildTaxonomyListingUrl(continuationToken);
@@ -411,15 +434,20 @@ namespace Kentico.Kontent.Management
         #region Webhooks
 
         /// <summary>
-        ///todo
+        /// Returns listing of webhooks.
         /// </summary>
-        /// <returns>todo</returns>
+        /// <returns>The <see cref="IEnumerable{WebhookModel}"/> instance that represents the listing of webhooks.</returns>
         public async Task<IEnumerable<WebhookModel>> ListWebhooksAsync()
         {
             var endpointUrl = _urlBuilder.BuildWebhooksUrl();
             return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WebhookModel>>(endpointUrl, HttpMethod.Get);
         }
 
+        /// <summary>
+        /// Returns the webhook.
+        /// </summary>
+        /// <param name="identifier">The identifier of the webhook.</param>
+        /// <returns>The <see cref="WebhookModel"/> instance that represents requested webhook.</returns>
         public async Task<WebhookModel> GetWebhookAsync(ObjectIdentifier identifier)
         {
             if (identifier == null)
@@ -433,6 +461,11 @@ namespace Kentico.Kontent.Management
             return response;
         }
 
+        /// <summary>
+        /// Creates the webhook.
+        /// </summary>
+        /// <param name="webhook">The webhook to be created.</param>
+        /// <returns>The <see cref="WebhookModel"/> instance that represents created webhook.</returns>
         public async Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook)
         {
             if (webhook == null)
@@ -444,6 +477,10 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<WebhookCreateModel, WebhookModel>(endpointUrl, HttpMethod.Post, webhook);
         }
 
+        /// <summary>
+        /// Deletes the webhook.
+        /// </summary>
+        /// <param name="identifier">The identifier of the webhook.</param>
         public async Task DeleteWebhookAsync(ObjectIdentifier identifier)
         {
             if (identifier == null)
@@ -456,6 +493,10 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
         }
 
+        /// <summary>
+        /// Enables the webhook.
+        /// </summary>
+        /// <param name="identifier">The identifier of the webhook.</param>
         public async Task EnableWebhookAsync(ObjectIdentifier identifier)
         {
             if (identifier == null)
@@ -468,6 +509,10 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
+        /// <summary>
+        /// Disables the webhook.
+        /// </summary>
+        /// <param name="identifier">The identifier of the webhook.</param>
         public async Task DisableWebhookAsync(ObjectIdentifier identifier)
         {
             if (identifier == null)
@@ -483,6 +528,10 @@ namespace Kentico.Kontent.Management
 
         #region Languages
 
+        /// <summary>
+        /// Returns listing of languages.
+        /// </summary>
+        /// <returns>The <see cref="ListingResponseModel{LanguageModel}"/> instance that represents the listing of languages.</returns>
         public async Task<ListingResponseModel<LanguageModel>> ListLanguagesAsync()
         {
             var endpointUrl = _urlBuilder.BuildLanguagesUrl();
@@ -491,6 +540,11 @@ namespace Kentico.Kontent.Management
             return new ListingResponseModel<LanguageModel>(GetNextLanguageListingPageAsync, response.Pagination?.Token, response.Languages);
         }
 
+        /// <summary>
+        /// Returns the language.
+        /// </summary>
+        /// <param name="identifier">The identifier of the language.</param>
+        /// <returns>The <see cref="LanguageModel"/> instance that represents requested language.</returns>
         public async Task<LanguageModel> GetLanguageAsync(Reference identifier)
         {
             if (identifier == null)
@@ -504,6 +558,11 @@ namespace Kentico.Kontent.Management
             return response;
         }
 
+        /// <summary>
+        /// Creates the language.
+        /// </summary>
+        /// <param name="language">The language to be created.</param>
+        /// <returns>The <see cref="LanguageModel"/> instance that represents created language.</returns>
         public async Task<LanguageModel> CreateLanguageAsync(LanguageCreateModel language)
         {
             if (language == null)
@@ -515,6 +574,12 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<LanguageCreateModel, LanguageModel>(endpointUrl, HttpMethod.Post, language);
         }
 
+        /// <summary>
+        /// Modifies the language.
+        /// </summary>
+        /// <param name="identifier">The language to be modified.</param>
+        /// <param name="changes">Represents changes that will be apply to the language.</param>
+        /// <returns>The <see cref="LanguageModel"/> instance that represents modified language.</returns>
         public async Task<LanguageModel> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes)
         {
             if (identifier == null)
@@ -526,7 +591,7 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<LanguagePatchModel>, LanguageModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
-        //the same method is 4 times in this class => refactor
+        //to do the same method is 4 times in this class => refactor
         private async Task<IListingResponse<LanguageModel>> GetNextLanguageListingPageAsync(string continuationToken)
         {
             var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
@@ -537,12 +602,20 @@ namespace Kentico.Kontent.Management
 
         #region WorkflowSteps
 
-        public async Task<IEnumerable<WorkflowStep>> ListWorkflowStepsAsync()
+        /// <summary>
+        /// Returns listing of workflow steps.
+        /// </summary>
+        /// <returns>The <see cref="IEnumerable{WorkflowStepModel}"/> instance that represents the listing of workflow steps.</returns>
+        public async Task<IEnumerable<WorkflowStepModel>> ListWorkflowStepsAsync()
         {
             var endpointUrl = _urlBuilder.BuildWorkflowUrl();
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowStep>>(endpointUrl, HttpMethod.Get);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowStepModel>>(endpointUrl, HttpMethod.Get);
         }
 
+        /// <summary>
+        /// Changes workflow step.
+        /// </summary>
+        /// <param name="identifier">The workflow step to be changed.</param>
         public async Task ChangeWorkflowStep(WorkflowIdentifier identifier)
         {
             if (identifier == null)
@@ -555,6 +628,10 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
+        /// <summary>
+        /// Publishes the content item variant.
+        /// </summary>
+        /// <param name="identifier">The content item variant to be published.</param>
         public async Task PublishContentItemVariant(ContentItemVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -567,6 +644,11 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
+        /// <summary>
+        /// Schedules publishing of the content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant  to be published.</param>
+        /// <param name="scheduleModel">The time when the content item variant will be published</param>
         public async Task SchedulePublishingOfContentItemVariant(ContentItemVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
@@ -579,6 +661,10 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
         }
 
+        /// <summary>
+        /// Cancels publishing of the content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant identifier of which publishing should be canceled.</param>
         public async Task CancelPublishingOfContentItemVariant(ContentItemVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -591,6 +677,10 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
+        /// <summary>
+        /// Unpublishes the content item variant.
+        /// </summary>
+        /// <param name="identifier">The content item variant to be unpublished.</param>
         public async Task UnpublishContentItemVariant(ContentItemVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -603,6 +693,10 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
+        /// <summary>
+        /// Cancels unpublishing of the content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant identifier of which unpublishing should be canceled.</param>
         public async Task CancelUnpublishingOfContentItemVariant(ContentItemVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -615,6 +709,11 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
+        /// <summary>
+        /// Schedules unpublishing of the content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant  to be unpublished.</param>
+        /// <param name="scheduleModel">The time when the content item variant will be unpublished</param>
         public async Task ScheduleUnpublishingOfContentItemVariant(ContentItemVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
@@ -627,6 +726,10 @@ namespace Kentico.Kontent.Management
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
         }
 
+        /// <summary>
+        /// Creates the new version of the content item variant.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content item variant for which the new version should created .</param>
         public async Task CreateNewVersionOfContentItemVariant(ContentItemVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -891,6 +994,11 @@ namespace Kentico.Kontent.Management
             return response;
         }
 
+        /// <summary>
+        /// Creates the asset folder.
+        /// </summary>
+        /// <param name="folder">The asset folder to be created.</param>
+        /// <returns>The <see cref="LanguageModel"/> instance that represents created asset folder.</returns>
         public async Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
         {
             if (folder == null)
@@ -904,6 +1012,11 @@ namespace Kentico.Kontent.Management
             return response;
         }
 
+        /// <summary>
+        /// Modifies the asset folder.
+        /// </summary>
+        /// /// <param name="changes">Represents changes that will be apply to the asset folder.</param>
+        /// <returns>The <see cref="LanguageModel"/> instance that represents modified asset folder.</returns>
         public async Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
         {
             if (changes == null)
@@ -1059,6 +1172,10 @@ namespace Kentico.Kontent.Management
 
         #region Project
 
+        /// <summary>
+        /// Returns project information
+        /// </summary>
+        /// <returns>The <see cref="Project"/> instance that represents the project infornation.</returns>
         public async Task<Project> GetProjectInformation()
         {
             var endpointUrl = _urlBuilder.BuildProjectUrl();
@@ -1068,12 +1185,20 @@ namespace Kentico.Kontent.Management
 
         #region Collections
 
+        /// <summary>
+        /// Returns listing of collection.
+        /// </summary>
+        /// <returns>The <see cref="CollectionsModel"/> instance that represents the listing of collection.</returns>
         public async Task<CollectionsModel> ListCollectionsAsync()
         {
             var endpointUrl = _urlBuilder.BuildCollectionsUrl();
             return await _actionInvoker.InvokeReadOnlyMethodAsync<CollectionsModel>(endpointUrl, HttpMethod.Get);
         }
 
+        /// <summary>
+        /// Modifies collection.
+        /// </summary>
+        /// <param name="changes">Represents changes that will be apply to the collection.</param>
         public async Task<CollectionsModel> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes)
         {
             if (changes == null)

@@ -558,13 +558,18 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         private static void AssertStronglyTypedResponseElements(ComplexTestModel elements)
         {
             Assert.Equal(StronglyTypedElements.Title.Value, elements.Title.Value);
+
             Assert.Equal(StronglyTypedElements.PostDate.Value, elements.PostDate.Value);
+
             // TODO extend for complex elements
             // Assert.Equal(UnifyWhitespace(StronglyTypedElements.BodyCopy), UnifyWhitespace(elements.BodyCopy));
+
             Assert.Equal(StronglyTypedElements.UrlPattern.Mode, elements.UrlPattern.Mode);
             Assert.Equal(StronglyTypedElements.UrlPattern.Value, elements.UrlPattern.Value);
+            
             Assert.NotNull(elements.TeaserImage.Value);
             Assert.Equal(StronglyTypedElements.TeaserImage.Value.FirstOrDefault()?.Id, elements.TeaserImage.Value.FirstOrDefault()?.Id);
+            
             Assert.NotNull(elements.Options.Value);
             Assert.NotEmpty(elements.Options.Value);
             Assert.Equal(StronglyTypedElements.Options.Value.Select(option => option.Id), elements.Options.Value.Select(option => option.Id));
@@ -576,6 +581,9 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             Assert.Single(elements.Personas.Value);
             Assert.Equal(EXISTING_TAXONOMY_TERM_ID, elements.Personas.Value.FirstOrDefault()?.Id);
+
+            Assert.Equal("{\"formId\": 42}", elements.SelectedForm.Value);
+            Assert.Equal("Almighty form!", elements.SelectedForm.SearchableValue);
         }
     }
 }

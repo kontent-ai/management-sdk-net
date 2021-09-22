@@ -142,7 +142,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
             var typeExternalId = "hooray_codename_external_id";
-            var type = new SnippetCreateModel
+            var type = new CreateContentSnippetCreateModel
             {
                 Name = typeName,
                 Codename = typeCodename,
@@ -177,7 +177,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var elementExternalId = "snippet_external_id2_patchaddinto";
             var textName = "snippetName2";
-            var changes = new SnippetAddIntoPatchModel
+            var changes = new ContentTypeSnippetAddIntoPatchModel
             {
                 Value = new TextElementMetadataModel
                 {
@@ -197,7 +197,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //act
-            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeSnippetOperationBaseModel> { changes });
 
 
             //assert
@@ -219,16 +219,15 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var expectedValue = "<h1>Here you can tell users how to fill in the element.</h1>";
 
-            var changes = new SnippetPatchReplaceModel
+            var changes = new ContentTypeSnippetPatchReplaceModel
             {
                 Value = expectedValue,
-                After = Reference.ByCodename(responseType.Elements.First().Codename),
                 Path = $"/elements/codename:{responseType.Elements.First().Codename}/guidelines"
             };
 
 
             //Act
-            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeSnippetOperationBaseModel> { changes });
 
 
             //Assert
@@ -256,7 +255,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
             //Act
-            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<SnippetOperationBaseModel> { changes });
+            var modifiedType = await _client.ModifyContentTypeSnippetAsync(Reference.ByCodename(responseType.Codename), new List<ContentTypeSnippetOperationBaseModel> { changes });
 
 
             //Assert
@@ -268,11 +267,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await _client.DeleteContentTypeSnippetAsync(typeToClean);
         }
 
-        private async Task<SnippetModel> CreateSnippet([CallerMemberName] string memberName = "")
+        private async Task<ContentTypeSnippet> CreateSnippet([CallerMemberName] string memberName = "")
         {
             var suffix = $"{memberName.ToLower().Substring(0, Math.Min(40, memberName.Length))}";
 
-            var type = new SnippetCreateModel
+            var type = new CreateContentSnippetCreateModel
             {
                 Name = $"{suffix}",
                 Codename = $"c_{suffix}",

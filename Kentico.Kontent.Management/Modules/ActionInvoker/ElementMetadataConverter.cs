@@ -24,8 +24,6 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
             switch (type)
             {
-                case ElementMetadataType.Undefined:
-                    throw new Exception();
                 case ElementMetadataType.Text:
                     return JsonConvert.DeserializeObject<TextElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
                 case ElementMetadataType.RichText:
@@ -46,7 +44,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
                     return JsonConvert.DeserializeObject<TaxonomyElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
                 case ElementMetadataType.UrlSlug:
                     return JsonConvert.DeserializeObject<UrlSlugElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
-                case ElementMetadataType.Snippet:
+                case ElementMetadataType.ContentTypeSnippet:
                     return JsonConvert.DeserializeObject<ContentTypeSnippetElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
                 case ElementMetadataType.Custom:
                     return JsonConvert.DeserializeObject<CustomElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);

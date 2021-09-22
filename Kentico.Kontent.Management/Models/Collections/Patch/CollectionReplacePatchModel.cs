@@ -5,6 +5,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 {
     /// <summary>
     /// Represents the replace operation.
+    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
     /// </summary>
     public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel
     {
@@ -22,6 +23,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 
         /// <summary>
         /// Gets or sets the new value of the property specified in PropertyName.
+        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }

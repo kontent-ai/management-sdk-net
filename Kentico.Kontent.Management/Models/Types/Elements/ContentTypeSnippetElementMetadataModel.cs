@@ -3,11 +3,20 @@ using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Types.Elements
 {
+    /// <summary>
+    /// Represents a content type snippet element in content types.
+    /// </summary>
     public class ContentTypeSnippetElementMetadataModel : ElementMetadataBase
     {
+        /// <summary>
+        /// Gets or sets the element's reference to a specific content type snippet.
+        /// </summary>
         [JsonProperty("snippet")]
-        public ObjectIdentifier Snippet { get; set; }
+        public ObjectIdentifier SnippetIdentifier { get; set; }
 
-        public override ElementMetadataType Type => ElementMetadataType.Snippet;
+        /// <summary>
+        /// Represents type of the content element.
+        /// </summary>
+        public override ElementMetadataType Type => ElementMetadataType.ContentTypeSnippet;
     }
 }
