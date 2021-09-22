@@ -44,7 +44,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Specifies the elements that this custom element can read from.
         /// </summary>
         [JsonProperty("allowed_elements")]
-        public IEnumerable<ObjectIdentifier> AllowedElements { get; set; }
+        public IEnumerable<Reference> AllowedElements { get; set; }
 
         /// <summary>
         /// Represents type of the content type element.

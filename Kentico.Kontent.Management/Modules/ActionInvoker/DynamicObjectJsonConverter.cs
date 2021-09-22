@@ -2,9 +2,6 @@
 using System.Linq;
 using System.Dynamic;
 using System.Collections.Generic;
-
-using Kentico.Kontent.Management.Models;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -27,7 +24,6 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             {
                 if (property.Value is JArray array)
                 {
-                    // TODO Does not work for rich text components
                     resultAsDictionary.Add(property.Name, array.Select(arrayObject => ConvertJComplexObject(arrayObject)));
                     continue;
                 }
@@ -68,8 +64,6 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var defaultResult = serializer.Deserialize(reader);
-            // TODO - unify this method with ConvertToDynamicObject
-            // var jObject = JToken.Load(reader);
 
             return ConvertJComplexObject(defaultResult);
         }

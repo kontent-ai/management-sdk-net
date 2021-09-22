@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 {
     /// <summary>
     /// Represents the addInto operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
+    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-collections
     /// </summary>
     public sealed class CollectionAddIntoPatchModel : CollectionOperationBaseModel
     {
@@ -16,7 +16,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 
         /// <summary>
         /// Gets or sets the collection to be added.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
+        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-collections
         /// </summary>
         [JsonProperty("value")]
         public CollectionCreateModel Value { get; set; }

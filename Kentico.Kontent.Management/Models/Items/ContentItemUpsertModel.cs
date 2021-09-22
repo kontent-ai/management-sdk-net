@@ -32,12 +32,12 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets sitemap locations of the content item.
         /// </summary>
         [JsonProperty("sitemap_locations", Required = Required.Always)]
-        public IEnumerable<NoExternalIdIdentifier> SitemapLocations { get; set; } = Enumerable.Empty<NoExternalIdIdentifier>();
+        public IEnumerable<Reference> SitemapLocations { get; set; } = Enumerable.Empty<Reference>();
 
         /// <summary>
         /// Gets or sets collection of the content item.
         /// </summary>
         [JsonProperty("collection")]
-        public NoExternalIdIdentifier Collection { get; set; }
+        public Reference Collection { get; set; }
     }
 }

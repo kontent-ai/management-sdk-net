@@ -25,6 +25,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             };
 
             // TODO validate switching reflection to custom JSON serializer
+            //todo rethink
             var type = typeof(T);
             var instance = new T();
 

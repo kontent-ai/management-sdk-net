@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Gets or sets the element's reference to a specific content type snippet.
         /// </summary>
         [JsonProperty("snippet")]
-        public ObjectIdentifier SnippetIdentifier { get; set; }
+        public Reference SnippetIdentifier { get; set; }
 
         /// <summary>
         /// Represents type of the content element.

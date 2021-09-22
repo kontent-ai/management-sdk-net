@@ -143,19 +143,19 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(_webhookTemplate.Url);
         }
 
-        internal string BuildWebhooksUrl(ObjectIdentifier identifier)
+        internal string BuildWebhooksUrl(Reference identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier, _webhookTemplate);
             return GetUrl(itemSegment);
         }
 
-        internal string BuildWebhooksEnableUrl(ObjectIdentifier identifier)
+        internal string BuildWebhooksEnableUrl(Reference identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier, _webhookTemplate) + "/enable";
             return GetUrl(itemSegment);
         }
 
-        internal string BuildWebhooksDisableUrl(ObjectIdentifier identifier)
+        internal string BuildWebhooksDisableUrl(Reference identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier, _webhookTemplate) + "/disable";
             return GetUrl(itemSegment);
@@ -301,14 +301,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         private string GetIdentifierUrlSegment(Reference identifier, UrlTemplate template)
             => GetIdentifier(template, id: identifier.Id, codename: identifier.Codename, externalId: identifier.ExternalId);
-
-
-        private string GetIdentifierUrlSegment(NoExternalIdIdentifier identifier, UrlTemplate template)
-            => GetIdentifier(template, id: identifier.Id, codename: identifier.Codename);
-
-
-        private string GetIdentifierUrlSegment(ObjectIdentifier identifier, UrlTemplate template)
-            => GetIdentifier(template, id: identifier.Id);
 
         private string GetIdentifierUrlSegment(AssetIdentifier identifer, UrlTemplate template)
             => GetIdentifier(template, id: identifer.Id, externalId: identifer.ExternalId);

@@ -37,7 +37,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Specifies allowed file types as an array of references to the content types.
         /// </summary>
         [JsonProperty("allowed_content_types")]
-        public IEnumerable<ObjectIdentifier> AllowedTypes { get; set; }
+        public IEnumerable<Reference> AllowedTypes { get; set; }
 
         /// <summary>
         /// Represents type of the content type element.

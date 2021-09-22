@@ -15,7 +15,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// Gets or sets value of rich text element components.
         /// </summary>
         [JsonProperty("components")]
-        // TODO should be an custom Component Object
         public IEnumerable<ComponentModel> Components { get; set; }
 
         /// <summary>
@@ -33,13 +32,12 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
                 {
                     Id = Guid.Parse(component.id),
                     Type = Reference.ById(Guid.Parse(component.type.id)),
-                    // TODO - probably use reflection for constructor
                     Elements = (component.elements as IEnumerable<dynamic>)
                 });
             }
         }
 
-        public override dynamic ToDynamic(string elementId)
+        public override dynamic ToDynamic(Guid elementId)
         {
             return new
             {

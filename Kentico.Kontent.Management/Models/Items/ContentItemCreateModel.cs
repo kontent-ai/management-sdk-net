@@ -36,6 +36,6 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets exernal identifier of the content item.
         /// </summary>
         [JsonProperty("collection")]
-        public NoExternalIdIdentifier Collection { get; set; }
+        public Reference Collection { get; set; }
     }
 }

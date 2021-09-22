@@ -115,7 +115,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var changes = new[] { new CollectionMovePatchModel
             {
-                CollectionIdentifier = identifier,
+                Reference = identifier,
                 After = Reference.ById(Guid.Empty)
             }};
 
@@ -137,7 +137,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var changes = new[] { new CollectionMovePatchModel
             {
-                CollectionIdentifier = identifier,
+                Reference = identifier,
                 Before = Reference.ById(Guid.Empty)
             }};
 
@@ -185,7 +185,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var changes = new[] { new CollectionReplacePatchModel
             {
-                CollectionIdentifier = identifier,
+                Reference = identifier,
                 PropertyName = PropertyName.Name,
                 Value = "newName"
             }};

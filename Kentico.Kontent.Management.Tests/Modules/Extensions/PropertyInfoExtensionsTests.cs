@@ -1,6 +1,6 @@
 ﻿using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
-
+using System;
 using Xunit;
 
 namespace Kentico.Kontent.Management.Tests
@@ -30,7 +30,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var property = typeof(PropertyInfoExtensionsTestsSampleClass).GetProperty("Property2");
 
-            Assert.Equal(ELEMENT_ID_GUID, property.GetKontentElementId());
+            Assert.Equal(Guid.Parse(ELEMENT_ID_GUID), property.GetKontentElementId());
         }
     }
 }

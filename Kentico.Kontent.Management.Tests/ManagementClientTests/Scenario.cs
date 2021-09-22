@@ -72,7 +72,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public const string EXISTING_TAXONOMY_GROUP_CODENAME = "manufacturer";
 
         public const string EXISTING_WEBHOOK_NAME = "Webhook_all_triggers";
-        public const string EXISTING_WEBHOOK_ID = "ef6eb5e6-24f6-4a3a-a291-1cff8d4eecc5";
+        public static readonly Guid EXISTING_WEBHOOK_ID = Guid.Parse("ef6eb5e6-24f6-4a3a-a291-1cff8d4eecc5");
 
         public const string EXISTING_COLLECTION_CODENAME = "testcollection";
 
@@ -155,7 +155,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                                     id = typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.Theme)).GetKontentElementId()
                                 },
                                 value = new[] {
-                                        NoExternalIdIdentifier.ByCodename(TWEET_THEME_ELEMENT_DARK_OPTION_CODENAME)
+                                        Reference.ByCodename(TWEET_THEME_ELEMENT_DARK_OPTION_CODENAME)
                                 }
                             },
                             new
@@ -164,7 +164,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                                     id = typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.DisplayOptions)).GetKontentElementId()
                                 },
                                 value = new[] {
-                                    NoExternalIdIdentifier.ByCodename(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME)
+                                    Reference.ByCodename(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME)
                                 }
                             }
                         }
@@ -191,7 +191,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 element = new {
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()
                 },
-                value = new[] { NoExternalIdIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
+                value = new[] { Reference.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
@@ -210,8 +210,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 },
                 value = new[]
                 {
-                    NoExternalIdIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
-                    NoExternalIdIdentifier.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
+                    Reference.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
+                    Reference.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
                 },
                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
@@ -221,28 +221,28 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             Title = new TextElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()),
                 Value = "On Roast"
             },
             Rating = new NumberElement
             {
                 Value = 3.14m,
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Rating)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Rating)).GetKontentElementId()),
             },
             SelectedForm = new CustomElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.SelectedForm)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.SelectedForm)).GetKontentElementId()),
                 Value = "{\"formId\": 42}",
                 SearchableValue = "Almighty form!"
             },
             PostDate = new DateTimeElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()),
                 Value = new DateTime(2017, 7, 4)
             },
             BodyCopy = new RichTextElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId()),
                 Value = $"<h1>Light Roasts</h1> <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{RICH_TEXT_COMPONENT_ID}\"></object>",
                 Components = new ComponentModel[]
                 {
@@ -252,21 +252,20 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         Type = Reference.ById(TWEET_TYPE_ID),
                         Elements = new BaseElement[]
                         {
-                            // TODO use exact Tweet values like in _elements (unify IDs to constants)
                             new TextElement
                             {
-                                Element = ObjectIdentifier.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.TweetLink)).GetKontentElementId()),
+                                Element = Reference.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.TweetLink)).GetKontentElementId()),
                                 Value = "https://twitter.com/ChrastinaOndrej/status/1417105245935706123"
                             },
                             new MultipleChoiceElement
                             {
-                                Element = ObjectIdentifier.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.Theme)).GetKontentElementId()),
-                                Value = new[] { NoExternalIdIdentifier.ById(TWEET_THEME_ELEMENT_DARK_OPTION_ID) },
+                                Element = Reference.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.Theme)).GetKontentElementId()),
+                                Value = new[] { Reference.ById(TWEET_THEME_ELEMENT_DARK_OPTION_ID) },
                             },
                             new MultipleChoiceElement
                             {
-                                Element = ObjectIdentifier.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.DisplayOptions)).GetKontentElementId()),
-                                Value = new[] { NoExternalIdIdentifier.ById(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID) },
+                                Element = Reference.ById(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.DisplayOptions)).GetKontentElementId()),
+                                Value = new[] { Reference.ById(TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID) },
                             }
                         }
                     }
@@ -274,32 +273,32 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             },
             RelatedArticles = new LinkedItemsElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()),
                 Value = new[] { Reference.ById(EXISTING_ITEM_ID) }
             },
             UrlPattern = new UrlSlugElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()),
                 Value = "on-roasts",
                 Mode = "custom"
             },
             Personas = new TaxonomyElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()),
-                Value = new[] { NoExternalIdIdentifier.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) }
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()),
+                Value = new[] { Reference.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) }
             },
             TeaserImage = new AssetElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
                 Value = new[] { AssetIdentifier.ById(EXISTING_ASSET_ID) },
             },
             Options = new MultipleChoiceElement
             {
-                Element = ObjectIdentifier.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetKontentElementId()),
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetKontentElementId()),
                 Value = new[]
                 {
-                    NoExternalIdIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID),
-                    NoExternalIdIdentifier.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED)
+                    Reference.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID),
+                    Reference.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED)
                 }
             },
         };

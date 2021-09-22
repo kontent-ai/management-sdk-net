@@ -62,6 +62,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact(Skip = "Pagination does not work properly")]
+        //todo put continuation token into header
         public async void ListContentItems_WithContinuation_ListsAllContentItems()
         {
             var response = await _client.ListContentItemsAsync();
@@ -94,14 +95,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             {
                 Codename = EXISTING_ITEM_CODENAME,
                 Name = itemName,
-                Collection = NoExternalIdIdentifier.ById(Guid.Empty)
+                Collection = Reference.ById(Guid.Empty)
             };
 
             var responseItem = await _client.UpdateContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.Codename);
-            Assert.Equal(NoExternalIdIdentifier.ById(Guid.Empty).Id, responseItem.Collection.Id);
+            Assert.Equal(Reference.ById(Guid.Empty).Id, responseItem.Collection.Id);
         }
 
         [Fact]
@@ -177,7 +178,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Codename = itemCodename,
                 Name = itemName,
                 Type = type,
-                Collection = NoExternalIdIdentifier.ById(Guid.Empty)
+                Collection = Reference.ById(Guid.Empty)
             };
 
             var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(externalId, item);
@@ -202,7 +203,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Codename = itemCodename,
                 Name = itemName,
                 Type = type,
-                Collection = NoExternalIdIdentifier.ById(Guid.Empty)
+                Collection = Reference.ById(Guid.Empty)
             };
 
             var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(externalId, item);

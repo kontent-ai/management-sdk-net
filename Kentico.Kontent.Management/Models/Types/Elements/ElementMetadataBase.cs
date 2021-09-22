@@ -40,6 +40,6 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Gets or sets the content group where the element is used in.
         /// </summary>
         [JsonProperty("content_group", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ObjectIdentifier ContentGroup { get; set; }
+        public Reference ContentGroup { get; set; }
     }
 }

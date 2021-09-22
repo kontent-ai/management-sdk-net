@@ -16,17 +16,17 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// Gets or sets value of asset element.
         /// </summary>
         [JsonProperty("value")]
-        public IEnumerable<NoExternalIdIdentifier> Value { get; set; }
+        public IEnumerable<Reference> Value { get; set; }
 
         public TaxonomyElement(dynamic data = null) : base((object)data)
         {
             if (data != null)
             {
-                Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, NoExternalIdIdentifier>(identifier => NoExternalIdIdentifier.ById(Guid.Parse(identifier.id)));
+                Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)));
             }
         }
 
-        public override dynamic ToDynamic(string elementId)
+        public override dynamic ToDynamic(Guid elementId)
         {
             return new
             {

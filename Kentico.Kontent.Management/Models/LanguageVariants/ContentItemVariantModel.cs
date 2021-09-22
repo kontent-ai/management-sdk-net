@@ -14,7 +14,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// Gets or sets item of the variant.
         /// </summary>
         [JsonProperty("item")]
-        public ObjectIdentifier Item { get; set; }
+        public Reference Item { get; set; }
 
         /// <summary>
         /// Gets or sets elements of the variant.
@@ -38,6 +38,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// Gets or sets workflow steps of the content item.
         /// </summary>
         [JsonProperty("workflow_step")]
-        public ObjectIdentifier WorkflowStep { get; set; }
+        public Reference WorkflowStep { get; set; }
     }
 }

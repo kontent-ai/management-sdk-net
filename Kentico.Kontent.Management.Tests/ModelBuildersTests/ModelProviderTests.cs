@@ -91,11 +91,11 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
             var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
-            ).value as IEnumerable<NoExternalIdIdentifier>;
+            ).value as IEnumerable<Reference>;
 
             var optionsValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
-            ).value as IEnumerable<NoExternalIdIdentifier>;
+            ).value as IEnumerable<Reference>;
 
             Assert.Equal(model.Title.Value, titleValue);
             Assert.Equal(model.Rating.Value, ratingValue);
@@ -147,8 +147,8 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                 },
                 TeaserImage = new AssetElement { Value = new[] { AssetIdentifier.ById(Guid.NewGuid()), AssetIdentifier.ById(Guid.NewGuid()) } },
                 RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToArray() },
-                Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(NoExternalIdIdentifier.ById).ToList() },
-                Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(NoExternalIdIdentifier.ById).ToList() },
+                Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },
+                Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },
             };
         }
 
@@ -156,7 +156,6 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
         {
             var type = typeof(ComplexTestModel);
 
-            // TODO use toDynamic + implement loading of the atribute in the method
             var elements = new List<dynamic> {
                 new
                 {

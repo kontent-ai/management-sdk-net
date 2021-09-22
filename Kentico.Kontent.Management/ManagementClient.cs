@@ -448,7 +448,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the webhook.</param>
         /// <returns>The <see cref="WebhookModel"/> instance that represents requested webhook.</returns>
-        public async Task<WebhookModel> GetWebhookAsync(ObjectIdentifier identifier)
+        public async Task<WebhookModel> GetWebhookAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -481,7 +481,7 @@ namespace Kentico.Kontent.Management
         /// Deletes the webhook.
         /// </summary>
         /// <param name="identifier">The identifier of the webhook.</param>
-        public async Task DeleteWebhookAsync(ObjectIdentifier identifier)
+        public async Task DeleteWebhookAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -497,7 +497,7 @@ namespace Kentico.Kontent.Management
         /// Enables the webhook.
         /// </summary>
         /// <param name="identifier">The identifier of the webhook.</param>
-        public async Task EnableWebhookAsync(ObjectIdentifier identifier)
+        public async Task EnableWebhookAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -513,7 +513,7 @@ namespace Kentico.Kontent.Management
         /// Disables the webhook.
         /// </summary>
         /// <param name="identifier">The identifier of the webhook.</param>
-        public async Task DisableWebhookAsync(ObjectIdentifier identifier)
+        public async Task DisableWebhookAsync(Reference identifier)
         {
             if (identifier == null)
             {

@@ -43,7 +43,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Specifies a list of allowed content types as an array of references.
         /// </summary>
         [JsonProperty("allowed_content_types")]
-        public IEnumerable<ObjectIdentifier> AllowedTypes { get; set; }
+        public IEnumerable<Reference> AllowedTypes { get; set; }
 
         /// <summary>
         /// Specifies the width limitation for images.

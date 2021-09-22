@@ -40,10 +40,10 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async void GetWebhook_ById_GetsWebhook()
         {
-            var identifier = ObjectIdentifier.ById(EXISTING_WEBHOOK_ID);
+            var identifier = Reference.ById(EXISTING_WEBHOOK_ID);
 
             var response = await _client.GetWebhookAsync(identifier);
-            Assert.Equal(EXISTING_WEBHOOK_ID, response.Id.ToString("d"));
+            Assert.Equal(EXISTING_WEBHOOK_ID, response.Id);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(webhook.Triggers.DeliveryApiContentChanges.Count(), createdWebhook.Triggers.DeliveryApiContentChanges.Count());
 
             // Cleanup
-            var webhookToClean = ObjectIdentifier.ById(createdWebhook.Id);
+            var webhookToClean = Reference.ById(createdWebhook.Id);
             await _client.DeleteWebhookAsync(webhookToClean);
         }
 
@@ -116,11 +116,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var createdWebhook = await _client.CreateWebhookAsync(webhook);
 
 
-            var exception = await Record.ExceptionAsync(async () => await _client.DeleteWebhookAsync(ObjectIdentifier.ById(createdWebhook.Id)));
+            var exception = await Record.ExceptionAsync(async () => await _client.DeleteWebhookAsync(Reference.ById(createdWebhook.Id)));
 
             if (RunType != TestUtils.TestRunType.MockFromFileSystem)
             {
-                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteWebhookAsync(ObjectIdentifier.ById(createdWebhook.Id)));
+                await Assert.ThrowsAsync<ManagementException>(async () => await _client.DeleteWebhookAsync(Reference.ById(createdWebhook.Id)));
             }
 
             Assert.Null(exception);
@@ -150,15 +150,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var createdWebhook = await _client.CreateWebhookAsync(webhook);
 
-            //todo mistake in docs enable/disable does not return payload
-            await _client.EnableWebhookAsync(ObjectIdentifier.ById(createdWebhook.Id));
+            await _client.EnableWebhookAsync(Reference.ById(createdWebhook.Id));
 
-            var enabledWebhook = await _client.GetWebhookAsync(ObjectIdentifier.ById(createdWebhook.Id));
+            var enabledWebhook = await _client.GetWebhookAsync(Reference.ById(createdWebhook.Id));
 
             Assert.True(enabledWebhook.Enabled);
 
             // Cleanup
-            var webhookToClean = ObjectIdentifier.ById(createdWebhook.Id);
+            var webhookToClean = Reference.ById(createdWebhook.Id);
             await _client.DeleteWebhookAsync(webhookToClean);
         }
 
@@ -186,15 +185,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var createdWebhook = await _client.CreateWebhookAsync(webhook);
 
-            //todo mistake in docs enable/disable does not return payload
-            await _client.DisableWebhookAsync(ObjectIdentifier.ById(createdWebhook.Id));
+            await _client.DisableWebhookAsync(Reference.ById(createdWebhook.Id));
 
-            var enabledWebhook = await _client.GetWebhookAsync(ObjectIdentifier.ById(createdWebhook.Id));
+            var enabledWebhook = await _client.GetWebhookAsync(Reference.ById(createdWebhook.Id));
 
             Assert.False(enabledWebhook.Enabled);
 
             // Cleanup
-            var webhookToClean = ObjectIdentifier.ById(createdWebhook.Id);
+            var webhookToClean = Reference.ById(createdWebhook.Id);
             await _client.DeleteWebhookAsync(webhookToClean);
         }
     }

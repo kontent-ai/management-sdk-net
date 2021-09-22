@@ -65,7 +65,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildContentItemVariantsUrl_ItemIdVariantId_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ById(ITEM_ID);
-            var variantIdentifier = NoExternalIdIdentifier.ById(VARIANT_ID);
+            var variantIdentifier = Reference.ById(VARIANT_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}/variants/{VARIANT_ID}";
@@ -77,7 +77,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildContentItemVariantsUrl_ItemIdVariantCodename_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ById(ITEM_ID);
-            var variantIdentifier = NoExternalIdIdentifier.ByCodename(VARIANT_CODENAME);
+            var variantIdentifier = Reference.ByCodename(VARIANT_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}/variants/codename/{VARIANT_CODENAME}";
@@ -89,7 +89,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildContentItemVariantsUrl_ItemCodenameVariantId_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByCodename(ITEM_CODENAME);
-            var variantIdentifier = NoExternalIdIdentifier.ById(VARIANT_ID);
+            var variantIdentifier = Reference.ById(VARIANT_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}/variants/{VARIANT_ID}";
@@ -101,7 +101,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildContentItemVariantsUrl_ItemCodenameVariantCodename_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByCodename(ITEM_CODENAME);
-            var variantIdentifier = NoExternalIdIdentifier.ByCodename(VARIANT_CODENAME);
+            var variantIdentifier = Reference.ByCodename(VARIANT_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}/variants/codename/{VARIANT_CODENAME}";
@@ -113,7 +113,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildContentItemVariantsUrl_ItemExternalIdVariantId_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByExternalId(ITEM_EXTERNAL_ID);
-            var variantIdentifier = NoExternalIdIdentifier.ById(VARIANT_ID);
+            var variantIdentifier = Reference.ById(VARIANT_ID);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{EXPECTED_ITEM_EXTERNAL_ID}/variants/{VARIANT_ID}";
@@ -125,7 +125,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildContentItemVariantsUrl_ItemExternalIdVariantCodename_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByExternalId(ITEM_EXTERNAL_ID);
-            var variantIdentifier = NoExternalIdIdentifier.ByCodename(VARIANT_CODENAME);
+            var variantIdentifier = Reference.ByCodename(VARIANT_CODENAME);
             var identifier = new ContentItemVariantIdentifier(itemIdentifier, variantIdentifier);
             var actualUrl = _builder.BuildVariantsUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{EXPECTED_ITEM_EXTERNAL_ID}/variants/codename/{VARIANT_CODENAME}";

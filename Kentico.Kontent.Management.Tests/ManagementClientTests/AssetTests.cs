@@ -367,8 +367,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         //todo this test might be flaky as it might delete folder structure during run of another test
         public async Task CreateFolders_CreatesFolders()
         {  
-            
-
             //prepare - delete exisitng folders
             var folders = await RemoveFolderStructure();
 

@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 {
     /// <summary>
     /// Represents move operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/list-collections
+    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-collections
     /// </summary>
     public sealed class CollectionMovePatchModel : CollectionOperationBaseModel
     {
@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
         /// Gets or sets the reference of collection to move.
         /// </summary>
         [JsonProperty("reference")]
-        public Reference CollectionIdentifier { get; set; }
+        public Reference Reference { get; set; }
 
         /// <summary>
         /// Gets or sets reference of the existing collection before which you want to add the new collection.

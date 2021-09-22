@@ -14,12 +14,12 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Note: The snippet property is not present if the text element is in the same content type.
         /// </summary>
         [JsonProperty("snippet", NullValueHandling = NullValueHandling.Ignore)]
-        public ObjectIdentifier SnippetIdentifier { get; set; }
+        public Reference SnippetIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the dependent text element specified as a reference.
         /// </summary>
         [JsonProperty("element")]
-        public ObjectIdentifier Element { get; set; }
+        public Reference Element { get; set; }
     }
 }

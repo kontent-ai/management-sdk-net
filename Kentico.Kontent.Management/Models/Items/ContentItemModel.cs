@@ -32,19 +32,19 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets type of the content item.
         /// </summary>
         [JsonProperty("type")]
-        public ObjectIdentifier Type { get; set; }
+        public Reference Type { get; set; }
 
         /// <summary>
         /// Gets or sets collection of the content item.
         /// </summary>
         [JsonProperty("collection")]
-        public ObjectIdentifier Collection { get; set; }
+        public Reference Collection { get; set; }
 
         /// <summary>
         /// Gets or sets sitemap locations of the content item.
         /// </summary>
         [JsonProperty("sitemap_locations")]
-        public IEnumerable<ObjectIdentifier> SitemapLocations { get; set; }
+        public IEnumerable<Reference> SitemapLocations { get; set; }
 
         /// <summary>
         /// Gets or sets external identifier of the content item.

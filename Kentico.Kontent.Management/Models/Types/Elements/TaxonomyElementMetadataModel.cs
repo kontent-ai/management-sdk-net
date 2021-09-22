@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Specifies a reference to the taxonomy group that the element uses.
         /// </summary>
         [JsonProperty("taxonomy_group")]
-        public ObjectIdentifier TaxonomyGroup { get; set; }
+        public Reference TaxonomyGroup { get; set; }
 
         /// <summary>
         /// Specifies the limitation for the number of terms that can be selected in the element.

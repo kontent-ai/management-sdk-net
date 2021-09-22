@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Models.Items
         /// Gets or sets collection of the content item.
         /// </summary>
         [JsonProperty("collection")]
-        public NoExternalIdIdentifier Collection { get; set; }
+        public Reference Collection { get; set; }
 
         /// <summary>
         /// A default constructor.

@@ -28,7 +28,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
             }
         }
 
-        public override dynamic ToDynamic(string elementId)
+        public override dynamic ToDynamic(Guid elementId)
         {
             return new
             {
