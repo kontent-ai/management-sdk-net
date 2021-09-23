@@ -267,7 +267,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await _client.DeleteContentTypeSnippetAsync(typeToClean);
         }
 
-        private async Task<ContentTypeSnippet> CreateSnippet([CallerMemberName] string memberName = "")
+        private async Task<ContentTypeSnippetModel> CreateSnippet([CallerMemberName] string memberName = "")
         {
             var suffix = $"{memberName.ToLower().Substring(0, Math.Min(40, memberName.Length))}";
 

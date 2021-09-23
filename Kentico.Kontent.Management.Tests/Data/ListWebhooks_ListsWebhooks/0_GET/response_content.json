@@ -1,7 +1,7 @@
 [
   {
-    "last_modified": "2021-08-27T13:14:26.9759812Z",
-    "id": "8ecf0cf3-c2f8-4a34-aeb2-b6f96561ed0d",
+    "last_modified": "2021-09-23T14:07:48.0398149Z",
+    "id": "028b4743-16d9-4280-adaa-b5422a373eec",
     "name": "webhookTestName",
     "url": "http://url",
     "secret": "secret",
@@ -15,29 +15,6 @@
             "unpublish"
           ]
         },
-        {
-          "type": "taxonomy",
-          "operations": [
-            "archive",
-            "restore",
-            "upsert"
-          ]
-        }
-      ],
-      "preview_delivery_api_content_changes": [],
-      "workflow_step_changes": [],
-      "management_api_content_changes": []
-    }
-  },
-  {
-    "last_modified": "2021-08-20T12:10:54.7546251Z",
-    "id": "cbd7d03c-f906-4d2c-ac18-258114841c0f",
-    "name": "disabledWebhook",
-    "url": "http://url",
-    "secret": "secret",
-    "enabled": true,
-    "triggers": {
-      "delivery_api_content_changes": [
         {
           "type": "taxonomy",
           "operations": [

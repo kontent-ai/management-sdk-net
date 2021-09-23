@@ -13,13 +13,14 @@ namespace Kentico.Kontent.Management.Models.Shared
         private readonly IEnumerable<T> _result;
 
         private readonly string _continuationToken;
+        private readonly string _url;
+        private readonly Func<string, string, Task<IListingResponse<T>>> _nextPageRetriever;
 
-        private readonly Func<string, Task<IListingResponse<T>>> _nextPageRetriever;
-
-        internal ListingResponseModel(Func<string, Task<IListingResponse<T>>> retriever, string continuationToken, IEnumerable<T> result)
+        internal ListingResponseModel(Func<string,string, Task<IListingResponse<T>>> retriever, string continuationToken, string url, IEnumerable<T> result)
         {
             _nextPageRetriever = retriever;
             _continuationToken = continuationToken;
+            _url = url;
             _result = result;
         }
 
@@ -34,8 +35,8 @@ namespace Kentico.Kontent.Management.Models.Shared
                 throw new InvalidOperationException("Next page not available.");
             }
 
-            var nextPage = await _nextPageRetriever(_continuationToken);
-            return new ListingResponseModel<T>(_nextPageRetriever, nextPage.Pagination?.Token, nextPage);
+            var nextPage = await _nextPageRetriever(_continuationToken, _url);
+            return new ListingResponseModel<T>(_nextPageRetriever, nextPage.Pagination?.Token, _url, nextPage);
         }
 
         /// <summary>

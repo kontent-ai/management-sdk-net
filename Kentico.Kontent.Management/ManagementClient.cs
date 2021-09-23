@@ -172,7 +172,11 @@ namespace Kentico.Kontent.Management
             var endpointUrl = _urlBuilder.BuildTypeUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<ContentTypeModel>(GetNextTypeListingPageAsync, response.Pagination?.Token, response.Types);
+            return new ListingResponseModel<ContentTypeModel>(
+                (token, url) => GetNextListingPageAsync<ContentTypeListingResponseServerModel, ContentTypeModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Types);
         }
 
         /// <summary>
@@ -243,12 +247,6 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
-        private async Task<IListingResponse<ContentTypeModel>> GetNextTypeListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildTypesListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-        }
-
         #endregion
 
         #region TypeSnippets
@@ -256,21 +254,25 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Returns listing of content type snippets.
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{ContentTypeSnippet}"/> instance that represents the listing of content type snippets.</returns>
-        public async Task<ListingResponseModel<ContentTypeSnippet>> ListContentTypeSnippetsAsync()
+        /// <returns>The <see cref="ListingResponseModel{ContentTypeSnippetModel}"/> instance that represents the listing of content type snippets.</returns>
+        public async Task<ListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<ContentTypeSnippet>(GetNextContentTypeSnippetsListingPageAsync, response.Pagination?.Token, response.Snippets);
+            return new ListingResponseModel<ContentTypeSnippetModel>(
+                (token, url) => GetNextListingPageAsync<SnippetsListingResponseServerModel, ContentTypeSnippetModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Snippets);
         }
 
         /// <summary>
         /// Returns content type snippet.
         /// </summary>
         /// <param name="identifier">The identifier of the content type snippet.</param>
-        /// <returns>The <see cref="ContentTypeSnippet"/> instance that represents requested content type snippet.</returns>
-        public async Task<ContentTypeSnippet> GetContentTypeSnippetAsync(Reference identifier)
+        /// <returns>The <see cref="ContentTypeSnippetModel"/> instance that represents requested content type snippet.</returns>
+        public async Task<ContentTypeSnippetModel> GetContentTypeSnippetAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -278,23 +280,17 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeSnippet>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeSnippetModel>(endpointUrl, HttpMethod.Get);
 
             return response;
-        }
-
-        private async Task<IListingResponse<ContentTypeSnippet>> GetNextContentTypeSnippetsListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildSnippetsListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
         }
 
         /// <summary>
         /// Creates content type snippet.
         /// </summary>
         /// <param name="contentTypeSnippet">Represents content type snippet which will be created.</param>
-        /// <returns>The <see cref="ContentTypeSnippet"/> instance that represents created content type snippet.</returns>
-        public async Task<ContentTypeSnippet> CreateContentTypeSnippetAsync(CreateContentSnippetCreateModel contentTypeSnippet)
+        /// <returns>The <see cref="ContentTypeSnippetModel"/> instance that represents created content type snippet.</returns>
+        public async Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(CreateContentSnippetCreateModel contentTypeSnippet)
         {
             if (contentTypeSnippet == null)
             {
@@ -302,7 +298,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<CreateContentSnippetCreateModel, ContentTypeSnippet>(endpointUrl, HttpMethod.Post, contentTypeSnippet);
+            var response = await _actionInvoker.InvokeMethodAsync<CreateContentSnippetCreateModel, ContentTypeSnippetModel>(endpointUrl, HttpMethod.Post, contentTypeSnippet);
 
             return response;
         }
@@ -328,7 +324,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content type snippet.</param>
         /// <param name="changes">Represents changes that will be apply to the content type snippet.</param>
-        public async Task<ContentTypeSnippet> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
+        public async Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
         {
             if (identifier == null)
             {
@@ -336,7 +332,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-            return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeSnippetOperationBaseModel>, ContentTypeSnippet>(endpointUrl, new HttpMethod("PATCH"), changes);
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeSnippetOperationBaseModel>, ContentTypeSnippetModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
         #endregion
@@ -346,13 +342,17 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Returns listing of taxonomy groups.
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{ContentTypeSnippet}"/> instance that represents the listing of taxonomy groups.</returns>
+        /// <returns>The <see cref="ListingResponseModel{TaxonomyGroupModel}"/> instance that represents the listing of taxonomy groups.</returns>
         public async Task<ListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
         {
             var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<TaxonomyGroupModel>(GetNextTaxonomyListingPageAsync, response.Pagination?.Token, response.Taxonomies);
+            return new ListingResponseModel<TaxonomyGroupModel>(
+                (token, url) => GetNextListingPageAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Taxonomies);
         }
 
         /// <summary>
@@ -420,13 +420,6 @@ namespace Kentico.Kontent.Management
 
             var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, new HttpMethod("PATCH"), changes);
-        }
-
-        //todo the same method is 3 times in this class => refactor
-        private async Task<IListingResponse<TaxonomyGroupModel>> GetNextTaxonomyListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildTaxonomyListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
         }
 
         #endregion
@@ -537,7 +530,11 @@ namespace Kentico.Kontent.Management
             var endpointUrl = _urlBuilder.BuildLanguagesUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguagesListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<LanguageModel>(GetNextLanguageListingPageAsync, response.Pagination?.Token, response.Languages);
+            return new ListingResponseModel<LanguageModel>(
+                (token, url) => GetNextListingPageAsync<LanguagesListingResponseServerModel, LanguageModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Languages);
         }
 
         /// <summary>
@@ -589,13 +586,6 @@ namespace Kentico.Kontent.Management
 
             var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<LanguagePatchModel>, LanguageModel>(endpointUrl, new HttpMethod("PATCH"), changes);
-        }
-
-        //to do the same method is 4 times in this class => refactor
-        private async Task<IListingResponse<LanguageModel>> GetNextLanguageListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<IListingResponse<LanguageModel>>(endpointUrl, HttpMethod.Get);
         }
 
         #endregion
@@ -925,14 +915,11 @@ namespace Kentico.Kontent.Management
             var endpointUrl = _urlBuilder.BuildItemsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<ContentItemModel>(GetNextItemsListingPageAsync, response.Pagination?.Token, response.Items);
-        }
-
-        private async Task<IListingResponse<ContentItemModel>> GetNextItemsListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildItemsListingUrl(continuationToken);    
-            var response =    await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-            return response;
+            return new ListingResponseModel<ContentItemModel>(
+                (token, url) => GetNextListingPageAsync<ContentItemListingResponseServerModel, ContentItemModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Items);
         }
 
         #endregion
@@ -951,17 +938,11 @@ namespace Kentico.Kontent.Management
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-            return new ListingResponseModel<AssetModel>(GetNextAssetListingPageAsync, response.Pagination?.Token, response.Assets);
-        }
-
-        private async Task<IListingResponse<AssetModel>> GetNextAssetListingPageAsync(string continuationToken)
-        {
-            var endpointUrl = _urlBuilder.BuildAssetsUrl();
-            var headers = new Dictionary<string, string>();
-            headers.Add("x-continuation", continuationToken);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get, headers);
-
-            return response;
+            return new ListingResponseModel<AssetModel>(
+                (token, url) => GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Assets);
         }
 
         /// <summary>
@@ -1210,5 +1191,15 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<CollectionOperationBaseModel>, CollectionsModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
         #endregion
+
+        private async Task<IListingResponse<TModel>> GetNextListingPageAsync<TListingResponse, TModel>(string continuationToken, string url) 
+            where TListingResponse : IListingResponse<TModel>
+        {
+            var headers = new Dictionary<string, string>();
+            headers.Add("x-continuation", continuationToken);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TListingResponse>(url, HttpMethod.Get, headers);
+
+            return response;
+        }
     }
 }

@@ -61,8 +61,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(response.FirstOrDefault());
         }
 
-        [Fact(Skip = "Pagination does not work properly")]
-        //todo put continuation token into header
+        [Fact]
         public async void ListContentItems_WithContinuation_ListsAllContentItems()
         {
             var response = await _client.ListContentItemsAsync();

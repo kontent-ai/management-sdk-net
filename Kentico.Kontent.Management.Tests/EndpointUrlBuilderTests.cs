@@ -185,25 +185,6 @@ namespace Kentico.Kontent.Management.Tests
         #region Assets
 
         [Fact]
-        public void BuildAssetListingUrl_WithoutContinuationToken_ReturnsExpectedUrl()
-        {
-            var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/assets";
-            var actualResult = _builder.BuildAssetListingUrl();
-
-            Assert.Equal(expectedResult, actualResult);
-        }
-
-        [Fact]
-        public void BuildAssetListingUrl_WithContinuationToken_ReturnsExpectedUrl()
-        {
-            var continuationToken = "MjA=";
-            var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/assets?continuationToken=MjA%3D";
-            var actualResult = _builder.BuildAssetListingUrl(continuationToken);
-
-            Assert.Equal(expectedResult, actualResult);
-        }
-
-        [Fact]
         public void BuildAssetsUrlFromId_WithGivenAssetId_ReturnsExpectedUrl()
         {
             var assetId = Guid.NewGuid();

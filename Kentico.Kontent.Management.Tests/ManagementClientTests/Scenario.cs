@@ -9,8 +9,10 @@ using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Tests.Data;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Xunit;
 using static Kentico.Kontent.Management.Tests.TestUtils;
 
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
     internal class Scenario

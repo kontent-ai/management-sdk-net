@@ -1,12 +1,11 @@
 ﻿using Kentico.Kontent.Management.Models.Types.Elements;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 
 namespace Kentico.Kontent.Management.Models.Types
 {
     /// <summary>
-    /// todo.
+    /// Represents the conetent type create model.
     /// </summary>
     public class ContentTypeCreateModel
     {

@@ -8,7 +8,7 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets
     /// <summary>
     /// Represents content snippet type model.
     /// </summary>
-    public class ContentTypeSnippet
+    public class ContentTypeSnippetModel
     {
         /// <summary>
         /// Gets or sets id of the content snippet type.

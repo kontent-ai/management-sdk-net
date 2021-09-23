@@ -44,9 +44,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //Todo
-        //does not really test pagination as the default page size is 50 items 
-        //same applies to content item test (where is page size 100)
         public async void ListContentTypes_WithContinuation_ListsContentTypes()
         {
             var response = await _client.ListContentTypesAsync();

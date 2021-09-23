@@ -6,10 +6,10 @@ using System.Collections.Generic;
 namespace Kentico.Kontent.Management.Models.TypeSnippets
 {
     [JsonObject]
-    internal class SnippetsListingResponseServerModel : IListingResponse<ContentTypeSnippet>
+    internal class SnippetsListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
     {
         [JsonProperty("snippets")]
-        public IEnumerable<ContentTypeSnippet> Snippets { get; set; }
+        public IEnumerable<ContentTypeSnippetModel> Snippets { get; set; }
 
         [JsonProperty("pagination")]
         public PaginationResponseModel Pagination { get; set; }
@@ -19,7 +19,7 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets
             return GetEnumerator();
         }
 
-        public IEnumerator<ContentTypeSnippet> GetEnumerator()
+        public IEnumerator<ContentTypeSnippetModel> GetEnumerator()
         {
             return Snippets.GetEnumerator();
         }

@@ -66,10 +66,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
         #endregion
 
         #region Types
-        internal string BuildTypesListingUrl(string continuationToken = null)
-        {
-            return (continuationToken != null) ? GetUrl(_typeTemplate.Url, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(_typeTemplate.Url);
-        }
 
         internal string BuildTypeUrl()
         {
@@ -85,11 +81,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         #region TypeSnippets
 
-        internal string BuildSnippetsListingUrl(string continuationToken = null)
-        {
-            return (continuationToken != null) ? GetUrl(_snippetTemplate.Url, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(_typeTemplate.Url);
-        }
-
         internal string BuildSnippetsUrl()
         {
             return GetUrl(_snippetTemplate.Url);
@@ -104,11 +95,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
         #endregion
 
         #region Taxonomies
-
-        internal string BuildTaxonomyListingUrl(string continuationToken = null)
-        {
-            return (continuationToken != null) ? GetUrl(_taxonomyTemplate.Url, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(_taxonomyTemplate.Url);
-        }
 
         internal string BuildTaxonomyUrl()
         {
@@ -221,11 +207,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         #region Items
 
-        internal string BuildItemsListingUrl(string continuationToken = null)
-        {
-            return (continuationToken != null) ? GetUrl(_itemTemplate.Url, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(_itemTemplate.Url);
-        }
-
         internal string BuildItemsUrl()
         {
             return GetUrl(_itemTemplate.Url);
@@ -240,11 +221,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
         #endregion
 
         #region Assets
-
-        internal string BuildAssetListingUrl(string continuationToken = null)
-        {
-            return (continuationToken != null) ? GetUrl(_assetTemplate.Url, $"continuationToken={Uri.EscapeDataString(continuationToken)}") : GetUrl(_assetTemplate.Url);
-        }
 
         internal string BuildAssetsUrl()
         {
