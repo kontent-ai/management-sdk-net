@@ -56,7 +56,8 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             var type = typeof(T);
 
             var elements = type.GetProperties()
-                .Where(x => (x.GetMethod?.IsPublic ?? false) && x.PropertyType?.BaseType == typeof(BaseElement) && x.GetValue(variantElements) != null)
+                .Where(x => (x.GetMethod?.IsPublic ?? false) && x.PropertyType?.BaseType == typeof(BaseElement) && x.GetValue(variantElements) != null 
+                && x.CustomAttributes.Any(att => att.AttributeType == typeof(KontentElementIdAttribute)))
                 .Select(x =>
                 {
                     var element = (BaseElement)x.GetValue(variantElements);

@@ -18,11 +18,11 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         [Fact]
-        public void GetKontentElementId_ReturnsNullIfNoAttribute()
+        public void GetKontentElementId_ThorwsIfNoAttribute()
         {
             var property = typeof(PropertyInfoExtensionsTestsSampleClass).GetProperty("Property1");
 
-            Assert.Null(property.GetKontentElementId());
+            Assert.Throws<InvalidOperationException>(() => property.GetKontentElementId());
         }
 
         [Fact]
