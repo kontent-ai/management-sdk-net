@@ -41,7 +41,7 @@ namespace Kentico.Kontent.Management.Tests
             var httpClient = new FakeManagementHttpClient();
             var actionInvoker = new ActionInvoker(httpClient, new MessageCreator("{api_key}"));
 
-            var contentItemVariantUpsertModel = new ContentItemVariantUpsertModel()
+            var contentItemVariantUpsertModel = new LanguageVariantUpsertModel()
             {
                 Elements = new List<dynamic>
                 {
@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Tests
                 },
             };
 
-            await actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get, contentItemVariantUpsertModel);
+            await actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get, contentItemVariantUpsertModel);
             Assert.Equal($"{{\"elements\":[{{\"zero\":{s},\"optZero\":{s}}}]}}", httpClient.requestBody);
         }
         

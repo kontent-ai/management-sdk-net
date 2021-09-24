@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.StronglyTyped
+namespace Kentico.Kontent.Management.Models.LanguageVariants
 {
     /// <summary>
-    /// Represents strongly typed content item variant model.
+    /// Represents language variant model.
     /// </summary>
-    public sealed class ContentItemVariantModel<T> where T : new()
+    public sealed class LanguageVariantModel
     {
         /// <summary>
         /// Gets or sets item of the variant.
@@ -16,10 +17,10 @@ namespace Kentico.Kontent.Management.Models.StronglyTyped
         public Reference Item { get; set; }
 
         /// <summary>
-        /// Gets or sets elements of the variant as custom class.
+        /// Gets or sets elements of the variant.
         /// </summary>
         [JsonProperty("elements")]
-        public T Elements { get; set; }
+        public IEnumerable<dynamic> Elements { get; set; }
 
         /// <summary>
         /// Gets or sets language of the variant.
@@ -28,9 +29,15 @@ namespace Kentico.Kontent.Management.Models.StronglyTyped
         public Reference Language { get; set; }
 
         /// <summary>
-        /// Gets or sets last modified timestamp of the content item.
+        /// Gets or sets last modified timestamp of the language variant.
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }
+
+        /// <summary>
+        /// Gets or sets workflow steps of the language variant.
+        /// </summary>
+        [JsonProperty("workflow_step")]
+        public Reference WorkflowStep { get; set; }
     }
 }

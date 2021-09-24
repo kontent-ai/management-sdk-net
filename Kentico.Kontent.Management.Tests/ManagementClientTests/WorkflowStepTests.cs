@@ -48,13 +48,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
             var identifier = new WorkflowIdentifier(itemIdentifier, languageIdentifier, Reference.ByCodename("test"));
 
             await _client.ChangeWorkflowStep(identifier);
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
             _ = await _client.ListWorkflowStepsAsync();
 
             Assert.Equal(CUSTOM_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
@@ -75,11 +75,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.PublishContentItemVariant(variantIdentifier);
+            await _client.PublishLanguageVariant(variantIdentifier);
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
             Assert.Equal(PUBLISHED_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
@@ -99,13 +99,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.PublishContentItemVariant(variantIdentifier);
+            await _client.PublishLanguageVariant(variantIdentifier);
 
-            await _client.UnpublishContentItemVariant(variantIdentifier);
+            await _client.UnpublishLangaugeVariant(variantIdentifier);
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
             Assert.Equal(ARCHIVED_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
@@ -125,12 +125,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.PublishContentItemVariant(variantIdentifier);
-            await _client.CreateNewVersionOfContentItemVariant(variantIdentifier);
+            await _client.PublishLanguageVariant(variantIdentifier);
+            await _client.CreateNewVersionOfLanguageVariant(variantIdentifier);
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
             Assert.Equal(DRAFT_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
@@ -150,11 +150,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.SchedulePublishingOfContentItemVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
+            await _client.SchedulePublishingOfLangaugeVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
             Assert.Equal(SCHEDULED_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
@@ -174,18 +174,18 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.PublishContentItemVariant(variantIdentifier);
+            await _client.PublishLanguageVariant(variantIdentifier);
 
-            await _client.ScheduleUnpublishingOfContentItemVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
+            await _client.ScheduleUnpublishingOfLanguageVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
             Assert.Equal(PUBLISHED_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
             // Cleanup
-            await _client.UnpublishContentItemVariant(variantIdentifier);
+            await _client.UnpublishLangaugeVariant(variantIdentifier);
             var itemToClean = Reference.ByExternalId(externalId);
             await _client.DeleteContentItemAsync(itemToClean);
         }
@@ -201,12 +201,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.SchedulePublishingOfContentItemVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
-            await _client.CancelPublishingOfContentItemVariant(variantIdentifier);
+            await _client.SchedulePublishingOfLangaugeVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
+            await _client.CancelPublishingOfLanguageVariant(variantIdentifier);
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
             Assert.Equal(DRAFT_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
@@ -226,13 +226,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Test
             var itemIdentifier = Reference.ByExternalId(externalId);
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
-            var variantIdentifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+            var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.PublishContentItemVariant(variantIdentifier);
-            await _client.ScheduleUnpublishingOfContentItemVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050,1,1,10,10,0, TimeSpan.FromHours(2)) });
-            await _client.CancelUnpublishingOfContentItemVariant(variantIdentifier);
+            await _client.PublishLanguageVariant(variantIdentifier);
+            await _client.ScheduleUnpublishingOfLanguageVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050,1,1,10,10,0, TimeSpan.FromHours(2)) });
+            await _client.CancelUnpublishingOfLanguageVariant(variantIdentifier);
 
-            var updatedVariant = await _client.GetContentItemVariantAsync(variantIdentifier);
+            var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
             Assert.Equal(PUBLISHED_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 

@@ -85,11 +85,11 @@ namespace Kentico.Kontent.Management
         #region Variants
 
         /// <summary>
-        /// Returns strongly typed listing of content item variants for specified content item.
+        /// Returns strongly typed listing of language variants for specified content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
-        /// <returns>The <see cref="IEnumerable{ContentItemVariantModel}"/> instance that represents the listing of content item variants.</returns>
-        public async Task<IEnumerable<ContentItemVariantModel>> ListContentItemVariantsAsync(Reference identifier)
+        /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
+        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -97,17 +97,17 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
         /// <summary>
-        /// Returns strongly typed content item variant.
+        /// Returns strongly typed language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant.</param>
-        /// <returns>The <see cref="ContentItemVariantModel"/> instance that represents content item variant.</returns>
-        public async Task<ContentItemVariantModel> GetContentItemVariantAsync(ContentItemVariantIdentifier identifier)
+        /// <param name="identifier">The identifier of the language variant.</param>
+        /// <returns>The <see cref="LanguageVariantModel"/> instance that represents language variant.</returns>
+        public async Task<LanguageVariantModel> GetLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -115,40 +115,40 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
 
             return response;
         }
 
         /// <summary>
-        /// Inserts or updates given content item variant.
+        /// Inserts or updates given language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant.</param>
-        /// <param name="contentItemVariantUpsertModel">Represents inserted or updated content item variant.</param>
-        /// <returns>The <see cref="ContentItemVariantModel"/> instance that represents inserted or updated content item variant.</returns>
-        public async Task<ContentItemVariantModel> UpsertContentItemVariantAsync(ContentItemVariantIdentifier identifier, ContentItemVariantUpsertModel contentItemVariantUpsertModel)
+        /// <param name="identifier">The identifier of the language variant.</param>
+        /// <param name="languageVariantUpsertModel">Represents inserted or updated language variant.</param>
+        /// <returns>The <see cref="LanguageVariantModel"/> instance that represents inserted or updated language variant.</returns>
+        public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            if (contentItemVariantUpsertModel == null)
+            if (languageVariantUpsertModel == null)
             {
-                throw new ArgumentNullException(nameof(contentItemVariantUpsertModel));
+                throw new ArgumentNullException(nameof(languageVariantUpsertModel));
             }
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, contentItemVariantUpsertModel);
+            var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, languageVariantUpsertModel);
 
             return response;
         }
 
         /// <summary>
-        /// Deletes given content item variant.
+        /// Deletes given language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant.</param>
-        public async Task DeleteContentItemVariantAsync(ContentItemVariantIdentifier identifier)
+        /// <param name="identifier">The identifier of the language variant.</param>
+        public async Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -619,10 +619,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Publishes the content item variant.
+        /// Publishes the language variant.
         /// </summary>
-        /// <param name="identifier">The content item variant to be published.</param>
-        public async Task PublishContentItemVariant(ContentItemVariantIdentifier identifier)
+        /// <param name="identifier">The language variant to be published.</param>
+        public async Task PublishLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -635,11 +635,11 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Schedules publishing of the content item variant.
+        /// Schedules publishing of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant  to be published.</param>
-        /// <param name="scheduleModel">The time when the content item variant will be published</param>
-        public async Task SchedulePublishingOfContentItemVariant(ContentItemVariantIdentifier identifier, ScheduleModel scheduleModel)
+        /// <param name="identifier">The identifier of the language variant  to be published.</param>
+        /// <param name="scheduleModel">The time when the language variant will be published</param>
+        public async Task SchedulePublishingOfLangaugeVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
             {
@@ -652,10 +652,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Cancels publishing of the content item variant.
+        /// Cancels publishing of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant identifier of which publishing should be canceled.</param>
-        public async Task CancelPublishingOfContentItemVariant(ContentItemVariantIdentifier identifier)
+        /// <param name="identifier">The identifier of the language variant identifier of which publishing should be canceled.</param>
+        public async Task CancelPublishingOfLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -668,10 +668,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Unpublishes the content item variant.
+        /// Unpublishes the language variant.
         /// </summary>
-        /// <param name="identifier">The content item variant to be unpublished.</param>
-        public async Task UnpublishContentItemVariant(ContentItemVariantIdentifier identifier)
+        /// <param name="identifier">The language variant to be unpublished.</param>
+        public async Task UnpublishLangaugeVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -684,10 +684,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Cancels unpublishing of the content item variant.
+        /// Cancels unpublishing of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant identifier of which unpublishing should be canceled.</param>
-        public async Task CancelUnpublishingOfContentItemVariant(ContentItemVariantIdentifier identifier)
+        /// <param name="identifier">The identifier of the language variant identifier of which unpublishing should be canceled.</param>
+        public async Task CancelUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -700,11 +700,11 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Schedules unpublishing of the content item variant.
+        /// Schedules unpublishing of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant  to be unpublished.</param>
-        /// <param name="scheduleModel">The time when the content item variant will be unpublished</param>
-        public async Task ScheduleUnpublishingOfContentItemVariant(ContentItemVariantIdentifier identifier, ScheduleModel scheduleModel)
+        /// <param name="identifier">The identifier of the language variant  to be unpublished.</param>
+        /// <param name="scheduleModel">The time when the language variant will be unpublished</param>
+        public async Task ScheduleUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
             {
@@ -717,10 +717,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Creates the new version of the content item variant.
+        /// Creates the new version of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the content item variant for which the new version should created .</param>
-        public async Task CreateNewVersionOfContentItemVariant(ContentItemVariantIdentifier identifier)
+        /// <param name="identifier">The identifier of the language variant for which the new version should created .</param>
+        public async Task CreateNewVersionOfLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -736,12 +736,12 @@ namespace Kentico.Kontent.Management
         #region Strongly typed Variants
 
         /// <summary>
-        /// Returns strongly typed listing of content item variants with strongly typed elements for specified content item.
+        /// Returns strongly typed listing of language variants with strongly typed elements for specified content item.
         /// </summary>
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
-        /// <returns>A strongly-typed collection with content item variants.</returns>
-        public async Task<List<ContentItemVariantModel<T>>> ListContentItemVariantsAsync<T>(Reference identifier) where T : new()
+        /// <returns>A strongly-typed collection with language variants.</returns>
+        public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsAsync<T>(Reference identifier) where T : new()
         {
             if (identifier == null)
             {
@@ -749,18 +749,18 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<ContentItemVariantModel>>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
 
-            return response.Select(x => _modelProvider.GetContentItemVariantModel<T>(x)).ToList();
+            return response.Select(x => _modelProvider.GetLanguageVariantModel<T>(x)).ToList();
         }
 
         /// <summary>
-        /// Returns strongly typed content item variant with strongly typed elements.
+        /// Returns strongly typed language variant with strongly typed elements.
         /// </summary>
         /// <typeparam name="T">Type of the content item elements</typeparam>
-        /// <param name="identifier">The identifier of the content item variant.</param>
-        /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents content item variant.</returns>
-        public async Task<ContentItemVariantModel<T>> GetContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier) where T : new()
+        /// <param name="identifier">The identifier of the language variant.</param>
+        /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents language variant.</returns>
+        public async Task<LanguageVariantModel<T>> GetLangaugeVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
         {
             if (identifier == null)
             {
@@ -768,19 +768,19 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemVariantModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
 
-            return _modelProvider.GetContentItemVariantModel<T>(response);
+            return _modelProvider.GetLanguageVariantModel<T>(response);
         }
 
         /// <summary>
-        /// Inserts or updates given content item variant.
+        /// Inserts or updates given language variant.
         /// </summary>
         /// <typeparam name="T">Type of the content item elements</typeparam>
-        /// <param name="identifier">The identifier of the content item variant.</param>
-        /// <param name="variantElements">Represents inserted or updated  strongly typed content item variant elements.</param>
-        /// <returns>The <see cref="ContentItemVariantModel{T}"/> instance that represents inserted or updated content item variant.</returns>
-        public async Task<ContentItemVariantModel<T>> UpsertContentItemVariantAsync<T>(ContentItemVariantIdentifier identifier, T variantElements) where T : new()
+        /// <param name="identifier">The identifier of the language variant.</param>
+        /// <param name="variantElements">Represents inserted or updated  strongly typed language variant elements.</param>
+        /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents inserted or updated language variant.</returns>
+        public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements) where T : new()
         {
             if (identifier == null)
             {
@@ -793,10 +793,10 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var variantUpsertModel = _modelProvider.GetContentItemVariantUpsertModel(variantElements);
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemVariantUpsertModel, ContentItemVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
+            var variantUpsertModel = _modelProvider.GetLanguageVariantUpsertModel(variantElements);
+            var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
 
-            return _modelProvider.GetContentItemVariantModel<T>(response);
+            return _modelProvider.GetLanguageVariantModel<T>(response);
         }
 
         #endregion

@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.LanguageVariants
 {
     /// <summary>
-    /// Represents content item variant upsert model.
+    /// Represents language variant upsert model.
     /// </summary>
-    public sealed class ContentItemVariantUpsertModel
+    public sealed class LanguageVariantUpsertModel
     {
         /// <summary>
         /// Gets or sets elements of the variant.
@@ -15,13 +15,13 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         public IEnumerable<dynamic> Elements { get; set; }
 
         /// <summary>
-        /// Creates instance of content item variant upsert model.
+        /// Creates instance of language variant upsert model.
         /// </summary>
-        public ContentItemVariantUpsertModel()
+        public LanguageVariantUpsertModel()
         {
         }
 
-        internal ContentItemVariantUpsertModel(ContentItemVariantModel contentItemVariant)
+        internal LanguageVariantUpsertModel(LanguageVariantModel contentItemVariant)
         {
             Elements = contentItemVariant.Elements;
         }

@@ -77,14 +77,14 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        internal static async Task<ContentItemVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
+        internal static async Task<LanguageVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
         {
             var addedItemIdentifier = Reference.ByCodename(item.Codename);
             var addedLanguageIdentifier = Reference.ByCodename(languageCodename);
-            var addedContentItemLanguageIdentifier = new ContentItemVariantIdentifier(addedItemIdentifier, addedLanguageIdentifier);
-            var variantUpdateModel = new ContentItemVariantUpsertModel() { Elements = elements };
+            var addedContentItemLanguageIdentifier = new LanguageVariantIdentifier(addedItemIdentifier, addedLanguageIdentifier);
+            var variantUpdateModel = new LanguageVariantUpsertModel() { Elements = elements };
 
-            return await client.UpsertContentItemVariantAsync(addedContentItemLanguageIdentifier, variantUpdateModel);
+            return await client.UpsertLanguageVariantAsync(addedContentItemLanguageIdentifier, variantUpdateModel);
         }
     }
 }

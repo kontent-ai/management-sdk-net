@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
         /// <typeparam name="T">Strongly typed content item model.</typeparam>
         /// <param name="variant">Content item variant data.</param>
         /// <returns>Strongly typed model of the generic type.</returns>
-        ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : new();
+        LanguageVariantModel<T> GetLanguageVariantModel<T>(LanguageVariantModel variant) where T : new();
 
         /// <summary>
         /// Converts generic upsert model to non-generic model.
@@ -23,6 +23,6 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
         /// <typeparam name="T">Strongly typed content item model.</typeparam>
         /// <param name="variantElements">Strongly typed content item variant data.</param>
         /// <returns>Non-generic model.</returns>
-        ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : new();
+        LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements) where T : new();
     }
 }

@@ -55,7 +55,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(string.Concat(itemSegment, _variantTemplate.Url));
         }
 
-        internal string BuildVariantsUrl(ContentItemVariantIdentifier identifier)
+        internal string BuildVariantsUrl(LanguageVariantIdentifier identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
             var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
@@ -164,7 +164,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(string.Concat(itemSegment, variantSegment, workflowSegment));
         }
 
-        internal string BuildPublishVariantUrl(ContentItemVariantIdentifier identifier)
+        internal string BuildPublishVariantUrl(LanguageVariantIdentifier identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
             var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
@@ -172,7 +172,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(string.Concat(itemSegment, variantSegment, "/publish"));
         }
 
-        internal string BuildCancelPublishingVariantUrl(ContentItemVariantIdentifier identifier)
+        internal string BuildCancelPublishingVariantUrl(LanguageVariantIdentifier identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
             var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
@@ -180,7 +180,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(string.Concat(itemSegment, variantSegment, "/cancel-scheduled-publish"));
         }
 
-        internal string BuildUnpublishVariantUrl(ContentItemVariantIdentifier identifier)
+        internal string BuildUnpublishVariantUrl(LanguageVariantIdentifier identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
             var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
@@ -188,7 +188,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(string.Concat(itemSegment, variantSegment, "/unpublish-and-archive"));
         }
 
-        internal string BuildCancelUnpublishingVariantUrl(ContentItemVariantIdentifier identifier)
+        internal string BuildCancelUnpublishingVariantUrl(LanguageVariantIdentifier identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
             var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
@@ -196,7 +196,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(string.Concat(itemSegment, variantSegment, "/cancel-scheduled-unpublish"));
         }
 
-        internal string BuildNewVersionVariantUrl(ContentItemVariantIdentifier identifier)
+        internal string BuildNewVersionVariantUrl(LanguageVariantIdentifier identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
             var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);

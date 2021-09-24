@@ -28,11 +28,11 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
         public void GetContentItemVariantModel_ReturnsExpected()
         {
             var expected = GetTestModel();
-            var model = new ContentItemVariantModel
+            var model = new LanguageVariantModel
             {
                 Elements = PrepareMockDynamicResponse(expected)
             };
-            var actual = _modelProvider.GetContentItemVariantModel<ComplexTestModel>(model).Elements;
+            var actual = _modelProvider.GetLanguageVariantModel<ComplexTestModel>(model).Elements;
 
             Assert.Equal(expected.Title.Value, actual.Title.Value);
             Assert.Equal(expected.Rating.Value, actual.Rating.Value);
@@ -55,7 +55,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             var model = GetTestModel();
             var type = model.GetType();
 
-            var upsertVariantElements = _modelProvider.GetContentItemVariantUpsertModel(model).Elements;
+            var upsertVariantElements = _modelProvider.GetLanguageVariantUpsertModel(model).Elements;
 
             var titleValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Title))?.GetKontentElementId()

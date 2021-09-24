@@ -15,9 +15,9 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
     {
         internal ModelProvider() { }
 
-        public ContentItemVariantModel<T> GetContentItemVariantModel<T>(ContentItemVariantModel variant) where T : new()
+        public LanguageVariantModel<T> GetLanguageVariantModel<T>(LanguageVariantModel variant) where T : new()
         {
-            var result = new ContentItemVariantModel<T>
+            var result = new LanguageVariantModel<T>
             {
                 Item = variant.Item,
                 Language = variant.Language,
@@ -51,7 +51,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             return result;
         }
 
-        public ContentItemVariantUpsertModel GetContentItemVariantUpsertModel<T>(T variantElements) where T : new()
+        public LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements) where T : new()
         {
             var type = typeof(T);
 
@@ -64,7 +64,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                     return element?.ToDynamic(x.GetKontentElementId());
                 });
 
-            var result = new ContentItemVariantUpsertModel
+            var result = new LanguageVariantUpsertModel
             {
                 Elements = elements
             };
