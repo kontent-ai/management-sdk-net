@@ -189,7 +189,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var assetId = Guid.NewGuid();
             var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/assets/{assetId}";
-            var actualResult = _builder.BuildAssetsUrl(AssetIdentifier.ById(assetId));
+            var actualResult = _builder.BuildAssetsUrl(Reference.ById(assetId));
 
             Assert.Equal(expectedResult, actualResult);
         }
@@ -200,7 +200,7 @@ namespace Kentico.Kontent.Management.Tests
         {
             var externalId = "which-brewing-fits-you";
             var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/assets/external-id/{externalId}";
-            var actualResult = _builder.BuildAssetsUrl(AssetIdentifier.ByExternalId(externalId));
+            var actualResult = _builder.BuildAssetsUrl(Reference.ByExternalId(externalId));
 
             Assert.Equal(expectedResult, actualResult);
         }

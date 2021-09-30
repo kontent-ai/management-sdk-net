@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
@@ -20,15 +19,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }
-
-        public UrlSlugElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Mode = data.mode?.ToString();
-                Value = data.value?.ToString();
-            }
-        }
 
         public override dynamic ToDynamic(Guid elementId)
         {

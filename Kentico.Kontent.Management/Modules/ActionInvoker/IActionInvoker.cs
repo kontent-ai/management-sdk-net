@@ -7,7 +7,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
     internal interface IActionInvoker
     {
-        Task<TResponse> InvokeMethodAsync<TPayload, TResponse>(string endpointUrl, HttpMethod method, TPayload body);
+        Task<TResponse> InvokeMethodAsync<TPayload, TResponse>(string endpointUrl, HttpMethod method, TPayload body, Dictionary<string, string> headers = null);
 
         Task<TResponse> InvokeReadOnlyMethodAsync<TResponse>(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null);
 

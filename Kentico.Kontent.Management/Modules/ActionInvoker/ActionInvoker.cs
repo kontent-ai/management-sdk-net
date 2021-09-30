@@ -42,9 +42,9 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             return JsonConvert.DeserializeObject<T>(responseString, _deserializeSettings);
         }
 
-        public async Task<TResponse> InvokeMethodAsync<TPayload, TResponse>(string endpointUrl, HttpMethod method, TPayload body)
+        public async Task<TResponse> InvokeMethodAsync<TPayload, TResponse>(string endpointUrl, HttpMethod method, TPayload body, Dictionary<string, string> headers = null)
         {
-            var message = _messageCreator.CreateMessage(method, endpointUrl);
+            var message = _messageCreator.CreateMessage(method, endpointUrl, headers: headers);
 
             HttpContent content = null;
 
@@ -54,7 +54,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
                 content = new StringContent(json, Encoding.UTF8, "application/json");
             }
 
-            var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, content);
+            var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, content, headers: headers);
 
             return await ReadResultAsync<TResponse>(response);
         }

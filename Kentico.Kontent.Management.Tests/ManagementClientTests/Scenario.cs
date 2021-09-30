@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
@@ -202,7 +201,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 },
                 value = new[]
                 {
-                    AssetIdentifier.ById(EXISTING_ASSET_ID),
+                    Reference.ById(EXISTING_ASSET_ID),
                 },
                 codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
@@ -292,7 +291,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             TeaserImage = new AssetElement
             {
                 Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
-                Value = new[] { AssetIdentifier.ById(EXISTING_ASSET_ID) },
+                Value = new[] { Reference.ById(EXISTING_ASSET_ID) },
             },
             Options = new MultipleChoiceElement
             {

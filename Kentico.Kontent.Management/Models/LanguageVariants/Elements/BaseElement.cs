@@ -16,19 +16,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         public Reference Element { get; set; }
 
         /// <summary>
-        /// Creates reference of the element.
-        /// </summary>
-        public BaseElement(dynamic data = null)
-        {
-            
-            if (data?.element?.id != null)
-            {
-                // TODO extend by codename + external ID
-                Element = Reference.ById(Guid.Parse(data.element.id));
-            }
-        }
-
-        /// <summary>
         /// Transforms the element in the language variant to dynamic object.
         /// </summary>
         public abstract dynamic ToDynamic(Guid elementId);

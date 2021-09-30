@@ -15,13 +15,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public DateTime Value { get; set; }
 
-        public DateTimeElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = Convert.ToDateTime(data.value);
-            }
-        }
 
         public override dynamic ToDynamic(Guid elementId)
         {

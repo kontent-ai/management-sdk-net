@@ -188,7 +188,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+            await _client.DeleteAssetAsync(Reference.ById(assetResult.Id));
         }
 
         [Fact]
@@ -234,7 +234,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
+            await _client.DeleteAssetAsync(Reference.ByExternalId(externalId));
         }
 
         [Fact]
@@ -266,7 +266,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+            await _client.DeleteAssetAsync(Reference.ById(assetResult.Id));
         }
 
         [Fact]
@@ -293,7 +293,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await _client.DeleteAssetAsync(AssetIdentifier.ById(assetResult.Id));
+            await _client.DeleteAssetAsync(Reference.ById(assetResult.Id));
         }
 
         [Fact]
@@ -327,7 +327,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(assetResult.Url);
 
             // Cleanup
-            await _client.DeleteAssetAsync(AssetIdentifier.ByExternalId(externalId));
+            await _client.DeleteAssetAsync(Reference.ByExternalId(externalId));
         }
 
         [Fact]
@@ -335,7 +335,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             
 
-            var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
+            var identifier = Reference.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
             var title = "My super asset";
             var updatedDescription = new AssetDescription()
             {
@@ -356,7 +356,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             
 
-            var identifier = AssetIdentifier.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
+            var identifier = Reference.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
 
             var response = await _client.GetAssetAsync(identifier);
 

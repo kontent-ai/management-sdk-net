@@ -950,7 +950,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
-        public async Task<AssetModel> GetAssetAsync(AssetIdentifier identifier)
+        public async Task<AssetModel> GetAssetAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -1017,7 +1017,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the asset.</param>
         /// <param name="asset">Represents updated asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
-        public async Task<AssetModel> UpdateAssetAsync(AssetIdentifier identifier, AssetUpdateModel asset)
+        public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
         {
             if (identifier == null)
             {
@@ -1039,7 +1039,7 @@ namespace Kentico.Kontent.Management
         /// Deletes given asset.
         /// </summary>
         /// <param name="identifier">The identifier of the asset.</param>
-        public async Task DeleteAssetAsync(AssetIdentifier identifier)
+        public async Task DeleteAssetAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -1086,7 +1086,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(asset));
             }
 
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(AssetIdentifier.ByExternalId(externalId));
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(Reference.ByExternalId(externalId));
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
                 endpointUrl,
                 HttpMethod.Put,

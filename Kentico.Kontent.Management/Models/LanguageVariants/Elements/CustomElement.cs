@@ -21,15 +21,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("searchable_value")]
         public string SearchableValue { get; set; }
 
-        public CustomElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = data.value?.ToString();
-                SearchableValue = data.searchable_value?.ToString();
-            }
-        }
-
         public override dynamic ToDynamic(Guid elementId)
         {
             return new

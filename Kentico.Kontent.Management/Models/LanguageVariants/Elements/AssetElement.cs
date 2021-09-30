@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kentico.Kontent.Management.Models.Assets;
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
@@ -15,19 +15,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// Gets or sets value of asset element.
         /// </summary>
         [JsonProperty("value")]
-        public IEnumerable<AssetIdentifier> Value { get; set; }
-
-        /// <summary>
-        /// Creates new instance of AssertElement 
-        /// <paramref name="data"/>Value of asset element
-        /// </summary>
-        public AssetElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, AssetIdentifier>(identifier => AssetIdentifier.ById(Guid.Parse(identifier.id)));
-            }
-        }
+        public IEnumerable<Reference> Value { get; set; }
 
         /// <summary>
         /// Transforms the asset element to dynamic object.

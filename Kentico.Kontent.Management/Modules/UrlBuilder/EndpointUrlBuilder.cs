@@ -232,7 +232,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(URL_ASSET_FOLDERS);
         }
 
-        internal string BuildAssetsUrl(AssetIdentifier identifier)
+        internal string BuildAssetsUrl(Reference identifier)
         {
             var assetSegment = GetIdentifierUrlSegment(identifier, _assetTemplate);
             return GetUrl(assetSegment);
@@ -277,9 +277,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         private string GetIdentifierUrlSegment(Reference identifier, UrlTemplate template)
             => GetIdentifier(template, id: identifier.Id, codename: identifier.Codename, externalId: identifier.ExternalId);
-
-        private string GetIdentifierUrlSegment(AssetIdentifier identifer, UrlTemplate template)
-            => GetIdentifier(template, id: identifer.Id, externalId: identifer.ExternalId);
 
         private string GetIdentifier(UrlTemplate template, Guid? id = null, string codename = null, string externalId = null)
         {

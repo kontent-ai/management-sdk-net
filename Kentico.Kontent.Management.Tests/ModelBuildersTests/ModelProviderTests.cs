@@ -87,7 +87,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
             var teaserImageValue = upsertVariantElements.SingleOrDefault(elementObject =>
                 elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
-            ).value as IEnumerable<AssetIdentifier>;
+            ).value as IEnumerable<Reference>;
 
             var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
@@ -145,7 +145,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                         }
                     }
                 },
-                TeaserImage = new AssetElement { Value = new[] { AssetIdentifier.ById(Guid.NewGuid()), AssetIdentifier.ById(Guid.NewGuid()) } },
+                TeaserImage = new AssetElement { Value = new[] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) } },
                 RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToArray() },
                 Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },
                 Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },

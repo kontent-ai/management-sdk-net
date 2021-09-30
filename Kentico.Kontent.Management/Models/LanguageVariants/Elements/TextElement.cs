@@ -1,3 +1,4 @@
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -14,14 +15,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }
-
-        public TextElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = data.value?.ToString();
-            }
-        }
 
         public override dynamic ToDynamic(Guid elementId)
         {

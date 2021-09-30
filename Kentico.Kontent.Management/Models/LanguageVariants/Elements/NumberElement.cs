@@ -15,14 +15,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public decimal? Value { get; set; }
 
-        public NumberElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = Convert.ToDecimal(data.value);
-            }
-        }
-
         public override dynamic ToDynamic(Guid elementId)
         {
             return new

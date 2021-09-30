@@ -18,14 +18,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public IEnumerable<Reference> Value { get; set; }
 
-        public TaxonomyElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)));
-            }
-        }
-
         public override dynamic ToDynamic(Guid elementId)
         {
             return new

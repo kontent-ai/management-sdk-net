@@ -20,14 +20,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public IEnumerable<Reference> Value { get; set; }
 
-        public LinkedItemsElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = (data.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(item => Reference.ById(Guid.Parse(item.id)));
-            }
-        }
-
         public override dynamic ToDynamic(Guid elementId)
         {
             return new

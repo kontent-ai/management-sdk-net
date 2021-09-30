@@ -23,20 +23,6 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public string Value { get; set; }
 
-        public RichTextElement(dynamic data = null) : base((object)data)
-        {
-            if (data != null)
-            {
-                Value = data.value;
-                Components = (data.components as IEnumerable<dynamic>)?.Select(component => new ComponentModel
-                {
-                    Id = Guid.Parse(component.id),
-                    Type = Reference.ById(Guid.Parse(component.type.id)),
-                    Elements = (component.elements as IEnumerable<dynamic>)
-                });
-            }
-        }
-
         public override dynamic ToDynamic(Guid elementId)
         {
             return new
