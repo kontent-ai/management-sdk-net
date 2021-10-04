@@ -89,17 +89,83 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsAsync(Reference identifier)
+        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
+            var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
 
             return response;
+        }
+
+        /// <summary>
+        /// Returns strongly typed listing of language variants for specified content type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type.</param>
+        /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
+        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildListVariantsByTypeUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<LanguageVariantModel>(
+                    (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                    response.Pagination?.Token,
+                    endpointUrl,
+                    response.Variants);
+        }
+
+        /// <summary>
+        /// Returns strongly typed listing of language variants containing components by type.
+        /// </summary>
+        /// <param name="identifier">The identifier of the content type.</param>
+        /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
+        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantComponentByTypeAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildListVariantsByComponentUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<LanguageVariantModel>(
+                    (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                    response.Pagination?.Token,
+                    endpointUrl,
+                    response.Variants);
+        }
+
+        /// <summary>
+        /// Returns strongly typed listing of language variants for specified collection.
+        /// </summary>
+        /// <param name="identifier">The identifier of the collection.</param>
+        /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
+        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildListVariantsByCollectionUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<LanguageVariantModel>(
+                    (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                    response.Pagination?.Token,
+                    endpointUrl,
+                    response.Variants);
         }
 
         /// <summary>
@@ -748,7 +814,7 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            var endpointUrl = _urlBuilder.BuildListVariantsUrl(identifier);
+            var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
 
             return response.Select(x => _modelProvider.GetLanguageVariantModel<T>(x)).ToList();

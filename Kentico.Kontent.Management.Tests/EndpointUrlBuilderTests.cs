@@ -34,7 +34,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildListVariantsUrl_ItemId_ReturnsCorrectUrl()
         {
             var identifier = Reference.ById(ITEM_ID);
-            var actualUrl = _builder.BuildListVariantsUrl(identifier);
+            var actualUrl = _builder.BuildListVariantsByItemUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{ITEM_ID}/variants";
 
             Assert.Equal(expectedUrl, actualUrl);
@@ -44,7 +44,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildListVariantsUrl_ItemCodename_ReturnsCorrectUrl()
         {
             var identifier = Reference.ByCodename(ITEM_CODENAME);
-            var actualUrl = _builder.BuildListVariantsUrl(identifier);
+            var actualUrl = _builder.BuildListVariantsByItemUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{ITEM_CODENAME}/variants";
 
             Assert.Equal(expectedUrl, actualUrl);
@@ -54,7 +54,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildListVariantsUrl_ItemExternalId_ReturnsCorrectUrl()
         {
             var identifier = Reference.ByExternalId(ITEM_EXTERNAL_ID);
-            var actualUrl = _builder.BuildListVariantsUrl(identifier);
+            var actualUrl = _builder.BuildListVariantsByItemUrl(identifier);
             var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{EXPECTED_ITEM_EXTERNAL_ID}/variants";
 
             Assert.Equal(expectedUrl, actualUrl);

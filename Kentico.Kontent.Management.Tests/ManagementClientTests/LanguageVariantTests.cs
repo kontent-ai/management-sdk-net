@@ -246,27 +246,27 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListContentItemVariants_ById_ListsVariants()
+        public async Task ListLanguageVariantsByItem_ById_ListsVariants()
         {
             var identifier = Reference.ById(EXISTING_ITEM_ID);
 
-            var responseVariants = await _client.ListLanguageVariantsAsync(identifier);
+            var responseVariants = await _client.ListLanguageVariantsByItemAsync(identifier);
 
             Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
         [Fact]
-        public async Task ListContentItemVariants_ByCodename_ListsVariants()
+        public async Task ListLanguageVariantsByItem_ByCodename_ListsVariants()
         {
             var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
-            var responseVariants = await _client.ListLanguageVariantsAsync(identifier);
+            var responseVariants = await _client.ListLanguageVariantsByItemAsync(identifier);
 
             Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
         }
 
         [Fact]
-        public async Task ListContentItemVariants_ByExternalId_ListsVariants()
+        public async Task ListLanguageVariantsByItem_ByExternalId_ListsVariants()
         {
             // Arrange
             var externalId = "0220e6ec5b77401ea113b5273c8cdd5e";
@@ -275,13 +275,52 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Test
             var identifier = Reference.ByExternalId(externalId);
-            var responseVariants = await _client.ListLanguageVariantsAsync(identifier);
+            var responseVariants = await _client.ListLanguageVariantsByItemAsync(identifier);
 
             Assert.Single(responseVariants);
 
             // Cleanup
             var itemToClean = Reference.ByExternalId(externalId);
             await _client.DeleteContentItemAsync(itemToClean);
+        }
+
+        [Fact]
+        //todo add ByExternalId and ById tests
+        //todo test pagination
+        public async Task ListLanguageVariantsByType_ByCodename_ListsVariants()
+        {
+            var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+
+            var responseVariants = await _client.ListLanguageVariantsByTypeAsync(identifier);
+
+            var item = await _client.GetContentItemAsync(Reference.ById(responseVariants.First().Item.Id.Value));
+
+            Assert.Equal(EXISTING_CONTENT_TYPE_ID, item.Type.Id);
+        }
+
+        [Fact]
+        //todo create variants with component - ??
+        //todo add ByExternalId and ById tests
+        //todo test pagination
+        public async Task ListLanguageVariantComponentByType_ByCodename_ListsVariants()
+        {
+            var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+
+            var responseVariants = await _client.ListLanguageVariantComponentByTypeAsync(identifier);
+
+            Assert.Empty(responseVariants);
+        }
+
+        [Fact]
+        //todo add ByExternalId and ById tests
+        //todo test pagination
+        public async Task ListLanguageVariantByCollectionAsync_ByCodename_ListsVariants()
+        {
+            var identifier = Reference.ById(Guid.Empty);
+
+            var responseVariants = await _client.ListLanguageVariantsByCollectionAsync(identifier);
+
+            Assert.NotEmpty(responseVariants);
         }
 
         [Fact]
@@ -469,7 +508,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListStronglyTypedContentItemVariants_ById_ListsVariants()
+        public async Task ListStronglyTypedLanguageVariants_ById_ListsVariants()
         {
             var identifier = Reference.ById(EXISTING_ITEM_ID);
 

@@ -1,0 +1,5330 @@
+{
+  "variants": [
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "27 Bowdoin St"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "Boston"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "USA"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": "Massachusetts"
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "02144"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "617-600-225"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "Boston@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "1ab589c8-be30-41a4-b1a0-5ded03ce5161"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "0f79b41f-53d3-41b5-8fa0-153c87f60bc1"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:46.2336932Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "27 Bowdoin St"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "Boston"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "USA"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": "Massachusetts"
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "02144"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "617-600-225"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "Boston@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "1ab589c8-be30-41a4-b1a0-5ded03ce5161"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "0f79b41f-53d3-41b5-8fa0-153c87f60bc1"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:46.546211Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ed31d584-e2a5-5125-bcd8-343e55937743"
+          },
+          "value": "Brazil Natural Barra Grande"
+        },
+        {
+          "element": {
+            "id": "434b3e21-7902-52cb-8da8-cadb218efa1e"
+          },
+          "value": 8.5
+        },
+        {
+          "element": {
+            "id": "adedd7e6-1cba-57eb-8242-880fc3cab1f4"
+          },
+          "value": [
+            {
+              "id": "f41291b5-206d-4727-a011-4c03884c3975"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "25bcabd3-65e3-5f10-86fe-6b3d2c4ebfc1"
+          },
+          "value": "<p>Naturally processed Brazilian coffee grown with the nurturing and kindness of the family grower with a creamy mouth sensation,&nbsp;and a cherry and chocolaty flavor. &nbsp;</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "468ead74-1d8e-5aec-8fd4-bdb3a9cfe2c9"
+          },
+          "value": "<p>Taste Natural Barra Grande from the high altitudes of Poco Fundo in&nbsp;Minas Gerais in Brazil, where a family business with a strong keenness&nbsp;on natural processing has been growing coffee for three generations.</p><p>The path of the Barra Grande has not always been so smooth. The father of Sildes Caixeta, the current owner, was forced to sell their company when Sildes was just&nbsp;five years old. After long years of waiting, Sildes&nbsp;managed to buy the company back and now says that this patience is the family secret&nbsp;for growing good coffee and&nbsp;has taught&nbsp;this motto to his son.</p><p>This coffee is a blend of Yellow Catuai and Mundo Novo,&nbsp;whose excellent large beans are patio dried and create a creamy mouth sensation and a cherry flavor with a pinch of chocolate and caramel.</p>"
+        },
+        {
+          "element": {
+            "id": "732d87b3-d493-5c69-b349-b6320adf461e"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "f57743c3-31b9-5337-9d25-9b23f5a744c0"
+          },
+          "value": "Sitio Barra Grande"
+        },
+        {
+          "element": {
+            "id": "5c10c615-2d95-51e2-a601-bb513240885c"
+          },
+          "value": "Brazil"
+        },
+        {
+          "element": {
+            "id": "6dfe9048-1cec-5d31-95c2-2609c97f5103"
+          },
+          "value": "Yellow Catuai, Mundo Novo"
+        },
+        {
+          "element": {
+            "id": "a00227d9-72dd-57f8-b106-4a8986b24298"
+          },
+          "value": "3900"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "29738662-7433-50b2-a089-a53ff40aad32"
+          },
+          "value": "brazil-natural-barra-grande"
+        },
+        {
+          "element": {
+            "id": "c19a25c1-ef86-5af2-947f-e827becea959"
+          },
+          "value": [
+            {
+              "id": "6e012e50-c144-5133-9cc8-8c5376c06666"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Brazil Natural Barra Grande"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Naturally processed Brazilian coffee grown with the nurturing and kindness of the family grower with a creamy mouth sensation."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Brazil Natural Barra Grande"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Naturally processed Brazilian coffee grown with the nurturing and kindness of the family grower with a creamy mouth sensation."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "f41291b5-206d-4727-a011-4c03884c3975"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Brazil Natural Barra Grande"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Naturally processed Brazilian coffee grown with the nurturing and kindness of the family grower with a creamy mouth sensation."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "f41291b5-206d-4727-a011-4c03884c3975"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "60214236-d2b8-40dd-a050-b59c1c7a52ef"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:46.7337253Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "56daf290-aa15-46ed-8252-94b8bf812e60"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-02T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world depending mainly on their weather conditions."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Before a ripe coffee plant transforms into a delicious cup lying on your table, it undergoes quite a journey. A journey full of possible pitfalls, which can, usually negatively, influence the coffee’s final taste. What goes wrong at the very beginning cannot be made up for at the very end.</p><p>The character and taste of a coffee are largely influenced by its origin, climate, the quality and type of soil and the botanical varieties of the coffee plant.</p><p>The last two links of the chain—the roastery and the barista—cannot, in any way, improve the taste of the coffee. They are left with the difficult task of making the most its potential.</p><p>The farmers themselves, however, have at their disposal tools for enhancing the ‘ingrown’ taste of the coffee. These are mainly the methods of removing the multilayered skin of the coffee beans.</p><p>Two, sometimes three basic methods are usually referred to. Wet-Processed (Fully-Washed), Dry-Processed (Natural) and Pulped-Natural (Semi-Washed).</p><p>Dry processing, being the least economically demanding, used to be the most widely used of the methods. More exclusive beans are now usually processed using the wet and pulped-natural processing. This is due to the quality and cleanliness of the beans, as well as the speed of the whole process. If you are curious about the taste, go ahead and try the <a data-item-id=\"f26b3b85-9cbf-4ae8-8d04-ac084487cb7c\">Kenya Gakuyuni AA</a>.</p><p>Wet processing rids the cherry of its layers and pulp by water fermentation. The exocarp is removed from the cherries directly after the harvest using circular and drum mechanical peelers. Afterwards, they spend 6-72 hours in water-filled fermentation tanks.</p><p>In the tank, microorganisms take care of the pulp (mesocarp). The length of the process is determined by the stickiness of the beans. Leaving beans in the fermentation tank for too long produces the so-called ‘naughty’ beans. These are often beans that have stuck in the tank and their rancid and putrid state endangers the whole batch.</p><p>The constantly rising levels of acetic acid are also able to impact the taste of the coffee with fermented and even vinegarish tones once it’s been roasted. The main negative aspect of wet processing is the amount of water that has to be used. This is up to 40m3 (40000 liters) of water, that have to be continuously dumped and new, clean water has to be put pumped into the tank. The dumping of contaminated water often depreciates the water supplies laying underneath the coffee farm.</p><p>The dry method, considered the most traditional and the least costly, makes use of sun-drying. Cherries are often sundried on concrete courtyards, Ethiopian hilltops, and sometimes even on the very shrubs.</p><p>Cherries need to be sundried directly after the harvest to avoid unwanted fermentation. The laid out beans need to be layered evenly and not more than 6 inches (15cm) in height. Farmers turn the seeds over both manually or with the use of tractors.</p><p>During the dry fermentation, the sugars travel, via osmosis, from the pulp into the beans. This makes for more full-bodied coffee and adds sweeter tones to the taste, as compared to wet processed coffee. This often comes at the cost of a more polluted cup.</p><p>Once the coffee beans reach some 11 % humidity, the peel layers and pulp can be removed using mechanical peelers. Reaching the desired humidity takes anywhere between 10 and 30 days. This is an important factor, especially in unstable climates, where automatic driers often replace the traditional sun drying process.</p><p>Now’s the time for ‘reposo’, a resting time, in which the beans lay in a parchment for 30-60 days.</p><p>The third method, popular primarily in Brazil, is the so-called Pulped-Natural or Semi-Washed way of processing beans. Check out our <a data-item-id=\"60214236-d2b8-40dd-a050-b59c1c7a52ef\">Brazil Natural Barra Grande</a> coffee for a tasty example. Only the top layer of the cherry peel is removed in a water bath. The rest of the process, including the sugar fermentation and the separation of the pulp from the bean, are taken care of by sun drying. This method, just like the dry method, is highly dependent on the weather, which has to be consistent for the farmers to be able to dry the beans thoroughly.</p><p>This process yields full-bodied beans with low-acidity. Less aliphatic acids are produced, which has a negative impact on the aroma of the coffee.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            },
+            {
+              "id": "ff62a3eb-429c-41b5-958c-2cf568f34cd7"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "\"coffee processing\", brewing"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            },
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "coffee-processing-techniques"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "56daf290-aa15-46ed-8252-94b8bf812e60"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "56daf290-aa15-46ed-8252-94b8bf812e60"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "a89dcccf-4d82-4e5e-bce7-62e3c6e15197"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:46.9993644Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "5eb37505-779c-5698-9ad5-32d274acbf7b"
+          },
+          "value": "87163631"
+        },
+        {
+          "element": {
+            "id": "d03dea5c-9d55-549f-8323-52349444ae71"
+          },
+          "value": [
+            {
+              "id": "d8449cb2-db62-5768-8451-690c4478003a"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "a26fedaf-540a-4854-9060-26b62708b336"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:47.2181265Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "How we source our coffees"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>Every coffee has a story to share. We want this story to reach you in the most unaltered manner possible.</p><p>With estate coffees and micro lots from diverse varietals located all over the globe, you can taste the world with Dancing Goat.</p><p>We know all our farmers personally. These are mostly family businesses that have been up and running for decades. They do what they love, and hand pick their produce with care. We make sure they get as much from our relationships as we and you do.</p><p>Every bean in our stock is 100% traceable to its source. Clean both for the eye and the environment, our beans are always of the latest season — we never store more coffee than we have to.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "813db69a-3593-401b-8056-cbc6c779ada1"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:47.390019Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "La manera en la que abastecemos nuestros cafés"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>Cada café tiene una historia que compartir. Nosotros queremos que esta historia te llegue de la forma más directa.</p><p>Existen cafés raíces y micro-lotes de diversas variedades ubicados en todo el mundo. Puedes&nbsp;disfrutar&nbsp;el mundo del cafe en Dancing Goat.</p><p>Conocemos a cada uno de nuestros cultivadores en persona. La mayoría son negocios de familia que han estado en funcionamiento durante décadas. Ellos hacen lo que aman y escogen su producto a mano con cuidado. Nosotros aseguramos que ellos sean beneficiados a lo máximo posible en nuestra relación, tanto como nosotros y usted.</p><p>Cada grano de café de nuestra acción es 100% trazable a su fuente. Limpio tanto para el ojo como para el medio ambiente. Los granos siempre son de la última temporada – nunca almacenamos más café que lo necesario.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "813db69a-3593-401b-8056-cbc6c779ada1"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:47.5462657Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "5a1f5c5e-b2ff-5cf2-927e-80aa2d6d2e40"
+          },
+          "value": [
+            {
+              "id": "82ee83cd-b3d4-44dc-9772-af329f18d3f8"
+            },
+            {
+              "id": "a081a0e3-e2a2-47ab-888a-fdde99ee13e0"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "d1d8d364-7bf0-5c0f-b763-f261fb5d175d"
+          },
+          "value": [
+            {
+              "id": "deee0b3c-7b3c-4841-a603-5ada23f550fd"
+            },
+            {
+              "id": "aaaa8357-d1b4-4a51-bcaa-10864d80babc"
+            },
+            {
+              "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            },
+            {
+              "id": "a89dcccf-4d82-4e5e-bce7-62e3c6e15197"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "9e239a77-a610-5c29-898e-379932980b0a"
+          },
+          "value": [
+            {
+              "id": "66f67ff5-1ba2-47f8-b6d9-348f4990067f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "aa4aed47-18c7-59a2-a28f-ad2204509f70"
+          },
+          "value": [
+            {
+              "id": "e6de8254-36f1-4266-8f6a-806f80c7fb7d"
+            },
+            {
+              "id": "0f79b41f-53d3-41b5-8fa0-153c87f60bc1"
+            },
+            {
+              "id": "4911d704-ba14-4572-b377-5420205e166f"
+            },
+            {
+              "id": "3d3363a6-a1e9-4966-8578-98fe76c6fb4c"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "9aea8064-c23c-5c0c-9119-3bc2b1470a90"
+          },
+          "value": "<h3>Contact</h3><p>(+1) 123-456-7890</p><p><a href=\"http://dancinggoat@localhost.local\">dancinggoat@localhost.local</a></p><p><br/></p><p>Dancing Goat Ltd<br/>62 E Lake St Chicago,<br/>Illinois 60601, USA</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "61ab1348-3d94-5c0b-84b8-444529bbf8dc"
+          },
+          "value": "dancing-goat-freshest-coffee-on-the-block"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Dancing Goat–Freshest coffee on the block!"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Visit your local Goat for the best beans in your town."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Dancing Goat–Freshest coffee on the block!"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Visit your local Goat for the best beans in your town."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "1cdcb302-d439-478a-b272-f9edfa88e646"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Dancing Goat–Freshest coffee on the block!"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Visit your local Goat for the best beans in your town."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "1cdcb302-d439-478a-b272-f9edfa88e646"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "5d1a59b8-848a-4e63-b8f8-fa0b187b7764"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:47.8275369Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "5a1f5c5e-b2ff-5cf2-927e-80aa2d6d2e40"
+          },
+          "value": [
+            {
+              "id": "82ee83cd-b3d4-44dc-9772-af329f18d3f8"
+            },
+            {
+              "id": "a081a0e3-e2a2-47ab-888a-fdde99ee13e0"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "d1d8d364-7bf0-5c0f-b763-f261fb5d175d"
+          },
+          "value": [
+            {
+              "id": "deee0b3c-7b3c-4841-a603-5ada23f550fd"
+            },
+            {
+              "id": "aaaa8357-d1b4-4a51-bcaa-10864d80babc"
+            },
+            {
+              "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "9e239a77-a610-5c29-898e-379932980b0a"
+          },
+          "value": [
+            {
+              "id": "66f67ff5-1ba2-47f8-b6d9-348f4990067f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "aa4aed47-18c7-59a2-a28f-ad2204509f70"
+          },
+          "value": [
+            {
+              "id": "e6de8254-36f1-4266-8f6a-806f80c7fb7d"
+            },
+            {
+              "id": "0f79b41f-53d3-41b5-8fa0-153c87f60bc1"
+            },
+            {
+              "id": "4911d704-ba14-4572-b377-5420205e166f"
+            },
+            {
+              "id": "3d3363a6-a1e9-4966-8578-98fe76c6fb4c"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "9aea8064-c23c-5c0c-9119-3bc2b1470a90"
+          },
+          "value": "<h3>Contacto</h3><p>(+1) 617-632-4520</p><p><a href=\"http://dancinggoat@localhost.local\">dancinggoat@localhost.local</a></p><p><br/></p><p>Dancing Goat Ltd<br/>62 E Lake St Chicago,<br/>Illinois 60601, USA</p>"
+        },
+        {
+          "mode": "custom",
+          "element": {
+            "id": "61ab1348-3d94-5c0b-84b8-444529bbf8dc"
+          },
+          "value": "inicio"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Café Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Visite su Cabra local para obtener los mejores frijoles de su ciudad."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Café Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Visite su Cabra local para obtener los mejores frijoles de su ciudad."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "1cdcb302-d439-478a-b272-f9edfa88e646"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Café Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Visite su Cabra local para obtener los mejores frijoles de su ciudad."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "1cdcb302-d439-478a-b272-f9edfa88e646"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "5d1a59b8-848a-4e63-b8f8-fa0b187b7764"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:48.1244304Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "How we roast our coffees"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>We operate our own roasteries, one on every continent we cover, from where we distribute right to the shops. This allows you to experience every cup as if you were right at the very farm it originated from. To achieve this, we use a refurbished 1920s Probat coffee roasters.</p><p>We know that roasting is something you must keep on constantly perfecting. Each coffee requires a different roast to get the aroma and taste just right. That’s why our experts fine tune <a data-item-id=\"4b628214-e4fe-4fe0-b1ff-955df33e1515\">the way we roast coffees</a> every day. It’s a constant struggle.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "215b9157-f5b7-4b2b-ae5b-b83475fb9d45"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "4d78ce7f-d3d5-4e8b-8287-b7499ec9d30f"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:48.3119556Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "Cómo tostamos nuestro café"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>Operamos nuestra propia planta tostadora central de donde distribuimos nuestros cafés directamente a las tiendas. Este proceso te permite disfrutar de todos los diferentes sabores como si estuvieses tomando tu café en la granja de su origen. Para lograr esto, usamos un tostador de café renovado, el Probat 1920.</p><p>Sabemos que tostar café es un arte que se tiene que perfeccionar constantemente. Cada café requiere un tostado diferente para conseguir el aroma y el sabor en su punto. Es por esta misma razón que nuestros expertos refinan <a data-item-id=\"4b628214-e4fe-4fe0-b1ff-955df33e1515\">la manera en que tuestan el café</a> todos los días. Es un esfuerzo constante.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "215b9157-f5b7-4b2b-ae5b-b83475fb9d45"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "4d78ce7f-d3d5-4e8b-8287-b7499ec9d30f"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:48.4681996Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-12T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children with food, accommodation, education, and other essentials. Donate with us and create a better world."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The people at Dancing Goat care about other people and their standard of living. Every year, <strong>we donate five thousand dollars to Children in Africa</strong>, and we also encourage all our customers to contribute to our public PayPal donation account to help us increase the final amount of money raised. The Children in Africa Foundation <strong>provides food, accommodation, medical service, and also education to children from poor regions</strong> in African countries.<br/><br/>Every month, volunteers from all over the world come&nbsp;and help&nbsp;out at Children in Africa camps, where they try&nbsp;and&nbsp;assist all children in need&nbsp;to try&nbsp;to narrow the gap in living standards. With the money donated, the foundation mainly buys much-needed&nbsp;food and medication.<br/><br/>Create a better world and donate with us to Children in Africa. <strong>Even a few dollars can improve someone's life.</strong> Any help from you is&nbsp;appreciated, and you will&nbsp;have our sincere thanks for every cent you donate</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "donation, africa"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f36cb6b1-a77a-5c85-83a1-e380458552e1"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children with food, accommodation, education, and other essentials."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "donate-with-us"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "aaaa8357-d1b4-4a51-bcaa-10864d80babc"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:48.6400822Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-12T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África, una fundación que ayuda a los niños con la comida, educación y otras necesidades. Cree un mundo mejor y done con nosotros."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Las personas en Dancing Goat cuidan de otras personas&nbsp;desfavorecidas&nbsp;y de su nivel de vida. Todos los años,&nbsp;<strong>donamos cinco mil dólares para los niños en África</strong>&nbsp;y también pedimos a los nuestros clientes para que contribuyen a nuestra cuenta de PayPal donde podran hace una donación pública para ayudar a aumentar la cantidad final. Los niños en África&nbsp;<em>través&nbsp;</em>de la fundación&nbsp;<strong>les proporcionamos comida, alojamiento, servicio médico y también la educación a los niños de las regiones pobres</strong>&nbsp;de estos países.</p><p>Todos los meses, los voluntarios de todo el mundo vienen a ayudar a los niños en los campamentos de África, donde tratan de ayudar a todos los niños carecidos y tratan tambien de reducir las diferencias en los niveles de vida o sociales. Con el dinero donado, la fundación compra principalmente alimentos y medicamentos.</p><p>Crea un mundo mejor y dona con nosotros para Niños en África.&nbsp;<strong>Incluso unos pocos dólares pueden mejorar la vida de alguien.</strong>&nbsp;Cualquier ayuda de usted siempre es muy bien agradecida. Tienes nuestro sincero agradecimiento por cada centavo que tu donas.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "donación, africa"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f36cb6b1-a77a-5c85-83a1-e380458552e1"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África, una fundación que ayuda a los niños con la comida, educación y otras necesidades. Cree un mundo mejor y done con nosotros."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "done-con-nosotros"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticocloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "aaaa8357-d1b4-4a51-bcaa-10864d80babc"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:48.8276136Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "1e409b88-b6d0-5aed-8329-b879289b2975"
+          },
+          "value": "HQ in North America"
+        },
+        {
+          "element": {
+            "id": "0e704f9d-0712-5c17-815f-c80bf42fbe39"
+          },
+          "value": "27 Bowdoin St"
+        },
+        {
+          "element": {
+            "id": "b0a0642c-473d-5135-b646-f6f46fbeccc9"
+          },
+          "value": "Boston"
+        },
+        {
+          "element": {
+            "id": "abd69a6e-eae1-5b2f-a4db-93fc42f2e51a"
+          },
+          "value": "USA"
+        },
+        {
+          "element": {
+            "id": "6745d2f0-1c6e-5aa7-a89e-80b6ade49dac"
+          },
+          "value": "Massachusetts"
+        },
+        {
+          "element": {
+            "id": "0239121c-5e71-57f0-bcc4-bb5e8dc81dfb"
+          },
+          "value": "02114"
+        },
+        {
+          "element": {
+            "id": "8c2bb075-dbf0-5082-936d-f2c52848add5"
+          },
+          "value": "617-600-225"
+        },
+        {
+          "element": {
+            "id": "c6e4bf03-15e5-5d69-ac12-092594e6f047"
+          },
+          "value": "Boston@localhost.local"
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "6cdb19a0-841e-434b-b797-0aed0af02ccd"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:49.0151019Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "1e409b88-b6d0-5aed-8329-b879289b2975"
+          },
+          "value": "Norteamérica sede"
+        },
+        {
+          "element": {
+            "id": "0e704f9d-0712-5c17-815f-c80bf42fbe39"
+          },
+          "value": "27 Bowdoin St"
+        },
+        {
+          "element": {
+            "id": "b0a0642c-473d-5135-b646-f6f46fbeccc9"
+          },
+          "value": "Boston"
+        },
+        {
+          "element": {
+            "id": "abd69a6e-eae1-5b2f-a4db-93fc42f2e51a"
+          },
+          "value": "USA"
+        },
+        {
+          "element": {
+            "id": "6745d2f0-1c6e-5aa7-a89e-80b6ade49dac"
+          },
+          "value": "Massachusetts"
+        },
+        {
+          "element": {
+            "id": "0239121c-5e71-57f0-bcc4-bb5e8dc81dfb"
+          },
+          "value": "02114"
+        },
+        {
+          "element": {
+            "id": "8c2bb075-dbf0-5082-936d-f2c52848add5"
+          },
+          "value": "617-600-225"
+        },
+        {
+          "element": {
+            "id": "c6e4bf03-15e5-5d69-ac12-092594e6f047"
+          },
+          "value": "Boston@localhost.local"
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "6cdb19a0-841e-434b-b797-0aed0af02ccd"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:49.171432Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ae819df3-b549-5f89-b235-d692806f1f6c"
+          },
+          "value": "Espro Press"
+        },
+        {
+          "element": {
+            "id": "45ec9b9c-6db9-5458-98e2-bab3e59ab62c"
+          },
+          "value": 74.9
+        },
+        {
+          "element": {
+            "id": "3efe3435-c451-50da-bfb1-1f5f70809d73"
+          },
+          "value": [
+            {
+              "id": "b892f0ab-2e60-494d-bfa9-0dfcd8b37da7"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "2776d0ce-df89-582a-a532-e2250e8d534e"
+          },
+          "value": [
+            {
+              "id": "b38b6df3-316a-541f-ba2a-7d4490f447d9"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "a1c3a174-6c98-57b0-8e90-70994853143c"
+          },
+          "value": "<p>A resistant marvel for all your hot beverage needs.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "c06d8ee5-bc73-5d51-b2f2-d9185ec8a53f"
+          },
+          "value": "<p>A major rethink in the way coffee is made. Retains heat for several hours. The filters in this device are up to 12 times finer, and each coffee is filtered twice. This means no sediment, no silt, and a perfectly clear coffee.&nbsp;</p><p>The Espro Press is durable, perfect for traveling as well as at home. It can survive practically anything.&nbsp;</p><p>Oh, and one more thing. You can easily use this brewer for perfect loose-leaf tea, tonic water, or even vanilla extract.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "7da55a24-dba1-5655-88b3-9a0518b4b8d8"
+          },
+          "value": "espro-press"
+        },
+        {
+          "element": {
+            "id": "8147a6c7-b048-5398-baec-611a1aee3e6a"
+          },
+          "value": [
+            {
+              "id": "33a832cf-ce27-54eb-8d84-e435a930fad3"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Espro Press"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "A major rethink in the way coffee is made. Retains heat for several hours. The filters in this device are up to 12 times finer."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Espro Press"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "A major rethink in the way coffee is made. Retains heat for several hours. The filters in this device are up to 12 times finer."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "b892f0ab-2e60-494d-bfa9-0dfcd8b37da7"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Espro Press"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "A major rethink in the way coffee is made. Retains heat for several hours. The filters in this device are up to 12 times finer."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "b892f0ab-2e60-494d-bfa9-0dfcd8b37da7"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "ee1f0477-3a0e-4050-9b0d-463fcfd32a01"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:49.7675209Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "113d9909-4b91-462b-b453-832e6a37b589"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-10-27T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee. Read this article to convince yourself that brewing coffee is no science"
+        },
+        {
+          "components": [
+            {
+              "id": "fc64109e-2317-4e0c-a94c-c5d3bca94ed5",
+              "type": {
+                "id": "2aac8b91-0b3b-5bf4-aae6-7e3f23c461cf"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "5eb37505-779c-5698-9ad5-32d274acbf7b"
+                  },
+                  "value": "48920310"
+                },
+                {
+                  "element": {
+                    "id": "d03dea5c-9d55-549f-8323-52349444ae71"
+                  },
+                  "value": [
+                    {
+                      "id": "d8449cb2-db62-5768-8451-690c4478003a"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Not that long ago, actually back in the early 2000s, coffee making industry had a single aim: convenience. It may have been hand in hand with the rising economic growth. Everyone felt they had to stay busy and get as much done as possible in order to succeed at their lives. Making coffee was usually the matter of pressing a single button. Convenience brought us the likes of Tassimo, Nespresso and other many similar amenities.</p><p>Nowadays, though, everything seems to be slowing down. People take time. Or maybe, they just gave up and they don't bother being in a rush any more. This brought a renaissance of rediscovering the forgotten. Decades old brewing techniques, otherwise performed only by baristas and the geekiest of coffee enthusiasts, are finding their way into everyone’s homes.</p><p>The variety of devices can easily scare the uninitiated off, though. Looking at some of the more complicated brewers especially so. Take vacuum coffee makers, for example. They look like they’ve been taken straight from a chemist lab and that handling them incorrectly could make the whole block go off. Not surprisingly, then, many of us give up and opt for the ‘convenient’ way.</p><p>In this article, we’ll go through some of the simple of these brewing methods. Just to show you that they’re nothing to be afraid off. Making a proper cup of coffee can be super simple. Let’s get to it.</p><h3>Chemex</h3><p>We won’t lie. This one’s our favorite. It’s super easy to use, and it’s got style (go for the wood handle variant)!</p><p>Chemex produces a cup free of any bitterness. We use the 40oz Chemex, which can make 6 to 8 pretty smooth cups at a time.</p><ol>  <li>Grind, or get about 42 grams (5-6 tablespoons) of ground coffee. The coffee shouldn’t be super-smooth, take kosher salt for reference.</li>  <li>Place the Chemex filter inside. Rinse with hot water to seal.</li>  <li>Remove any left-over water.</li>  <li>Add in the ground coffee and stir briefly. This allows for a more even brewing.</li>  <li>Heat water to some 205 degrees F, or let freshly boiled water off the heat for some 30-45 seconds.</li>  <li>Pour just enough water to saturate the grounds. Let it work for 30 seconds.</li>  <li>Now, pour water evenly, spiraling around the inside of the code, until it reaches the top of the brewer.</li>  <li>Keep on adding water periodically, until the brewed coffee reaches the Chemex’s glass button.</li>  <li>Remove the filter and move it to a sink.</li>  <li>Pre-heat your mug with warm water and then pour in the freshly brewed coffee from your Chemex.</li></ol><p>Enjoy! You can easily manipulate the Chemex with the coffee in, as the handle insulates the heat.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"fc64109e-2317-4e0c-a94c-c5d3bca94ed5\"></object><h3>Clever Dripper</h3><p>This is probably the one that’s easiest to work with. It’s pretty easy to clean up and lets you control the steeping. The brewer is pretty durable and also safe, as it’s 100% BPA free.</p><p>Brews only one cup at a time, but makes a very smooth, almost chocolaty cups.</p><ol>  <li>Grind, or get about 22 grams (3 tablespoons) of ground coffee. Make sure the ground is coarse.</li>  <li>Put the paper filter in and rinse with warm water.</li>  <li>Add the coffee into the dripper.</li>  <li>Pour water and cover with a lid for about 1.5 minutes.</li>  <li>Remove cover, stir and cover again.</li>  <li>After 2 more minutes, stir one last time and place the Clever Dripper on top of a mug.</li>  <li>Start draining until the cup’s full.</li></ol><p>Pretty simple right? The coffee stays in the dripper until you release it yourself, which is pretty convenient. Be careful, though, as leaving the coffee in for too long will make it bitter.</p><h3>Hario V60</h3><p>Similar to the Clever Dripper. Immediately brews into a cup so you don’t have to do the draining yourself.</p><p>Comes made from ceramic, glass or PVC and in tons of colors.</p><p>Produces one cup at a time. The brew has a more ‘roasted’ taste.</p><ol>  <li>Grind, or get about 22 grams (2.5 tablespoons) of ground coffee. Make sure the ground is finer, similar to table salt.</li>  <li>Place a V60 filter into the Hario.</li>  <li>Rinse with hot water and discard. This removes any paper taste.</li>  <li>Add coffee and shake with dripper to level the grounds evenly.</li>  <li>Pour in just enough water to absorb in the coffee. 30ml should do.</li>  <li>Let the water absorb for 45 seconds.</li>  <li>Then, pour hot water steadily over the grounds, topping the Hario. Avoid directly hitting the filter.</li>  <li>Pour the coffee directly into your mug.</li></ol><p>And that’s it. This should be a pretty smooth a cup.</p><p>Don’t forget that you can buy all the three brewers and many others at our store! Let us know if you want to know about other techniques in the comments below.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "a89dcccf-4d82-4e5e-bce7-62e3c6e15197"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "brewing, arabica"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            },
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "which-brewing-fits-you"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "113d9909-4b91-462b-b453-832e6a37b589"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee. "
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "113d9909-4b91-462b-b453-832e6a37b589"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "ff62a3eb-429c-41b5-958c-2cf568f34cd7"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:49.939426Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "141 Sydney St"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "Brisbane"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "Australia"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "QLD 4005"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "07-3403-8884"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "Brisbane@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "c72f5636-5003-432e-9134-1eb9bed3a684"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "d137e6d0-3b54-46e5-8771-90e0aafc455d"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:50.3456681Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "f26d319a-893c-597e-b87d-7ae0de41dbe2"
+          },
+          "value": "Hario Mini Mill Slim"
+        },
+        {
+          "element": {
+            "id": "d74bcab8-f89a-5219-973c-0fa66f218eb0"
+          },
+          "value": 23.9
+        },
+        {
+          "element": {
+            "id": "c43c95e0-63bc-5b13-aed6-d6a6a2d44bac"
+          },
+          "value": [
+            {
+              "id": "01d693f5-2e53-48ae-ac95-88e46e9fd8c5"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "69e47b7b-5135-5c40-ad2d-abbfcb1d871e"
+          },
+          "value": "Hario"
+        },
+        {
+          "element": {
+            "id": "a8160201-d60f-5944-8ed8-21810001d9e2"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2a2b1070-b2fe-5497-8c06-654af5feaf34"
+          },
+          "value": "<p>The Hario Mini Mill Slim is super suitable for traveling, can be hold up to 24 grams of coffee, and has an elegant plastic body.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "bf7f428c-a3d4-507b-b30e-d826415c76e9"
+          },
+          "value": "<p>Are you a traveler? Then this is a grinder for you. It's so small, it fits backpacks and suitcases, light because of its plastic but elegant body, and also durable, so it can sustain even the longest journeys. Although it's compact, you can hold up to 24 grams. After use, just put it in a dishwasher or wash it by hand, it's so easy. Simply choose any brewing method you like.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "dab8d1dd-2503-54d5-9765-15f16b7cc8ff"
+          },
+          "value": "hario-mini-mill-slim"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Hario Mini Mill Slim"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "The Hario Mini Mill Slim is super suitable for traveling, can be hold up to 24 grams of coffee, and has an elegant plastic body."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Hario Mini Mill Slim"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "The Hario Mini Mill Slim is super suitable for traveling, can be hold up to 24 grams of coffee, and has an elegant plastic body."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "01d693f5-2e53-48ae-ac95-88e46e9fd8c5"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Hario Mini Mill Slim"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "The Hario Mini Mill Slim is super suitable for traveling, can be hold up to 24 grams of coffee, and has an elegant plastic body."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "01d693f5-2e53-48ae-ac95-88e46e9fd8c5"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "f9446b85-07e7-4aa4-a201-986abd2459fd"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:50.5644583Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "328 W 29th St"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "New York"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "USA"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": "New York"
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "10001"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "646-555-0150"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "NewYork@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "e688f117-3479-4f1c-b0cc-5fb136e8bdf6"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "3d3363a6-a1e9-4966-8578-98fe76c6fb4c"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:50.767595Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "328 W 29th St"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "New York"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "USA"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": "New York"
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "10001"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "646-555-0150"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "NewYork@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "e688f117-3479-4f1c-b0cc-5fb136e8bdf6"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "3d3363a6-a1e9-4966-8578-98fe76c6fb4c"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:50.9551093Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "344 King's Road"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "London"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "United Kingdom"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "SW3 5UR"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "0173-733-6375"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "London@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "1cdcb302-d439-478a-b272-f9edfa88e646"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "277773e0-5636-4dc2-8d8a-b3deeb763d60"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:51.1269867Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "344 King's Road"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "London"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "United Kingdom"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "SW3 5UR"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "0173-733-6375"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "London@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "1cdcb302-d439-478a-b272-f9edfa88e646"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "277773e0-5636-4dc2-8d8a-b3deeb763d60"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:51.2988502Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ae819df3-b549-5f89-b235-d692806f1f6c"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "45ec9b9c-6db9-5458-98e2-bab3e59ab62c"
+          },
+          "value": 25.9
+        },
+        {
+          "element": {
+            "id": "3efe3435-c451-50da-bfb1-1f5f70809d73"
+          },
+          "value": [
+            {
+              "id": "a12e7269-f211-40d4-82d9-3796be64d754"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "2776d0ce-df89-582a-a532-e2250e8d534e"
+          },
+          "value": [
+            {
+              "id": "a4dd49df-5866-59bf-acf9-188815990bf4"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "a1c3a174-6c98-57b0-8e90-70994853143c"
+          },
+          "value": "<p>AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee. &nbsp;</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "c06d8ee5-bc73-5d51-b2f2-d9185ec8a53f"
+          },
+          "value": "<p>Presenting a coffee-making revolution, the AeroPress Coffee Maker.<br/><br/>Affordable and straightforward for producing top notch coffee with. If you enjoy delicious and smooth coffee, you've come to the right place. With the innovative AeroPress, you'll be enjoying your perfect cup in no time.<br/><br/>Using this device, you'll be amazed at how good your coffee can taste. Its ease of use will amaze you even more. Coffee making with the versatile brewing technique offered by AeroPress. Any kind of coffee, from any part of the world will taste its best when combined with AeroPress. If you just want to enjoy the perfect quick cup, or you enjoy tinkering with the delicacies of coffee brewing, the AeroPress Coffee Maker will hit the spot!<br/><br/>Each AeroPress comes with a pack of filters included in the box. &nbsp;</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "7da55a24-dba1-5655-88b3-9a0518b4b8d8"
+          },
+          "value": "aeropress"
+        },
+        {
+          "element": {
+            "id": "8147a6c7-b048-5398-baec-611a1aee3e6a"
+          },
+          "value": [
+            {
+              "id": "d052a5a6-b8a5-52b2-b8e6-f0e073e5a943"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee. "
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee. "
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "a12e7269-f211-40d4-82d9-3796be64d754"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee. "
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "a12e7269-f211-40d4-82d9-3796be64d754"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "074ab82b-db5c-4981-9b62-7db6f179dad7"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:51.5488647Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ae819df3-b549-5f89-b235-d692806f1f6c"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "45ec9b9c-6db9-5458-98e2-bab3e59ab62c"
+          },
+          "value": 25.9
+        },
+        {
+          "element": {
+            "id": "3efe3435-c451-50da-bfb1-1f5f70809d73"
+          },
+          "value": [
+            {
+              "id": "a12e7269-f211-40d4-82d9-3796be64d754"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "2776d0ce-df89-582a-a532-e2250e8d534e"
+          },
+          "value": [
+            {
+              "id": "a4dd49df-5866-59bf-acf9-188815990bf4"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "a1c3a174-6c98-57b0-8e90-70994853143c"
+          },
+          "value": "<p>AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee. &nbsp;</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "c06d8ee5-bc73-5d51-b2f2-d9185ec8a53f"
+          },
+          "value": "<p>Presenting a coffee-making revolution, the AeroPress Coffee Maker.<br/><br/>Affordable and straightforward for producing top notch coffee with. If you enjoy delicious and smooth coffee, you've come to the right place. With the innovative AeroPress, you'll be enjoying your perfect cup in no time.<br/><br/>Using this device, you'll be amazed at how good your coffee can taste. Its ease of use will amaze you even more. Coffee making with the versatile brewing technique offered by AeroPress. Any kind of coffee, from any part of the world will taste its best when combined with AeroPress. If you just want to enjoy the perfect quick cup, or you enjoy tinkering with the delicacies of coffee brewing, the AeroPress Coffee Maker will hit the spot!<br/><br/>Each AeroPress comes with a pack of filters included in the box. &nbsp;</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "7da55a24-dba1-5655-88b3-9a0518b4b8d8"
+          },
+          "value": "aeropress"
+        },
+        {
+          "element": {
+            "id": "8147a6c7-b048-5398-baec-611a1aee3e6a"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee. "
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "a12e7269-f211-40d4-82d9-3796be64d754"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "AeroPress"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "AeroPress presents this coffee-making revolution which is affordable and makes delicious and smooth coffee. "
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "a12e7269-f211-40d4-82d9-3796be64d754"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "074ab82b-db5c-4981-9b62-7db6f179dad7"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:51.7363962Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ebc9437c-cd20-5a0c-9f82-a819617b3809"
+          },
+          "value": "Paper Filters for Chemex"
+        },
+        {
+          "element": {
+            "id": "8132b5ea-b770-5024-bce8-11ce35960054"
+          },
+          "value": 4.5
+        },
+        {
+          "element": {
+            "id": "1163fd00-bf10-5aa7-b635-d6e12047f9dc"
+          },
+          "value": [
+            {
+              "id": "75b120da-d62c-4cdb-9003-2f8d534e7944"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "fec42a2e-82e6-54ce-a097-9ef03597f582"
+          },
+          "value": "Chemex"
+        },
+        {
+          "element": {
+            "id": "8a7948e1-4998-561e-a540-0f7533c73cce"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2a211ea9-f9ac-5130-aab1-d231af4f1c13"
+          },
+          "value": "<p>These weirdly shaped filters will astonish you&nbsp;by the&nbsp;quality of your coffee.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "8c7bfa94-82bd-595e-bc48-40a1d82a9974"
+          },
+          "value": "<p>Absolutely no grounds and easy-to-use filters? Yes, it is possible. These paper filters for Chemex coffee makers are different. Their thickness and shape may look strange, but the result will amaze you. Just wash them in hot water before starting and you're ready to go.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "c604e5c9-4d23-58dc-b254-fd96c1f6ae0f"
+          },
+          "value": "paper-filters-for-chemex"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Paper Filters for Chemex"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "These weirdly shaped filters will astonish you by the quality of your coffee."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Paper Filters for Chemex"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "These weirdly shaped filters will astonish you by the quality of your coffee."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "75b120da-d62c-4cdb-9003-2f8d534e7944"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Paper Filters for Chemex"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "These weirdly shaped filters will astonish you by the quality of your coffee."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "75b120da-d62c-4cdb-9003-2f8d534e7944"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "520e7f19-da08-4bc8-9a90-c58247f103a7"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:51.9395394Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ae819df3-b549-5f89-b235-d692806f1f6c"
+          },
+          "value": "Hario V60"
+        },
+        {
+          "element": {
+            "id": "45ec9b9c-6db9-5458-98e2-bab3e59ab62c"
+          },
+          "value": 15.9
+        },
+        {
+          "element": {
+            "id": "3efe3435-c451-50da-bfb1-1f5f70809d73"
+          },
+          "value": [
+            {
+              "id": "538e5a96-a587-4bb6-b4e5-db8c7a47d7ee"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "2776d0ce-df89-582a-a532-e2250e8d534e"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "a1c3a174-6c98-57b0-8e90-70994853143c"
+          },
+          "value": "<p>Easy-to-use, the taste of top quality, designed with coffee in mind – these are only a few of all the features this Hario has.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "c06d8ee5-bc73-5d51-b2f2-d9185ec8a53f"
+          },
+          "value": "<p>This has to be one of the, if not 'the' most popular manual coffee brewers available. With an almost unlimited number of varieties, Hario V60 has conquered the hearts of coffee aficionados the world over. You can see this device being used on a daily basis at home by complete beginners and experts alike. Baristas stick to Hario V60 for its ease of use and the proven taste of the resulting drink.</p><p>It will brew you quite the cup, that's guaranteed. Hario's unique design lets the coffee slowly pour through both sides of the cone. Spiral ribs on the inside of the cone help the water catch the taste perfectly. As the water spirals through the brewer, the V60 creates an amazingly even brew, making sure no coffee is left out.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "7da55a24-dba1-5655-88b3-9a0518b4b8d8"
+          },
+          "value": "hario-v60"
+        },
+        {
+          "element": {
+            "id": "8147a6c7-b048-5398-baec-611a1aee3e6a"
+          },
+          "value": [
+            {
+              "id": "6b6aac7a-1528-58d5-9e5b-c49f6f217a84"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Hario V60"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Easy-to-use, the taste of top quality, designed with coffee in mind – these are only a few of all the features this Hario has."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Hario V60"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Easy-to-use, the taste of top quality, designed with coffee in mind – these are only a few of all the features this Hario has."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "538e5a96-a587-4bb6-b4e5-db8c7a47d7ee"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Hario V60"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Easy-to-use, the taste of top quality, designed with coffee in mind – these are only a few of all the features this Hario has."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "538e5a96-a587-4bb6-b4e5-db8c7a47d7ee"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "84b9ce84-c68d-40b8-8c0e-c75e09c50243"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:52.1593483Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": " Click here to see a comment"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Enter a short description here that will show up in the list of all articles and then continue to the body."
+        },
+        {
+          "components": [
+            {
+              "id": "fb87bc29-3077-4d73-870c-a9be400edac0",
+              "type": {
+                "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "f09fb430-2a58-59cf-be03-621e1c367501"
+                  },
+                  "value": "https://twitter.com/DeCubaNorwich/status/879265763978358784"
+                },
+                {
+                  "element": {
+                    "id": "05017deb-18b2-5094-b367-e7f8796dd1b8"
+                  },
+                  "value": [
+                    {
+                      "id": "eae9ad37-fe02-53a0-aedd-32021e30a5bb"
+                    }
+                  ]
+                },
+                {
+                  "element": {
+                    "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25"
+                  },
+                  "value": [
+                    {
+                      "id": "dd78b09e-4337-599c-9701-20a0a165c63b"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The text for your article is here. You can easily compose your content with components, such as the following tweet:</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"fb87bc29-3077-4d73-870c-a9be400edac0\"></object><p><a href=\"https://help.kenticocloud.com/authoring-experience-and-collaboration/creating-content/authoring-content-in-the-rich-text-editor#adding-content-modules\">Add a video</a> below this paragraph.&nbsp;</p><p><a href=\"https://help.kenticocloud.com/linking-content-together/use-modular-content-elements-to-link-content-together\">You can also link content together</a> to model anything you want.</p><p>Next, link content together by adding an article to the Related articles section below.</p><p><br/></p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee,brewing"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "New evidence shows how great coffee is for your health. So start your day in a healthy way!"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "8384eee7-e882-4ea8-b480-59138d66e468"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:52.362337Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": ""
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": ""
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p><br/></p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": ""
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "8384eee7-e882-4ea8-b480-59138d66e468"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:52.5810845Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ebc9437c-cd20-5a0c-9f82-a819617b3809"
+          },
+          "value": "AeroPress Filters"
+        },
+        {
+          "element": {
+            "id": "8132b5ea-b770-5024-bce8-11ce35960054"
+          },
+          "value": 4.9
+        },
+        {
+          "element": {
+            "id": "1163fd00-bf10-5aa7-b635-d6e12047f9dc"
+          },
+          "value": [
+            {
+              "id": "e52701ff-0248-40f3-b6cf-16b646de7136"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "fec42a2e-82e6-54ce-a097-9ef03597f582"
+          },
+          "value": "Aerobie"
+        },
+        {
+          "element": {
+            "id": "8a7948e1-4998-561e-a540-0f7533c73cce"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2a211ea9-f9ac-5130-aab1-d231af4f1c13"
+          },
+          "value": "<p>Bleached paper filters for AeroPress coffee makers. &nbsp;</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "8c7bfa94-82bd-595e-bc48-40a1d82a9974"
+          },
+          "value": "<p>Bleached paper filters 1.5\" (3.8 cm) wide for AeroPress&nbsp;coffee makers.</p><p>A new and clean filter that gives you a wonderful taste of coffee. These paper filters allow the coffee to flow through the filter while at the same time trapping the coffee grounds inside.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "c604e5c9-4d23-58dc-b254-fd96c1f6ae0f"
+          },
+          "value": "aeropress-filters"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "AeroPress Filters"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Bleached paper filters 1.5\" (3.8 cm) wide for AeroPress coffee makers. A new and clean filter that gives you a wonderful taste of coffee."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "AeroPress Filters"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Bleached paper filters 1.5\" (3.8 cm) wide for AeroPress coffee makers. A new and clean filter that gives you a wonderful taste of coffee."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "e52701ff-0248-40f3-b6cf-16b646de7136"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "AeroPress Filters"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Bleached paper filters 1.5\" (3.8 cm) wide for AeroPress coffee makers. A new and clean filter that gives you a wonderful taste of coffee."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "e52701ff-0248-40f3-b6cf-16b646de7136"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "07294d12-746c-430a-a108-edca9ad9d783"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:52.8467187Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "58 Clarendon St, East Melbourne"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "Melbourne"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "Australia"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "VIC 3002"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "03-9297-1622"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "Melbourne@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "b985c0fd-5f1b-427d-a3c9-7e8337842b9b"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "8df4c43a-602b-4292-a67a-8130b99a35c9"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:53.2373667Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "f26d319a-893c-597e-b87d-7ae0de41dbe2"
+          },
+          "value": "Porlex Tall Ceramic Burr Grinder"
+        },
+        {
+          "element": {
+            "id": "d74bcab8-f89a-5219-973c-0fa66f218eb0"
+          },
+          "value": 32.9
+        },
+        {
+          "element": {
+            "id": "c43c95e0-63bc-5b13-aed6-d6a6a2d44bac"
+          },
+          "value": [
+            {
+              "id": "2573bbcc-ae00-400c-abd0-9aa0ae795cb6"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "69e47b7b-5135-5c40-ad2d-abbfcb1d871e"
+          },
+          "value": "Porlex"
+        },
+        {
+          "element": {
+            "id": "a8160201-d60f-5944-8ed8-21810001d9e2"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2a2b1070-b2fe-5497-8c06-654af5feaf34"
+          },
+          "value": "<p>An extra-durable grinder with strong conical ceramic burrs&nbsp;that fits perfectly in your hands.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "bf7f428c-a3d4-507b-b30e-d826415c76e9"
+          },
+          "value": "<p>Are you looking for a firm, extra-durable, but also a little static grinder? The Porlex Tall Ceramic Burr Grinder is all from stainless steel except for the burrs. Those strong conical burrs are ceramic, so they won't rust and are also sharper than steel burrs will ever be. The grinder is also able to be adjusted for many different variants of grind setting to cover all your needs.</p><p>As to the size, the grinder is 7.3\" (18.5 cm) tall and 1.9\" (4.9 cm)&nbsp; in diameter, without the handle, so it perfectly fits your hands. You can put up to 1 oz (30 g) of beans inside. It's also very easy to wash.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "dab8d1dd-2503-54d5-9765-15f16b7cc8ff"
+          },
+          "value": "porlex-tall-ceramic-burr-grinder"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Porlex Tall Ceramic Burr Grinder"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "An extra-durable grinder with strong conical ceramic burrs that fits perfectly in your hands."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Porlex Tall Ceramic Burr Grinder"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "An extra-durable grinder with strong conical ceramic burrs that fits perfectly in your hands."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "2573bbcc-ae00-400c-abd0-9aa0ae795cb6"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Porlex Tall Ceramic Burr Grinder"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "An extra-durable grinder with strong conical ceramic burrs that fits perfectly in your hands."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "2573bbcc-ae00-400c-abd0-9aa0ae795cb6"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "a391e67f-f615-4bd6-840f-285460fbc8d7"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:53.4248757Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ae819df3-b549-5f89-b235-d692806f1f6c"
+          },
+          "value": "Hario Vacuum Pot"
+        },
+        {
+          "element": {
+            "id": "45ec9b9c-6db9-5458-98e2-bab3e59ab62c"
+          },
+          "value": 64.9
+        },
+        {
+          "element": {
+            "id": "3efe3435-c451-50da-bfb1-1f5f70809d73"
+          },
+          "value": [
+            {
+              "id": "12f1b10e-ad78-4e9d-af6e-51f9d34b19b1"
+            },
+            {
+              "id": "82aa97c9-81a0-4647-aca7-16a61461a9d9"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "2776d0ce-df89-582a-a532-e2250e8d534e"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "a1c3a174-6c98-57b0-8e90-70994853143c"
+          },
+          "value": "<p>A specialty device for experimenting.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "c06d8ee5-bc73-5d51-b2f2-d9185ec8a53f"
+          },
+          "value": "<p>Another Hario product in our store. This is a classic, but it takes a little while to master. The results, however, are more than worth it. Perfect when you want a specialty device that allows you to experiment with different techniques, tastes, and strengths in a novel way. Your friends will think you're a born alchemist.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "7da55a24-dba1-5655-88b3-9a0518b4b8d8"
+          },
+          "value": "hario-vacuum-pot"
+        },
+        {
+          "element": {
+            "id": "8147a6c7-b048-5398-baec-611a1aee3e6a"
+          },
+          "value": [
+            {
+              "id": "6b6aac7a-1528-58d5-9e5b-c49f6f217a84"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Hario Vacuum Pot"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "A specialty device for experimenting. Perfect when you want a device that allows you to try out different techniques!"
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Hario Vacuum Pot"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "A specialty device for experimenting. Perfect when you want a device that allows you to try out different techniques!"
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "82aa97c9-81a0-4647-aca7-16a61461a9d9"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Hario Vacuum Pot"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "A specialty device for experimenting. Perfect when you want a specialty device that allows you to experiment with different techniques!"
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "82aa97c9-81a0-4647-aca7-16a61461a9d9"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "43ad791d-e1ef-4c90-81d4-6931834adeb6"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:53.6436621Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ed31d584-e2a5-5125-bcd8-343e55937743"
+          },
+          "value": "Kenya Gakuyuni AA"
+        },
+        {
+          "element": {
+            "id": "434b3e21-7902-52cb-8da8-cadb218efa1e"
+          },
+          "value": 10.5
+        },
+        {
+          "element": {
+            "id": "adedd7e6-1cba-57eb-8242-880fc3cab1f4"
+          },
+          "value": [
+            {
+              "id": "542912ba-3e6b-45c4-b234-aadfdc7b945f"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "25bcabd3-65e3-5f10-86fe-6b3d2c4ebfc1"
+          },
+          "value": "<p>Plums, rhubarb, tangerines? Yes, that's the taste of Kenya Gakuyuni AA, made from the Arabica coffee plant.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "468ead74-1d8e-5aec-8fd4-bdb3a9cfe2c9"
+          },
+          "value": "<p>What are the best beans for filtered coffees, you may ask? Well, what about a coffee with the sweet flavor of acidity, where you can also taste plums, rhubarb, or tangerines? Yes, this amazing coffee comes from Mt. Kenya in the Ngariama region of Kenya and will fulfill all your needs.</p><p>Gakuyuni AA is made by a small business where they grow a hybrid variety of the Arabica coffee plant, so you can be assured that you are drinking a rare and unique coffee.</p>"
+        },
+        {
+          "element": {
+            "id": "732d87b3-d493-5c69-b349-b6320adf461e"
+          },
+          "value": [
+            {
+              "id": "a4dd49df-5866-59bf-acf9-188815990bf4"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f57743c3-31b9-5337-9d25-9b23f5a744c0"
+          },
+          "value": "Gakuyuni, Thirikwa Farmers Cooperative Society"
+        },
+        {
+          "element": {
+            "id": "5c10c615-2d95-51e2-a601-bb513240885c"
+          },
+          "value": "Kenya"
+        },
+        {
+          "element": {
+            "id": "6dfe9048-1cec-5d31-95c2-2609c97f5103"
+          },
+          "value": "SL28 / SL34"
+        },
+        {
+          "element": {
+            "id": "a00227d9-72dd-57f8-b106-4a8986b24298"
+          },
+          "value": "5300"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "29738662-7433-50b2-a089-a53ff40aad32"
+          },
+          "value": "kenya-gakuyuni-aa"
+        },
+        {
+          "element": {
+            "id": "c19a25c1-ef86-5af2-947f-e827becea959"
+          },
+          "value": [
+            {
+              "id": "f9dad738-dcec-50a6-bec5-f3be7fe9d861"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Kenya Gakuyuni AA"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Plums, rhubarb, tangerines? Yes, that's the taste of Kenya Gakuyuni AA, made from the Arabica coffee plant."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Kenya Gakuyuni AA"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Plums, rhubarb, tangerines? Yes, that's the taste of Kenya Gakuyuni AA, made from the Arabica coffee plant."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "542912ba-3e6b-45c4-b234-aadfdc7b945f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Kenya Gakuyuni AA"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Plums, rhubarb, tangerines? Yes, that's the taste of Kenya Gakuyuni AA, made from the Arabica coffee plant."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "542912ba-3e6b-45c4-b234-aadfdc7b945f"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "f26b3b85-9cbf-4ae8-8d04-ac084487cb7c"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:53.8467788Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "Calle Juan de Mena 16"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "Madrid"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "Spain"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "28014"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "915-546-202"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "Madrid@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "042bea6d-053c-4b0f-b503-35e27ffffedd"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "c111ef48-803d-4787-9fb5-b372afb204ad"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:54.0499173Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "3f7a5449-2f87-5e61-acf9-dc66d45a6516"
+          },
+          "value": "Calle Juan de Mena 16"
+        },
+        {
+          "element": {
+            "id": "ef5c78f0-88a4-5d05-8d96-4b3b8c2320d0"
+          },
+          "value": "Madrid"
+        },
+        {
+          "element": {
+            "id": "43e56f1c-92e9-5f30-8e8b-7d5923384012"
+          },
+          "value": "Spain"
+        },
+        {
+          "element": {
+            "id": "3d98de2c-bf1b-5deb-8f18-9bf706ec770c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "51bc8177-03fb-56a8-a4bd-f93d9a300629"
+          },
+          "value": "28014"
+        },
+        {
+          "element": {
+            "id": "b027efb1-ea4e-58a4-add9-0416b53823da"
+          },
+          "value": "915-546-202"
+        },
+        {
+          "element": {
+            "id": "827c3a39-ceff-5a2c-883e-00aa6b0e68c5"
+          },
+          "value": "Madrid@localhost.local"
+        },
+        {
+          "element": {
+            "id": "390bbeeb-42b2-55dc-97e5-f7de3c9b9982"
+          },
+          "value": [
+            {
+              "id": "042bea6d-053c-4b0f-b503-35e27ffffedd"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "c111ef48-803d-4787-9fb5-b372afb204ad"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:54.2687087Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "1e409b88-b6d0-5aed-8329-b879289b2975"
+          },
+          "value": "Office in Europe"
+        },
+        {
+          "element": {
+            "id": "0e704f9d-0712-5c17-815f-c80bf42fbe39"
+          },
+          "value": "344 King's Road"
+        },
+        {
+          "element": {
+            "id": "b0a0642c-473d-5135-b646-f6f46fbeccc9"
+          },
+          "value": "London"
+        },
+        {
+          "element": {
+            "id": "abd69a6e-eae1-5b2f-a4db-93fc42f2e51a"
+          },
+          "value": "United Kingdom"
+        },
+        {
+          "element": {
+            "id": "6745d2f0-1c6e-5aa7-a89e-80b6ade49dac"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0239121c-5e71-57f0-bcc4-bb5e8dc81dfb"
+          },
+          "value": "SW3 5UR"
+        },
+        {
+          "element": {
+            "id": "8c2bb075-dbf0-5082-936d-f2c52848add5"
+          },
+          "value": "0173-733-6375"
+        },
+        {
+          "element": {
+            "id": "c6e4bf03-15e5-5d69-ac12-092594e6f047"
+          },
+          "value": "London@localhost.local"
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "7b3d9e44-3554-4a0a-b541-513fada23c8f"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:54.4562247Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "1e409b88-b6d0-5aed-8329-b879289b2975"
+          },
+          "value": "Oficina en Europa"
+        },
+        {
+          "element": {
+            "id": "0e704f9d-0712-5c17-815f-c80bf42fbe39"
+          },
+          "value": "344 King's Road"
+        },
+        {
+          "element": {
+            "id": "b0a0642c-473d-5135-b646-f6f46fbeccc9"
+          },
+          "value": "London"
+        },
+        {
+          "element": {
+            "id": "abd69a6e-eae1-5b2f-a4db-93fc42f2e51a"
+          },
+          "value": "United Kingdom"
+        },
+        {
+          "element": {
+            "id": "6745d2f0-1c6e-5aa7-a89e-80b6ade49dac"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0239121c-5e71-57f0-bcc4-bb5e8dc81dfb"
+          },
+          "value": "SW3 5UR"
+        },
+        {
+          "element": {
+            "id": "8c2bb075-dbf0-5082-936d-f2c52848add5"
+          },
+          "value": "0173-733-6375"
+        },
+        {
+          "element": {
+            "id": "c6e4bf03-15e5-5d69-ac12-092594e6f047"
+          },
+          "value": "London@localhost.local"
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "7b3d9e44-3554-4a0a-b541-513fada23c8f"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:54.6280993Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ebc9437c-cd20-5a0c-9f82-a819617b3809"
+          },
+          "value": "Hario Buono Kettle"
+        },
+        {
+          "element": {
+            "id": "8132b5ea-b770-5024-bce8-11ce35960054"
+          },
+          "value": 23.9
+        },
+        {
+          "element": {
+            "id": "1163fd00-bf10-5aa7-b635-d6e12047f9dc"
+          },
+          "value": [
+            {
+              "id": "c335e11c-444e-4825-993b-fdecff24493d"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "fec42a2e-82e6-54ce-a097-9ef03597f582"
+          },
+          "value": "Hario"
+        },
+        {
+          "element": {
+            "id": "8a7948e1-4998-561e-a540-0f7533c73cce"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2a211ea9-f9ac-5130-aab1-d231af4f1c13"
+          },
+          "value": "<p>The Hario Buono Kettle is a coffee kettle with a characteristically long and thin nozzle designed for pouring water with the greatest precision.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "8c7bfa94-82bd-595e-bc48-40a1d82a9974"
+          },
+          "value": "<p>The smallest variant in the Hario Buono Kettle family. Look at its long, thin nozzle. It's not just a pretty design; it was developed to provide you with the ability to pour water with the greatest precision.</p><p>Keep in mind that the shape was designed especially for the V60 porcelain filter. But hey, don't limit your imagination. You can use the Hario Buono Kettle to pour not only whatever coffee you like, but you can also use it for watering your plants if that's what you want.</p><p>The kettle is big enough for four cups (1 liter).</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "c604e5c9-4d23-58dc-b254-fd96c1f6ae0f"
+          },
+          "value": "hario-buono-kettle"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Hario Buono Kettle"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "The Hario Buono Kettle is a coffee kettle with a characteristically long and thin nozzle designed for pouring water with the greatest precision."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Hario Buono Kettle"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "The Hario Buono Kettle is a coffee kettle with a characteristically long and thin nozzle designed for pouring water with the greatest precision."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "c335e11c-444e-4825-993b-fdecff24493d"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Hario Buono Kettle"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "The Hario Buono Kettle is a coffee kettle with a characteristically long and thin nozzle designed for pouring water with the greatest precision."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "c335e11c-444e-4825-993b-fdecff24493d"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "81a1c2e0-2171-46a4-b6e8-d2a7bbe61a66"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:54.8468667Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "Our story"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>At Dancing Goat, we strive to do things right. Not only do we source the best coffees you can get your hands on. We also make sure we have a direct relationship with our farmers. Visiting the micro farms where we <a data-item-id=\"813db69a-3593-401b-8056-cbc6c779ada1\">source our coffees</a> is our daily bread. This way, we can guarantee the highest quality standard all year long. No middle-men, no unfair shares. Our farmers get the best deal possible. So do you.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "01647205-c8c4-4b41-b524-1a98a7b12750"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "66f67ff5-1ba2-47f8-b6d9-348f4990067f"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:55.0656583Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "Nuestra historia"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>Dancing Goat originó en 1969 como una empresa de entusiastas del café. Nuestro principal objetivo siempre ha sido ofrecer&nbsp;<em>una&nbsp;experiencia</em>&nbsp;inolvidable&nbsp;a nuestros clientes. Conocemos a todos los agricultores personalmente y tenemos la calidad como la mayor exigencia. Con esta creencia nos hemos convertido en una marca reconocida y disfrutarda por&nbsp;todo el mundo.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "01647205-c8c4-4b41-b524-1a98a7b12750"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "66f67ff5-1ba2-47f8-b6d9-348f4990067f"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:55.2843657Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "Our philosophy"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>Since Dancing Goat's origin in 1969, we have been striving to do things right. Not only do we source the best coffees you can get your hands on, we also make sure we have a direct relationship with our farmers. Visiting the micro farms where we source our coffees is our daily bread. This way, we can guarantee the highest quality standard all year long. Our farmers get the best deal possible, so do you.</p><p>Each one of us is a coffee enthusiast, but you don’t need to be an aficionado to enjoy the best. Ask us anything, we will happily take you on a tour of everything we have to offer. Stop by, relax, and put your mind at ease. There are no distractions at Dancing Goat; it’s just you and your cup of coffee.</p><p>Are you a coffee seller or a cafe owner? Become our partner and spread our high-quality coffee among your customers. Or do you just want to taste good coffee? Come and join us at Dancing Goat, a place where the revival of alternative coffee preparation methods takes place. Extracting the best coffee in a vacuum coffee maker or the charming Chemex is just one of the things you can see here.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "bfdea09d-608d-46df-91b7-af6653205d92"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "e08a8704-b556-4943-a837-f7cfe7f935bc"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:55.4562704Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "940a742e-353a-5345-90a7-80ebbebe6f75"
+          },
+          "value": "Nuestra filosofía"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2fed3a5a-3c0f-5ea2-8d81-2a926317c377"
+          },
+          "value": "<p>En Dancing Goat, nos esforzamos en hacer las cosas bien. No solamente poseemos la fuente de los mejores cafés que se pueden encontrar a nivel global. También nos aseguramos de tener contacto directo con nuestros cultivadores. Visitamos las micro granjas donde adquirimos nuestros cafés es parte del nuestro pan de cada día. De esta manera, podemos garantizar el estándar más alto de calidad durante todo el año. Sin intermediarios, sin acciones injustas. Nuestros cultivadores ganan la mejor jornada posible. Y usted también.</p><p>Relájate y aclara tu mente. No hay distracciones en Dancing Goat, solo esta usted y su taza de café.</p><p>Cada uno de nosotros es un aficionado del café, pero no tienes que ser un entusiasta para disfrutar del mejor. Pregúntanos lo que sea, nos encantaría darte un tour de todo lo que ofrecemos. Muchos de nuestros baristas conocen a los cultivadores en persona. Lo saben de primera mano.</p><p>Dancing Goat es un lugar donde renacen métodos alternativos de la preparación del café. Ven a vernos extraer el mejor café en la cafetera de vacío o el Chemex súper chulo.</p>"
+        },
+        {
+          "element": {
+            "id": "7230ce5e-9e50-517a-b25c-170e282ae956"
+          },
+          "value": [
+            {
+              "id": "bfdea09d-608d-46df-91b7-af6653205d92"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "e08a8704-b556-4943-a837-f7cfe7f935bc"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:55.628138Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "1e409b88-b6d0-5aed-8329-b879289b2975"
+          },
+          "value": "Office in Australia"
+        },
+        {
+          "element": {
+            "id": "0e704f9d-0712-5c17-815f-c80bf42fbe39"
+          },
+          "value": "152 Hay St"
+        },
+        {
+          "element": {
+            "id": "b0a0642c-473d-5135-b646-f6f46fbeccc9"
+          },
+          "value": "Sydney"
+        },
+        {
+          "element": {
+            "id": "abd69a6e-eae1-5b2f-a4db-93fc42f2e51a"
+          },
+          "value": "Australia"
+        },
+        {
+          "element": {
+            "id": "6745d2f0-1c6e-5aa7-a89e-80b6ade49dac"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0239121c-5e71-57f0-bcc4-bb5e8dc81dfb"
+          },
+          "value": "NSW 2000"
+        },
+        {
+          "element": {
+            "id": "8c2bb075-dbf0-5082-936d-f2c52848add5"
+          },
+          "value": "07-3403-8884"
+        },
+        {
+          "element": {
+            "id": "c6e4bf03-15e5-5d69-ac12-092594e6f047"
+          },
+          "value": "Sydney@localhost.local"
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "31970c21-840e-4a4f-b14c-7eccbfe931e3"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:55.8156471Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "1e409b88-b6d0-5aed-8329-b879289b2975"
+          },
+          "value": "Oficina en Australia"
+        },
+        {
+          "element": {
+            "id": "0e704f9d-0712-5c17-815f-c80bf42fbe39"
+          },
+          "value": "152 Hay St"
+        },
+        {
+          "element": {
+            "id": "b0a0642c-473d-5135-b646-f6f46fbeccc9"
+          },
+          "value": "Sydney"
+        },
+        {
+          "element": {
+            "id": "abd69a6e-eae1-5b2f-a4db-93fc42f2e51a"
+          },
+          "value": "Australia"
+        },
+        {
+          "element": {
+            "id": "6745d2f0-1c6e-5aa7-a89e-80b6ade49dac"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0239121c-5e71-57f0-bcc4-bb5e8dc81dfb"
+          },
+          "value": "NSW 2000"
+        },
+        {
+          "element": {
+            "id": "8c2bb075-dbf0-5082-936d-f2c52848add5"
+          },
+          "value": "07-3403-8884"
+        },
+        {
+          "element": {
+            "id": "c6e4bf03-15e5-5d69-ac12-092594e6f047"
+          },
+          "value": "Sydney@localhost.local"
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "31970c21-840e-4a4f-b14c-7eccbfe931e3"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:56.0344286Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2018-09-05T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The history of coffee is patchy and full of myth and hearsay.</p><p>One of the most popular story goes that Kaldi, an Ethiopian goatherd, saw his goats eating coffee berries and as a result becoming elated. So, Kaldi then tried them himself and thus discovered the potential of coffee. And that's where we got our name - Dancing Goat.</p><p>Although it's far more likely that uses for coffee were developed over time and were discovered by people tasting various parts of the cherry, the old fables do add a bit of romance and are very cute.</p><p>Coffee requires a warm climate and lots of moisture, so it is produced within a belt extending around the world between the Tropic of Cancer and the Tropic of Capricorn.</p><p>Coffee grows on trees that flower and produce fleshy red fruit (orange or yellow is also possible) called a drupe though it is popularly referred to as the ‘berry’ or ‘cherry’. What we refer to as coffee beans are actually seeds, which are produced in the centre of the drupe, often in pairs. After harvesting, the flesh of the drupe is washed or dried and the ‘beans’ extracted.</p><p>Coffee beans vary in their shape, size, color as well as flavor depending on the region and conditions in which they were grown. The difference of aromas and flavors between various regional varietals is as vast as the regions they grow in. Just like the teas and wines of the world, and even more so. It is always worth trying new varietals that may stimulate your taste buds in a different way.</p><p>The two major species of coffee are <em>Coffea arabica</em> and <em>Coffea canephora</em> (also called <em>Coffea robusta</em>).</p><p>Arabica is believed to be the first species of coffee to have been cultivated.</p><p>It requires more care during cultivation and is considered to produce better coffee than robusta. Arabica plants grow at high altitudes of around 1,000 to 2,000 meters, approximately 3,200 to 6,500 ft, above sea level in regions across South and Central America as well as Africa. Arabica is costlier to grow as it produces lower yields than Robusta despite requiring more labor. Despite all that, it is considered superior to robusta. The high demand and lower availability drives the price high. Arabica is the species most associated with specialty (sometimes referred to as gourmet) coffees.</p><p>The only place where Arabica coffee grows indigenously is Ethiopia. It is the birthplace of coffee and also the only place in which it truly grows wild. All countries that produce Arabica coffees have transplanted plant stock directly from Ethiopia or from other countries that had already done so.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee,history,myth,production"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "mode": "custom",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "coffee-history-and-present-3"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@KenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "7133dfdb-d3bf-4934-a0bc-b552bd7fcb41"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:56.2219159Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-11T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts after being almost forgotten for nearly sixty years."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Arabica Bourbon is among the best coffee varieties you can find in Brazil, Salvador, and Rwanda. This widely known and popular coffee is cultivated in three color varieties, red, orange and yellow bourbon. But what does it have in common with the American whiskey? Nothing at all, fortunately.</p><p>The name comes from the place of origin of this wonderful variety, which is a small island in the Indian Ocean called Réunion, formerly Bourbon. The earliest records mentioning coffee from this lovely volcanic island come from merchants of the East Indian Company and date from the beginning of the 18th century. The first exports started in 1718, and the coffee usually went to Mokka harbor in Yemen and then on to Europe. Exports started off slowly at first. Just less than two tons were shipped in 1724, but this increased rapidly over the next hundred years, peaking at 2,440 tons of coffee per year.</p><p>The coffee, first called Café du Roy, then Café Leroy, was served to kings at the French court and was the brand of choice of the classic author, Honoré de Balzac, who enjoyed forty cups a day. Or so they say…</p><p>The Bourbon variety found its way to Latin America around the middle of the 19th century, where it gradually replaced the older Ethiopian variety, the Arabica Typica, mainly because of its 30% larger yield. While the Arabica Bourbon was doing well in the world, the production on Réunion was slowly, but steadily, decreasing year by year. Farmers opted to grow sugarcane, tea and vanilla beans instead of coffee, and therefore 1942 marked the last export of Arabica Bourbon from the island of Réunion. The last harvest came eight years later and then the variety was forgotten about, even by the locals.</p><p>After almost sixty years, one unrelenting Japanese coffee specialist from Ueshima Coffee Company discovered 27 original plants and restarted production. The resulting coffee is called Bourbon Pointu. It is sold only in Japan and holds the prestigious Premium Product title from the Specialty Coffee Association of Japan. It is also quite pricey, at $35 for 4 ounces.</p><p>The Bourbon Pointu is exceptional for its low volume of caffeine and delicate taste with a slight acidity, low bitterness, full body, and the charming fruit flavor of oranges and tangerines.</p><p>One can only hope that the island of Réunion will eventually return to its former coffee glory and that we will be able to enjoy Bourbon Pointu as well.</p><p>If you are curious about the original taste of Arabica Bourbon, go ahead and try our (Guatemala Finca El Injerto)&nbsp;or newly imported (El Salvador Finca San Jose).</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee, arabica"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts after being almost forgotten for nearly sixty years."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "origins-of-arabica-bourbon"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:56.425054Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-11T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. Ha vuelto gracias a los aficionados ya que havia sido casi olvidado durante casi sesenta años."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>El Arábica Bourbon cae entre las mejores variedades de café que usted puede encontrar en Brasil, Salvador o Ruanda. Este café es myu conocido y se cultiva en tres mutaciones de color, rojo, naranja y amarillo bourbon. Pero ¿qué tiene en común con el whisky americano? Nada de nada, por suerte.</p><p>El nombre proviene del lugar de origen de esta maravillosa variedad, que es una pequeña isla en el Océano Índico llamada Réunion, anteriormente Bourbon. Los registros más antiguos que mencionan café de esta hermosa isla volcánica proceden de comerciantes de la Compañía de la India Oriental y datan de principios del siglo 18. La primera exportación se inició en 1718 y el café por lo general fue vendido en Mokka un puerto en Yemen y luego en Europa. La exportación fue lenta al principio. Sólo menos de dos toneladas fueron enviadas en 1724, pero aumentaron rápidamente en los próximos cien años, alcanzando un máximo de 2 440 toneladas de café al año.</p><p>Primero llamado Café du Roy, entonces Café Leroy se servía a los reyes en la corte francesa y era la marca preferida del autor clásico, Honoré de Balzac, que disfrutaría de cuarenta tazas al día. O eso dicen…</p><p>La variedad Bourbon encontró su camino a América Latina a mediados del siglo 19, en el que sustituyó gradualmente mayor variedad de Etiopía, Arábica Typica, principalmente debido a su 30% mayor rendimiento. Mientras que el Arábica Bourbon estaba haciendo muy bien en el mundo, la producción en la isla de Reunión fue lenta, pero constantemente, diminuindo año tras año. Los agricultores simplemente optaron por cultivar caña de azúcar, té y vainilla en lugar de café, por lo que el año 1942 marca la última exportación de Arábica Bourbon de la isla de Reunión. La última cosecha llegó ocho años más tarde y luego la variedad fue olvidada incluso por los locales.</p><p>Después de casi sesenta años, una especialista en café japonesa de Ueshima Coffee Company descubrió 27 plantas originales y reinicio la producción. El café resultante se llama Burbon Pointu. Se vende sólo en Japón y posee el prestigioso título&nbsp;<em>de primera calidad del producto</em>&nbsp;por Asociación de Cafés Especiales de Japón. También es bastante caro, a $ 35 por cada 100 gramos.</p><p>El Bourbon Pointu es excepcional por su bajo volumen de cafeína y por el sabor delicado con una ligera acidez, amargura, cuerpo entero y encantador sabor de frutas como naranjas y mandarinas.</p><p>Sólo cabe esperar que la isla de Reunión en tiempo vuelva a su antigua gloria y que podamos otra vez disfrutar de Bourbon Pointu también.</p><p>Si tienes curiosidad sobre el sabor original de Arábica Bourbon, tratar con (Guatemala Finca El Injerto)&nbsp;o recién importado (El Salvador Finca San Jose).</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "café, arábica"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. Ha vuelto gracias a los aficionados ya que havia sido casi olvidado durante casi sesenta años."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "origenes-de-borbon-arabica"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. "
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. "
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. "
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:56.7219535Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "f26d319a-893c-597e-b87d-7ae0de41dbe2"
+          },
+          "value": "Hario Skerton Hand Grinder"
+        },
+        {
+          "element": {
+            "id": "d74bcab8-f89a-5219-973c-0fa66f218eb0"
+          },
+          "value": 37.9
+        },
+        {
+          "element": {
+            "id": "c43c95e0-63bc-5b13-aed6-d6a6a2d44bac"
+          },
+          "value": [
+            {
+              "id": "66e9c282-2897-425a-805f-505cc78f9456"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "69e47b7b-5135-5c40-ad2d-abbfcb1d871e"
+          },
+          "value": "Hario"
+        },
+        {
+          "element": {
+            "id": "a8160201-d60f-5944-8ed8-21810001d9e2"
+          },
+          "value": []
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "2a2b1070-b2fe-5497-8c06-654af5feaf34"
+          },
+          "value": "<p>Small but quick, an easy-to-use and precise grinder with strong conical ceramic burrs.</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "bf7f428c-a3d4-507b-b30e-d826415c76e9"
+          },
+          "value": "<p>This grinder is rather small, but it's quick, easy-to-use, and precise. Choose your favorite brewing method and those strong conical ceramic burrs of high quality with thick and durable glass assure you that you won't regret it. But this grinder not only makes good grounds, it's also a pleasure to use! On the bottom, there's anti-slip rubber, and the handle feels awesome. After use, just put it in the dishwasher or wash it by hand, it's so easy.</p><p>The Hario Skerton Hand Grinder is also usable if you are a traveler. With the included screw top cover, grounds stay fresh and inside the grinder, even on bumpy roads.</p>"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "dab8d1dd-2503-54d5-9765-15f16b7cc8ff"
+          },
+          "value": "hario-skerton-hand-grinder"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Hario Skerton Hand Grinder"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Small but quick, an easy-to-use and precise grinder with strong conical ceramic burrs."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Hario Skerton Hand Grinder"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Small but quick, an easy-to-use and precise grinder with strong conical ceramic burrs."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "66e9c282-2897-425a-805f-505cc78f9456"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Hario Skerton Hand Grinder"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Small but quick, an easy-to-use and precise grinder with strong conical ceramic burrs."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "66e9c282-2897-425a-805f-505cc78f9456"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "95ba523e-6657-4f65-b309-e4fe0c7f4fe6"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:56.9407088Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ed31d584-e2a5-5125-bcd8-343e55937743"
+          },
+          "value": "Colombia Carlos Imbachi"
+        },
+        {
+          "element": {
+            "id": "434b3e21-7902-52cb-8da8-cadb218efa1e"
+          },
+          "value": 10.5
+        },
+        {
+          "element": {
+            "id": "adedd7e6-1cba-57eb-8242-880fc3cab1f4"
+          },
+          "value": [
+            {
+              "id": "963f0198-bb67-4895-ad9e-6b8a504ca9ea"
+            }
+          ]
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "25bcabd3-65e3-5f10-86fe-6b3d2c4ebfc1"
+          },
+          "value": "<p>The Colombian gold in the form of top quality coffee, also recognizable&nbsp;for its character. &nbsp;</p>"
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "468ead74-1d8e-5aec-8fd4-bdb3a9cfe2c9"
+          },
+          "value": "<p>As a part of our farmer-direct Colombia program, we bring you a special (above 88!) farm-specific number. We had some very special cupping samples sent to us straight from Colombia. And although they were all fantastic, this one really stood out from the others. Previously, we offered the \"First Place SCAA Coffee of the Year\" Carlos Imbachi. Just so you know what we're on about here, the famous Panama Esmeralda Especial Gesha ended up in 2nd place to Carlos Imbachi. Take this as another testament to the greatness and potential of Colombian coffee.<br/>One cupping of this specialty was enough to recognize the unprecedented quality and character of this coffee. Mr. Imbachi's farm is located in the San Augustin region of Hulia, where he grows this coffee at an altitude of 5,700 feet. &nbsp;</p>"
+        },
+        {
+          "element": {
+            "id": "732d87b3-d493-5c69-b349-b6320adf461e"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "f57743c3-31b9-5337-9d25-9b23f5a744c0"
+          },
+          "value": "Finca Buenavista - Carlos Imbachi"
+        },
+        {
+          "element": {
+            "id": "5c10c615-2d95-51e2-a601-bb513240885c"
+          },
+          "value": "Colombia"
+        },
+        {
+          "element": {
+            "id": "6dfe9048-1cec-5d31-95c2-2609c97f5103"
+          },
+          "value": "Caturra"
+        },
+        {
+          "element": {
+            "id": "a00227d9-72dd-57f8-b106-4a8986b24298"
+          },
+          "value": "5700"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "29738662-7433-50b2-a089-a53ff40aad32"
+          },
+          "value": "colombia-carlos-imbachi"
+        },
+        {
+          "element": {
+            "id": "c19a25c1-ef86-5af2-947f-e827becea959"
+          },
+          "value": [
+            {
+              "id": "f9dad738-dcec-50a6-bec5-f3be7fe9d861"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Colombia Carlos Imbachi"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "The Colombian gold in the form of top quality coffee, also recognizable for its character. "
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Colombia Carlos Imbachi"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "The Colombian gold in the form of top quality coffee, also recognizable for its character. "
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "963f0198-bb67-4895-ad9e-6b8a504ca9ea"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Colombia Carlos Imbachi"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "The Colombian gold in the form of top quality coffee, also recognizable for its character. "
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "963f0198-bb67-4895-ad9e-6b8a504ca9ea"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "954bf09d-d477-4e66-8d37-cbe879256ead"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:57.1594974Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": "Ww0KICB7DQogICAgInRva2VuIjogIitSSUQ6fnpDazNBTUtyemdack54b0FBQUFBQlE9PSNSVDoxI1RSQzo1MCNJU1Y6MiNJRU86NjU1NTEjUUNGOjQjRlBDOkFnaG9BQUFBQUJRQUFJQUFBQUFBRkFBQWFBQUFBQUFVQUFBR0FHRTNBUGdRUUhFQUFBQUFGQUFBQkFBUW1VS0FnQUFBQUFBVUFBQUNBSVdLIiwNCiAgICAicmFuZ2UiOiB7DQogICAgICAibWluIjogIjA1QzFEN0YxMkY2OTlDIiwNCiAgICAgICJtYXgiOiAiMDVDMUUxNTlDOUJCMUEiDQogICAgfQ0KICB9DQpd",
+    "next_page": "https://manage.kontent.ai/v2/projects/a9931a80-9af4-010b-0590-ecb1273cf1b8/collections/00000000-0000-0000-0000-000000000000/variants"
+  }
+}

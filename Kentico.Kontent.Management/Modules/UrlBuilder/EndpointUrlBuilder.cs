@@ -47,11 +47,32 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         #region Variants
 
-        internal string BuildListVariantsUrl(Reference identifier)
+        internal string BuildListVariantsByItemUrl(Reference identifier)
         {
             var itemSegment = GetIdentifierUrlSegment(identifier, _itemTemplate);
 
             return GetUrl(string.Concat(itemSegment, _variantTemplate.Url));
+        }
+
+        internal string BuildListVariantsByTypeUrl(Reference identifier)
+        {
+            var typeSegment = GetIdentifierUrlSegment(identifier, _typeTemplate);
+
+            return GetUrl(string.Concat(typeSegment, _variantTemplate.Url));
+        }
+
+        internal string BuildListVariantsByComponentUrl(Reference identifier)
+        {
+            var typeSegment = GetIdentifierUrlSegment(identifier, _typeTemplate);
+
+            return GetUrl(string.Concat(typeSegment, "/components"));
+        }
+
+        internal string BuildListVariantsByCollectionUrl(Reference identifier)
+        {
+            var typeSegment = GetIdentifierUrlSegment(identifier, _collectionTemplate);
+
+            return GetUrl(string.Concat(typeSegment, _variantTemplate.Url));
         }
 
         internal string BuildVariantsUrl(LanguageVariantIdentifier identifier)

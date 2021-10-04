@@ -6,9 +6,9 @@ namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
     {
         public override string Url => "/collections";
 
-        public override string UrlId => throw new NotImplementedException("collections do not have id url");
+        public override string UrlId => "/collections/{0}";
 
-        public override string UrlCodename => throw new NotImplementedException("collections do not have codename url");
+        public override string UrlCodename => "/collections/codename/{0}";
 
         public override string UrlExternalId => throw new NotImplementedException("collections do not have external id url");
     }
