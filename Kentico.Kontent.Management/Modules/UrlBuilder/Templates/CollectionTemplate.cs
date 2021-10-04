@@ -1,5 +1,4 @@
-﻿using Kentico.Kontent.Management.Modules.UrlBuilder;
-using System;
+﻿using System;
 
 namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
 {

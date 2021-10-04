@@ -220,27 +220,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         public static ComplexTestModel StronglyTypedElements => new()
         {
-            Title = new TextElement
-            {
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()),
-                Value = "On Roast"
-            },
-            Rating = new NumberElement
-            {
-                Value = 3.14m,
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Rating)).GetKontentElementId()),
-            },
-            SelectedForm = new CustomElement
-            {
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.SelectedForm)).GetKontentElementId()),
-                Value = "{\"formId\": 42}",
-                SearchableValue = "Almighty form!"
-            },
-            PostDate = new DateTimeElement
-            {
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()),
-                Value = new DateTime(2017, 7, 4)
-            },
             BodyCopy = new RichTextElement
             {
                 Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId()),
@@ -272,26 +251,15 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     }
                 }
             },
-            RelatedArticles = new LinkedItemsElement
+            MetaDescription = new TextElement
             {
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()),
-                Value = new[] { Reference.ById(EXISTING_ITEM_ID) }
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.MetaDescription)).GetKontentElementId()),
+                Value = "MetaDescription"
             },
-            UrlPattern = new UrlSlugElement
+            MetaKeywords = new TextElement
             {
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()),
-                Value = "on-roasts",
-                Mode = "custom"
-            },
-            Personas = new TaxonomyElement
-            {
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()),
-                Value = new[] { Reference.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) }
-            },
-            TeaserImage = new AssetElement
-            {
-                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
-                Value = new[] { Reference.ById(EXISTING_ASSET_ID) },
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.MetaKeywords)).GetKontentElementId()),
+                Value = "MetaKeywords"
             },
             Options = new MultipleChoiceElement
             {
@@ -302,6 +270,53 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     Reference.ById(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED)
                 }
             },
+            Personas = new TaxonomyElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()),
+                Value = new[] { Reference.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) }
+            },
+            PostDate = new DateTimeElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()),
+                Value = new DateTime(2017, 7, 4)
+            },
+            RelatedArticles = new LinkedItemsElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()),
+                Value = new[] { Reference.ById(EXISTING_ITEM_ID) }
+            },
+            Rating = new NumberElement
+            {
+                Value = 3.14m,
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Rating)).GetKontentElementId()),
+            },
+            SelectedForm = new CustomElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.SelectedForm)).GetKontentElementId()),
+                Value = "{\"formId\": 42}",
+                SearchableValue = "Almighty form!"
+            },
+            Summary = new TextElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Summary)).GetKontentElementId()),
+                Value = "Summary"
+            },
+            TeaserImage = new AssetElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
+                Value = new[] { Reference.ById(EXISTING_ASSET_ID) },
+            },
+            Title = new TextElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()),
+                Value = "On Roast"
+            },
+            UrlPattern = new UrlSlugElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()),
+                Value = "on-roasts",
+                Mode = "custom"
+            }
         };
     }
 }

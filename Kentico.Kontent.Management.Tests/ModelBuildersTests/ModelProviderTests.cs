@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Data;
 using Newtonsoft.Json;
 using Xunit;
-using Kentico.Kontent.Management.Models;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;

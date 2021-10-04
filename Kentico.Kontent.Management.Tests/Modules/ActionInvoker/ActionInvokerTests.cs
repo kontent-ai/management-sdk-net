@@ -1,5 +1,4 @@
-﻿using Kentico.Kontent.Management.Models.Items;
-using Kentico.Kontent.Management.Modules.ActionInvoker;
+﻿using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using System.Net;
 using System.Net.Http;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 using Kentico.Kontent.Management.Models.Assets;
 using Xunit;
 using System.Collections.Generic;
-using Kentico.Kontent.Management.Models;
 using System;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;

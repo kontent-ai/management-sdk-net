@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using Kentico.Kontent.Management.Models.LanguageVariants;
@@ -8,7 +7,6 @@ using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 using Kentico.Kontent.Management.Modules.Extensions;
-using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Modules.ModelBuilders
 {

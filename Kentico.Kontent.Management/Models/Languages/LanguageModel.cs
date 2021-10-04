@@ -1,8 +1,6 @@
 ﻿using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kentico.Kontent.Management.Models.Languages
 {

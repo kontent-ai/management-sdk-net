@@ -1,5 +1,4 @@
-﻿using Kentico.Kontent.Management.Models;
-using Kentico.Kontent.Management.Models.Languages;
+﻿using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.Shared;
 using System.Collections.Generic;
 using System.Linq;

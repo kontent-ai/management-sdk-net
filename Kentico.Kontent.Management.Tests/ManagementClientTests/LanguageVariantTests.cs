@@ -1,7 +1,4 @@
-﻿using Kentico.Kontent.Management.Models.Assets;
-using Kentico.Kontent.Management.Modules.Extensions;
-using Kentico.Kontent.Management.Tests.Data;
-using Newtonsoft.Json;
+﻿using Kentico.Kontent.Management.Tests.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +10,10 @@ using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 using Xunit.Abstractions;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
+using Newtonsoft.Json;
+using System.IO;
+using Kentico.Kontent.Management.Modules.ActionInvoker;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
@@ -496,8 +497,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.NotNull(response.Elements);
         }
 
-        [Fact(Skip = "Need to be fixed")]
-        //todo flaky test. The ordering of properties changes. Depending on running solely or in parallel group batch.
+        [Fact]
         public async Task UpsertStronglyTypedContentItemVariantAsync_ById_LanguageId_UpdatesVariant()
         {
             var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);

@@ -1,6 +1,5 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {

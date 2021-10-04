@@ -1,5 +1,4 @@
 ﻿using System;
-using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.UrlBuilder;

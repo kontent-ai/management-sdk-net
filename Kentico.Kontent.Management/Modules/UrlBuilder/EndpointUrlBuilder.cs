@@ -1,5 +1,4 @@
-﻿using Kentico.Kontent.Management.Models.Assets;
-using Kentico.Kontent.Management.Models.LanguageVariants;
+﻿using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Workflow;
 using Kentico.Kontent.Management.Modules.UrlBuilder.Templates;

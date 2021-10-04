@@ -1,6 +1,4 @@
-﻿using Kentico.Kontent.Management.Modules.UrlBuilder;
-
-namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
+﻿namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
 {
     internal class TypeTemplate : UrlTemplate
     {

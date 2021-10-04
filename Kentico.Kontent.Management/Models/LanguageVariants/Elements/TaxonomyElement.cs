@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 

@@ -3,6 +3,7 @@ using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,8 +80,24 @@ namespace Kentico.Kontent.Management.Tests.Mocks
             }
             else
             {
-                Assert.Equal(serializedRequest, File.ReadAllText(Path.Combine(folderPath, "request.json")), ignoreLineEndingDifferences: true, ignoreWhiteSpaceDifferences: true);
-                Assert.Equal(serializedRequestContent, File.ReadAllText(Path.Combine(folderPath, "request_content.json")), ignoreLineEndingDifferences: true, ignoreWhiteSpaceDifferences: true);
+                var expectedRequest = string.Concat(File.ReadAllText(Path.Combine(folderPath, "request.json")).OrderBy(x => x));
+                var actualRequest = string.Concat(serializedRequest.OrderBy(x => x));
+
+                Assert.True(string.Equals(expectedRequest, actualRequest), $"Request has changed." + Environment.NewLine +
+                    $"Original request:" + Environment.NewLine +
+                    File.ReadAllText(Path.Combine(folderPath, "request.json")) + Environment.NewLine +
+                    $"Actual request:" + Environment.NewLine +
+                    serializedRequest);
+
+
+                var expectedRequestContent = string.Concat(File.ReadAllText(Path.Combine(folderPath, "request_content.json")).OrderBy(x => x));
+                var actualRequestContent = string.Concat(serializedRequestContent.OrderBy(x => x));
+
+                Assert.True(string.Equals(expectedRequestContent, actualRequestContent), $"Request payload has changed." + Environment.NewLine +
+                    $"Original request payload:" + Environment.NewLine +
+                    File.ReadAllText(Path.Combine(folderPath, "request_content.json")) + Environment.NewLine +
+                    $"Actual request payload:" + Environment.NewLine +
+                    serializedRequestContent);
 
                 var serializedResponse = ApplyData(File.ReadAllText(Path.Combine(folderPath, "response.json")));
                 var serializedResponseContent = File.ReadAllText(Path.Combine(folderPath, "response_content.json"));

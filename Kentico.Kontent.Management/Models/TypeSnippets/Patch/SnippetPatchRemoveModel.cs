@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Kentico.Kontent.Management.Models.TypeSnippets.Patch
+﻿namespace Kentico.Kontent.Management.Models.TypeSnippets.Patch
 {
     /// <summary>
     /// Represents the remove operation.

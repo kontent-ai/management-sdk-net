@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
+﻿namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
 {
     internal class AssetTemplate : UrlTemplate
     {
