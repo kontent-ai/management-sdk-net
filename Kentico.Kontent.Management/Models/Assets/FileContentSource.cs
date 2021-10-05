@@ -17,7 +17,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         internal bool CreatesNewStream { get; private set; }
 
         /// <summary>
-        /// Gets or sets the media type of the asset, for example "image/jpeg".
+        /// Gets or sets the media type of the asset, for example: "image/jpeg".
         /// </summary>
         public string ContentType { get; set; }
 
@@ -59,7 +59,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         /// <param name="data">Binary data of the file.</param>
         /// <param name="fileName">Name of the file.</param>
-        /// <param name="contentType">Gets or sets the media type of the asset, for example "image/jpeg.</param>
+        /// <param name="contentType">Gets or sets the media type of the asset, for example: "image/jpeg".</param>
         public FileContentSource(byte[] data, string fileName, string contentType)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -82,7 +82,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// Creates content source file.
         /// </summary>
         /// <param name="filePath">Path to file.</param>
-        /// <param name="contentType">Gets or sets the media type of the asset, for example "image/jpeg.</param>
+        /// <param name="contentType">Gets or sets the media type of the asset, for example: "image/jpeg".</param>
         public FileContentSource(string filePath, string contentType)
         {
             if (string.IsNullOrEmpty(filePath))
@@ -107,7 +107,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         /// <param name="stream">Stream of the input data</param>
         /// <param name="fileName">Name of the file.</param>
-        /// <param name="contentType">Gets or sets the media typ</param>
+        /// <param name="contentType">Gets or sets the media type</param>
         public FileContentSource(Stream stream, string fileName, string contentType)
         {
             if (string.IsNullOrEmpty(contentType))

@@ -10,7 +10,7 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
 	public sealed class VariantIssue
 	{
 		/// <summary>
-		/// Gets or sets information about content item
+		/// Gets or sets information about the content item
 		/// </summary>
 		[JsonProperty("item")]
 		public Metadata Item { get; set; }

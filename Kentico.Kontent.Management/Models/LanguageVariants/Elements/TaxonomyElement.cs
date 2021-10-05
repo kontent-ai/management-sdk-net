@@ -6,12 +6,12 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
-    /// Represents strongly typed assets element.
+    /// Represents the strongly typed assets element.
     /// </summary>
     public class TaxonomyElement : BaseElement
     {
         /// <summary>
-        /// Gets or sets value of asset element.
+        /// Gets or sets the value of the asset element.
         /// </summary>
         [JsonProperty("value")]
         public IEnumerable<Reference> Value { get; set; }

@@ -101,7 +101,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public ISet<RichTextTextBlockType> AllowedTableTextBlocks { get; set; }
 
         /// <summary>
-        /// Represents type of the content type element.
+        /// Represents the type of the content type element.
         /// </summary>
         public override ElementMetadataType Type => ElementMetadataType.RichText;
     }

@@ -25,13 +25,13 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         Number = 3,
 
         /// <summary>
-        /// Represents the multiple choice element.
+        /// Represents the multiple-choice element.
         /// </summary>
         [EnumMember(Value = "multiple_choice")]
         MultipleChoice = 4,
 
         /// <summary>
-        /// Represents the date and time  element.
+        /// Represents the date and time element.
         /// </summary>
         [EnumMember(Value = "date_time")]
         DateTime = 5,

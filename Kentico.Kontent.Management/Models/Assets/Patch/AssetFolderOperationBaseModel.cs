@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.Assets.Patch
         public abstract string Op { get; }
 
         /// <summary>
-        /// Gets or sets reference to the existing folder on which the operation will be preformed.
+        /// Gets or sets the reference to the existing folder on which the operation will be performed.
         /// </summary>
         [JsonProperty("reference", Required = Required.Always)]
         public Reference Reference { get; set; }

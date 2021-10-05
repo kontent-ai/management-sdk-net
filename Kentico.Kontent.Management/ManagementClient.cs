@@ -85,7 +85,7 @@ namespace Kentico.Kontent.Management
         #region Variants
 
         /// <summary>
-        /// Returns strongly typed listing of language variants for specified content item.
+        /// Returns strongly typed listing of language variants for the specified content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
@@ -103,7 +103,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Returns strongly typed listing of language variants for specified content type.
+        /// Returns strongly typed listing of language variants for the specified content type.
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
@@ -190,8 +190,8 @@ namespace Kentico.Kontent.Management
         /// Inserts or updates given language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant.</param>
-        /// <param name="languageVariantUpsertModel">Represents inserted or updated language variant.</param>
-        /// <returns>The <see cref="LanguageVariantModel"/> instance that represents inserted or updated language variant.</returns>
+        /// <param name="languageVariantUpsertModel">Represents the inserted or updated language variant.</param>
+        /// <returns>The <see cref="LanguageVariantModel"/> instance that represents the inserted or updated language variant.</returns>
         public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
         {
             if (identifier == null)
@@ -211,7 +211,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Deletes given language variant.
+        /// Deletes the given language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant.</param>
         public async Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier)
@@ -230,7 +230,7 @@ namespace Kentico.Kontent.Management
         #region Types
 
         /// <summary>
-        /// Returns listing of content type.
+        /// Returns listing of content types.
         /// </summary>
         /// <returns>The <see cref="ListingResponseModel{ContentTypeModel}"/> instance that represents the listing of content types.</returns>
         public async Task<ListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
@@ -266,7 +266,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Creates content type.
         /// </summary>
-        /// <param name="contentType">Represents content type which will be created.</param>
+        /// <param name="contentType">Represents content type that will be created.</param>
         /// <returns>The <see cref="ContentTypeModel"/> instance that represents created content type.</returns>
         public async Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType)
         {
@@ -282,7 +282,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Deletes given content type.
+        /// Deletes the given content type.
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         public async Task DeleteContentTypeAsync(Reference identifier)
@@ -301,7 +301,7 @@ namespace Kentico.Kontent.Management
         /// Modifies content type.
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
-        /// /// <param name="changes">Represents changes that will be apply to the content type.</param>
+        /// /// <param name="changes">Represents changes that will be applied to the content type.</param>
         public async Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
         {
             if (identifier == null)
@@ -370,7 +370,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Deletes given content type snippet.
+        /// Deletes the given content type snippet.
         /// </summary>
         /// <param name="identifier">The identifier of the content type snippet.</param>
         public async Task DeleteContentTypeSnippetAsync(Reference identifier)
@@ -389,7 +389,7 @@ namespace Kentico.Kontent.Management
         /// Modifies content type snippet.
         /// </summary>
         /// <param name="identifier">The identifier of the content type snippet.</param>
-        /// <param name="changes">Represents changes that will be apply to the content type snippet.</param>
+        /// <param name="changes">Represents changes that will be applied to the content type snippet.</param>
         public async Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
         {
             if (identifier == null)
@@ -442,7 +442,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Creates taxonomy group.
         /// </summary>
-        /// <param name="taxonomyGroup">Represents taxonomy group which will be created.</param>
+        /// <param name="taxonomyGroup">Represents the taxonomy group which will be created.</param>
         /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents created taxonomy group.</returns>
         public async Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup)
         {
@@ -456,7 +456,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Deletes given taxonomy group.
+        /// Deletes the given taxonomy group.
         /// </summary>
         /// <param name="identifier">The identifier of the taxonomy group.</param>
         public async Task DeleteTaxonomyGroupAsync(Reference identifier)
@@ -475,7 +475,7 @@ namespace Kentico.Kontent.Management
         /// Modifies given taxonomy group.
         /// </summary>
         /// <param name="identifier">The identifier of the taxonomy group.</param>
-        /// <param name="changes">Represents changes that will be apply to the taxonomy group.</param>
+        /// <param name="changes">Represents changes that will be applied to the taxonomy group.</param>
         /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents the created taxonomy group.</returns>
         public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
         {
@@ -641,7 +641,7 @@ namespace Kentico.Kontent.Management
         /// Modifies the language.
         /// </summary>
         /// <param name="identifier">The language to be modified.</param>
-        /// <param name="changes">Represents changes that will be apply to the language.</param>
+        /// <param name="changes">Represents changes that will be applied to the language.</param>
         /// <returns>The <see cref="LanguageModel"/> instance that represents modified language.</returns>
         public async Task<LanguageModel> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes)
         {
@@ -671,7 +671,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Changes workflow step.
         /// </summary>
-        /// <param name="identifier">The workflow step to be changed.</param>
+        /// <param name="identifier">Identifier of the workflow step to be changed.</param>
         public async Task ChangeWorkflowStep(WorkflowIdentifier identifier)
         {
             if (identifier == null)
@@ -687,7 +687,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Publishes the language variant.
         /// </summary>
-        /// <param name="identifier">The language variant to be published.</param>
+        /// <param name="identifier">Identifier of the language variant to be published.</param>
         public async Task PublishLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -703,7 +703,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Schedules publishing of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the language variant  to be published.</param>
+        /// <param name="identifier">The identifier of the language variant to be published.</param>
         /// <param name="scheduleModel">The time when the language variant will be published</param>
         public async Task SchedulePublishingOfLangaugeVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
@@ -736,7 +736,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Unpublishes the language variant.
         /// </summary>
-        /// <param name="identifier">The language variant to be unpublished.</param>
+        /// <param name="identifier">Identifier of the language variant to be unpublished.</param>
         public async Task UnpublishLangaugeVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -752,7 +752,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Cancels unpublishing of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the language variant identifier of which unpublishing should be canceled.</param>
+        /// <param name="identifier">The identifier of the language variant of which unpublishing should be canceled.</param>
         public async Task CancelUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -768,7 +768,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Schedules unpublishing of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the language variant  to be unpublished.</param>
+        /// <param name="identifier">The identifier of the language variant that should be unpublished.</param>
         /// <param name="scheduleModel">The time when the language variant will be unpublished</param>
         public async Task ScheduleUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
@@ -785,7 +785,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Creates the new version of the language variant.
         /// </summary>
-        /// <param name="identifier">The identifier of the language variant for which the new version should created .</param>
+        /// <param name="identifier">The identifier of the language variant for which the new version should be created.</param>
         public async Task CreateNewVersionOfLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -802,7 +802,7 @@ namespace Kentico.Kontent.Management
         #region Strongly typed Variants
 
         /// <summary>
-        /// Returns strongly typed listing of language variants with strongly typed elements for specified content item.
+        /// Returns strongly typed listing of language variants with strongly typed elements for the specified content item.
         /// </summary>
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
@@ -840,11 +840,11 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Inserts or updates given language variant.
+        /// Inserts or updates the given language variant.
         /// </summary>
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the language variant.</param>
-        /// <param name="variantElements">Represents inserted or updated  strongly typed language variant elements.</param>
+        /// <param name="variantElements">Represents inserted or updated strongly typed language variant elements.</param>
         /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents inserted or updated language variant.</returns>
         public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements) where T : new()
         {
@@ -870,10 +870,10 @@ namespace Kentico.Kontent.Management
         #region Items
 
         /// <summary>
-        /// Updates given content item.
+        /// Updates the given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
-        /// <param name="contentItem">Represents updated content item.</param>
+        /// <param name="contentItem">Represents the updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
         public async Task<ContentItemModel> UpdateContentItemAsync(Reference identifier, ContentItemUpdateModel contentItem)
         {
@@ -894,7 +894,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Inserts or updates content item according to external identifier.
+        /// Inserts or updates the given content item.
         /// </summary>
         /// <param name="externalId">The external identifier of the content item.</param>
         /// <param name="contentItem">Represents inserted or updated content item.</param>
@@ -920,8 +920,8 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Creates content item.
         /// </summary>
-        /// <param name="contentItem">Represents content item which will be created.</param>
-        /// <returns>The <see cref="ContentItemModel"/> instance that represents created content item.</returns>
+        /// <param name="contentItem">Represents content item that will be created.</param>
+        /// <returns>The <see cref="ContentItemModel"/> instance that represents the created content item.</returns>
         public async Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
         {
             if (contentItem == null)
@@ -954,7 +954,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Deletes given content item.
+        /// Deletes the given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         public async Task DeleteContentItemAsync(Reference identifier)
@@ -1044,7 +1044,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Creates the asset folder.
         /// </summary>
-        /// <param name="folder">The asset folder to be created.</param>
+        /// <param name="folder">The asset folder that will be created.</param>
         /// <returns>The <see cref="LanguageModel"/> instance that represents created asset folder.</returns>
         public async Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
         {
@@ -1062,7 +1062,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Modifies the asset folder.
         /// </summary>
-        /// /// <param name="changes">Represents changes that will be apply to the asset folder.</param>
+        /// /// <param name="changes">Represents changes that will be applied to the asset folder.</param>
         /// <returns>The <see cref="LanguageModel"/> instance that represents modified asset folder.</returns>
         public async Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
         {
@@ -1078,10 +1078,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Updates given asset.
+        /// Updates the given asset.
         /// </summary>
         /// <param name="identifier">The identifier of the asset.</param>
-        /// <param name="asset">Represents updated asset.</param>
+        /// <param name="asset">Represents the updated asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
         public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
         {
@@ -1102,7 +1102,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Deletes given asset.
+        /// Deletes the given asset.
         /// </summary>
         /// <param name="identifier">The identifier of the asset.</param>
         public async Task DeleteAssetAsync(Reference identifier)
@@ -1119,7 +1119,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Creates asset.
         /// </summary>
-        /// <param name="asset">Represents asset which will be created.</param>
+        /// <param name="asset">Represents the asset that will be created.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
         public async Task<AssetModel> CreateAssetAsync(AssetUpsertModel asset)
         {
@@ -1135,10 +1135,10 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Inserts or updates asset according to external identifier.
+        /// Inserts or updates the asset.
         /// </summary>
         /// <param name="externalId">The external identifier of the content item.</param>
-        /// <param name="asset">Represents asset which will be created.</param>
+        /// <param name="asset">Represents the asset that will be created.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
         public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
         {
@@ -1170,7 +1170,7 @@ namespace Kentico.Kontent.Management
         /// Uploads the given file.
         /// </summary>
         /// <param name="fileContent">Represents the content of the file</param>
-        /// <returns>The <see cref="FileReference"/> instance that represents the reference to created file.</returns>
+        /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
         public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
         {
             if (fileContent == null)
@@ -1245,7 +1245,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Modifies collection.
         /// </summary>
-        /// <param name="changes">Represents changes that will be apply to the collection.</param>
+        /// <param name="changes">Represents changes that will be applied to the collection.</param>
         public async Task<CollectionsModel> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes)
         {
             if (changes == null)

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.Languages
 {
     /// <summary>
-    /// Represents the langueage create model.
+    /// Represents the language create model.
     /// </summary>
     public class LanguageCreateModel
     {
@@ -33,7 +33,7 @@ namespace Kentico.Kontent.Management.Models.Languages
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets or sets language to use when the current language contains no content. With multiple languages you can create fallback chains.
+        /// Gets or sets the language to use when the current language contains no content. With multiple languages you can create fallback chains.
         /// </summary>
         [JsonProperty("fallback_language")]
         public Reference FallbackLanguage { get; set; }

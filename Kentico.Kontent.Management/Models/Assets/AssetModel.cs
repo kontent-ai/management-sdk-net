@@ -29,7 +29,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         public long Size { get; set; }
 
         /// <summary>
-        /// Gets or sets the media type of the asset, for example "image/jpeg".
+        /// Gets or sets the media type of the asset, for example: "image/jpeg".
         /// </summary>
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -41,7 +41,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets or sets the file reference of the the asset".
+        /// Gets or sets the file reference of the asset".
         /// </summary>
         [JsonProperty("file_reference")]
         public FileReference FileReference { get; set; }
@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         public IEnumerable<AssetDescription> Descriptions { get; set; }
 
         /// <summary>
-        /// Gets or sets title for the asset.
+        /// Gets or sets the title for the asset.
         /// </summary>
         [JsonProperty("title")]
         public string Title { get; set; }

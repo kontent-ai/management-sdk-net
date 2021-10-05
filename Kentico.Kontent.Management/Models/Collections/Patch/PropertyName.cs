@@ -8,7 +8,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
     public enum PropertyName
     {
         /// <summary>
-        /// Represents name of the collection.
+        /// Represents the name of the collection.
         /// </summary>
         [EnumMember(Value = "name")]
         Name

@@ -11,25 +11,25 @@ namespace Kentico.Kontent.Management.Models.Types
     public class ContentTypeModel
     {
         /// <summary>
-        /// Gets or sets id of the content type.
+        /// Gets or sets the id of the content type.
         /// </summary>
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets codename of the content type.
+        /// Gets or sets the codename of the content type.
         /// </summary>
         [JsonProperty("codename")]
         public string Codename { get; set; }
 
         /// <summary>
-        /// Gets or sets last modified timestamp of the content type.
+        /// Gets or sets the last modified timestamp of the content type.
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the content type.
+        /// Gets or sets the name of the content type.
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -41,7 +41,7 @@ namespace Kentico.Kontent.Management.Models.Types
         public IEnumerable<ElementMetadataBase> Elements { get; set; }
 
         /// <summary>
-        /// Gets or sets external identifier of the content type.
+        /// Gets or sets the external identifier of the content type.
         /// </summary>
         [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ExternalId { get; set; }

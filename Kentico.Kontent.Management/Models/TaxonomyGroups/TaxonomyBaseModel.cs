@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Kentico.Kontent.Management.Models.TaxonomyGroups
 {
     /// <summary>
-    /// Represents base taxonomy model. 
+    /// Represents the base taxonomy model. 
     /// </summary>
     public class TaxonomyBaseModel
     {

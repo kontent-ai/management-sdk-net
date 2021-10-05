@@ -5,7 +5,7 @@ using System;
 namespace Kentico.Kontent.Management.Models.Languages
 {
     /// <summary>
-    /// Represents the langueage model.
+    /// Represents the language model.
     /// </summary>
     public class LanguageModel
     {
@@ -40,13 +40,13 @@ namespace Kentico.Kontent.Management.Models.Languages
         public bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets or sets a flag determining whether the language is default.
+        /// Gets or sets a flag determining whether the language is the default language.
         /// </summary>
         [JsonProperty("is_default")]
         public bool IsDefault { get; set; }
 
         /// <summary>
-        /// Gets or sets language to use when the current language contains no content. With multiple languages you can create fallback chains.
+        /// Gets or sets the language to use when the current language contains no content. With multiple languages you can create fallback chains.
         /// </summary>
         [JsonProperty("fallback_language")]
         public Reference FallbackLanguage { get; set; }

@@ -99,7 +99,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="client"></param>
         /// <param name="fileContent">Represents the content of the file.</param>
-        /// <param name="assetUpdateModel">Updated values for asset.</param>
+        /// <param name="assetUpdateModel">Updated values for the asset.</param>
         public static async Task<AssetModel> CreateAssetAsync(this ManagementClient client, FileContentSource fileContent, AssetUpdateModel assetUpdateModel)
         {
             if (fileContent == null)
@@ -136,7 +136,7 @@ namespace Kentico.Kontent.Management
         /// <param name="client">Content management client instance.</param>
         /// <param name="externalId">The external identifier of the asset.</param>
         /// <param name="fileContent">Represents the content of the file.</param>
-        /// <param name="updatedAsset">Updated values for asset.</param>
+        /// <param name="updatedAsset">Updated values for the asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
         public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this ManagementClient client, string externalId, FileContentSource fileContent, AssetUpdateModel updatedAsset)
         {
@@ -222,7 +222,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Get Folder Hiearchy for a given folder Id
+        /// Gets folder hierarchy for a given folder Id
         /// </summary>
         /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> property retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
         /// <param name="folderId">Folder Identifier</param>
@@ -250,7 +250,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <summary>
-        /// Get Folder Hiearchy for a given folder Id
+        /// Gets folder hierarchy for a given folder Id
         /// </summary>
         /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> property retrieved from the <see cref="ManagementClient.GetAssetFoldersAsync"/> method.</param>
         /// <param name="externalId">Folder externalId</param>
@@ -328,7 +328,7 @@ namespace Kentico.Kontent.Management
         /// To use this method first convert your <see cref="AssetFoldersModel.Folders"/> property retrieved from <see cref="ManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.
         /// </summary>
         /// <param name="folders">The <see cref="IEnumerable{AssetFolderLinkingHierarchy}"/> instance.</param>
-        /// <param name="externalId">Folder exteernal id</param>
+        /// <param name="externalId">Folder external id</param>
         /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder identifier.</returns>
         public static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyByExternalId(this IEnumerable<AssetFolderLinkingHierarchy> folders, string externalId)
         {

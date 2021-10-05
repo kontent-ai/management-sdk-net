@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
         public override string Op => "replace";
 
         /// <summary>
-        /// Gets or sets the reference of collection which should be replaced.
+        /// Gets or sets the reference of the collection which should be replaced.
         /// </summary>
         [JsonProperty("reference")]
         public Reference Reference { get; set; }

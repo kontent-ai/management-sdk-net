@@ -34,8 +34,8 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public string SourceUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the optional parameters that allow you to use the element in different content types or provide customizable layout.
-        /// The value must be valid a stringified JSON.
+        /// Gets or sets the optional parameters that allow you to use the element in different content types or provide a customizable layout.
+        /// The value must be a valid stringified JSON.
         /// </summary>
         [JsonProperty("json_parameters")]
         public string JsonParameters { get; set; }
@@ -47,7 +47,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public IEnumerable<Reference> AllowedElements { get; set; }
 
         /// <summary>
-        /// Represents type of the content type element.
+        /// Represents the type of the content type element.
         /// </summary>
         public override ElementMetadataType Type => ElementMetadataType.Custom;
     }

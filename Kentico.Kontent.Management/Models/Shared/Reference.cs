@@ -9,25 +9,25 @@ namespace Kentico.Kontent.Management.Models.Shared
     public sealed class Reference
     {
         /// <summary>
-        /// Gets id of the identifier.
+        /// Gets the id of the identifier.
         /// </summary>
         [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Guid? Id { get; private set; }
 
         /// <summary>
-        /// Gets codename of the identifier.
+        /// Gets the codename of the identifier.
         /// </summary>
         [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Codename { get; private set; }
 
         /// <summary>
-        /// Gets external id of the identifier.
+        /// Gets the external id of the identifier.
         /// </summary>
         [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ExternalId { get; private set; }
 
         /// <summary>
-        /// Creates identifier by id.
+        /// Creates the reference by id.
         /// </summary>
         /// <param name="id">The id of the identifier.</param>
         public static Reference ById(Guid id)
@@ -36,7 +36,7 @@ namespace Kentico.Kontent.Management.Models.Shared
         }
 
         /// <summary>
-        /// Creates identifier by codename.
+        /// Creates the reference by codename.
         /// </summary>
         /// <param name="codename">The codename of the identifier.</param>
         public static Reference ByCodename(string codename)
@@ -45,7 +45,7 @@ namespace Kentico.Kontent.Management.Models.Shared
         }
 
         /// <summary>
-        /// Creates identifier by external id.
+        /// Creates the reference by external id.
         /// </summary>
         /// <param name="externalId">The external id of the identifier.</param>
         public static Reference ByExternalId(string externalId)

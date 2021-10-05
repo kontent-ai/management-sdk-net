@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Assets
@@ -16,7 +16,7 @@ namespace Kentico.Kontent.Management.Models.Assets
         public IEnumerable<AssetDescription> Descriptions { get; set; }
 
         /// <summary>
-        /// Gets or sets title for the asset.
+        /// Gets or sets the title for the asset.
         /// </summary>
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -25,6 +25,6 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// Folder of the asset. If outside of all folders use "id" : "00000000-0000-0000-0000-000000000000".
         /// </summary>
         [JsonProperty("folder", Required = Required.Always)]
-        public AssetFolderIdentifier Folder { get; set; }
+        public Reference Folder { get; set; }
     }
 }

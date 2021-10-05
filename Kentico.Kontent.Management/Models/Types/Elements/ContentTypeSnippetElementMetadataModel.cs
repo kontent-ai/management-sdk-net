@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public Reference SnippetIdentifier { get; set; }
 
         /// <summary>
-        /// Represents type of the content element.
+        /// Represents the type of the content element.
         /// </summary>
         public override ElementMetadataType Type => ElementMetadataType.ContentTypeSnippet;
     }

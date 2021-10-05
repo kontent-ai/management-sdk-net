@@ -3,7 +3,7 @@
 namespace Kentico.Kontent.Management.Models.Types.Elements
 {
     /// <summary>
-    /// Represents the allowed file types for asset element in content types.
+    /// Represents the allowed file types for the asset element in content types.
     /// </summary>
     public enum FileType
     {

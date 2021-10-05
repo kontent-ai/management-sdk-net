@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
         public override string Op => "move";
 
         /// <summary>
-        /// Gets or sets the reference of collection to move.
+        /// Gets or sets the reference of the collection to move.
         /// </summary>
         [JsonProperty("reference")]
         public Reference Reference { get; set; }

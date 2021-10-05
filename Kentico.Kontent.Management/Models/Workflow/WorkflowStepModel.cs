@@ -23,7 +23,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets he workflow step's codename.
+        /// Gets or sets the workflow step's codename.
         /// </summary>
         [JsonProperty("codename")]
         public string Codename { get; set; }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Kentico.Kontent.Management.Models.Assets
 {
     /// <summary>
-    /// Represents the Asset Folder Hiearchy (recursive)
+    /// Represents the Asset Folder Hierarchy (recursive)
     /// </summary>
     public sealed class AssetFolderHierarchy
     {

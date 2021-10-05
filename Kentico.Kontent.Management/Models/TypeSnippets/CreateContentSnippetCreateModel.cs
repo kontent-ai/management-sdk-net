@@ -10,13 +10,13 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets
     public class CreateContentSnippetCreateModel
     {
         /// <summary>
-        /// Gets or sets codename of the content snippet type.
+        /// Gets or sets the codename of the content snippet type.
         /// </summary>
         [JsonProperty("codename")]
         public string Codename { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the content snippet type.
+        /// Gets or sets the name of the content snippet type.
         /// </summary>
         [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
@@ -28,7 +28,7 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets
         public IEnumerable<ElementMetadataBase> Elements { get; set; }
 
         /// <summary>
-        /// Gets or sets external identifier of the content snippet type.
+        /// Gets or sets the external identifier of the content snippet type.
         /// </summary>
         [JsonProperty("external_id")]
         public string ExternalId { get; set; }

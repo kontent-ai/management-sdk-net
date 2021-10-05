@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Newtonsoft.Json;
+using Kentico.Kontent.Management.Models.Shared;
 
 namespace Kentico.Kontent.Management.Models.Assets
 {
@@ -11,19 +12,19 @@ namespace Kentico.Kontent.Management.Models.Assets
     public sealed class AssetUpsertModel
     {
         /// <summary>
-        /// Gets or sets file reference for the asset.
+        /// Gets or sets the file reference for the asset.
         /// </summary>
         [JsonProperty("file_reference", Required = Required.Always)]
         public FileReference FileReference { get; set; }
 
         /// <summary>
-        /// Gets or sets description for the asset.
+        /// Gets or sets the description for the asset.
         /// </summary>
         [JsonProperty("descriptions", Required = Required.Always)]
         public IEnumerable<AssetDescription> Descriptions { get; set; } = Enumerable.Empty<AssetDescription>();
 
         /// <summary>
-        /// Gets or sets title for the asset.
+        /// Gets or sets the title for the asset.
         /// </summary>
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -32,6 +33,6 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// Folder of the asset. If outside of all folders use "id" : "00000000-0000-0000-0000-000000000000".
         /// </summary>
         [JsonProperty("folder", Required = Required.Always)]
-        public AssetFolderIdentifier Folder { get; set; }
+        public Reference Folder { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Kentico.Kontent.Management.Models.Types.Patch
         public override string Op => "replace";
 
         /// <summary>
-        /// Gets or sets the value to replace into the property specified in path where the format depends on the specific property.
+        /// Gets or sets the value to replace into the property specified in the path where the format depends on the specific property.
         /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type
         /// </summary>
         [JsonProperty("value")]

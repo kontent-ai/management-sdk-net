@@ -23,13 +23,13 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         public IEnumerable<dynamic> Elements { get; set; }
 
         /// <summary>
-        /// Gets or sets language of the variant.
+        /// Gets or sets the language of the variant.
         /// </summary>
         [JsonProperty("language")]
         public Reference Language { get; set; }
 
         /// <summary>
-        /// Gets or sets last modified timestamp of the language variant.
+        /// Gets or sets the last modified timestamp of the language variant.
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }

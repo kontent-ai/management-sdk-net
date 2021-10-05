@@ -11,31 +11,31 @@ namespace Kentico.Kontent.Management.Models.Items
     public sealed class ContentItemModel
     {
         /// <summary>
-        /// Gets or sets id of the content item.
+        /// Gets or sets the id of the content item.
         /// </summary>
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the content item.
+        /// Gets or sets the name of the content item.
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets codename of the content item.
+        /// Gets or sets the codename of the content item.
         /// </summary>
         [JsonProperty("codename")]
         public string Codename { get; set; }
 
         /// <summary>
-        /// Gets or sets type of the content item.
+        /// Gets or sets the type of the content item.
         /// </summary>
         [JsonProperty("type")]
         public Reference Type { get; set; }
 
         /// <summary>
-        /// Gets or sets collection of the content item.
+        /// Gets or sets the collection of the content item.
         /// </summary>
         [JsonProperty("collection")]
         public Reference Collection { get; set; }
@@ -47,13 +47,13 @@ namespace Kentico.Kontent.Management.Models.Items
         public IEnumerable<Reference> SitemapLocations { get; set; }
 
         /// <summary>
-        /// Gets or sets external identifier of the content item.
+        /// Gets or sets the external identifier of the content item.
         /// </summary>
         [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ExternalId { get; set; }
 
         /// <summary>
-        /// Gets or sets last modified timestamp of the content item.
+        /// Gets or sets the last modified timestamp of the content item.
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }

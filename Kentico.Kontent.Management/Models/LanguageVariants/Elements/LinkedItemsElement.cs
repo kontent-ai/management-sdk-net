@@ -6,12 +6,12 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
-    /// Represents strongly typed linked items element.
+    /// Represents the strongly typed linked items element.
     /// </summary>
     public class LinkedItemsElement : BaseElement
     {
         /// <summary>
-        /// Gets or sets value of linked items element.
+        /// Gets or sets the value of linked items element.
         /// </summary>
         [JsonProperty("value")]
         public IEnumerable<Reference> Value { get; set; }

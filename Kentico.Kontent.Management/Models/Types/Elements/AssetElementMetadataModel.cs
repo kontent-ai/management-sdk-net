@@ -27,31 +27,31 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public string Guidelines { get; set; }
 
         /// <summary>
-        /// Gets or sets specification of the limitation for the number of assets allowed within the element.
+        /// Gets or sets the specification of the limitation for the number of assets allowed within the element.
         /// </summary>
         [JsonProperty("asset_count_limit")]
         public LimitModel AssetCountLimit { get; set; }
 
         /// <summary>
-        /// Gets or sets specification of the maximum file size in bytes.
+        /// Gets or sets the specification of the maximum file size in bytes.
         /// </summary>
         [JsonProperty("maximum_file_size")]
         public long? MaximumFileSize { get; set; }
 
         /// <summary>
-        /// Gets or sets specification of the allowed file types.
+        /// Gets or sets the specification of the allowed file types.
         /// </summary>
         [JsonProperty("allowed_file_types")]
         public FileType AllowedFileTypes { get; set; }
 
         /// <summary>
-        /// Gets or sets specification of the width limitation for the asset.
+        /// Gets or sets the specification of the width limitation for the asset.
         /// </summary>
         [JsonProperty("image_width_limit")]
         public LimitModel ImageWidthLimit { get; set; }
 
         /// <summary>
-        /// Gets or sets specification of the height limitation for the asset.
+        /// Gets or sets the specification of the height limitation for the asset.
         /// </summary>
         [JsonProperty("image_height_limit")]
         public LimitModel ImageHeightLimit { get; set; }

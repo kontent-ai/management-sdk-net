@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
-    /// Represents strongly typed date and time element.
+    /// Represents the strongly typed date and time element.
     /// </summary>
     public class DateTimeElement : BaseElement
     {
         /// <summary>
-        /// Gets or sets value of the date time element.
+        /// Gets or sets the value of the datetime element.
         /// </summary>
         [JsonProperty("value")]
         public DateTime Value { get; set; }

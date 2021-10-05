@@ -6,13 +6,13 @@ using System;
 namespace Kentico.Kontent.Management.Models.Types.Elements
 {
     /// <summary>
-    /// Represents base class for elements in types.
+    /// Represents the base class for elements in types.
     /// </summary>
     [JsonConverter(typeof(ElementMetadataConverter))]
     public abstract class ElementMetadataBase
     {
         /// <summary>
-        /// Represents type of the content type element.
+        /// Represents the type of the content type element.
         /// </summary>
         [JsonProperty("type", Required = Required.Always)]
         public abstract ElementMetadataType Type { get; }
@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public string ExternalId { get; set; }
 
         /// <summary>
-        /// Gets or sets the element's internal ID..
+        /// Gets or sets the element's internal ID.
         /// </summary>
         [JsonProperty("id")]
         public Guid Id { get; private set; }

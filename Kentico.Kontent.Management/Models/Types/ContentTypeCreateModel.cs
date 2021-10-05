@@ -5,18 +5,18 @@ using System.Collections.Generic;
 namespace Kentico.Kontent.Management.Models.Types
 {
     /// <summary>
-    /// Represents the conetent type create model.
+    /// Represents the content type create model.
     /// </summary>
     public class ContentTypeCreateModel
     {
         /// <summary>
-        /// Gets or sets codename of the content type.
+        /// Gets or sets the codename of the content type.
         /// </summary>
         [JsonProperty("codename")]
         public string Codename { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the content type.
+        /// Gets or sets the name of the content type.
         /// </summary>
         [JsonProperty("name", Required = Required.Always)]
         public string Name { get; set; }
@@ -28,7 +28,7 @@ namespace Kentico.Kontent.Management.Models.Types
         public IEnumerable<ElementMetadataBase> Elements { get; set; }
 
         /// <summary>
-        /// Gets or sets external identifier of the content type.
+        /// Gets or sets the external identifier of the content type.
         /// </summary>
         [JsonProperty("external_id")]
         public string ExternalId { get; set; }

@@ -9,7 +9,7 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
     public sealed class ProjectReportModel
     {
         /// <summary>
-        /// Gets or sets information about specified project
+        /// Gets or sets information about the specified project
         /// </summary>
         [JsonProperty("project")]
         public Project Project { get; set; }

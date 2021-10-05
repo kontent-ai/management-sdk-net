@@ -10,7 +10,7 @@ namespace Kentico.Kontent.Management.Models.Collections
     public class CollectionsModel
     {
         /// <summary>
-        /// Gets or sets list of content collections
+        /// Gets or sets the list of content collections
         /// </summary>
         [JsonProperty("collections")]
         public IEnumerable<CollectionModel> Collections { get; set; }

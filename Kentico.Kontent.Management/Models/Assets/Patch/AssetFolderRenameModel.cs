@@ -8,12 +8,12 @@ namespace Kentico.Kontent.Management.Models.Assets.Patch
     public class AssetFolderRenameModel : AssetFolderOperationBaseModel
     {
         /// <summary>
-        /// Represents rename operation.
+        /// Represents the rename operation.
         /// </summary>
         public override string Op => "rename";
 
         /// <summary>
-        /// Gets or sets reference to the folder to be renamed.
+        /// Gets or sets the reference to the folder to be renamed.
         /// </summary>
         [JsonProperty("value")]
         public string Value { get; set; }

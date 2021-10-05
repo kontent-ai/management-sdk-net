@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         public IEnumerable<dynamic> Elements { get; set; }
 
         /// <summary>
-        /// Creates instance of language variant upsert model.
+        /// Creates an instance of the language variant upsert model.
         /// </summary>
         public LanguageVariantUpsertModel()
         {

@@ -6,18 +6,18 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
 {
     /// <summary>
-    /// Represents strongly typed assets element.
+    /// Represents the strongly typed assets element.
     /// </summary>
     public class MultipleChoiceElement : BaseElement
     {
         /// <summary>
-        /// Gets or sets value of asset element.
+        /// Gets or sets the value of the asset element.
         /// </summary>
         [JsonProperty("value")]
         public IEnumerable<Reference> Value { get; set; }
 
         /// <summary>
-        /// Coverts the mupltiple choice element to the dynamic object.
+        /// Coverts the multiple-choice element to the dynamic object.
         /// </summary>
         public override dynamic ToDynamic(Guid elementId)
         {
