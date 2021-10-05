@@ -7,7 +7,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
     internal class ElementMetadataConverter : JsonConverter
     {
-        static JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
+        private static readonly JsonSerializerSettings _specifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
 
 
         public override bool CanConvert(Type objectType)
@@ -23,29 +23,29 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             switch (type)
             {
                 case ElementMetadataType.Text:
-                    return JsonConvert.DeserializeObject<TextElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<TextElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.RichText:
-                    return JsonConvert.DeserializeObject<RichTextElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<RichTextElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.Number:
-                    return JsonConvert.DeserializeObject<NumberElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<NumberElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.MultipleChoice:
-                    return JsonConvert.DeserializeObject<MultipleChoiceElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<MultipleChoiceElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.DateTime:
-                    return JsonConvert.DeserializeObject<DateTimeElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<DateTimeElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.Asset:
-                    return JsonConvert.DeserializeObject<AssetElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<AssetElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.LinkedItems:
-                    return JsonConvert.DeserializeObject<LinkedItemsElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<LinkedItemsElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.Guidelines:
-                    return JsonConvert.DeserializeObject<GuidelinesElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<GuidelinesElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.Taxonomy:
-                    return JsonConvert.DeserializeObject<TaxonomyElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<TaxonomyElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.UrlSlug:
-                    return JsonConvert.DeserializeObject<UrlSlugElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<UrlSlugElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.ContentTypeSnippet:
-                    return JsonConvert.DeserializeObject<ContentTypeSnippetElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<ContentTypeSnippetElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.Custom:
-                    return JsonConvert.DeserializeObject<CustomElementMetadataModel>(jObject.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<CustomElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
             }
 
             throw new NotImplementedException();

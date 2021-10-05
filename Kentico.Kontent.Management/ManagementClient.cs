@@ -1261,8 +1261,10 @@ namespace Kentico.Kontent.Management
         private async Task<IListingResponse<TModel>> GetNextListingPageAsync<TListingResponse, TModel>(string continuationToken, string url) 
             where TListingResponse : IListingResponse<TModel>
         {
-            var headers = new Dictionary<string, string>();
-            headers.Add("x-continuation", continuationToken);
+            var headers = new Dictionary<string, string>
+            {
+                { "x-continuation", continuationToken }
+            };
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TListingResponse>(url, HttpMethod.Get, headers);
 
             return response;

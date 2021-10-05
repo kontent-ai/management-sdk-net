@@ -14,6 +14,9 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public decimal? Value { get; set; }
 
+        /// <summary>
+        /// Coverts the number element to the dynamic object.
+        /// </summary>
         public override dynamic ToDynamic(Guid elementId)
         {
             return new

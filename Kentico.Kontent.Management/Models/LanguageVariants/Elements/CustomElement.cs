@@ -20,6 +20,9 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("searchable_value")]
         public string SearchableValue { get; set; }
 
+        /// <summary>
+        /// Coverts the custom element to the dynamic object.
+        /// </summary>
         public override dynamic ToDynamic(Guid elementId)
         {
             return new

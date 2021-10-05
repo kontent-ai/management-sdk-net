@@ -44,8 +44,6 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
         public async Task<TResponse> InvokeMethodAsync<TPayload, TResponse>(string endpointUrl, HttpMethod method, TPayload body, Dictionary<string, string> headers = null)
         {
-            var message = _messageCreator.CreateMessage(method, endpointUrl, headers: headers);
-
             HttpContent content = null;
 
             if (body != null)
@@ -61,8 +59,6 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
         public async Task<TResponse> InvokeReadOnlyMethodAsync<TResponse>(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null)
         {
-            var message = _messageCreator.CreateMessage(method, endpointUrl, null, headers);
-
             var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
 
             return await ReadResultAsync<TResponse>(response);
@@ -70,14 +66,11 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
         public async Task InvokeMethodAsync(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null)
         {
-            var message = _messageCreator.CreateMessage(method, endpointUrl, null, headers);
             await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
         }
 
         public async Task InvokeMethodAsync<TPayload>(string endpointUrl, HttpMethod method, TPayload body)
         {
-            var message = _messageCreator.CreateMessage(method, endpointUrl);
-
             HttpContent content = null;
 
             if (body != null)
@@ -95,8 +88,6 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             {
                 throw new ArgumentNullException(nameof(stream));
             }
-
-            var message = _messageCreator.CreateMessage(HttpMethod.Post, endpointUrl);
 
             var content = new StreamContent(stream);
 

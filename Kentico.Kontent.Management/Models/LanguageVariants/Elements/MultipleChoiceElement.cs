@@ -16,6 +16,9 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         [JsonProperty("value")]
         public IEnumerable<Reference> Value { get; set; }
 
+        /// <summary>
+        /// Coverts the mupltiple choice element to the dynamic object.
+        /// </summary>
         public override dynamic ToDynamic(Guid elementId)
         {
             return new
