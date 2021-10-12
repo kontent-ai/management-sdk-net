@@ -1,7 +1,7 @@
 {
   "id": "61b25929-60f2-54f4-a0eb-91c287dc2ea7",
   "codename": "hooray_codename_type",
-  "last_modified": "2021-09-23T14:21:44.5015167Z",
+  "last_modified": "2021-10-12T15:24:29.8090657Z",
   "external_id": "hooray_codename_external_id",
   "name": "HoorayType!",
   "content_groups": [],
@@ -12,6 +12,22 @@
       "external_id": "guidelines_external_id",
       "id": "14a50405-9d92-5fb6-909f-a1d10f4a810f",
       "codename": "guidelines_codename"
+    },
+    {
+      "mode": "single",
+      "options": [
+        {
+          "id": "3f60125a-77b6-4ec2-97ab-3277e8917630",
+          "codename": "yes",
+          "name": "Yes"
+        }
+      ],
+      "name": "Is special Delivery",
+      "guidelines": null,
+      "is_required": false,
+      "type": "multiple_choice",
+      "id": "4e56f6e0-8217-477c-abb5-ee99310b5aae",
+      "codename": "is_special_delivery"
     }
   ]
 }

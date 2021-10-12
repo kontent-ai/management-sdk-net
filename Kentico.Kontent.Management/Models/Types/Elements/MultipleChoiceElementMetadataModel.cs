@@ -35,7 +35,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// <summary>
         /// Gets or sets the element's multiple-choice options.
         /// </summary>
-        [JsonProperty("MultipleChoiceOptionModel")]
+        [JsonProperty("options")]
         public IEnumerable<MultipleChoiceOptionModel> Options { get; set; }
 
         /// <summary>
