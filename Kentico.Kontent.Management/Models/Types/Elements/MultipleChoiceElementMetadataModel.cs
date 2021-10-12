@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.Types.Elements
 {
@@ -35,7 +36,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Gets or sets the element's multiple-choice options.
         /// </summary>
         [JsonProperty("MultipleChoiceOptionModel")]
-        public MultipleChoiceOptionModel Options { get; set; }
+        public IEnumerable<MultipleChoiceOptionModel> Options { get; set; }
 
         /// <summary>
         /// Represents the type of the content type element.

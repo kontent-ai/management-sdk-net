@@ -88,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var externalId = "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89";
 
-            
+
 
             var identifier = Reference.ByExternalId(externalId);
 
@@ -153,6 +153,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
             var typeExternalId = "hooray_codename_external_id";
+            var multipleChoiceElementCodename = "is_special_delivery";
+
             var type = new ContentTypeCreateModel
             {
                 Name = typeName,
@@ -165,6 +167,20 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         Codename = "guidelines_codename",
                         ExternalId = "guidelines_external_id",
                         Guidelines = "<h3>Guidelines</h3>"
+                    },
+                    new MultipleChoiceElementMetadataModel
+                    {
+                        Name = "Is special Delivery",
+                        Codename = multipleChoiceElementCodename,
+                        IsRequired = false,
+                        Mode = MultipleChoiceMode.Single,
+                        Options = new[] {
+                            new MultipleChoiceOptionModel
+                            {
+                                Name = "Yes",
+                                Codename = "yes"
+                            }
+                        }
                     }
                 }
             };
@@ -174,6 +190,16 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(typeName, responseType.Name);
             Assert.Equal(typeCodename, responseType.Codename);
             Assert.Equal(typeExternalId, responseType.ExternalId);
+
+            Assert.Contains(
+                "yes",
+                responseType.Elements
+                    .FirstOrDefault(element => element.Codename == multipleChoiceElementCodename)
+                    .ToElement<MultipleChoiceElementMetadataModel>()
+                    .Options
+                    .First()
+                    .Codename
+                );
 
             // Cleanup
             var typeToClean = Reference.ByCodename(typeCodename);
@@ -279,7 +305,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         private async Task<ContentTypeModel> CreateContentType([CallerMemberName] string memberName = "")
         {
-            var suffix = $"{memberName.ToLower().Substring(0,40)}_{memberName.ToLower().Substring(40, Math.Min(memberName.Length - 40, 10))}";
+            var suffix = $"{memberName.ToLower().Substring(0, 40)}_{memberName.ToLower().Substring(40, Math.Min(memberName.Length - 40, 10))}";
 
             var type = new ContentTypeCreateModel
             {
