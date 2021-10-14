@@ -88,8 +88,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var externalId = "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89";
 
-
-
             var identifier = Reference.ByExternalId(externalId);
 
             var response = await _client.GetContentTypeAsync(identifier);
@@ -147,40 +145,29 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //Todo create more elements
+        //todo add assert for all elements
         public async void CreateContentType_CreatesContentType()
         {
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
             var typeExternalId = "hooray_codename_external_id";
-            var multipleChoiceElementCodename = "is_special_delivery";
+
+            var elements = new List<ElementMetadataBase>(ElementMetadata);
+            elements.ForEach(x => x.ContentGroup = Reference.ByExternalId("contentGroupExternalId"));
+
 
             var type = new ContentTypeCreateModel
             {
                 Name = typeName,
                 Codename = typeCodename,
                 ExternalId = typeExternalId,
-                Elements = new List<ElementMetadataBase>
+                Elements = elements,
+                ContentGroups = new[]
                 {
-                    new GuidelinesElementMetadataModel
+                    new ContentGroupModel
                     {
-                        Codename = "guidelines_codename",
-                        ExternalId = "guidelines_external_id",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    },
-                    new MultipleChoiceElementMetadataModel
-                    {
-                        Name = "Is special Delivery",
-                        Codename = multipleChoiceElementCodename,
-                        IsRequired = false,
-                        Mode = MultipleChoiceMode.Single,
-                        Options = new[] {
-                            new MultipleChoiceOptionModel
-                            {
-                                Name = "Yes",
-                                Codename = "yes"
-                            }
-                        }
+                        Name = "contentGroupName",
+                        ExternalId = "contentGroupExternalId"
                     }
                 }
             };
@@ -194,11 +181,9 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Contains(
                 "yes",
                 responseType.Elements
-                    .FirstOrDefault(element => element.Codename == multipleChoiceElementCodename)
-                    .ToElement<MultipleChoiceElementMetadataModel>()
-                    .Options
-                    .First()
-                    .Codename
+                    .FirstOrDefault(element => element.Codename == "multiple_choice_element_codename")
+                    .ToElement<MultipleChoiceElementMetadataModel>().Options
+                    .First().Codename
                 );
 
             // Cleanup

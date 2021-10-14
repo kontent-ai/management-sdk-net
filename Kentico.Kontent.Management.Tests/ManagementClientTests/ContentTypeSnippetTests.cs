@@ -136,7 +136,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //Todo create more elements
         public async void CreateSnippet_CreatesSnippet()
         {
             var typeName = "HoorayType!";
@@ -147,15 +146,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = typeName,
                 Codename = typeCodename,
                 ExternalId = typeExternalId,
-                Elements = new List<ElementMetadataBase>
-                {
-                    new GuidelinesElementMetadataModel
-                    {
-                        Codename = "guidelines_codename",
-                        ExternalId = "guidelines_external_id",
-                        Guidelines = "<h3>Guidelines</h3>"
-                    }
-                }
+                Elements = _elementMetadataForSnippets
             };
 
             var responseType = await _client.CreateContentTypeSnippetAsync(type);
@@ -289,5 +280,8 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             return await _client.CreateContentTypeSnippetAsync(type);
         }
+
+        private List<ElementMetadataBase> _elementMetadataForSnippets =>
+            new List<ElementMetadataBase>(ElementMetadata.RemoveAll(x => x.GetType() == typeof(UrlSlugElementMetadataModel) ||  x.GetType() == typeof(ContentTypeSnippetElementMetadataModel)));
     }
 }

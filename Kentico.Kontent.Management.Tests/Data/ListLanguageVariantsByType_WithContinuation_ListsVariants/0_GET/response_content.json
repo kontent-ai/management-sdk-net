@@ -1,0 +1,3546 @@
+{
+  "variants": [
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "56daf290-aa15-46ed-8252-94b8bf812e60"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-02T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world depending mainly on their weather conditions."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Before a ripe coffee plant transforms into a delicious cup lying on your table, it undergoes quite a journey. A journey full of possible pitfalls, which can, usually negatively, influence the coffee’s final taste. What goes wrong at the very beginning cannot be made up for at the very end.</p><p>The character and taste of a coffee are largely influenced by its origin, climate, the quality and type of soil and the botanical varieties of the coffee plant.</p><p>The last two links of the chain—the roastery and the barista—cannot, in any way, improve the taste of the coffee. They are left with the difficult task of making the most its potential.</p><p>The farmers themselves, however, have at their disposal tools for enhancing the ‘ingrown’ taste of the coffee. These are mainly the methods of removing the multilayered skin of the coffee beans.</p><p>Two, sometimes three basic methods are usually referred to. Wet-Processed (Fully-Washed), Dry-Processed (Natural) and Pulped-Natural (Semi-Washed).</p><p>Dry processing, being the least economically demanding, used to be the most widely used of the methods. More exclusive beans are now usually processed using the wet and pulped-natural processing. This is due to the quality and cleanliness of the beans, as well as the speed of the whole process. If you are curious about the taste, go ahead and try the <a data-item-id=\"f26b3b85-9cbf-4ae8-8d04-ac084487cb7c\">Kenya Gakuyuni AA</a>.</p><p>Wet processing rids the cherry of its layers and pulp by water fermentation. The exocarp is removed from the cherries directly after the harvest using circular and drum mechanical peelers. Afterwards, they spend 6-72 hours in water-filled fermentation tanks.</p><p>In the tank, microorganisms take care of the pulp (mesocarp). The length of the process is determined by the stickiness of the beans. Leaving beans in the fermentation tank for too long produces the so-called ‘naughty’ beans. These are often beans that have stuck in the tank and their rancid and putrid state endangers the whole batch.</p><p>The constantly rising levels of acetic acid are also able to impact the taste of the coffee with fermented and even vinegarish tones once it’s been roasted. The main negative aspect of wet processing is the amount of water that has to be used. This is up to 40m3 (40000 liters) of water, that have to be continuously dumped and new, clean water has to be put pumped into the tank. The dumping of contaminated water often depreciates the water supplies laying underneath the coffee farm.</p><p>The dry method, considered the most traditional and the least costly, makes use of sun-drying. Cherries are often sundried on concrete courtyards, Ethiopian hilltops, and sometimes even on the very shrubs.</p><p>Cherries need to be sundried directly after the harvest to avoid unwanted fermentation. The laid out beans need to be layered evenly and not more than 6 inches (15cm) in height. Farmers turn the seeds over both manually or with the use of tractors.</p><p>During the dry fermentation, the sugars travel, via osmosis, from the pulp into the beans. This makes for more full-bodied coffee and adds sweeter tones to the taste, as compared to wet processed coffee. This often comes at the cost of a more polluted cup.</p><p>Once the coffee beans reach some 11 % humidity, the peel layers and pulp can be removed using mechanical peelers. Reaching the desired humidity takes anywhere between 10 and 30 days. This is an important factor, especially in unstable climates, where automatic driers often replace the traditional sun drying process.</p><p>Now’s the time for ‘reposo’, a resting time, in which the beans lay in a parchment for 30-60 days.</p><p>The third method, popular primarily in Brazil, is the so-called Pulped-Natural or Semi-Washed way of processing beans. Check out our <a data-item-id=\"60214236-d2b8-40dd-a050-b59c1c7a52ef\">Brazil Natural Barra Grande</a> coffee for a tasty example. Only the top layer of the cherry peel is removed in a water bath. The rest of the process, including the sugar fermentation and the separation of the pulp from the bean, are taken care of by sun drying. This method, just like the dry method, is highly dependent on the weather, which has to be consistent for the farmers to be able to dry the beans thoroughly.</p><p>This process yields full-bodied beans with low-acidity. Less aliphatic acids are produced, which has a negative impact on the aroma of the coffee.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            },
+            {
+              "id": "ff62a3eb-429c-41b5-958c-2cf568f34cd7"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "\"coffee processing\", brewing"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            },
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "coffee-processing-techniques"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "56daf290-aa15-46ed-8252-94b8bf812e60"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Coffee processing techniques"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Learn about the techniques of processing the products of coffee plants. Different methods are used in different parts of the world."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "56daf290-aa15-46ed-8252-94b8bf812e60"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "a89dcccf-4d82-4e5e-bce7-62e3c6e15197"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:46.9993644Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-12T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children with food, accommodation, education, and other essentials. Donate with us and create a better world."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The people at Dancing Goat care about other people and their standard of living. Every year, <strong>we donate five thousand dollars to Children in Africa</strong>, and we also encourage all our customers to contribute to our public PayPal donation account to help us increase the final amount of money raised. The Children in Africa Foundation <strong>provides food, accommodation, medical service, and also education to children from poor regions</strong> in African countries.<br/><br/>Every month, volunteers from all over the world come&nbsp;and help&nbsp;out at Children in Africa camps, where they try&nbsp;and&nbsp;assist all children in need&nbsp;to try&nbsp;to narrow the gap in living standards. With the money donated, the foundation mainly buys much-needed&nbsp;food and medication.<br/><br/>Create a better world and donate with us to Children in Africa. <strong>Even a few dollars can improve someone's life.</strong> Any help from you is&nbsp;appreciated, and you will&nbsp;have our sincere thanks for every cent you donate</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "donation, africa"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f36cb6b1-a77a-5c85-83a1-e380458552e1"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children with food, accommodation, education, and other essentials."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "donate-with-us"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Donate with us"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "aaaa8357-d1b4-4a51-bcaa-10864d80babc"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:48.6400822Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-12T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África, una fundación que ayuda a los niños con la comida, educación y otras necesidades. Cree un mundo mejor y done con nosotros."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Las personas en Dancing Goat cuidan de otras personas&nbsp;desfavorecidas&nbsp;y de su nivel de vida. Todos los años,&nbsp;<strong>donamos cinco mil dólares para los niños en África</strong>&nbsp;y también pedimos a los nuestros clientes para que contribuyen a nuestra cuenta de PayPal donde podran hace una donación pública para ayudar a aumentar la cantidad final. Los niños en África&nbsp;<em>través&nbsp;</em>de la fundación&nbsp;<strong>les proporcionamos comida, alojamiento, servicio médico y también la educación a los niños de las regiones pobres</strong>&nbsp;de estos países.</p><p>Todos los meses, los voluntarios de todo el mundo vienen a ayudar a los niños en los campamentos de África, donde tratan de ayudar a todos los niños carecidos y tratan tambien de reducir las diferencias en los niveles de vida o sociales. Con el dinero donado, la fundación compra principalmente alimentos y medicamentos.</p><p>Crea un mundo mejor y dona con nosotros para Niños en África.&nbsp;<strong>Incluso unos pocos dólares pueden mejorar la vida de alguien.</strong>&nbsp;Cualquier ayuda de usted siempre es muy bien agradecida. Tienes nuestro sincero agradecimiento por cada centavo que tu donas.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "donación, africa"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f36cb6b1-a77a-5c85-83a1-e380458552e1"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África, una fundación que ayuda a los niños con la comida, educación y otras necesidades. Cree un mundo mejor y done con nosotros."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "done-con-nosotros"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticocloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Done con nosotros"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Dancing Goat regularmente dona dinero para los niños de África."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "03554666-6949-4fa2-bf9d-946df4cecb1f"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "aaaa8357-d1b4-4a51-bcaa-10864d80babc"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:48.8276136Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "113d9909-4b91-462b-b453-832e6a37b589"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-10-27T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee. Read this article to convince yourself that brewing coffee is no science"
+        },
+        {
+          "components": [
+            {
+              "id": "fc64109e-2317-4e0c-a94c-c5d3bca94ed5",
+              "type": {
+                "id": "2aac8b91-0b3b-5bf4-aae6-7e3f23c461cf"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "5eb37505-779c-5698-9ad5-32d274acbf7b"
+                  },
+                  "value": "48920310"
+                },
+                {
+                  "element": {
+                    "id": "d03dea5c-9d55-549f-8323-52349444ae71"
+                  },
+                  "value": [
+                    {
+                      "id": "d8449cb2-db62-5768-8451-690c4478003a"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Not that long ago, actually back in the early 2000s, coffee making industry had a single aim: convenience. It may have been hand in hand with the rising economic growth. Everyone felt they had to stay busy and get as much done as possible in order to succeed at their lives. Making coffee was usually the matter of pressing a single button. Convenience brought us the likes of Tassimo, Nespresso and other many similar amenities.</p><p>Nowadays, though, everything seems to be slowing down. People take time. Or maybe, they just gave up and they don't bother being in a rush any more. This brought a renaissance of rediscovering the forgotten. Decades old brewing techniques, otherwise performed only by baristas and the geekiest of coffee enthusiasts, are finding their way into everyone’s homes.</p><p>The variety of devices can easily scare the uninitiated off, though. Looking at some of the more complicated brewers especially so. Take vacuum coffee makers, for example. They look like they’ve been taken straight from a chemist lab and that handling them incorrectly could make the whole block go off. Not surprisingly, then, many of us give up and opt for the ‘convenient’ way.</p><p>In this article, we’ll go through some of the simple of these brewing methods. Just to show you that they’re nothing to be afraid off. Making a proper cup of coffee can be super simple. Let’s get to it.</p><h3>Chemex</h3><p>We won’t lie. This one’s our favorite. It’s super easy to use, and it’s got style (go for the wood handle variant)!</p><p>Chemex produces a cup free of any bitterness. We use the 40oz Chemex, which can make 6 to 8 pretty smooth cups at a time.</p><ol>  <li>Grind, or get about 42 grams (5-6 tablespoons) of ground coffee. The coffee shouldn’t be super-smooth, take kosher salt for reference.</li>  <li>Place the Chemex filter inside. Rinse with hot water to seal.</li>  <li>Remove any left-over water.</li>  <li>Add in the ground coffee and stir briefly. This allows for a more even brewing.</li>  <li>Heat water to some 205 degrees F, or let freshly boiled water off the heat for some 30-45 seconds.</li>  <li>Pour just enough water to saturate the grounds. Let it work for 30 seconds.</li>  <li>Now, pour water evenly, spiraling around the inside of the code, until it reaches the top of the brewer.</li>  <li>Keep on adding water periodically, until the brewed coffee reaches the Chemex’s glass button.</li>  <li>Remove the filter and move it to a sink.</li>  <li>Pre-heat your mug with warm water and then pour in the freshly brewed coffee from your Chemex.</li></ol><p>Enjoy! You can easily manipulate the Chemex with the coffee in, as the handle insulates the heat.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"fc64109e-2317-4e0c-a94c-c5d3bca94ed5\"></object><h3>Clever Dripper</h3><p>This is probably the one that’s easiest to work with. It’s pretty easy to clean up and lets you control the steeping. The brewer is pretty durable and also safe, as it’s 100% BPA free.</p><p>Brews only one cup at a time, but makes a very smooth, almost chocolaty cups.</p><ol>  <li>Grind, or get about 22 grams (3 tablespoons) of ground coffee. Make sure the ground is coarse.</li>  <li>Put the paper filter in and rinse with warm water.</li>  <li>Add the coffee into the dripper.</li>  <li>Pour water and cover with a lid for about 1.5 minutes.</li>  <li>Remove cover, stir and cover again.</li>  <li>After 2 more minutes, stir one last time and place the Clever Dripper on top of a mug.</li>  <li>Start draining until the cup’s full.</li></ol><p>Pretty simple right? The coffee stays in the dripper until you release it yourself, which is pretty convenient. Be careful, though, as leaving the coffee in for too long will make it bitter.</p><h3>Hario V60</h3><p>Similar to the Clever Dripper. Immediately brews into a cup so you don’t have to do the draining yourself.</p><p>Comes made from ceramic, glass or PVC and in tons of colors.</p><p>Produces one cup at a time. The brew has a more ‘roasted’ taste.</p><ol>  <li>Grind, or get about 22 grams (2.5 tablespoons) of ground coffee. Make sure the ground is finer, similar to table salt.</li>  <li>Place a V60 filter into the Hario.</li>  <li>Rinse with hot water and discard. This removes any paper taste.</li>  <li>Add coffee and shake with dripper to level the grounds evenly.</li>  <li>Pour in just enough water to absorb in the coffee. 30ml should do.</li>  <li>Let the water absorb for 45 seconds.</li>  <li>Then, pour hot water steadily over the grounds, topping the Hario. Avoid directly hitting the filter.</li>  <li>Pour the coffee directly into your mug.</li></ol><p>And that’s it. This should be a pretty smooth a cup.</p><p>Don’t forget that you can buy all the three brewers and many others at our store! Let us know if you want to know about other techniques in the comments below.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "a89dcccf-4d82-4e5e-bce7-62e3c6e15197"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "brewing, arabica"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            },
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "which-brewing-fits-you"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "113d9909-4b91-462b-b453-832e6a37b589"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Which brewing fits you?"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "We have put down three procedures with clearly written steps describing the process of making coffee. "
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "113d9909-4b91-462b-b453-832e6a37b589"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "ff62a3eb-429c-41b5-958c-2cf568f34cd7"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:49.939426Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": " Click here to see a comment"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Enter a short description here that will show up in the list of all articles and then continue to the body."
+        },
+        {
+          "components": [
+            {
+              "id": "fb87bc29-3077-4d73-870c-a9be400edac0",
+              "type": {
+                "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "f09fb430-2a58-59cf-be03-621e1c367501"
+                  },
+                  "value": "https://twitter.com/DeCubaNorwich/status/879265763978358784"
+                },
+                {
+                  "element": {
+                    "id": "05017deb-18b2-5094-b367-e7f8796dd1b8"
+                  },
+                  "value": [
+                    {
+                      "id": "eae9ad37-fe02-53a0-aedd-32021e30a5bb"
+                    }
+                  ]
+                },
+                {
+                  "element": {
+                    "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25"
+                  },
+                  "value": [
+                    {
+                      "id": "dd78b09e-4337-599c-9701-20a0a165c63b"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The text for your article is here. You can easily compose your content with components, such as the following tweet:</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"fb87bc29-3077-4d73-870c-a9be400edac0\"></object><p><a href=\"https://help.kenticocloud.com/authoring-experience-and-collaboration/creating-content/authoring-content-in-the-rich-text-editor#adding-content-modules\">Add a video</a> below this paragraph.&nbsp;</p><p><a href=\"https://help.kenticocloud.com/linking-content-together/use-modular-content-elements-to-link-content-together\">You can also link content together</a> to model anything you want.</p><p>Next, link content together by adding an article to the Related articles section below.</p><p><br/></p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee,brewing"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "New evidence shows how great coffee is for your health. So start your day in a healthy way!"
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "8384eee7-e882-4ea8-b480-59138d66e468"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:52.362337Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": ""
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": ""
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p><br/></p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": ""
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "8384eee7-e882-4ea8-b480-59138d66e468"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:52.5810845Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2018-09-05T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The history of coffee is patchy and full of myth and hearsay.</p><p>One of the most popular story goes that Kaldi, an Ethiopian goatherd, saw his goats eating coffee berries and as a result becoming elated. So, Kaldi then tried them himself and thus discovered the potential of coffee. And that's where we got our name - Dancing Goat.</p><p>Although it's far more likely that uses for coffee were developed over time and were discovered by people tasting various parts of the cherry, the old fables do add a bit of romance and are very cute.</p><p>Coffee requires a warm climate and lots of moisture, so it is produced within a belt extending around the world between the Tropic of Cancer and the Tropic of Capricorn.</p><p>Coffee grows on trees that flower and produce fleshy red fruit (orange or yellow is also possible) called a drupe though it is popularly referred to as the ‘berry’ or ‘cherry’. What we refer to as coffee beans are actually seeds, which are produced in the centre of the drupe, often in pairs. After harvesting, the flesh of the drupe is washed or dried and the ‘beans’ extracted.</p><p>Coffee beans vary in their shape, size, color as well as flavor depending on the region and conditions in which they were grown. The difference of aromas and flavors between various regional varietals is as vast as the regions they grow in. Just like the teas and wines of the world, and even more so. It is always worth trying new varietals that may stimulate your taste buds in a different way.</p><p>The two major species of coffee are <em>Coffea arabica</em> and <em>Coffea canephora</em> (also called <em>Coffea robusta</em>).</p><p>Arabica is believed to be the first species of coffee to have been cultivated.</p><p>It requires more care during cultivation and is considered to produce better coffee than robusta. Arabica plants grow at high altitudes of around 1,000 to 2,000 meters, approximately 3,200 to 6,500 ft, above sea level in regions across South and Central America as well as Africa. Arabica is costlier to grow as it produces lower yields than Robusta despite requiring more labor. Despite all that, it is considered superior to robusta. The high demand and lower availability drives the price high. Arabica is the species most associated with specialty (sometimes referred to as gourmet) coffees.</p><p>The only place where Arabica coffee grows indigenously is Ethiopia. It is the birthplace of coffee and also the only place in which it truly grows wild. All countries that produce Arabica coffees have transplanted plant stock directly from Ethiopia or from other countries that had already done so.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee,history,myth,production"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "mode": "custom",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "coffee-history-and-present-3"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@KenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "7133dfdb-d3bf-4934-a0bc-b552bd7fcb41"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:56.2219159Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-11T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts after being almost forgotten for nearly sixty years."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>Arabica Bourbon is among the best coffee varieties you can find in Brazil, Salvador, and Rwanda. This widely known and popular coffee is cultivated in three color varieties, red, orange and yellow bourbon. But what does it have in common with the American whiskey? Nothing at all, fortunately.</p><p>The name comes from the place of origin of this wonderful variety, which is a small island in the Indian Ocean called Réunion, formerly Bourbon. The earliest records mentioning coffee from this lovely volcanic island come from merchants of the East Indian Company and date from the beginning of the 18th century. The first exports started in 1718, and the coffee usually went to Mokka harbor in Yemen and then on to Europe. Exports started off slowly at first. Just less than two tons were shipped in 1724, but this increased rapidly over the next hundred years, peaking at 2,440 tons of coffee per year.</p><p>The coffee, first called Café du Roy, then Café Leroy, was served to kings at the French court and was the brand of choice of the classic author, Honoré de Balzac, who enjoyed forty cups a day. Or so they say…</p><p>The Bourbon variety found its way to Latin America around the middle of the 19th century, where it gradually replaced the older Ethiopian variety, the Arabica Typica, mainly because of its 30% larger yield. While the Arabica Bourbon was doing well in the world, the production on Réunion was slowly, but steadily, decreasing year by year. Farmers opted to grow sugarcane, tea and vanilla beans instead of coffee, and therefore 1942 marked the last export of Arabica Bourbon from the island of Réunion. The last harvest came eight years later and then the variety was forgotten about, even by the locals.</p><p>After almost sixty years, one unrelenting Japanese coffee specialist from Ueshima Coffee Company discovered 27 original plants and restarted production. The resulting coffee is called Bourbon Pointu. It is sold only in Japan and holds the prestigious Premium Product title from the Specialty Coffee Association of Japan. It is also quite pricey, at $35 for 4 ounces.</p><p>The Bourbon Pointu is exceptional for its low volume of caffeine and delicate taste with a slight acidity, low bitterness, full body, and the charming fruit flavor of oranges and tangerines.</p><p>One can only hope that the island of Réunion will eventually return to its former coffee glory and that we will be able to enjoy Bourbon Pointu as well.</p><p>If you are curious about the original taste of Arabica Bourbon, go ahead and try our (Guatemala Finca El Injerto)&nbsp;or newly imported (El Salvador Finca San Jose).</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee, arabica"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts after being almost forgotten for nearly sixty years."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "origins-of-arabica-bourbon"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Origins of Arabica Bourbon"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:56.425054Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-11T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. Ha vuelto gracias a los aficionados ya que havia sido casi olvidado durante casi sesenta años."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>El Arábica Bourbon cae entre las mejores variedades de café que usted puede encontrar en Brasil, Salvador o Ruanda. Este café es myu conocido y se cultiva en tres mutaciones de color, rojo, naranja y amarillo bourbon. Pero ¿qué tiene en común con el whisky americano? Nada de nada, por suerte.</p><p>El nombre proviene del lugar de origen de esta maravillosa variedad, que es una pequeña isla en el Océano Índico llamada Réunion, anteriormente Bourbon. Los registros más antiguos que mencionan café de esta hermosa isla volcánica proceden de comerciantes de la Compañía de la India Oriental y datan de principios del siglo 18. La primera exportación se inició en 1718 y el café por lo general fue vendido en Mokka un puerto en Yemen y luego en Europa. La exportación fue lenta al principio. Sólo menos de dos toneladas fueron enviadas en 1724, pero aumentaron rápidamente en los próximos cien años, alcanzando un máximo de 2 440 toneladas de café al año.</p><p>Primero llamado Café du Roy, entonces Café Leroy se servía a los reyes en la corte francesa y era la marca preferida del autor clásico, Honoré de Balzac, que disfrutaría de cuarenta tazas al día. O eso dicen…</p><p>La variedad Bourbon encontró su camino a América Latina a mediados del siglo 19, en el que sustituyó gradualmente mayor variedad de Etiopía, Arábica Typica, principalmente debido a su 30% mayor rendimiento. Mientras que el Arábica Bourbon estaba haciendo muy bien en el mundo, la producción en la isla de Reunión fue lenta, pero constantemente, diminuindo año tras año. Los agricultores simplemente optaron por cultivar caña de azúcar, té y vainilla en lugar de café, por lo que el año 1942 marca la última exportación de Arábica Bourbon de la isla de Reunión. La última cosecha llegó ocho años más tarde y luego la variedad fue olvidada incluso por los locales.</p><p>Después de casi sesenta años, una especialista en café japonesa de Ueshima Coffee Company descubrió 27 plantas originales y reinicio la producción. El café resultante se llama Burbon Pointu. Se vende sólo en Japón y posee el prestigioso título&nbsp;<em>de primera calidad del producto</em>&nbsp;por Asociación de Cafés Especiales de Japón. También es bastante caro, a $ 35 por cada 100 gramos.</p><p>El Bourbon Pointu es excepcional por su bajo volumen de cafeína y por el sabor delicado con una ligera acidez, amargura, cuerpo entero y encantador sabor de frutas como naranjas y mandarinas.</p><p>Sólo cabe esperar que la isla de Reunión en tiempo vuelva a su antigua gloria y que podamos otra vez disfrutar de Bourbon Pointu también.</p><p>Si tienes curiosidad sobre el sabor original de Arábica Bourbon, tratar con (Guatemala Finca El Injerto)&nbsp;o recién importado (El Salvador Finca San Jose).</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "café, arábica"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. Ha vuelto gracias a los aficionados ya que havia sido casi olvidado durante casi sesenta años."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "origenes-de-borbon-arabica"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. "
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. "
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Orígenes de Borbón Arábica"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Este tipo particular de café, el Arábica Bourbon, se vende ahora sólo en Japón. "
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "0b84fa22-8901-4192-baef-905ab23fe5e2"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:56.7219535Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Coffee Beverages Explained"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "33084df0-ac3a-4fb3-af12-33cc6bd69f37"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-18T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Espresso and filtered coffee are the two main categories of coffee, based on the method of preparation. Learn about individual types of coffee that fall under these categories."
+        },
+        {
+          "components": [
+            {
+              "id": "d905c96b-1ee3-4d83-aa3c-533afecd4e82",
+              "type": {
+                "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "f09fb430-2a58-59cf-be03-621e1c367501"
+                  },
+                  "value": "https://twitter.com/DeCubaNorwich/status/879265763978358784"
+                },
+                {
+                  "element": {
+                    "id": "05017deb-18b2-5094-b367-e7f8796dd1b8"
+                  },
+                  "value": [
+                    {
+                      "id": "eae9ad37-fe02-53a0-aedd-32021e30a5bb"
+                    }
+                  ]
+                },
+                {
+                  "element": {
+                    "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25"
+                  },
+                  "value": [
+                    {
+                      "id": "dd78b09e-4337-599c-9701-20a0a165c63b"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "e810928d-151a-4101-8c06-73f12713dda3",
+              "type": {
+                "id": "2aac8b91-0b3b-5bf4-aae6-7e3f23c461cf"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "5eb37505-779c-5698-9ad5-32d274acbf7b"
+                  },
+                  "value": "2Ao5b6uqI40"
+                },
+                {
+                  "element": {
+                    "id": "d03dea5c-9d55-549f-8323-52349444ae71"
+                  },
+                  "value": [
+                    {
+                      "id": "d10c9c1f-e6d8-5f8d-a5ee-17e8971398a9"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The coffee drinking culture has been evolving for hundreds and thousands of years. It has never been so rich as today. How do you make sense of different types of coffee, what do the particular names in beverage menus mean and what beverage to choose for which occasion in your favorite café?</p><p>Coffee can be divided into two basic categories according to the method of preparation.</p><h3>Espresso based beverages</h3><h4>Espresso without additions</h4><p>The philosophy of this beverage is not about ponding over a mug and sipping from it for long hours, but more about a quick order and two or three gulps at a bar. Espresso is not the highest achievable base among coffee beverages to pursue. It is only a single method of coffee preparation, which servers its purpose – swiftness and concentrated experience.</p><p>Parameters of a good espresso:<br/>One portion of coffee: 7 g ± 0,5 (for some types of coffee even 10-11g)<br/>Output temperature of water in a coffee machine: 88 °C ± 2 °C<br/>Temperature of the coffee in a mug: 67 °C ± 3 °C<br/>Input water pressure: 9 bar ± 1<br/>Extraction time: 25 seconds ± 2,5 seconds<br/>Viscosity at 45 °C: &gt; 1,5 mPa s<br/>Oil: &gt; 2 mg/ml<br/>Caffeine: &lt; 100 mg/cup<br/>Volume of coffee in a mug including crema: 25 ml ± 2,5</p><p>Espresso is served into an espresso cup with a volume of 60-90 ml. An espresso doppio (i.e., double espresso) can be prepared as well, when a double portion of coffee (14 to 20g) and water (approx. 60 ml) is used, while keeping the extraction time the same as when preparing a standard espresso.</p><h4>Espresso with water</h4><p>Espresso is used as a basis for many drinks. It is often combined with water.</p><p><em><strong>Americano</strong></em></p><p>Americano is an espresso with added hot water which increased the volume, typically in a ratio of 1:5. According to a legend, Americano gained its name during the World War II, when American soldiers didn't like strong espresso and thus they drank it thinned. Americano can be prepared by adding hot water to espresso or, vice versa, by adding espresso into water. In the latter case, the beverage is usually called Long Black and it is served in a cappuccino cup with a volume of 15-180 ml.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"d905c96b-1ee3-4d83-aa3c-533afecd4e82\"></object><p><em><strong>Lungo</strong></em></p><p>Lungo means long, watery or thinned in Italian, which expresses the preparation methods of this beverage. Baristas tend to acquire this beverage in different ways, some adjust the grinder to a coarser level while keeping the extraction time the same as with the espresso, gaining coffee with a volume of 60 ml. We recommend a gentler way of adding hot water to an espresso in the ratio of 1:1.</p><h4>Espresso with milk</h4><p><em><strong>Cappuccino</strong></em></p><p>The basis of this beverage is 30 ml of espresso and warm milk, making up a mug of 150 to 180 milliliters in total. In the original Italian recipe, this coffee holds 2 centimeters of thick foam on the top of the hot milk. A newer variant, so called Seattle style cappuccino, trades the thick foam for a microfoam. This microfoam is closely interleaved with the milk and leaves a pleasant and velvety feeling in the mouth. The temperature of the milk during whipping should not exceed 65°C.</p><p>The aim is to create a beverage without visible bubbles, while the surface follows the edge of the mug and does not protrude higher. Also, cappuccino should not be sprinkled with chocolate or even cinnamon.</p><p>Lately, baristas learned to draw pictures in the white milk of the coffee, creating the so called latte art. They wish not only to offer a delicious mug of coffee to the customer, but to please the customer visually as well. The most common latte art motives on cappuccino are harts, tulips or so called rosettas. However, the most important is the taste of the beverage itself, latte art is only a sweet bonus.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"e810928d-151a-4101-8c06-73f12713dda3\"></object><p><em><strong>Flat white</strong></em></p><p>For some, one espresso in a milk drink is just not enough. Therefore, growing demand for stronger coffee can be seen these days. Flat white became very popular in Australia and has already domesticated in the rest of the world. It is prepared into a glass or a cappuccino cup from two shots of espresso (doppio) and topped with warm milk and foam, which typically makes a 1 cm layer. Flat white can also be decorated with latte art.</p><p><em><strong>Espresso macchiato</strong></em></p><p>Espresso macchiato is a beverage matching its title, as in Italian, the macchiato means speckled or spotted.</p><p>According to the classical teachings, espresso macchiato is espresso with a drop of milk foam added to the crema using a teaspoon. Modern macchiato looks like a miniature cappuccino – espresso is in its 80 ml cup topped with microfoam up to the edge. Can also be decorated with latte art.</p><p><em><strong>Caffé latté</strong></em></p><p>Caffe latte is a beverage of more than 250 ml in volume. It differentiates from cappuccino in total volume and also in the smaller portion of foam. Caffe latte is prepared into a cup with a handle. It was originally devised in Italy as coffee for children and is considered less popular among adults.</p><p>A variant of caffe latte is latte macchiato, which is prepared a little differently. Frothed milk is poured into a glass first, where the milk foam separates from the milk in half a minute and creates a firmer layer on the top. Espresso is added last and creates a typical coffee stain on the surface. It often happens that by pouring coffee into the milk, three layers are created. This result is a bonus, not necessity.</p><h3>Filtered coffee</h3><p>The preparation of filtered coffee does not utilize pressure for extraction, but natural process of leaching of soluble substances instead. Hot water (up to 93°C) is in contact with coffee for 1 to 5 minutes (according to the preparation method) and then the extraction is stopped by filtering or straining the liquid. Further extraction (leaching of the coffee beans) does not take place in the resulting beverage.</p><p>Filtered coffee has gained, a little unfairly, the impression of an inferior product which is better to be avoided and rather traded for espresso. However, if all basic conditions are met, this coffee presents a wonderful treat. If we perceive espresso as a concentrated beverage intended for immediate consummation, filtered coffee is quite the opposite&nbsp;– lower proportion of soluble substances allows the consumer to enjoy subtle nuances, as can be found in vine.</p><p>Our tip: if the source is good quality, it is immensely interesting to watch the beverage evolve in taste during the process of cooling. In the first phase, 80-60°C, we taste only the bitter tones and the too high temperature. The beverage though, smells nicely thanks to the evaporating essential oils. In the middle of the cooling process, somewhere between the second and fifth sip, we discover the body, acidity, viscosity, sweetness and first signs of tones. In a cooled beverage, the massive aroma recedes and only a hint of light accompanying aroma remains, the tastes reveal the full potential, tones, harmony and accents. All this, of course, without any additives, such as sugar, milk, cream or honey.</p><p>The following list sums up all the requirements for this coffee before its preparation:</p><ul>  <li>Fresh selective coffee; freshness means 2-25 days after roasting</li>  <li>The amount of 60g / liter</li>  <li>Grinding on manual or electric grinder with stones always just before the preparation, coarseness chosen according to the method of preparation</li>  <li>Water heated to 91°C, fresh, with neutral pH, moderate hardness, non-mineralized, non-chored, non-carbonated</li>  <li>Hand-held non-automatic preparation</li>  <li>Adherence to the time of extraction</li></ul><p>For the preparation of filtered coffee can be used, for example, french press, aeropress, vacuum pot, moka pot, percolator with paper filter or chemex.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "\"coffee beginner\", beverages"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Espresso and filtered coffee are the two main categories of coffee. Learn about individual types of coffee that fall under these categories."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "coffee-beverages-explained"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Coffee Beverages Explained"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Espresso and filtered coffee are the two main categories of coffee, based on the method of preparation."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Coffee Beverages Explained"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Espresso and filtered coffee are the two main categories of coffee, based on the method of preparation."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "33084df0-ac3a-4fb3-af12-33cc6bd69f37"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Coffee Beverages Explained"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Espresso and filtered coffee are the two main categories of coffee, based on the method of preparation."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "33084df0-ac3a-4fb3-af12-33cc6bd69f37"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "deee0b3c-7b3c-4841-a603-5ada23f550fd"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:57.3938658Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Tipos de café"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "33084df0-ac3a-4fb3-af12-33cc6bd69f37"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-18T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Espresso y café filtrado son dos categorías principales de café distintos solo en el método de preparación. Aprenda acerca de los distintos tipos de café en estas categorías."
+        },
+        {
+          "components": [
+            {
+              "id": "31d7d2ae-3d70-47f2-8394-91a40e94e8e2",
+              "type": {
+                "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "f09fb430-2a58-59cf-be03-621e1c367501"
+                  },
+                  "value": "https://twitter.com/DeCubaNorwich/status/879265763978358784"
+                },
+                {
+                  "element": {
+                    "id": "05017deb-18b2-5094-b367-e7f8796dd1b8"
+                  },
+                  "value": [
+                    {
+                      "id": "eae9ad37-fe02-53a0-aedd-32021e30a5bb"
+                    }
+                  ]
+                },
+                {
+                  "element": {
+                    "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25"
+                  },
+                  "value": [
+                    {
+                      "id": "dd78b09e-4337-599c-9701-20a0a165c63b"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "10cf6fde-fab6-40b5-a7dd-debd15e19916",
+              "type": {
+                "id": "2aac8b91-0b3b-5bf4-aae6-7e3f23c461cf"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "5eb37505-779c-5698-9ad5-32d274acbf7b"
+                  },
+                  "value": "2Ao5b6uqI40"
+                },
+                {
+                  "element": {
+                    "id": "d03dea5c-9d55-549f-8323-52349444ae71"
+                  },
+                  "value": [
+                    {
+                      "id": "d10c9c1f-e6d8-5f8d-a5ee-17e8971398a9"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>La cultura de la bebida del café ha evolucionado durante cientos y miles de años. Nunca ha sido tan rica y diversa como hoy. ¿Cómo podras distinguir entre los diferentes tipos de café, lo que significan los nombres variados en los menús de cafe y qué bebida deves elegir para cada ocasión como tu café favorito?</p><p>El café puede ser dividido en dos categorías básicas de acuerdo con el método de preparación.</p><h3>Bebidas a base de espresso</h3><h4>Espresso sin adiciones</h4><p>La filosofía de esta bebida no se trata de ponderar sobre una taza de cafe y beber durante horas, pero más sobre un pedido rápido al balcon y dos o tres tragos rapidos. Espresso no es la más alta base alcanzable entre las bebidas de café. Es solo un método de preparación de café, con un propósito – La rapidez y la experiencia concentrada.</p><p>Parámetros de un buen espresso:<br/>Una porción de café: 7 g ± 0,5 (para algunos tipos de café, incluso 10-11g)<br/>Temperatura de salida del agua en una máquina de café: 88 °C ± 2 °C<br/>Temperatura del café en una taza: 67 °C ± 3 °C<br/>La presión del agua de entrada: 9 bar ± 1<br/>Tiempo de extracción: 25 segundos&nbsp;± 2,5 segundos<br/>Viscosidad a 45 °C: &gt; 1,5 mPa s<br/>Aceite: &gt; 2 mg/ml<br/>Cafeína: &lt; 100 mg/taza<br/>Volumen de café en una taza de crema incluyendo: 25 ml ± 2,5</p><p>Espresso se sirve en una taza de café con un volumen de 60 a 90 ml. Un doppio espresso (es decir, el doble espresso) se puede preparar, así, se utiliza (aprox. 60 ml) una doble porción de café (14 a 20 g) y agua, mientras se mantiene el tiempo de extracción de la misma como en la preparación de un espresso estándar.</p><h4>Espresso con agua</h4><p>Espresso se utiliza como base para muchas bebidas. A menudo se combina con agua.</p><p><em><strong>Americano</strong></em></p><p>Americano es un espresso con adición de agua caliente que aumenta el volumen, típicamente en una proporción de 1: 5. Según la leyenda, Americano ganó su nombre durante la Segunda Guerra Mundial, cuando los soldados estadounidenses no les gustó espresso fuerte y por lo tanto se lo bebian adelgazado. El Americano se puede preparar mediante la adición de agua caliente para café expreso o, viceversa, mediante la adición de espresso en el agua. En este último caso, la bebida se suele llamar larga Negro y se sirve en una taza de capuchino con un volumen de 15 a 180 ml.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"31d7d2ae-3d70-47f2-8394-91a40e94e8e2\"></object><p><em><strong>Lungo</strong></em></p><p>Lungo significa mucho/longo, acuosa o diluido en italiano, que expresa los métodos de preparación de esta bebida. Baristas tienden a adquirir esta bebida en diferentes maneras, algunas ajustan el molino a un nivel más grueso mientras se mantiene el tiempo de extracción del mismo que con el espresso, ganando café con un volumen de 60 ml. Recomendamos una forma más suave de la adición de agua caliente para un espresso en la proporción de 1:1.</p><h4>Espresso con leche</h4><p><em><strong>Capuchino</strong></em></p><p>La base de esta bebida es de 30 ml de café expreso y leche caliente, lo que representa una taza de 150 a 180 mililitros en total. En la receta original en italiano, este café tiene 2 centímetros de espesor de espuma en la parte superior de la leche caliente. Una variante más reciente, llamado capuchino estilo Seattle, cambia de la espuma gruesa para una microespuma. Este microespuma es estrechamente entrelazada con la leche y deja una sensación agradable y aterciopelado en boca. La temperatura de la leche durante el batido no debe exceder de 65°C.</p><p>El objetivo es crear una bebida sin burbujas visibles, mientras que la superficie sigue el borde de la taza y no sobresale más al alto. También, capuchino no debe ser tomado con chocolate o incluso canela.</p><p>Últimamente, baristas han aprendido a hacer dibujos en la leche blanca del café, creando el llamado arte del latte. Ellos desean no sólo para ofrecer una deliciosa taza de café para el cliente, sino para complacer al cliente visualmente también. Los motivos de arte latte más comunes en cappuccino son ciervos, tulipanes o las llamadas rosettas. Sin embargo, el más importante es el sabor de la bebida por sí misma, el arte latte es sólo un buen dulce.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"10cf6fde-fab6-40b5-a7dd-debd15e19916\"></object><p><em><strong>Blanco plana</strong></em></p><p>Para algunos, un espresso en una bebida de leche no es suficiente. Por lo tanto, la creciente demanda de café fuerte se ve mas constante en estos días. Blanco plana se hizo muy popular en Australia y se ha extendido por el resto del mundo. Se prepara en un vaso o una taza de capuchino de dos tiros de espresso (doppio) y rematado con leche caliente y espuma, que por lo general hace una capa de 1 cm. Leche plano también puede ser decorado con arte del latte.</p><p><em><strong>Espresso macchiato</strong></em></p><p>Espresso macchiato is a beverage matching its title, as in Italian, the macchiato means speckled or spotted.</p><p>According to the classical teachings, espresso macchiato is espresso with a drop of milk foam added to the crema using a teaspoon. Modern macchiato looks like a miniature cappuccino – espresso is in its 80 ml cup topped with microfoam up to the edge. Can also be decorated with latte art.</p><p><em><strong>Caffe latte</strong></em></p><p>Café con leche es una bebida de más de 250 ml de volumen. Se diferencia de cappuccino en el volumen total y también en la porción más pequeña de espuma. Café con leche se prepara en una taza con asa. Fue introducido originalmente en Italia como el café para los niños y se considera menos popular entre los adultos.</p><p>Una variante de café con leche es latte macchiato, que se prepara un poco diferente. Primero la Espuma de leche se vierte en un vaso, la espuma de leche se separa de la leche en menos de un minuto y crea una capa más firme en la parte superior. Espresso se añade por último y crea una mancha de café típica sobre la superficie. A menudo sucede que por servir el café en la leche, se crean tres capas. Este resultado es una ventaja inesperada.</p><h3>El café filtrado</h3><p>La preparación de café filtrado no utiliza presión para la extracción, utiliza el proceso natural de la lixiviación de sustancias solubles en su lugar. Agua caliente (hasta 93 ° C) está en contacto con el café durante 1 a 5 minutos (de acuerdo con el método de preparación) y luego la extracción se detiene por filtración o por forzar el líquido en pression.</p><p>El café filtrado ha ganado, un poco injustamente, la fama de un producto inferior que es mejor ser evitado y más bien objeto de comercio para espresso. Sin embargo, si se cumplen todas las condiciones básicas, este café presenta un valor maravilloso. Si percibimos como el espresso concentrado como una bebida destinada a la consumación inmediata, café filtrado es todo lo contrario&nbsp;– menor proporción de sustancias solubles permite al consumidor disfrutar de los matices sutiles, como se puede encontrar en el vino.</p><p>Nuestro consejo: si la origen del cafe es de buena calidad, es inmensamente interesante ver la bebida evolucionar en sabor durante el proceso de enfriamiento. En la primera fase, 80-60°C, nos gusta únicamente los sabores amargos y la temperatura demasiado alta. La bebida sin embargo, huele muy bien gracias a los aceites esenciales de evaporación. En el medio del proceso de enfriamiento, en algún lugar entre la segunda y quinta sorbo, descubrimos el cuerpo, la acidez, la viscosidad, la dulzura y la primera señales de tonos. En una bebida refrigerada, el aroma, el gusto evelando todo el potencial del cafe. Todo esto, por supuesto, sin ningún tipo de aditivos, como azúcar, leche, crema o miel.</p><p>La siguiente lista resume todos los requisitos para este café antes de su preparación:</p><ul>  <li>Café selectivo fresco; frescura significa 2-25 días después de la torrefacción</li>  <li>La cantidad de 60 g / litro</li>  <li>Molienda en molino manual o eléctrico con piedras siempre justo antes de la preparación, la tosquedad se elige de acuerdo con el método de preparación</li>  <li>El agua calentada a 91°C, fresco, con pH neutro, dureza moderada, no mineralizado, no chored sin gas</li>  <li>Preparación no automáticas de mano</li>  <li>Cumplir con el tiempo de extracción</li></ul><p>Para la preparación de café filtrado se puede utilizar, por ejemplo, presiones francéses, Aeropress, pote vacío, bote moka, filtro de papel o Chemex.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "\"café principiante\", café"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Espresso y café filtrado son dos categorías principales de café distintos solo en el método de preparación. Aprenda acerca de los distintos tipos de café en estas categorías."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "tipos-de-cafe"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Tipos de café"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Espresso y café filtrado son dos categorías principales de café distintos solo en el método de preparación."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Tipos de café"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Espresso y café filtrado son dos categorías principales de café distintos solo en el método de preparación."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "33084df0-ac3a-4fb3-af12-33cc6bd69f37"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@Kenticocloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Tipos de café"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Espresso y café filtrado son dos categorías principales de café distintos solo en el método de preparación."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "33084df0-ac3a-4fb3-af12-33cc6bd69f37"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "deee0b3c-7b3c-4841-a603-5ada23f550fd"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-06-02T11:08:57.7063994Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2018-09-02T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The history of coffee is patchy and full of myth and hearsay.</p><p>One of the most popular story goes that Kaldi, an Ethiopian goatherd, saw his goats eating coffee berries and as a result becoming elated. So, Kaldi then tried them himself and thus discovered the potential of coffee. And that's where we got our name - Dancing Goat.</p><p>Although it's far more likely that uses for coffee were developed over time and were discovered by people tasting various parts of the cherry, the old fables do add a bit of romance and are very cute.</p><p>Coffee requires a warm climate and lots of moisture, so it is produced within a belt extending around the world between the Tropic of Cancer and the Tropic of Capricorn.</p><p>Coffee grows on trees that flower and produce fleshy red fruit (orange or yellow is also possible) called a drupe though it is popularly referred to as the ‘berry’ or ‘cherry’. What we refer to as coffee beans are actually seeds, which are produced in the centre of the drupe, often in pairs. After harvesting, the flesh of the drupe is washed or dried and the ‘beans’ extracted.</p><p>Coffee beans vary in their shape, size, color as well as flavor depending on the region and conditions in which they were grown. The difference of aromas and flavors between various regional varietals is as vast as the regions they grow in. Just like the teas and wines of the world, and even more so. It is always worth trying new varietals that may stimulate your taste buds in a different way.</p><p>The two major species of coffee are <em>Coffea arabica</em> and <em>Coffea canephora</em> (also called <em>Coffea robusta</em>).</p><p>Arabica is believed to be the first species of coffee to have been cultivated.</p><p>It requires more care during cultivation and is considered to produce better coffee than robusta. Arabica plants grow at high altitudes of around 1,000 to 2,000 meters, approximately 3,200 to 6,500 ft, above sea level in regions across South and Central America as well as Africa. Arabica is costlier to grow as it produces lower yields than Robusta despite requiring more labor. Despite all that, it is considered superior to robusta. The high demand and lower availability drives the price high. Arabica is the species most associated with specialty (sometimes referred to as gourmet) coffees.</p><p>The only place where Arabica coffee grows indigenously is Ethiopia. It is the birthplace of coffee and also the only place in which it truly grows wild. All countries that produce Arabica coffees have transplanted plant stock directly from Ethiopia or from other countries that had already done so.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee,history,myth,production"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "mode": "custom",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "coffee-history-and-present-2"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@KenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "6b0df99e-36f6-4a75-9c09-ef3da9382938"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:57.9407668Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2018-08-31T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>The history of coffee is patchy and full of myth and hearsay.</p><p>One of the most popular story goes that Kaldi, an Ethiopian goatherd, saw his goats eating coffee berries and as a result becoming elated. So, Kaldi then tried them himself and thus discovered the potential of coffee. And that's where we got our name - Dancing Goat.</p><p>Although it's far more likely that uses for coffee were developed over time and were discovered by people tasting various parts of the cherry, &nbsp;the old fables do add a bit of romance and are very cute.</p><p>Coffee requires a warm climate and lots of moisture, so it is produced within a belt extending around the world between the Tropic of Cancer and the Tropic of Capricorn.</p><p>Coffee grows on trees that flower and produce fleshy red fruit (orange or yellow is also possible) called a drupe though it is popularly referred to as the ‘berry’ or ‘cherry’. What we refer to as coffee beans are actually seeds, which are produced in the centre of the drupe, often in pairs. After harvesting, the flesh of the drupe is washed or dried and the ‘beans’ extracted.</p><p>Coffee beans vary in their shape, size, color as well as flavor depending on the region and conditions in which they were grown. The difference of aromas and flavors between various regional varietals is as vast as the regions they grow in. Just like the teas and wines of the world, and even more so. It is always worth trying new varietals that may stimulate your taste buds in a different way.</p><p>The two major species of coffee are <em>Coffea arabica</em> and <em>Coffea canephora</em> (also called <em>Coffea robusta</em>).</p><p>Arabica is believed to be the first species of coffee to have been cultivated.</p><p>It requires more care during cultivation and is considered to produce better coffee than robusta. Arabica plants grow at high altitudes of around 1,000 to 2,000 meters, approximately 3,200 to 6,500 ft, above sea level in regions across South and Central America as well as Africa. Arabica is costlier to grow as it produces lower yields than Robusta despite requiring more labor. Despite all that, it is considered superior to robusta. The high demand and lower availability drives the price high. Arabica is the species most associated with specialty (sometimes referred to as gourmet) coffees.</p><p>The only place where Arabica coffee grows indigenously is Ethiopia. It is the birthplace of coffee and also the only place in which it truly grows wild. All countries that produce Arabica coffees have transplanted plant stock directly from Ethiopia or from other countries that had already done so.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+            },
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "coffee,history,myth,production"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "mode": "custom",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "coffee-history-and-present"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@KenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "Where does coffee come from and where does it grow?"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "A short history of coffee and a discription of how and where it is grown now."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "ed332907-1c8c-488e-9052-bf23370aee9c"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "6d6debfb-57cc-4e6b-aa86-cc48a8ca768d"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:08:58.9252443Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "On Roasts"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": [
+            {
+              "id": "00c0f86a-7c51-4e60-abeb-a150e9092e53"
+            },
+            {
+              "id": "8972dc90-ae2e-416e-995d-95df6c77e3b2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "5c08a538-5b58-44eb-81ef-43fb37eeb815"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2014-11-07T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee, with varying concentration of caffeine and intensity of the original flavor."
+        },
+        {
+          "components": [
+            {
+              "id": "46c05bd9-d418-4507-836c-9accc5a39db3",
+              "type": {
+                "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "f09fb430-2a58-59cf-be03-621e1c367501"
+                  },
+                  "value": "https://twitter.com/ChrastinaOndrej/status/1417105245935706123"
+                },
+                {
+                  "element": {
+                    "id": "05017deb-18b2-5094-b367-e7f8796dd1b8"
+                  },
+                  "value": [
+                    {
+                      "id": "061e69f7-0965-5e37-97bc-29963cfaebe8"
+                    }
+                  ]
+                },
+                {
+                  "element": {
+                    "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25"
+                  },
+                  "value": [
+                    {
+                      "id": "dd78b09e-4337-599c-9701-20a0a165c63b"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p>There’s nothing complicated about roasting. It’s as easy as baking a pie, maybe even simpler as there’s just one ingredient. What’s complicated is fine-tuning the whole process to perfection. It’s also a huge responsibility. You can easily ruin something that’s been in the works for months and has been perfect up until now.</p><h3>Light Roasts</h3><p>Usually roasted for 6-8 minutes or simply until achieving a light brown color. This method is used for milder coffee varieties and for coffee tasting. This type of roasting allows the natural characteristics of each coffee to show. The aroma of coffees produced from light roasts is usually more intense. The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"46c05bd9-d418-4507-836c-9accc5a39db3\"></object><h3>Medium roast</h3><p>These exempt a stronger flavor than light roasts. The beans are still more matte than oily. Caffeine contents are decreased. Medium roasts lack the grainy taste of lighter roasts. You also get a more balanced flavor, aroma and acidity.</p><h3>Dark Roasts</h3><p>Dark roast beans are achieved by a 12-13 minute roasting process. The beans have a heavier body, a surface that appears a little oily and a somewhat shiny. Darker roasts have a more chocolate-like flavor. The sugars in the coffee caramelize more than with light roasts and make their way to the surface of the bean. This makes the beans less acidic as well.</p><p>To put it in points, these are general rules that apply to different levels of roasts:</p><ul>  <li>Caffeine level decreases the darker the roast is.</li>  <li>Darker roasts exempt less acidity than lighter roasts.</li>  <li>The darker beans get roasted, the oilier their surface becomes.</li>  <li>Lighter roasts maintain more of the original flavors of their varieties, while the darker they get, they tend to take on more flavor from the roasting process itself.</li>  <li>The body of the coffee gets heavier until taken to really high temperatures, where they emit what is called a ‘second crack’. Then the body starts thinning out again.</li></ul><p>You can easily imprint your own signature into each coffee that you make during the roasting process. At Dancing Goat, though, we choose to instead highlight what makes of the varietal great and unique.</p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "a89dcccf-4d82-4e5e-bce7-62e3c6e15197"
+            },
+            {
+              "id": "1ff7210f-bff3-4d20-9e08-70e33d1c72dd"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "roasts, coffee"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "on-roasts"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "On Roasts"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": "On Roasts"
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": [
+            {
+              "id": "5c08a538-5b58-44eb-81ef-43fb37eeb815"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": "Dancing Goat"
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": "@kenticoCloud"
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": "On Roasts"
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": [
+            {
+              "id": "5c08a538-5b58-44eb-81ef-43fb37eeb815"
+            }
+          ]
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-07-27T04:24:25.7081438Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "On Roasts"
+        },
+        {
+          "searchable_value": "Almighty form!",
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": "{\"formId\": 42}"
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": 3.14
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": [
+            {
+              "id": "00c0f86a-7c51-4e60-abeb-a150e9092e53"
+            },
+            {
+              "id": "8972dc90-ae2e-416e-995d-95df6c77e3b2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "5c08a538-5b58-44eb-81ef-43fb37eeb815"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2017-07-04T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": "Summary"
+        },
+        {
+          "components": [
+            {
+              "id": "46c05bd9-d418-4507-836c-9accc5a39db3",
+              "type": {
+                "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "f09fb430-2a58-59cf-be03-621e1c367501"
+                  },
+                  "value": "https://twitter.com/ChrastinaOndrej/status/1417105245935706123"
+                },
+                {
+                  "element": {
+                    "id": "05017deb-18b2-5094-b367-e7f8796dd1b8"
+                  },
+                  "value": [
+                    {
+                      "id": "061e69f7-0965-5e37-97bc-29963cfaebe8"
+                    }
+                  ]
+                },
+                {
+                  "element": {
+                    "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25"
+                  },
+                  "value": [
+                    {
+                      "id": "dd78b09e-4337-599c-9701-20a0a165c63b"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<h1>Light Roasts</h1><p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"46c05bd9-d418-4507-836c-9accc5a39db3\"></object>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": "MetaKeywords"
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": "MetaDescription"
+        },
+        {
+          "mode": "custom",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "on-roasts"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-10-05T08:33:43.6632817Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": ""
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": ""
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p><br/></p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": ""
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "not-valid-article"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": "Not Valid Article"
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": "Not Valid Article"
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "1037d403-caf0-4c37-b6b3-61a273769976"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-02T11:09:02.0503967Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": ""
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": ""
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p><br/></p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": ""
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "452f515f-0e1d-426f-8b20-874b41f7fac4"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-11T10:16:42.8003907Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": ""
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": ""
+        },
+        {
+          "components": [],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<p><br/></p>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": ""
+        },
+        {
+          "mode": "autogenerated",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "ee783322-0f7b-5a57-8d8a-89beed9d216c"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2021-06-11T10:30:26.6104635Z"
+    },
+    {
+      "elements": [
+        {
+          "element": {
+            "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
+          },
+          "value": "On Roasts"
+        },
+        {
+          "searchable_value": null,
+          "element": {
+            "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "773940f4-9e67-4a26-a93f-67e55fd7d837"
+          },
+          "value": null
+        },
+        {
+          "element": {
+            "id": "53a25074-b136-4a1f-a16d-3c130f696c66"
+          },
+          "value": [
+            {
+              "id": "00c0f86a-7c51-4e60-abeb-a150e9092e53"
+            },
+            {
+              "id": "8972dc90-ae2e-416e-995d-95df6c77e3b2"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56"
+          },
+          "value": [
+            {
+              "id": "5c08a538-5b58-44eb-81ef-43fb37eeb815"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
+          },
+          "value": "2017-07-04T00:00:00Z"
+        },
+        {
+          "element": {
+            "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
+          },
+          "value": ""
+        },
+        {
+          "components": [
+            {
+              "id": "46c05bd9-d418-4507-836c-9accc5a39db3",
+              "type": {
+                "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+              },
+              "elements": [
+                {
+                  "element": {
+                    "id": "f09fb430-2a58-59cf-be03-621e1c367501"
+                  },
+                  "value": "https://twitter.com/ChrastinaOndrej/status/1417105245935706123"
+                },
+                {
+                  "element": {
+                    "id": "05017deb-18b2-5094-b367-e7f8796dd1b8"
+                  },
+                  "value": [
+                    {
+                      "id": "061e69f7-0965-5e37-97bc-29963cfaebe8"
+                    }
+                  ]
+                },
+                {
+                  "element": {
+                    "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25"
+                  },
+                  "value": [
+                    {
+                      "id": "dd78b09e-4337-599c-9701-20a0a165c63b"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "element": {
+            "id": "55a88ab3-4009-5bf9-a590-f32162f09b92"
+          },
+          "value": "<h1>Light Roasts</h1><p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"46c05bd9-d418-4507-836c-9accc5a39db3\"></object>"
+        },
+        {
+          "element": {
+            "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1"
+          },
+          "value": [
+            {
+              "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d"
+          },
+          "value": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8"
+            }
+          ]
+        },
+        {
+          "element": {
+            "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
+          },
+          "value": ""
+        },
+        {
+          "mode": "custom",
+          "element": {
+            "id": "1f37e15b-27a0-5f48-b314-03b401c19cee"
+          },
+          "value": "on-roasts"
+        },
+        {
+          "element": {
+            "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "e35ad81a-9944-5495-af0e-39eb98236833"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
+          },
+          "value": []
+        },
+        {
+          "element": {
+            "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
+          },
+          "value": ""
+        },
+        {
+          "element": {
+            "id": "19db0028-0169-5833-8aee-ec6e165461c8"
+          },
+          "value": []
+        }
+      ],
+      "workflow_step": {
+        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      },
+      "item": {
+        "id": "a63011d2-0eb4-4e86-b1af-dffbdf26ad88"
+      },
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "last_modified": "2021-10-04T14:56:57.2425084Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}

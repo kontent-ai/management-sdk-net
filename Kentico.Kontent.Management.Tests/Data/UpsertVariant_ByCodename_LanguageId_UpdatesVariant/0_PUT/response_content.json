@@ -52,7 +52,7 @@
       "element": {
         "id": "15517aa3-da8a-5551-a4d4-555461fd5226"
       },
-      "value": ""
+      "value": "Summary"
     },
     {
       "components": [
@@ -110,7 +110,7 @@
       "element": {
         "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd"
       },
-      "value": ""
+      "value": "MetaKeywords"
     },
     {
       "element": {
@@ -126,7 +126,7 @@
       "element": {
         "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815"
       },
-      "value": ""
+      "value": "MetaDescription"
     },
     {
       "mode": "custom",
@@ -205,5 +205,5 @@
   "language": {
     "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
   },
-  "last_modified": "2021-09-23T14:21:26.6714915Z"
+  "last_modified": "2021-10-14T13:54:07.7031566Z"
 }

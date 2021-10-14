@@ -285,11 +285,58 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //todo add ByExternalId and ById tests
-        //todo test pagination
+        public async void ListLanguageVariantsByType_WithContinuation_ListsVariants()
+        {
+            var identifier = Reference.ById(EXISTING_CONTENT_TYPE_ID);
+
+            var responseVariants = await _client.ListLanguageVariantsByTypeAsync(identifier);
+
+            Assert.NotNull(responseVariants);
+
+            while (true)
+            {
+                foreach (var item in responseVariants)
+                {
+                    Assert.NotNull(item);
+                }
+
+                if (!responseVariants.HasNextPage())
+                {
+                    break;
+                }
+                responseVariants = await responseVariants.GetNextPage();
+                Assert.NotNull(responseVariants);
+            }
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantsByType_ById_ListsVariants()
+        {
+            var identifier = Reference.ById(EXISTING_CONTENT_TYPE_ID);
+
+            var responseVariants = await _client.ListLanguageVariantsByTypeAsync(identifier);
+
+            var item = await _client.GetContentItemAsync(Reference.ById(responseVariants.First().Item.Id.Value));
+
+            Assert.Equal(EXISTING_CONTENT_TYPE_ID, item.Type.Id);
+        }
+
+        [Fact]
         public async Task ListLanguageVariantsByType_ByCodename_ListsVariants()
         {
             var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+
+            var responseVariants = await _client.ListLanguageVariantsByTypeAsync(identifier);
+
+            var item = await _client.GetContentItemAsync(Reference.ById(responseVariants.First().Item.Id.Value));
+
+            Assert.Equal(EXISTING_CONTENT_TYPE_ID, item.Type.Id);
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantsByType_ByExternalId_ListsVariants()
+        {
+            var identifier = Reference.ByExternalId("b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89");
 
             var responseVariants = await _client.ListLanguageVariantsByTypeAsync(identifier);
 

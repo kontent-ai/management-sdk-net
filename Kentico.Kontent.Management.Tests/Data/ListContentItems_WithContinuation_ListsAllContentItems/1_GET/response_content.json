@@ -1286,6 +1286,19 @@
       },
       "sitemap_locations": [],
       "last_modified": "2021-08-13T13:20:30.0627456Z"
+    },
+    {
+      "id": "a63011d2-0eb4-4e86-b1af-dffbdf26ad88",
+      "name": "Hooray!",
+      "codename": "hooray_",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-10-04T14:56:57.1643911Z"
     }
   ],
   "pagination": {

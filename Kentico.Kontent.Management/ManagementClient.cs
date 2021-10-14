@@ -107,7 +107,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
+        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -129,7 +129,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantComponentByTypeAsync(Reference identifier)
+        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantComponentByTypeAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -151,7 +151,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the collection.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
+        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
         {
             if (identifier == null)
             {

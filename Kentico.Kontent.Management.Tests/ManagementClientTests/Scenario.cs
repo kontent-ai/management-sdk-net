@@ -4,6 +4,8 @@ using System.Reflection;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.Types;
+using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Tests.Data;
 using Microsoft.Extensions.Configuration;
@@ -318,5 +320,91 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Mode = "custom"
             }
         };
+
+
+        //todo add customElement
+        public static readonly List<ElementMetadataBase> ElementMetadata = new List<ElementMetadataBase>
+                {
+                    new AssetElementMetadataModel
+                    {
+                        Name = "MyAsset",
+                        AllowedFileTypes = FileType.Any,
+                        Codename = ""
+                    },
+                    new ContentTypeSnippetElementMetadataModel
+                    {
+                        Codename = "contenttypesnippet_codename",
+                        ExternalId = "contentTypeSnippet_externalId",
+                        SnippetIdentifier = Reference.ByCodename(EXISTING_SNIPPET_CODENAME),
+                    },
+                    new DateTimeElementMetadataModel
+                    {
+                        Codename = "datetimeelement_codename",
+                        ExternalId = "DateTimeElementSnippet_externalId",
+                        IsRequired = false,
+                        Name = "DateTimename",
+                    },
+                    new GuidelinesElementMetadataModel
+                    {
+                        Codename = "guidelines_codename",
+                        ExternalId = "guidelines_external_id",
+                        Guidelines = "<h3>Guidelines</h3>",
+                    },
+                    new LinkedItemsElementMetadataModel
+                    {
+                        Codename = "linkeditemselementcodename",
+                        IsRequired = true,
+                        ItemCountLimit = new LimitModel { Value = 10, Condition = LimitType.AtMost },
+                        Name = "LinkedItemsElementName",
+                    },
+                    new MultipleChoiceElementMetadataModel
+                    {
+                        Name = "Is special Delivery",
+                        Codename = "multiple_choice_element_codename",
+                        IsRequired = false,
+                        Mode = MultipleChoiceMode.Single,
+                        Options = new[] {
+                            new MultipleChoiceOptionModel
+                            {
+                                Name = "Yes",
+                                Codename = "yes"
+                            }
+                        },
+                    },
+                    new NumberElementMetadataModel
+                    {
+                        Codename = "numberrlementcodename",
+                        ExternalId = "NumberElementexternal_id",
+                        Guidelines = "<h3>NumberElement</h3>",
+                        Name = "NumberElementName",
+                    },
+                    new RichTextElementMetadataModel
+                    {
+                        Codename = "richtextelementcodename",
+                        ExternalId = "RichTextElementexternal_id",
+                        Guidelines = "<h3>RichTextElement</h3>",
+                        Name = "RichTextElementName",
+                    },
+                    new TaxonomyElementMetadataModel
+                    {
+                        Codename = "taxonomyelementcodename",
+                        ExternalId = "TaxonomyElementMetadata_id",
+                        Guidelines = "<h3>TaxonomyElement</h3>",
+                        TaxonomyGroup = Reference.ById(EXISTING_TAXONOMY_GROUP_ID),
+                    },
+                    new TextElementMetadataModel
+                    {
+                        Codename = "textelementmetadatacodename",
+                        Name = "TextElementMetadataName",
+                        IsRequired = false,
+                    },
+                    new UrlSlugElementMetadataModel
+                    {
+                        Codename = "urlslugrlementcodename",
+                        Name = "UrlSlugElementMetadataName",
+                        IsRequired = false,
+                        DependsOn = new UrlSlugDependency { Element = Reference.ByCodename("textelementmetadatacodename") },
+                    }
+                };
     }
 }
