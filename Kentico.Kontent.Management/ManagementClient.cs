@@ -705,7 +705,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the language variant to be published.</param>
         /// <param name="scheduleModel">The time when the language variant will be published</param>
-        public async Task SchedulePublishingOfLangaugeVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+        public async Task SchedulePublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
             {
@@ -737,7 +737,7 @@ namespace Kentico.Kontent.Management
         /// Unpublishes the language variant.
         /// </summary>
         /// <param name="identifier">Identifier of the language variant to be unpublished.</param>
-        public async Task UnpublishLangaugeVariant(LanguageVariantIdentifier identifier)
+        public async Task UnpublishLanguageVariant(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -826,7 +826,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the language variant.</param>
         /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents language variant.</returns>
-        public async Task<LanguageVariantModel<T>> GetLangaugeVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
+        public async Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
         {
             if (identifier == null)
             {

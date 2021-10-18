@@ -575,7 +575,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
             var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var response = await _client.GetLangaugeVariantAsync<ComplexTestModel>(identifier);
+            var response = await _client.GetLanguageVariantAsync<ComplexTestModel>(identifier);
 
             Assert.NotNull(response);
             Assert.Equal(EXISTING_ITEM_ID, response.Item.Id);

@@ -103,7 +103,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             await _client.PublishLanguageVariant(variantIdentifier);
 
-            await _client.UnpublishLangaugeVariant(variantIdentifier);
+            await _client.UnpublishLanguageVariant(variantIdentifier);
 
             var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
@@ -152,7 +152,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.SchedulePublishingOfLangaugeVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
+            await _client.SchedulePublishingOfLanguageVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
 
             var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
 
@@ -185,7 +185,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             Assert.Equal(PUBLISHED_WORKFLOW_STEP_ID, updatedVariant.WorkflowStep.Id);
 
             // Cleanup
-            await _client.UnpublishLangaugeVariant(variantIdentifier);
+            await _client.UnpublishLanguageVariant(variantIdentifier);
             var itemToClean = Reference.ByExternalId(externalId);
             await _client.DeleteContentItemAsync(itemToClean);
         }
@@ -203,7 +203,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var languageIdentifier = Reference.ByCodename(EXISTING_LANGUAGE_CODENAME);
             var variantIdentifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await _client.SchedulePublishingOfLangaugeVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
+            await _client.SchedulePublishingOfLanguageVariant(variantIdentifier, new ScheduleModel { ScheduleTo = new DateTimeOffset(2050, 1, 1, 10, 10, 0, TimeSpan.FromHours(2)) });
             await _client.CancelPublishingOfLanguageVariant(variantIdentifier);
 
             var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
