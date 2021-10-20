@@ -39,7 +39,7 @@
     <None Update="Data\**\*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-      <None Update="Unit\Data\**\*.json">
+    <None Update="Unit\Data\**\*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
