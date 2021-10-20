@@ -807,7 +807,7 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <returns>A strongly-typed collection with language variants.</returns>
-        public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsAsync<T>(Reference identifier) where T : new()
+        public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier) where T : new()
         {
             if (identifier == null)
             {
