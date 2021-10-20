@@ -559,7 +559,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             var identifier = Reference.ById(EXISTING_ITEM_ID);
 
-            var responseVariants = await _client.ListLanguageVariantsAsync<ComplexTestModel>(identifier);
+            var responseVariants = await _client.ListLanguageVariantsByItemAsync<ComplexTestModel>(identifier);
 
             Assert.All(responseVariants, x =>
             {
