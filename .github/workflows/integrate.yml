@@ -27,4 +27,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     - name: Codecov
+      if: ${{ runner.os == 'Linux' }}
       uses: codecov/codecov-action@v1
