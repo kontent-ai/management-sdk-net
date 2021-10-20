@@ -25,7 +25,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         public async void CreateLanguage_CreatesLanguage()
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-
             mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
              .Returns(x =>
                 {
@@ -38,7 +37,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                     return Task.FromResult<HttpResponseMessage>(result);
                 });
             var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
-
 
             var newLanguage = new LanguageCreateModel
             {
