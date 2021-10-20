@@ -346,16 +346,15 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //todo create variants with component - ??
         //todo add ByExternalId and ById tests
         //todo test pagination
         public async Task ListLanguageVariantComponentByType_ByCodename_ListsVariants()
         {
-            var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+            var identifier = Reference.ByCodename(EXISTING_COMPONENT_TYPE_CODENAME);
 
             var responseVariants = await _client.ListLanguageVariantComponentByTypeAsync(identifier);
 
-            Assert.Empty(responseVariants);
+            Assert.NotEmpty(responseVariants);
         }
 
         [Fact]
