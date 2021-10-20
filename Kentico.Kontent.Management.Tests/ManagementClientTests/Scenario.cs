@@ -102,7 +102,9 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public static readonly Guid EXISTING_ASSET_ID = Guid.Parse("5c08a538-5b58-44eb-81ef-43fb37eeb815");
 
         public static readonly Guid RICH_TEXT_TWEET_COMPONENT_ID = Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3");
+        
         public static readonly Guid TWEET_TYPE_ID = Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d");
+        public static readonly Guid RICH_TEXT_COMPONENT_TWEET_TYPE_ID = TWEET_TYPE_ID;
         public static readonly string TWEET_TYPE_CODENAME = "tweet";
         public static readonly string EXISTING_COMPONENT_TYPE_CODENAME = TWEET_TYPE_CODENAME;
         public static readonly Guid TWEET_THEME_ELEMENT_DARK_OPTION_ID = Guid.Parse("061e69f7-0965-5e37-97bc-29963cfaebe8");
