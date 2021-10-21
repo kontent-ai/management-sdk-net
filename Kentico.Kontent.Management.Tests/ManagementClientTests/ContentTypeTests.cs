@@ -1,4 +1,6 @@
-﻿using Kentico.Kontent.Management.Exceptions;
+﻿using FluentAssertions;
+using FluentAssertions.Execution;
+using Kentico.Kontent.Management.Exceptions;
 using Kentico.Kontent.Management.Extenstions;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Types;
@@ -145,14 +147,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //todo add assert for all elements
         public async void CreateContentType_CreatesContentType()
         {
             var typeName = "HoorayType!";
             var typeCodename = "hooray_codename_type";
             var typeExternalId = "hooray_codename_external_id";
 
-            var elements = new List<ElementMetadataBase>(ElementMetadata);
+            var elements = GetElementMetadata();
             elements.ForEach(x => x.ContentGroup = Reference.ByExternalId("contentGroupExternalId"));
 
 
@@ -174,17 +175,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var responseType = await _client.CreateContentTypeAsync(type);
 
-            Assert.Equal(typeName, responseType.Name);
-            Assert.Equal(typeCodename, responseType.Codename);
-            Assert.Equal(typeExternalId, responseType.ExternalId);
-
-            Assert.Contains(
-                "yes",
-                responseType.Elements
-                    .FirstOrDefault(element => element.Codename == "multiple_choice_element_codename")
-                    .ToElement<MultipleChoiceElementMetadataModel>().Options
-                    .First().Codename
-                );
+            using (new AssertionScope())
+            {
+                typeName.Should().BeEquivalentTo(responseType.Name);
+                typeCodename.Should().BeEquivalentTo(responseType.Codename);
+                typeExternalId.Should().BeEquivalentTo(responseType.ExternalId);
+                type.Elements.Should().BeEquivalentTo(elements);
+            }
 
             // Cleanup
             var typeToClean = Reference.ByCodename(typeCodename);
