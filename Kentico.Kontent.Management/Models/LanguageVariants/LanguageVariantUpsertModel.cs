@@ -21,9 +21,9 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         {
         }
 
-        internal LanguageVariantUpsertModel(LanguageVariantModel contentItemVariant)
+        internal LanguageVariantUpsertModel(LanguageVariantModel LanguageVariant)
         {
-            Elements = contentItemVariant.Elements;
+            Elements = LanguageVariant.Elements;
         }
     }
 }

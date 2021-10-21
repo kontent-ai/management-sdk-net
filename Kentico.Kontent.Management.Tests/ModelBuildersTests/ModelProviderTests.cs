@@ -23,7 +23,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
         }
 
         [Fact]
-        public void GetContentItemVariantModel_ReturnsExpected()
+        public void GetLanguageVariantModel_ReturnsExpected()
         {
             var expected = GetTestModel();
             var model = new LanguageVariantModel
@@ -48,7 +48,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
         }
 
         [Fact]
-        public void GetContentItemVariantUpsertModel_ReturnsExpected()
+        public void GetLanguageVariantUpsertModel_ReturnsExpected()
         {
             var model = GetTestModel();
             var type = model.GetType();

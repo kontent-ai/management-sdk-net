@@ -9,7 +9,7 @@ namespace Kentico.Kontent.Management.Models.Webhooks.Triggers
         /// Content item variant.
         /// </summary>
         [EnumMember(Value = "content_item_variant")]
-        ContentItemVariant,
+        LanguageVariant,
 
         /// <summary>
         /// Taxonomy.

@@ -61,7 +61,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         [Fact]
-        public void BuildContentItemVariantsUrl_ItemIdVariantId_ReturnsCorrectUrl()
+        public void BuildLanguageVariantsUrl_ItemIdVariantId_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ById(ITEM_ID);
             var variantIdentifier = Reference.ById(VARIANT_ID);
@@ -73,7 +73,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         [Fact]
-        public void BuildContentItemVariantsUrl_ItemIdVariantCodename_ReturnsCorrectUrl()
+        public void BuildLanguageVariantsUrl_ItemIdVariantCodename_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ById(ITEM_ID);
             var variantIdentifier = Reference.ByCodename(VARIANT_CODENAME);
@@ -85,7 +85,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         [Fact]
-        public void BuildContentItemVariantsUrl_ItemCodenameVariantId_ReturnsCorrectUrl()
+        public void BuildLanguageVariantsUrl_ItemCodenameVariantId_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByCodename(ITEM_CODENAME);
             var variantIdentifier = Reference.ById(VARIANT_ID);
@@ -97,7 +97,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         [Fact]
-        public void BuildContentItemVariantsUrl_ItemCodenameVariantCodename_ReturnsCorrectUrl()
+        public void BuildLanguageVariantsUrl_ItemCodenameVariantCodename_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByCodename(ITEM_CODENAME);
             var variantIdentifier = Reference.ByCodename(VARIANT_CODENAME);
@@ -109,7 +109,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         [Fact]
-        public void BuildContentItemVariantsUrl_ItemExternalIdVariantId_ReturnsCorrectUrl()
+        public void BuildLanguageVariantsUrl_ItemExternalIdVariantId_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByExternalId(ITEM_EXTERNAL_ID);
             var variantIdentifier = Reference.ById(VARIANT_ID);
@@ -121,7 +121,7 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         [Fact]
-        public void BuildContentItemVariantsUrl_ItemExternalIdVariantCodename_ReturnsCorrectUrl()
+        public void BuildLanguageVariantsUrl_ItemExternalIdVariantCodename_ReturnsCorrectUrl()
         {
             var itemIdentifier = Reference.ByExternalId(ITEM_EXTERNAL_ID);
             var variantIdentifier = Reference.ByCodename(VARIANT_CODENAME);
