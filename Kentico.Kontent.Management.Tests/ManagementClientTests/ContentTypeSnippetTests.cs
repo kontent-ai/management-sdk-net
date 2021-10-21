@@ -146,7 +146,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = typeName,
                 Codename = typeCodename,
                 ExternalId = typeExternalId,
-                Elements = _elementMetadataForSnippets
+                Elements = GetElementMetadataForSnippets()
             };
 
             var responseType = await _client.CreateContentTypeSnippetAsync(type);
@@ -281,7 +281,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             return await _client.CreateContentTypeSnippetAsync(type);
         }
 
-        private List<ElementMetadataBase> _elementMetadataForSnippets =>
-            new List<ElementMetadataBase>(ElementMetadata.RemoveAll(x => x.GetType() == typeof(UrlSlugElementMetadataModel) ||  x.GetType() == typeof(ContentTypeSnippetElementMetadataModel)));
+        private List<ElementMetadataBase> GetElementMetadataForSnippets()
+        {
+            var elements = GetElementMetadata();
+            elements.RemoveAll(x => x.GetType() == typeof(UrlSlugElementMetadataModel) || x.GetType() == typeof(ContentTypeSnippetElementMetadataModel));
+            return elements;
+        }
     }
 }

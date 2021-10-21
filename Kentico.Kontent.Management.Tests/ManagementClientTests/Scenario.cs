@@ -323,7 +323,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
 
         //todo add customElement
-        public static readonly List<ElementMetadataBase> ElementMetadata = new List<ElementMetadataBase>
+        public static List<ElementMetadataBase> GetElementMetadata() => new List<ElementMetadataBase>
                 {
                     new AssetElementMetadataModel
                     {
