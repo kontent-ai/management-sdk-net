@@ -48,5 +48,27 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             Assert.Equal(newLanguage.ExternalId, response.ExternalId);
             Assert.Equal(newLanguage.FallbackLanguage.Id, response.FallbackLanguage.Id);
         }
+
+        [Fact]
+        public async void ListLanguages_ListsLanguages()
+        {
+            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+             .Returns(x =>
+                {
+                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
+
+                    var responsePath = Path.Combine(dataPath, "ListLanguages_ListsLanguages.json");
+                    var result = new HttpResponseMessage();
+                    result.Content = new StringContent(File.ReadAllText(responsePath));
+
+                    return Task.FromResult<HttpResponseMessage>(result);
+                });
+            setMockedHttpClient(mockedHttpClient);
+
+            var response = await _client.ListLanguagesAsync();
+
+            Assert.Single(response, item => item.Codename == "default");
+        }
     }
 }

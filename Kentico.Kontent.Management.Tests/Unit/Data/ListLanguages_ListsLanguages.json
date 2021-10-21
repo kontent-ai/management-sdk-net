@@ -1,0 +1,19 @@
+{
+  "languages": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "Default project language",
+      "codename": "default",
+      "external_id": "string",
+      "is_active": true,
+      "is_default": true,
+      "fallback_language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
