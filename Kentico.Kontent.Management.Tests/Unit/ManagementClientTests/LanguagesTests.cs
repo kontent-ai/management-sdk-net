@@ -12,12 +12,20 @@ using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {
-    public class Languagestests : FileSystemFixture
+    public class LanguagesTests : IClassFixture<FileSystemFixture>
     {
+        private FileSystemFixture _fileSystemFixture;
+
+        public LanguagesTests(FileSystemFixture fileSystemFixture)
+        {
+            _fileSystemFixture = fileSystemFixture;
+        }
+
         [Fact]
         public async void CreateLanguage_CreatesLanguage()
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+
             mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
              .Returns(x =>
                 {
@@ -29,7 +37,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
                     return Task.FromResult<HttpResponseMessage>(result);
                 });
-            setMockedHttpClient(mockedHttpClient);
+            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
 
 
             var newLanguage = new LanguageCreateModel
@@ -41,7 +49,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                 FallbackLanguage = Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"))
             };
 
-            var response = await _client.CreateLanguageAsync(newLanguage);
+            var response = await client.CreateLanguageAsync(newLanguage);
 
             Assert.Equal(newLanguage.Name, response.Name);
             Assert.Equal(newLanguage.Codename, response.Codename);
@@ -64,9 +72,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
                     return Task.FromResult<HttpResponseMessage>(result);
                 });
-            setMockedHttpClient(mockedHttpClient);
+            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
 
-            var response = await _client.ListLanguagesAsync();
+            var response = await client.ListLanguagesAsync();
 
             Assert.Single(response, item => item.Codename == "default");
         }
