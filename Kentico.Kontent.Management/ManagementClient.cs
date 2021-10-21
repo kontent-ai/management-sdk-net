@@ -672,7 +672,7 @@ namespace Kentico.Kontent.Management
         /// Changes workflow step.
         /// </summary>
         /// <param name="identifier">Identifier of the workflow step to be changed.</param>
-        public async Task ChangeWorkflowStep(WorkflowIdentifier identifier)
+        public async Task ChangeLanguageVariantWorkflowStep(WorkflowIdentifier identifier)
         {
             if (identifier == null)
             {

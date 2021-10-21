@@ -61,7 +61,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     { 
                         new DeliveryApiTriggerModel 
                         { 
-                            Type = TriggerChangeType.ContentItemVariant,
+                            Type = TriggerChangeType.LanguageVariant,
                             Operations = new [] { "publish", "unpublish" }
                         },
                         new DeliveryApiTriggerModel
@@ -101,7 +101,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     {
                         new DeliveryApiTriggerModel
                         {
-                            Type = TriggerChangeType.ContentItemVariant,
+                            Type = TriggerChangeType.LanguageVariant,
                             Operations = new [] { "publish", "unpublish" }
                         },
                         new DeliveryApiTriggerModel
@@ -176,7 +176,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     {
                         new DeliveryApiTriggerModel
                         {
-                            Type = TriggerChangeType.ContentItemVariant,
+                            Type = TriggerChangeType.LanguageVariant,
                             Operations = new [] { "publish", "unpublish" }
                         }
                     }

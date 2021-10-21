@@ -1,0 +1,1 @@
+{"Version":"1.1","VersionPolicy":0,"Content":null,"Method":{"Method":"DELETE"},"RequestUri":"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/items/b085ed21-aff1-4d8a-8367-8926bfb35cbc/variants/78dbefe8-831b-457e-9352-f4c4eacd5024","Headers":[{"Key":"Authorization","Value":["{API_KEY}"]},{"Key":"X-KC-SDKID","Value":["{SDK_ID}"]}],"Properties":{},"Options":{}}
