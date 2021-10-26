@@ -348,21 +348,21 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         //todo add ByExternalId test
         //todo test pagination
-        public async Task ListLanguageVariantComponentByType_ByCodename_ListsVariants()
+        public async Task ListLanguageVariantsOfContentTypeWithComponents_ByCodename_ListsVariants()
         {
             var identifier = Reference.ByCodename(EXISTING_COMPONENT_TYPE_CODENAME);
 
-            var responseVariants = await _client.ListLanguageVariantComponentByTypeAsync(identifier);
+            var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
 
             Assert.NotEmpty(responseVariants);
         }
 
         [Fact]
-        public async Task ListLanguageVariantComponentByType_ById_ListsVariants()
+        public async Task ListLanguageVariantsOfContentTypeWithComponents_ById_ListsVariants()
         {
             var identifier = Reference.ById(RICH_TEXT_COMPONENT_TWEET_TYPE_ID);
 
-            var responseVariants = await _client.ListLanguageVariantComponentByTypeAsync(identifier);
+            var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
 
             Assert.NotEmpty(responseVariants);
         }

@@ -129,7 +129,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantComponentByTypeAsync(Reference identifier)
+        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
         {
             if (identifier == null)
             {
