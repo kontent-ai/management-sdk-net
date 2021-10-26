@@ -81,5 +81,99 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             Assert.Single(response, item => item.Codename == "default");
         }
+
+        [Fact]
+        public async void GetLanguage_ById_GetsLanguages()
+        {
+            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+             .Returns(x =>
+                {
+                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
+
+                    var responsePath = Path.Combine(dataPath, "SingleLanguageResponse.json");
+                    var result = new HttpResponseMessage();
+                    result.Content = new StringContent(File.ReadAllText(responsePath));
+
+                    return Task.FromResult<HttpResponseMessage>(result);
+                });
+            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
+
+            var response = await client.GetLanguageAsync(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")));
+
+            Assert.Equal("Default project language", response.Name);
+            Assert.Equal("default", response.Codename);
+            Assert.Equal("string", response.ExternalId);
+            // Assert.Equal(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), response.FallbackLanguage);
+            Assert.True(response.IsActive);
+            Assert.True(response.IsDefault);
+        }
+
+        [Fact]
+        public async void GetLanguage_ByCodename_GetsLanguages()
+        {
+            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+             .Returns(x =>
+                {
+                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
+
+                    var responsePath = Path.Combine(dataPath, "SingleLanguageResponse.json");
+                    var result = new HttpResponseMessage();
+                    result.Content = new StringContent(File.ReadAllText(responsePath));
+
+                    return Task.FromResult<HttpResponseMessage>(result);
+                });
+            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
+
+            var response = await client.GetLanguageAsync(Reference.ByCodename("default"));
+
+            Assert.Equal("Default project language", response.Name);
+            Assert.Equal("default", response.Codename);
+            Assert.Equal("string", response.ExternalId);
+            // Assert.Equal(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), response.FallbackLanguage);
+            Assert.True(response.IsActive);
+            Assert.True(response.IsDefault);
+        }
+
+        [Fact]
+        public async void ModifyLanguages_Replace_ModifiesLanguages()
+        {
+            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+             .Returns(x =>
+                {
+                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
+
+                    var responsePath = Path.Combine(dataPath, "ModifyLanguages_Replace_ModifiesLanguages.json");
+                    var result = new HttpResponseMessage();
+                    result.Content = new StringContent(File.ReadAllText(responsePath));
+
+                    return Task.FromResult<HttpResponseMessage>(result);
+                });
+            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
+
+            var patchModel = new[]
+            {
+                new LanguagePatchModel
+                {
+                    PropertyName = LanguangePropertyName.FallbackLanguage,
+                    // TODO is the format OK?
+                    Value = new {
+                        codename = "en-US"
+                    }
+                },
+                new LanguagePatchModel
+                {
+                    PropertyName = LanguangePropertyName.Name,
+                    Value = "Deutsch"
+                }
+            };
+
+            var modifiedLanguage = await client.ModifyLanguageAsync(Reference.ByCodename("de-DE"), patchModel);
+
+            Assert.Equal("Deutsch", modifiedLanguage.Name);
+            Assert.Equal(Guid.Parse("00000000-0000-0000-0000-000000000000"), modifiedLanguage.FallbackLanguage.Id);
+        }
     }
 }
