@@ -10,6 +10,7 @@ using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 using Xunit.Abstractions;
+using FluentAssertions;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
@@ -364,11 +365,49 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //todo add ByExternalId and ById tests
-        //todo test pagination
-        public async Task ListLanguageVariantByCollectionAsync_ByCodename_ListsVariants()
+        public async Task ListLanguageVariantByCollectionAsync_WithContinuation_ListsVariants()
         {
             var identifier = Reference.ById(Guid.Empty);
+
+            var responseVariants = await _client.ListLanguageVariantsByCollectionAsync(identifier);
+
+            while (true)
+            {
+                responseVariants.Should().NotContainNulls();
+
+                if (!responseVariants.HasNextPage())
+                {
+                    break;
+                }
+                responseVariants = await responseVariants.GetNextPage();
+                Assert.NotNull(responseVariants);
+            }
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantByCollectionAsync_ById_ListsVariants()
+        {
+            var identifier = Reference.ById(Guid.Empty);
+
+            var responseVariants = await _client.ListLanguageVariantsByCollectionAsync(identifier);
+
+            Assert.NotEmpty(responseVariants);
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantByCollectionAsync_ByCodename_ListsVariants()
+        {
+            var identifier = Reference.ByCodename("coffee_collection_tests");
+
+            var responseVariants = await _client.ListLanguageVariantsByCollectionAsync(identifier);
+
+            Assert.NotEmpty(responseVariants);
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantByCollectionAsync_ByExternalId_ListsVariants()
+        {
+            var identifier = Reference.ByExternalId("coffee_collection_tests");
 
             var responseVariants = await _client.ListLanguageVariantsByCollectionAsync(identifier);
 
