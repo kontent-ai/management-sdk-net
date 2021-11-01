@@ -19,7 +19,7 @@ namespace Kentico.Kontent.Management.Models.Languages
         /// Enum: "name" "codename" "fallback_language" "is_active"
         /// </summary>
         [JsonProperty("property_name")]
-        public LanguangePropertyName PropertyName { get; set; }
+        public LanguagePropertyName PropertyName { get; set; }
 
         /// <summary>
         /// Gets or sets the value or object to insert in the specified property. The format of the value property depends on the value of the property_name property.

@@ -96,7 +96,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var patchModel = new LanguagePatchModel
             {
-                PropertyName = LanguangePropertyName.Codename,
+                PropertyName = LanguagePropertyName.Codename,
                 Value = newCodename
             };
 
