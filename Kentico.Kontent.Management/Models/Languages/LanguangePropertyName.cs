@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.Languages
     /// <summary>
     /// Represents properties that can be modified on the content language.
     /// </summary>
-    public enum LanguangePropertyName
+    public enum LanguagePropertyName
     {
         /// <summary>
         /// The language's codename

@@ -157,7 +157,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             {
                 new LanguagePatchModel
                 {
-                    PropertyName = LanguangePropertyName.FallbackLanguage,
+                    PropertyName = LanguagePropertyName.FallbackLanguage,
                     // TODO is the format OK?
                     Value = new {
                         codename = "en-US"
@@ -165,7 +165,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                 },
                 new LanguagePatchModel
                 {
-                    PropertyName = LanguangePropertyName.Name,
+                    PropertyName = LanguagePropertyName.Name,
                     Value = "Deutsch"
                 }
             };
