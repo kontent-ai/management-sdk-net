@@ -101,9 +101,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public const string ASSET_FOLDER_ID_4TH_LEVEL = "3b34af2a-526a-47bc-8a27-a40bb37dd3e2";
         public static readonly Guid EXISTING_ASSET_ID = Guid.Parse("5c08a538-5b58-44eb-81ef-43fb37eeb815");
 
-        public static readonly Guid RICH_TEXT_COMPONENT_ID = Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3");
-
+        public static readonly Guid RICH_TEXT_TWEET_COMPONENT_ID = Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3");
+        
         public static readonly Guid TWEET_TYPE_ID = Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d");
+        public static readonly Guid RICH_TEXT_COMPONENT_TWEET_TYPE_ID = TWEET_TYPE_ID;
+        public static readonly string TWEET_TYPE_CODENAME = "tweet";
+        public static readonly string EXISTING_COMPONENT_TYPE_CODENAME = TWEET_TYPE_CODENAME;
         public static readonly Guid TWEET_THEME_ELEMENT_DARK_OPTION_ID = Guid.Parse("061e69f7-0965-5e37-97bc-29963cfaebe8");
         public const string TWEET_THEME_ELEMENT_DARK_OPTION_CODENAME = "dark";
         public static readonly Guid TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID = Guid.Parse("dd78b09e-4337-599c-9701-20a0a165c63b");
@@ -133,13 +136,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 value = $@"
                         <h1>Light Roasts</h1>
                         <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
-                        <object type=""application/kenticocloud"" data-type=""component"" data-id=""{RICH_TEXT_COMPONENT_ID}""></object>
+                        <object type=""application/kenticocloud"" data-type=""component"" data-id=""{RICH_TEXT_TWEET_COMPONENT_ID}""></object>
                         ",
                 components = new[]
                 {
                     new
                     {
-                        id = RICH_TEXT_COMPONENT_ID,
+                        id = RICH_TEXT_TWEET_COMPONENT_ID,
                         type = new {
                             id = TWEET_TYPE_ID
                         },
@@ -225,12 +228,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             BodyCopy = new RichTextElement
             {
                 Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId()),
-                Value = $"<h1>Light Roasts</h1> <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{RICH_TEXT_COMPONENT_ID}\"></object>",
+                Value = $"<h1>Light Roasts</h1> <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{RICH_TEXT_TWEET_COMPONENT_ID}\"></object>",
                 Components = new ComponentModel[]
                 {
                     new ComponentModel
                     {
-                        Id = RICH_TEXT_COMPONENT_ID,
+                        Id = RICH_TEXT_TWEET_COMPONENT_ID,
                         Type = Reference.ById(TWEET_TYPE_ID),
                         Elements = new BaseElement[]
                         {

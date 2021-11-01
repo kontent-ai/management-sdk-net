@@ -346,16 +346,25 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //todo create variants with component - ??
-        //todo add ByExternalId and ById tests
+        //todo add ByExternalId test
         //todo test pagination
-        public async Task ListLanguageVariantComponentByType_ByCodename_ListsVariants()
+        public async Task ListLanguageVariantsOfContentTypeWithComponents_ByCodename_ListsVariants()
         {
-            var identifier = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+            var identifier = Reference.ByCodename(EXISTING_COMPONENT_TYPE_CODENAME);
 
-            var responseVariants = await _client.ListLanguageVariantComponentByTypeAsync(identifier);
+            var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
 
-            Assert.Empty(responseVariants);
+            Assert.NotEmpty(responseVariants);
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantsOfContentTypeWithComponents_ById_ListsVariants()
+        {
+            var identifier = Reference.ById(RICH_TEXT_COMPONENT_TWEET_TYPE_ID);
+
+            var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+
+            Assert.NotEmpty(responseVariants);
         }
 
         [Fact]
@@ -653,10 +662,10 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             Assert.Equal(StronglyTypedElements.UrlPattern.Mode, elements.UrlPattern.Mode);
             Assert.Equal(StronglyTypedElements.UrlPattern.Value, elements.UrlPattern.Value);
-            
+
             Assert.NotNull(elements.TeaserImage.Value);
             Assert.Equal(StronglyTypedElements.TeaserImage.Value.FirstOrDefault()?.Id, elements.TeaserImage.Value.FirstOrDefault()?.Id);
-            
+
             Assert.NotNull(elements.Options.Value);
             Assert.NotEmpty(elements.Options.Value);
             Assert.Equal(StronglyTypedElements.Options.Value.Select(option => option.Id), elements.Options.Value.Select(option => option.Id));
