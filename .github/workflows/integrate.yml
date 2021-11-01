@@ -2,14 +2,17 @@ name: Build & Test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, vNext ]
   pull_request:
   workflow_dispatch:
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -24,4 +27,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     - name: Codecov
+      if: ${{ runner.os == 'Linux' }}
       uses: codecov/codecov-action@v1

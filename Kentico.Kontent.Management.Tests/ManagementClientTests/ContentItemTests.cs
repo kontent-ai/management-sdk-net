@@ -141,7 +141,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Assert.Equal(itemName, responseItem.CodeName);
         }
 
-        [Fact(Skip = "Kentico.Kontent.Management.Exceptions.ManagementException : The request was not processed because the specified object has been modified by another request.")]
+        [Fact]
         public async void UpdateContentItem_UsingResponseModel_UpdatesContentItem()
         {
             // Arrange
