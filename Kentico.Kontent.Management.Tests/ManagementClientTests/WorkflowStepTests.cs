@@ -38,7 +38,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        public async void ChangeWorkflowStepOfVariant_ChangesWorkflowStepOfVariant()
+        public async void ChangeLanguageVariantWorkflowStep_ChangesWorkflowStepOfVariant()
         {
             // Arrange
             var externalId = "11102811b05f429284006ea94c68333";
@@ -52,7 +52,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var identifier = new WorkflowIdentifier(itemIdentifier, languageIdentifier, Reference.ByCodename("test"));
 
-            await _client.ChangeWorkflowStep(identifier);
+            await _client.ChangeLanguageVariantWorkflowStep(identifier);
 
             var updatedVariant = await _client.GetLanguageVariantAsync(variantIdentifier);
             _ = await _client.ListWorkflowStepsAsync();
