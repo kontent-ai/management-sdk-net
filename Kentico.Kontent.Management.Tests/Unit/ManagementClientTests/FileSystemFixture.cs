@@ -1,8 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.UrlBuilder;
 using Microsoft.Extensions.Configuration;
+using NSubstitute;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {
@@ -36,6 +41,23 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         {
             var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
             return new ManagementClient(_urlBuilder, actionInvoker);
+        }
+
+        public ManagementClient CreateDefaultMockClientRespondingWithFilename(string responseFileName)
+        {
+            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+             .Returns(x =>
+                {
+                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
+
+                    var responsePath = Path.Combine(dataPath, responseFileName);
+                    var result = new HttpResponseMessage();
+                    result.Content = new StringContent(File.ReadAllText(responsePath));
+
+                    return Task.FromResult<HttpResponseMessage>(result);
+                });
+            return CreateMockClient(mockedHttpClient);
         }
 
         public void Dispose()

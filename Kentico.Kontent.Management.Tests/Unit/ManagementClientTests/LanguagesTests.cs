@@ -24,24 +24,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void CreateLanguage_CreatesLanguage()
         {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-                {
-                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
-
-                    var responsePath = Path.Combine(dataPath, "CreateLanguage_CreatesLanguage.json");
-                    var result = new HttpResponseMessage();
-                    result.Content = new StringContent(File.ReadAllText(responsePath));
-
-                    return Task.FromResult<HttpResponseMessage>(result);
-                });
-            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
-<<<<<<< HEAD
-=======
-
->>>>>>> 52848e0c (extract common configuration to test ficture container)
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("CreateLanguage_CreatesLanguage.json");
 
             var newLanguage = new LanguageCreateModel
             {
@@ -63,19 +46,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void ListLanguages_ListsLanguages()
         {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-                {
-                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
-
-                    var responsePath = Path.Combine(dataPath, "ListLanguages_ListsLanguages.json");
-                    var result = new HttpResponseMessage();
-                    result.Content = new StringContent(File.ReadAllText(responsePath));
-
-                    return Task.FromResult<HttpResponseMessage>(result);
-                });
-            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ListLanguages_ListsLanguages.json");
 
             var response = await client.ListLanguagesAsync();
 
@@ -83,21 +54,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void GetLanguage_ById_GetsLanguages()
+        public async void GetLanguage_ById_GetsLanguage()
         {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-                {
-                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
-
-                    var responsePath = Path.Combine(dataPath, "SingleLanguageResponse.json");
-                    var result = new HttpResponseMessage();
-                    result.Content = new StringContent(File.ReadAllText(responsePath));
-
-                    return Task.FromResult<HttpResponseMessage>(result);
-                });
-            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("SingleLanguageResponse.json");
 
             var response = await client.GetLanguageAsync(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")));
 
@@ -110,21 +69,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void GetLanguage_ByCodename_GetsLanguages()
+        public async void GetLanguage_ByCodename_GetsLanguage()
         {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-                {
-                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
-
-                    var responsePath = Path.Combine(dataPath, "SingleLanguageResponse.json");
-                    var result = new HttpResponseMessage();
-                    result.Content = new StringContent(File.ReadAllText(responsePath));
-
-                    return Task.FromResult<HttpResponseMessage>(result);
-                });
-            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("SingleLanguageResponse.json");
 
             var response = await client.GetLanguageAsync(Reference.ByCodename("default"));
 
@@ -137,21 +84,24 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
+        public async void GetLanguage_ByExternalId_GetsLanguage()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("SingleLanguageResponse.json");
+
+            var response = await client.GetLanguageAsync(Reference.ByExternalId("string"));
+
+            Assert.Equal("Default project language", response.Name);
+            Assert.Equal("default", response.Codename);
+            Assert.Equal("string", response.ExternalId);
+            Assert.Equal(Guid.Parse("00000000-0000-0000-0000-000000000000"), response.FallbackLanguage.Id);
+            Assert.True(response.IsActive);
+            Assert.True(response.IsDefault);
+        }
+
+        [Fact]
         public async void ModifyLanguages_Replace_ModifiesLanguages()
         {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-                {
-                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data");
-
-                    var responsePath = Path.Combine(dataPath, "ModifyLanguages_Replace_ModifiesLanguages.json");
-                    var result = new HttpResponseMessage();
-                    result.Content = new StringContent(File.ReadAllText(responsePath));
-
-                    return Task.FromResult<HttpResponseMessage>(result);
-                });
-            var client = _fileSystemFixture.CreateMockClient(mockedHttpClient);
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ModifyLanguages_Replace_ModifiesLanguages.json");
 
             var patchModel = new[]
             {
