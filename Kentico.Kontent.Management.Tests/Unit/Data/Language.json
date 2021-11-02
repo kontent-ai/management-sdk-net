@@ -1,0 +1,11 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "name": "Default project language",
+  "codename": "default",
+  "external_id": "string",
+  "is_active": true,
+  "is_default": true,
+  "fallback_language": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  }
+}

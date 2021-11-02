@@ -1,0 +1,16 @@
+{
+  "codename": "categories",
+  "external_id": "my-little-taxopony",
+  "id": "bef9dd62-a3b8-4146-83e4-33be707899b4",
+  "last_modified": "2020-11-14T14:05:43.9190528Z",
+  "name": "Categories",
+  "terms": [
+    {
+      "codename": "technology",
+      "external_id": "custom-term-identifier",
+      "id": "e3c04146-f5a6-49b0-ba5b-e040d126fb3a",
+      "name": "Technology",
+      "terms": []
+    }
+  ]
+}
