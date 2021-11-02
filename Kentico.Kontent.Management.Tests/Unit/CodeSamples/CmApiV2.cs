@@ -1,7 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Kentico.Kontent.Management.Models.Assets;
+using Kentico.Kontent.Management.Models.Assets.Patch;
+using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.TaxonomyGroups;
+using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
+using Kentico.Kontent.Management.Models.Types.Elements;
+using Kentico.Kontent.Management.Models.Types.Patch;
+using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using NSubstitute;
@@ -461,5 +470,222 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             Assert.Equal(4, response.Count());
         }
+
+        // DocSection: cm_api_v2_patch_asset_folders
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PatchAssetFolders()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchAssetsFolderResponse.json");
+
+            var response = await client.ModifyAssetFoldersAsync(new AssetFolderOperationBaseModel[]
+            {
+                new AssetFolderAddIntoModel
+                {
+                    Reference = Reference.ByExternalId("folder-with-shared-asset"),
+                    Value = new AssetFolderHierarchy
+                    {
+                        ExternalId = "folder-with-shared-assets",
+                        Name = "Shared assets",
+                        Folders = new List<AssetFolderHierarchy>(),
+                    },
+                    Before = Reference.ByExternalId("folder-with-downloadable-assets")
+                },
+                new AssetFolderRemoveModel
+                {
+                    Reference = Reference.ByExternalId("folder-with-archived-assets")
+                },
+                new AssetFolderRenameModel
+                {
+                    Reference = Reference.ByExternalId("folder-documents"),
+                    Value = "Legal documents"
+                }
+        });
+
+            Assert.NotNull(response);
+            Assert.Equal(3, response.Folders.Count());
+            Assert.Single(response.Folders.Skip(1).First().Folders);
+        }
+
+        // DocSection: cm_api_v2_patch_language
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PatchLanguage()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchLanguageResponse.json");
+
+            var identifier = Reference.ById(Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d"));
+            // var identifier = Reference.ByCodename("de-DE");
+            // var identifier = Reference.ByExternalId("standard-german");
+
+
+            var response = await client.ModifyLanguageAsync(identifier, new[]
+            {
+                new LanguagePatchModel
+                {
+                    PropertyName = LanguangePropertyName.FallbackLanguage,
+                    Value = Reference.ByCodename("en-US")
+                },
+                new LanguagePatchModel
+                {
+                    PropertyName = LanguangePropertyName.Name,
+                    Value = "Deutsch"
+                },
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_patch_snippet
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PatchSnippet()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchSnippetResponse.json");
+
+            var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
+            // var identifier = Reference.ByCodename("my_metadata_snippet");
+            // var identifier = Reference.ByExternalId("my-metadata-snippet-id");
+
+
+            var response = await client.ModifyContentTypeSnippetAsync(identifier, new ContentTypeSnippetOperationBaseModel[]
+            {
+                new ContentTypeSnippetPatchReplaceModel
+                {
+                    Path = "/name",
+                    Value = "A new snippet name"
+                },
+                new ContentTypeSnippetPatchReplaceModel
+                {
+                    Path = "/elements/codename:my_metadata__my_meta_description/guidelines",
+                    Value = "Length: 70-150 characters."
+                },
+                new ContentTypeSnippetAddIntoPatchModel
+                {
+                    Path = "/elements",
+                    Value = new TextElementMetadataModel
+                    {
+                        Name = "My meta title",
+                        Guidelines = "Length: 30–60 characters.",
+                        ExternalId = "my-meta-title-id"
+                    },
+                },
+                new SnippetPatchRemoveModel
+                {
+                    Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
+                },
+                new SnippetPatchRemoveModel
+                {
+                    Path = "/elements/external_id:my-multiple-choice-id/options/codename:my_option"
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_patch_snippet
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PatchTaxonomyGroup()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchTaxonomyGroupResponse.json");
+
+            var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
+            // var identifier = Reference.ByCodename("personas");
+            // var identifier = Reference.ByExternalId("Tax-Group-123");
+
+            var response = await client.ModifyTaxonomyGroupAsync(identifier, new TaxonomyGroupOperationBaseModel[]
+            {
+                new TaxonomyGroupReplacePatchModel
+                {
+                    PropertyName = PropertyName.Name,
+                    Value = "Categories"
+                },
+                new TaxonomyGroupReplacePatchModel
+                {
+                    PropertyName = PropertyName.Codename,
+                    Value = "category"
+                },
+                new TaxonomyGroupReplacePatchModel
+                {
+                    Reference = Reference.ByCodename("first_term"),
+                    PropertyName = PropertyName.Terms,
+                    Value = new List<TaxonomyGroupCreateModel>
+                    {
+                        new TaxonomyGroupCreateModel
+                        {
+                            Name = "Second-level taxonomy term",
+                            Codename = "second_term",
+                            Terms = new List<TaxonomyGroupCreateModel>
+                            {
+                                new TaxonomyGroupCreateModel
+                                {
+                                    Name = "Third-level taxonomy term",
+                                }
+                            }
+                        }
+                    }
+                },
+                new TaxonomyGroupRemovePatchModel
+                {
+                    Reference = Reference.ByExternalId("unused-taxonomy-term")
+                },
+                new TaxonomyGroupAddIntoPatchModel
+                {
+                    Reference = Reference.ByCodename("second_term"),
+                    Value = new TaxonomyGroupCreateModel
+                    {
+                        Name = "New taxonomy term",
+                        ExternalId = "my-new-term",
+                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
+                    }
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_patch_type
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PatchContentType()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchContentTypeResponse.json");
+
+            var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
+            // var identifier = Reference.ByCodename("my_article");
+            // var identifier = Reference.ByExternalId("my-article-id");
+
+            var response = await client.ModifyContentTypeAsync(identifier, new ContentTypeOperationBaseModel[]
+            {
+                new ContentTypeReplacePatchModel
+                {
+                    Path = "/name",
+                    Value = "A new type name"
+                },
+                new ContentTypeReplacePatchModel
+                {
+                    Path = "/elements/codename:my_text_element/guidelines",
+                    Value = "Here you can tell users how to fill in the element."
+                },
+                new ContentTypeAddIntoPatchModel
+                {
+                    Path = "/elements",
+                    Value = new TextElementMetadataModel
+                    {
+                        Name = "My title",
+                        Guidelines = "Title of the article in plain text.",
+                        ExternalId = "my-title-id",
+                    },
+                },
+                new ContentTypeRemovePatchModel
+                {
+                    Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
     }
 }
