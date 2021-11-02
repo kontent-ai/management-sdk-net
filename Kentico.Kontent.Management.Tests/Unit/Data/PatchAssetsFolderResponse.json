@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "id": "59aaaa55-1049-44bc-8785-0e327b271453",
+      "name": "Shared assets",
+      "external_id": "folder-with-shared-assets",
+      "folders": []
+    },
+    {
+      "id": "958001d8-2228-4373-b966-5262b5b96f71",
+      "name": "Downloads",
+      "external_id": "folder-with-downloadable-assets",
+      "folders": [
+        {
+          "id": "9ca927b6-6e4d-4d6b-81e3-ec5e8f7772a0",
+          "name": "Archives",
+          "external_id": "folder-with-downloadable-archives",
+          "folders": []
+        }
+      ]
+    },
+    {
+      "id": "9ca927b6-6e4d-4d6b-81e3-ec5e8f7772a0",
+      "name": "Legal documents",
+      "external_id": "folder-documents",
+      "folders": []
+    }
+  ],
+  "last_modified": "2020-04-04T13:45:30.7692802Z"
+}
