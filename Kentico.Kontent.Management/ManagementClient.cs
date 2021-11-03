@@ -1121,7 +1121,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="asset">Represents the asset that will be created.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
-        public async Task<AssetModel> CreateAssetAsync(AssetUpsertModel asset)
+        public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
         {
             if (asset == null)
             {
@@ -1129,7 +1129,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
+            var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
 
             return response;
         }
