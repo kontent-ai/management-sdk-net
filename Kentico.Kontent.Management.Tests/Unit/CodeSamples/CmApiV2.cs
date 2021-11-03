@@ -687,5 +687,27 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.NotNull(response);
         }
 
+        // DocSection: cm_api_v2_post_asset
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostAsset()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchContentTypeResponse.json");
+
+            var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
+            // var identifier = Reference.ByCodename("my_article");
+            // var identifier = Reference.ByExternalId("my-article-id");
+
+
+            var response = await client.CreateAssetAsync(new AssetCreateModel
+            {
+                Folder = Reference.ByExternalId("another-folder"),
+                Title = "Coffee Brewing Techniques",
+                ExternalId = ""
+            });
+
+            Assert.NotNull(response);
+        }
+
     }
 }
