@@ -171,7 +171,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             Assert.NotEqual(Guid.Empty, fileId);
 
-            var asset = new AssetUpsertModel
+            var asset = new AssetCreateModel
             {
                 FileReference = fileResult,
             };
@@ -253,7 +253,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var descriptions = new[] { assetDescription };
             var title = "New title";
 
-            var assetResult = await _client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
+            var assetResult = await _client.CreateAssetAsync(new FileContentSource(Encoding.UTF8.GetBytes(content), fileName, contentType), new AssetCreateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Null(assetResult.ExternalId);
@@ -280,7 +280,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var filePath = Path.Combine(Environment.CurrentDirectory, Path.Combine("Data", "kentico_rgb_bigger.png"));
             var contentType = "image/png";
 
-            var assetResult = await _client.CreateAssetAsync(new FileContentSource(filePath, contentType), new AssetUpdateModel { Descriptions = descriptions, Title = title });
+            var assetResult = await _client.CreateAssetAsync(new FileContentSource(filePath, contentType), new AssetCreateModel { Descriptions = descriptions, Title = title });
 
             Assert.NotNull(assetResult);
             Assert.Null(assetResult.ExternalId);

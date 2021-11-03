@@ -83,7 +83,7 @@ namespace Kentico.Kontent.Management
 
             var fileResult = await client.UploadFileAsync(fileContent);
 
-            var asset = new AssetUpsertModel
+            var asset = new AssetCreateModel
             {
                 FileReference = fileResult,
                 Descriptions = descriptions
@@ -99,30 +99,30 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="client"></param>
         /// <param name="fileContent">Represents the content of the file.</param>
-        /// <param name="assetUpdateModel">Updated values for the asset.</param>
-        public static async Task<AssetModel> CreateAssetAsync(this ManagementClient client, FileContentSource fileContent, AssetUpdateModel assetUpdateModel)
+        /// <param name="assetCreateModel">Updated values for the asset.</param>
+        public static async Task<AssetModel> CreateAssetAsync(this ManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel)
         {
             if (fileContent == null)
             {
                 throw new ArgumentNullException(nameof(fileContent));
             }
-            if (assetUpdateModel == null)
+            if (assetCreateModel == null)
             {
-                throw new ArgumentNullException(nameof(assetUpdateModel));
+                throw new ArgumentNullException(nameof(assetCreateModel));
             }
 
-            if (assetUpdateModel.Descriptions == null)
+            if (assetCreateModel.Descriptions == null)
             {
-                throw new ArgumentNullException(nameof(assetUpdateModel.Descriptions));
+                throw new ArgumentNullException(nameof(assetCreateModel.Descriptions));
             }
 
             var fileResult = await client.UploadFileAsync(fileContent);
 
-            var asset = new AssetUpsertModel
+            var asset = new AssetCreateModel
             {
                 FileReference = fileResult,
-                Descriptions = assetUpdateModel.Descriptions,
-                Title = assetUpdateModel.Title
+                Descriptions = assetCreateModel.Descriptions,
+                Title = assetCreateModel.Title
             };
 
             var response = await client.CreateAssetAsync(asset);
