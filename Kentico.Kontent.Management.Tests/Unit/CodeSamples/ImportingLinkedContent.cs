@@ -83,7 +83,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("123"), Reference.ByCodename("en-US"));
 
-            await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
+            var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
                 Elements = new dynamic[]
                 {
