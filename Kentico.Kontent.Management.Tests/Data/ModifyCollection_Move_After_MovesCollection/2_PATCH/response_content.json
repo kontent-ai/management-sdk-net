@@ -1,5 +1,5 @@
 {
-  "last_modified": "2021-10-14T13:54:21.6257471Z",
+  "last_modified": "2021-11-06T13:59:55.1629118Z",
   "collections": [
     {
       "id": "00000000-0000-0000-0000-000000000000",
@@ -10,6 +10,12 @@
       "id": "53aeb1a8-f834-430a-beff-87b8352ab595",
       "name": "TestCollection",
       "codename": "testcollection"
+    },
+    {
+      "id": "351f9184-8fa0-5882-824b-024ebadd3626",
+      "external_id": "coffee_collection_tests",
+      "name": "coffee_collection_tests",
+      "codename": "coffee_collection_tests"
     }
   ]
 }

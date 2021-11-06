@@ -1,7 +1,7 @@
 {
   "id": "61b25929-60f2-54f4-a0eb-91c287dc2ea7",
   "codename": "hooray_codename_type",
-  "last_modified": "2021-10-21T12:53:39.1449717Z",
+  "last_modified": "2021-11-06T13:58:58.6833545Z",
   "external_id": "hooray_codename_external_id",
   "name": "HoorayType!",
   "elements": [
@@ -15,7 +15,7 @@
       "guidelines": null,
       "is_required": false,
       "type": "asset",
-      "id": "84d7c263-a01c-47bc-8430-ee3e4225c266",
+      "id": "ec747db7-643d-417e-b3aa-8b0ad6af463b",
       "codename": "hooray_codename_type__myasset"
     },
     {
@@ -44,14 +44,14 @@
       "guidelines": null,
       "is_required": true,
       "type": "modular_content",
-      "id": "ebf9b7ab-076a-4e7c-9402-8abbebd73cd0",
+      "id": "211b45ae-5de4-446d-9704-efd761cf19a4",
       "codename": "hooray_codename_type__linkeditemselementcodename"
     },
     {
       "mode": "single",
       "options": [
         {
-          "id": "d258504c-348e-4ee1-901d-77b1a3375f99",
+          "id": "80e58cb3-1789-4167-bb28-9bf3eaec9e98",
           "codename": "yes",
           "name": "Yes"
         }
@@ -60,7 +60,7 @@
       "guidelines": null,
       "is_required": false,
       "type": "multiple_choice",
-      "id": "babfd3f0-4a83-4972-9e78-c314c9740397",
+      "id": "1658ddfd-600e-4736-bf1d-42cd4712b6ab",
       "codename": "hooray_codename_type__multiple_choice_element_codename"
     },
     {
@@ -111,7 +111,7 @@
       "guidelines": null,
       "is_required": false,
       "type": "text",
-      "id": "7f0fb5b6-d1c2-410d-83f0-fd094f54548c",
+      "id": "301286d5-2f12-4ab2-82cc-981f363a40b2",
       "codename": "hooray_codename_type__textelementmetadatacodename"
     }
   ]

@@ -1,19 +1,6 @@
 {
   "items": [
     {
-      "id": "2b909f69-9731-4c7e-b020-a50f38f09a91",
-      "name": "Hooray!",
-      "codename": "hooray__2b909f6",
-      "type": {
-        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
-      },
-      "collection": {
-        "id": "00000000-0000-0000-0000-000000000000"
-      },
-      "sitemap_locations": [],
-      "last_modified": "2021-08-06T07:12:01.8152966Z"
-    },
-    {
       "id": "3d834afc-e64b-40eb-8026-8fd10ca8528e",
       "name": "Hooray!",
       "codename": "hooray__3d834af",
@@ -1299,10 +1286,23 @@
       },
       "sitemap_locations": [],
       "last_modified": "2021-10-04T14:56:57.1643911Z"
+    },
+    {
+      "id": "667c819d-8a14-4f4b-a25a-9d9681db4729",
+      "name": "Article in the",
+      "codename": "article_in_the",
+      "type": {
+        "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+      },
+      "collection": {
+        "id": "351f9184-8fa0-5882-824b-024ebadd3626"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-10-31T20:01:22.5430758Z"
     }
   ],
   "pagination": {
-    "continuation_token": null,
-    "next_page": null
+    "continuation_token": "Ww0KICB7DQogICAgInRva2VuIjogIitSSUQ6fnpDazNBTUtyemdiamFDQUFBQUFBQlE9PSNSVDoyI1RSQzoyMDAjSVNWOjIjSUVPOjY1NTUxI1FDRjo0I0ZQQzpBZ2lCQUFBQUFCUUFBSUVBQUFBQUZBQUFnUUFBQUFBVUFBQUVBT0VvaUFBPSIsDQogICAgInJhbmdlIjogew0KICAgICAgIm1pbiI6ICIwNUMxRDdGMTJGNjk5QyIsDQogICAgICAibWF4IjogIjA1QzFFMTU5QzlCQjFBIg0KICAgIH0NCiAgfQ0KXQ==",
+    "next_page": "https://manage.kontent.ai/v2/projects/a9931a80-9af4-010b-0590-ecb1273cf1b8/items"
   }
 }
