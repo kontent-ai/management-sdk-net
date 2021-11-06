@@ -36,7 +36,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                     Type = FileReferenceTypeEnum.Internal
                 },
                 Title = "Brno Cafe",
-
                 Descriptions = new AssetDescription[]
                 {
                     new AssetDescription

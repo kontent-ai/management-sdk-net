@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         // DocSection: import_model_create_taxonomy
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
-        public async void UseAsset()
+        public async void CreateTaxonomy()
         {
             var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
 
