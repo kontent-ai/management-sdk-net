@@ -8,6 +8,7 @@ using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.LanguageVariants;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.TaxonomyGroups;
 using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
@@ -18,6 +19,7 @@ using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Webhooks.Triggers;
+using Kentico.Kontent.Management.Models.Workflow;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using NSubstitute;
@@ -920,7 +922,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostTypeResponse.json");
 
-            // Binary file reference to be used when adding a new asset
             var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
             {
                 ExternalId = "article",
@@ -977,7 +978,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostValidateResponse.json");
 
-            // Binary file reference to be used when adding a new asset
             var response = await client.ValidateProjectAsync();
 
             Assert.NotNull(response);
@@ -990,7 +990,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostWebhookResponse.json");
 
-            // Binary file reference to be used when adding a new asset
             var response = await client.CreateWebhookAsync(new WebhookCreateModel
             {
                 Name = "Example webhook",
@@ -1069,6 +1068,317 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             });
 
             Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_put_asset
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutAsset()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PutAssetResponse.json");
+
+            var identifier = Reference.ByExternalId("which-brewing-fits-you");
+            // var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
+
+            // Used when updating an existing asset
+            var updatedAssetResponse = await client.UpdateAssetAsync(identifier, new AssetUpdateModel
+            {
+                Title = "Coffee Brewing Techniques",
+                Descriptions = new List<AssetDescription>
+                {
+                    new AssetDescription
+                    {
+                        Description = "Coffee Brewing Techniques",
+                        Language = Reference.ByCodename("en-US")
+                    },
+                    new AssetDescription
+                    {
+                        Description = "Técnicas para hacer café",
+                        Language = Reference.ByCodename("es-ES")
+                    }
+                }
+            });
+
+            // Used when creating a new asset or updating an existing one
+            var createdAssetResponse = await client.UpsertAssetByExternalIdAsync("which-brewing-fits-you", new AssetUpsertModel
+            {
+                // 'fileReference' is only required when creating a new asset
+                // To create a file reference, see the "Upload a binary file" endpoint
+                FileReference = new FileReference
+                {
+                    Id = "ab7bdf75-781b-4bf9-aed8-501048860402",
+                    Type = FileReferenceTypeEnum.Internal
+                },
+                Title = "Coffee Brewing Techniques",
+
+                Descriptions = new AssetDescription[]
+                {
+                    new AssetDescription
+                    {
+                        Description = "Coffee Brewing Techniques",
+                        Language = Reference.ByCodename("en-US")
+                    },
+                    new AssetDescription
+                    {
+                        Description = "Técnicas para hacer café",
+                        Language = Reference.ByCodename("es-ES")
+                    }
+                }
+            });
+
+            Assert.NotNull(createdAssetResponse);
+            Assert.NotNull(updatedAssetResponse);
+        }
+
+        // DocSection: cm_api_v2_put_item
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutItem()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PutItemResponse.json");
+
+            var identifier = Reference.ByExternalId("59713");
+            // var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
+            // var identifier = Reference.ByCodename("my_article");
+
+            var updatedItemResponse = await client.UpdateContentItemAsync(identifier, new ContentItemUpdateModel
+            {
+                Name = "On Roasts",
+                Codename = "my_article_my_article",
+                Collection = Reference.ByCodename("default"),
+            });
+
+            var upsertedItemResponse = await client.UpsertContentItemByExternalIdAsync("59713", new ContentItemUpsertModel
+            {
+                Name = "On Roasts",
+                Codename = "my_article_my_article",
+                Collection = Reference.ByCodename("default"),
+                // 'Type' is only required when creating a new content item
+                Type = Reference.ByCodename("article"),
+            });
+
+            Assert.NotNull(updatedItemResponse);
+            Assert.NotNull(upsertedItemResponse);
+        }
+
+        // DocSection: cm_api_v2_put_variant
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutLanguageVariant()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PutLanguageVariantResponse.json");
+
+            var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+
+            var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
+            {
+                Elements = new dynamic[]
+                {
+                    new TaxonomyElement
+                    {
+                        Element = Reference.ByCodename("personas"),
+                        Value = new []
+                        {
+                            Reference.ByCodename("barista"),
+                            Reference.ByCodename("coffee_blogger"),
+                        }
+                    }.ToDynamic(),
+                    new DateTimeElement
+                    {
+                        Element = Reference.ByCodename("post_date"),
+                        Value = DateTime.Parse("2014-11-07T00:00:00Z")
+                    }.ToDynamic(),
+                    new TextElement
+                    {
+                        Element = Reference.ByCodename("summary"),
+                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ..."
+                    }.ToDynamic(),
+                    new LinkedItemsElement
+                    {
+                        Element = Reference.ByCodename("related_articles"),
+                        Value = new []
+                        {
+                            Reference.ByCodename("coffee_processing_techniques"),
+                            Reference.ByCodename("origins_of_arabica_bourbon"),
+                        }
+                    }.ToDynamic(),
+                    new TextElement
+                    {
+                        Element = Reference.ByCodename("meta_keywords"),
+                        Value = "asados, café"
+                    }.ToDynamic(),
+                    new TextElement
+                    {
+                        Element = Reference.ByCodename("meta_description"),
+                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ..."
+                    }.ToDynamic(),
+                    new UrlSlugElement
+                    {
+                        Element = Reference.ByCodename("url_pattern"),
+                        Mode = "autogenerated"
+                    }.ToDynamic(),
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_put_variant_cancel_schedule
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutLanguageVariantCancelSchedule()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+
+            var exception = await Record.ExceptionAsync(async () => await client.CancelPublishingOfLanguageVariant(identifier));
+
+            Assert.Null(exception);
+        }
+
+        // DocSection: cm_api_v2_put_var_cancel_sched_unpublish
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutCancelUnpublishingOfLanguageVariant()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+
+            var exception = await Record.ExceptionAsync(async () => await client.CancelUnpublishingOfLanguageVariant(identifier));
+
+            Assert.Null(exception);
+        }
+
+        // DocSection: cm_api_v2_put_var_cancel_sched_unpublish
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutLanguageVariantNewVersion()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+
+            var exception = await Record.ExceptionAsync(async () => await client.CreateNewVersionOfLanguageVariant(identifier));
+            Assert.Null(exception);
+        }
+
+        // DocSection: cm_api_v2_put_variant_publish_or_schedule
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutPublishLanguageVariant()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+
+            // Immediate publish
+            var immediateException = await Record.ExceptionAsync(async () => await client.PublishLanguageVariant(identifier));
+            Assert.Null(immediateException);
+
+            // Scheduled publish
+            var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariant(identifier, new ScheduleModel
+            {
+                ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
+            }));
+            Assert.Null(scheduledPublishException);
+        }
+
+        // DocSection: cm_api_v2_put_variant_unpublish_archive
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutUnpublishLanguageVariant()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
+            // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+
+            // Immediate publish
+            var immediateException = await Record.ExceptionAsync(async () => await client.UnpublishLanguageVariant(identifier));
+            Assert.Null(immediateException);
+
+            // Scheduled publish
+            var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariant(identifier, new ScheduleModel
+            {
+                ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
+            }));
+            Assert.Null(scheduledUnpublishException);
+        }
+
+        // DocSection: cm_api_v2_put_item
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutVariantWorkflow()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var itemIdentifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
+            // var itemIdentifier = Reference.ByCodename("my_article");
+            // var itemIdentifier = Reference.ByExternalId("59713");
+
+            var languageIdentifier = Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+            // var languageIdentifier = Reference.ByCodename("es-ES");
+
+            var workflowStepIdentifier = Reference.ById(Guid.Parse("16221cc2-bd22-4414-a513-f3e555c0fc93"));
+
+            var exception = await Record.ExceptionAsync(async () =>
+                await client.ChangeLanguageVariantWorkflowStep(new WorkflowIdentifier(itemIdentifier, languageIdentifier, workflowStepIdentifier)));
+            Assert.Null(exception);
+        }
+
+        // DocSection: mapi_v2_enable_webhook
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutEnableWebhook()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var exception = await Record.ExceptionAsync(async () =>
+                await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
+            Assert.Null(exception);
+        }
+
+        // DocSection: mapi_v2_disable_webhook
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutDisableWebhook()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var exception = await Record.ExceptionAsync(async () =>
+                await client.DisableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
+            Assert.Null(exception);
         }
     }
 }
