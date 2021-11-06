@@ -18,6 +18,38 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// <summary>
         /// Transforms the element in a language variant to the dynamic object.
         /// </summary>
-        public abstract dynamic ToDynamic(Guid elementId);
+        public abstract dynamic ToDynamic();
+
+        /// <summary>
+        /// Get dynamic representation of the element reference.
+        /// </summary>
+        public dynamic GetDynamicReference()
+        {
+            if (Element.Id != null)
+            {
+                return new
+                {
+                    id = Element.Id,
+                };
+            }
+
+            if (Element.Codename != null)
+            {
+                return new
+                {
+                    codename = Element.Codename,
+                };
+            }
+
+            if (Element.ExternalId != null)
+            {
+                return new
+                {
+                    external_id = Element.ExternalId,
+                };
+            }
+
+            throw new DataMisalignedException("Element reference does not contain any identifier.");
+        }
     }
 }
