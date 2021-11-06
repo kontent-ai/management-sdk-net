@@ -509,7 +509,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                     Reference = Reference.ByExternalId("folder-documents"),
                     Value = "Legal documents"
                 }
-        });
+            });
 
             Assert.NotNull(response);
             Assert.Equal(3, response.Folders.Count());
@@ -556,7 +556,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             // var identifier = Reference.ByCodename("my_metadata_snippet");
             // var identifier = Reference.ByExternalId("my-metadata-snippet-id");
 
-
             var response = await client.ModifyContentTypeSnippetAsync(identifier, new ContentTypeSnippetOperationBaseModel[]
             {
                 new ContentTypeSnippetPatchReplaceModel
@@ -592,7 +591,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.NotNull(response);
         }
 
-        // DocSection: cm_api_v2_patch_snippet
+        // DocSection: cm_api_v2_patch_taxonomy_group
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
         public async void PatchTaxonomyGroup()
@@ -769,8 +768,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostFileResponse.json");
 
-            string filePath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", "kentico_rgb_bigger.png");
-            string contentType = "image/png";
+            var filePath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", "kentico_rgb_bigger.png");
+            var contentType = "image/png";
 
             // Binary file reference to be used when adding a new asset
             var response = await client.UploadFileAsync(new FileContentSource(filePath, contentType));
@@ -1110,7 +1109,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                     Type = FileReferenceTypeEnum.Internal
                 },
                 Title = "Coffee Brewing Techniques",
-
                 Descriptions = new AssetDescription[]
                 {
                     new AssetDescription
@@ -1266,7 +1264,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.Null(exception);
         }
 
-        // DocSection: cm_api_v2_put_var_cancel_sched_unpublish
+        // DocSection: cm_api_v2_put_variant_create_new_version
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
         public async void PutLanguageVariantNewVersion()
@@ -1300,13 +1298,14 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             // Immediate publish
             var immediateException = await Record.ExceptionAsync(async () => await client.PublishLanguageVariant(identifier));
-            Assert.Null(immediateException);
 
             // Scheduled publish
             var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariant(identifier, new ScheduleModel
             {
                 ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
             }));
+
+            Assert.Null(immediateException);
             Assert.Null(scheduledPublishException);
         }
 
@@ -1326,17 +1325,18 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             // Immediate publish
             var immediateException = await Record.ExceptionAsync(async () => await client.UnpublishLanguageVariant(identifier));
-            Assert.Null(immediateException);
 
             // Scheduled publish
             var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariant(identifier, new ScheduleModel
             {
                 ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
             }));
+
+            Assert.Null(immediateException);
             Assert.Null(scheduledUnpublishException);
         }
 
-        // DocSection: cm_api_v2_put_item
+        // DocSection: cm_api_v2_put_variant_workflow
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
         public async void PutVariantWorkflow()
@@ -1357,18 +1357,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.Null(exception);
         }
 
-        // DocSection: mapi_v2_enable_webhook
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
-        [Fact]
-        public async void PutEnableWebhook()
-        {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
-
-            var exception = await Record.ExceptionAsync(async () =>
-                await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
-            Assert.Null(exception);
-        }
-
         // DocSection: mapi_v2_disable_webhook
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
@@ -1378,6 +1366,18 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var exception = await Record.ExceptionAsync(async () =>
                 await client.DisableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
+            Assert.Null(exception);
+        }
+
+        // DocSection: mapi_v2_enable_webhook
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutEnableWebhook()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+
+            var exception = await Record.ExceptionAsync(async () =>
+                await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
             Assert.Null(exception);
         }
     }
