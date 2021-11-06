@@ -1,16 +1,23 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Assets.Patch;
+using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.TaxonomyGroups;
 using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
+using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Models.Types.Patch;
+using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
+using Kentico.Kontent.Management.Models.Webhooks;
+using Kentico.Kontent.Management.Models.Webhooks.Triggers;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using NSubstitute;
@@ -487,7 +494,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                     {
                         ExternalId = "folder-with-shared-assets",
                         Name = "Shared assets",
-                        Folders = new List<AssetFolderHierarchy>(),
+                        Folders = Enumerable.Empty<AssetFolderHierarchy>(),
                     },
                     Before = Reference.ByExternalId("folder-with-downloadable-assets")
                 },
@@ -610,13 +617,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                 {
                     Reference = Reference.ByCodename("first_term"),
                     PropertyName = PropertyName.Terms,
-                    Value = new List<TaxonomyGroupCreateModel>
+                    Value = new TaxonomyGroupCreateModel[]
                     {
                         new TaxonomyGroupCreateModel
                         {
                             Name = "Second-level taxonomy term",
                             Codename = "second_term",
-                            Terms = new List<TaxonomyGroupCreateModel>
+                            Terms = new TaxonomyGroupCreateModel[]
                             {
                                 new TaxonomyGroupCreateModel
                                 {
@@ -692,22 +699,376 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostAsset()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchContentTypeResponse.json");
-
-            var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
-            // var identifier = Reference.ByCodename("my_article");
-            // var identifier = Reference.ByExternalId("my-article-id");
-
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostAssetResponse.json");
 
             var response = await client.CreateAssetAsync(new AssetCreateModel
             {
+                FileReference = new FileReference
+                {
+                    Id = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+                    Type = FileReferenceTypeEnum.Internal
+                },
                 Folder = Reference.ByExternalId("another-folder"),
                 Title = "Coffee Brewing Techniques",
-                ExternalId = ""
+                ExternalId = "which-brewing-fits-you",
+                Descriptions = new[]
+                {
+                    new AssetDescription
+                    {
+                        Language = Reference.ByCodename("en-US"),
+                        Description = "Coffee Brewing Techniques"
+                    },
+                     new AssetDescription
+                    {
+                        Language = Reference.ByCodename("es-ES"),
+                        Description = "Técnicas para hacer café"
+                    }
+                }
             });
 
             Assert.NotNull(response);
         }
 
+        // DocSection: cm_api_v2_post_asset_folders
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostAssetFolders()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostAssetFoldersResponse.json");
+
+            var response = await client.CreateAssetFoldersAsync(new AssetFolderCreateModel
+            {
+                Folders = new[]
+                {
+                    new AssetFolderHierarchy
+                    {
+                        Name = "Top level folder",
+                        ExternalId = "top-folder",
+                        Folders = new []
+                        {
+                            new AssetFolderHierarchy
+                            {
+                                Name = "Second level folder",
+                                ExternalId = "second-folder",
+                                Folders = Enumerable.Empty<AssetFolderHierarchy>(),
+                            }
+                        }
+                    }
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_post_file
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostFile()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostFileResponse.json");
+
+            string filePath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", "kentico_rgb_bigger.png");
+            string contentType = "image/png";
+
+            // Binary file reference to be used when adding a new asset
+            var response = await client.UploadFileAsync(new FileContentSource(filePath, contentType));
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_post_item
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostItem()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostItemResponse.json");
+
+            var response = await client.CreateContentItemAsync(new ContentItemCreateModel
+            {
+                Name = "On Roasts",
+                Codename = "my_article",
+                Type = Reference.ByCodename("article"),
+                Collection = Reference.ByCodename("default"),
+                ExternalId = "59713",
+            });
+
+            Assert.NotNull(response);
+        }
+
+
+        // DocSection: cm_api_v2_post_language
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostLanguage()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostLanguageResponse.json");
+
+            var response = await client.CreateLanguageAsync(new LanguageCreateModel
+            {
+                Name = "German (Germany)",
+                Codename = "de-DE",
+                IsActive = true,
+                FallbackLanguage = Reference.ByCodename("de-AT"),
+                ExternalId = "standard-german"
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_post_snippet
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostSnippet()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostSnippetResponse.json");
+
+            var response = await client.CreateContentTypeSnippetAsync(new CreateContentSnippetCreateModel
+            {
+                Name = "metadata",
+                Codename = "my_metadata",
+                ExternalId = "snippet-item-123",
+                Elements = new ElementMetadataBase[]
+                {
+                    new TextElementMetadataModel
+                    {
+                        Name = "Meta title",
+                        Codename = "my_metadata__meta_title",
+                        Guidelines = "Length: 30-60 characters",
+                        ExternalId = "meta_title",
+                    },
+                    new TextElementMetadataModel
+                    {
+                        Name = "Meta description",
+                        Codename = "my_metadata__meta_description",
+                        Guidelines = "Length: 70-11500 characters",
+                        ExternalId = "meta_description",
+                    }
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_post_taxonomy_group
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostTaxonomyGroup()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostTaxonomyGroupResponse.json");
+
+            var response = await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
+            {
+                Name = "Personas",
+                ExternalId = "Tax-Group-123",
+                Codename = "people",
+                Terms = new TaxonomyGroupCreateModel[]
+                    {
+                        new TaxonomyGroupCreateModel
+                        {
+                            Name = "Coffee expert",
+                            Codename = "expert",
+                            ExternalId = "Tax-term-456",
+                            Terms = new TaxonomyGroupCreateModel[]
+                            {
+                                new TaxonomyGroupCreateModel
+                                {
+                                    Name = "Barista",
+                                    ExternalId = "Tax-term-789",
+                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                },
+                                new TaxonomyGroupCreateModel
+                                {
+                                    Name = "Cafe owner",
+                                    ExternalId = "Tax-term-101",
+                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                }
+                            }
+                        },
+                        new TaxonomyGroupCreateModel
+                        {
+                            Name = "Coffee enthusiast",
+                            Codename = "enthusiast",
+                            ExternalId = "Tax-term-112",
+                            Terms = new TaxonomyGroupCreateModel[]
+                            {
+                                new TaxonomyGroupCreateModel
+                                {
+                                    Name = "Coffee lover",
+                                    ExternalId = "Tax-term-131",
+                                    Codename = "lover",
+                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                },
+                                new TaxonomyGroupCreateModel
+                                {
+                                    Name = "Coffee blogger",
+                                    ExternalId = "Tax-term-145",
+                                    Codename = "blogger",
+                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                }
+                            }
+                        }
+                    }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_post_type
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostType()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostTypeResponse.json");
+
+            // Binary file reference to be used when adding a new asset
+            var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
+            {
+                ExternalId = "article",
+                Name = "Article",
+                Codename = "my_article",
+                ContentGroups = new[]
+                {
+                    new ContentGroupModel
+                    {
+                        Name = "Article Copy",
+                        ExternalId = "article-copy",
+                    },
+                    new ContentGroupModel
+                    {
+                        Name = "Author",
+                        CodeName = "author",
+                    }
+                },
+                Elements = new ElementMetadataBase[]
+                {
+                    new TextElementMetadataModel
+                    {
+                        Name = "Article title",
+                        Codename = "title",
+                        ContentGroup = Reference.ByCodename("article-copy"),
+                    },
+                    new RichTextElementMetadataModel
+                    {
+                        Name = "Article body",
+                        Codename = "body",
+                        ContentGroup = Reference.ByCodename("article-copy"),
+                    },
+                    new RichTextElementMetadataModel
+                    {
+                        Name = "Author bio",
+                        Codename = "bio",
+                        AllowedBlocks = new HashSet<RichTextBlockType>()
+                        {
+                            RichTextBlockType.Images,
+                            RichTextBlockType.Text
+                        },
+                        ContentGroup = Reference.ByCodename("author"),
+                    },
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_post_validate
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostValidate()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostValidateResponse.json");
+
+            // Binary file reference to be used when adding a new asset
+            var response = await client.ValidateProjectAsync();
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_post_webhook
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostWebhook()
+        {
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostWebhookResponse.json");
+
+            // Binary file reference to be used when adding a new asset
+            var response = await client.CreateWebhookAsync(new WebhookCreateModel
+            {
+                Name = "Example webhook",
+                Url = "https://example.com/webhook",
+                Secret = "secret_key",
+                Triggers = new WebhookTriggersModel
+                {
+                    DeliveryApiContentChanges = new[]
+                    {
+                        new DeliveryApiTriggerModel
+                        {
+                            Type = TriggerChangeType.LanguageVariant,
+                            Operations = new []
+                            {
+                                "publish",
+                                "unpublish"
+                            }
+                        },
+                        new DeliveryApiTriggerModel
+                        {
+                            Type = TriggerChangeType.Taxonomy,
+                            Operations = new []
+                            {
+                                "archive",
+                                "restore",
+                                "upsert"
+                            }
+                        }
+                    },
+                    PreviewDeliveryApiContentChanges = new[]
+                    {
+                        new DeliveryApiTriggerModel
+                        {
+                            Type = TriggerChangeType.LanguageVariant,
+                            Operations = new []
+                            {
+                                "archive",
+                                "upsert"
+                            }
+                        },
+                        new DeliveryApiTriggerModel
+                        {
+                            Type = TriggerChangeType.Taxonomy,
+                            Operations = new []
+                            {
+                                "archive",
+                                "restore",
+                                "upsert"
+                            }
+                        }
+                    },
+                    WorkflowStepChanges = new[]
+                    {
+                        new WorkflowStepTriggerModel
+                        {
+                            TransitionsTo = new []
+                            {
+                                Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008")),
+                                Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
+                            }
+                        },
+                    },
+                    ManagementApiContentChanges = new[]
+                    {
+                        new ManagementApiTriggerModel
+                        {
+                            Operations = new []
+                            {
+                                "archive",
+                                "create",
+                                "restore",
+                            }
+                        }
+                    },
+                }
+            });
+
+            Assert.NotNull(response);
+        }
     }
 }
