@@ -1,0 +1,83 @@
+{
+  "id": "d622fc28-5202-511a-9dbf-a3ee363b6c7c",
+  "codename": "my_article",
+  "last_modified": "2019-08-26T08:38:49.7302435Z",
+  "external_id": "article",
+  "name": "Article",
+  "content_groups": [
+    {
+      "id": "c2deb028-1bad-5191-952f-ace4b256ba61",
+      "name": "Article copy",
+      "codename": "article_copy",
+      "external_id": "article-copy"
+    },
+    {
+      "id": "46d8c4db-df5c-55ab-887a-458f7ad063a1",
+      "name": "Author",
+      "codename": "author"
+    }
+  ],
+  "elements": [
+    {
+      "maximum_text_length": null,
+      "name": "Article title",
+      "guidelines": null,
+      "is_required": false,
+      "type": "text",
+      "id": "e32743cd-7616-4a4a-9948-c9fcb54bff3f",
+      "codename": "title",
+      "content_group": {
+        "id": "c2deb028-1bad-5191-952f-ace4b256ba61"
+      }
+    },
+    {
+      "maximum_text_length": null,
+      "maximum_image_size": null,
+      "allowed_content_types": [],
+      "image_width_limit": null,
+      "image_height_limit": null,
+      "allowed_image_types": "any",
+      "allowed_blocks": [],
+      "allowed_text_blocks": [],
+      "allowed_formatting": [],
+      "allowed_table_blocks": [],
+      "allowed_table_text_blocks": [],
+      "allowed_table_formatting": [],
+      "name": "Article body",
+      "guidelines": null,
+      "is_required": false,
+      "type": "rich_text",
+      "id": "bbddb422-774c-4226-984d-c15656df6108",
+      "codename": "body",
+      "content_group": {
+        "id": "c2deb028-1bad-5191-952f-ace4b256ba61"
+      }
+    },
+    {
+      "maximum_text_length": null,
+      "maximum_image_size": null,
+      "allowed_content_types": [],
+      "image_width_limit": null,
+      "image_height_limit": null,
+      "allowed_image_types": "any",
+      "allowed_blocks": [
+        "images",
+        "text"
+      ],
+      "allowed_text_blocks": [],
+      "allowed_formatting": [],
+      "allowed_table_blocks": [],
+      "allowed_table_text_blocks": [],
+      "allowed_table_formatting": [],
+      "name": "Author bio",
+      "guidelines": null,
+      "is_required": false,
+      "type": "rich_text",
+      "id": "1c795ec7-368c-4c22-830e-e8b969f596be",
+      "codename": "bio",
+      "content_group": {
+        "id": "46d8c4db-df5c-55ab-887a-458f7ad063a1"
+      }
+    }
+  ]
+}
