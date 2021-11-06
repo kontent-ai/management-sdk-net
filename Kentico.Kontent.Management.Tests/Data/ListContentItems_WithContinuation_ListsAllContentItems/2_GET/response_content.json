@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "id": "ae7afaae-2e74-4ea3-bf7d-1f7a843b78a1",
+      "name": "Tweet in coffee collection",
+      "codename": "tweet_in_coffee_collection",
+      "type": {
+        "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"
+      },
+      "collection": {
+        "id": "351f9184-8fa0-5882-824b-024ebadd3626"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-10-31T20:03:24.3679591Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}
