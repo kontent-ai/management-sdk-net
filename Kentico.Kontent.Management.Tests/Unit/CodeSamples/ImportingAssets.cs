@@ -9,11 +9,11 @@ using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 {
-    public class ImportAssets : IClassFixture<FileSystemFixture>
+    public class ImportingAssets : IClassFixture<FileSystemFixture>
     {
         private FileSystemFixture _fileSystemFixture;
 
-        public ImportAssets(FileSystemFixture fileSystemFixture)
+        public ImportingAssets(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
         }
@@ -87,7 +87,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         {
                             Reference.ByExternalId("brno-cafe-image")
                         }
-                    }
+                    }.ToDynamic()
                 }
             });
         }
@@ -109,10 +109,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                     {
                         Element = Reference.ByCodename("body_copy"),
                         Value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
-                    }
+                    }.ToDynamic()
                 }
             });
         }
     }
-
 }
