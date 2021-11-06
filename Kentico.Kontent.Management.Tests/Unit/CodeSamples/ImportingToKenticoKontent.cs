@@ -117,37 +117,37 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                     {
                         Element = Reference.ByExternalId("street"),
                         Value = "Nove Sady 25",
-                    },
+                    }.ToDynamic(),
                     new TextElement
                     {
                         Element = Reference.ByExternalId("city"),
                         Value = "Brno",
-                    },
+                    }.ToDynamic(),
                     new TextElement
                     {
                         Element = Reference.ByExternalId("country"),
                         Value = "Czech republic",
-                    },
+                    }.ToDynamic(),
                     new TextElement
                     {
                         Element = Reference.ByExternalId("state"),
                         Value = "Jihomoravsky kraj",
-                    },
+                    }.ToDynamic(),
                     new TextElement
                     {
                         Element = Reference.ByExternalId("zip_code"),
                         Value = "60200",
-                    },
+                    }.ToDynamic(),
                     new TextElement
                     {
                         Element = Reference.ByExternalId("phone"),
                         Value = "+420 555 555 555",
-                    },
+                    }.ToDynamic(),
                     new TextElement
                     {
                         Element = Reference.ByExternalId("email"),
                         Value = "brnocafe@kontent.ai",
-                    },
+                    }.ToDynamic(),
                 }
             });
         }
