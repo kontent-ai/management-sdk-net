@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
+using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
@@ -642,9 +643,10 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertStronglyTypedResponseElements(responseVariant.Elements);
         }
 
-        private static (dynamic expected, dynamic actual) GetElementByCodename(string codename, IEnumerable<dynamic> actualElements)
+        private static (dynamic expected, dynamic actual) GetElementByPropertyName(string propertyName, IEnumerable<dynamic> actualElements)
         {
-            var expected = Elements.Single(x => x.codename == codename);
+            var propertyId = typeof(ComplexTestModel).GetProperty(propertyName).GetKontentElementId();
+            var expected = Elements.Single(x => x.element.id == propertyId);
             var actual = actualElements.Single(x => x.element.id == expected.element.id.ToString("d"));
 
             return (expected, actual);
@@ -657,31 +659,31 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         private void AssertResponseElements(LanguageVariantModel responseVariant)
         {
-            var (expected, actual) = GetElementByCodename("title", responseVariant.Elements);
+            var (expected, actual) = GetElementByPropertyName(nameof(ComplexTestModel.Title), responseVariant.Elements);
             Assert.Equal(expected.value, actual.value);
 
-            (expected, actual) = GetElementByCodename("post_date", responseVariant.Elements);
+            (expected, actual) = GetElementByPropertyName(nameof(ComplexTestModel.PostDate), responseVariant.Elements);
             Assert.Equal(expected.value, actual.value);
 
-            (expected, actual) = GetElementByCodename("url_pattern", responseVariant.Elements);
+            (expected, actual) = GetElementByPropertyName(nameof(ComplexTestModel.UrlPattern), responseVariant.Elements);
             Assert.Equal(expected.mode, actual.mode);
             Assert.Equal(expected.value, actual.value);
 
-            (expected, actual) = GetElementByCodename("body_copy", responseVariant.Elements);
+            (expected, actual) = GetElementByPropertyName(nameof(ComplexTestModel.BodyCopy), responseVariant.Elements);
             Assert.Equal(UnifyWhitespace(expected.value), UnifyWhitespace(actual.value));
 
             // TODO check component of the rich text element
 
-            (_, actual) = GetElementByCodename("related_articles", responseVariant.Elements);
+            (_, actual) = GetElementByPropertyName(nameof(ComplexTestModel.RelatedArticles), responseVariant.Elements);
             Assert.Equal(EXISTING_ITEM_ID, Guid.Parse((actual.value as IEnumerable<dynamic>)?.First().id));
 
-            (_, actual) = GetElementByCodename("personas", responseVariant.Elements);
+            (_, actual) = GetElementByPropertyName(nameof(ComplexTestModel.Personas), responseVariant.Elements);
             Assert.Equal(EXISTING_TAXONOMY_TERM_ID, Guid.Parse((actual.value as IEnumerable<dynamic>)?.First().id));
 
-            (_, actual) = GetElementByCodename("teaser_image", responseVariant.Elements);
+            (_, actual) = GetElementByPropertyName(nameof(ComplexTestModel.TeaserImage), responseVariant.Elements);
             Assert.Equal(EXISTING_ASSET_ID, Guid.Parse((actual.value as IEnumerable<dynamic>)?.First().id));
 
-            (_, actual) = GetElementByCodename("options", responseVariant.Elements);
+            (_, actual) = GetElementByPropertyName(nameof(ComplexTestModel.Options), responseVariant.Elements);
             Assert.Equal(EXISTING_MULTIPLE_CHOICE_OPTION_ID_PAID, Guid.Parse((actual.value as IEnumerable<dynamic>)?.First().id));
             Assert.Equal(EXISTING_MULTIPLE_CHOICE_OPTION_ID_FEATURED, Guid.Parse((actual.value as IEnumerable<dynamic>)?.Skip(1).First().id));
         }

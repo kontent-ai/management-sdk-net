@@ -120,14 +120,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()
                 },
                 value = "On Roasts",
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                  element = new {
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()
                 },
                 value = new DateTime(2017, 7, 4),
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                 element = new {
@@ -176,14 +174,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         }
                     }
                 },
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                 element = new {
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()
                 },
                 value = new[] { Reference.ById(EXISTING_ITEM_ID) },
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                 element = new {
@@ -191,14 +187,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 },
                 mode = "custom",
                 value = "on-roasts",
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                 element = new {
                     id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()
                 },
                 value = new[] { Reference.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                 element = new {
@@ -208,7 +202,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 {
                     Reference.ById(EXISTING_ASSET_ID),
                 },
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
             new {
                 element = new {
@@ -219,7 +212,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     Reference.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
                     Reference.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
                 },
-                codename = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
             },
         };
 
