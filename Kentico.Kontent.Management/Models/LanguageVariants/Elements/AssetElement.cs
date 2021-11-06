@@ -19,11 +19,11 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// <summary>
         /// Transforms the asset element to the dynamic object.
         /// </summary>
-        public override dynamic ToDynamic(Guid elementId)
+        public override dynamic ToDynamic()
         {
             return new
             {
-                element = new { id = elementId },
+                element = GetDynamicReference(),
                 value = Value,
             };
         }

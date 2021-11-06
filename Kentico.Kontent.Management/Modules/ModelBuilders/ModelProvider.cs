@@ -52,7 +52,8 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 .Select(x =>
                 {
                     var element = (BaseElement)x.GetValue(variantElements);
-                    return element?.ToDynamic(x.GetKontentElementId());
+                    element.Element = Reference.ById(x.GetKontentElementId());
+                    return element?.ToDynamic();
                 });
 
             var result = new LanguageVariantUpsertModel
