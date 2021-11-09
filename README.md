@@ -45,7 +45,7 @@ Once you create a `ManagementClient`, you can start managing content in your pro
 
 ### Codename vs. ID vs. External ID
 
-Most methods of the SDK accept an _Reference_ object that specifies which entity you want to perform the given operation on. There are 3 types of identification you can use to create the identifier:
+The SDK uses an _Reference_ object representation identifying an entity you want to perform the given operation on. There are 3 types of identification you can use to create the identifier:
 
 ```csharp
 Reference identifier = Reference.ByCodename("on_roasts");
@@ -83,7 +83,7 @@ You can also use anonymous objects to retrieve the data (optionally load element
 
 ```csharp
 // Elements to update
-IReadOnlyList<dynamic> Elements => new object[]
+var elements => new dynamic[]
 {
     new
     {
@@ -92,7 +92,6 @@ IReadOnlyList<dynamic> Elements => new object[]
             id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
         },
         value = "On Roasts",
-        codename = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
     },
     new
     {
@@ -101,14 +100,13 @@ IReadOnlyList<dynamic> Elements => new object[]
             id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()
         },
         value = new DateTime(2017, 7, 4),
-        codename = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName
     }
 }
 
-ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
+var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
 
 // Upserts a language variant of a content item
-ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, upsertModel);
+var response = await client.UpsertContentItemVariantAsync(identifier, upsertModel);
 ```
 
 ## Quick start
@@ -126,16 +124,13 @@ Each content item can consist of several localized variants. **The content itsel
 
 ```csharp
 // Creates an instance of the Management client
-ManagementClient client = new ManagementClient(options);
+var client = new ManagementClient(options);
 
-var itemName = "Hooray!";
-var itemCodename = "hooray_codename";
-var type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
 var item = new ContentItemCreateModel
 {
-    Codename = itemCodename,
-    Name = itemName,
-    Type = type
+    Codename = "hooray_codename",
+    Name = "Hooray!",
+    Type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
 };
 
 var responseItem = await _client.CreateContentItemAsync(item);
@@ -149,7 +144,7 @@ To add localized content, you have to specify:
 
 - The content item you are importing into.
 - The language variant of the content item.
-- The content elements of the language variant you want to add or update. Omitted elements will remain unchanged.
+- The language variant elements you want to add or update. Omitted elements will remain unchanged.
 
 ```csharp
 // Defines the content elements to update
@@ -179,12 +174,12 @@ ArticleModel stronglyTypedElements = new ArticleModel
 };
 
 // Specifies the content item and the language variant
-ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("on_roasts");
-LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+var itemIdentifier = Reference.ByCodename("on_roasts");
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
 // Upserts a language variant of your content item
-ContentItemVariantModel<ArticleModel> response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
+var response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
 ```
 
 ### Helper Methods
@@ -262,7 +257,7 @@ This repository is configured to generate SourceLink tag in the Nuget package th
 
 ### How to configure Source Link
 
-1. Open a solution with a project referencing the Kentico.Kontent.Delivery (or Kentico.Kontent.Delivery.RX) Nuget package.
+1. Open a solution with a project referencing the Kentico.Kontent.Management Nuget package.
 1. Open Tools -> Options -> Debugging -> General.
 
     - Clear **Enable Just My Code**.
@@ -274,7 +269,7 @@ This repository is configured to generate SourceLink tag in the Nuget package th
 
     - ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
 
-1. Run a debugging session and try to step into the Kentico.Kontent.Delivery code.
+1. Run a debugging session and try to step into the Kentico.Kontent.Management code.
 1. Allow Visual Studio to download the source code from GitHub.
 
 - ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
@@ -299,11 +294,11 @@ Optional:
 
 #### Tests
 
-Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType` specifies target environemnt for tests. Commit always with TestRunType.MockFromFileSystem. For updating mocked data use `TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem` and before commit update `Data` directory with the content from `\Kentico.Kontent.Management.Tests\bin\Debug\net5.0\Data\`. When using `TestRunType.MockFromFileSystem`, at the build time, data from `Data` directory are copied to bin and tests are running against mocked data.
+Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType` specifies target environemnt for tests. Commit always with TestRunType.MockFromFileSystem.
 
-##### For contributors
-
-Exported backup of the project created by [Template manager](https://kentico.github.io/kontent-template-manager/) is stored in `import-package.zip`. Note, items, language variants, sitemaps, assets, might be imported with different `Id`s so it might be needed to update tests.
+> _Following section is meant to be used by maintainers and people with access to the live endpoint project._
+> 
+> For updating mocked data use `TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem`. When using `TestRunType.MockFromFileSystem`, at the build time, data from `Data` directory are being used as a mocked data.
 
 ### Creating a new release
 
