@@ -11,6 +11,7 @@ using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 using Xunit.Abstractions;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
@@ -198,7 +199,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "4357b71d21eb45369d54a635faf7672b";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var emptyElements = new List<object>();
+            var emptyElements = new List<BaseElement>();
             var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, emptyElements, preparedItem);
 
             // Test
@@ -223,7 +224,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             // Arrange
             var externalId = "5249f596a8be4d719bc9816e3d416d16";
             var preparedItem = await TestUtils.PrepareTestItem(_client, EXISTING_CONTENT_TYPE_CODENAME, externalId);
-            var emptyElements = new List<object>();
+            var emptyElements = new List<BaseElement>();
             var preparedVariant = await TestUtils.PrepareTestVariant(_client, EXISTING_LANGUAGE_CODENAME, emptyElements, preparedItem);
 
             // Test
@@ -604,11 +605,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             AssertStronglyTypedResponseElements(responseVariant.Elements);
         }
 
-        private static (dynamic expected, dynamic actual) GetElementByPropertyName(string propertyName, IEnumerable<dynamic> actualElements)
+        private static (dynamic expected, dynamic actual) GetElementByPropertyName(string propertyName, IEnumerable<BaseElement> actualElements)
         {
             var propertyId = typeof(ComplexTestModel).GetProperty(propertyName).GetKontentElementId();
-            var expected = Elements.Single(x => x.element.id == propertyId);
-            var actual = actualElements.Single(x => x.element.id == expected.element.id.ToString("d"));
+            var expected = Elements.Single(x => x.Element.Id == propertyId);
+            var actual = actualElements.Single(x => x.Element.Id == expected.Element.Id);
 
             return (expected, actual);
         }

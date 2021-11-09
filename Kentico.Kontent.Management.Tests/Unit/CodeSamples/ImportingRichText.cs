@@ -93,7 +93,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = new BaseElement[]
                 {
                     new RichTextElement
                     {
@@ -120,7 +120,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                                 }
                             }
                         }
-                    }.ToDynamic(),
+                    }
                 },
             });
         }

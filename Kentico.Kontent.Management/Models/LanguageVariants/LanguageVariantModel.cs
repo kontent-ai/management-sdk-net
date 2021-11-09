@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
@@ -20,7 +21,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// Gets or sets elements of the variant.
         /// </summary>
         [JsonProperty("elements")]
-        public IEnumerable<dynamic> Elements { get; set; }
+        public IEnumerable<BaseElement> Elements { get; set; }
 
         /// <summary>
         /// Gets or sets the language of the variant.

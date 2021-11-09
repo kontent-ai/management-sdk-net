@@ -77,7 +77,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = new BaseElement[]
                 {
                     new AssetElement
                     {
@@ -86,7 +86,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         {
                             Reference.ByExternalId("brno-cafe-image")
                         }
-                    }.ToDynamic()
+                    }
                 }
             });
         }
@@ -102,7 +102,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = new BaseElement[]
                 {
                     new RichTextElement
                     {

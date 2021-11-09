@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.UrlBuilder;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -77,7 +78,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        internal static async Task<LanguageVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
+        internal static async Task<LanguageVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<BaseElement> elements, ContentItemModel item)
         {
             var addedItemIdentifier = Reference.ByCodename(item.Codename);
             var addedLanguageIdentifier = Reference.ByCodename(languageCodename);

@@ -102,7 +102,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public static readonly Guid EXISTING_ASSET_ID = Guid.Parse("5c08a538-5b58-44eb-81ef-43fb37eeb815");
 
         public static readonly Guid RICH_TEXT_TWEET_COMPONENT_ID = Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3");
-        
+
         public static readonly Guid TWEET_TYPE_ID = Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d");
         public static readonly Guid RICH_TEXT_COMPONENT_TWEET_TYPE_ID = TWEET_TYPE_ID;
         public static readonly string TWEET_TYPE_CODENAME = "tweet";
@@ -112,39 +112,34 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         public static readonly Guid TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_ID = Guid.Parse("dd78b09e-4337-599c-9701-20a0a165c63b");
         public const string TWEET_DISPLAY_OPTIONS_HIDE_THREAD_OPTION_CODENAME = "hide_thread";
 
-        public static IReadOnlyList<dynamic> Elements => new object[]
+        public static IReadOnlyList<BaseElement> Elements => new BaseElement[]
         {
-            new
+            new TextElement
             {
-                element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()
-                },
-                value = "On Roasts",
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Title)).GetKontentElementId()),
+                Value = "On Roasts",
             },
-            new {
-                 element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()
-                },
-                value = new DateTime(2017, 7, 4),
+            new DateTimeElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()),
+                Value = new DateTime(2017, 7, 4),
             },
-            new {
-                element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId()
-                },
-                value = $@"
+            new RichTextElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId()),
+                Value = $@"
                         <h1>Light Roasts</h1>
                         <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
                         <object type=""application/kenticocloud"" data-type=""component"" data-id=""{RICH_TEXT_TWEET_COMPONENT_ID}""></object>
                         ",
-                components = new[]
+                Components = new ComponentModel[]
                 {
-                    new
+                    new ComponentModel
                     {
-                        id = RICH_TEXT_TWEET_COMPONENT_ID,
-                        type = new {
-                            id = TWEET_TYPE_ID
-                        },
-                        elements = new dynamic[]
+
+                        Id = RICH_TEXT_TWEET_COMPONENT_ID,
+                        Type = Reference.ById(TWEET_TYPE_ID),
+                        Elements = new dynamic[]
                         {
                             new
                             {
@@ -173,41 +168,42 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                             }
                         }
                     }
+                }
+            },
+            new LinkedItemsElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()),
+                Value = new[]
+                {
+                    Reference.ById(EXISTING_ITEM_ID),
                 },
             },
-            new {
-                element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.RelatedArticles)).GetKontentElementId()
-                },
-                value = new[] { Reference.ById(EXISTING_ITEM_ID) },
+            new UrlSlugElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()),
+                Value = "on-roasts",
+                Mode = "custom"
             },
-            new {
-                element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()
+            new TaxonomyElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()),
+                Value = new[]
+                {
+                    Reference.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME),
                 },
-                mode = "custom",
-                value = "on-roasts",
             },
-            new {
-                element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Personas)).GetKontentElementId()
-                },
-                value = new[] { Reference.ByCodename(EXISTING_TAXONOMY_TERM_CODENAME) } ,
-            },
-            new {
-                element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()
-                },
-                value = new[]
+            new AssetElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
+                Value = new[]
                 {
                     Reference.ById(EXISTING_ASSET_ID),
-                },
+                }
             },
-            new {
-                element = new {
-                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetKontentElementId()
-                },
-                value = new[]
+            new MultipleChoiceElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Options)).GetKontentElementId()),
+                Value = new[]
                 {
                     Reference.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_PAID),
                     Reference.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)

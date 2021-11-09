@@ -10,6 +10,7 @@ using Xunit;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
+using Kentico.Kontent.Management.Tests.ManagementClientTests;
 
 namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 {
@@ -28,7 +29,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             var expected = GetTestModel();
             var model = new LanguageVariantModel
             {
-                Elements = PrepareMockDynamicResponse(expected)
+                Elements = Scenario.Elements
             };
             var actual = _modelProvider.GetLanguageVariantModel<ComplexTestModel>(model).Elements;
 
@@ -56,55 +57,55 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             var upsertVariantElements = _modelProvider.GetLanguageVariantUpsertModel(model).Elements;
 
             var titleValue = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.Title))?.GetKontentElementId()
-            ).value;
+                 elementObject.Element.Id == type.GetProperty(nameof(model.Title))?.GetKontentElementId()
+            ).ToDynamic().value;
 
             var ratingValue = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.Rating))?.GetKontentElementId()
-            ).value;
+                 elementObject.Element.Id == type.GetProperty(nameof(model.Rating))?.GetKontentElementId()
+            ).ToDynamic().value;
 
             var selectedForm = upsertVariantElements.SingleOrDefault(elementObject =>
-                    elementObject.element.id == type.GetProperty(nameof(model.SelectedForm))?.GetKontentElementId()
+                    elementObject.Element.Id == type.GetProperty(nameof(model.SelectedForm))?.GetKontentElementId()
             );
 
             var postDateValue = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId()
-            ).value;
+                 elementObject.Element.Id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId()
+            ).ToDynamic().value;
 
             var urlPatternElement = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId()
+                 elementObject.Element.Id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId()
             );
 
             var bodyCopyElement = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
+                 elementObject.Element.Id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
             );
 
             var relatedArticlesValue = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
-            ).value as IEnumerable<Reference>;
+                 elementObject.Element.Id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
+            ).ToDynamic().value as IEnumerable<Reference>;
 
             var teaserImageValue = upsertVariantElements.SingleOrDefault(elementObject =>
-                elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
-            ).value as IEnumerable<Reference>;
+                elementObject.Element.Id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
+            ).ToDynamic().value as IEnumerable<Reference>;
 
             var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
-            ).value as IEnumerable<Reference>;
+                 elementObject.Element.Id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
+            ).ToDynamic().value as IEnumerable<Reference>;
 
             var optionsValue = upsertVariantElements.SingleOrDefault(elementObject =>
-                 elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
-            ).value as IEnumerable<Reference>;
+                 elementObject.Element.Id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
+            ).ToDynamic().value as IEnumerable<Reference>;
 
             Assert.Equal(model.Title.Value, titleValue);
             Assert.Equal(model.Rating.Value, ratingValue);
-            Assert.Equal(model.SelectedForm.Value, selectedForm.value);
-            Assert.Equal(model.SelectedForm.SearchableValue, selectedForm.searchable_value);
+            Assert.Equal(model.SelectedForm.Value, selectedForm.ToDynamic().value);
+            Assert.Equal(model.SelectedForm.SearchableValue, selectedForm.ToDynamic().searchable_value);
             Assert.Equal(model.PostDate.Value, postDateValue);
-            Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
-            Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
-            Assert.Equal(model.BodyCopy.Value, bodyCopyElement.value);
-            Assert.Single(bodyCopyElement.components as IEnumerable<ComponentModel>);
-            AssertIdentifiers(model.BodyCopy.Components.Select(x => x.Id), (bodyCopyElement.components as IEnumerable<ComponentModel>)?.Select(x => x.Id));
+            Assert.Equal(model.UrlPattern.Value, urlPatternElement.ToDynamic().value);
+            Assert.Equal(model.UrlPattern.Mode, urlPatternElement.ToDynamic().mode);
+            Assert.Equal(model.BodyCopy.Value, bodyCopyElement.ToDynamic().value);
+            Assert.Single(bodyCopyElement.ToDynamic().components as IEnumerable<ComponentModel>);
+            AssertIdentifiers(model.BodyCopy.Components.Select(x => x.Id), (bodyCopyElement.ToDynamic().components as IEnumerable<ComponentModel>)?.Select(x => x.Id));
             AssertIdentifiers(model.RelatedArticles.Value.Select(x => x.Id.Value), relatedArticlesValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
             AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
@@ -150,81 +151,14 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             };
         }
 
-        private IEnumerable<dynamic> PrepareMockDynamicResponse(ComplexTestModel model)
-        {
-            var type = typeof(ComplexTestModel);
-
-            var elements = new List<dynamic> {
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.Title))?.GetKontentElementId() },
-                    value = model.Title.Value
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.Rating))?.GetKontentElementId() },
-                    value = model.Rating.Value
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.SelectedForm))?.GetKontentElementId() },
-                    value = model.SelectedForm.Value,
-                    searchable_value = model.SelectedForm.SearchableValue
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.PostDate))?.GetKontentElementId() },
-                    value = model.PostDate.Value
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.UrlPattern))?.GetKontentElementId() },
-                    value = model.UrlPattern.Value,
-                    mode = model.UrlPattern.Mode
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.BodyCopy))?.GetKontentElementId() },
-                    value = model.BodyCopy.Value,
-                    components = model.BodyCopy.Components
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.RelatedArticles))?.GetKontentElementId()},
-                    value = model.RelatedArticles.Value
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.TeaserImage))?.GetKontentElementId() },
-                    value = model.TeaserImage.Value
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.Personas))?.GetKontentElementId() },
-                    value = model.Personas.Value
-                },
-                new
-                {
-                    element = new { id = type.GetProperty(nameof(ComplexTestModel.Options))?.GetKontentElementId() },
-                    value = model.Options.Value
-                },
-            };
-
-            var serialized = JsonConvert.SerializeObject(elements, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-            return JsonConvert.DeserializeObject<IEnumerable<dynamic>>(serialized, new JsonSerializerSettings { Converters = new JsonConverter[] { new DynamicObjectJsonConverter() } });
-        }
-
         private static void AssertIdentifiers(IEnumerable<Guid> expected, IEnumerable<Guid> actual)
-        {
-            if (expected == null && actual == null) return;
-            if (expected == null || actual == null)
-            {
-                Assert.True(false, "Null check");
-            }
-            Assert.Equal(expected, actual);
-        }
+{
+    if (expected == null && actual == null) return;
+    if (expected == null || actual == null)
+    {
+        Assert.True(false, "Null check");
+    }
+    Assert.Equal(expected, actual);
+}
     }
 }

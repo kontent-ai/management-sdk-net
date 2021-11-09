@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.LanguageVariants
@@ -12,7 +14,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// Gets or sets elements of the variant.
         /// </summary>
         [JsonProperty("elements", Required = Required.Always)]
-        public IEnumerable<dynamic> Elements { get; set; }
+        public IEnumerable<BaseElement> Elements { get; set; }
 
         /// <summary>
         /// Creates an instance of the language variant upsert model.

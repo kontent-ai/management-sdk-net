@@ -30,7 +30,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
 
             foreach (var element in variant.Elements)
             {
-                var property = properties.FirstOrDefault(x => x.PropertyType?.BaseType == typeof(BaseElement) && x.GetCustomAttribute<KontentElementIdAttribute>().ElementId == element.element.id);
+                var property = properties.FirstOrDefault(x => x.PropertyType?.BaseType == typeof(BaseElement) && Guid.Parse(x.GetCustomAttribute<KontentElementIdAttribute>().ElementId) == element.Element.Id);
                 if (property == null)
                 {
                     continue;
@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 {
                     var element = (BaseElement)x.GetValue(variantElements);
                     element.Element = Reference.ById(x.GetKontentElementId());
-                    return element?.ToDynamic();
+                    return element;
                 });
 
             var result = new LanguageVariantUpsertModel

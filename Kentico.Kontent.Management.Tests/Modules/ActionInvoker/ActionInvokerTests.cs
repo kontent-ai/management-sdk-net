@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 
 namespace Kentico.Kontent.Management.Tests
 {
@@ -41,18 +42,21 @@ namespace Kentico.Kontent.Management.Tests
 
             var languageVariantUpsertModel = new LanguageVariantUpsertModel()
             {
-                Elements = new List<dynamic>
+                Elements = new List<BaseElement>
                 {
-                    new
+                    new NumberElement
                     {
-                        zero = d,
-                        optZero = new decimal?(d),
-                    }
+                        Value = d
+                    },
+                    new NumberElement
+                    {
+                        Value = new decimal?(d)
+                    },
                 },
             };
 
             await actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get, languageVariantUpsertModel);
-            Assert.Equal($"{{\"elements\":[{{\"zero\":{s},\"optZero\":{s}}}]}}", httpClient._requestBody);
+            Assert.Equal($"{{\"elements\":[{{\"value\":{s}}},{{\"value\":{s}}}]}}", httpClient._requestBody);
         }
         
         [Fact]
