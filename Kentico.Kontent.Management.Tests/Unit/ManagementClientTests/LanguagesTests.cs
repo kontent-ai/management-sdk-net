@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Kentico.Kontent.Management.Models.Languages;
@@ -48,8 +49,24 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ListLanguages_ListsLanguages.json");
 
             var response = await client.ListLanguagesAsync();
+            using (new AssertionScope())
+            {
+                Assert.Equal(2, response.Count());
 
-            Assert.Single(response, item => item.Codename == "default");
+                response.First().Name.Should().BeEquivalentTo("Default project language");
+                response.First().Codename.Should().BeEquivalentTo("default");
+                response.First().ExternalId.Should().BeEquivalentTo("string");
+                response.First().FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+                response.First().IsActive.Should().BeTrue();
+                response.First().IsDefault.Should().BeTrue();
+
+                response.Skip(1).First().Name.Should().BeEquivalentTo("German");
+                response.Skip(1).First().ExternalId.Should().BeEquivalentTo("german");
+                response.Skip(1).First().Codename.Should().BeEquivalentTo("de-DE");
+                response.Skip(1).First().FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+                response.Skip(1).First().IsActive.Should().BeTrue();
+                response.Skip(1).First().IsDefault.Should().BeFalse();
+            }
         }
 
         [Fact]
@@ -66,7 +83,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                 response.ExternalId.Should().BeEquivalentTo("string");
                 response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
                 response.IsActive.Should().BeTrue();
-                response.IsActive.Should().BeTrue();
+                response.IsDefault.Should().BeTrue();
             }
         }
 
@@ -84,7 +101,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                 response.ExternalId.Should().BeEquivalentTo("string");
                 response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
                 response.IsActive.Should().BeTrue();
-                response.IsActive.Should().BeTrue();
+                response.IsDefault.Should().BeTrue();
             }
         }
 
@@ -102,7 +119,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                 response.ExternalId.Should().BeEquivalentTo("string");
                 response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
                 response.IsActive.Should().BeTrue();
-                response.IsActive.Should().BeTrue();
+                response.IsDefault.Should().BeTrue();
             }
         }
 

@@ -10,6 +10,17 @@
       "fallback_language": {
         "id": "00000000-0000-0000-0000-000000000000"
       }
+    },
+    {
+      "id": "0080e2ba-5c66-4067-a80a-5a81658cbe64",
+      "name": "German",
+      "codename": "de-DE",
+      "external_id": "german",
+      "is_active": true,
+      "is_default": false,
+      "fallback_language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      }
     }
   ],
   "pagination": {
