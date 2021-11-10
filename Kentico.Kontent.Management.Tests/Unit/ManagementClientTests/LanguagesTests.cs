@@ -21,7 +21,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void CreateLanguage_CreatesLanguage()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("CreateLanguage_CreatesLanguage.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("CreateLanguage_CreatesLanguage.json");
 
             var newLanguage = new LanguageCreateModel
             {
@@ -46,7 +46,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void ListLanguages_ListsLanguages()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ListLanguages_ListsLanguages.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ListLanguages_ListsLanguages.json");
 
             var response = await client.ListLanguagesAsync();
             using (new AssertionScope())
@@ -72,7 +72,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void GetLanguage_ById_GetsLanguage()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("SingleLanguageResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SingleLanguageResponse.json");
 
             var response = await client.GetLanguageAsync(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")));
 
@@ -90,7 +90,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void GetLanguage_ByCodename_GetsLanguage()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("SingleLanguageResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SingleLanguageResponse.json");
 
             var response = await client.GetLanguageAsync(Reference.ByCodename("default"));
 
@@ -108,7 +108,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void GetLanguage_ByExternalId_GetsLanguage()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("SingleLanguageResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SingleLanguageResponse.json");
 
             var response = await client.GetLanguageAsync(Reference.ByExternalId("string"));
 
@@ -126,7 +126,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void ModifyLanguages_Replace_ModifiesLanguages()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ModifyLanguages_Replace_ModifiesLanguages.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ModifyLanguages_Replace_ModifiesLanguages.json");
 
             var patchModel = new[]
             {

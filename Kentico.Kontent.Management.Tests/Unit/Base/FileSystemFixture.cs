@@ -43,7 +43,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
             return new ManagementClient(_urlBuilder, actionInvoker);
         }
 
-        public ManagementClient CreateDefaultMockClientRespondingWithFilename(string responseFileName)
+        public ManagementClient CreateMockClientWithResponse(string responseFileName)
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
             mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
