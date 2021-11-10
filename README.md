@@ -7,12 +7,12 @@
 
 | Package                       |                                                                       Version                                                                        |                                                                       Downloads                                                                       |           Documentation           |
 | ----------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------: |
-| Management SDK                |         [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         | [📖](#using-the-managementclient) |
-| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) |       [📖](#helper-methods)       |
+| Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         | [📖](#using-the-managementclient) |
+| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) |       [📖](#helper-methods)       |
 
 ## Summary
 
-> This SDK uses [Management API v2](https://docs.kontent.ai/reference/management-api-v2).
+> ℹ This is **the Alpha version of the SDK** which uses [Management API version 2](https://docs.kontent.ai/reference/management-api-v2) ℹ.
 
 The Kontent Management .NET SDK is a client library used for managing content in Kontent by Kentico. It provides read/write access to your Kontent projects.
 
