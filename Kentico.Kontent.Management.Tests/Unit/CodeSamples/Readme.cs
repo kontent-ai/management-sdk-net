@@ -128,6 +128,28 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         [Fact]
+        public async void UpsertStronglyTypedLanguageVariant()
+        {
+            // Remove next line in codesample
+            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ReadmeArticleLanguageVariantUpdated.json");
+
+            // Defines the content elements to update
+            ArticleModel stronglyTypedElements = new ArticleModel
+            {
+                Title = new TextElement() { Value = "On Roasts - changed" },
+                PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) },
+            };
+
+            // Specifies the content item and the language variant
+            var itemIdentifier = Reference.ByCodename("on_roasts");
+            var languageIdentifier = Reference.ByCodename("en-US");
+            var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            // Upserts a language variant of a content item
+            var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
+        }
+
+        [Fact]
         public async void QuickStartCreateContentItem()
         {
             // Remove next line in codesample

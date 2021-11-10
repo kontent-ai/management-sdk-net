@@ -93,7 +93,26 @@ response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 
 var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
 ```
 
-You can also use anonymous objects to retrieve the data (optionally load element's ID and codename from generated content model):
+Or you can construct strongly type model manually without necessity to retrieve the data from Kontent. You just provide the elements you want to change. If the property is not initialized (is `null`) the SDK won'T include in fot upsert.
+
+```csharp
+// Defines the content elements to update
+ArticleModel stronglyTypedElements = new ArticleModel
+{
+    Title = new TextElement() { Value = "On Roasts - changed" },
+    PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) },
+};
+
+// Specifies the content item and the language variant
+var itemIdentifier = Reference.ByCodename("on_roasts");
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
+// Upserts a language variant of a content item
+var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
+```
+
+You can also use anonymous objects to retrieve the data, but you need to provide element identification - `element.id` (optionally load element's ID and codename from generated content model):
 
 ```csharp
 var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
