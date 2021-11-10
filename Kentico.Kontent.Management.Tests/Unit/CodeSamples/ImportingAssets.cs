@@ -4,6 +4,7 @@ using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using Xunit;
 
@@ -77,7 +78,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                 {
                     new AssetElement
                     {
@@ -86,8 +87,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         {
                             Reference.ByExternalId("brno-cafe-image")
                         }
-                    }.ToDynamic()
-                }
+                    }
+                })
             });
         }
 
@@ -102,14 +103,14 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                 {
                     new RichTextElement
                     {
                         Element = Reference.ByCodename("body_copy"),
                         Value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
-                    }.ToDynamic()
-                }
+                    }
+                })
             });
         }
     }
