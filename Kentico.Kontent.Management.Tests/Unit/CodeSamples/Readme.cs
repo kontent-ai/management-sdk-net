@@ -72,7 +72,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void RetrieveAndUpsertStronglyTypedModel()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ReadmeArticleLanguageVariant.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariant.json");
 
             var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
             var languageIdentifier = Reference.ByCodename("en-US");
@@ -84,7 +84,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) };
 
             // Remove next line in codesample
-            client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ReadmeArticleLanguageVariantUpdated.json");
+            client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
             var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
         }
 
@@ -92,7 +92,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void UpsertDynamicLanguageVariant()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ReadmeArticleLanguageVariantUpdated.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
 
             var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
             var languageIdentifier = Reference.ByCodename("en-US");
@@ -131,7 +131,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void UpsertStronglyTypedLanguageVariant()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ReadmeArticleLanguageVariantUpdated.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
 
             // Defines the content elements to update
             ArticleModel stronglyTypedElements = new ArticleModel
@@ -153,7 +153,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void QuickStartCreateContentItem()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ReadmeArticleContentItem.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleContentItem.json");
 
             var item = new ContentItemCreateModel
             {
@@ -169,7 +169,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void QuickStartAddLanguageVariant()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ReadmeArticleLanguageVariant.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariant.json");
 
             var componentId = "04bc8d32-97ab-431a-abaa-83102fc4c198";
             var contentTypeCodename = "article";
