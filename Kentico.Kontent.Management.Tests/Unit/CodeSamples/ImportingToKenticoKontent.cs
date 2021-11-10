@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateContentItem()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             await client.UpsertContentItemByExternalIdAsync("ext-cafe-brno", new ContentItemUpsertModel
             {
@@ -38,7 +38,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateContentType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
             {
@@ -106,7 +106,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void UpsertLanguageVariant()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("ext-cafe-brno"), Reference.ByCodename("en-US"));
 

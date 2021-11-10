@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateAsset()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             // Uses the file reference object obtained in step 1
             var createdAssetResponse = await client.UpsertAssetByExternalIdAsync("which-brewing-fits-you", new AssetUpsertModel
@@ -58,7 +58,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void UploadingFiles()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             string filePath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", "brno-cafe-1080px.jpg");
             string contentType = "image/jpg";
@@ -72,7 +72,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void UseAsset()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("ext-cafe-brno"), Reference.ByCodename("en-US"));
 
@@ -97,7 +97,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void UseAssetRichText()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("new-cafes"), Reference.ByCodename("en-US"));
 
