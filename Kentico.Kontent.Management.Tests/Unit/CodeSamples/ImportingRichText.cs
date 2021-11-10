@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateButtonType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
             {
@@ -52,7 +52,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateItem()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             await client.UpsertContentItemByExternalIdAsync("simple-example", new ContentItemUpsertModel
             {
@@ -66,7 +66,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateCreateSimpleType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
             {
@@ -88,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void UpsertVariant()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("123"), Reference.ByCodename("en-US"));
 

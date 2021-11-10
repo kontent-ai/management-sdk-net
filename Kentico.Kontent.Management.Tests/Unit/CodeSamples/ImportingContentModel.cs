@@ -23,7 +23,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateSnippet()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var response = await client.CreateContentTypeSnippetAsync(new CreateContentSnippetCreateModel
             {
@@ -55,7 +55,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateTaxonomy()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var response = await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
             {
@@ -124,7 +124,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void CreateType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
             {

@@ -158,7 +158,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetAsset()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Asset.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
 
             var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
             // var identifier = Reference.ByCodename("which-brewing-fits-you");
@@ -173,7 +173,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetAssets()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Assets.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Assets.json");
 
             var response = await client.ListAssetsAsync();
 
@@ -185,7 +185,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetComponentsOfType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ContentItemsWithComponents.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItemsWithComponents.json");
 
             var identifier = Reference.ById(Guid.Parse("6434e475-5a29-4866-9fd1-6d1ca873f5be"));
             // var identifier = Reference.ByCodename("article");
@@ -201,7 +201,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetContentCollections()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Collections.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
 
             var response = await client.ListCollectionsAsync();
 
@@ -213,7 +213,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetFolders()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("AssetFolders.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetFolders.json");
 
             var response = await client.GetAssetFoldersAsync();
 
@@ -226,7 +226,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetItem()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ContentItem.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItem.json");
 
             var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
             // var identifier = Reference.ByCodename("my_article");
@@ -243,7 +243,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetItems()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ContentItems.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItems.json");
 
             var response = await client.ListContentItemsAsync();
 
@@ -255,7 +255,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetLanguage()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Language.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Language.json");
 
             var identifier = Reference.ById(Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d"));
             // var identifier = Reference.ByCodename("de-DE");
@@ -271,7 +271,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetLanguages()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Languages.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Languages.json");
 
             var response = await client.ListLanguagesAsync();
 
@@ -283,7 +283,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetProjectInformation()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Project.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Project.json");
 
             var response = await client.GetProjectInformation();
 
@@ -295,7 +295,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetSnippet()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Snippet.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Snippet.json");
 
             var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
             // var identifier = Reference.ByCodename("metadata");
@@ -311,7 +311,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetSnippets()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Snippets.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Snippets.json");
 
             var response = await client.ListContentTypeSnippetsAsync();
 
@@ -323,7 +323,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetTaxonomyGroup()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("TaxonomyGroup.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
 
             var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
             // var identifier = Reference.ByCodename("personas");
@@ -339,7 +339,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetTaxonomyGroups()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("TaxonomyGroups.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroups.json");
 
 
             var response = await client.ListTaxonomyGroupsAsync();
@@ -352,7 +352,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetContentType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ContentType.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentType.json");
 
             var identifier = Reference.ById(Guid.Parse("269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0"));
             // var identifier = Reference.ByCodename("new_article");
@@ -368,7 +368,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetContentTypes()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("ContentTypes.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentTypes.json");
 
 
             var response = await client.ListContentTypesAsync();
@@ -381,7 +381,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetLanguageVariant()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("LanguageVariant.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -400,7 +400,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetLanguageVariants()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("LanguageVariants.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
             var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
             // var identifier = Reference.ByCodename("on_roasts");
@@ -416,7 +416,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetLanguageVariantsByType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("LanguageVariantsOfType.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsOfType.json");
 
             var identifier = Reference.ById(Guid.Parse("b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89"));
             // var identifier = Reference.ByCodename("article");
@@ -432,7 +432,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetVariantsWithComponentsOfType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("LanguageVariantsOfType.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsOfType.json");
 
             var identifier = Reference.ById(Guid.Parse("6434e475-5a29-4866-9fd1-6d1ca873f5be"));
             // var identifier = Reference.ByCodename("article");
@@ -448,7 +448,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetWebhook()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Webhook.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Webhook.json");
 
             var identifier = Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"));
 
@@ -462,7 +462,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetWebhooks()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Webhooks.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Webhooks.json");
 
             var response = await client.ListWebhooksAsync();
 
@@ -474,7 +474,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void GetWorkflowSteps()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("WorkflowSteps.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("WorkflowSteps.json");
 
             var response = await client.ListWorkflowStepsAsync();
 
@@ -486,7 +486,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PatchAssetFolders()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchAssetsFolderResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PatchAssetsFolderResponse.json");
 
             var response = await client.ModifyAssetFoldersAsync(new AssetFolderOperationBaseModel[]
             {
@@ -522,7 +522,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PatchLanguage()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchLanguageResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PatchLanguageResponse.json");
 
             var identifier = Reference.ById(Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d"));
             // var identifier = Reference.ByCodename("de-DE");
@@ -533,12 +533,12 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             {
                 new LanguagePatchModel
                 {
-                    PropertyName = LanguangePropertyName.FallbackLanguage,
+                    PropertyName = LanguagePropertyName.FallbackLanguage,
                     Value = Reference.ByCodename("en-US")
                 },
                 new LanguagePatchModel
                 {
-                    PropertyName = LanguangePropertyName.Name,
+                    PropertyName = LanguagePropertyName.Name,
                     Value = "Deutsch"
                 },
             });
@@ -551,7 +551,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PatchSnippet()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchSnippetResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PatchSnippetResponse.json");
 
             var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
             // var identifier = Reference.ByCodename("my_metadata_snippet");
@@ -597,7 +597,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PatchTaxonomyGroup()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchTaxonomyGroupResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PatchTaxonomyGroupResponse.json");
 
             var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
             // var identifier = Reference.ByCodename("personas");
@@ -659,7 +659,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PatchContentType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PatchContentTypeResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PatchContentTypeResponse.json");
 
             var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
             // var identifier = Reference.ByCodename("my_article");
@@ -701,7 +701,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostAsset()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostAssetResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostAssetResponse.json");
 
             var response = await client.CreateAssetAsync(new AssetCreateModel
             {
@@ -736,7 +736,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostAssetFolders()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostAssetFoldersResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostAssetFoldersResponse.json");
 
             var response = await client.CreateAssetFoldersAsync(new AssetFolderCreateModel
             {
@@ -767,7 +767,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostFile()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostFileResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostFileResponse.json");
 
             var filePath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", "kentico_rgb_bigger.png");
             var contentType = "image/png";
@@ -783,7 +783,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostItem()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostItemResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostItemResponse.json");
 
             var response = await client.CreateContentItemAsync(new ContentItemCreateModel
             {
@@ -803,7 +803,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostLanguage()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostLanguageResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostLanguageResponse.json");
 
             var response = await client.CreateLanguageAsync(new LanguageCreateModel
             {
@@ -822,7 +822,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostSnippet()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostSnippetResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostSnippetResponse.json");
 
             var response = await client.CreateContentTypeSnippetAsync(new CreateContentSnippetCreateModel
             {
@@ -856,7 +856,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostTaxonomyGroup()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostTaxonomyGroupResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostTaxonomyGroupResponse.json");
 
             var response = await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
             {
@@ -920,7 +920,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostType()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostTypeResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostTypeResponse.json");
 
             var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
             {
@@ -976,7 +976,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostValidate()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostValidateResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostValidateResponse.json");
 
             var response = await client.ValidateProjectAsync();
 
@@ -988,7 +988,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PostWebhook()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PostWebhookResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PostWebhookResponse.json");
 
             var response = await client.CreateWebhookAsync(new WebhookCreateModel
             {
@@ -1075,7 +1075,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutAsset()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PutAssetResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PutAssetResponse.json");
 
             var identifier = Reference.ByExternalId("which-brewing-fits-you");
             // var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
@@ -1134,7 +1134,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutItem()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PutItemResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PutItemResponse.json");
 
             var identifier = Reference.ByExternalId("59713");
             // var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
@@ -1165,7 +1165,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutLanguageVariant()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("PutLanguageVariantResponse.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("PutLanguageVariantResponse.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1232,7 +1232,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutLanguageVariantCancelSchedule()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1251,7 +1251,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutCancelUnpublishingOfLanguageVariant()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1270,7 +1270,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutLanguageVariantNewVersion()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1288,7 +1288,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutPublishLanguageVariant()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1315,7 +1315,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutUnpublishLanguageVariant()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1342,7 +1342,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutVariantWorkflow()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var itemIdentifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
             // var itemIdentifier = Reference.ByCodename("my_article");
@@ -1363,7 +1363,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutDisableWebhook()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var exception = await Record.ExceptionAsync(async () =>
                 await client.DisableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
@@ -1375,7 +1375,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         [Fact]
         public async void PutEnableWebhook()
         {
-            var client = _fileSystemFixture.CreateDefaultMockClientRespondingWithFilename("Empty.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
             var exception = await Record.ExceptionAsync(async () =>
                 await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
