@@ -31,14 +31,12 @@ The `ManagementClient` class is the main class of the SDK. Using this class, you
 To create an instance of the class, you need to provide a [project ID](https://docs.kontent.ai/tutorials/develop-apps/get-content/getting-content#a-getting-content-items) and a valid [Management API Key](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
 
 ```csharp
-ManagementOptions options = new ManagementOptions
+// Initializes an instance of the ManagementClient client with specified options.
+var client = new ManagementClient(new ManagementOptions
 {
-    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+    ProjectId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
     ApiKey = "ew0...1eo"
-};
-
-// Initializes an instance of the ManagementClient client
-ManagementClient client = new ManagementClient(options);
+});
 ```
 
 Once you create a `ManagementClient`, you can start managing content in your project by calling methods on the client instance.
@@ -48,9 +46,9 @@ Once you create a `ManagementClient`, you can start managing content in your pro
 The SDK uses an _Reference_ object representation identifying an entity you want to perform the given operation on. There are 3 types of identification you can use to create the identifier:
 
 ```csharp
-Reference identifier = Reference.ByCodename("on_roasts");
-Reference identifier = Reference.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-Reference identifier = Reference.ByExternalId("Ext-Item-456-Brno");
+Reference codenameIdentifier = Reference.ByCodename("on_roasts");
+Reference idIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+Reference externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
 ```
 
 - **Codenames** are generated automatically by Kontent based on the object's name. They can make your code more readable but are not guaranteed to be unique. Use them only when there is no chance of naming conflicts.
@@ -60,6 +58,22 @@ Reference identifier = Reference.ByExternalId("Ext-Item-456-Brno");
 
 > The the set of identification types varies based on the entity. The SDK does not checks whether i.e. webhooks allows only ID for identification. This is being handled by the API itself. To check what identification types are allowed for a given entity, see the [API documentation](https://docs.kontent.ai/reference/management-api-v2/).
 
+### Handling Kontent **errors**
+
+You can catch Kontent errors (more in [error section in Management API reference](https://docs.kontent.ai/reference/management-api-v2#section/Errors))) by usin `try-catch` block and catching `Kentico.Kontent.Management.Exceptions.ManagementException`.
+
+```csharp
+try
+{
+    var response = await client.UpsertLanguageVariantAsync(identifier, elements);
+}
+catch (ManagementException ex)
+{
+    Console.WriteLine(ex.StatusCode);
+    Console.WriteLine(ex.Message);
+}
+```
+
 ### Strongly-typed models of your content
 
 The `ManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) and then be able to retrieve the data in a strongly typed form.
@@ -67,46 +81,52 @@ The `ManagementClient` also supports working with strongly-typed models. You can
 ```csharp
 // Retrieve strongly-typed content item
 
-var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
-var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
+var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var languageIdentifier = Reference.ByCodename("en-US");
 var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-var response = await _client.GetLanguageVariantAsync<ArticleModel>(identifier);
+var response = await client.GetLanguageVariantAsync<ArticleModel>(identifier);
 
-response.Elements.Title = new TextElement() { Value = "On Roasts" };
-response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) };
+response.Elements.Title = new TextElement() { Value = "On Roasts - changed" };
+response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) };
 
-var responseVariant = await _client.UpsertLanguageVariantAsync(identifier, response.Elements);
+var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
 ```
 
 You can also use anonymous objects to retrieve the data (optionally load element's ID and codename from generated content model):
 
 ```csharp
+var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
 // Elements to update
-var elements => new dynamic[]
+var elements = new dynamic[]
 {
     new
     {
         element = new
         {
+            // You can use `Reference.ById` if you don't have the model
             id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
         },
-        value = "On Roasts",
+        value = "On Roasts - changed",
     },
     new
     {
         element = new
         {
+            // You can use `Reference.ById` if you don't have the model
             id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()
         },
-        value = new DateTime(2017, 7, 4),
+        value = new DateTime(2018, 7, 4),
     }
-}
+};
 
 var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
 
 // Upserts a language variant of a content item
-var response = await client.UpsertContentItemVariantAsync(identifier, upsertModel);
+var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 ```
 
 ## Quick start
@@ -128,12 +148,12 @@ var client = new ManagementClient(options);
 
 var item = new ContentItemCreateModel
 {
-    Codename = "hooray_codename",
-    Name = "Hooray!",
-    Type = Reference.ByCodename(EXISTING_CONTENT_TYPE_CODENAME);
+    Codename = "on_roasts",
+    Name = "On Roasts",
+    Type = Reference.ByCodename("article")
 };
 
-var responseItem = await _client.CreateContentItemAsync(item);
+var responseItem = await client.CreateContentItemAsync(item);
 ```
 
 Kentico Kontent will generate an internal ID for the (new and empty) content item and include it in the response. If you do not specify a codename, it will be generated based on name. In the next step, we will add the actual (localized) content.
@@ -147,11 +167,18 @@ To add localized content, you have to specify:
 - The language variant elements you want to add or update. Omitted elements will remain unchanged.
 
 ```csharp
+var componentId = "04bc8d32-97ab-431a-abaa-83102fc4c198";
+var contentTypeCodename = "article";
+var relatedArticle1Guid = Guid.Parse("b4e7bfaa-593c-4ae4-a231-5136b10757b8");
+var relatedArticle2Guid = Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea");
+var taxonomyTermGuid1 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
+var taxonomyTermGuid2 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
+
 // Defines the content elements to update
 ArticleModel stronglyTypedElements = new ArticleModel
 {
     Title = new TextElement() { Value = "On Roasts" },
-    PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) }
+    PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
     BodyCopy = new RichTextElement
     {
         Value = $"<p>Rich Text</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{componentId}\"></object>",
@@ -159,17 +186,30 @@ ArticleModel stronglyTypedElements = new ArticleModel
         {
             new ComponentModel
             {
-                Id = componentId,
-                Type = Reference.ById(contentTypeId),
-                Elements = new BaseElement[]
+                Id = Guid.Parse(componentId),
+                Type = Reference.ByCodename(contentTypeCodename),
+                Elements = new dynamic[]
                 {
-                    new TextElement { Value = "text" }
+                    new
+                    {
+                        element = new
+                        {
+                            id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
+                        },
+                        value = "Article component title",
+                    }
                 }
             }
         }
     },
-    RelatedArticles = new LinkedItemsElement { Value = new[] { relatedArticle1Guid), relatedArticle2Guid }.Select(Reference.ById).ToArray() },
-    Personas = new TaxonomyElement { Value = new[] { taxonomyTermGuid1, taxonomyTermGuid2 }.Select(Reference.ById).ToList() },
+    RelatedArticles = new LinkedItemsElement
+    {
+        Value = new[] { relatedArticle1Guid, relatedArticle2Guid }.Select(Reference.ById)
+    },
+    Personas = new TaxonomyElement
+    {
+        Value = new[] { taxonomyTermGuid1, taxonomyTermGuid2 }.Select(Reference.ById)
+    },
     UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
 };
 
@@ -179,7 +219,7 @@ var languageIdentifier = Reference.ByCodename("en-US");
 var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
 // Upserts a language variant of your content item
-var response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
+var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
 ```
 
 ### Helper Methods
@@ -260,14 +300,14 @@ This repository is configured to generate SourceLink tag in the Nuget package th
 1. Open a solution with a project referencing the Kentico.Kontent.Management Nuget package.
 1. Open Tools -> Options -> Debugging -> General.
 
-    - Clear **Enable Just My Code**.
-    - Select **Enable Source Link Support**.
-    - (Optional) Clear **Require source files to exactly match the original version**.
+   - Clear **Enable Just My Code**.
+   - Select **Enable Source Link Support**.
+   - (Optional) Clear **Require source files to exactly match the original version**.
 
 1. Build your solution.
 1. [Add a symbol server `https://symbols.nuget.org/download/symbols`](https://blog.nuget.org/20181116/Improved-debugging-experience-with-the-NuGet-org-symbol-server-and-snupkg.html)
 
-    - ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
+   - ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
 
 1. Run a debugging session and try to step into the Kentico.Kontent.Management code.
 1. Allow Visual Studio to download the source code from GitHub.
@@ -297,7 +337,7 @@ Optional:
 Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType` specifies target environemnt for tests. Commit always with TestRunType.MockFromFileSystem.
 
 > _Following section is meant to be used by maintainers and people with access to the live endpoint project._
-> 
+>
 > For updating mocked data use `TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem`. When using `TestRunType.MockFromFileSystem`, at the build time, data from `Data` directory are being used as a mocked data.
 
 ### Creating a new release

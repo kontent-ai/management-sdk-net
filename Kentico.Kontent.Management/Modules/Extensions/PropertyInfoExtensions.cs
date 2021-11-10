@@ -4,13 +4,19 @@ using Kentico.Kontent.Management.Modules.ModelBuilders;
 
 namespace Kentico.Kontent.Management.Modules.Extensions
 {
-    internal static class PropertyInfoExtensions
+    /// <summary>
+    /// Extension methods for mapping element to strongly typed model properties.
+    /// </summary>
+    public static class PropertyInfoExtensions
     {
-        internal static Guid GetKontentElementId(this PropertyInfo property)
+        /// <summary>
+        /// Get Element ID from strongly typed model property.
+        /// </summary>
+        public static Guid GetKontentElementId(this PropertyInfo property)
         {
             var attribute = property.GetCustomAttribute<KontentElementIdAttribute>();
 
-            if(attribute == null)
+            if (attribute == null)
             {
                 throw new InvalidOperationException($"Cannot get kontent element id as there is no attribute of type {nameof(KontentElementIdAttribute)}");
             }
