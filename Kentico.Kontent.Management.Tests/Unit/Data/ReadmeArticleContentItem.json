@@ -1,0 +1,13 @@
+{
+  "id": "9539c671-d578-4fd3-aa5c-b2d8e486c9b8",
+  "name": "On Roasts",
+  "codename": "on_roasts",
+  "type": {
+    "id": "fdccd018-5c85-421e-bc01-884a69c514e4"
+  },
+  "collection": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  },
+  "sitemap_locations": [],
+  "last_modified": "2021-11-10T11:15:36.0451448Z"
+}
