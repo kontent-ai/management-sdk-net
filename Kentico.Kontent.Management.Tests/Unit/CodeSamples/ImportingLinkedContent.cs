@@ -2,6 +2,7 @@ using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using Xunit;
 
@@ -55,13 +56,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                 {
                     new TextElement
                     {
                         Element = Reference.ByCodename("title"),
                         Value = "Donate with us"
-                    }.ToDynamic(),
+                    },
                     new LinkedItemsElement
                     {
                         Element = Reference.ByCodename("related_articles"),
@@ -69,8 +70,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         {
                             Reference.ByExternalId("123"),
                         }
-                    }.ToDynamic()
-                }
+                    }
+                })
             });
         }
 
@@ -85,13 +86,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                 {
                     new TextElement
                     {
                         Element = Reference.ByCodename("title"),
                         Value = "On Roasts"
-                    }.ToDynamic(),
+                    },
                     new LinkedItemsElement
                     {
                         Element = Reference.ByCodename("related_articles"),
@@ -99,8 +100,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         {
                             Reference.ByExternalId("456"),
                         }
-                    }.ToDynamic()
-                }
+                    }
+                })
             });
         }
 

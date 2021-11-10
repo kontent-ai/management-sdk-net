@@ -5,6 +5,7 @@ using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
+using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using Xunit;
 
@@ -93,7 +94,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
             {
-                Elements = new dynamic[]
+                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                 {
                     new RichTextElement
                     {
@@ -105,23 +106,23 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                             {
                                 Id = Guid.Parse("a2ee7bac-15ff-4dce-a244-012b9f98dd7b"),
                                 Type = Reference.ByExternalId("button"),
-                                Elements = new dynamic[]
+                                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                                 {
                                     new TextElement
                                     {
                                         Element = Reference.ByExternalId("button-text"),
                                         Value = "Buy me",
-                                    }.ToDynamic(),
+                                    },
                                     new TextElement
                                     {
                                         Element = Reference.ByExternalId("button-link"),
                                         Value = "https://kontent.a",
-                                    }.ToDynamic(),
-                                }
+                                    }
+                                })
                             }
                         }
-                    }.ToDynamic(),
-                },
+                    },
+                }),
             });
         }
     }
