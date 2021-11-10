@@ -1,4 +1,6 @@
 using System;
+using FluentAssertions;
+using FluentAssertions.Execution;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Tests.Unit.Base;
@@ -31,10 +33,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var response = await client.CreateLanguageAsync(newLanguage);
 
-            Assert.Equal(newLanguage.Name, response.Name);
-            Assert.Equal(newLanguage.Codename, response.Codename);
-            Assert.Equal(newLanguage.ExternalId, response.ExternalId);
-            Assert.Equal(newLanguage.FallbackLanguage.Id, response.FallbackLanguage.Id);
+            using (new AssertionScope())
+            {
+                response.Name.Should().BeEquivalentTo(newLanguage.Name);
+                response.Codename.Should().BeEquivalentTo(newLanguage.Codename);
+                response.ExternalId.Should().BeEquivalentTo(newLanguage.ExternalId);
+                response.FallbackLanguage.Id.Should().Equals(newLanguage.FallbackLanguage.Id);
+            }
         }
 
         [Fact]
@@ -54,12 +59,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var response = await client.GetLanguageAsync(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")));
 
-            Assert.Equal("Default project language", response.Name);
-            Assert.Equal("default", response.Codename);
-            Assert.Equal("string", response.ExternalId);
-            Assert.Equal(Guid.Parse("00000000-0000-0000-0000-000000000000"), response.FallbackLanguage.Id);
-            Assert.True(response.IsActive);
-            Assert.True(response.IsDefault);
+            using (new AssertionScope())
+            {
+                response.Name.Should().BeEquivalentTo("Default project language");
+                response.Codename.Should().BeEquivalentTo("default");
+                response.ExternalId.Should().BeEquivalentTo("string");
+                response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+                response.IsActive.Should().BeTrue();
+                response.IsActive.Should().BeTrue();
+            }
         }
 
         [Fact]
@@ -69,12 +77,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var response = await client.GetLanguageAsync(Reference.ByCodename("default"));
 
-            Assert.Equal("Default project language", response.Name);
-            Assert.Equal("default", response.Codename);
-            Assert.Equal("string", response.ExternalId);
-            Assert.Equal(Guid.Parse("00000000-0000-0000-0000-000000000000"), response.FallbackLanguage.Id);
-            Assert.True(response.IsActive);
-            Assert.True(response.IsDefault);
+            using (new AssertionScope())
+            {
+                response.Name.Should().BeEquivalentTo("Default project language");
+                response.Codename.Should().BeEquivalentTo("default");
+                response.ExternalId.Should().BeEquivalentTo("string");
+                response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+                response.IsActive.Should().BeTrue();
+                response.IsActive.Should().BeTrue();
+            }
         }
 
         [Fact]
@@ -84,12 +95,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var response = await client.GetLanguageAsync(Reference.ByExternalId("string"));
 
-            Assert.Equal("Default project language", response.Name);
-            Assert.Equal("default", response.Codename);
-            Assert.Equal("string", response.ExternalId);
-            Assert.Equal(Guid.Parse("00000000-0000-0000-0000-000000000000"), response.FallbackLanguage.Id);
-            Assert.True(response.IsActive);
-            Assert.True(response.IsDefault);
+            using (new AssertionScope())
+            {
+                response.Name.Should().BeEquivalentTo("Default project language");
+                response.Codename.Should().BeEquivalentTo("default");
+                response.ExternalId.Should().BeEquivalentTo("string");
+                response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+                response.IsActive.Should().BeTrue();
+                response.IsActive.Should().BeTrue();
+            }
         }
 
         [Fact]
@@ -114,9 +128,12 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             };
 
             var modifiedLanguage = await client.ModifyLanguageAsync(Reference.ByCodename("de-DE"), patchModel);
+            using (new AssertionScope())
+            {
+                modifiedLanguage.Name.Should().BeEquivalentTo("Deutsch");
+                modifiedLanguage.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
-            Assert.Equal("Deutsch", modifiedLanguage.Name);
-            Assert.Equal(Guid.Parse("00000000-0000-0000-0000-000000000000"), modifiedLanguage.FallbackLanguage.Id);
+            }
         }
     }
 }
