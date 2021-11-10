@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.Shared;
-using Kentico.Kontent.Management.Modules.ActionInvoker;
-using Kentico.Kontent.Management.Modules.HttpClient;
-using NSubstitute;
+using Kentico.Kontent.Management.Tests.Unit.Base;
 using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
