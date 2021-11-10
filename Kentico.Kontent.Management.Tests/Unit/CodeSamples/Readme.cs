@@ -128,6 +128,40 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         [Fact]
+        public async void UpsertLanguageVariantWithElementBuilder()
+        {
+            // Remove next line in codesample
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
+
+            var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+            var languageIdentifier = Reference.ByCodename("en-US");
+            var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
+            // Elements to update
+            var elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+            {
+                new TextElement()
+                {
+                    // You can use `Reference.ById` if you don't have the model
+                    Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()),
+                    Value = "On Roasts - changed"
+                },
+                new DateTimeElement()
+                {
+                    // You can use `Reference.ById` if you don't have the model
+                    Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()),
+                    Value = new DateTime(2018, 7, 4)
+                },
+            });
+
+            var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
+
+            // Upserts a language variant of a content item
+            var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
+        }
+
+
+        [Fact]
         public async void UpsertStronglyTypedLanguageVariant()
         {
             // Remove next line in codesample
