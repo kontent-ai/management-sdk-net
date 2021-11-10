@@ -13,6 +13,8 @@
 
 :warning: **Please note that this SDK uses [Management API v1](https://docs.kontent.ai/reference/management-api-v1) with the exception of the Assets API Endpoints. Those are using the V2 API.**
 
+ℹ If you want to take a look to the next version supporting full Management API v2 scope, checkout the [vNext branch](https://github.com/Kentico/kontent-management-sdk-net/tree/vNext). ℹ
+
 The Kentico Kontent Management .NET SDK is a client library used for managing content in Kentico Kontent. It provides read/write access to your Kentico Kontent projects.
 
 You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management/) to migrate existing content into your Kentico Kontent project or update content in your content items. You can import content items, their language variants, and assets.
