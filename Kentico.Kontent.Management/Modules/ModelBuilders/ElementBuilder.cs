@@ -16,15 +16,24 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
         /// </summary>
         public static IEnumerable<dynamic> GetElementsAsDynamic(params BaseElement[] elements)
         {
-            elements.Where(elementObject => elementObject.Element == null).ToList().ForEach(element =>
+            var elementExceptions = new List<Exception>();
+            foreach (var elementObject in elements)
             {
-                throw new ArgumentNullException("Element identifier (`BaseElement.Element` property) not set for element on index ", Array.IndexOf(elements, element).ToString());
-            });
+                if (elementObject.Element == null)
+                {
+                    elementExceptions.Add(new ArgumentNullException("Element identifier (`BaseElement.Element` property) not set for element on index ", Array.IndexOf(elements, elementObject).ToString()));
+                }
+                
+                if (!elementObject.Element.DoesHaveSetOnlyOneIdentifier())
+                {
+                    elementExceptions.Add(new ArgumentException("Element must have only one identifier set (`BaseElement.Element` property).", nameof(elementObject)));
+                }
+            }
 
-            elements.Where(element => !element.Element.DoesHaveSetOnlyOneIdentifier()).ToList().ForEach(element =>
+            if(elementExceptions.Any())
             {
-                throw new ArgumentException("Element must have only one identifier set (`BaseElement.Element` property).", nameof(element));
-            });
+                throw new AggregateException(elementExceptions);
+            }
 
             return elements.Select(element => element.ToDynamic());
         }
