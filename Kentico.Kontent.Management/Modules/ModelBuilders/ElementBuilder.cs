@@ -23,14 +23,13 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 {
                     elementExceptions.Add(new ArgumentNullException("Element identifier (`BaseElement.Element` property) not set for element on index ", Array.IndexOf(elements, elementObject).ToString()));
                 }
-                
-                if (!elementObject.Element.DoesHaveSetOnlyOneIdentifier())
+                else if (!elementObject.Element.DoesHaveSetOnlyOneIdentifier())
                 {
                     elementExceptions.Add(new ArgumentException("Element must have only one identifier set (`BaseElement.Element` property).", nameof(elementObject)));
                 }
             }
 
-            if(elementExceptions.Any())
+            if (elementExceptions.Any())
             {
                 throw new AggregateException(elementExceptions);
             }
