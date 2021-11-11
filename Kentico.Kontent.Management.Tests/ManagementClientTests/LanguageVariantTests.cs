@@ -9,6 +9,7 @@ using Xunit;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Modules.Extensions;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 using Xunit.Abstractions;
 using FluentAssertions;
@@ -344,15 +345,23 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        //todo add ByExternalId test
-        //todo test pagination
-        public async Task ListLanguageVariantsOfContentTypeWithComponents_ByCodename_ListsVariants()
+        public async Task ListLanguageVariantsOfContentTypeWithComponents_WithContinuation_ListsVariants()
         {
-            var identifier = Reference.ByCodename(EXISTING_COMPONENT_TYPE_CODENAME);
+            var identifier = Reference.ById(RICH_TEXT_COMPONENT_TWEET_TYPE_ID);
 
             var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
 
-            Assert.NotEmpty(responseVariants);
+            while (true)
+            {
+                responseVariants.Should().NotContainNulls();
+
+                if (!responseVariants.HasNextPage())
+                {
+                    break;
+                }
+                responseVariants = await responseVariants.GetNextPage();
+                Assert.NotNull(responseVariants);
+            }
         }
 
         [Fact]
@@ -362,7 +371,36 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
 
+            var elementsWithRichText = responseVariants.SelectMany(x => x.Elements).Where(e => e.element.id == typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId().ToString());
+            Assert.Equal(responseVariants.Count(), elementsWithRichText.Count());
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantsOfContentTypeWithComponents_ByCodename_ListsVariants()
+        {
+            var identifier = Reference.ByCodename(TWEET_TYPE_CODENAME);
+
+            var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+
             Assert.NotEmpty(responseVariants);
+
+            //there is only one element with component, so number of returned variants needs to equal to total number of elements
+            var elementsWithRichText = responseVariants.SelectMany(x => x.Elements).Where(e => e.element.id == typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId().ToString());
+            Assert.Equal(responseVariants.Count(), elementsWithRichText.Count());
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantsOfContentTypeWithComponents_ByExternalId_ListsVariants()
+        {
+            var identifier = Reference.ByExternalId(TWEET_TYPE_EXTERNAL_ID);
+
+            var responseVariants = await _client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+
+            Assert.NotEmpty(responseVariants);
+
+            //there is only one element with component, so number of returned variants needs to equal to total number of elements
+            var elementsWithRichText = responseVariants.SelectMany(x => x.Elements).Where(e => e.element.id == typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.BodyCopy)).GetKontentElementId().ToString());
+            Assert.Equal(responseVariants.Count(), elementsWithRichText.Count());
         }
 
         [Fact]
