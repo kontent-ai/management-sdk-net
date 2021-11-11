@@ -28,6 +28,9 @@ using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 {
+    /// <summary>
+    /// Source for Code examples being store in https://github.com/KenticoDocs/kontent-docs-samples/tree/master/net/cm-api-v2
+    /// </summary>
     public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
 

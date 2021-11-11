@@ -23,7 +23,7 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// <summary>
         /// Get dynamic representation of the element reference.
         /// </summary>
-        public dynamic GetDynamicReference()
+        protected dynamic GetDynamicReference()
         {
             if (Element.Id != null)
             {
