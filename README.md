@@ -74,13 +74,12 @@ catch (ManagementException ex)
 }
 ```
 
-### Strongly-typed models of your content
+### Working with language variants
 
-The `ManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) and then be able to retrieve the data in a strongly typed form.
+The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) and then be able to retrieve the data in a strongly typed form.
 
 ```csharp
 // Retrieve strongly-typed content item
-
 var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
 var languageIdentifier = Reference.ByCodename("en-US");
 var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
@@ -93,7 +92,7 @@ response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 
 var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
 ```
 
-Or you can construct strongly type model manually without necessity to retrieve the data from Kontent. You just provide the elements you want to change. If the property is not initialized (is `null`) the SDK won'T include in fot upsert.
+Or you can construct instance of strongly type model without necessity to retrieve the data from Kontent. You just provide the elements you want to change. If the property is not initialized (is `null`) the SDK won't include to the payload.
 
 ```csharp
 // Defines the content elements to update
@@ -112,7 +111,7 @@ var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifie
 var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
 ```
 
-You can also use anonymous objects to retrieve the data, but you need to provide element identification - `element.id` (optionally load element's ID and codename from generated content model):
+You can also use anonymous dynamic objects to work with language variants. For upsert operations, you need to provide element identification - `element.id`/`element.codename` (optionally load element's ID or codename from generated content model):
 
 ```csharp
 var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
@@ -148,7 +147,7 @@ var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
 var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 ```
 
-Or you can also build your dynamic object from strongly typed elements with `ElementBuilder`:
+You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. That is **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
 
 ```csharp
 var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
