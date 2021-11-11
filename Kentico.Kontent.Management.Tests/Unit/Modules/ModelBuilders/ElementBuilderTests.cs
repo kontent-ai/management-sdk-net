@@ -14,20 +14,24 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.ModelBuilders
         [Fact]
         public void GetElementsAsDynamic_NoReferenceProvided_RaiseException()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-                ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-                {
+            Action action = () =>
+               ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+               {
                     new  TextElement
                     {
                         Value = "Test"
                     }
-                }));
+               });
+
+            action.Should()
+                .Throw<AggregateException>()
+                .WithInnerException<ArgumentNullException>();
         }
 
         [Fact]
         public void GetElementsAsDynamic_NoIdentificationProvided_RaiseException()
         {
-            Assert.Throws<ArgumentException>(() =>
+            Action action = () =>
                 ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                 {
                     new  TextElement
@@ -35,7 +39,11 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.ModelBuilders
                         Element = new Reference(),
                         Value = "Test"
                     }
-                }));
+                });
+
+            action.Should()
+                .Throw<AggregateException>()
+                .WithInnerException<ArgumentException>();
         }
 
         [Fact]
@@ -56,8 +64,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.ModelBuilders
             using (new AssertionScope())
             {
                 elements.Should().HaveCount(1);
-                Assert.Equal(id, elements.First()?.element?.id);
-                Assert.Equal(elementValue, elements.First()?.value);
+                ((object)elements.First()?.element?.id).Should().Be(id);
+                ((object)elements.First()?.value).Should().Be(elementValue);
             }
         }
 
@@ -79,8 +87,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.ModelBuilders
             using (new AssertionScope())
             {
                 elements.Should().HaveCount(1);
-                Assert.Equal(codename, elements.First()?.element?.codename);
-                Assert.Equal(elementValue, elements.First()?.value);
+                ((object)elements.First()?.element?.codename).Should().Be(codename);
+                ((object)elements.First()?.value).Should().Be(elementValue);
             }
         }
     }
