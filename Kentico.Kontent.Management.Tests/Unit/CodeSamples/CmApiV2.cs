@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,6 +32,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
     /// </summary>
     public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
+
+        // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
+        // USE FOLLOWING TEMPLATE
 
         // DocSection: cm_api_v2_delete_asset
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net

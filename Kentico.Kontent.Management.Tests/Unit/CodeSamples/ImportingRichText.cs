@@ -11,8 +11,13 @@ using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 {
+    /// <summary>
+    /// Source for Code examples being store in https://github.com/KenticoDocs/kontent-docs-samples/tree/master/net/importing-rich-text
+    /// </summary>
     public class ImportingRichText : IClassFixture<FileSystemFixture>
     {
+        // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
+
         private FileSystemFixture _fileSystemFixture;
 
         public ImportingRichText(FileSystemFixture fileSystemFixture)

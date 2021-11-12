@@ -40,8 +40,12 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public UrlSlugElement UrlPattern { get; set; }
     }
 
+    /// <summary>
+    /// Source for Code examples being store in README.md
+    /// </summary>
     public class Readme : IClassFixture<FileSystemFixture>
     {
+        // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE README OF THIS REPO
         private FileSystemFixture _fileSystemFixture;
 
         public Readme(FileSystemFixture fileSystemFixture)
