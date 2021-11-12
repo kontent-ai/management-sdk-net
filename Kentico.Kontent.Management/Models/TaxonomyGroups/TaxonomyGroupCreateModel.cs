@@ -30,6 +30,6 @@ namespace Kentico.Kontent.Management.Models.TaxonomyGroups
         /// Gets or sets terms in the taxonomy group.
         /// </summary>
         [JsonProperty("terms")]
-        public IEnumerable<TaxonomyGroupCreateModel> Terms { get; set; }
+        public IEnumerable<TaxonomyTermCreateModel> Terms { get; set; }
     }
 }

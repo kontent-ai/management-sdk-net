@@ -79,14 +79,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = "taxonomiesCreate!",
                 Codename = "taxonomies_codename_create",
                 ExternalId = "taxonomies_codename_external_id__create",
-                Terms = new List<TaxonomyGroupCreateModel>
+                Terms = new List<TaxonomyTermCreateModel>
                 {
-                    new TaxonomyGroupCreateModel
+                    new TaxonomyTermCreateModel
                     {
                         Codename = "taxonomies_term_codename",
                         Name = "name",
                         ExternalId = "taxonomies_term_external_id",
-                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
+                        Terms = Array.Empty<TaxonomyTermCreateModel>()
                     }
                 }
             };
@@ -165,11 +165,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var termName = "New taxonomy term";
             var changes = new TaxonomyGroupAddIntoPatchModel
             {
-                Value = new TaxonomyGroupCreateModel
+                Value = new TaxonomyTermCreateModel
                 {
                     Name = termName,
                     ExternalId = "my_new_term_addinto",
-                    Terms = Array.Empty<TaxonomyGroupCreateModel>()
+                    Terms = Array.Empty<TaxonomyTermCreateModel>()
                 }
             };
 
@@ -200,7 +200,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     new TaxonomyGroupCreateModel
                     {
                         Name = termName,
-                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
+                        Terms = Array.Empty<TaxonomyTermCreateModel>()
                     }
                 }
             };
@@ -247,21 +247,21 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = $"{suffix}",
                 Codename = $"c_{suffix}",
                 ExternalId = $"eid_{suffix}",
-                Terms = new List<TaxonomyGroupCreateModel>
+                Terms = new List<TaxonomyTermCreateModel>
                 {
-                    new TaxonomyGroupCreateModel
+                    new TaxonomyTermCreateModel
                     {
                         Codename = $"t_c_1{suffix}",
                         Name = $"name1_{suffix}",
                         ExternalId = $"eid1_{suffix}",
-                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
+                        Terms = Array.Empty<TaxonomyTermCreateModel>()
                     },
-                    new TaxonomyGroupCreateModel
+                    new TaxonomyTermCreateModel
                     {
                         Codename = $"t_c_2{suffix}",
                         Name = $"name2_{suffix}",
                         ExternalId = $"eid2_{suffix}",
-                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
+                        Terms = Array.Empty<TaxonomyTermCreateModel>()
                     }
                 }
             };

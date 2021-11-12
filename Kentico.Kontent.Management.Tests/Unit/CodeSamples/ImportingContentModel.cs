@@ -66,57 +66,57 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             {
                 Name = "Blogpost topic",
                 Codename = "blog_topic",
-                Terms = new TaxonomyGroupCreateModel[]
+                Terms = new TaxonomyTermCreateModel[]
                     {
-                        new TaxonomyGroupCreateModel
+                        new TaxonomyTermCreateModel
                         {
                             Name = "Sport",
                             Codename = "sport",
-                            Terms = new TaxonomyGroupCreateModel[]
+                            Terms = new TaxonomyTermCreateModel[]
                             {
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Soccer",
                                     ExternalId = "soccer",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Ice hockey",
                                     ExternalId = "hockey",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Rugby",
                                     ExternalId = "rugby",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
                             }
                         },
-                        new TaxonomyGroupCreateModel
+                        new TaxonomyTermCreateModel
                         {
                             Name = "Technology stack",
                             Codename = "tech",
-                            Terms = new TaxonomyGroupCreateModel[]
+                            Terms = new TaxonomyTermCreateModel[]
                             {
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Javascript",
                                     ExternalId = "js",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "C#",
                                     ExternalId = "c",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "MVC",
                                     ExternalId = "mvc",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
                             }
                         },

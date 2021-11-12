@@ -630,9 +630,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         {
                             Name = "Second-level taxonomy term",
                             Codename = "second_term",
-                            Terms = new TaxonomyGroupCreateModel[]
+                            Terms = new TaxonomyTermCreateModel[]
                             {
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Third-level taxonomy term",
                                 }
@@ -647,11 +647,11 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                 new TaxonomyGroupAddIntoPatchModel
                 {
                     Reference = Reference.ByCodename("second_term"),
-                    Value = new TaxonomyGroupCreateModel
+                    Value = new TaxonomyTermCreateModel
                     {
                         Name = "New taxonomy term",
                         ExternalId = "my-new-term",
-                        Terms = Array.Empty<TaxonomyGroupCreateModel>()
+                        Terms = Array.Empty<TaxonomyTermCreateModel>()
                     }
                 }
             });
@@ -868,49 +868,49 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                 Name = "Personas",
                 ExternalId = "Tax-Group-123",
                 Codename = "people",
-                Terms = new TaxonomyGroupCreateModel[]
+                Terms = new TaxonomyTermCreateModel[]
                     {
-                        new TaxonomyGroupCreateModel
+                        new TaxonomyTermCreateModel
                         {
                             Name = "Coffee expert",
                             Codename = "expert",
                             ExternalId = "Tax-term-456",
-                            Terms = new TaxonomyGroupCreateModel[]
+                            Terms = new TaxonomyTermCreateModel[]
                             {
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Barista",
                                     ExternalId = "Tax-term-789",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Cafe owner",
                                     ExternalId = "Tax-term-101",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 }
                             }
                         },
-                        new TaxonomyGroupCreateModel
+                        new TaxonomyTermCreateModel
                         {
                             Name = "Coffee enthusiast",
                             Codename = "enthusiast",
                             ExternalId = "Tax-term-112",
-                            Terms = new TaxonomyGroupCreateModel[]
+                            Terms = new TaxonomyTermCreateModel[]
                             {
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Coffee lover",
                                     ExternalId = "Tax-term-131",
                                     Codename = "lover",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 },
-                                new TaxonomyGroupCreateModel
+                                new TaxonomyTermCreateModel
                                 {
                                     Name = "Coffee blogger",
                                     ExternalId = "Tax-term-145",
                                     Codename = "blogger",
-                                    Terms = Enumerable.Empty<TaxonomyGroupCreateModel>()
+                                    Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
                                 }
                             }
                         }

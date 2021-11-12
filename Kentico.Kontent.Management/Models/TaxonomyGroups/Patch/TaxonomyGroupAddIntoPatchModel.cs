@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Models.TaxonomyGroups.Patch
         /// Gets or sets taxonomy term object you want to add.
         /// </summary>
         [JsonProperty("value")]
-        public TaxonomyGroupCreateModel Value { get; set; }
+        public TaxonomyTermCreateModel Value { get; set; }
 
         /// <summary>
         /// Gets or sets reference of the existing taxonomy term before which you want to add the new taxonomy term.
