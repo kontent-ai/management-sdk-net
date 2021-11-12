@@ -51,7 +51,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var response = await client.ListLanguagesAsync();
             using (new AssertionScope())
             {
-                Assert.Equal(2, response.Count());
+                response.Count().Should().Be(2);
 
                 response.First().Name.Should().BeEquivalentTo("Default project language");
                 response.First().Codename.Should().BeEquivalentTo("default");
