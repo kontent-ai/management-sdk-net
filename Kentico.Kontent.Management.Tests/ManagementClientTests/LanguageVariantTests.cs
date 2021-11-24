@@ -9,7 +9,6 @@ using Xunit;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
-using Kentico.Kontent.Management.Modules.Extensions;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 using Xunit.Abstractions;
 using FluentAssertions;
