@@ -162,6 +162,14 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                     SearchableValue = source?.searchable_value?.ToString()
                 };
             }
+            else if(type == typeof(SubpagesElement))
+            {
+                return new SubpagesElement
+                {
+                    Element = Reference.ById(Guid.Parse(source?.element?.id)),
+                    Value = (source?.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                };
+            }
 
             throw new ArgumentOutOfRangeException($"{type} is not valid language variant element");
         }

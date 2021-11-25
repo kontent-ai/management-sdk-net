@@ -76,6 +76,12 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// Represents the custom element.
         /// </summary>
         [EnumMember(Value = "custom")]
-        Custom = 12
+        Custom = 12,
+
+        /// <summary>
+        /// Represents the subpages element.
+        /// </summary>
+        [EnumMember(Value = "subpages")]
+        Subpages = 13
     }
 }

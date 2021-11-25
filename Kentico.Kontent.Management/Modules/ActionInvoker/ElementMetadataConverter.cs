@@ -46,6 +46,8 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
                     return JsonConvert.DeserializeObject<ContentTypeSnippetElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
                 case ElementMetadataType.Custom:
                     return JsonConvert.DeserializeObject<CustomElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
+                case ElementMetadataType.Subpages:
+                    return JsonConvert.DeserializeObject<SubpagesElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
             }
 
             throw new NotImplementedException();
