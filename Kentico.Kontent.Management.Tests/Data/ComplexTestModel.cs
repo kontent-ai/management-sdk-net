@@ -57,5 +57,9 @@ namespace Kentico.Kontent.Management.Tests.Data
         [JsonProperty("url_pattern")]
         [KontentElementId("1f37e15b-27a0-5f48-b314-03b401c19cee")]
         public UrlSlugElement UrlPattern { get; set; }
+
+        [JsonProperty("cafe_subpage")]
+        [KontentElementId("a29858ff-fa9f-5841-a682-d7fb6cc6effe")]
+        public SubpagesElement Cafe { get; set; }
     }
 }

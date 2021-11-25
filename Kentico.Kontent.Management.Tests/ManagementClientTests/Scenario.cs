@@ -213,6 +213,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                     Reference.ByCodename(EXISTING_MULTIPLE_CHOICE_OPTION_CODENAME_FEATURED)
                 },
             },
+            new
+            {
+                element = new
+                {
+                    id = typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Cafe)).GetKontentElementId()
+                },
+                value = new[] { Reference.ById(EXISTING_ITEM_ID) }
+            }
         };
 
         public static ComplexTestModel StronglyTypedElements => new()
@@ -313,6 +321,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.UrlPattern)).GetKontentElementId()),
                 Value = "on-roasts",
                 Mode = "custom"
+            },
+            Cafe = new SubpagesElement
+            {
+                Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.Cafe)).GetKontentElementId()),
+                Value = new[] { Reference.ById(EXISTING_ITEM_ID) }
             }
         };
 
@@ -399,6 +412,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         Name = "UrlSlugElementMetadataName",
                         IsRequired = false,
                         DependsOn = new UrlSlugDependency { Element = Reference.ByCodename("textelementmetadatacodename") },
+                    },
+                    new SubpagesElementMetadataModel
+                    {
+                        Codename = "subpagescodename",
+                        Name = "SubpagesElementName",
+                        IsRequired = false,
+                        ItemCountLimit = new LimitModel {Value = 2, Condition = LimitType.AtMost},
+                        AllowedContentTypes = new[] { Reference.ById(EXISTING_CONTENT_TYPE_ID) }
                     }
                 };
     }

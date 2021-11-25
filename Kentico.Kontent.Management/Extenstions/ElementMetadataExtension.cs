@@ -106,6 +106,14 @@ namespace Kentico.Kontent.Management.Extenstions
                     }
 
                     return source as T;
+
+                case ElementMetadataType.Subpages:
+                    if (source.Type != ElementMetadataType.Subpages)
+                    {
+                        throw new InvalidOperationException($"Type {source.Type} cannot be converted to {nameof(SubpagesElementMetadataModel)}");
+                    }
+
+                    return source as T;
                 default: throw new InvalidOperationException($"Type {source.Type} cannot be converted to any known element");
             }
         }

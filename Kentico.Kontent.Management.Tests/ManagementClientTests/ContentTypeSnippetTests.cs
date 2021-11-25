@@ -284,7 +284,9 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         private List<ElementMetadataBase> GetElementMetadataForSnippets()
         {
             var elements = GetElementMetadata();
-            elements.RemoveAll(x => x.GetType() == typeof(UrlSlugElementMetadataModel) || x.GetType() == typeof(ContentTypeSnippetElementMetadataModel));
+            elements.RemoveAll(x => x.GetType() == typeof(UrlSlugElementMetadataModel) ||
+                                    x.GetType() == typeof(ContentTypeSnippetElementMetadataModel) ||
+                                    x.GetType() == typeof(SubpagesElementMetadataModel));
             return elements;
         }
     }
