@@ -32,6 +32,12 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public MaximumTextLengthModel MaximumTextLength { get; set; }
 
         /// <summary>
+        /// Specifies a regular expression pattern used to validate the text element's value.
+        /// </summary>
+        [JsonProperty("validation_regex")]
+        public ValidationRegexModel ValidationRegex { get; set; }
+
+        /// <summary>
         /// Represents the type of the content type element.
         /// </summary>
         public override ElementMetadataType Type => ElementMetadataType.Text;

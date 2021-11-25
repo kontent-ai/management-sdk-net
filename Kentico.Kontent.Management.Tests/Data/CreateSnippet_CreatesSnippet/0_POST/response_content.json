@@ -1,7 +1,7 @@
 {
   "id": "61b25929-60f2-54f4-a0eb-91c287dc2ea7",
   "codename": "hooray_codename_type",
-  "last_modified": "2021-11-06T13:58:58.6833545Z",
+  "last_modified": "2021-11-25T12:31:12.7902923Z",
   "external_id": "hooray_codename_external_id",
   "name": "HoorayType!",
   "elements": [
@@ -15,7 +15,7 @@
       "guidelines": null,
       "is_required": false,
       "type": "asset",
-      "id": "ec747db7-643d-417e-b3aa-8b0ad6af463b",
+      "id": "ec8f0742-ae2e-42e2-9d97-565b4f73640f",
       "codename": "hooray_codename_type__myasset"
     },
     {
@@ -44,14 +44,14 @@
       "guidelines": null,
       "is_required": true,
       "type": "modular_content",
-      "id": "211b45ae-5de4-446d-9704-efd761cf19a4",
+      "id": "272695cd-1ae2-4099-b1a5-0e29e4b752b7",
       "codename": "hooray_codename_type__linkeditemselementcodename"
     },
     {
       "mode": "single",
       "options": [
         {
-          "id": "80e58cb3-1789-4167-bb28-9bf3eaec9e98",
+          "id": "22e15f4a-c669-43d8-8c98-b2f7424dfb0d",
           "codename": "yes",
           "name": "Yes"
         }
@@ -60,7 +60,7 @@
       "guidelines": null,
       "is_required": false,
       "type": "multiple_choice",
-      "id": "1658ddfd-600e-4736-bf1d-42cd4712b6ab",
+      "id": "05307dbf-e175-4cf1-b07c-2325c437652f",
       "codename": "hooray_codename_type__multiple_choice_element_codename"
     },
     {
@@ -107,11 +107,15 @@
     },
     {
       "maximum_text_length": null,
+      "validation_regex": {
+        "regex": "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
+        "flags": "i"
+      },
       "name": "TextElementMetadataName",
       "guidelines": null,
       "is_required": false,
       "type": "text",
-      "id": "301286d5-2f12-4ab2-82cc-981f363a40b2",
+      "id": "329f7867-d087-4441-b714-5f88e18d26af",
       "codename": "hooray_codename_type__textelementmetadatacodename"
     }
   ]
