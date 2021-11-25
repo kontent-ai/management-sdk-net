@@ -405,6 +405,11 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                         Codename = "textelementmetadatacodename",
                         Name = "TextElementMetadataName",
                         IsRequired = false,
+                        ValidationRegex = new ValidationRegexModel
+                        {
+                            Regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
+                            Flags = "i"
+                        }
                     },
                     new UrlSlugElementMetadataModel
                     {
