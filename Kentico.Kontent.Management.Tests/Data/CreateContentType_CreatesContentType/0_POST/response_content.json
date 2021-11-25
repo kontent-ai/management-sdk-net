@@ -1,7 +1,7 @@
 {
   "id": "61b25929-60f2-54f4-a0eb-91c287dc2ea7",
   "codename": "hooray_codename_type",
-  "last_modified": "2021-11-06T13:58:59.4490184Z",
+  "last_modified": "2021-11-25T14:01:07.3037342Z",
   "external_id": "hooray_codename_external_id",
   "name": "HoorayType!",
   "content_groups": [
@@ -23,7 +23,7 @@
       "guidelines": null,
       "is_required": false,
       "type": "asset",
-      "id": "d25de8b7-5795-4422-b9f5-364ea6770dcc",
+      "id": "8c49172f-d520-4d2d-a0a7-a4e577843c3b",
       "codename": "myasset",
       "content_group": {
         "id": "a354bea4-9341-5bf5-be4e-4b2b366060b5"
@@ -73,7 +73,7 @@
       "guidelines": null,
       "is_required": true,
       "type": "modular_content",
-      "id": "7d70f47e-b396-41e0-8ee1-1c138756cf08",
+      "id": "6874202d-fd09-437d-b35a-286524927fec",
       "codename": "linkeditemselementcodename",
       "content_group": {
         "id": "a354bea4-9341-5bf5-be4e-4b2b366060b5"
@@ -83,7 +83,7 @@
       "mode": "single",
       "options": [
         {
-          "id": "fa4b3e27-6abc-4f4b-aeef-3592c00e534c",
+          "id": "2b98034b-5e58-4137-983e-0c618f7b95e2",
           "codename": "yes",
           "name": "Yes"
         }
@@ -92,7 +92,7 @@
       "guidelines": null,
       "is_required": false,
       "type": "multiple_choice",
-      "id": "4c0dcb1f-75b7-463d-b5e7-4f3960861b22",
+      "id": "a1cbbf5c-5c9d-4255-bdd8-cb94a4b77527",
       "codename": "multiple_choice_element_codename",
       "content_group": {
         "id": "a354bea4-9341-5bf5-be4e-4b2b366060b5"
@@ -151,11 +151,12 @@
     },
     {
       "maximum_text_length": null,
+      "validation_regex": null,
       "name": "TextElementMetadataName",
       "guidelines": null,
       "is_required": false,
       "type": "text",
-      "id": "29629d42-cbea-4208-9472-db0fb3a51dea",
+      "id": "ce0ea714-9f2a-4a8c-bdab-fc0132a9e3ae",
       "codename": "textelementmetadatacodename",
       "content_group": {
         "id": "a354bea4-9341-5bf5-be4e-4b2b366060b5"
@@ -164,15 +165,35 @@
     {
       "depends_on": {
         "element": {
-          "id": "29629d42-cbea-4208-9472-db0fb3a51dea"
+          "id": "ce0ea714-9f2a-4a8c-bdab-fc0132a9e3ae"
         }
       },
       "name": "UrlSlugElementMetadataName",
       "guidelines": null,
       "is_required": false,
       "type": "url_slug",
-      "id": "f42134f9-dd1d-4276-906a-2a472fb28acf",
+      "id": "438a9823-2f2b-4f5a-a921-ad2ed3d80816",
       "codename": "urlslugrlementcodename",
+      "content_group": {
+        "id": "a354bea4-9341-5bf5-be4e-4b2b366060b5"
+      }
+    },
+    {
+      "item_count_limit": {
+        "value": 2,
+        "condition": "at_most"
+      },
+      "allowed_content_types": [
+        {
+          "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+        }
+      ],
+      "name": "SubpagesElementName",
+      "guidelines": null,
+      "is_required": false,
+      "type": "subpages",
+      "id": "e727b7a4-6e49-4b4c-953b-4b0dddd29093",
+      "codename": "subpagescodename",
       "content_group": {
         "id": "a354bea4-9341-5bf5-be4e-4b2b366060b5"
       }
