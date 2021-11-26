@@ -13,7 +13,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "ContentItem")]
     public class ContentItemTests
     {
-        private readonly ManagementClient _client;
+        private readonly IManagementClient _client;
         private readonly Scenario _scenario;
 
         public ContentItemTests(ITestOutputHelper output)

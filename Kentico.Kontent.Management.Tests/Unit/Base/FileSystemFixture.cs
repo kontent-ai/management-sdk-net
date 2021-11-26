@@ -46,13 +46,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
             _folder = folder;
         }
 
-        public ManagementClient CreateMockClient(IManagementHttpClient httpClient)
+        public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
         {
             var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
             return new ManagementClient(_urlBuilder, actionInvoker);
         }
 
-        public ManagementClient CreateMockClientWithResponse(string responseFileName)
+        public IManagementClient CreateMockClientWithResponse(string responseFileName)
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
             mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
@@ -69,7 +69,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
             return CreateMockClient(mockedHttpClient);
         }
 
-        public ManagementClient CreateMockClientWithoutResposne()
+        public IManagementClient CreateMockClientWithoutResposne()
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
             mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())

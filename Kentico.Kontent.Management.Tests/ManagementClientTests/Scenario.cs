@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
     internal class Scenario
     {
-        private readonly ManagementClient _client;
+        private readonly IManagementClient _client;
 
         private readonly ManagementOptions _options;
 
@@ -42,7 +42,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             _client = CreateManagementClient(testName);
         }
 
-        private ManagementClient CreateManagementClient(string testName)
+        private IManagementClient CreateManagementClient(string testName)
         {
             return TestUtils.CreateManagementClient(_options, _runType, testName);
         }
@@ -52,7 +52,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         /// </summary>
         public const string PROJECT_ID = "a9931a80-9af4-010b-0590-ecb1273cf1b8";
 
-        public ManagementClient Client => _client;
+        public IManagementClient Client => _client;
 
         public static TestRunType RunType => _runType;
 

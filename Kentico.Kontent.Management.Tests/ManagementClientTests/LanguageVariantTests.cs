@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "LanguageVariant")]
     public class LanguageVariantTests
     {
-        private readonly ManagementClient _client;
+        private readonly IManagementClient _client;
         private readonly Scenario _scenario;
 
         public LanguageVariantTests(ITestOutputHelper output)
