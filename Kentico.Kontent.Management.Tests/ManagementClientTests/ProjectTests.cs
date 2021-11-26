@@ -9,7 +9,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "Validation")]
     public class ProjectTests
     {
-        private readonly ManagementClient _client;
+        private readonly IManagementClient _client;
         private readonly Scenario _scenario;
 
         public ProjectTests(ITestOutputHelper output)

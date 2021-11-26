@@ -16,7 +16,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "Collections")]
     public class ClollectionTests
     {
-        private readonly ManagementClient _client;
+        private readonly IManagementClient _client;
         private readonly Scenario _scenario;
 
         public ClollectionTests(ITestOutputHelper output)

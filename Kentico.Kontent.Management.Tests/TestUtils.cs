@@ -52,7 +52,7 @@ namespace Kentico.Kontent.Management.Tests
             return new ManagementClient(options);
         }
 
-        internal static async Task<ContentItemModel> PrepareTestItem(ManagementClient client, string typeCodename, string externalId = null)
+        internal static async Task<ContentItemModel> PrepareTestItem(IManagementClient client, string typeCodename, string externalId = null)
         {
             var type = Reference.ByCodename(typeCodename);
             if (externalId != null)
@@ -77,7 +77,7 @@ namespace Kentico.Kontent.Management.Tests
             }
         }
 
-        internal static async Task<LanguageVariantModel> PrepareTestVariant(ManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
+        internal static async Task<LanguageVariantModel> PrepareTestVariant(IManagementClient client, string languageCodename, IEnumerable<dynamic> elements, ContentItemModel item)
         {
             var addedItemIdentifier = Reference.ByCodename(item.Codename);
             var addedLanguageIdentifier = Reference.ByCodename(languageCodename);

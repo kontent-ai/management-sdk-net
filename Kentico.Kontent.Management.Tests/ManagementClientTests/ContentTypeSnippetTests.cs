@@ -19,7 +19,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
     [Trait("ManagementClient", "Snippets")]
     public class ContentTypeSnippetTests
     {
-        private readonly ManagementClient _client;
+        private readonly IManagementClient _client;
         private readonly Scenario _scenario;
 
         public ContentTypeSnippetTests(ITestOutputHelper output)
