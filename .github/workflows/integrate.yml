@@ -2,30 +2,30 @@ name: Build & Test
 
 on:
   push:
-    branches: [ master, vNext ]
+    branches: [master, vNext]
   pull_request:
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
+        net: [5.0.x, 6.0.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true
-    - name: Test
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-    - name: Codecov
-      if: ${{ runner.os == 'Linux' }}
-      uses: codecov/codecov-action@v1
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.net }}
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore /p:ContinuousIntegrationBuild=true
+      - name: Test
+        run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      - name: Codecov
+        if: ${{ runner.os == 'Linux' }}
+        uses: codecov/codecov-action@v1
