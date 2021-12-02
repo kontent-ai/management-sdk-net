@@ -57,6 +57,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public CmApiV2(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
+            _fileSystemFixture.SetSubFolder("CodeSamples");
         }
 
         // DocSection: cm_api_v2_delete_asset

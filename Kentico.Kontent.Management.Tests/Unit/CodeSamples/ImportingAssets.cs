@@ -22,6 +22,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public ImportingAssets(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
+            _fileSystemFixture.SetSubFolder("CodeSamples");
         }
 
         // DocSection: importing_assets_create_asset

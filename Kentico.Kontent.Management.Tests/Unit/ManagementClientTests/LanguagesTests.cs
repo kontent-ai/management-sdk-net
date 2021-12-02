@@ -16,6 +16,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         public LanguagesTests(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
+            _fileSystemFixture.SetSubFolder("Language");
         }
 
         [Fact]
