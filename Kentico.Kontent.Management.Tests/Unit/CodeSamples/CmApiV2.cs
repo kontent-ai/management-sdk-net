@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Assets.Patch;
+using Kentico.Kontent.Management.Models.Collections;
+using Kentico.Kontent.Management.Models.Collections.Patch;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.LanguageVariants;
@@ -522,6 +524,45 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.Single(response.Folders.Skip(1).First().Folders);
         }
 
+        // DocSection: cm_api_v2_patch_content_collections
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PatchContentCollections()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
+
+            var response = await client.ModifyCollectionAsync(new CollectionOperationBaseModel[]
+            {
+                new CollectionAddIntoPatchModel
+                {
+                    Value = new CollectionCreateModel
+                    {
+                        ExternalId = "another-collection",
+                        Name = "Another collection",
+                        Codename = "another_collection_codename"
+                    },
+                    After = Reference.ByCodename("second_collection")
+                },
+                new CollectionMovePatchModel
+                {
+                    Reference = Reference.ByCodename("important_collection"),
+                    Before = Reference.ByCodename("first_collection")
+                },
+                new CollectionRemovePatchModel
+                {
+                    CollectionIdentifier = Reference.ByCodename("extra_collection")
+                },
+                new CollectionReplacePatchModel
+                {
+                    PropertyName = Models.Collections.Patch.PropertyName.Name,
+                    Value = "A new name",
+                    Reference = Reference.ByCodename("second_collection")
+                }
+            });
+
+            Assert.Equal(2, response.Collections.Count());
+        }
+
         // DocSection: cm_api_v2_patch_language
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
@@ -612,18 +653,18 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             {
                 new TaxonomyGroupReplacePatchModel
                 {
-                    PropertyName = PropertyName.Name,
+                    PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Name,
                     Value = "Categories"
                 },
                 new TaxonomyGroupReplacePatchModel
                 {
-                    PropertyName = PropertyName.Codename,
+                    PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Codename,
                     Value = "category"
                 },
                 new TaxonomyGroupReplacePatchModel
                 {
                     Reference = Reference.ByCodename("first_term"),
-                    PropertyName = PropertyName.Terms,
+                    PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Terms,
                     Value = new TaxonomyGroupCreateModel[]
                     {
                         new TaxonomyGroupCreateModel
@@ -1329,10 +1370,10 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
 
-            // Immediate publish
+            // Immediate unpublish
             var immediateException = await Record.ExceptionAsync(async () => await client.UnpublishLanguageVariant(identifier));
 
-            // Scheduled publish
+            // Scheduled unpublish
             var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariant(identifier, new ScheduleModel
             {
                 ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
