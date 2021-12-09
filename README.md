@@ -10,7 +10,7 @@
 | Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) | [📖](#using-the-managementclient) |
 | Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) |       [📖](#helper-methods)       |
 
-> \* We highly recommend to target [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) in your projects. [`netstandard2.0`](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) is supported to allow older projects to iterativelly upgrade.
+> \* We highly recommend targetting [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) in your projects. [`netstandard2.0`](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) is supported to allow older projects to iteratively upgrade.
 
 ## Summary
 
