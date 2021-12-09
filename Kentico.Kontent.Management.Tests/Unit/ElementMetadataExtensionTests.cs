@@ -137,7 +137,8 @@ namespace Kentico.Kontent.Management.Tests.Unit
                         ValidationRegex = new ValidationRegexModel
                         {
                             Regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
-                            Flags = "i"
+                            Flags = "i",
+                            ValidationMessage = "Type a value matching the pattern required in this element."
                         }
                     },
                     new UrlSlugElementMetadataModel
