@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         public string Flags { get; set; }
         
         /// <summary>
-        ///  Specifies the custom message that is used when 
+        ///  Specifies the custom message that is used when input does not match the regex pattern.
         /// </summary>
         [JsonProperty("validation_message")]
         public string ValidationMessage { get; set; }
