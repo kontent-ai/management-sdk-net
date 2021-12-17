@@ -2,7 +2,7 @@
 
 namespace Kentico.Kontent.Management.Models.Shared
 {
-    internal interface IListingResponse<T> : IEnumerable<T>
+    public interface IListingResponse<T> : IEnumerable<T>
     {
         PaginationResponseModel Pagination { get; set; }
     }
