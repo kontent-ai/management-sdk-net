@@ -51,6 +51,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public Readme(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
+            _fileSystemFixture.SetSubFolder("CodeSamples");
         }
 
         [Fact]

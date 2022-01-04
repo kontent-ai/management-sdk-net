@@ -69,7 +69,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
             return CreateMockClient(mockedHttpClient);
         }
 
-        public IManagementClient CreateMockClientWithoutResposne()
+        public IManagementClient CreateMockClientWithoutResponse()
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
             mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())

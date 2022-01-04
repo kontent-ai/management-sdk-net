@@ -21,6 +21,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public ImportingContentModel(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
+            _fileSystemFixture.SetSubFolder("CodeSamples");
         }
 
         // DocSection: import_model_create_snippet

@@ -88,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void DeleteTaxonomyGroup_ByCodename_DeletesTaxonomyGroup()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ByCodename("codename");
 
@@ -100,7 +100,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void DeleteTaxonomyGroup_ById_DeletesTaxonomyGroup()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ById(Guid.NewGuid());
 
@@ -112,7 +112,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void DeleteTaxonomyGroup_ByExternalId_DeletesTaxonomyGroup()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ByExternalId("externalId");
 
@@ -187,7 +187,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var response = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(taxonomy.Codename), new List<TaxonomyGroupRemovePatchModel> { changes });
 
-            response.Terms.Should().NotContain(term => term.Codename == "toBeRemvoed");
+            response.Terms.Should().NotContain(term => term.Codename == "toBeRemoved");
         }
 
         private TaxonomyGroupCreateModel ToCreateModel(TaxonomyGroupModel source)
