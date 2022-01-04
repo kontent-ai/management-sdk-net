@@ -35,7 +35,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void ModifyCollection_Remove_ById_RemovesCollection()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ById(Guid.NewGuid());
 
@@ -53,7 +53,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void ModifyCollection_Remove_ByCodename_RemovesCollection()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ByCodename("codename");
 
@@ -70,7 +70,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void ModifyCollection_Remove_ByExternalId_RemovesCollection()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ByExternalId("externalId");
 
@@ -116,7 +116,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var changes = new[] { new CollectionMovePatchModel
             {
                 Reference = identifier,
-                Before = Reference.ByExternalId("thrid_external_id")
+                Before = Reference.ByExternalId("third_external_id")
             }};
 
             var response = await client.ModifyCollectionAsync(changes);
