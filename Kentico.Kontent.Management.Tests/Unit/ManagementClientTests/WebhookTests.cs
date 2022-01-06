@@ -59,7 +59,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void DeleteWebhook_ById_DeletesWebhook()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ById(Guid.NewGuid());
 
@@ -71,7 +71,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void EnableWebhook_ById_EnablesWebhook()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             Func<Task> enableWebhook = async () => await client.EnableWebhookAsync(Reference.ById(Guid.NewGuid()));
 
@@ -81,7 +81,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void DisableWebhook_ById_DisablesWebhook()
         {
-            var client = _fileSystemFixture.CreateMockClientWithoutResposne();
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             Func<Task> disableWebhook = async () => await client.DisableWebhookAsync(Reference.ById(Guid.NewGuid()));
 
