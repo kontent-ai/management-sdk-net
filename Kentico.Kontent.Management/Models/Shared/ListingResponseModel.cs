@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 
 namespace Kentico.Kontent.Management.Models.Shared
 {
-    /// <summary>
-    /// Represents listing response.
-    /// </summary>
-    public class ListingResponseModel<T> : IEnumerable<T>
+    internal class ListingResponseModel<T> : IListingResponseModel<T>
     {
         private readonly IEnumerable<T> _result;
 
@@ -24,11 +21,7 @@ namespace Kentico.Kontent.Management.Models.Shared
             _result = result;
         }
 
-        /// <summary>
-        /// Returns strongly typed listing response model.
-        /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{T}"/> instance that represents the listing provided type.</returns>
-        public async Task<ListingResponseModel<T>> GetNextPage()
+        public async Task<IListingResponseModel<T>> GetNextPage()
         {
             if (_continuationToken == null)
             {
@@ -39,10 +32,6 @@ namespace Kentico.Kontent.Management.Models.Shared
             return new ListingResponseModel<T>(_nextPageRetriever, nextPage.Pagination?.Token, _url, nextPage);
         }
 
-        /// <summary>
-        /// Returns existence of next page.
-        /// </summary>
-        /// <returns>The <see cref="bool"/>representing existence of the next page.</returns>
         public bool HasNextPage()
         {
             return _continuationToken != null;
@@ -53,10 +42,6 @@ namespace Kentico.Kontent.Management.Models.Shared
             return GetEnumerator();
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>The <see cref="IEnumerator{T}"/> instance that can be used to iterate through the collection.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             return _result.GetEnumerator();

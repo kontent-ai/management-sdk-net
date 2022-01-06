@@ -97,7 +97,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
+        public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -115,7 +115,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
+        public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -133,7 +133,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
+        public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
         {
             if (identifier == null)
             {
@@ -196,7 +196,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
+        public async Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
         {
             var endpointUrl = _urlBuilder.BuildTypeUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
@@ -262,7 +262,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync()
+        public async Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
@@ -328,7 +328,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
+        public async Task<IListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
         {
             var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
@@ -464,7 +464,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<LanguageModel>> ListLanguagesAsync()
+        public async Task<IListingResponseModel<LanguageModel>> ListLanguagesAsync()
         {
             var endpointUrl = _urlBuilder.BuildLanguagesUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguagesListingResponseServerModel>(endpointUrl, HttpMethod.Get);
@@ -753,7 +753,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<ContentItemModel>> ListContentItemsAsync()
+        public async Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
         {
             var endpointUrl = _urlBuilder.BuildItemsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
@@ -766,7 +766,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ListingResponseModel<AssetModel>> ListAssetsAsync()
+        public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
