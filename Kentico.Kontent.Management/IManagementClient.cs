@@ -239,11 +239,11 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Returns strongly typed listing of assets.
         /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
-        /// To check if the next page is available use <see cref="ListingResponseModel{T}.HasNextPage"/>,
-        /// For getting next page use <see cref="ListingResponseModel{T}.GetNextPage"/>,
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>,
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>,
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
-        Task<ListingResponseModel<AssetModel>> ListAssetsAsync();
+        /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
+        Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
 
         /// <summary>
         /// Returns listing of collection.
@@ -254,36 +254,36 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Returns strongly typed listing of content items. 
         /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
-        /// To check if the next page is available use <see cref="ListingResponseModel{T}.HasNextPage"/>,
-        /// For getting next page use <see cref="ListingResponseModel{T}.GetNextPage"/>,
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>,
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>,
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{ContentItemModel}"/> instance that represents the listing of content items.</returns>
-        Task<ListingResponseModel<ContentItemModel>> ListContentItemsAsync();
+        /// <returns>The <see cref="IListingResponseModel{ContentItemModel}"/> instance that represents the listing of content items.</returns>
+        Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync();
 
         /// <summary>
         /// Returns listing of content types.
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{ContentTypeModel}"/> instance that represents the listing of content types.</returns>
-        Task<ListingResponseModel<ContentTypeModel>> ListContentTypesAsync();
+        /// <returns>The <see cref="IListingResponseModel{ContentTypeModel}"/> instance that represents the listing of content types.</returns>
+        Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync();
 
         /// <summary>
         /// Returns listing of content type snippets.
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{ContentTypeSnippetModel}"/> instance that represents the listing of content type snippets.</returns>
-        Task<ListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync();
+        /// <returns>The <see cref="IListingResponseModel{ContentTypeSnippetModel}"/> instance that represents the listing of content type snippets.</returns>
+        Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync();
 
         /// <summary>
         /// Returns listing of languages.
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{LanguageModel}"/> instance that represents the listing of languages.</returns>
-        Task<ListingResponseModel<LanguageModel>> ListLanguagesAsync();
+        /// <returns>The <see cref="IListingResponseModel{LanguageModel}"/> instance that represents the listing of languages.</returns>
+        Task<IListingResponseModel<LanguageModel>> ListLanguagesAsync();
 
         /// <summary>
         /// Returns strongly typed listing of language variants for specified collection.
         /// </summary>
         /// <param name="identifier">The identifier of the collection.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier);
+        Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier);
 
         /// <summary>
         /// Returns strongly typed listing of language variants for the specified content item.
@@ -305,20 +305,20 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier);
+        Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier);
 
         /// <summary>
         /// Returns strongly typed listing of language variants containing components by type.
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-        Task<ListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier);
+        Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier);
 
         /// <summary>
         /// Returns listing of taxonomy groups.
         /// </summary>
-        /// <returns>The <see cref="ListingResponseModel{TaxonomyGroupModel}"/> instance that represents the listing of taxonomy groups.</returns>
-        Task<ListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync();
+        /// <returns>The <see cref="IListingResponseModel{TaxonomyGroupModel}"/> instance that represents the listing of taxonomy groups.</returns>
+        Task<IListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync();
 
         /// <summary>
         /// Returns listing of webhooks.
