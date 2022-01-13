@@ -6,6 +6,7 @@ using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.ProjectReport;
+using Kentico.Kontent.Management.Models.Roles;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 using Kentico.Kontent.Management.Models.TaxonomyGroups;
@@ -462,5 +463,18 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <returns><see cref="ProjectReportModel"/></returns>
         Task<ProjectReportModel> ValidateProjectAsync();
+
+        /// <summary>
+        /// Lists all roles in project.
+        /// </summary>
+        /// <returns><see <see cref="IEnumerable{ProjectReportModel}"/>"/></returns>
+        Task<ProjectRolesModel> ListProjectRolesAsync();
+
+        /// <summary>
+        /// Returns project role.
+        /// </summary>
+        /// <param name="identifier">The identifier of the project role.</param>
+        /// <returns>The <see cref="ProjectRoleModel"/> instance that represents requested project role.</returns>
+        Task<ProjectRoleModel> GetProjectRoleAsync(Reference identifier);
     }
 }

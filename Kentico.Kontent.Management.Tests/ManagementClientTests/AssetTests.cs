@@ -354,8 +354,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         [Fact]
         public async Task GetAsset_WhenGivenAssetId_ReturnsGivenAsset()
         {
-            
-
             var identifier = Reference.ById(Guid.Parse("01647205-c8c4-4b41-b524-1a98a7b12750"));
 
             var response = await _client.GetAssetAsync(identifier);
