@@ -238,9 +238,9 @@ namespace Kentico.Kontent.Management
 
         /// <summary>
         /// Returns strongly typed listing of assets.
-        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
-        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>,
-        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>,
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
         Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
@@ -253,33 +253,45 @@ namespace Kentico.Kontent.Management
 
         /// <summary>
         /// Returns strongly typed listing of content items. 
-        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects. 
-        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>,
-        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>,
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <returns>The <see cref="IListingResponseModel{ContentItemModel}"/> instance that represents the listing of content items.</returns>
         Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync();
 
         /// <summary>
         /// Returns listing of content types.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <returns>The <see cref="IListingResponseModel{ContentTypeModel}"/> instance that represents the listing of content types.</returns>
         Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync();
 
         /// <summary>
         /// Returns listing of content type snippets.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <returns>The <see cref="IListingResponseModel{ContentTypeSnippetModel}"/> instance that represents the listing of content type snippets.</returns>
         Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync();
 
         /// <summary>
         /// Returns listing of languages.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <returns>The <see cref="IListingResponseModel{LanguageModel}"/> instance that represents the listing of languages.</returns>
         Task<IListingResponseModel<LanguageModel>> ListLanguagesAsync();
 
         /// <summary>
         /// Returns strongly typed listing of language variants for specified collection.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <param name="identifier">The identifier of the collection.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
@@ -302,6 +314,9 @@ namespace Kentico.Kontent.Management
 
         /// <summary>
         /// Returns strongly typed listing of language variants for the specified content type.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
@@ -309,6 +324,9 @@ namespace Kentico.Kontent.Management
 
         /// <summary>
         /// Returns strongly typed listing of language variants containing components by type.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <param name="identifier">The identifier of the content type.</param>
         /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
@@ -316,6 +334,9 @@ namespace Kentico.Kontent.Management
 
         /// <summary>
         /// Returns listing of taxonomy groups.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
         /// </summary>
         /// <returns>The <see cref="IListingResponseModel{TaxonomyGroupModel}"/> instance that represents the listing of taxonomy groups.</returns>
         Task<IListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync();
