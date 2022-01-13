@@ -27,6 +27,7 @@ using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Collections.Patch;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.UrlBuilder;
+using Kentico.Kontent.Management.Models.Roles;
 
 namespace Kentico.Kontent.Management
 {
@@ -961,6 +962,24 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<CollectionOperationBaseModel>, CollectionsModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
+        /// <inheritdoc />
+        public async Task<ProjectRolesModel> ListProjectRolesAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildProjectRolesUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectRolesModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        /// <inheritdoc />
+        public async Task<ProjectRoleModel> GetProjectRoleAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildProjectRoleUrl(identifier);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectRoleModel>(endpointUrl, HttpMethod.Get);
+        }
 
         private async Task<IListingResponse<TModel>> GetNextListingPageAsync<TListingResponse, TModel>(string continuationToken, string url)
             where TListingResponse : IListingResponse<TModel>

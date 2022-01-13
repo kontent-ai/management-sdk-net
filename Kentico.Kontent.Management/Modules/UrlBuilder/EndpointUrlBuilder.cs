@@ -25,6 +25,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
         private readonly WebhookTemplate _webhookTemplate;
         private readonly WorkflowTemplate _workflowTemplate;
         private readonly ItemTemplate _itemTemplate;
+        private readonly ProjectRolesTemplate _projectRolesTemplate;
 
         private readonly ManagementOptions _options;
 
@@ -41,6 +42,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
             _webhookTemplate = new WebhookTemplate();
             _workflowTemplate = new WorkflowTemplate();
             _itemTemplate = new ItemTemplate();
+            _projectRolesTemplate = new ProjectRolesTemplate();
 
             _options = options;
         }
@@ -294,6 +296,17 @@ namespace Kentico.Kontent.Management.UrlBuilder
             return GetUrl(_collectionTemplate.Url);
         }
         #endregion
+
+        internal string BuildProjectRolesUrl()
+        {
+            return GetUrl(_projectRolesTemplate.Url);
+        }
+
+        internal string BuildProjectRoleUrl(Reference identifier)
+        {
+            var itemSegment = GetIdentifierUrlSegment(identifier, _projectRolesTemplate);
+            return GetUrl(itemSegment);
+        }
 
         private string GetIdentifierUrlSegment(Reference identifier, UrlTemplate template)
             => GetIdentifier(template, id: identifier.Id, codename: identifier.Codename, externalId: identifier.ExternalId);

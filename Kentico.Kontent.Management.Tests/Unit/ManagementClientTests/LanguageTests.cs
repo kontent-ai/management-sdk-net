@@ -9,11 +9,11 @@ using Xunit;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {
-    public class LanguagesTests : IClassFixture<FileSystemFixture>
+    public class LanguageTests : IClassFixture<FileSystemFixture>
     {
         private FileSystemFixture _fileSystemFixture;
 
-        public LanguagesTests(FileSystemFixture fileSystemFixture)
+        public LanguageTests(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
             _fileSystemFixture.SetSubFolder("Language");
