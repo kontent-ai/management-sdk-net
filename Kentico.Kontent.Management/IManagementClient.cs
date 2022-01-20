@@ -467,7 +467,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Lists all roles in project.
         /// </summary>
-        /// <returns><see <see cref="IEnumerable{ProjectReportModel}"/>"/></returns>
+        /// <returns>The <see cref="ProjectRolesModel"/> instance that represents the listing of roles in project.</returns>
         Task<ProjectRolesModel> ListProjectRolesAsync();
 
         /// <summary>
