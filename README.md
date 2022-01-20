@@ -182,6 +182,26 @@ var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 ```
 
 ## Quick start
+### Retrieving content items
+Responses from Kontent by Kentico API are paginated so to retrieve all of content items you need to go page by page. Here is how it can be done: 
+
+```csharp
+var items = new List<ContentItemModel>();
+
+var response = await _client.ListContentItemsAsync();
+
+while (true)
+{
+    items.AddRange(response);
+
+    if (!response.HasNextPage())
+    {
+        break;
+    }
+
+    response = await response.GetNextPage();
+}
+```
 
 ### Importing content items
 
