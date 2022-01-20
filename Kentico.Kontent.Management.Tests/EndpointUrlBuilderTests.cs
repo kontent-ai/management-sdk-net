@@ -187,7 +187,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildAssetsUrlFromId_WithGivenAssetId_ReturnsExpectedUrl()
         {
             var assetId = Guid.NewGuid();
-            var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/assets/{assetId}";
+            var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/{assetId}";
             var actualResult = _builder.BuildAssetsUrl(Reference.ById(assetId));
 
             Assert.Equal(expectedResult, actualResult);
@@ -198,7 +198,7 @@ namespace Kentico.Kontent.Management.Tests
         public void BuildAssetsUrlFromExternalId_WithGivenAssetId_ReturnsExpectedUrl()
         {
             var externalId = "which-brewing-fits-you";
-            var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/assets/external-id/{externalId}";
+            var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/external-id/{externalId}";
             var actualResult = _builder.BuildAssetsUrl(Reference.ByExternalId(externalId));
 
             Assert.Equal(expectedResult, actualResult);
@@ -232,5 +232,41 @@ namespace Kentico.Kontent.Management.Tests
         }
 
         #endregion
+
+        [Fact]
+        public void BuildProjectRolesUrl_ReturnsCorrectUrl()
+        {
+            var actualUrl = _builder.BuildProjectRolesUrl();
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/roles";
+
+            Assert.Equal(expectedUrl, actualUrl);
+        }
+
+        [Fact]
+        public void BuildProjectRoleUrl_WithId_ReturnsCorrectUrl()
+        {
+            var roleIdentifier = Reference.ById(Guid.NewGuid());
+            var actualUrl = _builder.BuildProjectRoleUrl(roleIdentifier);
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/roles/{roleIdentifier.Id}";
+
+            Assert.Equal(expectedUrl, actualUrl);
+        }
+
+        [Fact]
+        public void BuildProjectRoleUrl_WithCodename_ReturnsCorrectUrl()
+        {
+            var roleIdentifier = Reference.ByCodename("codename");
+            var actualUrl = _builder.BuildProjectRoleUrl(roleIdentifier);
+            var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/roles/codename/{roleIdentifier.Codename}";
+
+            Assert.Equal(expectedUrl, actualUrl);
+        }
+
+        [Fact]
+        public void BuildProjectRoleUrl_WithExternalId_Throws()
+        {
+            var roleIdentifier = Reference.ByExternalId("external");
+            Assert.Throws<InvalidOperationException>(() => _builder.BuildProjectRoleUrl(roleIdentifier));
+        }
     }
 }
