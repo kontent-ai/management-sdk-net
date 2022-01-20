@@ -2,8 +2,11 @@
 using Kentico.Kontent.Management.Models.Roles;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Tests.Unit.Base;
+using System;
 using System.Threading.Tasks;
 using Xunit;
+
+using static FluentAssertions.FluentActions;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {
@@ -27,6 +30,16 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var response = await client.ListProjectRolesAsync();
 
             response.Should().BeEquivalentTo(expectedItems);
+        }
+
+        [Fact]
+        public async Task GetProjectRole_NoIdentifier_ExceptionRaised()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+
+            await Awaiting(() => client.GetProjectRoleAsync(null))
+                .Should()
+                .ThrowAsync<ArgumentNullException>();
         }
 
         [Fact]
