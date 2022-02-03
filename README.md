@@ -11,7 +11,7 @@
 
 ## Summary
 
-:warning: **Please note that this SDK uses [Management API v1](https://docs.kontent.ai/reference/management-api-v1) with the exception of the Assets API Endpoints. Those are using the V2 API.**
+:warning: **Please note that this SDK uses [Management API v1](https://kontent.ai/learn/reference/management-api-v1) with the exception of the Assets API Endpoints. Those are using the V2 API.**
 
 ℹ If you want to take a look to the next version supporting full Management API v2 scope, checkout the [vNext branch](https://github.com/Kentico/kontent-management-sdk-net/tree/vNext). ℹ
 
@@ -21,19 +21,19 @@ You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packa
 
 The Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
 
-You can head over to our Developer Hub for the complete [Management API Reference](https://docs.kontent.ai/reference/content-management-api-v1).
+You can head over to our Developer Hub for the complete [Management API Reference](https://kontent.ai/learn/reference/content-management-api-v1).
 
 ## Prerequisites
 
-To manage content in a Kentico Kontent project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
+To manage content in a Kentico Kontent project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
 
-You also need to prepare the structure of your Kentico Kontent project before importing your content. This means defining the [Content types](https://docs.kontent.ai/tutorials/set-up-projects/define-content-models/creating-and-deleting-content-types) of the items you want to import. You might also need to set up your [Languages](https://docs.kontent.ai/tutorials/set-up-projects/set-up-languages/localization-in-kentico-kontent), [Taxonomy](https://docs.kontent.ai/tutorials/set-up-projects/define-content-models/organizing-your-content-with-taxonomies#a-getting-organized-with-taxonomies-for-release-publishing) or [Sitemap locations](https://docs.kontent.ai/tutorials/develop-apps/optimize-for-the-web/optimizing-content-for-search-engines#a-sitemaps) (if you plan to use them).
+You also need to prepare the structure of your Kentico Kontent project before importing your content. This means defining the [content types](https://kontent.ai/learn/tutorials/manage-kontent/content-modeling/create-and-delete-content-types) of the items you want to import. You might also need to set up your [languages](https://kontent.ai/learn/tutorials/manage-kontent/projects/set-up-languages), [taxonomy](https://kontent.ai/learn/tutorials/manage-kontent/content-modeling/create-taxonomies) or [sitemaps](https://kontent.ai/learn/tutorials/develop-apps/optimize-your-app/seo-friendly-content#a-sitemaps) (if you plan to use them).
 
 ## Using the ManagementClient
 
 The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kentico Kontent projects.
 
-To create an instance of the class, you need to provide a [project ID](https://docs.kontent.ai/tutorials/develop-apps/get-content/getting-content#a-getting-content-items) and a valid [Management API Key](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
+To create an instance of the class, you need to provide a [project ID](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id) and a valid [Management API Key](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
 
 ```csharp
 ManagementOptions options = new ManagementOptions
@@ -105,7 +105,7 @@ Importing content items is a 2 step process, using 2 separate methods:
 1. Creating an empty content item which serves as a wrapper for your content.
 1. Adding content inside a language variant of the content item.
 
-Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kentico Kontent](https://docs.kontent.ai/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-importing-your-content) for a more detailed explanation.
+Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kentico Kontent](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
 
 #### 1. Creating a content item
 
@@ -621,7 +621,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 
 ## Further information
 
-For more developer resources, visit the Kentico Kontent Developer Hub at <https://docs.kontent.ai>.
+For more developer resources, visit the [overview of .NET tools](https://kontent.ai/learn/tutorials/develop-apps/overview?tech=dotnet) and [API references](https://kontent.ai/learn/reference) at Kontent Learn.
 
 ### Building the sources
 
