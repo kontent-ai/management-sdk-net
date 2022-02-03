@@ -6,7 +6,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
 {
     /// <summary>
     /// Represenst the workflow step model.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#section/Workflow-step-object
+    /// More info: https://kontent.ai/learn/reference/management-api-v2#section/Workflow-step-object
     /// </summary>
     public class WorkflowStepModel
     {

@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_linked_create_item
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateItem()
         {
@@ -38,7 +38,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_linked_create_sec_item
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateSecondItem()
         {
@@ -52,7 +52,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_linked_upsert_Sec_variant
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void UpsertSecondVariant()
         {
@@ -82,7 +82,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_linked_upsert_variant
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void UsertVariant()
         {
@@ -112,7 +112,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_linked_validate_content
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostValidate()
         {

@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets.Patch
 {
     /// <summary>
     /// Represents the addInto operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type-snippet
+    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
     /// </summary>
     public class ContentTypeSnippetAddIntoPatchModel : ContentTypeSnippetOperationBaseModel
     {
@@ -16,7 +16,7 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets.Patch
 
         /// <summary>
         /// Gets or sets the object to be added. The value depends on the selected path.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type-snippet
+        /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
         /// </summary>
         [JsonProperty("value")]
         public dynamic Value { get; set; }

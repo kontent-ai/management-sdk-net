@@ -26,7 +26,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: importing_assets_create_asset
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateAsset()
         {
@@ -60,7 +60,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: importing_assets_upload_file
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void UploadingFiles()
         {
@@ -74,7 +74,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: importing_assets_upload_file
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void UseAsset()
         {
@@ -99,7 +99,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: importing_assets_upload_file
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void UseAssetRichText()
         {

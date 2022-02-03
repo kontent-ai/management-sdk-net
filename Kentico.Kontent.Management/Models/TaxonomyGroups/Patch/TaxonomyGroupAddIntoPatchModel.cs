@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.TaxonomyGroups.Patch
 {
     /// <summary>
     /// Represents the addInto operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-taxonomy-group
+    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
     /// </summary>
     public class TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBaseModel
     {

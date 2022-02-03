@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.Collections.Patch
 {
     /// <summary>
     /// Represents move operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-collections
+    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
     /// </summary>
     public sealed class CollectionMovePatchModel : CollectionOperationBaseModel
     {
