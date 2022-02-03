@@ -26,13 +26,13 @@ The Management SDK does not provide any content filtering options and is not opt
 
 ## Prerequisites
 
-To manage content in a Kontent project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
+To manage content in a Kontent project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
 
 ## Using the ManagementClient
 
-The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kentico Kontent projects.
+The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kontent projects.
 
-To create an instance of the class, you need to provide a [project ID](https://kontent.ai/learn/tutorials/develop-apps/get-content/getting-content#a-getting-content-items) and a valid [Management API Key](https://kontent.ai/learn/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-enabling-the-api-for-your-project).
+To create an instance of the class, you need to provide a [project ID](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id) and a valid [Management API Key](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
 
 ```csharp
 // Initializes an instance of the ManagementClient client with specified options.
@@ -80,7 +80,7 @@ catch (ManagementException ex)
 
 ### Working with language variants
 
-The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) and then be able to retrieve the data in a strongly typed form.
+The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) and then be able to retrieve the data in a strongly typed form.
 
 ```csharp
 // Retrieve strongly-typed content item
@@ -211,7 +211,7 @@ Importing content items is a 2 step process, using 2 separate methods:
 1. Creating an empty content item which serves as a wrapper for your content.
 1. Adding content inside a language variant of the content item.
 
-Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kentico Kontent](https://kontent.ai/learn/tutorials/set-up-projects/migrate-content/importing-to-kentico-kontent#a-importing-your-content) for a more detailed explanation.
+Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kontent](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
 
 #### 1. Creating a content item
 
@@ -229,7 +229,7 @@ var item = new ContentItemCreateModel
 var responseItem = await client.CreateContentItemAsync(item);
 ```
 
-Kentico Kontent will generate an internal ID for the (new and empty) content item and include it in the response. If you do not specify a codename, it will be generated based on name. In the next step, we will add the actual (localized) content.
+Kontent will generate an internal ID for the (new and empty) content item and include it in the response. If you do not specify a codename, it will be generated based on name. In the next step, we will add the actual (localized) content.
 
 #### 2. Adding language variants
 
@@ -297,7 +297,7 @@ var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier,
 
 ### Helper Methods
 
-Methods for building links to content items and their elements in Kentico Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers/).
+Methods for building links to content items and their elements in Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers/).
 
 #### Getting an edit link for a content item
 
@@ -391,7 +391,7 @@ This repository is configured to generate SourceLink tag in the Nuget package th
 
 ## Further information
 
-For more developer resources, visit the Kentico Kontent Developer Hub at <https://kontent.ai/learn>.
+For more developer resources, visit the [overview of .NET tools](https://kontent.ai/learn/tutorials/develop-apps/overview?tech=dotnet) and [API references](https://kontent.ai/learn/reference) at Kontent Learn.
 
 ### Building the sources
 
