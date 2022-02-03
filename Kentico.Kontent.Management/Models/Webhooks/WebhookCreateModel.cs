@@ -28,7 +28,7 @@ namespace Kentico.Kontent.Management.Models.Webhooks
 
         /// <summary>
         /// Determines if the webhook is enabled. By default, the enabled property is set to true.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#section/Webhook-object
+        /// More info: https://kontent.ai/learn/reference/management-api-v2#section/Webhook-object
         /// </summary>
         [JsonProperty("enabled")]
         public bool Enabled { get; set; }

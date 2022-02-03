@@ -11,7 +11,7 @@ namespace Kentico.Kontent.Management.Models.Webhooks.Triggers
     {
         /// <summary>
         /// Represent content types for which the webhook should be triggered.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#section/Webhook-object
+        /// More info: https://kontent.ai/learn/reference/management-api-v2#section/Webhook-object
         /// </summary>
         [JsonProperty("type")]
         public TriggerChangeType Type => TriggerChangeType.LanguageVariant;
@@ -19,7 +19,7 @@ namespace Kentico.Kontent.Management.Models.Webhooks.Triggers
         /// <summary>
         /// Gets or sets a collection of references to the workflow steps that will trigger the webhook when an item transitions to them.
         /// Workflow steps must be referenced by their internal IDs.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#section/Webhook-object
+        /// More info: https://kontent.ai/learn/reference/management-api-v2#section/Webhook-object
         /// </summary>
         [JsonProperty("transitions_to")]
         public IEnumerable<Reference> TransitionsTo { get; set; }

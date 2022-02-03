@@ -27,7 +27,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_rich_create_button_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateButtonType()
         {
@@ -54,7 +54,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_rich_create_item
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateItem()
         {
@@ -68,7 +68,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_rich_create_simple_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateCreateSimpleType()
         {
@@ -90,7 +90,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_rich_upsert_variant
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void UpsertVariant()
         {

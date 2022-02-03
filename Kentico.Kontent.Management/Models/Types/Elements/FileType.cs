@@ -15,7 +15,7 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
 
         /// <summary>
         /// Images that support image transformation.
-        /// More info: https://docs.kontent.ai/reference/image-transformation
+        /// More info: https://kontent.ai/learn/reference/image-transformation
         /// </summary>
         [EnumMember(Value = "adjustable")]
         Adjustable

@@ -25,7 +25,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_model_create_snippet
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateSnippet()
         {
@@ -57,7 +57,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_model_create_taxonomy
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateTaxonomy()
         {
@@ -126,7 +126,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: import_model_create_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void CreateType()
         {

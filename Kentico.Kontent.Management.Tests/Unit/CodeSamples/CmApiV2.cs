@@ -40,7 +40,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         // USE FOLLOWING TEMPLATE
 
         // DocSection: cm_api_v2_delete_asset
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         // using Kentico.Kontent.Management;
         //
         // var client = new ManagementClient(new ManagementOptions
@@ -64,7 +64,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_delete_asset
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void DeleteAsset()
         {
@@ -78,7 +78,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
 
         // DocSection: cm_api_v2_delete_item
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void DeleteItem()
         {
@@ -92,7 +92,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_delete_snippet
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void DeleteSnippet()
         {
@@ -106,7 +106,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_delete_taxonomy_group
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void DeleteTaxonomyGroup()
         {
@@ -120,7 +120,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_delete_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void DeleteType()
         {
@@ -134,7 +134,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_delete_variant
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void DeleteLanguageVariant()
         {
@@ -151,7 +151,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_delete_webhook
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void DeleteWebhook()
         {
@@ -163,7 +163,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_asset
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetAsset()
         {
@@ -178,7 +178,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_assets
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetAssets()
         {
@@ -190,7 +190,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_components_of_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetComponentsOfType()
         {
@@ -206,7 +206,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_content_collections
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetContentCollections()
         {
@@ -218,7 +218,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_asset_folders
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetFolders()
         {
@@ -231,7 +231,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_item
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetItem()
         {
@@ -248,7 +248,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
 
         // DocSection: cm_api_v2_get_items
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetItems()
         {
@@ -260,7 +260,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_language
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetLanguage()
         {
@@ -276,7 +276,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_languages
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetLanguages()
         {
@@ -288,7 +288,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_project_information
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetProjectInformation()
         {
@@ -300,7 +300,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_snippet
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetSnippet()
         {
@@ -316,7 +316,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_snippets
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetSnippets()
         {
@@ -328,7 +328,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_taxonomy_group
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetTaxonomyGroup()
         {
@@ -344,7 +344,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_taxonomy_groups
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetTaxonomyGroups()
         {
@@ -357,7 +357,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetContentType()
         {
@@ -373,7 +373,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_types
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetContentTypes()
         {
@@ -386,7 +386,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_variant
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetLanguageVariant()
         {
@@ -405,7 +405,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_variants
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetLanguageVariants()
         {
@@ -421,7 +421,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_variants_of_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetLanguageVariantsByType()
         {
@@ -437,7 +437,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_components_of_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetVariantsWithComponentsOfType()
         {
@@ -453,7 +453,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_webhook
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetWebhook()
         {
@@ -467,7 +467,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_webhooks
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetWebhooks()
         {
@@ -479,7 +479,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_workflow_steps
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetWorkflowSteps()
         {
@@ -491,7 +491,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_role
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetRole()
         {
@@ -506,7 +506,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_get_roles
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void GetRoles()
         {
@@ -518,7 +518,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_patch_asset_folders
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PatchAssetFolders()
         {
@@ -554,7 +554,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_patch_content_collections
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PatchContentCollections()
         {
@@ -593,7 +593,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_patch_language
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PatchLanguage()
         {
@@ -622,7 +622,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_patch_snippet
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PatchSnippet()
         {
@@ -668,7 +668,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_patch_taxonomy_group
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PatchTaxonomyGroup()
         {
@@ -730,7 +730,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_patch_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PatchContentType()
         {
@@ -772,7 +772,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_asset
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostAsset()
         {
@@ -807,7 +807,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_asset_folders
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostAssetFolders()
         {
@@ -838,7 +838,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_file
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostFile()
         {
@@ -854,7 +854,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_item
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostItem()
         {
@@ -874,7 +874,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
 
         // DocSection: cm_api_v2_post_language
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostLanguage()
         {
@@ -893,7 +893,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_snippet
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostSnippet()
         {
@@ -927,7 +927,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_taxonomy_group
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostTaxonomyGroup()
         {
@@ -991,7 +991,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_type
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostType()
         {
@@ -1047,7 +1047,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_validate
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostValidate()
         {
@@ -1059,7 +1059,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_webhook
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostWebhook()
         {
@@ -1146,7 +1146,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_post_user
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PostUser()
         {
@@ -1179,7 +1179,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_asset
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutAsset()
         {
@@ -1238,7 +1238,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_item
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutItem()
         {
@@ -1269,7 +1269,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_variant
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutLanguageVariant()
         {
@@ -1336,7 +1336,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_variant_cancel_schedule
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutLanguageVariantCancelSchedule()
         {
@@ -1355,7 +1355,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_var_cancel_sched_unpublish
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutCancelUnpublishingOfLanguageVariant()
         {
@@ -1374,7 +1374,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_variant_create_new_version
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutLanguageVariantNewVersion()
         {
@@ -1392,7 +1392,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_variant_publish_or_schedule
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutPublishLanguageVariant()
         {
@@ -1419,7 +1419,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_variant_unpublish_archive
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutUnpublishLanguageVariant()
         {
@@ -1446,7 +1446,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_variant_workflow
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutVariantWorkflow()
         {
@@ -1467,7 +1467,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: mapi_v2_disable_webhook
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutDisableWebhook()
         {
@@ -1479,7 +1479,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: mapi_v2_enable_webhook
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutEnableWebhook()
         {
@@ -1491,7 +1491,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         }
 
         // DocSection: cm_api_v2_put_user
-        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
         public async void PutUser()
         {

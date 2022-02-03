@@ -10,14 +10,14 @@ namespace Kentico.Kontent.Management.Models.Webhooks.Triggers
     {
         /// <summary>
         /// Represents content types for which the webhook should be triggered.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#section/Webhook-object
+        /// More info: https://kontent.ai/learn/reference/management-api-v2#section/Webhook-object
         /// </summary>
         [JsonProperty("type")]
         public TriggerChangeType Type => TriggerChangeType.LanguageVariant;
 
         /// <summary>
         /// Gets or sets operations for which the webhook should be triggered.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#section/Webhook-object
+        /// More info: https://kontent.ai/learn/reference/management-api-v2#section/Webhook-object
         /// </summary>
         [JsonProperty("operations")]
         public IEnumerable<string> Operations { get; set; }

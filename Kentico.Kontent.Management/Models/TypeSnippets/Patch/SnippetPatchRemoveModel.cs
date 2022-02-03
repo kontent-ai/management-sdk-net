@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Represents the remove operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type-snippet
+    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
     /// </summary>
     public class SnippetPatchRemoveModel : ContentTypeSnippetOperationBaseModel
     {

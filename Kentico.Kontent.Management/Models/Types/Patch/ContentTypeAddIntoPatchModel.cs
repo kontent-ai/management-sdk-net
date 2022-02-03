@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Models.Types.Patch
 {
     /// <summary>
     /// Represents the addInto operation.
-    /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type
+    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
     /// </summary>
     public class ContentTypeAddIntoPatchModel : ContentTypeOperationBaseModel
     {
@@ -16,7 +16,7 @@ namespace Kentico.Kontent.Management.Models.Types.Patch
 
         /// <summary>
         /// Gets or sets the object to be added. The value depends on the selected path.
-        /// More info: https://docs.kontent.ai/reference/management-api-v2#operation/modify-a-content-type
+        /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
         /// </summary>
         [JsonProperty("value")]
         public dynamic Value { get; set; }
