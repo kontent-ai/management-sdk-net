@@ -32,19 +32,19 @@ namespace Kentico.Kontent.Management
         /// Cancels publishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant identifier of which publishing should be canceled.</param>
-        Task CancelPublishingOfLanguageVariant(LanguageVariantIdentifier identifier);
+        Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Cancels unpublishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant of which unpublishing should be canceled.</param>
-        Task CancelUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier);
+        Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Changes workflow step.
         /// </summary>
         /// <param name="identifier">Identifier of the workflow step to be changed.</param>
-        Task ChangeLanguageVariantWorkflowStep(WorkflowIdentifier identifier);
+        Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier);
 
         /// <summary>
         /// Creates asset.
@@ -92,7 +92,7 @@ namespace Kentico.Kontent.Management
         /// Creates the new version of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant for which the new version should be created.</param>
-        Task CreateNewVersionOfLanguageVariant(LanguageVariantIdentifier identifier);
+        Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Creates taxonomy group.
@@ -222,7 +222,7 @@ namespace Kentico.Kontent.Management
         /// Returns project information
         /// </summary>
         /// <returns>The <see cref="Project"/> instance that represents the project infornation.</returns>
-        Task<Project> GetProjectInformation();
+        Task<Project> GetProjectInformationAsync();
 
         /// <summary>
         /// Returns taxonomy group.
@@ -402,27 +402,27 @@ namespace Kentico.Kontent.Management
         /// Publishes the language variant.
         /// </summary>
         /// <param name="identifier">Identifier of the language variant to be published.</param>
-        Task PublishLanguageVariant(LanguageVariantIdentifier identifier);
+        Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Schedules publishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant to be published.</param>
         /// <param name="scheduleModel">The time when the language variant will be published</param>
-        Task SchedulePublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
+        Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
 
         /// <summary>
         /// Schedules unpublishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant that should be unpublished.</param>
         /// <param name="scheduleModel">The time when the language variant will be unpublished</param>
-        Task ScheduleUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
+        Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
 
         /// <summary>
         /// Unpublishes the language variant.
         /// </summary>
         /// <param name="identifier">Identifier of the language variant to be unpublished.</param>
-        Task UnpublishLanguageVariant(LanguageVariantIdentifier identifier);
+        Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Updates the given asset.
