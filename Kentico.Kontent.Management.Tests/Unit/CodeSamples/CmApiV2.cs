@@ -489,6 +489,33 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.Equal(4, response.Count());
         }
 
+        // DocSection: cm_api_v2_get_role
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetRole()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+
+            var identifier = Reference.ById(Guid.Parse("a23d3727-3b16-4d94-9eb0-85225d29cfef"));
+            //var identifier = Reference.ByCodename("project-manager");
+
+            var response = await client.GetProjectRoleAsync(identifier);
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_get_roles
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetRoles()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRoles.json");
+
+            var response = await client.ListProjectRolesAsync();
+
+            Assert.Equal(2, response.Roles.Count());
+        }
+
         // DocSection: cm_api_v2_patch_asset_folders
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
