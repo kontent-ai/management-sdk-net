@@ -34,7 +34,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Name = ".NET MAPI V2 SDK Tests",
             };
 
-            var response = await _client.GetProjectInformation();
+            var response = await _client.GetProjectInformationAsync();
 
             Assert.Equal(expected.Id, response.Id);
             Assert.Equal(expected.Name, response.Name);

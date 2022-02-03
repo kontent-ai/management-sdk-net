@@ -5,20 +5,20 @@ using System.Collections.Generic;
 namespace Kentico.Kontent.Management.Models.Users
 {
     /// <summary>
-    /// Represents user's colection group
+    /// Represents user's colection group.
     /// </summary>
     public class UserCollectionGroup
     {
         /// <summary>
-        /// Gets or sets user's collection
+        /// Gets or sets user's collection.
         /// </summary>
         [JsonProperty("collections")]
         public IEnumerable<Reference> Collections { get; set; }
 
         /// <summary>
-        /// Gets or sets user's roles
+        /// Gets or sets user's roles.
         /// </summary>
         [JsonProperty("roles")]
-        public IEnumerable<Role> Roles {get; set;}
+        public IEnumerable<RoleModel> Roles {get; set;}
     }
 }

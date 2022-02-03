@@ -524,7 +524,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task ChangeLanguageVariantWorkflowStep(WorkflowIdentifier identifier)
+        public async Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -537,7 +537,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task PublishLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -550,7 +550,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task SchedulePublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+        public async Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
             {
@@ -563,7 +563,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task CancelPublishingOfLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -576,7 +576,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task UnpublishLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -589,7 +589,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task CancelUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -602,7 +602,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task ScheduleUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+        public async Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
             {
@@ -615,7 +615,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task CreateNewVersionOfLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -938,7 +938,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<Project> GetProjectInformation()
+        public async Task<Project> GetProjectInformationAsync()
         {
             var endpointUrl = _urlBuilder.BuildProjectUrl();
             return await _actionInvoker.InvokeReadOnlyMethodAsync<Project>(endpointUrl, HttpMethod.Get);
