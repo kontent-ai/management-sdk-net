@@ -9,6 +9,7 @@ using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Models.Roles;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.StronglyTyped;
+using Kentico.Kontent.Management.Models.Subscription;
 using Kentico.Kontent.Management.Models.TaxonomyGroups;
 using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
 using Kentico.Kontent.Management.Models.Types;
@@ -18,6 +19,7 @@ using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Workflow;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -513,5 +515,54 @@ namespace Kentico.Kontent.Management
         /// <param name="user">Represents an user that is to be modified.</param>
         /// <returns>Returns the modified user.</returns>
         Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user);
+
+        /// <summary>
+        /// Retrieve a project from your subscription.
+        /// </summary>
+        /// <param name="projectId">The identifier of the project.</param>
+        /// <returns>The <see cref="SubscriptionProjectModel"/> instance that represents the project.</returns>
+        Task<SubscriptionProjectModel> GetSubscriptionProjectAsync(Guid projectId);
+
+        /// <summary>
+        /// Returns strongly typed listing of projects.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{SubscriptionProjectModel}"/> instance that represents the listing of projects.</returns>
+        Task<IListingResponseModel<SubscriptionProjectModel>> ListSubscriptionProjectsAsync();
+
+        /// <summary>
+        /// Returns strongly typed listing of users under your subscription including
+        /// their assignment to projects, environments, collections, roles, and languages.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{SubscriptionUserModel}"/> instance that represents the listing of subscription users.</returns>
+        Task<IListingResponseModel<SubscriptionUserModel>> ListSubscriptionUsersAsync();
+
+        /// <summary>
+        /// Retrieve a user metadata from under the specified subscription.
+        /// The metadata include information about the user's access to projects and environments,
+        /// and content in specific collections, roles, and languages.
+        /// </summary>
+        /// <param name="identifier">The identifier of the subscription user.</param>
+        /// <returns>The <see cref="SubscriptionProjectModel"/> instance that represents the project.</returns>
+        Task<SubscriptionUserModel> GetSubscriptionUserAsync(UserIdentifier identifier);
+
+        /// <summary>
+        /// Activates the specified user in all projects under the specified subscription.
+        /// </summary>
+        /// <param name="identifier">The identifier of the subscription user.</param>
+        /// <returns></returns>
+        Task ActivateSubscriptionUserAsync(UserIdentifier identifier);
+
+        /// <summary>
+        /// Deactivates the specified user in all projects under the specified subscription.
+        /// </summary>
+        /// <param name="identifier">The identifier of the subscription user.</param>
+        /// <returns></returns>
+        Task DeactivateSubscriptionUserAsync(UserIdentifier identifier);
     }
 }
