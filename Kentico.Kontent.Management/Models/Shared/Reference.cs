@@ -8,6 +8,8 @@ namespace Kentico.Kontent.Management.Models.Shared
     /// </summary>
     public sealed class Reference
     {
+        private Reference() { }
+
         /// <summary>
         /// Gets the id of the identifier.
         /// </summary>

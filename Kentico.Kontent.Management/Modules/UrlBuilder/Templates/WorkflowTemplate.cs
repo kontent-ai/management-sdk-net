@@ -10,6 +10,6 @@ namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
 
         public override string UrlCodename => "/workflow/codename/{0}";
 
-        public override string UrlExternalId => throw new NotImplementedException("workflows do not have external id url");
+        public override string UrlExternalId => throw new InvalidOperationException("workflows do not have external id url");
     }
 }

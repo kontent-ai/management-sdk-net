@@ -18,6 +18,7 @@ using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Models.Types.Patch;
 using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
+using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Webhooks.Triggers;
 using Kentico.Kontent.Management.Models.Workflow;
@@ -1144,6 +1145,39 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.NotNull(response);
         }
 
+        // DocSection: cm_api_v2_post_user
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PostUser()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+
+            var response = await client.InviteUserIntoProjectAsync(new UserInviteModel
+            {
+                CollectionGroup = new List<UserCollectionGroup>
+                {
+                    new UserCollectionGroup
+                    {
+                        Collections = new List<Reference>
+                        {
+                            Reference.ById(Guid.Empty),
+                            Reference.ById(Guid.Parse("28b68213-d636-4b01-9fd1-988b93789e17"))
+                        },
+                        Roles = new List<Role>
+                        {
+                            new Role
+                            {
+                                Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
+                                Languages = new List<Reference>() { Reference.ById(Guid.Parse("7df9a691-cf29-402d-9598-66273e7561b7")) }
+                            }
+                        }
+                    }
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
         // DocSection: cm_api_v2_put_asset
         // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
         [Fact]
@@ -1454,6 +1488,43 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var exception = await Record.ExceptionAsync(async () =>
                 await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
             Assert.Null(exception);
+        }
+
+        // DocSection: cm_api_v2_put_user
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void PutUser()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+
+            var identifier = UserIdentifier.ByEmail("user@kentico.com");
+            //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
+
+            var response = await client.ModifyUsersRolesAsync(
+                identifier,
+                new UserModel
+                {
+                    CollectionGroup = new List<UserCollectionGroup>
+                    {
+                        new UserCollectionGroup
+                        {
+                            Collections = new List<Reference>
+                            {
+                                Reference.ById(Guid.Empty),
+                            },
+                            Roles = new List<Role>
+                            {
+                                new Role
+                                {
+                                    Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
+                                    Languages = new List<Reference>() { Reference.ByCodename("english") }
+                                }
+                            }
+                        }
+                    }
+                });
+
+            Assert.NotNull(response);
         }
     }
 }

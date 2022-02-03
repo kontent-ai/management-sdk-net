@@ -10,6 +10,6 @@ namespace Kentico.Kontent.Management.Modules.UrlBuilder.Templates
 
         public override string UrlCodename => "/variants/codename/{0}";
 
-        public override string UrlExternalId => throw new NotImplementedException("variants do not have external Id url");
+        public override string UrlExternalId => throw new InvalidOperationException("variants do not have external Id url");
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Workflow;
+using Kentico.Kontent.Management.Modules.UrlBuilder;
 using Kentico.Kontent.Management.Modules.UrlBuilder.Templates;
 using System;
-using System.Net;
 
 namespace Kentico.Kontent.Management.UrlBuilder
 {
-    internal sealed partial class EndpointUrlBuilder
+    internal sealed class EndpointUrlBuilder
     {
         private const int URI_MAX_LENGTH = 65519;
 
@@ -26,10 +26,11 @@ namespace Kentico.Kontent.Management.UrlBuilder
         private readonly WorkflowTemplate _workflowTemplate;
         private readonly ItemTemplate _itemTemplate;
         private readonly ProjectRolesTemplate _projectRolesTemplate;
+        private readonly UserTemplate _userTemplate;
 
         private readonly ManagementOptions _options;
 
-        internal EndpointUrlBuilder(ManagementOptions options)
+        public EndpointUrlBuilder(ManagementOptions options)
         {
             _taxonomyTemplate = new TaxonomyTemplate();
             _assetTemplate = new AssetTemplate();
@@ -43,294 +44,109 @@ namespace Kentico.Kontent.Management.UrlBuilder
             _workflowTemplate = new WorkflowTemplate();
             _itemTemplate = new ItemTemplate();
             _projectRolesTemplate = new ProjectRolesTemplate();
+            _userTemplate = new UserTemplate();
 
             _options = options;
         }
 
-        #region Variants
+        public string BuildListVariantsByItemUrl(Reference identifier) => GetUrl(string.Concat(_itemTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
-        internal string BuildListVariantsByItemUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _itemTemplate);
+        public string BuildListVariantsByTypeUrl(Reference identifier) => GetUrl(string.Concat(_typeTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
-            return GetUrl(string.Concat(itemSegment, _variantTemplate.Url));
-        }
+        public string BuildListVariantsByComponentUrl(Reference identifier) => GetUrl(string.Concat(_typeTemplate.GetIdentifierUrlSegment(identifier), "/components"));
 
-        internal string BuildListVariantsByTypeUrl(Reference identifier)
-        {
-            var typeSegment = GetIdentifierUrlSegment(identifier, _typeTemplate);
+        public string BuildListVariantsByCollectionUrl(Reference identifier) => GetUrl(string.Concat(_collectionTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
-            return GetUrl(string.Concat(typeSegment, _variantTemplate.Url));
-        }
-
-        internal string BuildListVariantsByComponentUrl(Reference identifier)
-        {
-            var typeSegment = GetIdentifierUrlSegment(identifier, _typeTemplate);
-
-            return GetUrl(string.Concat(typeSegment, "/components"));
-        }
-
-        internal string BuildListVariantsByCollectionUrl(Reference identifier)
-        {
-            var typeSegment = GetIdentifierUrlSegment(identifier, _collectionTemplate);
-
-            return GetUrl(string.Concat(typeSegment, _variantTemplate.Url));
-        }
-
-        internal string BuildVariantsUrl(LanguageVariantIdentifier identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
-            var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
-
-            return GetUrl(string.Concat(itemSegment, variantSegment));
-        }
-
-        #endregion
-
-        #region Types
-
-        internal string BuildTypeUrl()
-        {
-            return GetUrl(_typeTemplate.Url);
-        }
-
-        internal string BuildTypeUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _typeTemplate);
-            return GetUrl(itemSegment);
-        }
-        #endregion
-
-        #region TypeSnippets
-
-        internal string BuildSnippetsUrl()
-        {
-            return GetUrl(_snippetTemplate.Url);
-        }
-
-        internal string BuildSnippetsUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _snippetTemplate);
-            return GetUrl(itemSegment);
-        }
-
-        #endregion
-
-        #region Taxonomies
-
-        internal string BuildTaxonomyUrl()
-        {
-            return GetUrl(_taxonomyTemplate.Url);
-        }
-
-        internal string BuildTaxonomyUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _taxonomyTemplate);
-            return GetUrl(itemSegment);
-        }
-
-        #endregion
-
-        #region Languages
-        internal string BuildLanguagesUrl()
-        {
-            return GetUrl(_languageTemplate.Url);
-        }
-
-        internal string BuildLanguagesUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _languageTemplate);
-            return GetUrl(itemSegment);
-        }
-        #endregion
-
-        #region Webhooks
-
-        internal string BuildWebhooksUrl()
-        {
-            return GetUrl(_webhookTemplate.Url);
-        }
-
-        internal string BuildWebhooksUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _webhookTemplate);
-            return GetUrl(itemSegment);
-        }
-
-        internal string BuildWebhooksEnableUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _webhookTemplate) + "/enable";
-            return GetUrl(itemSegment);
-        }
-
-        internal string BuildWebhooksDisableUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _webhookTemplate) + "/disable";
-            return GetUrl(itemSegment);
-        }
-        #endregion
-
-        #region WorkflowSteps
-
-        internal string BuildWorkflowUrl()
-        {
-            return GetUrl(_workflowTemplate.Url);
-        }
-
-        internal string BuildWorkflowChangeUrl(WorkflowIdentifier identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
-            var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
-            var workflowSegment = GetIdentifierUrlSegment(identifier.WorkflowStepIdentifier, _workflowTemplate);
+        public string BuildVariantsUrl(LanguageVariantIdentifier identifier) => GetUrl(
+                string.Concat(
+                    _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+                    _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier)));
 
-            return GetUrl(string.Concat(itemSegment, variantSegment, workflowSegment));
-        }
-
-        internal string BuildPublishVariantUrl(LanguageVariantIdentifier identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
-            var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
-
-            return GetUrl(string.Concat(itemSegment, variantSegment, "/publish"));
-        }
-
-        internal string BuildCancelPublishingVariantUrl(LanguageVariantIdentifier identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
-            var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
-
-            return GetUrl(string.Concat(itemSegment, variantSegment, "/cancel-scheduled-publish"));
-        }
-
-        internal string BuildUnpublishVariantUrl(LanguageVariantIdentifier identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
-            var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
-
-            return GetUrl(string.Concat(itemSegment, variantSegment, "/unpublish-and-archive"));
-        }
-
-        internal string BuildCancelUnpublishingVariantUrl(LanguageVariantIdentifier identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
-            var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
-
-            return GetUrl(string.Concat(itemSegment, variantSegment, "/cancel-scheduled-unpublish"));
-        }
-
-        internal string BuildNewVersionVariantUrl(LanguageVariantIdentifier identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier.ItemIdentifier, _itemTemplate);
-            var variantSegment = GetIdentifierUrlSegment(identifier.LanguageIdentifier, _variantTemplate);
-
-            return GetUrl(string.Concat(itemSegment, variantSegment, "/new-version"));
-        }
-        #endregion
-
-        #region Items
-
-        internal string BuildItemsUrl()
-        {
-            return GetUrl(_itemTemplate.Url);
-        }
-
-        internal string BuildItemUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _itemTemplate);
-            return GetUrl(itemSegment);
-        }
-
-        #endregion
-
-        #region Assets
-
-        internal string BuildAssetsUrl()
-        {
-            return GetUrl(_assetTemplate.Url);
-        }
-
-        internal string BuildAssetFoldersUrl()
-        {
-            return GetUrl(URL_ASSET_FOLDERS);
-        }
-
-        internal string BuildAssetsUrl(Reference identifier)
-        {
-            var assetSegment = GetIdentifierUrlSegment(identifier, _assetTemplate);
-            return GetUrl(assetSegment);
-        }
-
-        #endregion
-
-        #region Binary files
-
-        internal string BuildUploadFileUrl(string fileName)
-        {
-            return GetUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
-        }
-
-        #endregion
-
-        #region Validation
-
-        internal string BuildValidationUrl()
-        {
-            return GetUrl(_validateTemplate.Url);
-        }
-
-        #endregion
-
-        #region Project
-
-        internal string BuildProjectUrl()
-        {
-            return string.Format(_options.EndpointV2, $"projects/{_options.ProjectId}");
-        }
-        
-        #endregion
-
-        #region Collections
-
-        internal string BuildCollectionsUrl()
-        {
-            return GetUrl(_collectionTemplate.Url);
-        }
-        #endregion
-
-        internal string BuildProjectRolesUrl()
-        {
-            return GetUrl(_projectRolesTemplate.Url);
-        }
-
-        internal string BuildProjectRoleUrl(Reference identifier)
-        {
-            var itemSegment = GetIdentifierUrlSegment(identifier, _projectRolesTemplate);
-            return GetUrl(itemSegment);
-        }
-
-        private string GetIdentifierUrlSegment(Reference identifier, UrlTemplate template)
-            => GetIdentifier(template, id: identifier.Id, codename: identifier.Codename, externalId: identifier.ExternalId);
-
-        private string GetIdentifier(UrlTemplate template, Guid? id = null, string codename = null, string externalId = null)
-        {
-            if (id != null)
-            {
-                return string.Format(template.UrlId, id);
-            }
-
-            if (!string.IsNullOrEmpty(codename))
-            {
-                return string.Format(template.UrlCodename, codename);
-            }
-
-            if (!string.IsNullOrEmpty(externalId))
-            {
-                var escapedExternalId = WebUtility.UrlEncode(externalId);
-                return string.Format(template.UrlExternalId, escapedExternalId);
-            }
-
-            throw new ArgumentException("You must provide id, codename or externalId");
-        }
+        public string BuildTypeUrl() => GetUrl(_typeTemplate.Url);
+
+        public string BuildTypeUrl(Reference identifier) => GetUrl(_typeTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildSnippetsUrl() => GetUrl(_snippetTemplate.Url);
+
+        public string BuildSnippetsUrl(Reference identifier) => GetUrl(_snippetTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildTaxonomyUrl() => GetUrl(_taxonomyTemplate.Url);
+
+        public string BuildTaxonomyUrl(Reference identifier) => GetUrl(_taxonomyTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildLanguagesUrl() => GetUrl(_languageTemplate.Url);
+
+        public string BuildLanguagesUrl(Reference identifier) => GetUrl(_languageTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildWebhooksUrl() => GetUrl(_webhookTemplate.Url);
+
+        public string BuildWebhooksUrl(Reference identifier) => GetUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildWebhooksEnableUrl(Reference identifier) => GetUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildWebhooksDisableUrl(Reference identifier) => GetUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildWorkflowUrl() => GetUrl(_workflowTemplate.Url);
+
+        public string BuildWorkflowChangeUrl(WorkflowIdentifier identifier) => GetUrl(
+                string.Concat(
+                    _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+                    _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+                    _workflowTemplate.GetIdentifierUrlSegment(identifier.WorkflowStepIdentifier)));
+
+        public string BuildPublishVariantUrl(LanguageVariantIdentifier identifier) => GetUrl(
+                string.Concat(
+                    _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+                    _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+                    "/publish"));
+
+        public string BuildCancelPublishingVariantUrl(LanguageVariantIdentifier identifier) => GetUrl(
+                string.Concat(
+                    _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+                    _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+                    "/cancel-scheduled-publish"));
+
+        public string BuildUnpublishVariantUrl(LanguageVariantIdentifier identifier) => GetUrl(
+                string.Concat(
+                    _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+                    _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+                    "/unpublish-and-archive"));
+
+        public string BuildCancelUnpublishingVariantUrl(LanguageVariantIdentifier identifier) => GetUrl(
+                string.Concat(
+                    _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+                    _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+                    "/cancel-scheduled-unpublish"));
+        public string BuildNewVersionVariantUrl(LanguageVariantIdentifier identifier) => GetUrl(
+                string.Concat(
+                    _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+                    _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+                    "/new-version"));
+        public string BuildItemsUrl() => GetUrl(_itemTemplate.Url);
+
+        public string BuildItemUrl(Reference identifier) => GetUrl(_itemTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildAssetsUrl() => GetUrl(_assetTemplate.Url);
+
+        public string BuildAssetFoldersUrl() => GetUrl(URL_ASSET_FOLDERS);
+
+        public string BuildAssetsUrl(Reference identifier) => GetUrl(_assetTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildUploadFileUrl(string fileName) => GetUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
+
+        internal string BuildProjectRolesUrl() => GetUrl(_projectRolesTemplate.Url);
+
+        internal string BuildProjectRoleUrl(Reference identifier) => GetUrl(_projectRolesTemplate.GetIdentifierUrlSegment(identifier));
+
+        public string BuildValidationUrl() => GetUrl(_validateTemplate.Url);
+
+        public string BuildProjectUrl() => string.Format(_options.EndpointV2, $"projects/{_options.ProjectId}");
+
+        public string BuildCollectionsUrl() => GetUrl(_collectionTemplate.Url);
+
+        public string BuildUsersUrl() => GetUrl(_userTemplate.Url);
+
+        public string BuildModifyUsersRoleUrl(UserIdentifier identifier) => GetUrl(string.Concat(_userTemplate.GetIdentifierUrlSegment(identifier), "/roles"));        
 
         private string GetUrl(string path, params string[] parameters)
         {

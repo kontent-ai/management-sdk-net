@@ -29,14 +29,14 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.ModelBuilders
         }
 
         [Fact]
-        public void GetElementsAsDynamic_NoIdentificationProvided_RaiseException()
+        public void GetElementsAsDynamic_NoIdentificationProvided_ThrowsException()
         {
             Action action = () =>
                 ElementBuilder.GetElementsAsDynamic(new BaseElement[]
                 {
                     new  TextElement
                     {
-                        Element = new Reference(),
+                        Element = Reference.ByExternalId(null),
                         Value = "Test"
                     }
                 });

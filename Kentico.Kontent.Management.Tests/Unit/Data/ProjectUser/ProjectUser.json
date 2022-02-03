@@ -1,0 +1,17 @@
+{
+  "user_id": "usr_0vRMQhkfhH0A5azU753QPz",
+  "collection_groups": [
+    {
+      "collections": [ { "id": "00000000-0000-0000-0000-000000000000" } ],
+      "roles": [
+        {
+          "id": "97a2590d-340b-4e7b-a9e8-569a96d24990",
+          "languages": [
+            { "id": "00000000-0000-0000-0000-000000000000" },
+            { "id": "78dbefe8-831b-457e-9352-f4c4eacd5024" }
+          ]
+        }
+      ]
+    }
+  ]
+}
