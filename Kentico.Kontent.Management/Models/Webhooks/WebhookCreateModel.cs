@@ -21,7 +21,7 @@ namespace Kentico.Kontent.Management.Models.Webhooks
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets or sets the webhook's secret key, used to authenticate that the webhook was sent by Kentico Kontent.
+        /// Gets or sets the webhook's secret key, used to authenticate that the webhook was sent by Kontent.
         /// </summary>
         [JsonProperty("secret")]
         public string Secret { get; set; }

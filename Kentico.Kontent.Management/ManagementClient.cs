@@ -33,7 +33,7 @@ using Kentico.Kontent.Management.Models.Users;
 namespace Kentico.Kontent.Management
 {
     /// <summary>
-    /// Executes requests against the Kentico Kontent Content Management API.
+    /// Executes requests against the Kontent Management API.
     /// </summary>
     public sealed class ManagementClient : IManagementClient
     {
@@ -46,7 +46,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified project.
         /// </summary>
-        /// <param name="ManagementOptions">The settings of the Kentico Kontent project.</param>
+        /// <param name="ManagementOptions">The settings of the Kontent project.</param>
         public ManagementClient(ManagementOptions ManagementOptions)
         {
             if (ManagementOptions == null)
@@ -56,7 +56,7 @@ namespace Kentico.Kontent.Management
 
             if (string.IsNullOrEmpty(ManagementOptions.ProjectId))
             {
-                throw new ArgumentException("Kentico Kontent project identifier is not specified.", nameof(ManagementOptions.ProjectId));
+                throw new ArgumentException("Kontent project identifier is not specified.", nameof(ManagementOptions.ProjectId));
             }
 
             if (!Guid.TryParse(ManagementOptions.ProjectId, out _))

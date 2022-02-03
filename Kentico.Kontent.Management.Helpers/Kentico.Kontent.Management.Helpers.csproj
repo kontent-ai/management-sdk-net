@@ -5,8 +5,8 @@
 
     <Authors>Kentico Software</Authors>
     <Company>Kentico Software</Company>
-    <Product>Kentico Kontent</Product>
-    <Description>Kentico Kontent Content Management SDK Helpers</Description>
+    <Product>Kontent by Kentico</Product>
+    <Description>Kontent Management SDK Helpers</Description>
     <Copyright>© 2017 Kentico Software. All rights reserved.</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>    
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
