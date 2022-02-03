@@ -15,6 +15,7 @@ using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Patch;
 using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
+using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Workflow;
 using System.Collections.Generic;
@@ -497,5 +498,20 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the project role.</param>
         /// <returns>The <see cref="ProjectRoleModel"/> instance that represents requested project role.</returns>
         Task<ProjectRoleModel> GetProjectRoleAsync(Reference identifier);
+        
+        /// <summary>
+        /// Invites a new user to project.
+        /// </summary>
+        /// <param name="invitation">Represents an user that is to be invited.</param>
+        /// <returns>Returns the newly invited user.</returns>
+        Task<UserModel> InviteUserIntoProjectAsync(UserInviteModel invitation);
+
+        /// <summary>
+        /// Modifies user's roles.
+        /// </summary>
+        /// <param name="identifier">The identifier of the project user.</param>
+        /// <param name="user">Represents an user that is to be modified.</param>
+        /// <returns>Returns the modified user.</returns>
+        Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user);
     }
 }

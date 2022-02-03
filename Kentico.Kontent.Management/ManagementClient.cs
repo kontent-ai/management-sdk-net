@@ -28,6 +28,7 @@ using Kentico.Kontent.Management.Models.Collections.Patch;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.UrlBuilder;
 using Kentico.Kontent.Management.Models.Roles;
+using Kentico.Kontent.Management.Models.Users;
 
 namespace Kentico.Kontent.Management
 {
@@ -962,6 +963,30 @@ namespace Kentico.Kontent.Management
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<CollectionOperationBaseModel>, CollectionsModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
+        /// <inheritdoc />
+        public async Task<UserModel> InviteUserIntoProjectAsync(UserInviteModel invitation)
+        {
+            if (invitation == null)
+            {
+                throw new ArgumentNullException(nameof(invitation));
+            }
+
+            var endpointUrl = _urlBuilder.BuildUsersUrl();
+            return await _actionInvoker.InvokeMethodAsync<UserInviteModel, UserModel>(endpointUrl, HttpMethod.Post, invitation);
+        }
+
+        /// <inheritdoc />
+        public async Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildModifyUsersRoleUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<UserModel, UserModel>(endpointUrl, HttpMethod.Put, user);
+        }
+        
         /// <inheritdoc />
         public async Task<ProjectRolesModel> ListProjectRolesAsync()
         {
