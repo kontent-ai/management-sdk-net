@@ -5,8 +5,8 @@
     <LangVersion>latest</LangVersion>
     <Authors>Kentico Software</Authors>
     <Company>Kentico Software</Company>
-    <Product>Kentico Kontent</Product>
-    <Description>Kentico Kontent Content Management SDK</Description>
+    <Product>Kontent by Kentico</Product>
+    <Description>Kontent Management SDK</Description>
     <Copyright>© 2017 Kentico Software. All rights reserved.</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

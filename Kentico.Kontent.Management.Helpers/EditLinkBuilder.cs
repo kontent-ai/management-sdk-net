@@ -34,17 +34,17 @@ namespace Kentico.Kontent.Management.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
         /// </summary>
-        /// <param name="managementHelpersOptions">The settings of the Kentico Kontent project.</param>
+        /// <param name="managementHelpersOptions">The settings of the Kontent project.</param>
         public EditLinkBuilder(ManagementHelpersOptions managementHelpersOptions)
         {
             if (string.IsNullOrEmpty(managementHelpersOptions.AdminUrl))
             {
-                throw new ArgumentException("Kentico Kontent Edit App endpoint is not specified.", nameof(managementHelpersOptions.AdminUrl));
+                throw new ArgumentException("Kontent Edit App endpoint is not specified.", nameof(managementHelpersOptions.AdminUrl));
             }
 
             if (string.IsNullOrEmpty(managementHelpersOptions.ProjectId))
             {
-                throw new ArgumentException("Kentico Kontent project identifier is not specified.", nameof(managementHelpersOptions.ProjectId));
+                throw new ArgumentException("Kontent project identifier is not specified.", nameof(managementHelpersOptions.ProjectId));
             }
 
             if (!Guid.TryParse(managementHelpersOptions.ProjectId, out _))
@@ -58,7 +58,7 @@ namespace Kentico.Kontent.Management.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
         /// </summary>
-        /// <param name="managementHelpersOptions">The settings of the Kentico Kontent project.</param>
+        /// <param name="managementHelpersOptions">The settings of the Kontent project.</param>
         public EditLinkBuilder(IOptionsMonitor<ManagementHelpersOptions> managementHelpersOptions)
         {
             this.managementHelpersOptionsMonitor = managementHelpersOptions;

@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 namespace Kentico.Kontent.Management.Exceptions
 {
     /// <summary>
-    /// Represents an error response from the Kentico Kontent Content Management API.
+    /// Represents an error response from the Kontent Management API.
     /// </summary>
     public sealed class ManagementException : Exception
     {
