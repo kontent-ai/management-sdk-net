@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
@@ -9,7 +8,6 @@ using Kentico.Kontent.Management.Models.Types.Elements;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Tests.Data;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Xunit;
 using static Kentico.Kontent.Management.Tests.TestUtils;
 
@@ -37,7 +35,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             // Configurations with TestRunType.LiveEndpoint* require the ApiKey property set in the user secrets
             // Dummy_API_key fallback is needed e.g. for running tests on mocked data - we need to properly init client
-            _options = new ManagementOptions() { ApiKey = configuration.GetValue<string>("ApiKey") ?? "Dummy_API_key", ProjectId = configuration.GetValue<string>("ProjectId") ?? PROJECT_ID };
+            _options = new ManagementOptions() 
+            { 
+                ApiKey = configuration.GetValue<string>("SubsciptionApiKey") ?? "Dummy_API_key",
+                ProjectId = configuration.GetValue<string>("ProjectId") ?? PROJECT_ID,
+                SubscriptionId = configuration.GetValue<string>("SubscriptionId")
+            };
 
             _client = CreateManagementClient(testName);
         }
