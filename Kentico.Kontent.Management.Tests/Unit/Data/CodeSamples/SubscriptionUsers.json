@@ -1,0 +1,126 @@
+{
+  "users": [
+    {
+      "id": "usr_0vKjTCH2TkO687K3y3bKNS",
+      "first_name": "Joe",
+      "last_name": "Joe",
+      "email": "Joe.Joe@kentico.com",
+      "has_pending_invitation": false,
+      "projects": [
+        {
+          "id": "9cfeebe3-721f-410a-b7f5-56d4d6392842",
+          "name": "random project name",
+          "environments": [
+            {
+              "id": "fb8c204a-770b-4712-ad3d-489397eff147",
+              "name": "Production",
+              "is_user_active": true,
+              "last_activity_at": "2022-01-18T13:37:15.987Z",
+              "collection_groups": [
+                {
+                  "collections": [],
+                  "roles": [
+                    {
+                      "id": "1f4529e0-e3d3-4388-9d84-694a2963a9f5",
+                      "name": "Project manager",
+                      "codename": "project-manager",
+                      "languages": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "e6f3c6e3-58d9-41e4-a72a-837d091edb72",
+          "name": "random second name",
+          "environments": [
+            {
+              "id": "430f47dc-41f4-47e7-9fc8-551d60d6fc05",
+              "name": "Production",
+              "is_user_active": true,
+              "last_activity_at": "2022-02-02T14:48:00.77Z",
+              "collection_groups": [
+                {
+                  "collections": [],
+                  "roles": [
+                    {
+                      "id": "370730f9-a35e-479a-bc45-3a0c34e0e906",
+                      "name": "Project manager",
+                      "codename": "project-manager",
+                      "languages": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bFXqT1VAhjcERoJZru5xFQp45sWHUjWFEu6tujsGmo7",
+      "first_name": "Johny",
+      "last_name": "Johny",
+      "email": "Johny.Johny@kentico.com",
+      "has_pending_invitation": false,
+      "projects": [
+        {
+          "id": "9cfeebe3-721f-410a-b7f5-56d4d6392842",
+          "name": "random project name",
+          "environments": [
+            {
+              "id": "fb8c204a-770b-4712-ad3d-489397eff147",
+              "name": "Production",
+              "is_user_active": true,
+              "last_activity_at": "2022-01-18T13:37:15.987Z",
+              "collection_groups": [
+                {
+                  "collections": [],
+                  "roles": [
+                    {
+                      "id": "1f4529e0-e3d3-4388-9d84-694a2963a9f5",
+                      "name": "Project manager",
+                      "codename": "project-manager",
+                      "languages": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "e6f3c6e3-58d9-41e4-a72a-837d091edb72",
+          "name": "random second name",
+          "environments": [
+            {
+              "id": "430f47dc-41f4-47e7-9fc8-551d60d6fc05",
+              "name": "Production",
+              "is_user_active": true,
+              "last_activity_at": "2022-02-02T14:48:00.77Z",
+              "collection_groups": [
+                {
+                  "collections": [],
+                  "roles": [
+                    {
+                      "id": "370730f9-a35e-479a-bc45-3a0c34e0e906",
+                      "name": "Project manager",
+                      "codename": "project-manager",
+                      "languages": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}
