@@ -148,8 +148,6 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         public string BuildModifyUsersRoleUrl(UserIdentifier identifier) => GetProjectUrl(string.Concat(_userTemplate.GetIdentifierUrlSegment(identifier), "/roles"));
 
-        public string BuildSubscriptionProjectUrl(Guid projectId) => GetSubscriptionUrl($"/projects/{projectId:d}");
-
         public string BuildSubscriptionProjectsUrl() => GetSubscriptionUrl("/projects");
 
         public string BuildSubscriptionUsersUrl() => GetSubscriptionUrl(_userTemplate.Url);
