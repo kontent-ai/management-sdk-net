@@ -1008,14 +1008,6 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<SubscriptionProjectModel> GetSubscriptionProjectAsync(Guid projectId)
-        {
-            var endpointUrl = _urlBuilder.BuildSubscriptionProjectUrl(projectId);
-
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionProjectModel>(endpointUrl, HttpMethod.Get);
-        }
-
-        /// <inheritdoc />
         public async Task<IListingResponseModel<SubscriptionProjectModel>> ListSubscriptionProjectsAsync()
         {
             var endpointUrl = _urlBuilder.BuildSubscriptionProjectsUrl();

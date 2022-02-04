@@ -517,13 +517,6 @@ namespace Kentico.Kontent.Management
         Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user);
 
         /// <summary>
-        /// Retrieve a project from your subscription.
-        /// </summary>
-        /// <param name="projectId">The identifier of the project.</param>
-        /// <returns>The <see cref="SubscriptionProjectModel"/> instance that represents the project.</returns>
-        Task<SubscriptionProjectModel> GetSubscriptionProjectAsync(Guid projectId);
-
-        /// <summary>
         /// Returns strongly typed listing of projects.
         /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
         /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
