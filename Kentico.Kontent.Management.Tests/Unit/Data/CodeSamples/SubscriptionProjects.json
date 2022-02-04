@@ -1,0 +1,30 @@
+{
+  "projects": [
+    {
+      "id": "fb8c204a-770b-4712-ad3d-489397eff147",
+      "name": "blablabla",
+      "is_active": true,
+      "environments": [
+        {
+          "id": "370730f9-a35e-479a-bc45-3a0c34e0e906",
+          "name": "Production"
+        }
+      ]
+    },
+    {
+      "id": "430f47dc-41f4-47e7-9fc8-551d60d6fc05",
+      "name": "I like trains",
+      "is_active": true,
+      "environments": [
+        {
+          "id": "e6f3c6e3-58d9-41e4-a72a-837d091edb72",
+          "name": "Production"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}

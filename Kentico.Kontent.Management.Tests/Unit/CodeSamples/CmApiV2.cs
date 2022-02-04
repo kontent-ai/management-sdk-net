@@ -517,6 +517,45 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.Equal(2, response.Roles.Count());
         }
 
+        // DocSection: cm_api_v2_get_subscription_user
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetSubscriptionUser()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUser.json");
+
+            var identifier = UserIdentifier.ByEmail("Joe.Joe@kentico.com");
+            //var identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
+
+            var response = await client.GetSubscriptionUserAsync(identifier);
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_get_subscription_users
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetSubscriptionUsers()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUsers.json");
+
+            var response = await client.ListSubscriptionUsersAsync();
+
+            Assert.Equal(2, response.Count());
+        }
+
+        // DocSection: cm_api_v2_get_subscription_projects
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetSubscriptionProjects()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionProjects.json");
+
+            var response = await client.ListSubscriptionProjectsAsync();
+
+            Assert.Equal(2, response.Count());
+        }
+
         // DocSection: cm_api_v2_patch_asset_folders
         // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
