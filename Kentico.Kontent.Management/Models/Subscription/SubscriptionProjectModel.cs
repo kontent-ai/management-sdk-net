@@ -31,6 +31,6 @@ namespace Kentico.Kontent.Management.Models.Subscription
         /// Gets or sets the project's environments.
         /// </summary>
         [JsonProperty("environments")]
-        public IEnumerable<SubscriptionEnvironmentModel> Environmnets { get; set; }
+        public IEnumerable<SubscriptionProjectEnvironmentModel> Environmnets { get; set; }
     }
 }
