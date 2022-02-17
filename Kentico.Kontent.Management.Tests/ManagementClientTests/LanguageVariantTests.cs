@@ -12,6 +12,7 @@ using Kentico.Kontent.Management.Models.Shared;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 using Xunit.Abstractions;
 using FluentAssertions;
+using Kentico.Kontent.Management.Extenstions;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {

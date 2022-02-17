@@ -6,7 +6,7 @@ using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 
-namespace Kentico.Kontent.Management
+namespace Kentico.Kontent.Management.Extenstions
 {
     /// <summary>
     /// Extra simplifying methods available for ManagementClient
