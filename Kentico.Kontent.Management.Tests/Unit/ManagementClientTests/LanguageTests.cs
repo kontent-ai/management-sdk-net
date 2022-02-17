@@ -6,6 +6,7 @@ using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using Xunit;
+using Kentico.Kontent.Management.Extenstions;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {
@@ -47,27 +48,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async void ListLanguages_ListsLanguages()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ListLanguages_ListsLanguages.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("LanguagesPage1.json", "LanguagesPage2.json", "LanguagesPage3.json");
 
-            var response = await client.ListLanguagesAsync();
-            using (new AssertionScope())
-            {
-                response.Count().Should().Be(2);
+            var expectedItems = _fileSystemFixture.GetItemsOfExpectedListingResponse<LanguageModel>("LanguagesPage1.json", "LanguagesPage2.json", "LanguagesPage3.json");
 
-                response.First().Name.Should().BeEquivalentTo("Default project language");
-                response.First().Codename.Should().BeEquivalentTo("default");
-                response.First().ExternalId.Should().BeEquivalentTo("string");
-                response.First().FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-                response.First().IsActive.Should().BeTrue();
-                response.First().IsDefault.Should().BeTrue();
+            var response = await client.ListLanguagesAsync().GetAllAsync();
 
-                response.Skip(1).First().Name.Should().BeEquivalentTo("German");
-                response.Skip(1).First().ExternalId.Should().BeEquivalentTo("german");
-                response.Skip(1).First().Codename.Should().BeEquivalentTo("de-DE");
-                response.Skip(1).First().FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-                response.Skip(1).First().IsActive.Should().BeTrue();
-                response.Skip(1).First().IsDefault.Should().BeFalse();
-            }
+            response.Should().BeEquivalentTo(expectedItems);
         }
 
         [Fact]
