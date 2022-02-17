@@ -53,26 +53,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
             return new ManagementClient(_urlBuilder, actionInvoker);
         }
 
-        public IManagementClient CreateMockClientWithResponseAndUrl(string responseFileName, string expectedUrl)
-        {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-             {
-                 var url = x.ArgAt<string>(1);
-                 url.Should().BeEquivalentTo(expectedUrl, "because url does not match");
-
-                 string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", _folder);
-
-                 var responsePath = Path.Combine(dataPath, responseFileName);
-                 var result = new HttpResponseMessage();
-                 result.Content = new StringContent(File.ReadAllText(responsePath));
-
-                 return Task.FromResult<HttpResponseMessage>(result);
-             });
-            return CreateMockClient(mockedHttpClient);
-        }
-
         public IManagementClient CreateMockClientWithUrl(string expectedUrl)
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
