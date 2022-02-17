@@ -7,7 +7,7 @@ namespace Kentico.Kontent.Management.Models.Subscription
     /// <summary>
     /// Represents projects to which the user has been invited.
     /// </summary>
-    public sealed class SubscriptionUserEnvironmentModel
+    public sealed class SubscriptionUserProjectEnvironmentModel
     {
         /// <summary>
         /// Gets or sets he environment's internal ID. Use this as projectId path parameter in project specific endpoints.

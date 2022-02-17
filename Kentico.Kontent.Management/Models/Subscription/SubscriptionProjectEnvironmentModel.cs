@@ -6,7 +6,7 @@ namespace Kentico.Kontent.Management.Models.Subscription
     /// <summary>
     /// Represents project's environemnt.
     /// </summary>
-    public sealed class SubscriptionEnvironmentModel
+    public sealed class SubscriptionProjectEnvironmentModel
     {
         /// <summary>
         /// Gets or sets the environment's internal ID.
