@@ -24,7 +24,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         public async Task ListSubscriptionProjects_ListsSubscriptionProjects()
         {
             var expected = _fileSystemFixture.GetItemsOfExpectedListingResponse<SubscriptionProjectModel>("Projects.json");
-            var client = _fileSystemFixture.CreateMockClientWithResponseAndUrl("Projects.json", $"{_subscriptionEndpoint}/projects");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Projects.json");
 
             var response = await client.ListSubscriptionProjectsAsync();
 
@@ -35,7 +35,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         public async Task ListSubscriptionUsers_ListsSubscriptionUsers()
         {
             var expected = _fileSystemFixture.GetItemsOfExpectedListingResponse<SubscriptionUserModel>("Users.json");
-            var client = _fileSystemFixture.CreateMockClientWithResponseAndUrl("Users.json", expectedUrl: $"{_subscriptionEndpoint}/users");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Users.json");
 
             var response = await client.ListSubscriptionUsersAsync();
 
@@ -49,7 +49,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var identifier = UserIdentifier.ById(expected.Id);
 
-            var client = _fileSystemFixture.CreateMockClientWithResponseAndUrl("User.json", expectedUrl: $"{_subscriptionEndpoint}/users/{expected.Id}");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("User.json");
 
             var response = await client.GetSubscriptionUserAsync(identifier);
 
@@ -63,7 +63,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var identifier = UserIdentifier.ByEmail(expected.Email);
 
-            var client = _fileSystemFixture.CreateMockClientWithResponseAndUrl("User.json", expectedUrl: $"{_subscriptionEndpoint}/users/email/{expected.Email}");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("User.json");
 
             var response = await client.GetSubscriptionUserAsync(identifier);
 
