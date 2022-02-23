@@ -1,4 +1,5 @@
 ﻿using Kentico.Kontent.Management.Models.Assets;
+using Kentico.Kontent.Management.Models.AssetRenditions;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
 using Kentico.Kontent.Management.Models.Collections.Patch;
@@ -19,7 +20,6 @@ using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Workflow;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -120,6 +120,14 @@ namespace Kentico.Kontent.Management
         /// <param name="fileContent">Represents the content of the file</param>
         /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
         Task<FileReference> UploadFileAsync(FileContentSource fileContent);
+        
+        Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier);
+        
+        Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier);
+
+        Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel);
+        
+        Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updaetModel);
         
         /// <summary>
         /// Cancels publishing of the language variant.

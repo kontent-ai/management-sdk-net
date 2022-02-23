@@ -40,6 +40,12 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Type.Id.Value), actual.BodyCopy.Components.Select(x => x.Type.Id.Value));
             AssertIdentifiers(expected.RelatedArticles.Value.Select(x => x.Id.Value), actual.RelatedArticles.Value.Select(x => x.Id.Value));
             AssertIdentifiers(expected.TeaserImage.Value.Select(x => x.Id.Value), actual.TeaserImage.Value.Select(x => x.Id.Value));
+            for (var i = 0; i < expected.TeaserImage.Value.Count(); i++)
+            {
+                AssertIdentifiers(
+                    expected.TeaserImage.Value.ElementAt(i).Renditions.Select(x => x.Id.Value),
+                    actual.TeaserImage.Value.ElementAt(i).Renditions.Select(x => x.Id.Value));
+            }
             AssertIdentifiers(expected.Options.Value.Select(x => x.Id.Value), actual.Options.Value.Select(x => x.Id.Value));
             AssertIdentifiers(expected.Personas.Value.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
         }
@@ -82,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 
             var teaserImageValue = dynamicElements.SingleOrDefault(elementObject =>
                 elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
-            ).value as IEnumerable<Reference>;
+            ).value as IEnumerable<AssetWithRenditionsReference>;
 
             var personaValue = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
@@ -140,7 +146,15 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
                         }
                     }
                 },
-                TeaserImage = new AssetElement { Value = new[] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) } },
+                TeaserImage = new AssetElement
+                {
+                    Value = new[]
+                    {
+                        new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), new[] { Reference.ById(Guid.NewGuid()) }),
+                        new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), new[] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()),  }),
+                        new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), Array.Empty<Reference>()),
+                    }
+                },
                 RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToArray() },
                 Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },
                 Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },

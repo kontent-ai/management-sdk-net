@@ -4,6 +4,7 @@ using Kentico.Kontent.Management.Models.Workflow;
 using Kentico.Kontent.Management.Modules.UrlBuilder;
 using Kentico.Kontent.Management.Modules.UrlBuilder.Templates;
 using System;
+using Kentico.Kontent.Management.Models.AssetRenditions;
 
 namespace Kentico.Kontent.Management.UrlBuilder
 {
@@ -16,6 +17,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         private readonly TaxonomyTemplate _taxonomyTemplate;
         private readonly AssetTemplate _assetTemplate;
+        private readonly AssetRenditionTemplate _assetRenditionTemplate;
         private readonly LanguageTemplate _languageTemplate;
         private readonly SnippetTemplate _snippetTemplate;
         private readonly CollectionTemplate _collectionTemplate;
@@ -34,6 +36,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
         {
             _taxonomyTemplate = new TaxonomyTemplate();
             _assetTemplate = new AssetTemplate();
+            _assetRenditionTemplate = new AssetRenditionTemplate();
             _languageTemplate = new LanguageTemplate();
             _snippetTemplate = new SnippetTemplate();
             _collectionTemplate = new CollectionTemplate();
@@ -133,6 +136,16 @@ namespace Kentico.Kontent.Management.UrlBuilder
         public string BuildAssetsUrl(Reference identifier) => GetProjectUrl(_assetTemplate.GetIdentifierUrlSegment(identifier));
 
         public string BuildUploadFileUrl(string fileName) => GetProjectUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
+        
+        public string BuildAssetRenditionsUrl(Reference assetIdentifier) => GetProjectUrl(
+            string.Concat(
+                _assetTemplate.GetIdentifierUrlSegment(assetIdentifier),
+                _assetRenditionTemplate.Url));
+
+        public string BuildAssetRenditionsUrl(AssetRenditionIdentifier identifier) => GetProjectUrl(
+            string.Concat(
+                _assetTemplate.GetIdentifierUrlSegment(identifier.AssetIdentifier),
+                _assetRenditionTemplate.GetIdentifierUrlSegment(identifier.RenditionIdentifier)));
 
         public string BuildProjectRolesUrl() => GetProjectUrl(_projectRolesTemplate.Url);
 

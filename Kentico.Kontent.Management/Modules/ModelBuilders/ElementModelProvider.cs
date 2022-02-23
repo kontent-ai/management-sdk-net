@@ -93,7 +93,11 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 return new AssetElement
                 {
                     Element = Reference.ById(Guid.Parse(source?.element?.id)),
-                    Value = (source?.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id))),
+                    Value = (source?.value as IEnumerable<dynamic>)?
+                        .Select(assetWithRenditionsReferences =>
+                            new AssetWithRenditionsReference(
+                                Reference.ById(Guid.Parse(assetWithRenditionsReferences.id)),
+                                (assetWithRenditionsReferences.renditions as IEnumerable<dynamic>)?.Select<dynamic, Reference>(renditionIdentifier => Reference.ById(Guid.Parse(renditionIdentifier.id))))),
                 };
             }
             else if (type == typeof(DateTimeElement))

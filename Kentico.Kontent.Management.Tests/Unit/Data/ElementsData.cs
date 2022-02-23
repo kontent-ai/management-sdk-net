@@ -106,7 +106,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.Data
             TeaserImage = new AssetElement
             {
                 Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
-                Value = new[] { Reference.ById(Guid.Parse("5c08a538-5b58-44eb-81ef-43fb37eeb815")) },
+                Value = new[]
+                {
+                    new AssetWithRenditionsReference(Reference.ById(Guid.Parse("5c08a538-5b58-44eb-81ef-43fb37eeb815")), Array.Empty<Reference>()),
+                    new AssetWithRenditionsReference(Reference.ById(Guid.Parse("39c947ab-78ee-4de0-9bbd-8b79008111cc")), new []
+                    {
+                        Reference.ById(Guid.Parse("043d8f8b-22cb-4322-a1de-8a96c57548a3")), 
+                        Reference.ById(Guid.Parse("7538b9b1-bb5f-493e-b9ab-24578e2a55f5")), 
+                    }),
+                },
             },
             Title = new TextElement
             {
@@ -168,6 +176,24 @@ namespace Kentico.Kontent.Management.Tests.Unit.Data
             dynamic element = new ExpandoObject();
             element.element = GetElement(elementId.Value.ToString("d"));
             element.value = value.Select(x => GetElement(x.Id.Value.ToString("d")));
+
+            return element;
+        }
+        
+        private static dynamic GetArrayElementAsDynamic(Guid? elementId, IEnumerable<AssetWithRenditionsReference> value)
+        {
+            dynamic element = new ExpandoObject();
+            element.element = GetElement(elementId.Value.ToString("d"));
+            element.value = value.Select(GetAssetWithRenditionsAsDynamic);
+
+            dynamic GetAssetWithRenditionsAsDynamic(AssetWithRenditionsReference reference)
+            {
+                dynamic result = new ExpandoObject();
+                result.id = reference.Id.Value.ToString("d");
+                result.renditions = reference.Renditions.Select(x => GetElement(x.Id.Value.ToString("d")));
+
+                return result;
+            }
 
             return element;
         }
