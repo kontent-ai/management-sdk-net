@@ -32,5 +32,11 @@ namespace Kentico.Kontent.Management.Models.StronglyTyped
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }
+
+        /// <summary>
+        /// Gets or sets reference to the variant's current workflow step.
+        /// </summary>
+        [JsonProperty("workflow_step")]
+        public Reference WorkflowStep { get; set; }
     }
 }
