@@ -204,6 +204,11 @@ while (true)
     response = await response.GetNextPage();
 }
 ```
+If you need all content items you can use `GetAllAsync`:
+
+```csharp
+var response = await _client.ListContentItemsAsync().GetAllAsync();
+```
 
 ### Importing content items
 
