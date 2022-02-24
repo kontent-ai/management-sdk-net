@@ -146,7 +146,13 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         public string BuildUsersUrl() => GetUrl(_userTemplate.Url);
 
-        public string BuildModifyUsersRoleUrl(UserIdentifier identifier) => GetUrl(string.Concat(_userTemplate.GetIdentifierUrlSegment(identifier), "/roles"));        
+        public string BuildModifyUsersRoleUrl(UserIdentifier identifier) => GetUrl(string.Concat(_userTemplate.GetIdentifierUrlSegment(identifier), "/roles"));
+
+        public string BuildCloneEnvironmentUrl() => GetUrl("/clone-environment");
+
+        public string BuildGetEnvironmentCloningStateUrl() => GetUrl("/environment-cloning-state");
+
+        public string BuildMarkEnvironmentAsProductionUrl() => GetUrl("/mark-environment-as-production");
 
         private string GetUrl(string path, params string[] parameters)
         {

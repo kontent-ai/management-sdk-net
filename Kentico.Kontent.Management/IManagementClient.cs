@@ -2,6 +2,8 @@
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
 using Kentico.Kontent.Management.Models.Collections.Patch;
+using Kentico.Kontent.Management.Models.Environments;
+using Kentico.Kontent.Management.Models.Environments.Patch;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.LanguageVariants;
@@ -513,5 +515,33 @@ namespace Kentico.Kontent.Management
         /// <param name="user">Represents an user that is to be modified.</param>
         /// <returns>Returns the modified user.</returns>
         Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user);
+
+        /// <summary>
+        /// Clones environment.
+        /// </summary>
+        /// <param name="cloneEnvironmentModel">Cloning settings.</param>
+        Task<EnvironmentClonedModel> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel);
+
+        /// <summary>
+        /// Returns the state of the environment cloning.
+        /// </summary>
+        Task<EnvironmentCloningStateModel> GetEnvironmentCloningStateAsync();
+
+        /// <summary>
+        /// Deletes current environment.
+        /// </summary>
+        Task DeleteEnvironmentAsync();
+
+        /// <summary>
+        /// Marks current environment as production.
+        /// </summary>
+        Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel);
+
+        /// <summary>
+        /// Modifies current environment.
+        /// </summary>
+        /// <param name="changes">Represents changes that will be applied to the environment.</param>
+        Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes);
+
     }
 }

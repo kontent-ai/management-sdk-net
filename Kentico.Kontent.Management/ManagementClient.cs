@@ -29,6 +29,8 @@ using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.UrlBuilder;
 using Kentico.Kontent.Management.Models.Roles;
 using Kentico.Kontent.Management.Models.Users;
+using Kentico.Kontent.Management.Models.Environments;
+using Kentico.Kontent.Management.Models.Environments.Patch;
 
 namespace Kentico.Kontent.Management
 {
@@ -986,7 +988,7 @@ namespace Kentico.Kontent.Management
             var endpointUrl = _urlBuilder.BuildModifyUsersRoleUrl(identifier);
             return await _actionInvoker.InvokeMethodAsync<UserModel, UserModel>(endpointUrl, HttpMethod.Put, user);
         }
-        
+
         /// <inheritdoc />
         public async Task<ProjectRolesModel> ListProjectRolesAsync()
         {
@@ -1004,6 +1006,51 @@ namespace Kentico.Kontent.Management
 
             var endpointUrl = _urlBuilder.BuildProjectRoleUrl(identifier);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectRoleModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        /// <inheritdoc />
+        public async Task<EnvironmentClonedModel> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel)
+        {
+            if (cloneEnvironmentModel == null)
+            {
+                throw new ArgumentNullException(nameof(cloneEnvironmentModel));
+            }
+
+            var endpointUrl = _urlBuilder.BuildCloneEnvironmentUrl();
+            return await _actionInvoker.InvokeMethodAsync<EnvironmentCloneModel, EnvironmentClonedModel>(endpointUrl, HttpMethod.Post, cloneEnvironmentModel);
+        }
+
+        /// <inheritdoc />
+        public async Task<EnvironmentCloningStateModel> GetEnvironmentCloningStateAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildGetEnvironmentCloningStateUrl();
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<EnvironmentCloningStateModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        /// <inheritdoc />
+        public async Task DeleteEnvironmentAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildProjectUrl();
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <inheritdoc />
+        public async Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel)
+        {
+            var endpointUrl = _urlBuilder.BuildMarkEnvironmentAsProductionUrl();
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, markAsProductionModel);
+        }
+
+        /// <inheritdoc />
+        public async Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes)
+        {
+            if (changes == null)
+            {
+                throw new ArgumentNullException(nameof(changes));
+            }
+
+            var endpointUrl = _urlBuilder.BuildProjectUrl();
+            return await _actionInvoker.InvokeMethodAsync<IEnumerable<EnvironmentOperationBaseModel>, EnvironmentModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }
 
         private async Task<IListingResponse<TModel>> GetNextListingPageAsync<TListingResponse, TModel>(string continuationToken, string url)
