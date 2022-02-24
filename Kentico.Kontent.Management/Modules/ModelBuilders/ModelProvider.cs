@@ -20,7 +20,8 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             {
                 Item = variant.Item,
                 Language = variant.Language,
-                LastModified = variant.LastModified
+                LastModified = variant.LastModified,
+                WorkflowStep = variant.WorkflowStep
             };
 
             var type = typeof(T);
