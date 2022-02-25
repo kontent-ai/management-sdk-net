@@ -56,10 +56,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 
-            response.Should().BeEquivalentTo(expected, conf => conf.Excluding(x => x.Elements));
-
-            //fluent assertion have problem with order when comparing dynamic objects
-            response.Elements.OrderBy(x => x.element.id).Should().BeEquivalentTo(response.Elements.OrderBy(x => x.element.id));
+            response.Should().BeEquivalentTo(expected);
         }
 
         private static LanguageVariantModel GetExpectedLanguageVariantModel()
@@ -74,20 +71,20 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                 WorkflowStep = Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9")),
                 Elements = new dynamic[]
                 {
-                    GetAnonymousRichText(complexModel.BodyCopy.Element.Id, complexModel.BodyCopy.Value, complexModel.BodyCopy.Components),
-                    GetAnonymousElement(complexModel.MetaDescription.Element.Id, complexModel.MetaDescription.Value),
-                    GetAnonymousElement(complexModel.MetaKeywords.Element.Id, complexModel.MetaKeywords.Value),
-                    GetAnonymousElement(complexModel.Options.Element.Id, complexModel.Options.Value),
-                    GetAnonymousElement(complexModel.Personas.Element.Id, new [] { complexModel.Personas.Value }),
-                    GetAnonymousElement(complexModel.PostDate.Element.Id, complexModel.PostDate.Value),
-                    GetAnonymousElement(complexModel.RelatedArticles.Element.Id, new[] { complexModel.PostDate.Value }),
-                    GetAnonymousElement(complexModel.Rating.Element.Id, complexModel.Rating.Value),
-                    GetAnonymousCustomElement(complexModel.SelectedForm.Element.Id, complexModel.SelectedForm.Value, complexModel.SelectedForm.SearchableValue),
-                    GetAnonymousElement(complexModel.Summary.Element.Id, complexModel.Summary.Value),
-                    GetAnonymousElement(complexModel.TeaserImage.Element.Id, new[] { complexModel.TeaserImage.Value }),
-                    GetAnonymousElement(complexModel.Title.Element.Id, complexModel.Title.Value),
-                    GetAnonymousUrlSlug(complexModel.UrlPattern.Element.Id, complexModel.UrlPattern.Value, complexModel.UrlPattern.Mode),
-                    GetAnonymousElement(complexModel.Cafe.Element.Id, new[] { complexModel.Cafe.Value }),
+                    GetRichTextAsDynamic(complexModel.BodyCopy.Element.Id, complexModel.BodyCopy.Value, complexModel.BodyCopy.Components),
+                    GetElementAsDynamic(complexModel.MetaDescription.Element.Id, complexModel.MetaDescription.Value),
+                    GetElementAsDynamic(complexModel.MetaKeywords.Element.Id, complexModel.MetaKeywords.Value),
+                    GetArrayElementAsDynamic(complexModel.Options.Element.Id, complexModel.Options.Value),
+                    GetArrayElementAsDynamic(complexModel.Personas.Element.Id, complexModel.Personas.Value),
+                    GetElementAsDynamic(complexModel.PostDate.Element.Id, complexModel.PostDate.Value),
+                    GetArrayElementAsDynamic(complexModel.RelatedArticles.Element.Id, complexModel.RelatedArticles.Value),
+                    GetElementAsDynamic(complexModel.Rating.Element.Id, complexModel.Rating.Value),
+                    GetCustomElementAsDynamic(complexModel.SelectedForm.Element.Id, complexModel.SelectedForm.Value, complexModel.SelectedForm.SearchableValue),
+                    GetElementAsDynamic(complexModel.Summary.Element.Id, complexModel.Summary.Value),
+                    GetArrayElementAsDynamic(complexModel.TeaserImage.Element.Id, complexModel.TeaserImage.Value),
+                    GetElementAsDynamic(complexModel.Title.Element.Id, complexModel.Title.Value),
+                    GetUrlSlugAsDynamic(complexModel.UrlPattern.Element.Id, complexModel.UrlPattern.Value, complexModel.UrlPattern.Mode),
+                    GetArrayElementAsDynamic(complexModel.Cafe.Element.Id, complexModel.Cafe.Value),
                 }
             };
         }
@@ -110,7 +107,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                     {
                         Id = Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3"),
                         Type = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d")),
-                        Elements = GetComponentElements()
+                        Elements = GetComponentElementsAsDynamic()
                     }
                 }
                 },
@@ -188,7 +185,27 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             }
         };
 
-        private static dynamic[] GetComponentElements()
+        private static dynamic GetRichTextAsDynamic(Guid? elementId, string value, IEnumerable<ComponentModel> compoments)
+        {
+            dynamic element = new ExpandoObject();
+            element.element = GetElement(elementId.Value.ToString("d"));
+            element.value = value;
+            element.components = compoments.Select(x => GetRichTextComponentAsDynamic(x));
+
+            return element;
+        }
+
+        private static dynamic GetRichTextComponentAsDynamic(ComponentModel component)
+        {
+            dynamic dynamicComponent = new ExpandoObject();
+            dynamicComponent.id = component.Id.ToString("d");
+            dynamicComponent.type = GetElement(component.Type.Id.ToString());
+            dynamicComponent.elements = component.Elements;
+
+            return dynamicComponent;
+        }
+
+        private static dynamic[] GetComponentElementsAsDynamic()
         {
             dynamic component1 = new ExpandoObject();
             component1.element = GetElement(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.TweetLink)).GetKontentElementId().ToString()); ;
@@ -205,7 +222,16 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             return new dynamic[] { component1, component2, component3 };
         }
 
-        private static dynamic GetAnonymousElement(Guid? elementId, dynamic value)
+        private static dynamic GetArrayElementAsDynamic(Guid? elementId, IEnumerable<Reference> value)
+        {
+            dynamic element = new ExpandoObject();
+            element.element = GetElement(elementId.Value.ToString("d"));
+            element.value = value.Select(x => GetElement(x.Id.Value.ToString("d")));
+
+            return element;
+        }
+
+        private static dynamic GetElementAsDynamic(Guid? elementId, dynamic value)
         {
             dynamic element = new ExpandoObject();
             element.element = GetElement(elementId.Value.ToString("d"));
@@ -214,7 +240,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             return element;
         }
 
-        private static dynamic GetAnonymousCustomElement(Guid? elementId, string value, string searchableValue)
+        private static dynamic GetCustomElementAsDynamic(Guid? elementId, string value, string searchableValue)
         {
             dynamic element = new ExpandoObject();
             element.element = GetElement(elementId.Value.ToString("d"));
@@ -224,22 +250,12 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             return element;
         }
 
-        private static dynamic GetAnonymousUrlSlug(Guid? elementId, string value, string mode)
+        private static dynamic GetUrlSlugAsDynamic(Guid? elementId, string value, string mode)
         {
             dynamic element = new ExpandoObject();
             element.element = GetElement(elementId.Value.ToString("d"));
             element.value = value;
             element.mode = mode;
-
-            return element;
-        }
-
-        private static dynamic GetAnonymousRichText(Guid? elementId, string value, IEnumerable<ComponentModel> compoments)
-        {
-            dynamic element = new ExpandoObject();
-            element.element = GetElement(elementId.Value.ToString("d"));
-            element.value = value;
-            element.components = compoments;
 
             return element;
         }
