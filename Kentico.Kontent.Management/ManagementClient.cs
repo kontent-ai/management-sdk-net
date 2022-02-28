@@ -86,6 +86,132 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
+        public async Task<AssetModel> GetAssetAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <inheritdoc />
+        public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<AssetModel>(
+                (token, url) => GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Assets);
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
+        {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
+
+            return response;
+        }
+        
+        /// <inheritdoc />
+        public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
+
+            return response;
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
+        {
+            if (string.IsNullOrEmpty(externalId))
+            {
+                throw new ArgumentException("The external id is not specified.", nameof(externalId));
+            }
+
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(Reference.ByExternalId(externalId));
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
+                endpointUrl,
+                HttpMethod.Put,
+                asset
+            );
+
+            return response;
+        }
+        
+        /// <inheritdoc />
+        public async Task DeleteAssetAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <inheritdoc />
+        public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
+        {
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
+            var stream = fileContent.OpenReadStream();
+            try
+            {
+                if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
+                {
+                    throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
+                }
+
+                var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
+                var response = await _actionInvoker.UploadFileAsync<FileReference>(endpointUrl, stream, fileContent.ContentType);
+
+                return response;
+            }
+            finally
+            {
+                // Dispose the stream only in case new stream was created
+                if (fileContent.CreatesNewStream)
+                {
+                    stream.Dispose();
+                }
+            }
+        }
+
+        /// <inheritdoc />
         public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier)
         {
             if (identifier == null)
@@ -769,33 +895,6 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
-        {
-            var endpointUrl = _urlBuilder.BuildAssetsUrl();
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-            return new ListingResponseModel<AssetModel>(
-                (token, url) => GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>(token, url),
-                response.Pagination?.Token,
-                endpointUrl,
-                response.Assets);
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> GetAssetAsync(Reference identifier)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
-
-            return response;
-        }
-
-        /// <inheritdoc />
         public async Task<AssetFoldersModel> GetAssetFoldersAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
@@ -830,105 +929,6 @@ namespace Kentico.Kontent.Management
             var response = await _actionInvoker.InvokeMethodAsync<IEnumerable<AssetFolderOperationBaseModel>, AssetFoldersModel>(endpointUrl, new HttpMethod("PATCH"), changes);
 
             return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task DeleteAssetAsync(Reference identifier)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
-        {
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
-        {
-            if (string.IsNullOrEmpty(externalId))
-            {
-                throw new ArgumentException("The external id is not specified.", nameof(externalId));
-            }
-
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(Reference.ByExternalId(externalId));
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
-                endpointUrl,
-                HttpMethod.Put,
-                asset
-            );
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
-        {
-            if (fileContent == null)
-            {
-                throw new ArgumentNullException(nameof(fileContent));
-            }
-
-            var stream = fileContent.OpenReadStream();
-            try
-            {
-                if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
-                {
-                    throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
-                }
-
-                var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
-                var response = await _actionInvoker.UploadFileAsync<FileReference>(endpointUrl, stream, fileContent.ContentType);
-
-                return response;
-            }
-            finally
-            {
-                // Dispose the stream only in case new stream was created
-                if (fileContent.CreatesNewStream)
-                {
-                    stream.Dispose();
-                }
-            }
         }
 
         /// <inheritdoc />

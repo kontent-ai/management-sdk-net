@@ -31,6 +31,58 @@ namespace Kentico.Kontent.Management
     public interface IManagementClient
     {
         /// <summary>
+        /// Returns strongly typed asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
+        Task<AssetModel> GetAssetAsync(Reference identifier);
+        
+        /// <summary>
+        /// Returns strongly typed listing of assets.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
+        Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
+        
+        /// <summary>
+        /// Creates asset.
+        /// </summary>
+        /// <param name="asset">Represents the asset that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
+        Task<AssetModel> CreateAssetAsync(AssetCreateModel asset);
+
+        /// <summary>
+        /// Updates the given asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <param name="asset">Represents the updated asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
+        Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset);
+        
+        /// <summary>
+        /// Inserts or updates the asset.
+        /// </summary>
+        /// <param name="externalId">The external identifier of the content item.</param>
+        /// <param name="asset">Represents the asset that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
+        Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset);
+        
+        /// <summary>
+        /// Deletes the given asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        Task DeleteAssetAsync(Reference identifier);
+        
+        /// <summary>
+        /// Uploads the given file.
+        /// </summary>
+        /// <param name="fileContent">Represents the content of the file</param>
+        /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
+        Task<FileReference> UploadFileAsync(FileContentSource fileContent);
+        
+        /// <summary>
         /// Cancels publishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant identifier of which publishing should be canceled.</param>
@@ -47,13 +99,6 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">Identifier of the workflow step to be changed.</param>
         Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier);
-
-        /// <summary>
-        /// Creates asset.
-        /// </summary>
-        /// <param name="asset">Represents the asset that will be created.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
-        Task<AssetModel> CreateAssetAsync(AssetCreateModel asset);
 
         /// <summary>
         /// Creates the asset folder.
@@ -111,12 +156,6 @@ namespace Kentico.Kontent.Management
         Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook);
 
         /// <summary>
-        /// Deletes the given asset.
-        /// </summary>
-        /// <param name="identifier">The identifier of the asset.</param>
-        Task DeleteAssetAsync(Reference identifier);
-
-        /// <summary>
         /// Deletes the given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
@@ -163,13 +202,6 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the webhook.</param>
         Task EnableWebhookAsync(Reference identifier);
-
-        /// <summary>
-        /// Returns strongly typed asset.
-        /// </summary>
-        /// <param name="identifier">The identifier of the asset.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
-        Task<AssetModel> GetAssetAsync(Reference identifier);
 
         /// <summary>
         /// Get the Asset Folders
@@ -223,7 +255,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Returns project information
         /// </summary>
-        /// <returns>The <see cref="Project"/> instance that represents the project infornation.</returns>
+        /// <returns>The <see cref="Project"/> instance that represents the project information.</returns>
         Task<Project> GetProjectInformationAsync();
 
         /// <summary>
@@ -239,15 +271,6 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the webhook.</param>
         /// <returns>The <see cref="WebhookModel"/> instance that represents requested webhook.</returns>
         Task<WebhookModel> GetWebhookAsync(Reference identifier);
-
-        /// <summary>
-        /// Returns strongly typed listing of assets.
-        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-        /// </summary>
-        /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
-        Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
 
         /// <summary>
         /// Returns listing of collection.
@@ -427,35 +450,12 @@ namespace Kentico.Kontent.Management
         Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
-        /// Updates the given asset.
-        /// </summary>
-        /// <param name="identifier">The identifier of the asset.</param>
-        /// <param name="asset">Represents the updated asset.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
-        Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset);
-
-        /// <summary>
         /// Updates the given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <param name="contentItem">Represents the updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
         Task<ContentItemModel> UpdateContentItemAsync(Reference identifier, ContentItemUpdateModel contentItem);
-
-        /// <summary>
-        /// Uploads the given file.
-        /// </summary>
-        /// <param name="fileContent">Represents the content of the file</param>
-        /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
-        Task<FileReference> UploadFileAsync(FileContentSource fileContent);
-
-        /// <summary>
-        /// Inserts or updates the asset.
-        /// </summary>
-        /// <param name="externalId">The external identifier of the content item.</param>
-        /// <param name="asset">Represents the asset that will be created.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
-        Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset);
 
         /// <summary>
         /// Inserts or updates the given content item.
