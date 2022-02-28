@@ -21,15 +21,21 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 Item = variant.Item,
                 Language = variant.Language,
                 LastModified = variant.LastModified,
-                WorkflowStep = variant.WorkflowStep
+                WorkflowStep = variant.WorkflowStep,
+                Elements = GetStronglyTypedElements<T>(variant.Elements)
             };
 
+            return result;
+        }
+
+        private T GetStronglyTypedElements<T>(IEnumerable<dynamic> elements) where T : new()
+        {
             var type = typeof(T);
             var instance = new T();
 
             var properties = type.GetProperties().Where(x => x.SetMethod?.IsPublic ?? false).ToList();
 
-            foreach (var element in variant.Elements)
+            foreach (var element in elements)
             {
                 var property = properties.FirstOrDefault(x => x.PropertyType?.BaseType == typeof(BaseElement) && x.GetCustomAttribute<KontentElementIdAttribute>().ElementId == element.element.id);
                 if (property == null)
@@ -40,29 +46,31 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 property.SetValue(instance, ToElement(element, property.PropertyType));
             }
 
-            result.Elements = instance;
-            return result;
+            return instance;
         }
 
         public LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements) where T : new()
         {
+            return new LanguageVariantUpsertModel
+            {
+                Elements = GetDynamicElements(variantElements)
+            };
+        }
+
+        private IEnumerable<dynamic> GetDynamicElements<T>(T stronglyTypedElements)
+        {
             var type = typeof(T);
 
             var elements = type.GetProperties()
-                .Where(x => (x.GetMethod?.IsPublic ?? false) && x.PropertyType?.BaseType == typeof(BaseElement) && x.GetValue(variantElements) != null)
+                .Where(x => (x.GetMethod?.IsPublic ?? false) && x.PropertyType?.BaseType == typeof(BaseElement) && x.GetValue(stronglyTypedElements) != null)
                 .Select(x =>
                 {
-                    var element = (BaseElement)x.GetValue(variantElements);
+                    var element = (BaseElement)x.GetValue(stronglyTypedElements);
                     element.Element = Reference.ById(x.GetKontentElementId());
                     return element?.ToDynamic();
                 });
 
-            var result = new LanguageVariantUpsertModel
-            {
-                Elements = elements
-            };
-
-            return result;
+            return elements;
         }
 
         private BaseElement ToElement(dynamic source, Type type)
