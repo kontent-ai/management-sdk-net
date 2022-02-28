@@ -13,24 +13,21 @@ using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 
 namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
 {
-    public class ModelProviderTests
+    public class ElementModelProviderTests
     {
-        private readonly IModelProvider _modelProvider;
+        private readonly IElementModelProvider _elementModelProvider;
 
-        public ModelProviderTests()
+        public ElementModelProviderTests()
         {
-            _modelProvider = new ModelProvider();
+            _elementModelProvider = new ElementModelProvider();
         }
 
         [Fact]
-        public void GetLanguageVariantModel_ReturnsExpected()
+        public void GetStronglyTypedElements_ReturnsExpected()
         {
             var expected = GetTestModel();
-            var model = new LanguageVariantModel
-            {
-                Elements = PrepareMockDynamicResponse(expected)
-            };
-            var actual = _modelProvider.GetLanguageVariantModel<ComplexTestModel>(model).Elements;
+            var dynamicElements = PrepareMockDynamicResponse(expected);
+            var actual = _elementModelProvider.GetStronglyTypedElements<ComplexTestModel>(dynamicElements);
 
             Assert.Equal(expected.Title.Value, actual.Title.Value);
             Assert.Equal(expected.Rating.Value, actual.Rating.Value);
@@ -53,45 +50,45 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             var model = GetTestModel();
             var type = model.GetType();
 
-            var upsertVariantElements = _modelProvider.GetLanguageVariantUpsertModel(model).Elements;
+            var dynamicElements = _elementModelProvider.GetDynamicElements(model);
 
-            var titleValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var titleValue = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Title))?.GetKontentElementId()
             ).value;
 
-            var ratingValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var ratingValue = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Rating))?.GetKontentElementId()
             ).value;
 
-            var selectedForm = upsertVariantElements.SingleOrDefault(elementObject =>
+            var selectedForm = dynamicElements.SingleOrDefault(elementObject =>
                     elementObject.element.id == type.GetProperty(nameof(model.SelectedForm))?.GetKontentElementId()
             );
 
-            var postDateValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var postDateValue = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId()
             ).value;
 
-            var urlPatternElement = upsertVariantElements.SingleOrDefault(elementObject =>
+            var urlPatternElement = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId()
             );
 
-            var bodyCopyElement = upsertVariantElements.SingleOrDefault(elementObject =>
+            var bodyCopyElement = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
             );
 
-            var relatedArticlesValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var relatedArticlesValue = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
             ).value as IEnumerable<Reference>;
 
-            var teaserImageValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var teaserImageValue = dynamicElements.SingleOrDefault(elementObject =>
                 elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
             ).value as IEnumerable<Reference>;
 
-            var personaValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var personaValue = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
             ).value as IEnumerable<Reference>;
 
-            var optionsValue = upsertVariantElements.SingleOrDefault(elementObject =>
+            var optionsValue = dynamicElements.SingleOrDefault(elementObject =>
                  elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
             ).value as IEnumerable<Reference>;
 
@@ -150,7 +147,7 @@ namespace Kentico.Kontent.Management.Tests.ModelBuildersTests
             };
         }
 
-        private IEnumerable<dynamic> PrepareMockDynamicResponse(ComplexTestModel model)
+        private static IEnumerable<dynamic> PrepareMockDynamicResponse(ComplexTestModel model)
         {
             var type = typeof(ComplexTestModel);
 
