@@ -8,9 +8,9 @@ namespace Kentico.Kontent.Management.Models.Environments.Patch
     public sealed class EnvironmentRenamePatchModel : EnvironmentOperationBaseModel
     {
         /// <summary>
-        /// Represents the rename-environment operation.
+        /// Represents the rename_environment operation.
         /// </summary>
-        public override string Op => "rename-environment";
+        public override string Op => "rename_environment";
 
         /// <summary>
         /// Gets or sets the environment name.
