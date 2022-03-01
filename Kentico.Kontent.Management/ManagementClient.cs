@@ -114,10 +114,24 @@ namespace Kentico.Kontent.Management
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
             return new ListingResponseModel<AssetModel>(
-                (token, url) => GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>(token, url),
+                GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Assets);
+        }
+
+        /// <inheritdoc />
+        public async Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new()
+        {
+            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseMappedModel<AssetModel, AssetModel<T>>(
+                GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Assets,
+                _modelProvider.GetAssetModel<T>);
         }
 
         /// <inheritdoc />
@@ -1114,6 +1128,22 @@ namespace Kentico.Kontent.Management
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TListingResponse>(url, HttpMethod.Get, headers);
 
             return response;
+        }
+        
+        private async Task<IListingResponse<TModel>> GetNextListingPageAndMapAsync<TRawListingResponse, TRawModel, TListingResponse, TModel>(string continuationToken, string url, Func<TRawModel, TModel> mapModel)
+            where TListingResponse : IListingResponse<TModel>, new()
+            where TRawListingResponse : IListingResponse<TRawModel>
+        {
+            var headers = new Dictionary<string, string>
+            {
+                { "x-continuation", continuationToken }
+            };
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TRawListingResponse>(url, HttpMethod.Get, headers);
+
+            return new TListingResponse()
+            {
+                
+            };
         }
     }
 }

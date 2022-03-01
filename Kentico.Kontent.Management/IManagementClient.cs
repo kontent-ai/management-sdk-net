@@ -54,6 +54,15 @@ namespace Kentico.Kontent.Management
         Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
         
         /// <summary>
+        /// Returns listing of assets with strongly typed elements.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
+        Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new();
+        
+        /// <summary>
         /// Creates asset.
         /// </summary>
         /// <param name="asset">Represents the asset that will be created.</param>
