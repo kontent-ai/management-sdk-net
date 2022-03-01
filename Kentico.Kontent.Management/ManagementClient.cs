@@ -100,6 +100,14 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
+        public async Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new()
+        {
+            var response = await GetAssetAsync(identifier);
+
+            return _modelProvider.GetAssetModel<T>(response);
+        }
+
+        /// <inheritdoc />
         public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetsUrl();
@@ -125,7 +133,15 @@ namespace Kentico.Kontent.Management
 
             return response;
         }
-        
+
+        /// <inheritdoc />
+        public async Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new()
+        {
+            var result = await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset));
+
+            return _modelProvider.GetAssetModel<T>(result);
+        }
+
         /// <inheritdoc />
         public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
         {
@@ -143,6 +159,14 @@ namespace Kentico.Kontent.Management
             var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
 
             return response;
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel<T>> UpdateAssetAsync<T>(Reference identifier, AssetUpdateModel<T> asset) where T : new()
+        {
+            var result = await UpdateAssetAsync(identifier, _modelProvider.GetAssetUpdateModel(asset));
+
+            return _modelProvider.GetAssetModel<T>(result);
         }
 
         /// <inheritdoc />
@@ -167,7 +191,15 @@ namespace Kentico.Kontent.Management
 
             return response;
         }
-        
+
+        /// <inheritdoc />
+        public async Task<AssetModel<T>> UpsertAssetByExternalIdAsync<T>(string externalId, AssetUpsertModel<T> asset) where T : new()
+        {
+            var result = await UpsertAssetByExternalIdAsync(externalId, _modelProvider.GetAssetUpsertModel(asset));
+
+            return _modelProvider.GetAssetModel<T>(result);
+        }
+
         /// <inheritdoc />
         public async Task DeleteAssetAsync(Reference identifier)
         {

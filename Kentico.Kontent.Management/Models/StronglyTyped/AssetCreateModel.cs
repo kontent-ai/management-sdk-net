@@ -1,15 +1,15 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-
-using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Shared;
+using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Assets
+namespace Kentico.Kontent.Management.Models.StronglyTyped
 {
     /// <summary>
-    /// Represents an asset upsert model.
+    /// Represents a strongly typed asset create model.
     /// </summary>
-    public sealed class AssetUpsertModel
+    public sealed class AssetCreateModel<T> where T : new()
     {
         /// <summary>
         /// Gets or sets the file reference for the asset.
@@ -34,11 +34,17 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         [JsonProperty("folder", Required = Required.Always)]
         public Reference Folder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the external identifier of the asset.
+        /// </summary>
+        [JsonProperty("external_id")]
+        public string ExternalId { get; set; }
         
         /// <summary>
         /// Gets or sets elements of the asset.
         /// </summary>
         [JsonProperty("elements", Required = Required.Always)]
-        public IEnumerable<dynamic> Elements { get; set; }
+        public T Elements { get; set; }
     }
 }

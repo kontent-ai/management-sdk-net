@@ -31,14 +31,21 @@ namespace Kentico.Kontent.Management
     public interface IManagementClient
     {
         /// <summary>
-        /// Returns strongly typed asset.
+        /// Returns asset.
         /// </summary>
         /// <param name="identifier">The identifier of the asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
         Task<AssetModel> GetAssetAsync(Reference identifier);
         
         /// <summary>
-        /// Returns strongly typed listing of assets.
+        /// Returns asset with strongly typed elements.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
+        Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new();
+        
+        /// <summary>
+        /// Returns listing of assets.
         /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
         /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
         /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
@@ -52,6 +59,13 @@ namespace Kentico.Kontent.Management
         /// <param name="asset">Represents the asset that will be created.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
         Task<AssetModel> CreateAssetAsync(AssetCreateModel asset);
+        
+        /// <summary>
+        /// Creates asset with strongly typed elements.
+        /// </summary>
+        /// <param name="asset">Represents the asset that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created asset with strongly typed elements.</returns>
+        Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new();
 
         /// <summary>
         /// Updates the given asset.
@@ -62,12 +76,28 @@ namespace Kentico.Kontent.Management
         Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset);
         
         /// <summary>
+        /// Updates the given asset with strongly typed elements.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <param name="asset">Represents the updated asset with strongly typed elements.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents updated asset with strongly typed elements.</returns>
+        Task<AssetModel<T>> UpdateAssetAsync<T>(Reference identifier, AssetUpdateModel<T> asset) where T : new();
+        
+        /// <summary>
         /// Inserts or updates the asset.
         /// </summary>
         /// <param name="externalId">The external identifier of the content item.</param>
         /// <param name="asset">Represents the asset that will be created.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
         Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset);
+        
+        /// <summary>
+        /// Inserts or updates the asset.
+        /// </summary>
+        /// <param name="externalId">The external identifier of the content item.</param>
+        /// <param name="asset">Represents the asset with strongly typed elements that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset with strongly typed elements.</returns>
+        Task<AssetModel<T>> UpsertAssetByExternalIdAsync<T>(string externalId, AssetUpsertModel<T> asset) where T : new();
         
         /// <summary>
         /// Deletes the given asset.
