@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
+using Kentico.Kontent.Management.Extenstions;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 
@@ -49,6 +50,32 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
         
         [Fact]
+        public async Task ListAssetsAsync_ReturnsStronglyTypedAssetModels()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Assets.json");
+        
+            var expected = new List<AssetModel<ComplexTestModel>> { GetExpectedStronglyTypedAssetModel() };
+        
+            var response = await client.ListAssetsAsync<ComplexTestModel>();
+        
+            response.ToList().Should().BeEquivalentTo(expected);
+        }
+        
+        [Fact]
+        public async Task ListAssetsAsync_WithMorePages_ReturnsStronglyTypedAssetModels()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetsPage1.json", "AssetsPage2.json", "AssetsPage3.json");
+        
+            var expectedAsset3 = GetExpectedStronglyTypedAssetModel();
+        
+            var response = await client.ListAssetsAsync<ComplexTestModel>().GetAllAsync();
+
+            response.Count.Should().Be(3);
+            response.Select(a => a.Title).Should().BeEquivalentTo("Asset 1", "Asset 2", "Asset 3");
+            response[2].Should().BeEquivalentTo(expectedAsset3, conf => conf.Excluding(a => a.Title));
+        }
+        
+        [Fact]
         public async Task ListAssetsAsync_ReturnsDynamicAssetModels()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Assets.json");
@@ -58,6 +85,20 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var response = await client.ListAssetsAsync();
 
             response.ToList().Should().BeEquivalentTo(expected);
+        }
+        
+        [Fact]
+        public async Task ListAssetsAsync_WithMorePages_ReturnsDynamicAssetModels()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetsPage1.json", "AssetsPage2.json", "AssetsPage3.json");
+        
+            var expectedAsset3 = GetExpectedDynamicAssetModel();
+        
+            var response = await client.ListAssetsAsync().GetAllAsync();
+
+            response.Count.Should().Be(3);
+            response.Select(a => a.Title).Should().BeEquivalentTo("Asset 1", "Asset 2", "Asset 3");
+            response[2].Should().BeEquivalentTo(expectedAsset3, conf => conf.Excluding(a => a.Title));
         }
 
         [Fact]

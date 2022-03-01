@@ -1,0 +1,38 @@
+{
+  "assets": [
+    {
+      "id": "f5ccdeeb-8fae-4b28-83fd-b9d3ef03c4d9",
+      "file_name": "our-story.jpg",
+      "title": "Asset 2",
+      "size": 69518,
+      "type": "image/jpeg",
+      "url": "https://assets-eu-01.kc-usercontent.com/a9931a80-9af4-010b-0590-ecb1273cf1b8/36f361fa-7f65-446f-b16e-170455766f3e/our-story.jpg",
+      "image_width": 2160,
+      "image_height": 1000,
+      "file_reference": {
+        "id": "36f361fa-7f65-446f-b16e-170455766f3e",
+        "type": "internal"
+      },
+      "descriptions": [
+        {
+          "language": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "description": "Dancing Goat Café - Los Angeles"
+        },
+        {
+          "language": {
+            "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+          },
+          "description": "Bolso de cafe en grano"
+        }
+      ],
+      "last_modified": "2021-11-06T13:57:51.3425375Z",
+      "elements": []
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
