@@ -1,19 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Assets
+namespace Kentico.Kontent.Management.Models.StronglyTyped
 {
     /// <summary>
-    /// Represents an asset update model.
+    /// Represents a strongly typed asset upsert model.
     /// </summary>
-    public sealed class AssetUpdateModel
+    public sealed class AssetUpsertModel<T> where T : new()
     {
         /// <summary>
-        /// Gets or sets descriptions of the asset.
+        /// Gets or sets the file reference for the asset.
+        /// </summary>
+        [JsonProperty("file_reference", Required = Required.Always)]
+        public FileReference FileReference { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description for the asset.
         /// </summary>
         [JsonProperty("descriptions", Required = Required.Always)]
-        public IEnumerable<AssetDescription> Descriptions { get; set; }
+        public IEnumerable<AssetDescription> Descriptions { get; set; } = Enumerable.Empty<AssetDescription>();
 
         /// <summary>
         /// Gets or sets the title for the asset.
@@ -31,6 +39,6 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// Gets or sets elements of the asset.
         /// </summary>
         [JsonProperty("elements", Required = Required.Always)]
-        public IEnumerable<dynamic> Elements { get; set; }
+        public T Elements { get; set; }
     }
 }
