@@ -151,6 +151,11 @@ namespace Kentico.Kontent.Management
         /// <inheritdoc />
         public async Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new()
         {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+            
             var result = await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset));
 
             return _modelProvider.GetAssetModel<T>(result);
@@ -178,6 +183,11 @@ namespace Kentico.Kontent.Management
         /// <inheritdoc />
         public async Task<AssetModel<T>> UpdateAssetAsync<T>(Reference identifier, AssetUpdateModel<T> asset) where T : new()
         {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
             var result = await UpdateAssetAsync(identifier, _modelProvider.GetAssetUpdateModel(asset));
 
             return _modelProvider.GetAssetModel<T>(result);
@@ -209,6 +219,11 @@ namespace Kentico.Kontent.Management
         /// <inheritdoc />
         public async Task<AssetModel<T>> UpsertAssetByExternalIdAsync<T>(string externalId, AssetUpsertModel<T> asset) where T : new()
         {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+            
             var result = await UpsertAssetByExternalIdAsync(externalId, _modelProvider.GetAssetUpsertModel(asset));
 
             return _modelProvider.GetAssetModel<T>(result);
