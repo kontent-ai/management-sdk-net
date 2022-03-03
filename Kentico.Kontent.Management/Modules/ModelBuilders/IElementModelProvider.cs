@@ -5,7 +5,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
     /// <summary>
     /// Defines the contract for mapping dynamic elements to strongly typed models.
     /// </summary>
-    public interface IElementModelProvider
+    internal interface IElementModelProvider
     {
         /// <summary>
         /// Builds a strongly typed element model from non-generic model.

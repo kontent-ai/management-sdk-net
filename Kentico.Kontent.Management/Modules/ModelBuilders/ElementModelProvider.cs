@@ -155,7 +155,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 };
             }
 
-            throw new ArgumentOutOfRangeException($"{type} is not valid language variant element");
+            throw new ArgumentOutOfRangeException($"{type} is not a valid element");
         }
     }
 }
