@@ -36,6 +36,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             response.Should().BeEquivalentTo(expected);
         }
         
+        [Fact]
+        public async Task GetAssetAsync_ByNull_StronglyTypedModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.GetAssetAsync<ComplexTestModel>(null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+        
         [Theory]
         [MemberData(nameof(AssetReferenceCombinations))]
         public async Task GetAssetAsync_ById_ReturnsDynamicAssetModel(Reference assetReference)
@@ -47,6 +56,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var response = await client.GetAssetAsync(assetReference);
 
             response.Should().BeEquivalentTo(expected);
+        }
+        
+        [Fact]
+        public async Task GetAssetAsync_ByNull_DynamicModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.GetAssetAsync(null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
         
         [Fact]
@@ -66,13 +84,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("AssetsPage1.json", "AssetsPage2.json", "AssetsPage3.json");
         
-            var expectedAsset3 = GetExpectedStronglyTypedAssetModel();
+            var expectedAssetFromLastPage = GetExpectedStronglyTypedAssetModel();
         
             var response = await client.ListAssetsAsync<ComplexTestModel>().GetAllAsync();
 
             response.Count.Should().Be(3);
             response.Select(a => a.Title).Should().BeEquivalentTo("Asset 1", "Asset 2", "Asset 3");
-            response[2].Should().BeEquivalentTo(expectedAsset3, conf => conf.Excluding(a => a.Title));
+            response.Last().Should().BeEquivalentTo(expectedAssetFromLastPage, conf => conf.Excluding(a => a.Title));
         }
         
         [Fact]
@@ -92,13 +110,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("AssetsPage1.json", "AssetsPage2.json", "AssetsPage3.json");
         
-            var expectedAsset3 = GetExpectedDynamicAssetModel();
+            var expectedAssetFromLastPage = GetExpectedDynamicAssetModel();
         
             var response = await client.ListAssetsAsync().GetAllAsync();
 
             response.Count.Should().Be(3);
             response.Select(a => a.Title).Should().BeEquivalentTo("Asset 1", "Asset 2", "Asset 3");
-            response[2].Should().BeEquivalentTo(expectedAsset3, conf => conf.Excluding(a => a.Title));
+            response.Last().Should().BeEquivalentTo(expectedAssetFromLastPage, conf => conf.Excluding(a => a.Title));
         }
 
         [Fact]
@@ -120,6 +138,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
         
         [Fact]
+        public async Task CreateAssetAsync_Null_DynamicModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.CreateAssetAsync(null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+        
+        [Fact]
         public async Task CreateAssetAsync_CreatesStronglyTypedAssetModel()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
@@ -135,6 +162,15 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var response = await client.CreateAssetAsync(createModel);
         
             response.Should().BeEquivalentTo(expected);
+        }
+        
+        [Fact]
+        public async Task CreateAssetAsync_Null_StronglyTypedModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.CreateAssetAsync<ComplexTestModel>(null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
         
         [Theory]
@@ -156,6 +192,30 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             response.Should().BeEquivalentTo(expected);
         }
         
+        [Fact]
+        public async Task UpdateAssetAsync_NullReference_DynamicModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            var updateModel = new AssetUpdateModel
+            {
+                Title = "xxx"
+            };
+            
+            await client.Invoking(c => c.UpdateAssetAsync(null, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+        
+        [Theory]
+        [MemberData(nameof(AssetReferenceCombinations))]
+        public async Task UpdateAssetAsync_NullCreateModel_DynamicModel_Throws(Reference assetReference)
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.UpdateAssetAsync(assetReference, null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+        
         [Theory]
         [MemberData(nameof(AssetReferenceCombinations))]
         public async Task UpdateAssetAsync_ByAssetReference_UpdatesStronglyTypedAssetModel(Reference assetReference)
@@ -175,6 +235,29 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             response.Should().BeEquivalentTo(expected);
         }
         
+        [Fact]
+        public async Task UpdateAssetAsync_NullReference_StronglyTypedModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            var updateModel = new AssetUpdateModel<ComplexTestModel>
+            {
+                Title = "xxx"
+            };
+            
+            await client.Invoking(c => c.UpdateAssetAsync<ComplexTestModel>(null, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+        
+        [Theory]
+        [MemberData(nameof(AssetReferenceCombinations))]
+        public async Task UpdateAssetAsync_NullUpdateModel_StronglyTypedModel_Throws(Reference assetReference)
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.UpdateAssetAsync<ComplexTestModel>(assetReference, null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
         
         [Fact]
         public async Task UpsertAssetByExternalIdAsync_ByExternalId_UpdatesDynamicAssetModel()
@@ -193,6 +276,29 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         
             response.Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public async Task UpsertAssetAsync_NullReference_DynamicModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            var upsertModel = new AssetUpsertModel
+            {
+                Title = "xxx"
+            };
+            
+            await client.Invoking(c => c.UpsertAssetByExternalIdAsync(null, upsertModel))
+                .Should().ThrowExactlyAsync<ArgumentException>();
+        }
+        
+        [Fact]
+        public async Task UpsertAssetAsync_NullUpsertModel_DynamicModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.UpsertAssetByExternalIdAsync("ext-asset-id", null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
         
         [Fact]
         public async Task UpsertAssetByExternalIdAsync_ByExternalId_UpdatesStronglyTypedAssetModel()
@@ -210,6 +316,29 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var response = await client.UpsertAssetByExternalIdAsync("ext-asset-id", upsertModel);
         
             response.Should().BeEquivalentTo(expected);
+        }
+                
+        [Fact]
+        public async Task UpsertAssetAsync_NullReference_StronglyTypedModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            var upsertModel = new AssetUpsertModel<ComplexTestModel>
+            {
+                Title = "xxx"
+            };
+            
+            await client.Invoking(c => c.UpsertAssetByExternalIdAsync<ComplexTestModel>(null, upsertModel))
+                .Should().ThrowExactlyAsync<ArgumentException>();
+        }
+        
+        [Fact]
+        public async Task UpsertAssetAsync_NullUpsertModel_StronglyTypedModel_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+
+            await client.Invoking(c => c.UpsertAssetByExternalIdAsync<ComplexTestModel>("ext-asset-id", null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
         private static AssetModel GetExpectedDynamicAssetModel()
