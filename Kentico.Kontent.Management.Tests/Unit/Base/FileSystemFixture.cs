@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.UrlBuilder;
@@ -16,11 +17,10 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
 {
     public class FileSystemFixture : IDisposable
     {
+        public string Endpoint => "https://manage.kontent.ai/v2";
+        public string PROJECT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
+        public string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
-        /// <summary>
-        /// ID of the test project.
-        /// </summary>
-        public const string PROJECT_ID = "a9931a80-9af4-010b-0590-ecb1273cf1b8";
         private string _folder = "";
         private IConfiguration _configuration;
         private ManagementOptions _managementOptions;
@@ -34,8 +34,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
                 .Build();
             _managementOptions = new ManagementOptions()
             {
-                ApiKey = _configuration.GetValue<string>("ApiKey", "Dummy_API_key"),
-                ProjectId = _configuration.GetValue<string>("ProjectId", PROJECT_ID)
+                ApiKey = "Dummy_API_key",
+                ProjectId = PROJECT_ID,
+                SubscriptionId = SUBCRIPTION_ID
             };
             _urlBuilder = new EndpointUrlBuilder(_managementOptions);
             _messageCreator = new MessageCreator(_managementOptions.ApiKey);
@@ -52,20 +53,39 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
             return new ManagementClient(_urlBuilder, actionInvoker);
         }
 
-        public IManagementClient CreateMockClientWithResponse(string responseFileName)
+        public IManagementClient CreateMockClientWithUrl(string expectedUrl)
         {
             var mockedHttpClient = Substitute.For<IManagementHttpClient>();
             mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
              .Returns(x =>
-                {
-                    string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", _folder);
+             {
+                 var url = x.ArgAt<string>(1);
+                 url.Should().BeEquivalentTo(expectedUrl, "because url does not match");
 
-                    var responsePath = Path.Combine(dataPath, responseFileName);
-                    var result = new HttpResponseMessage();
-                    result.Content = new StringContent(File.ReadAllText(responsePath));
+                 var result = new HttpResponseMessage();
 
-                    return Task.FromResult<HttpResponseMessage>(result);
-                });
+                 return Task.FromResult<HttpResponseMessage>(result);
+             });
+            return CreateMockClient(mockedHttpClient);
+        }
+
+        public IManagementClient CreateMockClientWithResponse(params string[] responseFileNames)
+        {
+            List<HttpResponseMessage> responses = new();
+            foreach(var responseFileName in responseFileNames)
+            {
+                string dataPath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", _folder);
+
+                var responsePath = Path.Combine(dataPath, responseFileName);
+                var result = new HttpResponseMessage();
+                result.Content = new StringContent(File.ReadAllText(responsePath));
+
+                responses.Add(result);
+            }
+
+            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+             .Returns(responses.First(),responses.Skip(1).ToArray());
             return CreateMockClient(mockedHttpClient);
         }
 
@@ -82,16 +102,23 @@ namespace Kentico.Kontent.Management.Tests.Unit.Base
             return CreateMockClient(mockedHttpClient);
         }
 
-        public IList<T> GetItemsOfExpectedListingResponse<T>(string responseFileName) 
+        public IList<T> GetItemsOfExpectedListingResponse<T>(params string[] responseFileNames) 
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", _folder, responseFileName);
+            List<T> result = new();
 
-            var serverResponse = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(filePath));
+            foreach (var responseFileName in responseFileNames)
+            {
+                string filePath = Path.Combine(Environment.CurrentDirectory, "Unit", "Data", _folder, responseFileName);
 
-            //listing endpoints always have two children. First are items and second is pagination
-            var items = serverResponse.Values().First();
+                var serverResponse = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(filePath));
 
-            return JsonConvert.DeserializeObject<List<T>>(items.ToString());
+                //listing endpoints always have two children. First are items and second is pagination
+                var items = serverResponse.Values().First();
+
+                result.AddRange(JsonConvert.DeserializeObject<List<T>>(items.ToString()));
+            }
+
+            return result;
         }
 
         public T GetExpectedResponse<T>(string responseFileName)

@@ -11,6 +11,7 @@ using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Models.Roles;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.StronglyTyped;
+using Kentico.Kontent.Management.Models.Subscription;
 using Kentico.Kontent.Management.Models.TaxonomyGroups;
 using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
 using Kentico.Kontent.Management.Models.Types;
@@ -20,6 +21,7 @@ using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Workflow;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -34,19 +36,19 @@ namespace Kentico.Kontent.Management
         /// Cancels publishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant identifier of which publishing should be canceled.</param>
-        Task CancelPublishingOfLanguageVariant(LanguageVariantIdentifier identifier);
+        Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Cancels unpublishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant of which unpublishing should be canceled.</param>
-        Task CancelUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier);
+        Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Changes workflow step.
         /// </summary>
         /// <param name="identifier">Identifier of the workflow step to be changed.</param>
-        Task ChangeLanguageVariantWorkflowStep(WorkflowIdentifier identifier);
+        Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier);
 
         /// <summary>
         /// Creates asset.
@@ -94,7 +96,7 @@ namespace Kentico.Kontent.Management
         /// Creates the new version of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant for which the new version should be created.</param>
-        Task CreateNewVersionOfLanguageVariant(LanguageVariantIdentifier identifier);
+        Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Creates taxonomy group.
@@ -224,7 +226,7 @@ namespace Kentico.Kontent.Management
         /// Returns project information
         /// </summary>
         /// <returns>The <see cref="Project"/> instance that represents the project infornation.</returns>
-        Task<Project> GetProjectInformation();
+        Task<Project> GetProjectInformationAsync();
 
         /// <summary>
         /// Returns taxonomy group.
@@ -404,27 +406,27 @@ namespace Kentico.Kontent.Management
         /// Publishes the language variant.
         /// </summary>
         /// <param name="identifier">Identifier of the language variant to be published.</param>
-        Task PublishLanguageVariant(LanguageVariantIdentifier identifier);
+        Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Schedules publishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant to be published.</param>
         /// <param name="scheduleModel">The time when the language variant will be published</param>
-        Task SchedulePublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
+        Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
 
         /// <summary>
         /// Schedules unpublishing of the language variant.
         /// </summary>
         /// <param name="identifier">The identifier of the language variant that should be unpublished.</param>
         /// <param name="scheduleModel">The time when the language variant will be unpublished</param>
-        Task ScheduleUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
+        Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
 
         /// <summary>
         /// Unpublishes the language variant.
         /// </summary>
         /// <param name="identifier">Identifier of the language variant to be unpublished.</param>
-        Task UnpublishLanguageVariant(LanguageVariantIdentifier identifier);
+        Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
         /// Updates the given asset.
@@ -515,6 +517,48 @@ namespace Kentico.Kontent.Management
         /// <param name="user">Represents an user that is to be modified.</param>
         /// <returns>Returns the modified user.</returns>
         Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user);
+
+        /// <summary>
+        /// Returns strongly typed listing of projects.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{SubscriptionProjectModel}"/> instance that represents the listing of projects.</returns>
+        Task<IListingResponseModel<SubscriptionProjectModel>> ListSubscriptionProjectsAsync();
+
+        /// <summary>
+        /// Returns strongly typed listing of users under your subscription including
+        /// their assignment to projects, environments, collections, roles, and languages.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{SubscriptionUserModel}"/> instance that represents the listing of subscription users.</returns>
+        Task<IListingResponseModel<SubscriptionUserModel>> ListSubscriptionUsersAsync();
+
+        /// <summary>
+        /// Retrieve a user metadata from under the specified subscription.
+        /// The metadata include information about the user's access to projects and environments,
+        /// and content in specific collections, roles, and languages.
+        /// </summary>
+        /// <param name="identifier">The identifier of the subscription user.</param>
+        /// <returns>The <see cref="SubscriptionProjectModel"/> instance that represents the project.</returns>
+        Task<SubscriptionUserModel> GetSubscriptionUserAsync(UserIdentifier identifier);
+
+        /// <summary>
+        /// Activates the specified user in all projects under the specified subscription.
+        /// </summary>
+        /// <param name="identifier">The identifier of the subscription user.</param>
+        /// <returns></returns>
+        Task ActivateSubscriptionUserAsync(UserIdentifier identifier);
+
+        /// <summary>
+        /// Deactivates the specified user in all projects under the specified subscription.
+        /// </summary>
+        /// <param name="identifier">The identifier of the subscription user.</param>
+        /// <returns></returns>
+        Task DeactivateSubscriptionUserAsync(UserIdentifier identifier);
 
         /// <summary>
         /// Clones environment.

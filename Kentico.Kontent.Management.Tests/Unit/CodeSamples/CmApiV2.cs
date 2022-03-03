@@ -294,7 +294,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Project.json");
 
-            var response = await client.GetProjectInformation();
+            var response = await client.GetProjectInformationAsync();
 
             Assert.NotNull(response);
         }
@@ -515,6 +515,45 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var response = await client.ListProjectRolesAsync();
 
             Assert.Equal(2, response.Roles.Count());
+        }
+
+        // DocSection: cm_api_v2_get_subscription_user
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetSubscriptionUser()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUser.json");
+
+            var identifier = UserIdentifier.ByEmail("Joe.Joe@kentico.com");
+            //var identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
+
+            var response = await client.GetSubscriptionUserAsync(identifier);
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_get_subscription_users
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetSubscriptionUsers()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUsers.json");
+
+            var response = await client.ListSubscriptionUsersAsync();
+
+            Assert.Equal(2, response.Count());
+        }
+
+        // DocSection: cm_api_v2_get_subscription_projects
+        // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
+        [Fact]
+        public async void GetSubscriptionProjects()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionProjects.json");
+
+            var response = await client.ListSubscriptionProjectsAsync();
+
+            Assert.Equal(2, response.Count());
         }
 
         // DocSection: cm_api_v2_patch_asset_folders
@@ -1163,9 +1202,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                             Reference.ById(Guid.Empty),
                             Reference.ById(Guid.Parse("28b68213-d636-4b01-9fd1-988b93789e17"))
                         },
-                        Roles = new List<Role>
+                        Roles = new List<RoleModel>
                         {
-                            new Role
+                            new RoleModel
                             {
                                 Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
                                 Languages = new List<Reference>() { Reference.ById(Guid.Parse("7df9a691-cf29-402d-9598-66273e7561b7")) }
@@ -1349,7 +1388,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
 
-            var exception = await Record.ExceptionAsync(async () => await client.CancelPublishingOfLanguageVariant(identifier));
+            var exception = await Record.ExceptionAsync(async () => await client.CancelPublishingOfLanguageVariantAsync(identifier));
 
             Assert.Null(exception);
         }
@@ -1368,7 +1407,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
 
-            var exception = await Record.ExceptionAsync(async () => await client.CancelUnpublishingOfLanguageVariant(identifier));
+            var exception = await Record.ExceptionAsync(async () => await client.CancelUnpublishingOfLanguageVariantAsync(identifier));
 
             Assert.Null(exception);
         }
@@ -1387,7 +1426,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
 
-            var exception = await Record.ExceptionAsync(async () => await client.CreateNewVersionOfLanguageVariant(identifier));
+            var exception = await Record.ExceptionAsync(async () => await client.CreateNewVersionOfLanguageVariantAsync(identifier));
             Assert.Null(exception);
         }
 
@@ -1406,10 +1445,10 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
 
             // Immediate publish
-            var immediateException = await Record.ExceptionAsync(async () => await client.PublishLanguageVariant(identifier));
+            var immediateException = await Record.ExceptionAsync(async () => await client.PublishLanguageVariantAsync(identifier));
 
             // Scheduled publish
-            var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariant(identifier, new ScheduleModel
+            var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
             {
                 ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
             }));
@@ -1433,10 +1472,10 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
 
             // Immediate unpublish
-            var immediateException = await Record.ExceptionAsync(async () => await client.UnpublishLanguageVariant(identifier));
+            var immediateException = await Record.ExceptionAsync(async () => await client.UnpublishLanguageVariantAsync(identifier));
 
             // Scheduled unpublish
-            var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariant(identifier, new ScheduleModel
+            var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariantAsync(identifier, new ScheduleModel
             {
                 ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
             }));
@@ -1462,7 +1501,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var workflowStepIdentifier = Reference.ById(Guid.Parse("16221cc2-bd22-4414-a513-f3e555c0fc93"));
 
             var exception = await Record.ExceptionAsync(async () =>
-                await client.ChangeLanguageVariantWorkflowStep(new WorkflowIdentifier(itemIdentifier, languageIdentifier, workflowStepIdentifier)));
+                await client.ChangeLanguageVariantWorkflowStepAsync(new WorkflowIdentifier(itemIdentifier, languageIdentifier, workflowStepIdentifier)));
             Assert.Null(exception);
         }
 
@@ -1512,9 +1551,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                             {
                                 Reference.ById(Guid.Empty),
                             },
-                            Roles = new List<Role>
+                            Roles = new List<RoleModel>
                             {
-                                new Role
+                                new RoleModel
                                 {
                                     Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
                                     Languages = new List<Reference>() { Reference.ByCodename("english") }
@@ -1525,6 +1564,38 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                 });
 
             Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_put_subscription_user_activate
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void PutSubscriptionUserActivate()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var identifier = UserIdentifier.ByEmail("user@kentico.com");
+            //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
+
+            var exception = await Record.ExceptionAsync(
+                async () => await client.ActivateSubscriptionUserAsync(identifier));
+
+            Assert.Null(exception);
+        }
+
+        // DocSection: cm_api_v2_put_subscription_user_deactivate
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void PutSubscriptionUserDeactivate()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var identifier = UserIdentifier.ByEmail("user@kentico.com");
+            //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
+
+            var exception = await Record.ExceptionAsync(
+                async () => await client.DeactivateSubscriptionUserAsync(identifier));
+
+            Assert.Null(exception);
         }
     }
 }

@@ -23,6 +23,11 @@ namespace Kentico.Kontent.Management
         public string ProjectId { get; set; }
 
         /// <summary>
+        /// Gets or sets the Subscription identifier.
+        /// </summary>
+        public string SubscriptionId { get; set; }
+
+        /// <summary>
         /// Gets or sets the Preview API key.
         /// </summary>
         public string ApiKey { get; set; }

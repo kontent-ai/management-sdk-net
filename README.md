@@ -30,15 +30,21 @@ To manage content in a Kontent project via the Management API, you first need to
 
 ## Using the ManagementClient
 
-The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kontent projects.
+The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and others in your Kontent projects.
 
-To create an instance of the class, you need to provide a [project ID](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id) and a valid [Management API Key](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
+To create an instance of the class, you need to provide:
+- [ProjectId](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id): the ID of your Kontent project. This parameter must always be set.
+- [SubscriptionId](https://kontent.ai/learn/reference/management-api-v2/#tag/Subscription): the ID of your subcription. Set it up if you need to manage users and their permissions.
+- [ApiKey](https://kontent.ai/learn/reference/management-api-v2/#section/Authentication/API-keys): either Management or Subscription API key.
+    - Subscription API key can be used for all endpoints but is limited to subscription admins
+    - Management API key can be used with project-specific endpoints and is limited to users with the Manage APIs permission.
 
 ```csharp
 // Initializes an instance of the ManagementClient client with specified options.
 var client = new ManagementClient(new ManagementOptions
 {
     ProjectId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
+    SubscriptionId = "a27b9841-fc99-48a7-a46d-65b2549d6c0"
     ApiKey = "ew0...1eo"
 });
 ```
@@ -61,6 +67,15 @@ Reference externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
 - **External IDs** are string-based custom identifiers defined by you. Use them when importing a batch of cross-referencing content. See [Importing linked content](#importing-linked-content) for more details.
 
 > The set of identification types varies based on the entity. The SDK does not check whether, for example, webhooks allows only ID for identification. This is being handled by the API itself. To check what identification types are allowed for a given entity, see the [API documentation](https://kontent.ai/learn/reference/management-api-v2/).
+
+### User identifier
+
+The SDK also suports endpoints that require either user ID or email. _UserIdentifier_ object represents identification of an user. See following example for more detail.
+
+```csharp
+UserIdentifier identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
+UserIdentifier identifier = UserIdentifier.ByEmail("user@email.com");
+```
 
 ### Handling Kontent **errors**
 
@@ -203,6 +218,11 @@ while (true)
 
     response = await response.GetNextPage();
 }
+```
+If you need all content items you can use `GetAllAsync`:
+
+```csharp
+var response = await _client.ListContentItemsAsync().GetAllAsync();
 ```
 
 ### Importing content items

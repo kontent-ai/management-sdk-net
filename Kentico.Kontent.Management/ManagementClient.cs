@@ -29,6 +29,7 @@ using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.UrlBuilder;
 using Kentico.Kontent.Management.Models.Roles;
 using Kentico.Kontent.Management.Models.Users;
+using Kentico.Kontent.Management.Models.Subscription;
 using Kentico.Kontent.Management.Models.Environments;
 using Kentico.Kontent.Management.Models.Environments.Patch;
 
@@ -526,7 +527,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task ChangeLanguageVariantWorkflowStep(WorkflowIdentifier identifier)
+        public async Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -539,7 +540,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task PublishLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -552,7 +553,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task SchedulePublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+        public async Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
             {
@@ -565,7 +566,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task CancelPublishingOfLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -578,7 +579,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task UnpublishLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -591,7 +592,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task CancelUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -604,7 +605,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task ScheduleUnpublishingOfLanguageVariant(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+        public async Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
         {
             if (identifier == null)
             {
@@ -617,7 +618,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task CreateNewVersionOfLanguageVariant(LanguageVariantIdentifier identifier)
+        public async Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
             {
@@ -940,7 +941,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<Project> GetProjectInformation()
+        public async Task<Project> GetProjectInformationAsync()
         {
             var endpointUrl = _urlBuilder.BuildProjectUrl();
             return await _actionInvoker.InvokeReadOnlyMethodAsync<Project>(endpointUrl, HttpMethod.Get);
@@ -1006,6 +1007,71 @@ namespace Kentico.Kontent.Management
 
             var endpointUrl = _urlBuilder.BuildProjectRoleUrl(identifier);
             return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectRoleModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        /// <inheritdoc />
+        public async Task<IListingResponseModel<SubscriptionProjectModel>> ListSubscriptionProjectsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildSubscriptionProjectsUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionProjectListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<SubscriptionProjectModel>(
+                (token, url) => GetNextListingPageAsync<SubscriptionProjectListingResponseServerModel, SubscriptionProjectModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Projects);
+        }
+
+        /// <inheritdoc />
+        public async Task<IListingResponseModel<SubscriptionUserModel>> ListSubscriptionUsersAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildSubscriptionUsersUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionUserListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<SubscriptionUserModel>(
+                (token, url) => GetNextListingPageAsync<SubscriptionUserListingResponseServerModel, SubscriptionUserModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Users);
+        }
+
+        /// <inheritdoc />
+        public async Task<SubscriptionUserModel> GetSubscriptionUserAsync(UserIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildSubscriptionUserUrl(identifier);
+
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionUserModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        /// <inheritdoc />
+        public async Task ActivateSubscriptionUserAsync(UserIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildSubscriptionUserActivateUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        }
+
+        /// <inheritdoc />
+        public async Task DeactivateSubscriptionUserAsync(UserIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildSubscriptionUserDeactivateDisableUrl(identifier);
+
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
         }
 
         /// <inheritdoc />

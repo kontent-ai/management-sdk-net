@@ -12,6 +12,7 @@ using Kentico.Kontent.Management.Models.Shared;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 using Xunit.Abstractions;
 using FluentAssertions;
+using Kentico.Kontent.Management.Extenstions;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
@@ -31,22 +32,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             _scenario = new Scenario(test.TestCase.TestMethod.Method.Name);
             _client = _scenario.Client;
-        }
-
-        [Fact]
-        public async Task UpsertVariant_ById_LanguageId_UpdatesVariant()
-        {
-            var languageVariantUpsertModel = new LanguageVariantUpsertModel() { Elements = Elements };
-
-            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
-            var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-            var responseVariant = await _client.UpsertLanguageVariantAsync(identifier, languageVariantUpsertModel);
-
-            Assert.Equal(EXISTING_ITEM_ID, responseVariant.Item.Id);
-            Assert.Equal(EXISTING_LANGUAGE_ID, responseVariant.Language.Id);
-            AssertResponseElements(responseVariant);
         }
 
         [Fact]
@@ -648,21 +633,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Assert.NotNull(x.Elements);
             });
             Assert.Equal(EXISTING_ITEM_ID, responseVariants.First().Item.Id);
-        }
-
-        [Fact]
-        public async Task GetStronglyTypedLanguageVariantAsync_ById_LanguageId_GetVariant()
-        {
-            var itemIdentifier = Reference.ById(EXISTING_ITEM_ID);
-            var languageIdentifier = Reference.ById(EXISTING_LANGUAGE_ID);
-            var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-            var response = await _client.GetLanguageVariantAsync<ComplexTestModel>(identifier);
-
-            Assert.NotNull(response);
-            Assert.Equal(EXISTING_ITEM_ID, response.Item.Id);
-            Assert.Equal(EXISTING_LANGUAGE_ID, response.Language.Id);
-            Assert.NotNull(response.Elements);
         }
 
         [Fact]
