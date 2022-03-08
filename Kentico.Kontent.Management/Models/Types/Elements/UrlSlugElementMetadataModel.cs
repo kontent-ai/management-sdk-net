@@ -30,6 +30,12 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
         /// </summary>
         [JsonProperty("depends_on")]
         public UrlSlugDependency DependsOn { get; set; }
+        
+        /// <summary>
+        /// Specifies a regular expression pattern used to validate the text element's value.
+        /// </summary>
+        [JsonProperty("validation_regex")]
+        public ValidationRegexModel ValidationRegex { get; set; }
 
         /// <summary>
         /// Represents the type of the content type element.
