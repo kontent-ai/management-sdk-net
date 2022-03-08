@@ -147,6 +147,13 @@ namespace Kentico.Kontent.Management.Tests.Unit
                         Codename = "urlslugrlementcodename",
                         Name = "UrlSlugElementMetadataName",
                         IsRequired = false,
+                        ValidationRegex = new ValidationRegexModel
+                        {
+                            IsActive = true,
+                            Regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
+                            Flags = "i",
+                            ValidationMessage = "Type a value matching the pattern required in this element."
+                        },
                         DependsOn = new UrlSlugDependency { Element = Reference.ByCodename("textelementmetadatacodename") },
                     },
                     new SubpagesElementMetadataModel
@@ -155,7 +162,7 @@ namespace Kentico.Kontent.Management.Tests.Unit
                         Name = "SubpagesElementName",
                         IsRequired = false,
                         ItemCountLimit = new LimitModel {Value = 2, Condition = LimitType.AtMost},
-                        AllowedContentTypes = new[] { Reference.ById(Guid.Empty) }
+                        AllowedContentTypes = new[] { Reference.ById(Guid.Empty) },
                     }
                 };
     }
