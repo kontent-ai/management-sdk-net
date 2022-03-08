@@ -8,6 +8,12 @@ namespace Kentico.Kontent.Management.Models.Types.Elements
     public class ValidationRegexModel
     {
         /// <summary>
+        ///  Gets or sets the enabled state of the validation
+        /// </summary>
+        [JsonProperty("is_active")]
+        public bool IsActive { get; set; }
+        
+        /// <summary>
         /// Gets or sets the regular expression used for validation
         /// </summary>
         public string Regex { get; set; }
