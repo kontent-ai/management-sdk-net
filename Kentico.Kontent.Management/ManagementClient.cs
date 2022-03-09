@@ -1103,6 +1103,11 @@ namespace Kentico.Kontent.Management
         /// <inheritdoc />
         public async Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel)
         {
+            if (markAsProductionModel == null)
+            {
+                throw new ArgumentNullException(nameof(markAsProductionModel));
+            }
+
             var endpointUrl = _urlBuilder.BuildMarkEnvironmentAsProductionUrl();
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, markAsProductionModel);
         }

@@ -10,7 +10,7 @@ namespace Kentico.Kontent.Management.Models.Environments
         /// <summary>
         /// Gets or sets a flag determining whether webhooks on the new production environment should be enabled.
         /// </summary>
-        [JsonProperty("enable_webhooks", Required = Required.Always)]
+        [JsonProperty("enable_webhooks")]
         public bool EnableWebhooks { get; set; }
     }
 }

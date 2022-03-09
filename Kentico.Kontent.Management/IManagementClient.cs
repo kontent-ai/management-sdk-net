@@ -564,11 +564,13 @@ namespace Kentico.Kontent.Management
         /// Clones environment.
         /// </summary>
         /// <param name="cloneEnvironmentModel">Cloning settings.</param>
+        /// <returns>The <see cref="EnvironmentClonedModel"/> instance that represents the result of the cloning.</returns>
         Task<EnvironmentClonedModel> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel);
 
         /// <summary>
         /// Returns the state of the environment cloning.
         /// </summary>
+        /// <returns>The <see cref="EnvironmentCloningStateModel"/> instance that represents the current state of the cloning.</returns>
         Task<EnvironmentCloningStateModel> GetEnvironmentCloningStateAsync();
 
         /// <summary>
@@ -578,6 +580,7 @@ namespace Kentico.Kontent.Management
 
         /// <summary>
         /// Marks current environment as production.
+        /// <param name="markAsProductionModel">Represents settings that will be used to mark the environment as production.</param>
         /// </summary>
         Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel);
 
@@ -585,6 +588,7 @@ namespace Kentico.Kontent.Management
         /// Modifies current environment.
         /// </summary>
         /// <param name="changes">Represents changes that will be applied to the environment.</param>
+        /// <returns>The <see cref="EnvironmentModel"/> instance that represents the modified environment.</returns>
         Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes);
 
     }

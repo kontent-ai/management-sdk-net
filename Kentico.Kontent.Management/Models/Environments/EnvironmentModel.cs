@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Kentico.Kontent.Management.Models.Environments
 {
@@ -23,7 +21,7 @@ namespace Kentico.Kontent.Management.Models.Environments
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets Gets or sets a flag determining whether the environment is production
+        /// Gets or sets a flag determining whether the environment is production
         /// </summary>
         [JsonProperty("is_production")]
         public bool IsProduction { get; set; }

@@ -19,6 +19,14 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
+        public async void CloneEnvironment_RequestModelIsNull_ThrowsException()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+
+            await client.Invoking(x => x.CloneEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
         public async void CloneEnvironment_ReturnsNewEnvironment()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
@@ -42,6 +50,14 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var response = await client.GetEnvironmentCloningStateAsync();
             response.Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Fact]
+        public async void MarkEnvironmentAsProduction_RequestModelIsNull_ThrowsException()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+
+            await client.Invoking(x => x.MarkEnvironmentAsProductionAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
         [Fact]
@@ -69,6 +85,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             await deleteEnvironment.Should().NotThrowAsync();
         }
 
+        [Fact]
+        public async void ModifyEnvironment_RequestModelIsNull_ThrowsException()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+
+            await client.Invoking(x => x.ModifyEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
         [Fact]
         public async void ModifyEnvironment_Rename_RenamesEnvironment()
         {
