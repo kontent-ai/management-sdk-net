@@ -1,4 +1,5 @@
 ﻿using Kentico.Kontent.Management.Models.Assets;
+using Kentico.Kontent.Management.Models.AssetRenditions;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
 using Kentico.Kontent.Management.Models.Collections.Patch;
@@ -19,7 +20,6 @@ using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Workflow;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -121,6 +121,38 @@ namespace Kentico.Kontent.Management
         /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
         Task<FileReference> UploadFileAsync(FileContentSource fileContent);
         
+        /// <summary>
+        /// Retrieve a rendition of the specified asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset rendition.</param>
+        /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the asset rendition.</returns>
+        Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier);
+        
+        /// <summary>
+        /// Returns a paginated list of all renditions of the specified asset.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <param name="assetIdentifier">The identifier of the asset.</param>
+        /// <returns>The <see cref="IListingResponseModel{AssetRenditionModel}"/> instance that represents the listing of asset renditions.</returns>
+        Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier);
+
+        /// <summary>
+        /// Creates a new rendition of the specified asset.
+        /// </summary>
+        /// <param name="assetIdentifier">The identifier of the asset.</param>
+        /// <param name="createModel">Represents the asset rendition that will be created.</param>
+        /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the created asset rendition.</returns>
+        Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel);
+        
+        /// <summary>
+        /// Modify a rendition of the asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset rendition.</param>
+        /// <param name="updateModel">Represents the updated asset rendition.</param>
+        /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the updated asset rendition.</returns>
+        Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel);        
         /// <summary>
         /// Cancels publishing of the language variant.
         /// </summary>
