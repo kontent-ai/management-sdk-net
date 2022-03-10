@@ -196,6 +196,67 @@ var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
 var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 ```
 
+### Working with assets
+
+The Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) currently does not support generating a strongly-typed model from your asset type. But you can construct an instance of a strongly-typed model yourself. You just need to provide the elements you want to change.
+
+```csharp
+MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+string fileName = "Hello.txt";
+string contentType = "text/plain";
+
+// Returns a reference that you can later use to create an asset
+FileReference fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
+
+// Defines the content elements to create
+AssetMetadataModel stronglyTypedTaxonomyElements = new AssetMetadataModel
+{
+    TaxonomyCategories = new TaxonomyElement()
+    {
+        Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
+    },
+};
+
+// Defines the asset to create
+var asset = new AssetCreateModel<AssetMetadataModel>
+{
+    FileReference = fileResult,
+    Elements = stronglyTypedTaxonomyElements
+};
+
+// Creates an asset
+var response = await client.CreateAssetAsync(asset);
+```
+
+You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. That is **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
+
+```csharp
+ // Elements to update
+var taxonomyElements = ElementBuilder.GetElementsAsDynamic(
+    new TaxonomyElement
+    {
+        Element = Reference.ByCodename("taxonomy-categories"),
+        Value = new[]
+        {
+            Reference.ByCodename("hello"),
+            Reference.ByCodename("SDK"),
+        }
+    });
+
+// Defines the asset to update
+var asset = new AssetUpdateModel
+{
+    Elements = taxonomyElements
+};
+
+Reference assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
+
+// Updates asset metadata
+var response = await client.UpdateAssetAsync(assetReference, asset);
+```
+
+You can also use anonymous dynamic objects to work with assets same as with the language variants.
+
 ## Quick start
 
 ### Retrieving content items

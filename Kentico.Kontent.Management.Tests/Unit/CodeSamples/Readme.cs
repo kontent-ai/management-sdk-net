@@ -1,10 +1,13 @@
 using System;
+using System.IO;
 using System.Linq;
-using Kentico.Kontent.Management.Exceptions;
+using System.Text;
+using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.StronglyTyped;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
 using Kentico.Kontent.Management.Tests.Unit.Base;
@@ -40,6 +43,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public UrlSlugElement UrlPattern { get; set; }
     }
 
+    internal class AssetMetadataModel
+    {
+        [JsonProperty("taxonomy_categories")]
+        [KontentElementId("c76e39e8-d3b4-4ed4-87d8-56fb90e0e342")]
+        public TaxonomyElement TaxonomyCategories { get; set; }
+    }
+
     /// <summary>
     /// Source for Code examples being store in README.md
     /// </summary>
@@ -51,7 +61,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public Readme(FileSystemFixture fileSystemFixture)
         {
             _fileSystemFixture = fileSystemFixture;
-            _fileSystemFixture.SetSubFolder("CodeSamples");
+            _fileSystemFixture.SetSubFolder("CodeSamples/Readme");
         }
 
         [Fact]
@@ -77,7 +87,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void RetrieveAndUpsertStronglyTypedModel()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariant.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantResponse.json");
 
             var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
             var languageIdentifier = Reference.ByCodename("en-US");
@@ -89,7 +99,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) };
 
             // Remove next line in codesample
-            client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
+            client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
             var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
         }
 
@@ -97,7 +107,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void UpsertDynamicLanguageVariant()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
 
             var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
             var languageIdentifier = Reference.ByCodename("en-US");
@@ -136,7 +146,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void UpsertLanguageVariantWithElementBuilder()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
 
             var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
             var languageIdentifier = Reference.ByCodename("en-US");
@@ -170,7 +180,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void UpsertStronglyTypedLanguageVariant()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariantUpdated.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
 
             // Defines the content elements to update
             ArticleModel stronglyTypedElements = new ArticleModel
@@ -192,7 +202,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void QuickStartCreateContentItem()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleContentItem.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleContentItemResponse.json");
 
             var item = new ContentItemCreateModel
             {
@@ -208,7 +218,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         public async void QuickStartAddLanguageVariant()
         {
             // Remove next line in codesample
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ReadmeArticleLanguageVariant.json");
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantResponse.json");
 
             var componentId = "04bc8d32-97ab-431a-abaa-83102fc4c198";
             var contentTypeCodename = "article";
@@ -263,6 +273,71 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             // Upserts a language variant of your content item
             var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
+        }
+        
+        [Fact]
+        public async void CreateStronglyTypedAsset()
+        {
+            // Remove next line in codesample
+            var client = _fileSystemFixture.CreateMockClientWithResponse("FileReferenceResponse.json");
+            
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            string fileName = "Hello.txt";
+            string contentType = "text/plain";
+
+            // Returns a reference that you can later use to create an asset
+            FileReference fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
+            
+            // Defines the content elements to create
+            AssetMetadataModel stronglyTypedTaxonomyElements = new AssetMetadataModel
+            {
+                TaxonomyCategories = new TaxonomyElement()
+                {
+                    Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
+                },
+            };
+
+            // Defines the asset to create
+            var asset = new AssetCreateModel<AssetMetadataModel>
+            {
+                FileReference = fileResult,
+                Elements = stronglyTypedTaxonomyElements
+            };
+
+            // Remove next line in codesample
+            client = _fileSystemFixture.CreateMockClientWithResponse("AssetResponse.json");
+            // Creates an asset
+            var response = await client.CreateAssetAsync(asset);
+        }
+        
+        [Fact]
+        public async void UpdateAssetWithElementBuilder()
+        {
+            // Remove next line in codesample
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetResponse.json");
+           
+            // Elements to update
+            var taxonomyElements = ElementBuilder.GetElementsAsDynamic(
+                new TaxonomyElement
+                {
+                    Element = Reference.ByCodename("taxonomy-categories"),
+                    Value = new[]
+                    {
+                        Reference.ByCodename("hello"),
+                        Reference.ByCodename("SDK"),
+                    }
+                });
+
+            // Defines the asset to update
+            var asset = new AssetUpdateModel
+            {
+                Elements = taxonomyElements
+            };
+
+            Reference assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
+
+            // Updates asset metadata
+            var response = await client.UpdateAssetAsync(assetReference, asset);
         }
     }
 }
