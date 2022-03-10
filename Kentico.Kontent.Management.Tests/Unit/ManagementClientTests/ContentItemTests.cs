@@ -84,7 +84,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void UpsertContentItemAsync_UpsertsContentItem()
+        public async void UpsertContentItemAsync_UpsertModel_UpsertsContentItem()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItem.json");
 
@@ -106,7 +106,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void UpsertContentItemAsyncc_IdentifierIsNull_Throws()
+        public async void UpsertContentItemAsyncc_UpsertModel_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
@@ -123,13 +123,49 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void UpsertContentItemAsyncc_UpsertModelIsNull_Throws()
+        public async void UpsertContentItemAsyncc_UpsertModel_UpsertModelIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             var identifier = Reference.ByCodename("codename");
 
             await client.Invoking(x => client.UpsertContentItemAsync(identifier, null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async void UpsertContentItemAsync_ContentItemModel_UpsertsContentItem()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItem.json");
+
+            var expected = _fileSystemFixture.GetExpectedResponse<ContentItemModel>("ContentItem.json");
+
+            var identifier = Reference.ByCodename("codename");
+
+            var response = await client.UpsertContentItemAsync(identifier, expected);
+
+            response.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async void UpsertContentItemAsyncc_ContentItemModel_IdentifierIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var upsertModel = new ContentItemModel();
+
+            await client.Invoking(x => client.UpsertContentItemAsync(null, upsertModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async void UpsertContentItemAsyncc_ContentItemModel_ContentItemModelIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var identifier = Reference.ByCodename("codename");
+
+            await client.Invoking(x => client.UpsertContentItemAsync(identifier, (ContentItemModel)null))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
