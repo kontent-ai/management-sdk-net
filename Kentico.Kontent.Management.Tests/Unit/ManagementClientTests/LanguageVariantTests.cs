@@ -133,6 +133,37 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
+        public async void ListLanguageVariantsByCollectionAsync_WithContinuation_ListsVariants()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json");
+
+            var expected = new[]
+            {
+                (itemId: "00000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+                (itemId: "00000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
+                (itemId: "10000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+                (itemId: "10000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
+                (itemId: "20000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+                (itemId: "20000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000")
+            }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
+
+            var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
+
+            var respone = await client.ListLanguageVariantsByCollectionAsync(identifier).GetAllAsync();
+
+            respone.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task ListLanguageVariantsByCollectionAsync_IdentifierIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
+
+            await client.Invoking(x => x.ListLanguageVariantsByCollectionAsync(null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
         public async Task GetLanguageVariantAsync_StronglyTyped_GetsVariant()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
