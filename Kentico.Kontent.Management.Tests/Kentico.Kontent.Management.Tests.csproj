@@ -43,7 +43,7 @@
     <None Update="Unit\Data\kentico_rgb_bigger.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-     <None Update="Unit\Data\brno-cafe-1080px.jpg">
+    <None Update="Unit\Data\brno-cafe-1080px.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Unit\Data\**\*.json">

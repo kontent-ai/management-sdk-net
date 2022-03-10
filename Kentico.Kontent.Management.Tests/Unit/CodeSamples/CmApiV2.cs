@@ -881,7 +881,17 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         Language = Reference.ByCodename("es-ES"),
                         Description = "Técnicas para hacer café"
                     }
-                }
+                },
+                Elements = ElementBuilder.GetElementsAsDynamic(
+                    new TaxonomyElement
+                    {
+                        Element = Reference.ByCodename("taxonomy-categories"),
+                        Value = new []
+                        {
+                            Reference.ByCodename("coffee"),
+                            Reference.ByCodename("brewing"),
+                        }
+                    })
             });
 
             Assert.NotNull(response);
@@ -1304,7 +1314,17 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         Description = "Técnicas para hacer café",
                         Language = Reference.ByCodename("es-ES")
                     }
-                }
+                },
+                Elements = ElementBuilder.GetElementsAsDynamic(
+                    new TaxonomyElement
+                    {
+                        Element = Reference.ByCodename("taxonomy-categories"),
+                        Value = new []
+                        {
+                            Reference.ByCodename("coffee"),
+                            Reference.ByCodename("brewing"),
+                        }
+                    })
             });
 
             // Used when creating a new asset or updating an existing one
@@ -1330,7 +1350,17 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         Description = "Técnicas para hacer café",
                         Language = Reference.ByCodename("es-ES")
                     }
-                }
+                },
+                Elements = ElementBuilder.GetElementsAsDynamic(
+                    new TaxonomyElement
+                    {
+                        Element = Reference.ByCodename("taxonomy-categories"),
+                        Value = new []
+                        {
+                            Reference.ByCodename("coffee"),
+                            Reference.ByCodename("brewing"),
+                        }
+                    })
             });
 
             Assert.NotNull(createdAssetResponse);
