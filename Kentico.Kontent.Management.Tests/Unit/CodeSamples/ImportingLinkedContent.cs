@@ -30,11 +30,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
-            await client.UpsertContentItemByExternalIdAsync("123", new ContentItemUpsertModel
-            {
-                Name = "On Roasts",
-                Type = Reference.ByCodename("article"),
-            });
+            await client.UpsertContentItemAsync(
+                Reference.ByExternalId("123"),
+                new ContentItemUpsertModel { Name = "On Roasts", Type = Reference.ByCodename("article") });
         }
 
         // DocSection: import_linked_create_sec_item
@@ -44,11 +42,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
-            await client.UpsertContentItemByExternalIdAsync("456", new ContentItemUpsertModel
-            {
-                Name = "Donate with us",
-                Type = Reference.ByCodename("article"),
-            });
+            await client.UpsertContentItemAsync(
+                Reference.ByExternalId("456"),
+                new ContentItemUpsertModel { Name = "Donate with us", Type = Reference.ByCodename("article") });
         }
 
         // DocSection: import_linked_upsert_Sec_variant

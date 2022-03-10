@@ -32,11 +32,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
-            await client.UpsertContentItemByExternalIdAsync("ext-cafe-brno", new ContentItemUpsertModel
-            {
-                Name = "Brno",
-                Type = Reference.ByExternalId("cafe"),
-            });
+            await client.UpsertContentItemAsync(
+                Reference.ByExternalId("ext-cafe-brno"),
+                new ContentItemUpsertModel { Name = "Brno", Type = Reference.ByExternalId("cafe") });
         }
 
         // DocSection: importing_create_type
