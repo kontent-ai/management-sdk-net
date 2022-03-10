@@ -91,7 +91,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         Element = Reference.ByCodename("photo"),
                         Value = new[]
                         {
-                            Reference.ByExternalId("brno-cafe-image")
+                            new AssetWithRenditionsReference(Reference.ByExternalId("brno-cafe-image"))
                         }
                     }
                 })

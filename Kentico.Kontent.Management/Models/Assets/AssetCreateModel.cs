@@ -40,5 +40,11 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// </summary>
         [JsonProperty("external_id")]
         public string ExternalId { get; set; }
+        
+        /// <summary>
+        /// Gets or sets elements of the asset.
+        /// </summary>
+        [JsonProperty("elements", Required = Required.Always)]
+        public IEnumerable<dynamic> Elements { get; set; }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Kentico.Kontent.Management.Models.Assets;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Assets
+namespace Kentico.Kontent.Management.Models.StronglyTyped
 {
     /// <summary>
-    /// Represents a digital asset, such as a document or image.
+    /// Represents a strongly typed digital asset, such as a document or image.
     /// </summary>
-    public sealed class AssetModel
+    public sealed class AssetModel<T> where T : new()
     {
         /// <summary>
         /// Gets or sets the id of the asset.
@@ -92,6 +92,6 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// Gets or sets elements of the asset.
         /// </summary>
         [JsonProperty("elements")]
-        public IEnumerable<dynamic> Elements { get; set; }
+        public T Elements { get; set; }
     }
 }

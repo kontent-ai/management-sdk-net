@@ -38,7 +38,19 @@
       },
       "value": [
         {
+          "renditions": [],
           "id": "5c08a538-5b58-44eb-81ef-43fb37eeb815"
+        },
+        {
+          "renditions": [
+            {
+              "id": "043d8f8b-22cb-4322-a1de-8a96c57548a3"
+            },
+            {
+              "id": "7538b9b1-bb5f-493e-b9ab-24578e2a55f5"
+            }
+          ],
+          "id": "39c947ab-78ee-4de0-9bbd-8b79008111cc"
         }
       ]
     },

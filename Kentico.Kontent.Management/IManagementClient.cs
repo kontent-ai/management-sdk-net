@@ -1,4 +1,5 @@
 ﻿using Kentico.Kontent.Management.Models.Assets;
+using Kentico.Kontent.Management.Models.AssetRenditions;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
 using Kentico.Kontent.Management.Models.Collections.Patch;
@@ -21,7 +22,6 @@ using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Webhooks;
 using Kentico.Kontent.Management.Models.Workflow;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,6 +32,129 @@ namespace Kentico.Kontent.Management
     /// </summary>
     public interface IManagementClient
     {
+        /// <summary>
+        /// Returns asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
+        Task<AssetModel> GetAssetAsync(Reference identifier);
+        
+        /// <summary>
+        /// Returns asset with strongly typed elements.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
+        Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new();
+        
+        /// <summary>
+        /// Returns listing of assets.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
+        Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
+        
+        /// <summary>
+        /// Returns listing of assets with strongly typed elements.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
+        Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new();
+        
+        /// <summary>
+        /// Creates asset.
+        /// </summary>
+        /// <param name="asset">Represents the asset that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
+        Task<AssetModel> CreateAssetAsync(AssetCreateModel asset);
+        
+        /// <summary>
+        /// Creates asset with strongly typed elements.
+        /// </summary>
+        /// <param name="asset">Represents the asset that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents created asset with strongly typed elements.</returns>
+        Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new();
+
+        /// <summary>
+        /// Updates the given asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <param name="asset">Represents the updated asset.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
+        Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset);
+        
+        /// <summary>
+        /// Updates the given asset with strongly typed elements.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <param name="asset">Represents the updated asset with strongly typed elements.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents updated asset with strongly typed elements.</returns>
+        Task<AssetModel<T>> UpdateAssetAsync<T>(Reference identifier, AssetUpdateModel<T> asset) where T : new();
+        
+        /// <summary>
+        /// Inserts or updates the asset.
+        /// </summary>
+        /// <param name="externalId">The external identifier of the content item.</param>
+        /// <param name="asset">Represents the asset that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
+        Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset);
+        
+        /// <summary>
+        /// Inserts or updates the asset.
+        /// </summary>
+        /// <param name="externalId">The external identifier of the content item.</param>
+        /// <param name="asset">Represents the asset with strongly typed elements that will be created.</param>
+        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset with strongly typed elements.</returns>
+        Task<AssetModel<T>> UpsertAssetByExternalIdAsync<T>(string externalId, AssetUpsertModel<T> asset) where T : new();
+        
+        /// <summary>
+        /// Deletes the given asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset.</param>
+        Task DeleteAssetAsync(Reference identifier);
+        
+        /// <summary>
+        /// Uploads the given file.
+        /// </summary>
+        /// <param name="fileContent">Represents the content of the file</param>
+        /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
+        Task<FileReference> UploadFileAsync(FileContentSource fileContent);
+        
+        /// <summary>
+        /// Retrieve a rendition of the specified asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset rendition.</param>
+        /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the asset rendition.</returns>
+        Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier);
+        
+        /// <summary>
+        /// Returns a paginated list of all renditions of the specified asset.
+        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+        /// </summary>
+        /// <param name="assetIdentifier">The identifier of the asset.</param>
+        /// <returns>The <see cref="IListingResponseModel{AssetRenditionModel}"/> instance that represents the listing of asset renditions.</returns>
+        Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier);
+
+        /// <summary>
+        /// Creates a new rendition of the specified asset.
+        /// </summary>
+        /// <param name="assetIdentifier">The identifier of the asset.</param>
+        /// <param name="createModel">Represents the asset rendition that will be created.</param>
+        /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the created asset rendition.</returns>
+        Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel);
+        
+        /// <summary>
+        /// Modify a rendition of the asset.
+        /// </summary>
+        /// <param name="identifier">The identifier of the asset rendition.</param>
+        /// <param name="updateModel">Represents the updated asset rendition.</param>
+        /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the updated asset rendition.</returns>
+        Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel);        
         /// <summary>
         /// Cancels publishing of the language variant.
         /// </summary>
@@ -49,13 +172,6 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">Identifier of the workflow step to be changed.</param>
         Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier);
-
-        /// <summary>
-        /// Creates asset.
-        /// </summary>
-        /// <param name="asset">Represents the asset that will be created.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
-        Task<AssetModel> CreateAssetAsync(AssetCreateModel asset);
 
         /// <summary>
         /// Creates the asset folder.
@@ -113,12 +229,6 @@ namespace Kentico.Kontent.Management
         Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook);
 
         /// <summary>
-        /// Deletes the given asset.
-        /// </summary>
-        /// <param name="identifier">The identifier of the asset.</param>
-        Task DeleteAssetAsync(Reference identifier);
-
-        /// <summary>
         /// Deletes the given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
@@ -165,13 +275,6 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="identifier">The identifier of the webhook.</param>
         Task EnableWebhookAsync(Reference identifier);
-
-        /// <summary>
-        /// Returns strongly typed asset.
-        /// </summary>
-        /// <param name="identifier">The identifier of the asset.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
-        Task<AssetModel> GetAssetAsync(Reference identifier);
 
         /// <summary>
         /// Get the Asset Folders
@@ -225,7 +328,7 @@ namespace Kentico.Kontent.Management
         /// <summary>
         /// Returns project information
         /// </summary>
-        /// <returns>The <see cref="Project"/> instance that represents the project infornation.</returns>
+        /// <returns>The <see cref="Project"/> instance that represents the project information.</returns>
         Task<Project> GetProjectInformationAsync();
 
         /// <summary>
@@ -241,15 +344,6 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the webhook.</param>
         /// <returns>The <see cref="WebhookModel"/> instance that represents requested webhook.</returns>
         Task<WebhookModel> GetWebhookAsync(Reference identifier);
-
-        /// <summary>
-        /// Returns strongly typed listing of assets.
-        /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-        /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-        /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-        /// </summary>
-        /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
-        Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
 
         /// <summary>
         /// Returns listing of collection.
@@ -429,35 +523,12 @@ namespace Kentico.Kontent.Management
         Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
-        /// Updates the given asset.
-        /// </summary>
-        /// <param name="identifier">The identifier of the asset.</param>
-        /// <param name="asset">Represents the updated asset.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
-        Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset);
-
-        /// <summary>
         /// Updates the given content item.
         /// </summary>
         /// <param name="identifier">The identifier of the content item.</param>
         /// <param name="contentItem">Represents the updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
         Task<ContentItemModel> UpdateContentItemAsync(Reference identifier, ContentItemUpdateModel contentItem);
-
-        /// <summary>
-        /// Uploads the given file.
-        /// </summary>
-        /// <param name="fileContent">Represents the content of the file</param>
-        /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
-        Task<FileReference> UploadFileAsync(FileContentSource fileContent);
-
-        /// <summary>
-        /// Inserts or updates the asset.
-        /// </summary>
-        /// <param name="externalId">The external identifier of the content item.</param>
-        /// <param name="asset">Represents the asset that will be created.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
-        Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset);
 
         /// <summary>
         /// Inserts or updates the given content item.

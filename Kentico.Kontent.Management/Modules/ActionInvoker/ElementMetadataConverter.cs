@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.ComponentModel;
 
 namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
@@ -18,39 +19,39 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jObject = JObject.Load(reader);
-            var type = jObject["type"].ToObject<ElementMetadataType>();
+            var type = jObject["type"]?.ToObject<ElementMetadataType>() ?? throw new ArgumentException("Object does not contain 'type' property or it is null.", nameof(reader));;
 
-            switch (type)
+            return type switch
             {
-                case ElementMetadataType.Text:
-                    return JsonConvert.DeserializeObject<TextElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.RichText:
-                    return JsonConvert.DeserializeObject<RichTextElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.Number:
-                    return JsonConvert.DeserializeObject<NumberElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.MultipleChoice:
-                    return JsonConvert.DeserializeObject<MultipleChoiceElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.DateTime:
-                    return JsonConvert.DeserializeObject<DateTimeElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.Asset:
-                    return JsonConvert.DeserializeObject<AssetElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.LinkedItems:
-                    return JsonConvert.DeserializeObject<LinkedItemsElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.Guidelines:
-                    return JsonConvert.DeserializeObject<GuidelinesElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.Taxonomy:
-                    return JsonConvert.DeserializeObject<TaxonomyElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.UrlSlug:
-                    return JsonConvert.DeserializeObject<UrlSlugElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.ContentTypeSnippet:
-                    return JsonConvert.DeserializeObject<ContentTypeSnippetElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.Custom:
-                    return JsonConvert.DeserializeObject<CustomElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-                case ElementMetadataType.Subpages:
-                    return JsonConvert.DeserializeObject<SubpagesElementMetadataModel>(jObject.ToString(), _specifiedSubclassConversion);
-            }
-
-            throw new NotImplementedException();
+                ElementMetadataType.Text => JsonConvert.DeserializeObject<TextElementMetadataModel>(jObject.ToString(),
+                    _specifiedSubclassConversion),
+                ElementMetadataType.RichText => JsonConvert.DeserializeObject<RichTextElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.Number => JsonConvert.DeserializeObject<NumberElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.MultipleChoice => JsonConvert.DeserializeObject<MultipleChoiceElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.DateTime => JsonConvert.DeserializeObject<DateTimeElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.Asset => JsonConvert.DeserializeObject<AssetElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.LinkedItems => JsonConvert.DeserializeObject<LinkedItemsElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.Guidelines => JsonConvert.DeserializeObject<GuidelinesElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.Taxonomy => JsonConvert.DeserializeObject<TaxonomyElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.UrlSlug => JsonConvert.DeserializeObject<UrlSlugElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.ContentTypeSnippet => JsonConvert
+                    .DeserializeObject<ContentTypeSnippetElementMetadataModel>(jObject.ToString(),
+                        _specifiedSubclassConversion),
+                ElementMetadataType.Custom => JsonConvert.DeserializeObject<CustomElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                ElementMetadataType.Subpages => JsonConvert.DeserializeObject<SubpagesElementMetadataModel>(
+                    jObject.ToString(), _specifiedSubclassConversion),
+                _ => throw new InvalidEnumArgumentException(nameof(type), Convert.ToInt32(type), typeof(ElementMetadataType))
+            };
         }
 
         public override bool CanWrite

@@ -312,7 +312,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             TeaserImage = new AssetElement
             {
                 Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.TeaserImage)).GetKontentElementId()),
-                Value = new[] { Reference.ById(EXISTING_ASSET_ID) },
+                Value = new[] { new AssetWithRenditionsReference(Reference.ById(EXISTING_ASSET_ID)) },
             },
             Title = new TextElement
             {

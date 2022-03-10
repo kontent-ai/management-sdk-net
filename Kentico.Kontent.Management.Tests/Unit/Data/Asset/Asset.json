@@ -1,10 +1,37 @@
 {
+  "id": "01647205-c8c4-4b41-b524-1a98a7b12750",
+  "file_name": "our-story.jpg",
+  "title": "My super asset",
+  "size": 69518,
+  "type": "image/jpeg",
+  "url": "https://assets-eu-01.kc-usercontent.com/a9931a80-9af4-010b-0590-ecb1273cf1b8/36f361fa-7f65-446f-b16e-170455766f3e/our-story.jpg",
+  "image_width": 2160,
+  "image_height": 1000,
+  "file_reference": {
+    "id": "36f361fa-7f65-446f-b16e-170455766f3e",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": "Dancing Goat Café - Los Angeles"
+    },
+    {
+      "language": {
+        "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
+      },
+      "description": "Bolso de cafe en grano"
+    }
+  ],
+  "last_modified": "2021-11-06T13:57:51.3425375Z",
   "elements": [
     {
       "element": {
         "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977"
       },
-      "value": "On Roast"
+      "value": "On Roasts"
     },
     {
       "searchable_value": "Almighty form!",
@@ -40,16 +67,17 @@
         {
           "renditions": [],
           "id": "5c08a538-5b58-44eb-81ef-43fb37eeb815"
-        }
-      ]
-    },
-    {
-      "element": {
-        "id": "a29858ff-fa9f-5841-a682-d7fb6cc6effe"
-      },
-      "value": [
+        },
         {
-          "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+          "renditions": [
+            {
+              "id": "043d8f8b-22cb-4322-a1de-8a96c57548a3"
+            },
+            {
+              "id": "7538b9b1-bb5f-493e-b9ab-24578e2a55f5"
+            }
+          ],
+          "id": "39c947ab-78ee-4de0-9bbd-8b79008111cc"
         }
       ]
     },
@@ -148,73 +176,13 @@
     },
     {
       "element": {
-        "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+        "id": "a29858ff-fa9f-5841-a682-d7fb6cc6effe"
       },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "e35ad81a-9944-5495-af0e-39eb98236833"
-      },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "3433f5bf-1b67-5b96-80e0-ae63568ad49f"
-      },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "ef0701c9-e0ab-582c-92a0-1405e566a808"
-      },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "74b125c5-6914-5fb5-a66a-178e2d2ffbe5"
-      },
-      "value": []
-    },
-    {
-      "element": {
-        "id": "1d0dfc35-d6a9-51d3-b1de-b2ec4ebe53f5"
-      },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "0f96d60c-cda1-5073-a6bf-fc3a3a33a0c9"
-      },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "4646ff8f-3257-519d-ae49-f60f12818f35"
-      },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "8e2bf605-0286-5662-b68f-129c7930fa0c"
-      },
-      "value": ""
-    },
-    {
-      "element": {
-        "id": "19db0028-0169-5833-8aee-ec6e165461c8"
-      },
-      "value": []
+      "value": [
+        {
+          "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+        }
+      ]
     }
-  ],
-  "workflow_step": {
-    "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
-  },
-  "item": {
-    "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
-  },
-  "language": {
-    "id": "78dbefe8-831b-457e-9352-f4c4eacd5024"
-  },
-  "last_modified": "2022-02-24T13:28:52.8052328Z"
+  ]
 }

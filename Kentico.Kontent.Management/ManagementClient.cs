@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+using Kentico.Kontent.Management.Models.AssetRenditions;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Models.Assets;
@@ -85,6 +86,257 @@ namespace Kentico.Kontent.Management
             _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
             _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
             _modelProvider = modelProvider ?? new ModelProvider();
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel> GetAssetAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
+
+            return response;
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new()
+        {
+            var response = await GetAssetAsync(identifier);
+
+            return _modelProvider.GetAssetModel<T>(response);
+        }
+
+        /// <inheritdoc />
+        public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
+        {
+            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseModel<AssetModel>(
+                GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Assets);
+        }
+
+        /// <inheritdoc />
+        public async Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new()
+        {
+            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+            return new ListingResponseMappedModel<AssetModel, AssetModel<T>>(
+                GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Assets,
+                _modelProvider.GetAssetModel<T>);
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
+        {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl();
+            var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
+
+            return response;
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new()
+        {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+            
+            var result = await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset));
+
+            return _modelProvider.GetAssetModel<T>(result);
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
+
+            return response;
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel<T>> UpdateAssetAsync<T>(Reference identifier, AssetUpdateModel<T> asset) where T : new()
+        {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
+            var result = await UpdateAssetAsync(identifier, _modelProvider.GetAssetUpdateModel(asset));
+
+            return _modelProvider.GetAssetModel<T>(result);
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
+        {
+            if (string.IsNullOrEmpty(externalId))
+            {
+                throw new ArgumentException("The external id is not specified.", nameof(externalId));
+            }
+
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(Reference.ByExternalId(externalId));
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
+                endpointUrl,
+                HttpMethod.Put,
+                asset
+            );
+
+            return response;
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetModel<T>> UpsertAssetByExternalIdAsync<T>(string externalId, AssetUpsertModel<T> asset) where T : new()
+        {
+            if (asset == null)
+            {
+                throw new ArgumentNullException(nameof(asset));
+            }
+            
+            var result = await UpsertAssetByExternalIdAsync(externalId, _modelProvider.GetAssetUpsertModel(asset));
+
+            return _modelProvider.GetAssetModel<T>(result);
+        }
+
+        /// <inheritdoc />
+        public async Task DeleteAssetAsync(Reference identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
+            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <inheritdoc />
+        public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
+        {
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
+            var stream = fileContent.OpenReadStream();
+            try
+            {
+                if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
+                {
+                    throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
+                }
+
+                var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
+                var response = await _actionInvoker.UploadFileAsync<FileReference>(endpointUrl, stream, fileContent.ContentType);
+
+                return response;
+            }
+            finally
+            {
+                // Dispose the stream only in case new stream was created
+                if (fileContent.CreatesNewStream)
+                {
+                    stream.Dispose();
+                }
+            }
+        }
+        
+                
+        /// <inheritdoc />
+        public async Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            
+            var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
+            return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionModel>(endpointUrl, HttpMethod.Get);
+        }
+
+        /// <inheritdoc />
+        public async Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier)
+        {
+            if (assetIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(assetIdentifier));
+            }
+            
+            var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+            
+            return new ListingResponseModel<AssetRenditionModel>(
+                GetNextListingPageAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>,
+                response.Pagination?.Token,
+                endpointUrl,
+                response.AssetRenditions);
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel)
+        {
+            if (assetIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(assetIdentifier));
+            }
+
+            if (createModel == null)
+            {
+                throw new ArgumentNullException(nameof(createModel));
+            }
+            
+            var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
+            return await _actionInvoker.InvokeMethodAsync<AssetRenditionCreateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Post, createModel);
+        }
+
+        /// <inheritdoc />
+        public async Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (updateModel == null)
+            {
+                throw new ArgumentNullException(nameof(updateModel));
+            }
+            
+            var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
+            return await _actionInvoker.InvokeMethodAsync<AssetRenditionUpdateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Put, updateModel);
         }
 
         /// <inheritdoc />
@@ -771,33 +1023,6 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
-        {
-            var endpointUrl = _urlBuilder.BuildAssetsUrl();
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-            return new ListingResponseModel<AssetModel>(
-                (token, url) => GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>(token, url),
-                response.Pagination?.Token,
-                endpointUrl,
-                response.Assets);
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> GetAssetAsync(Reference identifier)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
-
-            return response;
-        }
-
-        /// <inheritdoc />
         public async Task<AssetFoldersModel> GetAssetFoldersAsync()
         {
             var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
@@ -832,105 +1057,6 @@ namespace Kentico.Kontent.Management
             var response = await _actionInvoker.InvokeMethodAsync<IEnumerable<AssetFolderOperationBaseModel>, AssetFoldersModel>(endpointUrl, new HttpMethod("PATCH"), changes);
 
             return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task DeleteAssetAsync(Reference identifier)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
-        {
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
-        {
-            if (string.IsNullOrEmpty(externalId))
-            {
-                throw new ArgumentException("The external id is not specified.", nameof(externalId));
-            }
-
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(Reference.ByExternalId(externalId));
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
-                endpointUrl,
-                HttpMethod.Put,
-                asset
-            );
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
-        {
-            if (fileContent == null)
-            {
-                throw new ArgumentNullException(nameof(fileContent));
-            }
-
-            var stream = fileContent.OpenReadStream();
-            try
-            {
-                if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
-                {
-                    throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
-                }
-
-                var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
-                var response = await _actionInvoker.UploadFileAsync<FileReference>(endpointUrl, stream, fileContent.ContentType);
-
-                return response;
-            }
-            finally
-            {
-                // Dispose the stream only in case new stream was created
-                if (fileContent.CreatesNewStream)
-                {
-                    stream.Dispose();
-                }
-            }
         }
 
         /// <inheritdoc />
@@ -1134,6 +1260,22 @@ namespace Kentico.Kontent.Management
             var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TListingResponse>(url, HttpMethod.Get, headers);
 
             return response;
+        }
+        
+        private async Task<IListingResponse<TModel>> GetNextListingPageAndMapAsync<TRawListingResponse, TRawModel, TListingResponse, TModel>(string continuationToken, string url, Func<TRawModel, TModel> mapModel)
+            where TListingResponse : IListingResponse<TModel>, new()
+            where TRawListingResponse : IListingResponse<TRawModel>
+        {
+            var headers = new Dictionary<string, string>
+            {
+                { "x-continuation", continuationToken }
+            };
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TRawListingResponse>(url, HttpMethod.Get, headers);
+
+            return new TListingResponse()
+            {
+                
+            };
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Assets
+namespace Kentico.Kontent.Management.Models.StronglyTyped
 {
     /// <summary>
-    /// Represents an asset update model.
+    /// Represents a strongly typed asset update model.
     /// </summary>
-    public sealed class AssetUpdateModel
+    public sealed class AssetUpdateModel<T> where T : new()
     {
         /// <summary>
         /// Gets or sets descriptions of the asset.
@@ -31,6 +32,6 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// Gets or sets elements of the asset.
         /// </summary>
         [JsonProperty("elements", Required = Required.Always)]
-        public IEnumerable<dynamic> Elements { get; set; }
+        public T Elements { get; set; }
     }
 }
