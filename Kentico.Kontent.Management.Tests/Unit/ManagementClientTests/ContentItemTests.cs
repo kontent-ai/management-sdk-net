@@ -1,6 +1,6 @@
 ﻿using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Tests.Unit.Base;
-using Kentico.Kontent.Management.Extenstions;
+using Kentico.Kontent.Management.Extensions;
 using Xunit;
 using FluentAssertions;
 using Kentico.Kontent.Management.Models.Shared;

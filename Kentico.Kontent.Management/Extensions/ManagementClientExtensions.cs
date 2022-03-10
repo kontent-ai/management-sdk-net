@@ -30,9 +30,9 @@ namespace Kentico.Kontent.Management.Extensions
                 throw new ArgumentNullException(nameof(contentItem));
             }
 
-            var contentItemUpdateModel = new ContentItemUpdateModel(contentItem);
+            var contentItemUpdateModel = new ContentItemUpsertModel { Name = contentItem.Name };
 
-            return await client.UpdateContentItemAsync(identifier, contentItemUpdateModel);
+            return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel);
         }
 
         /// <summary>

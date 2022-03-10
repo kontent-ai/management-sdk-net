@@ -13,7 +13,7 @@ namespace Kentico.Kontent.Management.Models.Items
         /// <summary>
         /// Gets or sets the name of the content item.
         /// </summary>
-        [JsonProperty("name", Required = Required.Always)]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -24,6 +24,8 @@ namespace Kentico.Kontent.Management.Models.Items
 
         /// <summary>
         /// Gets or sets the type of the content item.
+        /// Type is taken into account only when creating a new content item.
+        /// Type is ignored in case of update.
         /// </summary>
         [JsonProperty("type")]
         public Reference Type { get; set; }
@@ -31,7 +33,7 @@ namespace Kentico.Kontent.Management.Models.Items
         /// <summary>
         /// Gets or sets sitemap locations of the content item.
         /// </summary>
-        [JsonProperty("sitemap_locations", Required = Required.Always)]
+        [JsonProperty("sitemap_locations")]
         public IEnumerable<Reference> SitemapLocations { get; set; } = Enumerable.Empty<Reference>();
 
         /// <summary>
@@ -39,5 +41,13 @@ namespace Kentico.Kontent.Management.Models.Items
         /// </summary>
         [JsonProperty("collection")]
         public Reference Collection { get; set; }
+
+        /// <summary>
+        /// Gets or sets the external identifier of the content item.
+        /// ExternalId is taken into account only when creating a new content item.
+        /// ExternalId is ignored in case of update.
+        /// </summary>
+        [JsonProperty("external_id")]
+        public string ExternalId { get; set; }
     }
 }
