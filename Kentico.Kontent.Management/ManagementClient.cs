@@ -918,7 +918,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ContentItemModel> UpdateContentItemAsync(Reference identifier, ContentItemUpdateModel contentItem)
+        public async Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
         {
             if (identifier == null)
             {
@@ -931,25 +931,6 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpdateModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<ContentItemModel> UpsertContentItemByExternalIdAsync(string externalId, ContentItemUpsertModel contentItem)
-        {
-            if (string.IsNullOrEmpty(externalId))
-            {
-                throw new ArgumentException("The external id is not specified.", nameof(externalId));
-            }
-
-            if (contentItem == null)
-            {
-                throw new ArgumentNullException(nameof(contentItem));
-            }
-
-            var endpointUrl = _urlBuilder.BuildItemUrl(Reference.ByExternalId(externalId));
             var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
 
             return response;

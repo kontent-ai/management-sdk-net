@@ -91,14 +91,14 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var identifier = Reference.ByCodename(EXISTING_ITEM_CODENAME);
 
             // Set codename, name and collection
-            var item = new ContentItemUpdateModel
+            var item = new ContentItemUpsertModel
             {
                 Codename = EXISTING_ITEM_CODENAME,
                 Name = itemName,
                 Collection = Reference.ById(Guid.Empty)
             };
 
-            var responseItem = await _client.UpdateContentItemAsync(identifier, item);
+            var responseItem = await _client.UpsertContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(EXISTING_ITEM_CODENAME, responseItem.Codename);
@@ -112,13 +112,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemCodename = "ciao_codename";
             var identifier = Reference.ById(EXISTING_ITEM_ID2);
 
-            var item = new ContentItemUpdateModel
+            var item = new ContentItemUpsertModel
             {
                 Codename = itemCodename,
                 Name = itemName
             };
 
-            var responseItem = await _client.UpdateContentItemAsync(identifier, item);
+            var responseItem = await _client.UpsertContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             Assert.Equal(itemCodename, responseItem.Codename);
@@ -130,12 +130,12 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             var itemName = "regenerated_codename";
             var identifier = Reference.ById(EXISTING_ITEM_ID2);
 
-            var item = new ContentItemUpdateModel
+            var item = new ContentItemUpsertModel
             {
                 Name = itemName,
             };
 
-            var responseItem = await _client.UpdateContentItemAsync(identifier, item);
+            var responseItem = await _client.UpsertContentItemAsync(identifier, item);
 
             Assert.Equal(itemName, responseItem.Name);
             // TODO validate why this have been implemented KCL-3078 https://github.com/Kentico/kontent-management-sdk-net/commit/9d9e6c286c622921da8e638e80d4ca9b7de67ed1
@@ -163,7 +163,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         }
 
         [Fact]
-        public async void UpsertContentItemByExternalId_UpdatesContentItem()
+        public async void UpsertContentItemAsync_UpsertsContentItem()
         {
             // Arrange
             var externalId = "753f6e965f4d49e5a120ca9a23551b10";
@@ -181,7 +181,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Collection = Reference.ById(Guid.Empty)
             };
 
-            var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(externalId, item);
+            var contentItemResponse = await _client.UpsertContentItemAsync(Reference.ByExternalId(externalId), item);
             Assert.Equal(itemName, contentItemResponse.Name);
             Assert.Equal(itemCodename, contentItemResponse.Codename);
 
@@ -206,7 +206,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Collection = Reference.ById(Guid.Empty)
             };
 
-            var contentItemResponse = await _client.UpsertContentItemByExternalIdAsync(externalId, item);
+            var contentItemResponse = await _client.UpsertContentItemAsync(Reference.ByExternalId(externalId), item);
             Assert.Equal(itemName, contentItemResponse.Name);
             Assert.Equal(externalId, contentItemResponse.ExternalId);
             Assert.Equal(itemCodename, contentItemResponse.Codename);

@@ -64,7 +64,7 @@ namespace Kentico.Kontent.Management.Tests
                     Type = type,
                 };
 
-                return await client.UpsertContentItemByExternalIdAsync(externalId, item);
+                return await client.UpsertContentItemAsync(Reference.ByExternalId(externalId), item);
             }
             else
             {

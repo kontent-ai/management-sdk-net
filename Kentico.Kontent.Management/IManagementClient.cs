@@ -512,15 +512,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the content item.</param>
         /// <param name="contentItem">Represents the updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-        Task<ContentItemModel> UpdateContentItemAsync(Reference identifier, ContentItemUpdateModel contentItem);
-
-        /// <summary>
-        /// Inserts or updates the given content item.
-        /// </summary>
-        /// <param name="externalId">The external identifier of the content item.</param>
-        /// <param name="contentItem">Represents inserted or updated content item.</param>
-        /// <returns>The <see cref="ContentItemModel"/> instance that represents inserted or updated content item.</returns>
-        Task<ContentItemModel> UpsertContentItemByExternalIdAsync(string externalId, ContentItemUpsertModel contentItem);
+        Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem);
 
         /// <summary>
         /// Inserts or updates given language variant.

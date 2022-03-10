@@ -60,7 +60,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
-            await client.UpsertContentItemByExternalIdAsync("simple-example", new ContentItemUpsertModel
+            await client.UpsertContentItemAsync(Reference.ByExternalId("simple-example"), new ContentItemUpsertModel
             {
                 Name = "Simple example",
                 Type = Reference.ByExternalId("simple-rich-text"),
