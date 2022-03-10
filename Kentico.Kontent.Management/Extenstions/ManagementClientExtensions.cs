@@ -38,30 +38,6 @@ namespace Kentico.Kontent.Management.Extenstions
         }
 
         /// <summary>
-        /// Creates or updates the given content item variant.
-        /// </summary>
-        /// <param name="client">Content management client instance.</param>
-        /// <param name="identifier">Identifies which content item variant will be created or updated. </param>
-        /// <param name="LanguageVariant">Specifies data for created ur updated content item variant.</param>
-        /// <returns>The <see cref="LanguageVariantModel"/> instance that represents created or updated content item variant.</returns>
-        public static async Task<LanguageVariantModel> UpsertLanguageVariantAsync(this IManagementClient client, LanguageVariantIdentifier identifier, LanguageVariantModel LanguageVariant)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            if (LanguageVariant == null)
-            {
-                throw new ArgumentNullException(nameof(LanguageVariant));
-            }
-
-            var languageVariantUpsertModel = new LanguageVariantUpsertModel(LanguageVariant);
-
-            return await client.UpsertLanguageVariantAsync(identifier, languageVariantUpsertModel);
-        }
-
-        /// <summary>
         /// Creates asset.
         /// </summary>
         /// <param name="client">Content management client instance.</param>
