@@ -6,7 +6,7 @@ using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using Xunit;
-using Kentico.Kontent.Management.Extenstions;
+using Kentico.Kontent.Management.Extensions;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {

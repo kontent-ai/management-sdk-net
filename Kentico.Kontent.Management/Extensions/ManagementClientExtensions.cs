@@ -4,7 +4,7 @@ using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Shared;
 
-namespace Kentico.Kontent.Management.Extenstions
+namespace Kentico.Kontent.Management.Extensions
 {
     /// <summary>
     /// Extra simplifying methods available for ManagementClient

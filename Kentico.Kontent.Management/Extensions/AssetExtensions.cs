@@ -1,7 +1,7 @@
 ﻿using Kentico.Kontent.Management.Models.Assets;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Extenstions
+namespace Kentico.Kontent.Management.Extensions
 {
     /// <summary>
     /// Helpful methods to make working with assets easier

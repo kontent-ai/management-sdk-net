@@ -4,7 +4,7 @@ using Kentico.Kontent.Management.Models.TaxonomyGroups;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Kentico.Kontent.Management.Extenstions
+namespace Kentico.Kontent.Management.Extensions
 {
     /// <summary>
     /// Extensions methods related to listing endpoints

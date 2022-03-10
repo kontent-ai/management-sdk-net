@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using Kentico.Kontent.Management.Exceptions;
-using Kentico.Kontent.Management.Extenstions;
+using Kentico.Kontent.Management.Extensions;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Types;
 using Kentico.Kontent.Management.Models.Types.Elements;
