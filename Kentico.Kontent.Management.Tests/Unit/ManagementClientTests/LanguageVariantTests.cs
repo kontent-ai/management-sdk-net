@@ -184,7 +184,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
-            await client.Invoking(x => x.GetLanguageVariantAsync(null))
+            await client.Invoking(x => x.GetLanguageVariantAsync<ComplexTestModel>(null))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
