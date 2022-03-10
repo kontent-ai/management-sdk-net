@@ -19,7 +19,7 @@ namespace Kentico.Kontent.Management.Extensions
         /// <param name="identifier">Identifies which content item will be updated. </param>
         /// <param name="contentItem">Specifies data for updated content item.</param>
         /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-        public static async Task<ContentItemModel> UpdateContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem)
+        public static async Task<ContentItemModel> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem)
         {
             if (identifier == null)
             {
@@ -31,7 +31,15 @@ namespace Kentico.Kontent.Management.Extensions
                 throw new ArgumentNullException(nameof(contentItem));
             }
 
-            var contentItemUpdateModel = new ContentItemUpsertModel { Name = contentItem.Name };
+            var contentItemUpdateModel = new ContentItemUpsertModel 
+            { 
+                Name = contentItem.Name,
+                Codename = contentItem.Codename,
+                Collection = contentItem.Collection,
+                ExternalId = contentItem.ExternalId,
+                SitemapLocations = contentItem.SitemapLocations,
+                Type = contentItem.Type
+            };
 
             return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel);
         }
