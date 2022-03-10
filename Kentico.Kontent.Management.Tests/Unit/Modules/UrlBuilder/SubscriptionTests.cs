@@ -7,7 +7,6 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
 {
     public partial class EndpointUrlBuilderTests
     {
-
         [Fact]
         public void BuildSubscriptionProjectsUrl_ReturnsCorrectUrl()
         {
