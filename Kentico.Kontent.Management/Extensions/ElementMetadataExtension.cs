@@ -1,7 +1,7 @@
 ﻿using Kentico.Kontent.Management.Models.Types.Elements;
 using System;
 
-namespace Kentico.Kontent.Management.Extenstions
+namespace Kentico.Kontent.Management.Extensions
 {
     /// <summary>
     /// Extensions methods for the ElementMetadataBase class.

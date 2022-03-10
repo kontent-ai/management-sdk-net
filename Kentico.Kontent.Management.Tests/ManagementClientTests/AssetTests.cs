@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
-using Kentico.Kontent.Management.Extenstions;
+using Kentico.Kontent.Management.Extensions;
 using static Kentico.Kontent.Management.Tests.ManagementClientTests.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests

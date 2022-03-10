@@ -8,7 +8,7 @@ using Xunit;
 using FluentAssertions;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 using System.Linq;
-using Kentico.Kontent.Management.Extenstions;
+using Kentico.Kontent.Management.Extensions;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {

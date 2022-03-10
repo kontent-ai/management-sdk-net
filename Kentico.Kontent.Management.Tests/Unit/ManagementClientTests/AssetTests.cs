@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
-using Kentico.Kontent.Management.Extenstions;
+using Kentico.Kontent.Management.Extensions;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 
