@@ -68,7 +68,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
         }
 
         [Fact]
-        public void BuildListVariantsByComponentUrl_CompomentId_ReturnsCorrectUrl()
+        public void BuildListVariantsByComponentUrl_ComponentId_ReturnsCorrectUrl()
         {
             var identifier = Reference.ById(Guid.NewGuid());
             var actualUrl = _builder.BuildListVariantsByComponentUrl(identifier);
@@ -78,7 +78,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
         }
 
         [Fact]
-        public void BuildListVariantsByComponentUrl_CompomentCodename_ReturnsCorrectUrl()
+        public void BuildListVariantsByComponentUrl_ComponentCodename_ReturnsCorrectUrl()
         {
             var identifier = Reference.ByCodename("codename");
             var actualUrl = _builder.BuildListVariantsByComponentUrl(identifier);
@@ -88,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
         }
 
         [Fact]
-        public void BuildListVariantsByComponentUrl_CompomentExternalId_ReturnsCorrectUrl()
+        public void BuildListVariantsByComponentUrl_ComponentExternalId_ReturnsCorrectUrl()
         {
             var identifier = Reference.ByExternalId("externalId");
             var actualUrl = _builder.BuildListVariantsByComponentUrl(identifier);

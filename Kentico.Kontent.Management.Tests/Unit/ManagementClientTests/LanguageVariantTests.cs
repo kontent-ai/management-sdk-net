@@ -54,9 +54,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var expected = new[] { "00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000" }
             .Select(x => GetExpectedLanguageVariantModel(languageId: x));
 
-            var identfier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
+            var identifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
 
-            var response = await client.ListLanguageVariantsByItemAsync(identfier);
+            var response = await client.ListLanguageVariantsByItemAsync(identifier);
 
             response.Should().BeEquivalentTo(expected);
         }
@@ -87,9 +87,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
 
-            var respone =await client.ListLanguageVariantsByTypeAsync(identifier).GetAllAsync();
+            var response =await client.ListLanguageVariantsByTypeAsync(identifier).GetAllAsync();
 
-            respone.Should().BeEquivalentTo(expected);
+            response.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -149,9 +149,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 
             var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
 
-            var respone = await client.ListLanguageVariantsByCollectionAsync(identifier).GetAllAsync();
+            var response = await client.ListLanguageVariantsByCollectionAsync(identifier).GetAllAsync();
 
-            respone.Should().BeEquivalentTo(expected);
+            response.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -214,7 +214,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_StrongylTyped_UpsertsVariant()
+        public async Task UpsertLanguageVariantAsync_StronglyTyped_UpsertsVariant()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
@@ -230,7 +230,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_StrongylTyped_IdentifierIsNull_Throws()
+        public async Task UpsertLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -239,7 +239,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_StrongylTyped_LanguageVariantUpsertModelIsNull_Throws()
+        public async Task UpsertLanguageVariantAsync_StronglyTyped_LanguageVariantUpsertModelIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
