@@ -441,6 +441,24 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
+        public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (languageVariant == null)
+            {
+                throw new ArgumentNullException(nameof(languageVariant));
+            }
+
+            var languageVariantUpsertModel = new LanguageVariantUpsertModel(languageVariant);
+
+            return await UpsertLanguageVariantAsync(identifier, languageVariantUpsertModel);
+        }
+
+        /// <inheritdoc />
         public async Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier)
         {
             if (identifier == null)
@@ -450,6 +468,54 @@ namespace Kentico.Kontent.Management
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        }
+
+        /// <inheritdoc />
+        public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier) where T : new()
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
+
+            return response.Select(x => _modelProvider.GetLanguageVariantModel<T>(x)).ToList();
+        }
+
+        /// <inheritdoc />
+        public async Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
+
+            return _modelProvider.GetLanguageVariantModel<T>(response);
+        }
+
+        /// <inheritdoc />
+        public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements) where T : new()
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (variantElements == null)
+            {
+                throw new ArgumentNullException(nameof(variantElements));
+            }
+
+            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
+            var variantUpsertModel = _modelProvider.GetLanguageVariantUpsertModel(variantElements);
+            var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
+
+            return _modelProvider.GetLanguageVariantModel<T>(response);
         }
 
         /// <inheritdoc />
@@ -880,54 +946,6 @@ namespace Kentico.Kontent.Management
             var endpointUrl = _urlBuilder.BuildNewVersionVariantUrl(identifier);
 
             await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
-        }
-
-        /// <inheritdoc />
-        public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier) where T : new()
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
-
-            return response.Select(x => _modelProvider.GetLanguageVariantModel<T>(x)).ToList();
-        }
-
-        /// <inheritdoc />
-        public async Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
-
-            return _modelProvider.GetLanguageVariantModel<T>(response);
-        }
-
-        /// <inheritdoc />
-        public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements) where T : new()
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            if (variantElements == null)
-            {
-                throw new ArgumentNullException(nameof(variantElements));
-            }
-
-            var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var variantUpsertModel = _modelProvider.GetLanguageVariantUpsertModel(variantElements);
-            var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
-
-            return _modelProvider.GetLanguageVariantModel<T>(response);
         }
 
         /// <inheritdoc />

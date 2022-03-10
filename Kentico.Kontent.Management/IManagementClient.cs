@@ -547,6 +547,14 @@ namespace Kentico.Kontent.Management
         Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel);
 
         /// <summary>
+        /// Creates or updates the given content item variant.
+        /// </summary>
+        /// <param name="identifier">Identifies which content item variant will be created or updated. </param>
+        /// <param name="languageVariant">Specifies data for created ur updated content item variant.</param>
+        /// <returns>The <see cref="LanguageVariantModel"/> instance that represents created or updated content item variant.</returns>
+        Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant);
+
+        /// <summary>
         /// Inserts or updates the given language variant.
         /// </summary>
         /// <typeparam name="T">Type of the content item elements</typeparam>
