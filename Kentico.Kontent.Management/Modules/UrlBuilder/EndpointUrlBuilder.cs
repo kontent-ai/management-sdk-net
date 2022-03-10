@@ -179,6 +179,12 @@ namespace Kentico.Kontent.Management.UrlBuilder
 
         private string BuildSubscriptionUrl() => string.Format(_options.EndpointV2, $"subscriptions/{_options.SubscriptionId}");
 
+        public string BuildCloneEnvironmentUrl() => GetProjectUrl("/clone-environment");
+
+        public string BuildGetEnvironmentCloningStateUrl() => GetProjectUrl("/environment-cloning-state");
+
+        public string BuildMarkEnvironmentAsProductionUrl() => GetProjectUrl("/mark-environment-as-production");
+
         private string GetProjectUrl(string path, params string[] parameters) => GetUrl(BuildProjectUrl(), path, parameters);
 
         private string GetSubscriptionUrl(string path, params string[] parameters) => GetUrl(BuildSubscriptionUrl(), path, parameters);

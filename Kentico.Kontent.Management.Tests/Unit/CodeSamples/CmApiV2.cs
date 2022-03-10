@@ -6,6 +6,8 @@ using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
 using Kentico.Kontent.Management.Models.Collections.Patch;
+using Kentico.Kontent.Management.Models.Environments;
+using Kentico.Kontent.Management.Models.Environments.Patch;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Languages;
 using Kentico.Kontent.Management.Models.LanguageVariants;
@@ -160,6 +162,16 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var identifier = Reference.ById(Guid.Parse("d53360f7-79e1-42f4-a524-1b53a417d03e"));
 
             await client.DeleteWebhookAsync(identifier);
+        }
+
+        // DocSection: cm_api_v2_delete_environment
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void DeleteEnvironment()
+        {
+            var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+
+            await client.DeleteEnvironmentAsync();
         }
 
         // DocSection: cm_api_v2_get_asset
@@ -556,6 +568,18 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.Equal(2, response.Count());
         }
 
+        // DocSection: cm_api_v2_get_environment_status
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void GetEnvironmentCloningState()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("EnvironmentCloningState.json");
+
+            var response = await client.GetEnvironmentCloningStateAsync();
+
+            Assert.NotNull(response);
+        }
+
         // DocSection: cm_api_v2_patch_asset_folders
         // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
@@ -804,6 +828,24 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                 new ContentTypeRemovePatchModel
                 {
                     Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
+        // DocSection: cm_api_v2_patch_environment
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void PatchEnvironment()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("Environment.json");
+
+            var response = await client.ModifyEnvironmentAsync(new[]
+            {
+                new EnvironmentRenamePatchModel
+                {
+                    Value = "My Little Production"
                 }
             });
 
@@ -1217,6 +1259,25 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             Assert.NotNull(response);
         }
 
+        // DocSection: cm_api_v2_clone_environment
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void PostCloneEnvironment()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+
+            var response = await client.CloneEnvironmentAsync(new EnvironmentCloneModel
+            {
+                Name = "New environment",
+                RolesToActivate = new[]
+                {
+                    Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")
+                }
+            });
+
+            Assert.NotNull(response);
+        }
+
         // DocSection: cm_api_v2_put_asset
         // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
@@ -1594,6 +1655,22 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             var exception = await Record.ExceptionAsync(
                 async () => await client.DeactivateSubscriptionUserAsync(identifier));
+
+            Assert.Null(exception);
+        }
+
+        // DocSection: cm_api_v2_mark_environment_as_production
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void PutMarkEnvironmentAsProduction()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var exception = await Record.ExceptionAsync(
+                async () => await client.MarkEnvironmentAsProductionAsync(new MarkAsProductionModel
+                {
+                    EnableWebhooks = true
+                }));
 
             Assert.Null(exception);
         }
