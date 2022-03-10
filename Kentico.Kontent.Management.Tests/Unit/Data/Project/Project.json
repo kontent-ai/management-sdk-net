@@ -1,0 +1,6 @@
+{
+  "id": "a9931a80-9af4-010b-0590-ecb1273cf1b8",
+  "name": ".NET MAPI V2 SDK Tests",
+  "environment": "Production",
+  "is_production": true
+}
