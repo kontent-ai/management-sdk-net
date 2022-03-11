@@ -59,15 +59,6 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 Elements = _elementModelProvider.GetDynamicElements(asset.Elements),
             };
 
-        public AssetUpdateModel GetAssetUpdateModel<T>(AssetUpdateModel<T> asset) where T : new() =>
-            new()
-            {
-                Descriptions = asset.Descriptions,
-                Title = asset.Title,
-                Folder = asset.Folder,
-                Elements = _elementModelProvider.GetDynamicElements(asset.Elements),
-            };
-
         public AssetUpsertModel GetAssetUpsertModel<T>(AssetUpsertModel<T> asset) where T : new() =>
             new()
             {

@@ -165,7 +165,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset)
+        public async Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset)
         {
             if (identifier == null)
             {
@@ -178,56 +178,20 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpdateModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
+            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
 
             return response;
         }
 
         /// <inheritdoc />
-        public async Task<AssetModel<T>> UpdateAssetAsync<T>(Reference identifier, AssetUpdateModel<T> asset) where T : new()
+        public async Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset) where T : new()
         {
             if (asset == null)
             {
                 throw new ArgumentNullException(nameof(asset));
             }
 
-            var result = await UpdateAssetAsync(identifier, _modelProvider.GetAssetUpdateModel(asset));
-
-            return _modelProvider.GetAssetModel<T>(result);
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset)
-        {
-            if (string.IsNullOrEmpty(externalId))
-            {
-                throw new ArgumentException("The external id is not specified.", nameof(externalId));
-            }
-
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-
-            var endpointUrl = _urlBuilder.BuildAssetsUrl(Reference.ByExternalId(externalId));
-            var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(
-                endpointUrl,
-                HttpMethod.Put,
-                asset
-            );
-
-            return response;
-        }
-
-        /// <inheritdoc />
-        public async Task<AssetModel<T>> UpsertAssetByExternalIdAsync<T>(string externalId, AssetUpsertModel<T> asset) where T : new()
-        {
-            if (asset == null)
-            {
-                throw new ArgumentNullException(nameof(asset));
-            }
-            
-            var result = await UpsertAssetByExternalIdAsync(externalId, _modelProvider.GetAssetUpsertModel(asset));
+            var result = await UpsertAssetAsync(identifier, _modelProvider.GetAssetUpsertModel(asset));
 
             return _modelProvider.GetAssetModel<T>(result);
         }

@@ -84,7 +84,7 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the asset.</param>
         /// <param name="asset">Represents the updated asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
-        Task<AssetModel> UpdateAssetAsync(Reference identifier, AssetUpdateModel asset);
+        Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset);
         
         /// <summary>
         /// Updates the given asset with strongly typed elements.
@@ -92,24 +92,8 @@ namespace Kentico.Kontent.Management
         /// <param name="identifier">The identifier of the asset.</param>
         /// <param name="asset">Represents the updated asset with strongly typed elements.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents updated asset with strongly typed elements.</returns>
-        Task<AssetModel<T>> UpdateAssetAsync<T>(Reference identifier, AssetUpdateModel<T> asset) where T : new();
-        
-        /// <summary>
-        /// Inserts or updates the asset.
-        /// </summary>
-        /// <param name="externalId">The external identifier of the content item.</param>
-        /// <param name="asset">Represents the asset that will be created.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset.</returns>
-        Task<AssetModel> UpsertAssetByExternalIdAsync(string externalId, AssetUpsertModel asset);
-        
-        /// <summary>
-        /// Inserts or updates the asset.
-        /// </summary>
-        /// <param name="externalId">The external identifier of the content item.</param>
-        /// <param name="asset">Represents the asset with strongly typed elements that will be created.</param>
-        /// <returns>The <see cref="AssetModel"/> instance that represents inserted or updated asset with strongly typed elements.</returns>
-        Task<AssetModel<T>> UpsertAssetByExternalIdAsync<T>(string externalId, AssetUpsertModel<T> asset) where T : new();
-        
+        Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset) where T : new();
+                
         /// <summary>
         /// Deletes the given asset.
         /// </summary>

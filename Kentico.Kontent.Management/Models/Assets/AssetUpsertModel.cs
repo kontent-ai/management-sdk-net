@@ -12,16 +12,10 @@ namespace Kentico.Kontent.Management.Models.Assets
     public sealed class AssetUpsertModel
     {
         /// <summary>
-        /// Gets or sets the file reference for the asset.
-        /// </summary>
-        [JsonProperty("file_reference", Required = Required.Always)]
-        public FileReference FileReference { get; set; }
-
-        /// <summary>
         /// Gets or sets the description for the asset.
         /// </summary>
-        [JsonProperty("descriptions", Required = Required.Always)]
-        public IEnumerable<AssetDescription> Descriptions { get; set; } = Enumerable.Empty<AssetDescription>();
+        [JsonProperty("descriptions")]
+        public IEnumerable<AssetDescription> Descriptions { get; set; }
 
         /// <summary>
         /// Gets or sets the title for the asset.
@@ -32,13 +26,19 @@ namespace Kentico.Kontent.Management.Models.Assets
         /// <summary>
         /// Folder of the asset. If outside of all folders use "id" : "00000000-0000-0000-0000-000000000000".
         /// </summary>
-        [JsonProperty("folder", Required = Required.Always)]
+        [JsonProperty("folder")]
         public Reference Folder { get; set; }
         
         /// <summary>
         /// Gets or sets elements of the asset.
         /// </summary>
-        [JsonProperty("elements", Required = Required.Always)]
+        [JsonProperty("elements")]
         public IEnumerable<dynamic> Elements { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file reference for the asset.
+        /// </summary>
+        [JsonProperty("file_reference")]
+        public FileReference FileReference { get; set; }
     }
 }

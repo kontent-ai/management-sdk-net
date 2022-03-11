@@ -75,15 +75,15 @@ namespace Kentico.Kontent.Management.Extensions
         /// Creates or updates the given asset.
         /// </summary>
         /// <param name="client">Content management client instance.</param>
-        /// <param name="externalId">The external identifier of the asset.</param>
+        /// <param name="identifier">The identifier of the asset.</param>
         /// <param name="fileContent">Represents the content of the file.</param>
-        /// <param name="updatedAsset">Updated values for the asset.</param>
+        /// <param name="upsertModel">Updated values for the asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
-        public static async Task<AssetModel> UpsertAssetByExternalIdAsync(this IManagementClient client, string externalId, FileContentSource fileContent, AssetUpdateModel updatedAsset)
+        public static async Task<AssetModel> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel)
         {
-            if (string.IsNullOrEmpty(externalId))
+            if (identifier == null)
             {
-                throw new ArgumentException("The external id is not specified.", nameof(externalId));
+                throw new ArgumentException(nameof(identifier));
             }
 
             if (fileContent == null)
@@ -91,37 +91,18 @@ namespace Kentico.Kontent.Management.Extensions
                 throw new ArgumentNullException(nameof(fileContent));
             }
 
-            if (updatedAsset == null)
+            if (upsertModel == null)
             {
-                throw new ArgumentNullException(nameof(updatedAsset));
-            }
-
-            if (updatedAsset.Descriptions == null)
-            {
-                throw new ArgumentNullException(nameof(updatedAsset.Descriptions));
+                throw new ArgumentNullException(nameof(upsertModel));
             }
 
             var fileResult = await client.UploadFileAsync(fileContent);
 
-            var asset = new AssetUpsertModel
-            {
-                FileReference = fileResult,
-                Descriptions = updatedAsset.Descriptions
-            };
+            upsertModel.FileReference = fileResult;
 
-            UpdateAssetTitle(updatedAsset, asset);
-
-            var response = await client.UpsertAssetByExternalIdAsync(externalId, asset);
+            var response = await client.UpsertAssetAsync(identifier, upsertModel);
 
             return response;
-        }
-
-        private static void UpdateAssetTitle(AssetUpdateModel updatedAsset, AssetUpsertModel asset)
-        {
-            if (updatedAsset.Title != null)
-            {
-                asset.Title = updatedAsset.Title;
-            }
         }
     }
 }
