@@ -2,7 +2,6 @@
 using Kentico.Kontent.Management.Tests.Unit.Base;
 using Kentico.Kontent.Management.Tests.Unit.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -205,8 +204,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var expected = GetExpectedStronglyTypedAssetModel();
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-            string fileName = "Hello.txt";
-            string contentType = "text/plain";
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
 
             var updateModel = new AssetCreateModel<ComplexTestModel>
             {
@@ -254,8 +253,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var expected = GetExpectedDynamicAssetModel();
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-            string fileName = "Hello.txt";
-            string contentType = "text/plain";
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
 
             var updateModel = new AssetCreateModel
             {
@@ -443,8 +442,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var expected = GetExpectedStronglyTypedAssetModel();
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-            string fileName = "Hello.txt";
-            string contentType = "text/plain";
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
 
             var updateModel = new AssetUpsertModel<ComplexTestModel>
             {
@@ -508,8 +507,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var expected = GetExpectedDynamicAssetModel();
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-            string fileName = "Hello.txt";
-            string contentType = "text/plain";
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
 
             var updateModel = new AssetUpsertModel
             {
@@ -610,8 +609,8 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var expected = _fileSystemFixture.GetExpectedResponse<FileReference>("File.json");
 
             MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-            string fileName = "Hello.txt";
-            string contentType = "text/plain";
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
 
             var content = new FileContentSource(stream, fileName, contentType);
 
