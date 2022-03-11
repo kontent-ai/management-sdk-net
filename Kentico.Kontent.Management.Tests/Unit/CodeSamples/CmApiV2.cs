@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Kentico.Kontent.Management.Models.AssetRenditions;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
@@ -197,6 +198,41 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var client = _fileSystemFixture.CreateMockClientWithResponse("Assets.json");
 
             var response = await client.ListAssetsAsync();
+
+            Assert.Single(response);
+        }
+        
+        // DocSection: cm_api_v2_get_rendition
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void GetRendition()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+
+            var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
+            // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
+            var renditionReference = Reference.ById(Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
+            // var renditionReference = Reference.ByExternalId("hero-image-rendition");
+
+            var identifier = new AssetRenditionIdentifier(assetReference, renditionReference);
+
+            var response = await client.GetAssetRenditionAsync(identifier);
+            
+            Assert.NotNull(response);
+        }
+        
+        // DocSection: cm_api_v2_get_renditions
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void GetRenditions()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRenditions.json");
+
+            var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
+            // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
+
+            // Gets the first page of results
+            var response = await client.ListAssetRenditionsAsync(assetReference);
 
             Assert.Single(response);
         }
@@ -927,6 +963,33 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             Assert.NotNull(response);
         }
+        
+        // DocSection: cm_api_v2_post_rendition
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void PostAssetRendition()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+
+            var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
+            // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
+
+            var response = await client.CreateAssetRenditionAsync(assetReference, new AssetRenditionCreateModel
+            {
+                ExternalId = "hero-image-rendition",
+                Transformation = new RectangleResizeTransformation
+                {
+                    CustomWidth = 120,
+                    CustomHeight = 240,
+                    X = 300,
+                    Y = 200,
+                    Width = 360,
+                    Height = 720,                    
+                }
+            });
+
+            Assert.NotNull(response);
+        }
 
         // DocSection: cm_api_v2_post_file
         // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
@@ -1365,6 +1428,36 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             Assert.NotNull(createdAssetResponse);
             Assert.NotNull(updatedAssetResponse);
+        }
+        
+        // DocSection: cm_api_v2_put_rendition
+        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+        [Fact]
+        public async void PutAssetRendition()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+
+            var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
+            // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
+            var renditionReference = Reference.ById(Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
+            // var renditionReference = Reference.ByExternalId("hero-image-rendition");
+
+            var identifier = new AssetRenditionIdentifier(assetReference, renditionReference);
+
+            var response = await client.UpdateAssetRenditionAsync(identifier, new AssetRenditionUpdateModel()
+            {
+                Transformation = new RectangleResizeTransformation
+                {
+                    CustomWidth = 120,
+                    CustomHeight = 240,
+                    X = 300,
+                    Y = 200,
+                    Width = 360,
+                    Height = 720,                    
+                }
+            });
+
+            Assert.NotNull(response);
         }
 
         // DocSection: cm_api_v2_put_item
