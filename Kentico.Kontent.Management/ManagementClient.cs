@@ -544,6 +544,11 @@ namespace Kentico.Kontent.Management
                 throw new ArgumentNullException(nameof(identifier));
             }
 
+            if (changes == null || !changes.Any())
+            {
+                throw new ArgumentException("Please provide at least one operation.", nameof(changes));
+            }
+
             var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
             return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, new HttpMethod("PATCH"), changes);
         }

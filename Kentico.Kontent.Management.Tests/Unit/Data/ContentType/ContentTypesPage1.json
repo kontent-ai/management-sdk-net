@@ -1,0 +1,242 @@
+{
+  "types": [
+    {
+      "id": "17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d",
+      "codename": "tweet",
+      "last_modified": "2021-06-02T11:08:27.9590033Z",
+      "external_id": "f808c142-4b62-43b0-8f4d-1cbf412580ab",
+      "name": "Tweet",
+      "content_groups": [],
+      "elements": [
+        {
+          "maximum_text_length": null,
+          "name": "Tweet link",
+          "guidelines": "",
+          "is_required": true,
+          "type": "text",
+          "external_id": "20bf9ba1-28fe-203c-5920-6f9610498fb9",
+          "id": "f09fb430-2a58-59cf-be03-621e1c367501",
+          "codename": "tweet_link"
+        },
+        {
+          "mode": "single",
+          "options": [
+            {
+              "id": "061e69f7-0965-5e37-97bc-29963cfaebe8",
+              "codename": "dark",
+              "name": "Dark",
+              "external_id": "44c30a4b-9d08-aa93-e520-58eaa8c62acb"
+            },
+            {
+              "id": "eae9ad37-fe02-53a0-aedd-32021e30a5bb",
+              "codename": "light",
+              "name": "Light",
+              "external_id": "fe596c82-45fb-7022-a4ae-3147bf14acba"
+            }
+          ],
+          "name": "Theme",
+          "guidelines": "",
+          "is_required": false,
+          "type": "multiple_choice",
+          "external_id": "779b27fd-5a4d-5e5f-66dc-b30931fcba92",
+          "id": "05017deb-18b2-5094-b367-e7f8796dd1b8",
+          "codename": "theme"
+        },
+        {
+          "mode": "multiple",
+          "options": [
+            {
+              "id": "dd78b09e-4337-599c-9701-20a0a165c63b",
+              "codename": "hide_thread",
+              "name": "Hide thread",
+              "external_id": "6fe63b4b-6df6-407f-38dc-4144b9ca29dc"
+            },
+            {
+              "id": "c577b257-8bcd-5fe5-922d-231ff8335d38",
+              "codename": "hide_media",
+              "name": "Hide media",
+              "external_id": "144052a3-0c08-b860-2350-ea50fc76ccbe"
+            }
+          ],
+          "name": "Display options",
+          "guidelines": "",
+          "is_required": false,
+          "type": "multiple_choice",
+          "external_id": "8c6db6cf-1003-951e-5407-b2a19c15b4cd",
+          "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25",
+          "codename": "display_options"
+        }
+      ]
+    },
+    {
+      "id": "014f98c0-40e2-5052-8fe1-00740752ce24",
+      "codename": "about_us",
+      "last_modified": "2021-06-02T11:08:28.1621546Z",
+      "external_id": "b2c14f2c-6467-460b-a70b-bca17972a33a",
+      "name": "About us",
+      "content_groups": [],
+      "elements": [
+        {
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
+          "type": "guidelines",
+          "external_id": "1a0d5bc9-a269-e705-494d-f9657cf113a5",
+          "id": "14f8fb57-6d36-530d-a417-cb523858e438",
+          "codename": "n1a0d5bc9_a269_e705_494d_f9657cf113a5"
+        },
+        {
+          "item_count_limit": null,
+          "allowed_content_types": [],
+          "name": "Facts",
+          "guidelines": "Assign all facts about our company which will be displayed on the about us page.",
+          "is_required": false,
+          "type": "modular_content",
+          "external_id": "cff560dc-ed24-7036-cbb6-b7a1b61b196a",
+          "id": "2cce36cd-3aac-5fee-9b6a-c071257aab24",
+          "codename": "facts"
+        },
+        {
+          "depends_on": {
+            "snippet": {
+              "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+            },
+            "element": {
+              "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+            }
+          },
+          "name": "URL pattern",
+          "guidelines": "Provide a SEO-friendly URL.",
+          "is_required": false,
+          "type": "url_slug",
+          "external_id": "50cb9acf-45f5-a186-5c00-9a9e4a37d84a",
+          "id": "0db832ad-1ad4-5a0a-882b-9b2dd9194d4e",
+          "codename": "url_pattern"
+        },
+        {
+          "snippet": {
+            "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+          },
+          "type": "snippet",
+          "external_id": "a8131aca-9210-a0e4-6239-3af2231f7ca9",
+          "id": "64d55a22-9997-5c6f-a5ba-24eb261e8979",
+          "codename": "metadata"
+        }
+      ]
+    },
+    {
+      "id": "069aa172-cee9-51b4-910b-9978c2d991b1",
+      "codename": "home",
+      "last_modified": "2021-06-02T11:08:27.4745834Z",
+      "external_id": "a29399c3-5281-47ab-9916-acd4a6f887b7",
+      "name": "Home",
+      "content_groups": [],
+      "elements": [
+        {
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations, or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Home page is modular</h2><p>The home page is built of multiple content items based on smaller content types to embrace a modular approach. This lets you compose pages of independent modules.</p><p>For example, a <em>Hero unit</em>, &nbsp;<em>Articles</em>, or <em>Fact about us</em> are smaller content chunks that you can create independently and then assign to a homepage to have it all together.</p>",
+          "type": "guidelines",
+          "external_id": "9367da14-3d08-4ed1-4841-24bf8055f916",
+          "id": "4cb65a0b-3747-51db-a6f3-c0bb90b70b1a",
+          "codename": "n9367da14_3d08_4ed1_4841_24bf8055f916"
+        },
+        {
+          "item_count_limit": null,
+          "allowed_content_types": [],
+          "name": "Hero unit",
+          "guidelines": "Assign 1 Hero unit that has been prepared for a home page. ",
+          "is_required": false,
+          "type": "modular_content",
+          "external_id": "2b15a8f3-2e5f-7d01-4d8e-5b22e222aa76",
+          "id": "5a1f5c5e-b2ff-5cf2-927e-80aa2d6d2e40",
+          "codename": "hero_unit"
+        },
+        {
+          "item_count_limit": null,
+          "allowed_content_types": [],
+          "name": "Articles",
+          "guidelines": "Assign all articles which should be displayed on the home page.",
+          "is_required": false,
+          "type": "modular_content",
+          "external_id": "222f3a69-a54f-3e92-83ac-05f8a08e667f",
+          "id": "d1d8d364-7bf0-5c0f-b763-f261fb5d175d",
+          "codename": "articles"
+        },
+        {
+          "item_count_limit": null,
+          "allowed_content_types": [],
+          "name": "Our story",
+          "guidelines": "Assign 1 Fact about us which will be displayed on the home page.",
+          "is_required": false,
+          "type": "modular_content",
+          "external_id": "617bccc0-4844-4beb-4ede-6247e954633a",
+          "id": "9e239a77-a610-5c29-898e-379932980b0a",
+          "codename": "our_story"
+        },
+        {
+          "item_count_limit": null,
+          "allowed_content_types": [],
+          "name": "Cafes",
+          "guidelines": "Assign 4 Cafes which will be displayed on the home page.",
+          "is_required": false,
+          "type": "modular_content",
+          "external_id": "6356c948-0fd6-00d0-8fc1-e2484180ae7c",
+          "id": "aa4aed47-18c7-59a2-a28f-ad2204509f70",
+          "codename": "cafes"
+        },
+        {
+          "maximum_text_length": null,
+          "maximum_image_size": null,
+          "allowed_content_types": [],
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "allowed_image_types": "any",
+          "allowed_blocks": [],
+          "allowed_formatting": [],
+          "allowed_text_blocks": [],
+          "allowed_table_blocks": [
+            "text"
+          ],
+          "allowed_table_formatting": [],
+          "allowed_table_text_blocks": [
+            "paragraph"
+          ],
+          "name": "Contact",
+          "guidelines": "Add Contact us information to be displayed on the home page.",
+          "is_required": false,
+          "type": "rich_text",
+          "external_id": "ee854076-236b-5312-0ed5-8c3cd55ca9e0",
+          "id": "9aea8064-c23c-5c0c-9119-3bc2b1470a90",
+          "codename": "contact"
+        },
+        {
+          "depends_on": {
+            "snippet": {
+              "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+            },
+            "element": {
+              "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+            }
+          },
+          "name": "URL pattern",
+          "guidelines": "Provide a SEO-friendly URL.",
+          "is_required": false,
+          "type": "url_slug",
+          "external_id": "dd70db4b-ee97-5ab4-b752-4f9d70389426",
+          "id": "61ab1348-3d94-5c0b-84b8-444529bbf8dc",
+          "codename": "url_pattern"
+        },
+        {
+          "snippet": {
+            "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+          },
+          "type": "snippet",
+          "external_id": "255d6748-ba3a-1b59-af5c-afd4a7d6cb4f",
+          "id": "ff8f4177-08d7-5494-9edb-60142a01891c",
+          "codename": "metadata"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
