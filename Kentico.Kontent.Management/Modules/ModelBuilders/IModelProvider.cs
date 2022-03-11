@@ -40,14 +40,6 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
         /// <param name="asset">Strongly typed asset create model with elements data.</param>
         /// <returns>Non-generic asset create model.</returns>
         AssetCreateModel GetAssetCreateModel<T>(AssetCreateModel<T> asset) where T : new();
-
-        /// <summary>
-        /// Converts generic asset update model to non-generic model.
-        /// </summary>
-        /// <typeparam name="T">Strongly typed elements model.</typeparam>
-        /// <param name="asset">Strongly typed asset update model with elements data.</param>
-        /// <returns>Non-generic asset update model.</returns>
-        AssetUpdateModel GetAssetUpdateModel<T>(AssetUpdateModel<T> asset) where T : new();
         
         /// <summary>
         /// Converts generic asset upsert model to non-generic model.
