@@ -244,7 +244,7 @@ var taxonomyElements = ElementBuilder.GetElementsAsDynamic(
     });
 
 // Defines the asset to update
-var asset = new AssetUpdateModel
+var asset = new AssetUpsertModel
 {
     Elements = taxonomyElements
 };
@@ -252,7 +252,7 @@ var asset = new AssetUpdateModel
 Reference assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
 
 // Updates asset metadata
-var response = await client.UpdateAssetAsync(assetReference, asset);
+var response = await client.UpsertAssetAsync(assetReference, asset);
 ```
 
 You can also use anonymous dynamic objects to work with assets same as with the language variants.

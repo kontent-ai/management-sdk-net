@@ -81,8 +81,7 @@ namespace Kentico.Kontent.Management.Tests
 
             await actionInvoker.InvokeMethodAsync<AssetUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Put, assetUpsertModel);
 
-            var expectedRequestBody = "{\"file_reference\":{\"id\":\"ab7bdf75-781b-4bf9-aed8-501048860402\",\"type\":\"internal\"},\"descriptions\":[{\"language\":{\"id\":\"00000000-0000-0000-0000-000000000000\"},\"description\":\"Description\"}],\"title\":\"Asset\"}";
-            Assert.Equal(expectedRequestBody, httpClient._requestBody);
+            Assert.Contains("\"type\":\"internal\"", httpClient._requestBody);
         }
     }
 }
