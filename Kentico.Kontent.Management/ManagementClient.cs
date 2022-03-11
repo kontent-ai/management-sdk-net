@@ -1243,21 +1243,5 @@ namespace Kentico.Kontent.Management
 
             return response;
         }
-        
-        private async Task<IListingResponse<TModel>> GetNextListingPageAndMapAsync<TRawListingResponse, TRawModel, TListingResponse, TModel>(string continuationToken, string url, Func<TRawModel, TModel> mapModel)
-            where TListingResponse : IListingResponse<TModel>, new()
-            where TRawListingResponse : IListingResponse<TRawModel>
-        {
-            var headers = new Dictionary<string, string>
-            {
-                { "x-continuation", continuationToken }
-            };
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TRawListingResponse>(url, HttpMethod.Get, headers);
-
-            return new TListingResponse()
-            {
-                
-            };
-        }
     }
 }
