@@ -19,7 +19,7 @@ namespace Kentico.Kontent.Management.Modules.UrlBuilder
                 return string.Format(template.UrlEmail, identifier.Email);
             }
 
-            throw new ArgumentException("You must provide id, codename or externalId");
+            throw new ArgumentException("You must provide user id or email");
         }
 
         internal static string GetIdentifierUrlSegment(this UrlTemplate template, Reference identifier)

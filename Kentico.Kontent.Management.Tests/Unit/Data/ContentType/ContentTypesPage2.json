@@ -1,0 +1,498 @@
+{
+  "types": [
+    {
+      "id": "16242b8d-9ccb-5695-9839-5166f8deff39",
+      "codename": "grinder",
+      "last_modified": "2021-06-02T11:08:27.8808646Z",
+      "external_id": "da4f1cb1-8a55-43e5-9fcc-67ad331c8888",
+      "name": "Grinder",
+      "content_groups": [],
+      "elements": [
+        {
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content entry. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
+          "type": "guidelines",
+          "external_id": "14cba67c-fc38-63f9-93c7-c29c03c20292",
+          "id": "55bd6dec-5390-5b65-91fa-a1532cb8153a",
+          "codename": "n14cba67c_fc38_63f9_93c7_c29c03c20292"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Product name",
+          "guidelines": "Include a product display name.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "b7b9604e-c74e-79ea-2a0f-d74d6347e35a",
+          "id": "f26d319a-893c-597e-b87d-7ae0de41dbe2",
+          "codename": "product_name"
+        },
+        {
+          "name": "Price",
+          "guidelines": "Include a product price.",
+          "is_required": false,
+          "type": "number",
+          "external_id": "1e14595d-7fe8-7765-6df6-fad6a6e4851f",
+          "id": "d74bcab8-f89a-5219-973c-0fa66f218eb0",
+          "codename": "price"
+        },
+        {
+          "asset_count_limit": null,
+          "maximum_file_size": null,
+          "allowed_file_types": "adjustable",
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "name": "Image",
+          "guidelines": "Upload one product image; the recommended size is 300 × 300 px.",
+          "is_required": false,
+          "type": "asset",
+          "external_id": "7fe226b9-d21f-80ff-e680-6e6f44ce044b",
+          "id": "c43c95e0-63bc-5b13-aed6-d6a6a2d44bac",
+          "codename": "image"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Manufacturer",
+          "guidelines": "Include a manufacturer's name.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "2c389736-7dfa-b03e-8996-7eba451cfdb5",
+          "id": "69e47b7b-5135-5c40-ad2d-abbfcb1d871e",
+          "codename": "manufacturer"
+        },
+        {
+          "guidelines": "Add a product status if the product is included in a special offering.",
+          "taxonomy_group": {
+            "id": "ce444e2a-4194-5878-81b9-4447b0b2357b"
+          },
+          "is_required": false,
+          "term_count_limit": null,
+          "type": "taxonomy",
+          "external_id": "54120e88-82cc-2202-e72d-9cae0ced3f51",
+          "id": "a8160201-d60f-5944-8ed8-21810001d9e2",
+          "codename": "product_status"
+        },
+        {
+          "maximum_text_length": null,
+          "maximum_image_size": null,
+          "allowed_content_types": [],
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "allowed_image_types": "any",
+          "allowed_blocks": [],
+          "allowed_formatting": [],
+          "allowed_text_blocks": [],
+          "allowed_table_blocks": [
+            "text"
+          ],
+          "allowed_table_formatting": [],
+          "allowed_table_text_blocks": [
+            "paragraph"
+          ],
+          "name": "Short description",
+          "guidelines": "Include a short description that fits within 160 characters.",
+          "is_required": false,
+          "type": "rich_text",
+          "external_id": "23ee310f-9732-9193-ad5e-80f75bfc276d",
+          "id": "2a2b1070-b2fe-5497-8c06-654af5feaf34",
+          "codename": "short_description"
+        },
+        {
+          "maximum_text_length": null,
+          "maximum_image_size": null,
+          "allowed_content_types": [],
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "allowed_image_types": "any",
+          "allowed_blocks": [],
+          "allowed_formatting": [],
+          "allowed_text_blocks": [],
+          "allowed_table_blocks": [
+            "text"
+          ],
+          "allowed_table_formatting": [],
+          "allowed_table_text_blocks": [
+            "paragraph"
+          ],
+          "name": "Long description",
+          "guidelines": "Include a full product description.",
+          "is_required": false,
+          "type": "rich_text",
+          "external_id": "21e77286-e87b-d6e3-902d-13b5814b5e75",
+          "id": "bf7f428c-a3d4-507b-b30e-d826415c76e9",
+          "codename": "long_description"
+        },
+        {
+          "depends_on": {
+            "snippet": {
+              "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+            },
+            "element": {
+              "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+            }
+          },
+          "name": "URL pattern",
+          "guidelines": "Provide a SEO-friendly URL.",
+          "is_required": false,
+          "type": "url_slug",
+          "external_id": "bf6ad588-11e5-ba0d-2c18-ccd50064a32a",
+          "id": "dab8d1dd-2503-54d5-9765-15f16b7cc8ff",
+          "codename": "url_pattern"
+        },
+        {
+          "snippet": {
+            "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+          },
+          "type": "snippet",
+          "external_id": "75c6b7ad-eabf-e936-2843-bd31f0cfff1d",
+          "id": "15305a25-375f-58c9-8136-892648686cdf",
+          "codename": "metadata"
+        }
+      ]
+    },
+    {
+      "id": "a9591fcd-a8c4-561d-ae2a-626ebcb766ad",
+      "codename": "accessory",
+      "last_modified": "2021-06-02T11:08:27.162074Z",
+      "external_id": "d9748663-f567-4c51-a922-c24a1d6b935a",
+      "name": "Accessory",
+      "content_groups": [],
+      "elements": [
+        {
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
+          "type": "guidelines",
+          "external_id": "327e98b0-f269-c0e5-230a-46b7d0be0f45",
+          "id": "6d73a092-aace-57d3-a8ea-676421fea646",
+          "codename": "n327e98b0_f269_c0e5_230a_46b7d0be0f45"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Product name",
+          "guidelines": "Include a product display name.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "f9e2672c-5035-412e-3985-d6112b3781bd",
+          "id": "ebc9437c-cd20-5a0c-9f82-a819617b3809",
+          "codename": "product_name"
+        },
+        {
+          "name": "Price",
+          "guidelines": "Include a product price.",
+          "is_required": false,
+          "type": "number",
+          "external_id": "51d63ac3-d40d-15ea-c219-be207714077c",
+          "id": "8132b5ea-b770-5024-bce8-11ce35960054",
+          "codename": "price"
+        },
+        {
+          "asset_count_limit": null,
+          "maximum_file_size": null,
+          "allowed_file_types": "adjustable",
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "name": "Image",
+          "guidelines": "Upload one product image; the recommended size is 300 × 300 px.",
+          "is_required": false,
+          "type": "asset",
+          "external_id": "f0db12e6-86e4-8597-903b-c5984076d6b3",
+          "id": "1163fd00-bf10-5aa7-b635-d6e12047f9dc",
+          "codename": "image"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Manufacturer",
+          "guidelines": "Include a manufacturer's name.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "ab75ff46-b629-5ce5-aac9-79ed8a7b869c",
+          "id": "fec42a2e-82e6-54ce-a097-9ef03597f582",
+          "codename": "manufacturer"
+        },
+        {
+          "guidelines": "Add a product status if the product is included in a special offering.",
+          "taxonomy_group": {
+            "id": "ce444e2a-4194-5878-81b9-4447b0b2357b"
+          },
+          "is_required": false,
+          "term_count_limit": null,
+          "type": "taxonomy",
+          "external_id": "ef13b1f4-b558-f707-35a4-86146dbe4518",
+          "id": "8a7948e1-4998-561e-a540-0f7533c73cce",
+          "codename": "product_status"
+        },
+        {
+          "maximum_text_length": null,
+          "maximum_image_size": null,
+          "allowed_content_types": [],
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "allowed_image_types": "any",
+          "allowed_blocks": [],
+          "allowed_formatting": [],
+          "allowed_text_blocks": [],
+          "allowed_table_blocks": [
+            "text"
+          ],
+          "allowed_table_formatting": [],
+          "allowed_table_text_blocks": [
+            "paragraph"
+          ],
+          "name": "Short description",
+          "guidelines": "Include a short description that fits within 160 characters.",
+          "is_required": false,
+          "type": "rich_text",
+          "external_id": "9740e2d0-87e8-52f5-ff4c-566fa00b1253",
+          "id": "2a211ea9-f9ac-5130-aab1-d231af4f1c13",
+          "codename": "short_description"
+        },
+        {
+          "maximum_text_length": null,
+          "maximum_image_size": null,
+          "allowed_content_types": [],
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "allowed_image_types": "any",
+          "allowed_blocks": [],
+          "allowed_formatting": [],
+          "allowed_text_blocks": [],
+          "allowed_table_blocks": [
+            "text"
+          ],
+          "allowed_table_formatting": [],
+          "allowed_table_text_blocks": [
+            "paragraph"
+          ],
+          "name": "Long description",
+          "guidelines": "Include a full product description.",
+          "is_required": false,
+          "type": "rich_text",
+          "external_id": "1f961774-a589-4e21-9f8e-a8c4908ea476",
+          "id": "8c7bfa94-82bd-595e-bc48-40a1d82a9974",
+          "codename": "long_description"
+        },
+        {
+          "depends_on": {
+            "snippet": {
+              "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+            },
+            "element": {
+              "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+            }
+          },
+          "name": "URL pattern",
+          "guidelines": "Provide a SEO-friendly URL.",
+          "is_required": false,
+          "type": "url_slug",
+          "external_id": "69e4af48-f1ac-1146-e6c9-d20d55ca5792",
+          "id": "c604e5c9-4d23-58dc-b254-fd96c1f6ae0f",
+          "codename": "url_pattern"
+        },
+        {
+          "snippet": {
+            "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+          },
+          "type": "snippet",
+          "external_id": "8abb0298-218b-de99-ccfe-d49630fad6fd",
+          "id": "b3400b75-8f6c-5a4c-b566-8f653c711b61",
+          "codename": "metadata"
+        }
+      ]
+    },
+    {
+      "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7",
+      "codename": "article",
+      "last_modified": "2021-07-26T14:58:19.1748311Z",
+      "external_id": "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89",
+      "name": "Article",
+      "content_groups": [],
+      "elements": [
+        {
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Guidelines sample</h2><p>All articles will be displayed in the same section of the web site. Stick to an informal tone of voice when writing articles.</p><p>Use the following keywords: grinders, dripper, coffee.</p>",
+          "type": "guidelines",
+          "external_id": "2a3a744e-0529-dd13-793c-9e668133d48b",
+          "id": "f9f65756-5ed8-55ed-9d2a-43f9fe7974cd",
+          "codename": "n2a3a744e_0529_dd13_793c_9e668133d48b"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Title",
+          "guidelines": "The title should fit within 60 characters.Our voice and tone recommendations: — avoid coffee jargon.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "85d5efc6-f47e-2fde-a6f5-0950fe89ecd1",
+          "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977",
+          "codename": "title"
+        },
+        {
+          "source_url": "https://example.com",
+          "json_parameters": null,
+          "allowed_elements": [],
+          "name": "SelectedForm",
+          "guidelines": null,
+          "is_required": false,
+          "type": "custom",
+          "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd",
+          "codename": "selectedform"
+        },
+        {
+          "name": "Rating",
+          "guidelines": null,
+          "is_required": false,
+          "type": "number",
+          "id": "773940f4-9e67-4a26-a93f-67e55fd7d837",
+          "codename": "rating"
+        },
+        {
+          "mode": "multiple",
+          "options": [
+            {
+              "id": "00c0f86a-7c51-4e60-abeb-a150e9092e53",
+              "codename": "paid",
+              "name": "Paid"
+            },
+            {
+              "id": "8972dc90-ae2e-416e-995d-95df6c77e3b2",
+              "codename": "featured",
+              "name": "Featured"
+            }
+          ],
+          "name": "Options",
+          "guidelines": null,
+          "is_required": false,
+          "type": "multiple_choice",
+          "id": "53a25074-b136-4a1f-a16d-3c130f696c66",
+          "codename": "options"
+        },
+        {
+          "asset_count_limit": null,
+          "maximum_file_size": null,
+          "allowed_file_types": "adjustable",
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "name": "Teaser image",
+          "guidelines": "Upload an image at a resolution of at least 600 × 1200 px.",
+          "is_required": false,
+          "type": "asset",
+          "external_id": "62eb9881-e222-6b81-91d2-fdf052726414",
+          "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56",
+          "codename": "teaser_image"
+        },
+        {
+          "name": "Post date",
+          "guidelines": "Provide a date that will appear on the live site as the date this article was posted live. This date will also influence the order of the articles. ",
+          "is_required": false,
+          "type": "date_time",
+          "external_id": "4ae5f7a9-fe1f-1e8c-bfec-d321455139c4",
+          "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7",
+          "codename": "post_date"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Summary",
+          "guidelines": "Provide a short summary of the text. It should be catchy and make the visitor want to read the whole article.The summary should fit within 160 characters.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "90550cbe-7bff-40a9-2947-9c81489fe562",
+          "id": "15517aa3-da8a-5551-a4d4-555461fd5226",
+          "codename": "summary"
+        },
+        {
+          "maximum_text_length": null,
+          "maximum_image_size": null,
+          "allowed_content_types": [],
+          "image_width_limit": null,
+          "image_height_limit": null,
+          "allowed_image_types": "any",
+          "allowed_blocks": [],
+          "allowed_formatting": [],
+          "allowed_text_blocks": [],
+          "allowed_table_blocks": [
+            "text"
+          ],
+          "allowed_table_formatting": [],
+          "allowed_table_text_blocks": [
+            "paragraph"
+          ],
+          "name": "Body Copy",
+          "guidelines": "Keep the article structured with concise paragraphs complemented with headlines that will help the reader navigate through the article's content.Preferred glossary terms — coffee, brewing, grinder, drip, roast, filter.",
+          "is_required": false,
+          "type": "rich_text",
+          "external_id": "108ed7c0-fc8c-c0ec-d0b5-5a8071408b54",
+          "id": "55a88ab3-4009-5bf9-a590-f32162f09b92",
+          "codename": "body_copy"
+        },
+        {
+          "item_count_limit": null,
+          "allowed_content_types": [],
+          "name": "Related articles",
+          "guidelines": "Provide articles with related topics. ",
+          "is_required": true,
+          "type": "modular_content",
+          "external_id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
+          "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1",
+          "codename": "related_articles"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Meta keywords",
+          "guidelines": "Enter tags separated with a comma. Example: coffee, \"coffee roast”, grinder",
+          "is_required": false,
+          "type": "text",
+          "external_id": "5efb2425-5987-a4a6-a2d3-b14712b56e73",
+          "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd",
+          "codename": "meta_keywords"
+        },
+        {
+          "guidelines": "Provide all personas for which this article is relevant.",
+          "taxonomy_group": {
+            "id": "7fad4cb0-c96c-5bce-a6c4-ec02a0280632"
+          },
+          "is_required": false,
+          "term_count_limit": null,
+          "type": "taxonomy",
+          "external_id": "0a16b642-ac3e-584d-a45a-ba354a30b2bd",
+          "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d",
+          "codename": "personas"
+        },
+        {
+          "maximum_text_length": null,
+          "name": "Meta description",
+          "guidelines": "Sum up the blog for SEO purposes. Limit for the meta description is 160 characters.",
+          "is_required": false,
+          "type": "text",
+          "external_id": "b9dc537c-2518-e4f5-8325-ce4fce26171e",
+          "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815",
+          "codename": "meta_description"
+        },
+        {
+          "depends_on": {
+            "snippet": {
+              "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+            },
+            "element": {
+              "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+            }
+          },
+          "name": "URL pattern",
+          "guidelines": "Provide a SEO-friendly URL.",
+          "is_required": false,
+          "type": "url_slug",
+          "external_id": "f2ff5e3f-a9ca-4604-58b0-34a2ad6a7cf1",
+          "id": "1f37e15b-27a0-5f48-b314-03b401c19cee",
+          "codename": "url_pattern"
+        },
+        {
+          "snippet": {
+            "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+          },
+          "type": "snippet",
+          "external_id": "08c3994a-02f2-1278-7bed-e8fd9d26f3a4",
+          "id": "328810f4-7209-504e-b676-b4d48d11a6fb",
+          "codename": "metadata"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
