@@ -1,4 +1,5 @@
-﻿using Kentico.Kontent.Management.Models.Shared;
+﻿using FluentAssertions;
+using Kentico.Kontent.Management.Models.Shared;
 using System;
 using Xunit;
 
@@ -7,7 +8,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
     public partial class EndpointUrlBuilderTests
     {
         [Fact]
-        public void BuildAssetsUrlFromId_WithGivenAssetId_ReturnsExpectedUrl()
+        public void BuildAssetsUrlFromId_ById_ReturnsExpectedUrl()
         {
             var assetId = Guid.NewGuid();
             var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/{assetId}";
@@ -17,7 +18,13 @@ namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
         }
 
         [Fact]
-        public void BuildAssetsUrlFromExternalId_WithGivenAssetId_ReturnsExpectedUrl()
+        public void BuildAssetsUrlFromExternalId_ByCodename_ReturnsExpectedUrl()
+        {
+            _builder.Invoking(c => c.BuildAssetsUrl(Reference.ByCodename("c"))).Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void BuildAssetsUrlFromExternalId_ByExternalId_ReturnsExpectedUrl()
         {
             var externalId = "which-brewing-fits-you";
             var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/external-id/{externalId}";

@@ -10,6 +10,8 @@ using FluentAssertions;
 using Kentico.Kontent.Management.Extensions;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.StronglyTyped;
+using System.IO;
+using System.Text;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {
@@ -196,6 +198,104 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
+        public async Task CreateAssetAsync_StronglyTyped_WithFileContent_CreatesAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
+
+            var expected = GetExpectedStronglyTypedAssetModel();
+
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            string fileName = "Hello.txt";
+            string contentType = "text/plain";
+
+            var updateModel = new AssetCreateModel<ComplexTestModel>
+            {
+                Title = expected.Title,
+                Elements = expected.Elements
+            };
+
+            var content = new FileContentSource(stream, fileName, contentType);
+
+            var response = await client.CreateAssetAsync(content, updateModel);
+
+            response.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task CreateAssetAsync_StronglyTyped_WithFileContent_FileContentIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var updateModel = new AssetCreateModel<ComplexTestModel> { Title = "xxx" };
+
+            await client.Invoking(c => c.CreateAssetAsync(null, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task CreateAssetAsync_StronglyTyped_WithFileContent_UpsertModelIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var content = new FileContentSource(
+                new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
+                "Hello.txt",
+                "text/plain");
+
+            await client.Invoking(c => c.CreateAssetAsync<ComplexTestModel>(content, null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task CreateAssetAsync_DynamicallyTyped_WithFileContent_CreatesAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
+
+            var expected = GetExpectedDynamicAssetModel();
+
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            string fileName = "Hello.txt";
+            string contentType = "text/plain";
+
+            var updateModel = new AssetCreateModel
+            {
+                Title = expected.Title,
+                Elements = expected.Elements
+            };
+
+            var content = new FileContentSource(stream, fileName, contentType);
+
+            var response = await client.CreateAssetAsync(content, updateModel);
+
+            response.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task CreateAssetAsync_DynamicallyTyped_WithFileContent_FileContentIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var updateModel = new AssetCreateModel { Title = "xxx" };
+
+            await client.Invoking(c => c.CreateAssetAsync(null, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task CreateAssetAsync_DynamicallyTyped_WithFileContent_UpsertModelIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var content = new FileContentSource(
+                new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
+                "Hello.txt",
+                "text/plain");
+
+            await client.Invoking(c => c.CreateAssetAsync(content, null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
         public async Task UpsertAssetAsync_StronglyTyped_ById_UpsertsAsset()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
@@ -259,7 +359,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async Task UpsertAssetAsync_StronglyTyped_UpsertModelIsNull_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             await client.Invoking(c => c.UpsertAssetAsync<ComplexTestModel>(Reference.ByExternalId("ex"), null))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
@@ -329,13 +429,204 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         [Fact]
         public async Task UpsertAssetAsync_DynamicallyTyped_UpsertModelIsNull_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("ex"), null))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
-        
-      
+
+        [Fact]
+        public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_UpsertsAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
+
+            var expected = GetExpectedStronglyTypedAssetModel();
+
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            string fileName = "Hello.txt";
+            string contentType = "text/plain";
+
+            var updateModel = new AssetUpsertModel<ComplexTestModel>
+            {
+                Title = expected.Title,
+                Elements = expected.Elements
+            };
+
+            var content = new FileContentSource(stream, fileName, contentType);
+
+            var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, updateModel);
+
+            response.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_IdentifierIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var content = new FileContentSource(
+                new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
+                "Hello.txt",
+                "text/plain");
+
+            var updateModel = new AssetUpsertModel<ComplexTestModel> { Title = "xxx" };
+
+            await client.Invoking(c => c.UpsertAssetAsync(null, content, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_FileContentIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var updateModel = new AssetUpsertModel<ComplexTestModel> { Title = "xxx" };
+
+            await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("externalId"), null, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_UpsertModelIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var content = new FileContentSource(
+                new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
+                "Hello.txt",
+                "text/plain");
+
+            await client.Invoking(c => c.UpsertAssetAsync<ComplexTestModel>(Reference.ByExternalId("externalId"), content, null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_UpsertsAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
+
+            var expected = GetExpectedDynamicAssetModel();
+
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            string fileName = "Hello.txt";
+            string contentType = "text/plain";
+
+            var updateModel = new AssetUpsertModel
+            {
+                Title = expected.Title,
+                Elements = expected.Elements
+            };
+
+            var content = new FileContentSource(stream, fileName, contentType);
+
+            var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, updateModel);
+
+            response.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_IdentifierIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var content = new FileContentSource(
+                new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
+                "Hello.txt",
+                "text/plain");
+
+            var updateModel = new AssetUpsertModel { Title = "xxx" };
+
+            await client.Invoking(c => c.UpsertAssetAsync(null, content, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_FileContentIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var updateModel = new AssetUpsertModel { Title = "xxx" };
+
+            await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("externalId"), null, updateModel))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_UpsertModelIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            var content = new FileContentSource(
+                new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
+                "Hello.txt",
+                "text/plain");
+
+            await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("externalId"), content, null))
+                .Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task DeleteAssetAsync_ById_DeletesAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+
+            await client.Invoking(c => c.DeleteAssetAsync(Reference.ById(Guid.Empty)))
+                .Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task DeleteAssetAsync_ByCodename_DeletesAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            await client.Invoking(c => c.DeleteAssetAsync(Reference.ByCodename("c")))
+                .Should().ThrowExactlyAsync<InvalidOperationException>();
+        }
+
+        [Fact]
+        public async Task DeleteAssetAsync_ByExternalId_DeletesAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            await client.Invoking(c => c.DeleteAssetAsync(Reference.ByExternalId("externalId")))
+                .Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task DeleteAssetAsync_IdentifierIsNull_DeletesAsset()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            await client.Invoking(c => c.DeleteAssetAsync(null))
+                .Should().ThrowAsync<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task UploadFileAsync_UploadsFile()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithResponse("File.json");
+
+            var expected = _fileSystemFixture.GetExpectedResponse<FileReference>("File.json");
+
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            string fileName = "Hello.txt";
+            string contentType = "text/plain";
+
+            var content = new FileContentSource(stream, fileName, contentType);
+
+            var response = await client.UploadFileAsync(content);
+
+            response.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task UploadFileAsync_ContentIsNull_Throws()
+        {
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+
+            await client.Invoking(c => c.UploadFileAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        }
 
         private static AssetModel GetExpectedDynamicAssetModel(string assetId = "01647205-c8c4-4b41-b524-1a98a7b12750")
         {
