@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.Items;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.StronglyTyped;
 
 namespace Kentico.Kontent.Management.Extensions
 {
@@ -59,14 +60,40 @@ namespace Kentico.Kontent.Management.Extensions
 
             var fileResult = await client.UploadFileAsync(fileContent);
 
-            var asset = new AssetCreateModel
-            {
-                FileReference = fileResult,
-                Descriptions = assetCreateModel.Descriptions,
-                Title = assetCreateModel.Title
-            };
+            assetCreateModel.FileReference = fileResult;
 
-            var response = await client.CreateAssetAsync(asset);
+            var response = await client.CreateAssetAsync(assetCreateModel);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Creates asset.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="fileContent">Represents the content of the file.</param>
+        /// <param name="assetCreateModel">Updated values for the strongly typed asset.</param>
+        public static async Task<AssetModel<T>> CreateAssetAsync<T>(this IManagementClient client, FileContentSource fileContent, AssetCreateModel<T> assetCreateModel) where T: new()
+        {
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+            if (assetCreateModel == null)
+            {
+                throw new ArgumentNullException(nameof(assetCreateModel));
+            }
+
+            if (assetCreateModel.Descriptions == null)
+            {
+                throw new ArgumentNullException(nameof(assetCreateModel.Descriptions));
+            }
+
+            var fileResult = await client.UploadFileAsync(fileContent);
+
+            assetCreateModel.FileReference = fileResult;
+
+            var response = await client.CreateAssetAsync(assetCreateModel);
 
             return response;
         }
@@ -83,7 +110,41 @@ namespace Kentico.Kontent.Management.Extensions
         {
             if (identifier == null)
             {
-                throw new ArgumentException(nameof(identifier));
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (fileContent == null)
+            {
+                throw new ArgumentNullException(nameof(fileContent));
+            }
+
+            if (upsertModel == null)
+            {
+                throw new ArgumentNullException(nameof(upsertModel));
+            }
+
+            var fileResult = await client.UploadFileAsync(fileContent);
+
+            upsertModel.FileReference = fileResult;
+
+            var response = await client.UpsertAssetAsync(identifier, upsertModel);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Creates or updates the given asset.
+        /// </summary>
+        /// <param name="client">Content management client instance.</param>
+        /// <param name="identifier">The identifier of the asset.</param>
+        /// <param name="fileContent">Represents the content of the file.</param>
+        /// <param name="upsertModel">Updated values for the asset.</param>
+        /// <returns>The <see cref="AssetModel{T}"/> instance that represents created or updated strongly typed asset.</returns>
+        public static async Task<AssetModel<T>> UpsertAssetAsync<T>(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel<T> upsertModel) where T: new()
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
             }
 
             if (fileContent == null)
