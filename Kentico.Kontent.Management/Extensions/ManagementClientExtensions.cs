@@ -53,11 +53,6 @@ namespace Kentico.Kontent.Management.Extensions
                 throw new ArgumentNullException(nameof(assetCreateModel));
             }
 
-            if (assetCreateModel.Descriptions == null)
-            {
-                throw new ArgumentNullException(nameof(assetCreateModel.Descriptions));
-            }
-
             var fileResult = await client.UploadFileAsync(fileContent);
 
             assetCreateModel.FileReference = fileResult;
@@ -82,11 +77,6 @@ namespace Kentico.Kontent.Management.Extensions
             if (assetCreateModel == null)
             {
                 throw new ArgumentNullException(nameof(assetCreateModel));
-            }
-
-            if (assetCreateModel.Descriptions == null)
-            {
-                throw new ArgumentNullException(nameof(assetCreateModel.Descriptions));
             }
 
             var fileResult = await client.UploadFileAsync(fileContent);
