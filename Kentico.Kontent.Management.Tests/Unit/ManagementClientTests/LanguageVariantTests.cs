@@ -47,7 +47,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListLanguageVariantsByItemAsync_ListsVariants()
+        public async Task ListLanguageVariantsByItemAsync_DynamicallyTyped_ListsVariants()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -62,7 +62,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListLanguageVariantsByItemAsync_IdentifierIsNull_Throws()
+        public async Task ListLanguageVariantsByItemAsync_DynamicallyTyped_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -71,7 +71,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void ListLanguageVariantsByTypeAsync_WithContinuation_ListsVariants()
+        public async void ListLanguageVariantsByTypeAsync_DynamicallyTyped_WithContinuation_ListsVariants()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json");
 
@@ -93,7 +93,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListLanguageVariantsByTypeAsync_IdentifierIsNull_Throws()
+        public async Task ListLanguageVariantsByTypeAsync_DynamicallyTyped_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -102,7 +102,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_WithContinuation_ListsVariants()
+        public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_DynamicallyTyped_WithContinuation_ListsVariants()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json");
 
@@ -124,7 +124,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_IdentifierIsNull_Throws()
+        public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_DynamicallyTyped_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -133,7 +133,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void ListLanguageVariantsByCollectionAsync_WithContinuation_ListsVariants()
+        public async void ListLanguageVariantsByCollectionAsync_DynamicallyTyped_WithContinuation_ListsVariants()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json");
 
@@ -155,7 +155,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task ListLanguageVariantsByCollectionAsync_IdentifierIsNull_Throws()
+        public async Task ListLanguageVariantsByCollectionAsync_DynamicallyTyped_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -189,7 +189,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task GetLanguageVariantAsync_GetsVariant()
+        public async Task GetLanguageVariantAsync_DynamicallyTyped_GetsVariant()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
@@ -205,7 +205,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task GetLanguageVariantAsync_IdentifierIsNull_Throws()
+        public async Task GetLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -252,7 +252,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_UpsertsVariant()
+        public async Task UpsertLanguageVariantAsync_DynamicallyTyped_UpsertsVariant()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
@@ -270,7 +270,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_IdentifierIsNull_Throws()
+        public async Task UpsertLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -279,7 +279,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_LanguageVariantUpsertModelIsNull_Throws()
+        public async Task UpsertLanguageVariantAsync_DynamicallyTyped_LanguageVariantUpsertModelIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -292,7 +292,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_ByLanguageVariantModel_UpsertsVariant()
+        public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantModel_UpsertsVariant()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
@@ -308,7 +308,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_ByLanguageVariantModel_IdentifierIsNull_Throws()
+        public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantModel_IdentifierIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
@@ -317,7 +317,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async Task UpsertLanguageVariantAsync_ByLanguageVariantModel_LanguageVariantModelIsNull_Throws()
+        public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantModel_LanguageVariantModelIsNull_Throws()
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
