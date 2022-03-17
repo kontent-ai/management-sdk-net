@@ -557,10 +557,10 @@ namespace Kentico.Kontent.Management
         public async Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync()
         {
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
-            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+            var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
             return new ListingResponseModel<ContentTypeSnippetModel>(
-                (token, url) => GetNextListingPageAsync<SnippetsListingResponseServerModel, ContentTypeSnippetModel>(token, url),
+                (token, url) => GetNextListingPageAsync<SnippetListingResponseServerModel, ContentTypeSnippetModel>(token, url),
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Snippets);
@@ -581,7 +581,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(CreateContentSnippetCreateModel contentTypeSnippet)
+        public async Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet)
         {
             if (contentTypeSnippet == null)
             {
@@ -589,7 +589,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl();
-            var response = await _actionInvoker.InvokeMethodAsync<CreateContentSnippetCreateModel, ContentTypeSnippetModel>(endpointUrl, HttpMethod.Post, contentTypeSnippet);
+            var response = await _actionInvoker.InvokeMethodAsync<ContentTypeSnippetCreateModel, ContentTypeSnippetModel>(endpointUrl, HttpMethod.Post, contentTypeSnippet);
 
             return response;
         }
@@ -613,6 +613,11 @@ namespace Kentico.Kontent.Management
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (changes == null || !changes.Any())
+            {
+                throw new ArgumentException("Please provide at least one operation.", nameof(changes));
             }
 
             var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);

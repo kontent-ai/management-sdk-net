@@ -753,11 +753,11 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
                         ExternalId = "my-meta-title-id"
                     },
                 },
-                new SnippetPatchRemoveModel
+                new ContentTypeSnippetPatchRemoveModel
                 {
                     Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
                 },
-                new SnippetPatchRemoveModel
+                new ContentTypeSnippetPatchRemoveModel
                 {
                     Path = "/elements/external_id:my-multiple-choice-id/options/codename:my_option"
                 }
@@ -1053,7 +1053,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("PostSnippetResponse.json");
 
-            var response = await client.CreateContentTypeSnippetAsync(new CreateContentSnippetCreateModel
+            var response = await client.CreateContentTypeSnippetAsync(new ContentTypeSnippetCreateModel
             {
                 Name = "metadata",
                 Codename = "my_metadata",

@@ -31,7 +31,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
-            var response = await client.CreateContentTypeSnippetAsync(new CreateContentSnippetCreateModel
+            var response = await client.CreateContentTypeSnippetAsync(new ContentTypeSnippetCreateModel
             {
                 Name = "Metadata",
                 Codename = "metadata",
