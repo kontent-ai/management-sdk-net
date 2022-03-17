@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Kentico.Kontent.Management.Models.TaxonomyGroups
 {

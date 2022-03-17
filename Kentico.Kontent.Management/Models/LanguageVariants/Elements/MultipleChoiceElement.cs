@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;

@@ -3,7 +3,7 @@ using Kentico.Kontent.Management.Modules.ModelBuilders;
 using System;
 using Xunit;
 
-namespace Kentico.Kontent.Management.Tests
+namespace Kentico.Kontent.Management.Tests.Modules.Extensions
 {
 
     public class PropertyInfoExtensionsTests

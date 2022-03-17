@@ -27,12 +27,13 @@ using Kentico.Kontent.Management.Models.TypeSnippets;
 using Kentico.Kontent.Management.Models.TypeSnippets.Patch;
 using Kentico.Kontent.Management.Models.Collections.Patch;
 using Kentico.Kontent.Management.Models.Assets.Patch;
-using Kentico.Kontent.Management.UrlBuilder;
 using Kentico.Kontent.Management.Models.Roles;
 using Kentico.Kontent.Management.Models.Users;
 using Kentico.Kontent.Management.Models.Subscription;
 using Kentico.Kontent.Management.Models.Environments;
 using Kentico.Kontent.Management.Models.Environments.Patch;
+using Kentico.Kontent.Management.Configuration;
+using Kentico.Kontent.Management.Modules.UrlBuilder;
 
 namespace Kentico.Kontent.Management
 {
