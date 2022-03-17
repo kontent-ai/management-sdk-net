@@ -7,7 +7,7 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets
     /// <summary>
     /// Represents content snippet type create model.
     /// </summary>
-    public class CreateContentSnippetCreateModel
+    public class ContentTypeSnippetCreateModel
     {
         /// <summary>
         /// Gets or sets the codename of the content snippet type.

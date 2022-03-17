@@ -183,7 +183,7 @@ namespace Kentico.Kontent.Management
         /// </summary>
         /// <param name="contentTypeSnippet">Represents content type snippet which will be created.</param>
         /// <returns>The <see cref="ContentTypeSnippetModel"/> instance that represents created content type snippet.</returns>
-        Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(CreateContentSnippetCreateModel contentTypeSnippet);
+        Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet);
 
         /// <summary>
         /// Creates the language.

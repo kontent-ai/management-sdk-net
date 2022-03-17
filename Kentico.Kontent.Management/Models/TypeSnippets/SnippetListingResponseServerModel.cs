@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Kentico.Kontent.Management.Models.TypeSnippets
 {
     [JsonObject]
-    internal class SnippetsListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
+    internal class SnippetListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
     {
         [JsonProperty("snippets")]
         public IEnumerable<ContentTypeSnippetModel> Snippets { get; set; }
