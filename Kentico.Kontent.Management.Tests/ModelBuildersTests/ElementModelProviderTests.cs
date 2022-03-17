@@ -4,7 +4,7 @@ using System.Linq;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.ModelBuilders;
-using Kentico.Kontent.Management.Tests.Data;
+using Kentico.Kontent.Management.Tests.Unit.Data;
 using Newtonsoft.Json;
 using Xunit;
 using Kentico.Kontent.Management.Models.LanguageVariants;
