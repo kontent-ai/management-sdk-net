@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using System;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
+using _ActionInvoker = Kentico.Kontent.Management.Modules.ActionInvoker.ActionInvoker;
 
-namespace Kentico.Kontent.Management.Tests
+namespace Kentico.Kontent.Management.Tests.Modules.ActionInvoker
 {
     internal class FakeManagementHttpClient : IManagementHttpClient
     {
@@ -37,7 +38,7 @@ namespace Kentico.Kontent.Management.Tests
         public async Task ActionInvokerSerializeElementContainingZero_SerializedJsonContainsZero(decimal d, string s)
         {
             var httpClient = new FakeManagementHttpClient();
-            var actionInvoker = new ActionInvoker(httpClient, new MessageCreator("{api_key}"));
+            var actionInvoker = new _ActionInvoker(httpClient, new MessageCreator("{api_key}"));
 
             var languageVariantUpsertModel = new LanguageVariantUpsertModel()
             {
@@ -54,23 +55,23 @@ namespace Kentico.Kontent.Management.Tests
             await actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, dynamic>("{endpoint_url}", HttpMethod.Get, languageVariantUpsertModel);
             Assert.Equal($"{{\"elements\":[{{\"zero\":{s},\"optZero\":{s}}}]}}", httpClient._requestBody);
         }
-        
+
         [Fact]
         public async Task ActionInvokerSerializeEnum_EnumIsSerializedAsString()
         {
             var httpClient = new FakeManagementHttpClient();
-            var actionInvoker = new ActionInvoker(httpClient, new MessageCreator("{api_key}"));
-            
+            var actionInvoker = new _ActionInvoker(httpClient, new MessageCreator("{api_key}"));
+
             var assetUpsertModel = new AssetUpsertModel()
             {
                 Title = "Asset",
-                Descriptions = new []
+                Descriptions = new[]
                 {
                     new AssetDescription()
                     {
                         Description = "Description",
                         Language = Reference.ById(Guid.Empty)
-                    }, 
+                    },
                 },
                 FileReference = new FileReference()
                 {

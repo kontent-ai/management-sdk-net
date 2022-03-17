@@ -1,6 +1,6 @@
 ﻿using Kentico.Kontent.Management.Modules.ModelBuilders;
 
-namespace Kentico.Kontent.Management
+namespace Kentico.Kontent.Management.Configuration
 {
     /// <summary>
     /// Keeps settings which are provided by customer or have default values, used in <see cref="ManagementClient"/>.

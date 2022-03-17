@@ -7,7 +7,7 @@ using Kentico.Kontent.Management.Modules.Extensions;
 
 using Xunit;
 
-namespace Kentico.Kontent.Management.Tests
+namespace Kentico.Kontent.Management.Tests.Modules.Extensions
 {
     public class HttpRequestHeadersExtensionsTests
     {

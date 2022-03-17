@@ -3,7 +3,7 @@ using Kentico.Kontent.Management.Modules.UrlBuilder.Templates;
 using System;
 using System.Net;
 
-namespace Kentico.Kontent.Management.Modules.UrlBuilder
+namespace Kentico.Kontent.Management.Modules.Extensions
 {
     internal static class UrlTemplateExtensions
     {

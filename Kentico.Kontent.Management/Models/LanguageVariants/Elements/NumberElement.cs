@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
