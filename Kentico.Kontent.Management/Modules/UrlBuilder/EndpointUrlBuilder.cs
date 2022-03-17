@@ -1,12 +1,13 @@
 ﻿using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.Workflow;
-using Kentico.Kontent.Management.Modules.UrlBuilder;
 using Kentico.Kontent.Management.Modules.UrlBuilder.Templates;
 using System;
 using Kentico.Kontent.Management.Models.AssetRenditions;
+using Kentico.Kontent.Management.Configuration;
+using Kentico.Kontent.Management.Modules.Extensions;
 
-namespace Kentico.Kontent.Management.UrlBuilder
+namespace Kentico.Kontent.Management.Modules.UrlBuilder
 {
     internal sealed class EndpointUrlBuilder
     {
@@ -136,7 +137,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
         public string BuildAssetsUrl(Reference identifier) => GetProjectUrl(_assetTemplate.GetIdentifierUrlSegment(identifier));
 
         public string BuildUploadFileUrl(string fileName) => GetProjectUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
-        
+
         public string BuildAssetRenditionsUrl(Reference assetIdentifier) => GetProjectUrl(
             string.Concat(
                 _assetTemplate.GetIdentifierUrlSegment(assetIdentifier),
@@ -193,7 +194,7 @@ namespace Kentico.Kontent.Management.UrlBuilder
         {
             var url = string.Concat(endpointUrl, path);
 
-            if ((parameters != null) && (parameters.Length > 0))
+            if (parameters != null && parameters.Length > 0)
             {
                 var joinedQuery = string.Join("&", parameters);
 
