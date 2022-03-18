@@ -17,7 +17,9 @@ namespace Kentico.Kontent.Management.Extensions
         public static AssetFolderHierarchy GetFolderHierarchyById(this IEnumerable<AssetFolderHierarchy> folders, string folderId)
         {
             if (folders == null)
+            {
                 return null;
+            }
 
             // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
             foreach (var itm in folders)
@@ -30,7 +32,9 @@ namespace Kentico.Kontent.Management.Extensions
                 {
                     var nestedFolder = itm.Folders.GetFolderHierarchyById(folderId);
                     if (nestedFolder != null) //This is required so you don't stop processing if the root contains many folders (let the above foreach loop continue)
+                    {
                         return nestedFolder;
+                    }
                 }
             }
             return null;
@@ -45,7 +49,9 @@ namespace Kentico.Kontent.Management.Extensions
         public static AssetFolderHierarchy GetFolderHierarchyByExternalId(this IEnumerable<AssetFolderHierarchy> folders, string externalId)
         {
             if (folders == null)
+            {
                 return null;
+            }
 
             // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
             foreach (var itm in folders)
@@ -58,7 +64,9 @@ namespace Kentico.Kontent.Management.Extensions
                 {
                     var nestedFolder = itm.Folders.GetFolderHierarchyByExternalId(externalId);
                     if (nestedFolder != null) //This is required so you don't stop processing if the root contains many folders (let the above foreach loop continue)
+                    {
                         return nestedFolder;
+                    }
                 }
             }
             return null;

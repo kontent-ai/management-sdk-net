@@ -10,7 +10,6 @@ using Xunit;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
 using Kentico.Kontent.Management.Models.LanguageVariants.Elements;
-using Kentico.Kontent.Management.Tests.Data;
 
 namespace Kentico.Kontent.Management.Tests.Modules.ModelBuilders
 {
@@ -231,7 +230,11 @@ namespace Kentico.Kontent.Management.Tests.Modules.ModelBuilders
 
         private static void AssertIdentifiers(IEnumerable<Guid> expected, IEnumerable<Guid> actual)
         {
-            if (expected == null && actual == null) return;
+            if (expected == null && actual == null)
+            {
+                return;
+            }
+
             if (expected == null || actual == null)
             {
                 Assert.True(false, "Null check");
