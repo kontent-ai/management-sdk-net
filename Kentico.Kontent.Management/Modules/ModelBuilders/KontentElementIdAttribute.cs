@@ -8,7 +8,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
     [AttributeUsage(AttributeTargets.Property)]
     public class KontentElementIdAttribute : Attribute
     {
-        private string elementId;
+        private readonly string elementId;
 
         /// <summary>
         /// Constructor for the attribute.

@@ -58,7 +58,7 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
         // await client.DeleteAssetAsync(identifier);
         // EndDocSection
 
-        private FileSystemFixture _fileSystemFixture;
+        private readonly FileSystemFixture _fileSystemFixture;
 
         public CmApiV2(FileSystemFixture fileSystemFixture)
         {

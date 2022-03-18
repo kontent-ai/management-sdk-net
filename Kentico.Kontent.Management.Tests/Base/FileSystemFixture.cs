@@ -23,10 +23,10 @@ namespace Kentico.Kontent.Management.Tests.Base
         public string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
         private string _folder = "";
-        private IConfiguration _configuration;
-        private ManagementOptions _managementOptions;
-        private EndpointUrlBuilder _urlBuilder;
-        private MessageCreator _messageCreator;
+        private readonly IConfiguration _configuration;
+        private readonly ManagementOptions _managementOptions;
+        private readonly EndpointUrlBuilder _urlBuilder;
+        private readonly MessageCreator _messageCreator;
 
         public FileSystemFixture()
         {

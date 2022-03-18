@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
     public class ProjectRoleTests : IClassFixture<FileSystemFixture>
     {
-        private FileSystemFixture _fileSystemFixture;
+        private readonly FileSystemFixture _fileSystemFixture;
 
         public ProjectRoleTests(FileSystemFixture fileSystemFixture)
         {

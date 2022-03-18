@@ -17,7 +17,7 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
     {
         // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-        private FileSystemFixture _fileSystemFixture;
+        private readonly FileSystemFixture _fileSystemFixture;
 
         public ImportingToKenticoKontent(FileSystemFixture fileSystemFixture)
         {
