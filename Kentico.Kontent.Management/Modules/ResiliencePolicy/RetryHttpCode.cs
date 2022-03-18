@@ -1,6 +1,6 @@
 ﻿namespace Kentico.Kontent.Management.Modules.ResiliencePolicy
 {
-    enum RetryHttpCode
+    internal enum RetryHttpCode
     {
         RequestTimeout = 408,
         TooManyRequests = 429,

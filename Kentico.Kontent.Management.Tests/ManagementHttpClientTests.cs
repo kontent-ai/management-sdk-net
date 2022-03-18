@@ -41,8 +41,7 @@ namespace Kentico.Kontent.Management.Tests
 
             var msg = messageCreator.CreateMessage(HttpMethod.Post, string.Empty);
 
-            IEnumerable<string> headerContent = new List<string>();
-            msg.Headers.TryGetValues("X-KC-SDKID", out headerContent);
+            msg.Headers.TryGetValues("X-KC-SDKID", out var headerContent);
             Assert.True(msg.Headers.Contains("X-KC-SDKID"));
             Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
         }

@@ -16,12 +16,9 @@ namespace Kentico.Kontent.Management.Modules.Extensions
         {
             var attribute = property.GetCustomAttribute<KontentElementIdAttribute>();
 
-            if (attribute == null)
-            {
-                throw new InvalidOperationException($"Cannot get kontent element id as there is no attribute of type {nameof(KontentElementIdAttribute)}");
-            }
-
-            return Guid.Parse(property.GetCustomAttribute<KontentElementIdAttribute>()?.ElementId);
+            return attribute == null
+                ? throw new InvalidOperationException($"Cannot get kontent element id as there is no attribute of type {nameof(KontentElementIdAttribute)}")
+                : Guid.Parse(property.GetCustomAttribute<KontentElementIdAttribute>()?.ElementId);
         }
     }
 }

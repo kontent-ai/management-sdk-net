@@ -11,7 +11,9 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
         protected override JsonConverter ResolveContractConverter(Type objectType)
         {
             if (!objectType.IsAbstract && IsKnownConcreteClassWithDefinedConverter(objectType))
+            {
                 return null; // pretend TableSortRuleConvert is not specified (thus avoiding a stack overflow)
+            }
 
             return base.ResolveContractConverter(objectType);
         }
