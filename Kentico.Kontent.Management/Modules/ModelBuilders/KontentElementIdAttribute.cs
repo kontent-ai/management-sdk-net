@@ -1,27 +1,26 @@
 using System;
 
-namespace Kentico.Kontent.Management.Modules.ModelBuilders
+namespace Kentico.Kontent.Management.Modules.ModelBuilders;
+
+/// <summary>
+/// Represents the element id of an element.
+/// </summary>
+[AttributeUsage(AttributeTargets.Property)]
+public class KontentElementIdAttribute : Attribute
 {
+    private readonly string elementId;
+
     /// <summary>
-    /// Represents the element id of an element.
+    /// Constructor for the attribute.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class KontentElementIdAttribute : Attribute
+    /// <param name="elementId">The id of the element.</param>
+    public KontentElementIdAttribute(string elementId)
     {
-        private readonly string elementId;
-
-        /// <summary>
-        /// Constructor for the attribute.
-        /// </summary>
-        /// <param name="elementId">The id of the element.</param>
-        public KontentElementIdAttribute(string elementId)
-        {
-            this.elementId = elementId;
-        }
-
-        /// <summary>
-        /// Gets the id of the element.
-        /// </summary>
-        public virtual string ElementId => elementId;
+        this.elementId = elementId;
     }
+
+    /// <summary>
+    /// Gets the id of the element.
+    /// </summary>
+    public virtual string ElementId => elementId;
 }

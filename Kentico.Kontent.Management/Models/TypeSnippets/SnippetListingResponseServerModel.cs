@@ -3,19 +3,18 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.TypeSnippets
+namespace Kentico.Kontent.Management.Models.TypeSnippets;
+
+[JsonObject]
+internal class SnippetListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
 {
-    [JsonObject]
-    internal class SnippetListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
-    {
-        [JsonProperty("snippets")]
-        public IEnumerable<ContentTypeSnippetModel> Snippets { get; set; }
+    [JsonProperty("snippets")]
+    public IEnumerable<ContentTypeSnippetModel> Snippets { get; set; }
 
-        [JsonProperty("pagination")]
-        public PaginationResponseModel Pagination { get; set; }
+    [JsonProperty("pagination")]
+    public PaginationResponseModel Pagination { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<ContentTypeSnippetModel> GetEnumerator() => Snippets.GetEnumerator();
-    }
+    public IEnumerator<ContentTypeSnippetModel> GetEnumerator() => Snippets.GetEnumerator();
 }

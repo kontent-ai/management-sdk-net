@@ -3,19 +3,18 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.Subscription
+namespace Kentico.Kontent.Management.Models.Subscription;
+
+[JsonObject]
+internal class SubscriptionUserListingResponseServerModel : IListingResponse<SubscriptionUserModel>
 {
-    [JsonObject]
-    internal class SubscriptionUserListingResponseServerModel : IListingResponse<SubscriptionUserModel>
-    {
-        [JsonProperty("users")]
-        public IEnumerable<SubscriptionUserModel> Users { get; set; }
+    [JsonProperty("users")]
+    public IEnumerable<SubscriptionUserModel> Users { get; set; }
 
-        [JsonProperty("pagination")]
-        public PaginationResponseModel Pagination { get; set; }
+    [JsonProperty("pagination")]
+    public PaginationResponseModel Pagination { get; set; }
 
-        public IEnumerator<SubscriptionUserModel> GetEnumerator() => GetEnumerator();
+    public IEnumerator<SubscriptionUserModel> GetEnumerator() => GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => Users.GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => Users.GetEnumerator();
 }

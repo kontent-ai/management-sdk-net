@@ -2,23 +2,22 @@
 using System;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.Assets
+namespace Kentico.Kontent.Management.Models.Assets;
+
+/// <summary>
+/// Represents the asset folder list.
+/// </summary>
+public sealed class AssetFoldersModel
 {
     /// <summary>
-    /// Represents the asset folder list.
+    /// Folder listing (recursive)
     /// </summary>
-    public sealed class AssetFoldersModel
-    {
-        /// <summary>
-        /// Folder listing (recursive)
-        /// </summary>
-        [JsonProperty("folders")]
-        public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+    [JsonProperty("folders")]
+    public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
 
-        /// <summary>
-        /// Gets or sets the last modified timestamp of the asset.
-        /// </summary>
-        [JsonProperty("last_modified")]
-        public DateTime? LastModified { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets the last modified timestamp of the asset.
+    /// </summary>
+    [JsonProperty("last_modified")]
+    public DateTime? LastModified { get; set; }
 }

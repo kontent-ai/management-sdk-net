@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.ProjectReport
-{
+namespace Kentico.Kontent.Management.Models.ProjectReport;
+
 	/// <summary>
 	/// Represents information necessary to identify 
 	/// the language variant and lists the content elements
@@ -28,4 +28,3 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
 		[JsonProperty("issues")]
 		public List<ElementIssue> Issues { get; set; }
 	}
-}

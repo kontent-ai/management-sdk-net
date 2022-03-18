@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.ProjectReport
-{
+namespace Kentico.Kontent.Management.Models.ProjectReport;
+
 	/// <summary>
 	/// Represents element issue with messages and element metadata
 	/// </summary>
@@ -21,4 +21,3 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
 		[JsonProperty("messages")]
 		public List<string> Messages { get; set; }
 	}
-}
