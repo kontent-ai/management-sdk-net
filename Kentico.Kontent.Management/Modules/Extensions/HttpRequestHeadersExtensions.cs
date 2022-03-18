@@ -11,8 +11,8 @@ namespace Kentico.Kontent.Management.Modules.Extensions
 
         private const string PackageRepositoryHost = "nuget.org";
 
-        private static readonly Lazy<string> SdkVersion = new Lazy<string>(GetSdkVersion);
-        private static readonly Lazy<string> SdkPackageId = new Lazy<string>(GetSdkPackageId);
+        private static readonly Lazy<string> SdkVersion = new(GetSdkVersion);
+        private static readonly Lazy<string> SdkPackageId = new(GetSdkPackageId);
 
 
         internal static void AddSdkTrackingHeader(this HttpRequestHeaders header)

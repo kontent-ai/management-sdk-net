@@ -8,7 +8,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker;
 
 internal class ImageTransformationConverter : JsonConverter
 {
-    private static readonly JsonSerializerSettings _specifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
+    private static readonly JsonSerializerSettings _specifiedSubclassConversion = new() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
 
     public override bool CanConvert(Type objectType) => objectType == typeof(ImageTransformation);
 

@@ -13,7 +13,7 @@ namespace Kentico.Kontent.Management.Helpers.Tests
         private readonly string _language = "some-Language-Codename";
         private readonly string _projectId = "14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43";
 
-        private ManagementHelpersOptions DefaultOptions => new ManagementHelpersOptions
+        private ManagementHelpersOptions DefaultOptions => new()
         {
             ProjectId = _projectId
         };
