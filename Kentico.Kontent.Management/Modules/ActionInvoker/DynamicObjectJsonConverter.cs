@@ -9,10 +9,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
     internal class DynamicObjectJsonConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(object);
-        }
+        public override bool CanConvert(Type objectType) => objectType == typeof(object);
 
         private static dynamic ConvertToDynamicObject(JObject obj)
         {
@@ -48,18 +45,12 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
         }
 
 
-        private static object ConvertJComplexObject(object input) 
+        private static object ConvertJComplexObject(object input) => input switch
         {
-            switch (input)
-            {
-                case JObject obj:
-                    return ConvertToDynamicObject(obj);
-                case JArray array:
-                    return array.Select(obj => ConvertJComplexObject(obj));
-                default:
-                    throw new ArgumentOutOfRangeException("JSON deserialization did not return either object nor array.");
-            }
-        }
+            JObject obj => ConvertToDynamicObject(obj),
+            JArray array => array.Select(obj => ConvertJComplexObject(obj)),
+            _ => throw new ArgumentOutOfRangeException("JSON deserialization did not return either object nor array."),
+        };
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -68,10 +59,8 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             return ConvertJComplexObject(defaultResult);
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
             // Serialize the object the default way
             serializer.Serialize(writer, value);
-        }
     }
 }

@@ -13,13 +13,10 @@ namespace Kentico.Kontent.Management.Modules.Extensions
             property.Id == null && property.Codename != null && property.ExternalId == null;
         internal static bool DoesHaveOnlyExternalIdSet(this Reference property) =>
             property.Id == null && property.Codename == null && property.ExternalId != null;
-        
+
         /// <summary>
         /// Check whether <see cref="Reference"/> is identified by only one identifier.
         /// </summary>
-        public static bool DoesHaveSetOnlyOneIdentifier(this Reference property)
-        {
-            return property.DoesHaveOnlyIdSet() || property.DoesHaveOnlyCodenameSet() || property.DoesHaveOnlyExternalIdSet();
-        }
+        public static bool DoesHaveSetOnlyOneIdentifier(this Reference property) => property.DoesHaveOnlyIdSet() || property.DoesHaveOnlyCodenameSet() || property.DoesHaveOnlyExternalIdSet();
     }
 }

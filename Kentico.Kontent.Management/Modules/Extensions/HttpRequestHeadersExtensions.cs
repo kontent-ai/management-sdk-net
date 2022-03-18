@@ -15,15 +15,9 @@ namespace Kentico.Kontent.Management.Modules.Extensions
         private static readonly Lazy<string> SdkPackageId = new(GetSdkPackageId);
 
 
-        internal static void AddSdkTrackingHeader(this HttpRequestHeaders header)
-        {
-            header.Add(SdkTrackingHeaderName, GetSdkTrackingHeader());
-        }
+        internal static void AddSdkTrackingHeader(this HttpRequestHeaders header) => header.Add(SdkTrackingHeaderName, GetSdkTrackingHeader());
 
-        internal static string GetSdkTrackingHeader()
-        {
-            return $"{PackageRepositoryHost};{SdkPackageId.Value};{SdkVersion.Value}";
-        }
+        internal static string GetSdkTrackingHeader() => $"{PackageRepositoryHost};{SdkPackageId.Value};{SdkVersion.Value}";
 
         private static string GetSdkVersion()
         {

@@ -32,27 +32,18 @@ namespace Kentico.Kontent.Management.Models.Shared
         /// Creates the reference by id.
         /// </summary>
         /// <param name="id">The id of the identifier.</param>
-        public static Reference ById(Guid id)
-        {
-            return new Reference() { Id = id };
-        }
+        public static Reference ById(Guid id) => new Reference() { Id = id };
 
         /// <summary>
         /// Creates the reference by codename.
         /// </summary>
         /// <param name="codename">The codename of the identifier.</param>
-        public static Reference ByCodename(string codename)
-        {
-            return new Reference() { Codename = codename };
-        }
+        public static Reference ByCodename(string codename) => new Reference() { Codename = codename };
 
         /// <summary>
         /// Creates the reference by external id.
         /// </summary>
         /// <param name="externalId">The external id of the identifier.</param>
-        public static Reference ByExternalId(string externalId)
-        {
-            return new Reference() { ExternalId = externalId };
-        }
+        public static Reference ByExternalId(string externalId) => new Reference() { ExternalId = externalId };
     }
 }

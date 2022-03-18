@@ -69,7 +69,7 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
         public void CreateManagementClient()
         {
             // Initializes an instance of the ManagementClient client with specified options.
-            var client = new ManagementClient(new ManagementOptions
+            _ = new ManagementClient(new ManagementOptions
             {
                 ProjectId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
                 ApiKey = "ew0...1eo"

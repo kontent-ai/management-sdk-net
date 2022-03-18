@@ -23,14 +23,10 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// <summary>
         /// Coverts the rich text element to the dynamic object.
         /// </summary>
-        public override dynamic ToDynamic()
-        {
-            return new
-            {
-                element = GetDynamicReference(),
-                value = Value,
-                components = Components
-            };
-        }
+        public override dynamic ToDynamic() => new {
+            element = GetDynamicReference(),
+            value = Value,
+            components = Components
+        };
     }
 }

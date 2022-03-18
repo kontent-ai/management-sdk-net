@@ -61,7 +61,7 @@ namespace Kentico.Kontent.Management.Helpers
         /// <param name="managementHelpersOptions">The settings of the Kontent project.</param>
         public EditLinkBuilder(IOptionsMonitor<ManagementHelpersOptions> managementHelpersOptions)
         {
-            this.managementHelpersOptionsMonitor = managementHelpersOptions;
+            managementHelpersOptionsMonitor = managementHelpersOptions;
         }
 
         /// <summary>
@@ -109,9 +109,7 @@ namespace Kentico.Kontent.Management.Helpers
                 string.Format(URL_TEMPLATE_EDIT_ITEM_ELEMENT, ManagementHelpersOptions.ProjectId, language, elements));
         }
 
-        private string BuildSingleElementSegment(ElementIdentifier elementIdentifier)
-        {
-            return string.Format(ITEM_ELEMENT_SEGMENT, elementIdentifier.ItemId, elementIdentifier.ElementCodename);
-        }
+        private string BuildSingleElementSegment(ElementIdentifier elementIdentifier) 
+            => string.Format(ITEM_ELEMENT_SEGMENT, elementIdentifier.ItemId, elementIdentifier.ElementCodename);
     }
 }

@@ -344,9 +344,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         private static LanguageVariantModel GetExpectedLanguageVariantModel(
             string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024",
-            string itemId = "4b628214-e4fe-4fe0-b1ff-955df33e1515")
-        {
-            return new LanguageVariantModel
+            string itemId = "4b628214-e4fe-4fe0-b1ff-955df33e1515") => new LanguageVariantModel
             {
                 Item = Reference.ById(Guid.Parse(itemId)),
                 Language = Reference.ById(Guid.Parse(languageId)),
@@ -354,7 +352,6 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
                 Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
                 Elements = ElementsData.GetExpectedDynamicElements(),
             };
-        }
 
         private static LanguageVariantModel<ComplexTestModel> GetExpectedComplexTestModel(string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024") => new()
         {

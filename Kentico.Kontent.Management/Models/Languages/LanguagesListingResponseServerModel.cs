@@ -14,14 +14,8 @@ namespace Kentico.Kontent.Management.Models.Languages
         [JsonProperty("pagination")]
         public PaginationResponseModel Pagination { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<LanguageModel> GetEnumerator()
-        {
-            return Languages.GetEnumerator();
-        }
+        public IEnumerator<LanguageModel> GetEnumerator() => Languages.GetEnumerator();
     }
 }

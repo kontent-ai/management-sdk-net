@@ -64,10 +64,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             return await ReadResultAsync<TResponse>(response);
         }
 
-        public async Task InvokeMethodAsync(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null)
-        {
-            await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
-        }
+        public async Task InvokeMethodAsync(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null) => await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
 
         public async Task InvokeMethodAsync<TPayload>(string endpointUrl, HttpMethod method, TPayload body)
         {

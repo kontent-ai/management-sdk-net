@@ -14,14 +14,8 @@ namespace Kentico.Kontent.Management.Models.TaxonomyGroups
         [JsonProperty("pagination")]
         public PaginationResponseModel Pagination { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<TaxonomyGroupModel> GetEnumerator()
-        {
-            return Taxonomies.GetEnumerator();
-        }
+        public IEnumerator<TaxonomyGroupModel> GetEnumerator() => Taxonomies.GetEnumerator();
     }
 }

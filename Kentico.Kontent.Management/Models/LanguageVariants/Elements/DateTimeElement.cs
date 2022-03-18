@@ -17,13 +17,9 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// <summary>
         /// Coverts the datetime element to the dynamic object.
         /// </summary>
-        public override dynamic ToDynamic()
-        {
-            return new
-            {
-                element = GetDynamicReference(),
-                value = Value,
-            };
-        }
+        public override dynamic ToDynamic() => new {
+            element = GetDynamicReference(),
+            value = Value,
+        };
     }
 }
