@@ -187,11 +187,11 @@ namespace Kentico.Kontent.Management.Modules.UrlBuilder
 
         public string BuildMarkEnvironmentAsProductionUrl() => GetProjectUrl("/mark-environment-as-production");
 
-        private string GetProjectUrl(string path, params string[] parameters) => GetUrl(BuildProjectUrl(), path, parameters);
+        private string GetProjectUrl(string path, params string[] parameters) => EndpointUrlBuilder.GetUrl(BuildProjectUrl(), path, parameters);
 
-        private string GetSubscriptionUrl(string path, params string[] parameters) => GetUrl(BuildSubscriptionUrl(), path, parameters);
+        private string GetSubscriptionUrl(string path, params string[] parameters) => EndpointUrlBuilder.GetUrl(BuildSubscriptionUrl(), path, parameters);
 
-        private string GetUrl(string endpointUrl, string path, params string[] parameters)
+        private static string GetUrl(string endpointUrl, string path, params string[] parameters)
         {
             var url = string.Concat(endpointUrl, path);
 

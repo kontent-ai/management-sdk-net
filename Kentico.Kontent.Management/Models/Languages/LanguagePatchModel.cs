@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Languages
         /// Represents the replace operation.
         /// </summary>
         [JsonProperty("op")]
-        public string Op => "replace";
+        public static string Op => "replace";
 
         /// <summary>
         /// Gets or sets the name of the language property that you want to modify.

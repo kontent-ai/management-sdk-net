@@ -18,9 +18,9 @@ namespace Kentico.Kontent.Management.Tests.Base
 {
     public class FileSystemFixture : IDisposable
     {
-        public string Endpoint => "https://manage.kontent.ai/v2";
-        public string PROJECT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
-        public string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
+        public static string Endpoint => "https://manage.kontent.ai/v2";
+        public static string PROJECT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
+        public static string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
         private string _folder = "";
         private readonly IConfiguration _configuration;
@@ -36,8 +36,8 @@ namespace Kentico.Kontent.Management.Tests.Base
             _managementOptions = new ManagementOptions()
             {
                 ApiKey = "Dummy_API_key",
-                ProjectId = PROJECT_ID,
-                SubscriptionId = SUBCRIPTION_ID
+                ProjectId = FileSystemFixture.PROJECT_ID,
+                SubscriptionId = FileSystemFixture.SUBCRIPTION_ID
             };
             _urlBuilder = new EndpointUrlBuilder(_managementOptions);
             _messageCreator = new MessageCreator(_managementOptions.ApiKey);

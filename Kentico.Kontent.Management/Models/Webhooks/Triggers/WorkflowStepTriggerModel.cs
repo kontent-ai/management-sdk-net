@@ -14,7 +14,7 @@ namespace Kentico.Kontent.Management.Models.Webhooks.Triggers
         /// More info: https://kontent.ai/learn/reference/management-api-v2#section/Webhook-object
         /// </summary>
         [JsonProperty("type")]
-        public TriggerChangeType Type => TriggerChangeType.LanguageVariant;
+        public static TriggerChangeType Type => TriggerChangeType.LanguageVariant;
 
         /// <summary>
         /// Gets or sets a collection of references to the workflow steps that will trigger the webhook when an item transitions to them.

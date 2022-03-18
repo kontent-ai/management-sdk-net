@@ -17,7 +17,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
         {
             _fileSystemFixture = fileSystemFixture;
             _fileSystemFixture.SetSubFolder("Subscription");
-            _subscriptionEndpoint = $"{_fileSystemFixture.Endpoint}/subscriptions/{_fileSystemFixture.SUBCRIPTION_ID}";
+            _subscriptionEndpoint = $"{FileSystemFixture.Endpoint}/subscriptions/{FileSystemFixture.SUBCRIPTION_ID}";
         }
 
         [Fact]

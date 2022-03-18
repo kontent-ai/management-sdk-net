@@ -48,7 +48,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
             return elements;
         }
 
-        private BaseElement ToElement(dynamic source, Type type)
+        private static BaseElement ToElement(dynamic source, Type type)
         {
             if (type == typeof(TextElement))
             {
