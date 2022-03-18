@@ -9,35 +9,30 @@ using Kentico.Kontent.Management.Configuration;
 using Kentico.Kontent.Management.Modules.ActionInvoker;
 using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Modules.UrlBuilder;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
 
 namespace Kentico.Kontent.Management.Tests.Base
 {
-    public class FileSystemFixture : IDisposable
+    public sealed class FileSystemFixture : IDisposable
     {
         public static string Endpoint => "https://manage.kontent.ai/v2";
         public static string PROJECT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
         public static string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
         private string _folder = "";
-        private readonly IConfiguration _configuration;
         private readonly ManagementOptions _managementOptions;
         private readonly EndpointUrlBuilder _urlBuilder;
         private readonly MessageCreator _messageCreator;
 
         public FileSystemFixture()
         {
-            _configuration = new ConfigurationBuilder()
-                .AddUserSecrets<FileSystemFixture>()
-                .Build();
             _managementOptions = new ManagementOptions()
             {
                 ApiKey = "Dummy_API_key",
-                ProjectId = FileSystemFixture.PROJECT_ID,
-                SubscriptionId = FileSystemFixture.SUBCRIPTION_ID
+                ProjectId = PROJECT_ID,
+                SubscriptionId = SUBCRIPTION_ID
             };
             _urlBuilder = new EndpointUrlBuilder(_managementOptions);
             _messageCreator = new MessageCreator(_managementOptions.ApiKey);
@@ -75,8 +70,10 @@ namespace Kentico.Kontent.Management.Tests.Base
                 var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
 
                 var responsePath = Path.Combine(dataPath, responseFileName);
-                var result = new HttpResponseMessage();
-                result.Content = new StringContent(File.ReadAllText(responsePath));
+                var result = new HttpResponseMessage
+                {
+                    Content = new StringContent(File.ReadAllText(responsePath))
+                };
 
                 responses.Add(result);
             }
