@@ -22,8 +22,7 @@ namespace Kentico.Kontent.Management.Tests.Modules.Extensions
 
             httpRequestMessage.Headers.AddSdkTrackingHeader();
 
-            IEnumerable<string> headerContent = new List<string>();
-            httpRequestMessage.Headers.TryGetValues("X-KC-SDKID", out headerContent);
+            httpRequestMessage.Headers.TryGetValues("X-KC-SDKID", out var headerContent);
 
             Assert.True(httpRequestMessage.Headers.Contains("X-KC-SDKID"));
             Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
