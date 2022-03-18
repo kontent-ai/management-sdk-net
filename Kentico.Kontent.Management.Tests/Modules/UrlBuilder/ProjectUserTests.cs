@@ -3,7 +3,7 @@ using Kentico.Kontent.Management.Models.Shared;
 using System;
 using Xunit;
 
-namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
+namespace Kentico.Kontent.Management.Tests.Modules.UrlBuilder
 {
     public partial class EndpointUrlBuilderTests
     {

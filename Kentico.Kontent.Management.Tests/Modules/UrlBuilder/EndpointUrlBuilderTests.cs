@@ -1,7 +1,7 @@
 ﻿using Kentico.Kontent.Management.Configuration;
 using Kentico.Kontent.Management.Modules.UrlBuilder;
 
-namespace Kentico.Kontent.Management.Tests.Unit.Modules.UrlBuilder
+namespace Kentico.Kontent.Management.Tests.Modules.UrlBuilder
 {
     public partial class EndpointUrlBuilderTests
     {
