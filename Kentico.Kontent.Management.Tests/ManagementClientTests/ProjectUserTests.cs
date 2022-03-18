@@ -27,7 +27,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var invitation = new UserInviteModel
             {
-                email = "test@kentico.com",
+                Email = "test@kentico.com",
                 CollectionGroup = expected.CollectionGroup
             };
 
