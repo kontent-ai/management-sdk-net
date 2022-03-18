@@ -21,12 +21,12 @@
         /// Creates the reference by id.
         /// </summary>
         /// <param name="id">The id of the identifier.</param>
-        public static UserIdentifier ById(string id) => new UserIdentifier() { Id = id };
+        public static UserIdentifier ById(string id) => new() { Id = id };
 
         /// <summary>
         /// Creates the user identifier by email.
         /// </summary>
         /// <param name="email">The email of the identifier.</param>
-        public static UserIdentifier ByEmail(string email) => new UserIdentifier() { Email = email };
+        public static UserIdentifier ByEmail(string email) => new() { Email = email };
     }
 }
