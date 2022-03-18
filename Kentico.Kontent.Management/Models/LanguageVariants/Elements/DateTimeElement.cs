@@ -1,25 +1,24 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
+namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements;
+
+/// <summary>
+/// Represents the strongly typed date and time element.
+/// </summary>
+public class DateTimeElement : BaseElement
 {
     /// <summary>
-    /// Represents the strongly typed date and time element.
+    /// Gets or sets the value of the datetime element.
     /// </summary>
-    public class DateTimeElement : BaseElement
-    {
-        /// <summary>
-        /// Gets or sets the value of the datetime element.
-        /// </summary>
-        [JsonProperty("value")]
-        public DateTime Value { get; set; }
+    [JsonProperty("value")]
+    public DateTime Value { get; set; }
 
-        /// <summary>
-        /// Coverts the datetime element to the dynamic object.
-        /// </summary>
-        public override dynamic ToDynamic() => new {
-            element = GetDynamicReference(),
-            value = Value,
-        };
-    }
+    /// <summary>
+    /// Coverts the datetime element to the dynamic object.
+    /// </summary>
+    public override dynamic ToDynamic() => new {
+        element = GetDynamicReference(),
+        value = Value,
+    };
 }

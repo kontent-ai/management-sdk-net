@@ -8,62 +8,61 @@ using Xunit;
 
 using static FluentAssertions.FluentActions;
 
-namespace Kentico.Kontent.Management.Tests.ManagementClientTests
+namespace Kentico.Kontent.Management.Tests.ManagementClientTests;
+
+public class ProjectRoleTests : IClassFixture<FileSystemFixture>
 {
-    public class ProjectRoleTests : IClassFixture<FileSystemFixture>
+    private readonly FileSystemFixture _fileSystemFixture;
+
+    public ProjectRoleTests(FileSystemFixture fileSystemFixture)
     {
-        private readonly FileSystemFixture _fileSystemFixture;
+        _fileSystemFixture = fileSystemFixture;
+        _fileSystemFixture.SetSubFolder("ProjectRole");
+    }
 
-        public ProjectRoleTests(FileSystemFixture fileSystemFixture)
-        {
-            _fileSystemFixture = fileSystemFixture;
-            _fileSystemFixture.SetSubFolder("ProjectRole");
-        }
+    [Fact]
+    public async Task ListProjectRoles_ListsProjectRoles()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRoles.json");
 
-        [Fact]
-        public async Task ListProjectRoles_ListsProjectRoles()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRoles.json");
+        var expectedItems = _fileSystemFixture.GetExpectedResponse<ProjectRolesModel>("ProjectRoles.json");
 
-            var expectedItems = _fileSystemFixture.GetExpectedResponse<ProjectRolesModel>("ProjectRoles.json");
+        var response = await client.ListProjectRolesAsync();
 
-            var response = await client.ListProjectRolesAsync();
+        response.Should().BeEquivalentTo(expectedItems);
+    }
 
-            response.Should().BeEquivalentTo(expectedItems);
-        }
+    [Fact]
+    public async Task GetProjectRole_NoIdentifier_ExceptionRaised()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
 
-        [Fact]
-        public async Task GetProjectRole_NoIdentifier_ExceptionRaised()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        await Awaiting(() => client.GetProjectRoleAsync(null))
+            .Should()
+            .ThrowAsync<ArgumentNullException>();
+    }
 
-            await Awaiting(() => client.GetProjectRoleAsync(null))
-                .Should()
-                .ThrowAsync<ArgumentNullException>();
-        }
+    [Fact]
+    public async Task GetProjectRole_ById_GetsProjectRole()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
 
-        [Fact]
-        public async Task GetProjectRole_ById_GetsProjectRole()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<ProjectRoleModel>("ProjectRole.json");
 
-            var expected = _fileSystemFixture.GetExpectedResponse<ProjectRoleModel>("ProjectRole.json");
+        var response = await client.GetProjectRoleAsync(Reference.ById(expected.Id));
 
-            var response = await client.GetProjectRoleAsync(Reference.ById(expected.Id));
+        response.Should().BeEquivalentTo(expected);
+    }
 
-            response.Should().BeEquivalentTo(expected);
-        }
+    [Fact]
+    public async Task GetProjectRole_ByCodename_GetsProjectRole()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
 
-        [Fact]
-        public async Task GetProjectRole_ByCodename_GetsProjectRole()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<ProjectRoleModel>("ProjectRole.json");
 
-            var expected = _fileSystemFixture.GetExpectedResponse<ProjectRoleModel>("ProjectRole.json");
+        var response = await client.GetProjectRoleAsync(Reference.ByCodename(expected.Codename));
 
-            var response = await client.GetProjectRoleAsync(Reference.ByCodename(expected.Codename));
-
-            response.Should().BeEquivalentTo(expected);
-        }
+        response.Should().BeEquivalentTo(expected);
     }
 }

@@ -6,74 +6,73 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Kentico.Kontent.Management.Tests.ManagementClientTests
+namespace Kentico.Kontent.Management.Tests.ManagementClientTests;
+
+public class ProjectUserTests : IClassFixture<FileSystemFixture>
 {
-    public class ProjectUserTests : IClassFixture<FileSystemFixture>
+    private readonly FileSystemFixture _fileSystemFixture;
+
+    public ProjectUserTests(FileSystemFixture fileSystemFixture)
     {
-        private readonly FileSystemFixture _fileSystemFixture;
+        _fileSystemFixture = fileSystemFixture;
+        _fileSystemFixture.SetSubFolder("ProjectUser");
+    }
 
-        public ProjectUserTests(FileSystemFixture fileSystemFixture)
+    [Fact]
+    public async Task InviteUser_InvitesUser()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+
+        var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
+
+        var invitation = new UserInviteModel
         {
-            _fileSystemFixture = fileSystemFixture;
-            _fileSystemFixture.SetSubFolder("ProjectUser");
-        }
+            Email = "test@kentico.com",
+            CollectionGroup = expected.CollectionGroup
+        };
 
-        [Fact]
-        public async Task InviteUser_InvitesUser()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var response = await client.InviteUserIntoProjectAsync(invitation);
 
-            var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
+        response.Should().BeEquivalentTo(expected);
+    }
 
-            var invitation = new UserInviteModel
-            {
-                Email = "test@kentico.com",
-                CollectionGroup = expected.CollectionGroup
-            };
+    [Fact]
+    public async Task InviteUser_UserInvitationModelNotProvided_ThrowsException()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
 
-            var response = await client.InviteUserIntoProjectAsync(invitation);
+        await client.Invoking(x => x.InviteUserIntoProjectAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
 
-            response.Should().BeEquivalentTo(expected);
-        }
+    [Fact]
+    public async Task ModifyUsersRole_ByEmail_ModifiesUserRoles()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
 
-        [Fact]
-        public async Task InviteUser_UserInvitationModelNotProvided_ThrowsException()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
 
-            await client.Invoking(x => x.InviteUserIntoProjectAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
-        }
+        var response = await client.ModifyUsersRolesAsync(UserIdentifier.ByEmail("test@kentico.com"), expected);
 
-        [Fact]
-        public async Task ModifyUsersRole_ByEmail_ModifiesUserRoles()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        response.Should().BeEquivalentTo(expected);
+    }
 
-            var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
+    [Fact]
+    public async Task ModifyUsersRole_ById_ModifiesUserRoles()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
 
-            var response = await client.ModifyUsersRolesAsync(UserIdentifier.ByEmail("test@kentico.com"), expected);
+        var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
 
-            response.Should().BeEquivalentTo(expected);
-        }
+        var response = await client.ModifyUsersRolesAsync(UserIdentifier.ById(expected.Id), expected);
 
-        [Fact]
-        public async Task ModifyUsersRole_ById_ModifiesUserRoles()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        response.Should().BeEquivalentTo(expected);
+    }
 
-            var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
+    [Fact]
+    public async Task ModifyUsersRole_NullIdentifier_ModifiesUserRoles()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
 
-            var response = await client.ModifyUsersRolesAsync(UserIdentifier.ById(expected.Id), expected);
-
-            response.Should().BeEquivalentTo(expected);
-        }
-
-        [Fact]
-        public async Task ModifyUsersRole_NullIdentifier_ModifiesUserRoles()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
-
-            await client.Invoking(x => x.ModifyUsersRolesAsync(null, new UserModel())).Should().ThrowExactlyAsync<ArgumentNullException>();
-        }
+        await client.Invoking(x => x.ModifyUsersRolesAsync(null, new UserModel())).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }

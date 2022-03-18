@@ -3,28 +3,27 @@ using Kentico.Kontent.Management.Models.ProjectReport;
 using Kentico.Kontent.Management.Tests.Base;
 using Xunit;
 
-namespace Kentico.Kontent.Management.Tests.ManagementClientTests
+namespace Kentico.Kontent.Management.Tests.ManagementClientTests;
+
+public class ValidationTests : IClassFixture<FileSystemFixture>
 {
-    public class ValidationTests : IClassFixture<FileSystemFixture>
+    private readonly FileSystemFixture _fileSystemFixture;
+
+    public ValidationTests(FileSystemFixture fileSystemFixture)
     {
-        private readonly FileSystemFixture _fileSystemFixture;
+        _fileSystemFixture = fileSystemFixture;
+        _fileSystemFixture.SetSubFolder("Validation");
+    }
 
-        public ValidationTests(FileSystemFixture fileSystemFixture)
-        {
-            _fileSystemFixture = fileSystemFixture;
-            _fileSystemFixture.SetSubFolder("Validation");
-        }
+    [Fact]
+    public async void ValidateProject_ReturnsProjectReportModel()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectValidation.json");
 
-        [Fact]
-        public async void ValidateProject_ReturnsProjectReportModel()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectValidation.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<ProjectReportModel>("ProjectValidation.json");
 
-            var expected = _fileSystemFixture.GetExpectedResponse<ProjectReportModel>("ProjectValidation.json");
+        var response = await client.ValidateProjectAsync();
 
-            var response = await client.ValidateProjectAsync();
-
-            response.Should().BeEquivalentTo(expected);
-        }
+        response.Should().BeEquivalentTo(expected);
     }
 }

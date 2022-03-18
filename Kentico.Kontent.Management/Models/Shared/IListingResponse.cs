@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.Shared
+namespace Kentico.Kontent.Management.Models.Shared;
+
+internal interface IListingResponse<T> : IEnumerable<T>
 {
-    internal interface IListingResponse<T> : IEnumerable<T>
-    {
-        PaginationResponseModel Pagination { get; set; }
-    }
+    PaginationResponseModel Pagination { get; set; }
 }

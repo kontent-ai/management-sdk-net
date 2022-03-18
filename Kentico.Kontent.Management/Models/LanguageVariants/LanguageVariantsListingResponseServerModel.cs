@@ -3,19 +3,18 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.LanguageVariants
+namespace Kentico.Kontent.Management.Models.LanguageVariants;
+
+[JsonObject]
+internal class LanguageVariantsListingResponseServerModel : IListingResponse<LanguageVariantModel>
 {
-    [JsonObject]
-    internal class LanguageVariantsListingResponseServerModel : IListingResponse<LanguageVariantModel>
-    {
-        [JsonProperty("variants")]
-        public IEnumerable<LanguageVariantModel> Variants { get; set; }
+    [JsonProperty("variants")]
+    public IEnumerable<LanguageVariantModel> Variants { get; set; }
 
-        [JsonProperty("pagination")]
-        public PaginationResponseModel Pagination { get; set; }
+    [JsonProperty("pagination")]
+    public PaginationResponseModel Pagination { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<LanguageVariantModel> GetEnumerator() => Variants.GetEnumerator();
-    }
+    public IEnumerator<LanguageVariantModel> GetEnumerator() => Variants.GetEnumerator();
 }

@@ -13,118 +13,117 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
 
-namespace Kentico.Kontent.Management.Tests.Base
+namespace Kentico.Kontent.Management.Tests.Base;
+
+public sealed class FileSystemFixture : IDisposable
 {
-    public sealed class FileSystemFixture : IDisposable
+    public static string Endpoint => "https://manage.kontent.ai/v2";
+    public static string PROJECT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
+    public static string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
+
+    private string _folder = "";
+    private readonly ManagementOptions _managementOptions;
+    private readonly EndpointUrlBuilder _urlBuilder;
+    private readonly MessageCreator _messageCreator;
+
+    public FileSystemFixture()
     {
-        public static string Endpoint => "https://manage.kontent.ai/v2";
-        public static string PROJECT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
-        public static string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
-
-        private string _folder = "";
-        private readonly ManagementOptions _managementOptions;
-        private readonly EndpointUrlBuilder _urlBuilder;
-        private readonly MessageCreator _messageCreator;
-
-        public FileSystemFixture()
+        _managementOptions = new ManagementOptions()
         {
-            _managementOptions = new ManagementOptions()
+            ApiKey = "Dummy_API_key",
+            ProjectId = PROJECT_ID,
+            SubscriptionId = SUBCRIPTION_ID
+        };
+        _urlBuilder = new EndpointUrlBuilder(_managementOptions);
+        _messageCreator = new MessageCreator(_managementOptions.ApiKey);
+    }
+
+    public void SetSubFolder(string folder) => _folder = folder;
+
+    public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
+    {
+        var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
+        return new ManagementClient(_urlBuilder, actionInvoker);
+    }
+
+    public IManagementClient CreateMockClientWithUrl(string expectedUrl)
+    {
+        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+         .Returns(x =>
+         {
+             var url = x.ArgAt<string>(1);
+             url.Should().BeEquivalentTo(expectedUrl, "because url does not match");
+
+             var result = new HttpResponseMessage();
+
+             return Task.FromResult(result);
+         });
+        return CreateMockClient(mockedHttpClient);
+    }
+
+    public IManagementClient CreateMockClientWithResponse(params string[] responseFileNames)
+    {
+        List<HttpResponseMessage> responses = new();
+        foreach (var responseFileName in responseFileNames)
+        {
+            var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
+
+            var responsePath = Path.Combine(dataPath, responseFileName);
+            var result = new HttpResponseMessage
             {
-                ApiKey = "Dummy_API_key",
-                ProjectId = PROJECT_ID,
-                SubscriptionId = SUBCRIPTION_ID
+                Content = new StringContent(File.ReadAllText(responsePath))
             };
-            _urlBuilder = new EndpointUrlBuilder(_managementOptions);
-            _messageCreator = new MessageCreator(_managementOptions.ApiKey);
+
+            responses.Add(result);
         }
 
-        public void SetSubFolder(string folder) => _folder = folder;
+        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+         .Returns(responses.First(), responses.Skip(1).ToArray());
+        return CreateMockClient(mockedHttpClient);
+    }
 
-        public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
-        {
-            var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
-            return new ManagementClient(_urlBuilder, actionInvoker);
-        }
+    public IManagementClient CreateMockClientWithoutResponse()
+    {
+        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+         .Returns(x =>
+         {
+             var result = new HttpResponseMessage();
 
-        public IManagementClient CreateMockClientWithUrl(string expectedUrl)
-        {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-             {
-                 var url = x.ArgAt<string>(1);
-                 url.Should().BeEquivalentTo(expectedUrl, "because url does not match");
+             return Task.FromResult(result);
+         });
+        return CreateMockClient(mockedHttpClient);
+    }
 
-                 var result = new HttpResponseMessage();
+    public IList<T> GetItemsOfExpectedListingResponse<T>(params string[] responseFileNames)
+    {
+        List<T> result = new();
 
-                 return Task.FromResult(result);
-             });
-            return CreateMockClient(mockedHttpClient);
-        }
-
-        public IManagementClient CreateMockClientWithResponse(params string[] responseFileNames)
-        {
-            List<HttpResponseMessage> responses = new();
-            foreach (var responseFileName in responseFileNames)
-            {
-                var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
-
-                var responsePath = Path.Combine(dataPath, responseFileName);
-                var result = new HttpResponseMessage
-                {
-                    Content = new StringContent(File.ReadAllText(responsePath))
-                };
-
-                responses.Add(result);
-            }
-
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(responses.First(), responses.Skip(1).ToArray());
-            return CreateMockClient(mockedHttpClient);
-        }
-
-        public IManagementClient CreateMockClientWithoutResponse()
-        {
-            var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-            mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-             .Returns(x =>
-             {
-                 var result = new HttpResponseMessage();
-
-                 return Task.FromResult(result);
-             });
-            return CreateMockClient(mockedHttpClient);
-        }
-
-        public IList<T> GetItemsOfExpectedListingResponse<T>(params string[] responseFileNames)
-        {
-            List<T> result = new();
-
-            foreach (var responseFileName in responseFileNames)
-            {
-                var filePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
-
-                var serverResponse = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(filePath));
-
-                //listing endpoints always have two children. First are items and second is pagination
-                var items = serverResponse.Values().First();
-
-                result.AddRange(JsonConvert.DeserializeObject<List<T>>(items.ToString()));
-            }
-
-            return result;
-        }
-
-        public T GetExpectedResponse<T>(string responseFileName)
+        foreach (var responseFileName in responseFileNames)
         {
             var filePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
 
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
+            var serverResponse = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(filePath));
+
+            //listing endpoints always have two children. First are items and second is pagination
+            var items = serverResponse.Values().First();
+
+            result.AddRange(JsonConvert.DeserializeObject<List<T>>(items.ToString()));
         }
 
-        public void Dispose()
-        {
-        }
+        return result;
+    }
+
+    public T GetExpectedResponse<T>(string responseFileName)
+    {
+        var filePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
+
+        return JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
+    }
+
+    public void Dispose()
+    {
     }
 }

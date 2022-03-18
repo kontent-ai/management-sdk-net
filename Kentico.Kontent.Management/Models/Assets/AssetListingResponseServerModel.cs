@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Assets
+namespace Kentico.Kontent.Management.Models.Assets;
+
+[JsonObject]
+internal sealed class AssetListingResponseServerModel : IListingResponse<AssetModel>
 {
-    [JsonObject]
-    internal sealed class AssetListingResponseServerModel : IListingResponse<AssetModel>
-    {
-        [JsonProperty("assets")]
-        public IEnumerable<AssetModel> Assets { get; set; }
+    [JsonProperty("assets")]
+    public IEnumerable<AssetModel> Assets { get; set; }
 
-        [JsonProperty("pagination")]
-        public PaginationResponseModel Pagination { get; set; }
+    [JsonProperty("pagination")]
+    public PaginationResponseModel Pagination { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<AssetModel> GetEnumerator() => Assets.GetEnumerator();
-    }
+    public IEnumerator<AssetModel> GetEnumerator() => Assets.GetEnumerator();
 }
