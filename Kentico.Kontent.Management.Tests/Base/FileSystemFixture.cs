@@ -75,7 +75,7 @@ namespace Kentico.Kontent.Management.Tests.Base
             List<HttpResponseMessage> responses = new();
             foreach (var responseFileName in responseFileNames)
             {
-                string dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
+                var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
 
                 var responsePath = Path.Combine(dataPath, responseFileName);
                 var result = new HttpResponseMessage();
@@ -109,7 +109,7 @@ namespace Kentico.Kontent.Management.Tests.Base
 
             foreach (var responseFileName in responseFileNames)
             {
-                string filePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
+                var filePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
 
                 var serverResponse = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(filePath));
 
@@ -124,7 +124,7 @@ namespace Kentico.Kontent.Management.Tests.Base
 
         public T GetExpectedResponse<T>(string responseFileName)
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
+            var filePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
 
             return JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
         }

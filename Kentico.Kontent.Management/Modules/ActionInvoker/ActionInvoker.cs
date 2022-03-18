@@ -48,7 +48,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
             if (body != null)
             {
-                string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
+                var json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
                 content = new StringContent(json, Encoding.UTF8, "application/json");
             }
 
@@ -75,7 +75,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
             if (body != null)
             {
-                string json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
+                var json = JsonConvert.SerializeObject(body, Formatting.None, _serializeSettings);
                 content = new StringContent(json, Encoding.UTF8, "application/json");
             }
 

@@ -18,7 +18,7 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject jObject = JObject.Load(reader);
+            var jObject = JObject.Load(reader);
             var type = jObject["type"]?.ToObject<ElementMetadataType>() ?? throw new ArgumentException("Object does not contain 'type' property or it is null.", nameof(reader));;
 
             return type switch
