@@ -53,8 +53,8 @@ namespace Kentico.Kontent.Management.Tests.Extensions
             }
         }
 
-        public static List<ElementMetadataBase> GetElementMetadata() => new List<ElementMetadataBase>
-                {
+        public static List<ElementMetadataBase> GetElementMetadata() => new()
+        {
                     new AssetElementMetadataModel
                     {
                         Name = "MyAsset",

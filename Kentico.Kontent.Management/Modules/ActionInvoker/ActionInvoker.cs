@@ -16,13 +16,13 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
         private readonly IManagementHttpClient _cmHttpClient;
         private readonly MessageCreator _messageCreator;
 
-        private readonly JsonSerializerSettings _serializeSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _serializeSettings = new()
         {
             NullValueHandling = NullValueHandling.Ignore,
             Converters = new List<JsonConverter> { new DecimalObjectConverter(), new StringEnumConverter() }
         };
 
-        private readonly JsonSerializerSettings _deserializeSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _deserializeSettings = new()
         {
             Converters = new List<JsonConverter> { new DynamicObjectJsonConverter() }
         };
