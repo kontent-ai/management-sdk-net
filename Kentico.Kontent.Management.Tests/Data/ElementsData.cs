@@ -186,7 +186,7 @@ namespace Kentico.Kontent.Management.Tests.Data
             element.element = GetElement(elementId.Value.ToString("d"));
             element.value = value.Select(GetAssetWithRenditionsAsDynamic);
 
-            dynamic GetAssetWithRenditionsAsDynamic(AssetWithRenditionsReference reference)
+            static dynamic GetAssetWithRenditionsAsDynamic(AssetWithRenditionsReference reference)
             {
                 dynamic result = new ExpandoObject();
                 result.id = reference.Id.Value.ToString("d");
