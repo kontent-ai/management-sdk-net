@@ -50,7 +50,7 @@ namespace Kentico.Kontent.Management.Extensions
         /// <param name="client"></param>
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="assetCreateModel">Updated values for the asset.</param>
-        public static async Task<AssetModel> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel)
+        public async static Task<AssetModel> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel)
         {
             if (fileContent == null)
             {
@@ -76,7 +76,7 @@ namespace Kentico.Kontent.Management.Extensions
         /// <param name="client"></param>
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="assetCreateModel">Updated values for the strongly typed asset.</param>
-        public static async Task<AssetModel<T>> CreateAssetAsync<T>(this IManagementClient client, FileContentSource fileContent, AssetCreateModel<T> assetCreateModel) where T: new()
+        public async static Task<AssetModel<T>> CreateAssetAsync<T>(this IManagementClient client, FileContentSource fileContent, AssetCreateModel<T> assetCreateModel) where T: new()
         {
             if (fileContent == null)
             {
@@ -104,7 +104,7 @@ namespace Kentico.Kontent.Management.Extensions
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="upsertModel">Updated values for the asset.</param>
         /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
-        public static async Task<AssetModel> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel)
+        public async static Task<AssetModel> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel)
         {
             if (identifier == null)
             {
@@ -138,7 +138,7 @@ namespace Kentico.Kontent.Management.Extensions
         /// <param name="fileContent">Represents the content of the file.</param>
         /// <param name="upsertModel">Updated values for the asset.</param>
         /// <returns>The <see cref="AssetModel{T}"/> instance that represents created or updated strongly typed asset.</returns>
-        public static async Task<AssetModel<T>> UpsertAssetAsync<T>(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel<T> upsertModel) where T: new()
+        public async static Task<AssetModel<T>> UpsertAssetAsync<T>(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel<T> upsertModel) where T: new()
         {
             if (identifier == null)
             {
