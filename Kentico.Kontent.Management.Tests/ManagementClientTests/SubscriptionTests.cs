@@ -10,7 +10,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
     public class SubscriptionTests : IClassFixture<FileSystemFixture>
     {
-        private FileSystemFixture _fileSystemFixture;
+        private readonly FileSystemFixture _fileSystemFixture;
         private readonly string _subscriptionEndpoint;
 
         public SubscriptionTests(FileSystemFixture fileSystemFixture)

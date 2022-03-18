@@ -11,7 +11,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 {
     public class LanguageTests : IClassFixture<FileSystemFixture>
     {
-        private FileSystemFixture _fileSystemFixture;
+        private readonly FileSystemFixture _fileSystemFixture;
 
         public LanguageTests(FileSystemFixture fileSystemFixture)
         {

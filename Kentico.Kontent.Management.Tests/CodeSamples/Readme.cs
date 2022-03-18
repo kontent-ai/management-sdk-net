@@ -57,7 +57,7 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
     public class Readme : IClassFixture<FileSystemFixture>
     {
         // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE README OF THIS REPO
-        private FileSystemFixture _fileSystemFixture;
+        private readonly FileSystemFixture _fileSystemFixture;
 
         public Readme(FileSystemFixture fileSystemFixture)
         {
