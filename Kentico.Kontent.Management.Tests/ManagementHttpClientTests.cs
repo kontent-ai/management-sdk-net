@@ -76,7 +76,7 @@ namespace Kentico.Kontent.Management.Tests
         [Fact]
         public async void Retries_WithDefaultSettings_Retries()
         {
-            int expectedAttempts = Constants.DEFAULT_MAX_RETRIES + 1;
+            var expectedAttempts = Constants.DEFAULT_MAX_RETRIES + 1;
             var failfulMessage = new HttpRequestMessage();
             httpClient
                 .SendAsync(failfulMessage)
@@ -108,8 +108,8 @@ namespace Kentico.Kontent.Management.Tests
         [Fact]
         public async void Retries_WithMaxRetrySet_SettingReflected()
         {
-            int retryAttempts = 3;
-            int expectedAttempts = retryAttempts + 1;
+            var retryAttempts = 3;
+            var expectedAttempts = retryAttempts + 1;
 
             var failfulMessage = new HttpRequestMessage();
             httpClient
@@ -129,8 +129,8 @@ namespace Kentico.Kontent.Management.Tests
         [Fact]
         public async void Retries_WithCustomResilencePolicy_PolicyUsed()
         {
-            int retryAttempts = 1;
-            int expectedAttempts = retryAttempts + 1;
+            var retryAttempts = 1;
+            var expectedAttempts = retryAttempts + 1;
 
             var failfulMessage = new HttpRequestMessage();
             httpClient
@@ -154,7 +154,7 @@ namespace Kentico.Kontent.Management.Tests
         [Fact]
         public async void Retries_WithCustomResilencePolicyAndPolicyDisabled_PolicyIgnored()
         {
-            int retryAttempts = 2;
+            var retryAttempts = 2;
 
             var failfulMessage = new HttpRequestMessage();
             httpClient

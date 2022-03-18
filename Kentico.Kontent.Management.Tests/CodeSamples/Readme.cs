@@ -79,9 +79,9 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
         [Fact]
         public void ReferenceCreation()
         {
-            Reference codenameIdentifier = Reference.ByCodename("on_roasts");
-            Reference idIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-            Reference externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
+            var codenameIdentifier = Reference.ByCodename("on_roasts");
+            var idIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+            var externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
         }
 
         [Fact]
@@ -184,7 +184,7 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
             var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
 
             // Defines the content elements to update
-            ArticleModel stronglyTypedElements = new ArticleModel
+            var stronglyTypedElements = new ArticleModel
             {
                 Title = new TextElement() { Value = "On Roasts - changed" },
                 PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) },
@@ -229,7 +229,7 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
             var taxonomyTermGuid2 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
 
             // Defines the content elements to update
-            ArticleModel stronglyTypedElements = new ArticleModel
+            var stronglyTypedElements = new ArticleModel
             {
                 Title = new TextElement() { Value = "On Roasts" },
                 PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
@@ -282,15 +282,15 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
             // Remove next line in codesample
             var client = _fileSystemFixture.CreateMockClientWithResponse("FileReferenceResponse.json");
 
-            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-            string fileName = "Hello.txt";
-            string contentType = "text/plain";
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            var fileName = "Hello.txt";
+            var contentType = "text/plain";
 
             // Returns a reference that you can later use to create an asset
-            FileReference fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
+            var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
 
             // Defines the content elements to create
-            AssetMetadataModel stronglyTypedTaxonomyElements = new AssetMetadataModel
+            var stronglyTypedTaxonomyElements = new AssetMetadataModel
             {
                 TaxonomyCategories = new TaxonomyElement()
                 {
@@ -335,7 +335,7 @@ namespace Kentico.Kontent.Management.Tests.CodeSamples
                 Elements = taxonomyElements
             };
 
-            Reference assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
+            var assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
 
             // Updates asset metadata
             var response = await client.UpsertAssetAsync(assetReference, asset);

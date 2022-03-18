@@ -203,7 +203,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var expected = GetExpectedStronglyTypedAssetModel();
 
-            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 
@@ -252,7 +252,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var expected = GetExpectedDynamicAssetModel();
 
-            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 
@@ -441,7 +441,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var expected = GetExpectedStronglyTypedAssetModel();
 
-            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 
@@ -506,7 +506,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var expected = GetExpectedDynamicAssetModel();
 
-            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 
@@ -608,7 +608,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var expected = _fileSystemFixture.GetExpectedResponse<FileReference>("File.json");
 
-            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
             var fileName = "Hello.txt";
             var contentType = "text/plain";
 

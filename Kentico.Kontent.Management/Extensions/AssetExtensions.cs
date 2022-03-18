@@ -79,7 +79,7 @@ namespace Kentico.Kontent.Management.Extensions
         /// <returns>Folder path string containing backslashes (\)</returns>
         public static string GetFullFolderPath(this AssetFolderLinkingHierarchy folder)
         {
-            List<string> folderName = new List<string>();
+            var folderName = new List<string>();
             if (folder.Parent != null)
             {
                 folderName.Add(GetFullFolderPath(folder.Parent));

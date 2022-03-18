@@ -91,7 +91,7 @@ namespace Kentico.Kontent.Management.Modules.HttpClient
             HttpContent content,
             Dictionary<string,string> headers)
         {
-            HttpRequestMessage message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
+            var message = messageCreator.CreateMessage(method, endpointUrl, content, headers);
 
             return _httpClient.SendAsync(message);
         }
