@@ -29,12 +29,7 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 }
             }
 
-            if (elementExceptions.Any())
-            {
-                throw new AggregateException(elementExceptions);
-            }
-
-            return elements.Select(element => element.ToDynamic());
+            return elementExceptions.Any() ? throw new AggregateException(elementExceptions) : elements.Select(element => element.ToDynamic());
         }
     }
 }
