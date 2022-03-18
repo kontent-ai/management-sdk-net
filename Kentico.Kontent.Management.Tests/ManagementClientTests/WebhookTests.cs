@@ -51,7 +51,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
             var webhook = _fileSystemFixture.GetExpectedResponse<WebhookModel>("Webhook.json");
 
-            var response = await client.CreateWebhookAsync(ToCreateModel(webhook));
+            var response = await client.CreateWebhookAsync(WebhookTests.ToCreateModel(webhook));
 
             response.Should().BeEquivalentTo(webhook);
         }
@@ -88,7 +88,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await disableWebhook.Should().NotThrowAsync();
         }
 
-        private WebhookCreateModel ToCreateModel(WebhookModel webhook)
+        private static WebhookCreateModel ToCreateModel(WebhookModel webhook)
         {
             return new WebhookCreateModel
             {
