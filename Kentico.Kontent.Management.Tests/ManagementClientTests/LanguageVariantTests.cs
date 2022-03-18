@@ -344,7 +344,7 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
 
         private static LanguageVariantModel GetExpectedLanguageVariantModel(
             string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024",
-            string itemId = "4b628214-e4fe-4fe0-b1ff-955df33e1515") => new LanguageVariantModel
+            string itemId = "4b628214-e4fe-4fe0-b1ff-955df33e1515") => new()
             {
                 Item = Reference.ById(Guid.Parse(itemId)),
                 Language = Reference.ById(Guid.Parse(languageId)),
