@@ -27,8 +27,5 @@ internal class ImageTransformationConverter : JsonConverter
 
     public override bool CanWrite => false;
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        throw new NotImplementedException(); // won't be called because CanWrite returns false
-    }
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException(); // won't be called because CanWrite returns false
 }

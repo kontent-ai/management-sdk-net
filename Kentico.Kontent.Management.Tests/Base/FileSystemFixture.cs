@@ -43,10 +43,7 @@ namespace Kentico.Kontent.Management.Tests.Base
             _messageCreator = new MessageCreator(_managementOptions.ApiKey);
         }
 
-        public void SetSubFolder(string folder)
-        {
-            _folder = folder;
-        }
+        public void SetSubFolder(string folder) => _folder = folder;
 
         public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
         {

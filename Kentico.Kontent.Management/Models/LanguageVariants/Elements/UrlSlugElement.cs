@@ -22,14 +22,10 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants.Elements
         /// <summary>
         /// Coverts the url slug element to the dynamic object.
         /// </summary>
-        public override dynamic ToDynamic()
-        {
-            return new
-            {
-                element = GetDynamicReference(),
-                value = Value,
-                mode = Mode
-            };
-        }
+        public override dynamic ToDynamic() => new {
+            element = GetDynamicReference(),
+            value = Value,
+            mode = Mode
+        };
     }
 }

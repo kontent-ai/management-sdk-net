@@ -8,18 +8,19 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
 {
     internal class ElementMetadataConverter : JsonConverter
     {
-        private static readonly JsonSerializerSettings _specifiedSubclassConversion = new() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
+        private static readonly JsonSerializerSettings _specifiedSubclassConversion = new() 
+        { 
+            ContractResolver = new BaseSpecifiedConcreteClassConverter()
+        };
 
 
-        public override bool CanConvert(Type objectType)
-        {
-            return (objectType == typeof(ElementMetadataBase));
-        }
+        public override bool CanConvert(Type objectType) => (objectType == typeof(ElementMetadataBase));
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jObject = JObject.Load(reader);
-            var type = jObject["type"]?.ToObject<ElementMetadataType>() ?? throw new ArgumentException("Object does not contain 'type' property or it is null.", nameof(reader));;
+            var type = jObject["type"]?.ToObject<ElementMetadataType>() 
+                ?? throw new ArgumentException("Object does not contain 'type' property or it is null.", nameof(reader));
 
             return type switch
             {
@@ -54,14 +55,8 @@ namespace Kentico.Kontent.Management.Modules.ActionInvoker
             };
         }
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException(); // won't be called because CanWrite returns false
-        }
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException(); // won't be called because CanWrite returns false
     }
 }

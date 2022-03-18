@@ -88,16 +88,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             await disableWebhook.Should().NotThrowAsync();
         }
 
-        private static WebhookCreateModel ToCreateModel(WebhookModel webhook)
+        private static WebhookCreateModel ToCreateModel(WebhookModel webhook) => new WebhookCreateModel
         {
-            return new WebhookCreateModel
-            {
-                Enabled = webhook.Enabled,
-                Name = webhook.Name,
-                Secret = webhook.Secret,
-                Url = webhook.Url,
-                Triggers = webhook.Triggers,
-            };
-        }
+            Enabled = webhook.Enabled,
+            Name = webhook.Name,
+            Secret = webhook.Secret,
+            Url = webhook.Url,
+            Triggers = webhook.Triggers,
+        };
     }
 }

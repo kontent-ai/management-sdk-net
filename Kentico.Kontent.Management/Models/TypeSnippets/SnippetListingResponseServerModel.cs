@@ -14,14 +14,8 @@ namespace Kentico.Kontent.Management.Models.TypeSnippets
         [JsonProperty("pagination")]
         public PaginationResponseModel Pagination { get; set; }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<ContentTypeSnippetModel> GetEnumerator()
-        {
-            return Snippets.GetEnumerator();
-        }
+        public IEnumerator<ContentTypeSnippetModel> GetEnumerator() => Snippets.GetEnumerator();
     }
 }

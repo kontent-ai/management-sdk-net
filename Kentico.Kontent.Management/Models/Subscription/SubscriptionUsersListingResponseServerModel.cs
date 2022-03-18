@@ -14,14 +14,8 @@ namespace Kentico.Kontent.Management.Models.Subscription
         [JsonProperty("pagination")]
         public PaginationResponseModel Pagination { get; set; }
 
-        public IEnumerator<SubscriptionUserModel> GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public IEnumerator<SubscriptionUserModel> GetEnumerator() => GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Users.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => Users.GetEnumerator();
     }
 }

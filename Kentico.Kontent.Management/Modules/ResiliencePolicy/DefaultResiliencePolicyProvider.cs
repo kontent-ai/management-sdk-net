@@ -24,18 +24,13 @@ namespace Kentico.Kontent.Management.Modules.ResiliencePolicy
         /// <summary>
         /// Gets the default (fallback) retry policy for HTTP requests.
         /// </summary>
-        public IAsyncPolicy<HttpResponseMessage> Policy
-        {
-            get
-            {
+        public IAsyncPolicy<HttpResponseMessage> Policy =>
                 // Only HTTP status codes are handled with retries, not exceptions.
-                return Polly.Policy
-                    .HandleResult<HttpResponseMessage>(result => Enum.IsDefined(typeof(RetryHttpCode), (RetryHttpCode) result.StatusCode))
+                Polly.Policy
+                    .HandleResult<HttpResponseMessage>(result => Enum.IsDefined(typeof(RetryHttpCode), (RetryHttpCode)result.StatusCode))
                     .WaitAndRetryAsync(
                         _maxRetryAttempts,
                         retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt) * 100)
                     );
-            }
-        }
     }
 }

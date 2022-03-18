@@ -22,10 +22,6 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
         /// <summary>
         /// Gets the id of the element.
         /// </summary>
-        public virtual string ElementId
-        {
-            get { return elementId; }
-        }
-
+        public virtual string ElementId => elementId;
     }
 }

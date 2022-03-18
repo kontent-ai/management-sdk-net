@@ -190,16 +190,13 @@ namespace Kentico.Kontent.Management.Tests.ManagementClientTests
             response.Terms.Should().NotContain(term => term.Codename == "toBeRemoved");
         }
 
-        private TaxonomyGroupCreateModel ToCreateModel(TaxonomyGroupModel source)
+        private TaxonomyGroupCreateModel ToCreateModel(TaxonomyGroupModel source) => new TaxonomyGroupCreateModel
         {
-            return new TaxonomyGroupCreateModel
-            {
-                Codename = source.Codename,
-                ExternalId = source.ExternalId,
-                Name = source.Name,
-                Terms = ToCreateModel(source.Terms),
-            };
-        }
+            Codename = source.Codename,
+            ExternalId = source.ExternalId,
+            Name = source.Name,
+            Terms = ToCreateModel(source.Terms),
+        };
 
         private IEnumerable<TaxonomyTermCreateModel> ToCreateModel(IEnumerable<TaxonomyTermModel> terms)
         {
