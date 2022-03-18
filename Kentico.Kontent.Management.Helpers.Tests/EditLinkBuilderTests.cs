@@ -144,7 +144,7 @@ namespace Kentico.Kontent.Management.Helpers.Tests
         [Fact]
         public void BuildEditItemUrl_EmptyElements_ThrowsException()
         {
-            var elements = new ElementIdentifier[0];
+            var elements = Array.Empty<ElementIdentifier>();
             var underTest = new EditLinkBuilder(DefaultOptions);
             Assert.Throws<ArgumentException>(() => underTest.BuildEditItemUrl(_language, elements));
         }
