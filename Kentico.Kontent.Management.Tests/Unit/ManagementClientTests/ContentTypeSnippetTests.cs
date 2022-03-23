@@ -137,11 +137,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void ModifyContentTypeSnippetAsync_IdentifierIsNull_ModifiesContentType()
+        public async void ModifyContentTypeSnippetAsync_IdentifierIsNull_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("Snippet.json");
-
-            var expected = _fileSystemFixture.GetExpectedResponse<ContentTypeSnippetModel>("Snippet.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             List<ContentTypeSnippetOperationBaseModel> changes = new() {
                 new ContentTypeSnippetPatchRemoveModel
@@ -154,21 +152,17 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void ModifyContentTypeSnippetAsync_ChangesAreNull_ModifiesContentType()
+        public async void ModifyContentTypeSnippetAsync_ChangesAreNull_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("Snippet.json");
-
-            var expected = _fileSystemFixture.GetExpectedResponse<ContentTypeSnippetModel>("Snippet.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             await client.Invoking(x => x.ModifyContentTypeSnippetAsync(Reference.ByCodename("metadata"), null)).Should().ThrowAsync<ArgumentException>();
         }
 
         [Fact]
-        public async void ModifyContentTypeSnippetAsync_NoChanges_ModifiesContentType()
+        public async void ModifyContentTypeSnippetAsync_NoChanges_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("Snippet.json");
-
-            var expected = _fileSystemFixture.GetExpectedResponse<ContentTypeSnippetModel>("Snippet.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             await client.Invoking(x => x.ModifyContentTypeSnippetAsync(Reference.ByCodename("tweet"), new List<ContentTypeSnippetOperationBaseModel> { }))
                 .Should().ThrowAsync<ArgumentException>();

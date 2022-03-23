@@ -136,11 +136,9 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void ModifyContentTypeAsync_IdentifierIsNull_ModifiesContentType()
+        public async void ModifyContentTypeAsync_IdentifierIsNull_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentType.json");
-
-            var expected = _fileSystemFixture.GetExpectedResponse<ContentTypeModel>("ContentType.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             List<ContentTypeOperationBaseModel> changes = new() { };
 
@@ -148,21 +146,17 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         }
 
         [Fact]
-        public async void ModifyContentTypeAsync_ChangesAreNull_ModifiesContentType()
+        public async void ModifyContentTypeAsync_ChangesAreNull_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentType.json");
-
-            var expected = _fileSystemFixture.GetExpectedResponse<ContentTypeModel>("ContentType.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             await client.Invoking(x => x.ModifyContentTypeAsync(Reference.ByCodename("tweet"), null)).Should().ThrowAsync<ArgumentException>();
         }
 
         [Fact]
-        public async void ModifyContentTypeAsync_NoChanges_ModifiesContentType()
+        public async void ModifyContentTypeAsync_NoChanges_Throws()
         {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("ContentType.json");
-
-            var expected = _fileSystemFixture.GetExpectedResponse<ContentTypeModel>("ContentType.json");
+            var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
             await client.Invoking(x => x.ModifyContentTypeAsync(Reference.ByCodename("tweet"), new List<ContentTypeOperationBaseModel> { }))
                 .Should().ThrowAsync<ArgumentException>();
