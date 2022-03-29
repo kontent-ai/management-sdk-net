@@ -45,7 +45,7 @@ internal static class ElementsData
             Value = $"<h1>Light Roasts</h1><p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color.This method is used for milder coffee varieties and for coffee tasting.This type of roasting allows the natural characteristics of each coffee to show.The aroma of coffees produced from light roasts is usually more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3")}\"></object>",
             Components = new ComponentModel[]
         {
-            new ComponentModel
+            new()
             {
                 Id = Guid.Parse("46c05bd9-d418-4507-836c-9accc5a39db3"),
                 Type = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d")),
@@ -157,7 +157,7 @@ internal static class ElementsData
     private static dynamic[] GetComponentElementsAsDynamic()
     {
         dynamic component1 = new ExpandoObject();
-        component1.element = GetElement(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.TweetLink)).GetKontentElementId().ToString()); ;
+        component1.element = GetElement(typeof(TweetTestModel).GetProperty(nameof(TweetTestModel.TweetLink)).GetKontentElementId().ToString());
         component1.value = "https://twitter.com/ChrastinaOndrej/status/1417105245935706123";
 
         dynamic component2 = new ExpandoObject();

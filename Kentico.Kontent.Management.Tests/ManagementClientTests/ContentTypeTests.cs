@@ -140,7 +140,7 @@ public class ContentTypeTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
-        List<ContentTypeOperationBaseModel> changes = new() { };
+        List<ContentTypeOperationBaseModel> changes = new();
 
         await client.Invoking(x => x.ModifyContentTypeAsync(null, changes)).Should().ThrowAsync<ArgumentNullException>();
     }

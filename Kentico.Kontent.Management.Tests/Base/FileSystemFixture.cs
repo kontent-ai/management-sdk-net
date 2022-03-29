@@ -22,20 +22,19 @@ public sealed class FileSystemFixture : IDisposable
     public static string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
     private string _folder = "";
-    private readonly ManagementOptions _managementOptions;
     private readonly EndpointUrlBuilder _urlBuilder;
     private readonly MessageCreator _messageCreator;
 
     public FileSystemFixture()
     {
-        _managementOptions = new ManagementOptions()
+        var managementOptions = new ManagementOptions()
         {
             ApiKey = "Dummy_API_key",
             ProjectId = PROJECT_ID,
             SubscriptionId = SUBCRIPTION_ID
         };
-        _urlBuilder = new EndpointUrlBuilder(_managementOptions);
-        _messageCreator = new MessageCreator(_managementOptions.ApiKey);
+        _urlBuilder = new EndpointUrlBuilder(managementOptions);
+        _messageCreator = new MessageCreator(managementOptions.ApiKey);
     }
 
     public void SetSubFolder(string folder) => _folder = folder;

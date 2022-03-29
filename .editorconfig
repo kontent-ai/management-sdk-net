@@ -124,7 +124,7 @@ csharp_indent_labels = one_less_than_current
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_namespace_declarations = file_scoped:warning
-csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_method_group_conversion = true:suggestion
 csharp_style_expression_bodied_operators = false:silent
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_accessors = true:silent
@@ -237,6 +237,7 @@ dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_event = false:silent
 dotnet_diagnostic.CA2208.severity = silent
+dotnet_diagnostic.IDE0005.severity = warning
 
 [*.CodeSamples.{cs,vb}]
 csharp_style_unused_value_assignment_preference = unused_local_variable:silent

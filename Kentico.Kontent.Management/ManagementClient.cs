@@ -614,11 +614,11 @@ public sealed partial class ManagementClient : IManagementClient
         if (identifier == null)
         {
             throw new ArgumentNullException(nameof(identifier));
-            }
+        }
 
-            if (changes == null || !changes.Any())
-            {
-                throw new ArgumentException("Please provide at least one operation.", nameof(changes));
+        if (changes == null || !changes.Any())
+        {
+            throw new ArgumentException("Please provide at least one operation.", nameof(changes));
         }
 
         var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);

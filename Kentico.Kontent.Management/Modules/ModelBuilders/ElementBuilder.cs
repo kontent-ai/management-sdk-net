@@ -21,7 +21,7 @@ public static class ElementBuilder
         {
             if (elementObject.Element == null)
             {
-                elementExceptions.Add(new ArgumentNullException("Element identifier (`BaseElement.Element` property) not set for element on index ", Array.IndexOf(elements, elementObject).ToString()));
+                elementExceptions.Add(new ArgumentNullException(Array.IndexOf(elements, elementObject).ToString(), "Element identifier (`BaseElement.Element` property) not set for element on index "));
             }
             else if (!elementObject.Element.DoesHaveSetOnlyOneIdentifier())
             {
