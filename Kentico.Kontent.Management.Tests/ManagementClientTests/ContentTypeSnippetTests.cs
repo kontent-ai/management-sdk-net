@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests;
+namespace Kentico.Kontent.Management.Tests.ManagementClientTests;
 
 public class ContentTypeSnippetTests : IClassFixture<FileSystemFixture>
 {

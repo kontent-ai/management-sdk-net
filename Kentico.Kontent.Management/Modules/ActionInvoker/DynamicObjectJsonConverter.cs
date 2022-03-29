@@ -49,7 +49,7 @@ internal class DynamicObjectJsonConverter : JsonConverter
     {
         JObject obj => ConvertToDynamicObject(obj),
         JArray array => array.Select(obj => ConvertJComplexObject(obj)),
-        _ => throw new ArgumentOutOfRangeException("JSON deserialization did not return either object nor array."),
+        _ => throw new ArgumentOutOfRangeException(nameof(input), "JSON deserialization did not return either object nor array."),
     };
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

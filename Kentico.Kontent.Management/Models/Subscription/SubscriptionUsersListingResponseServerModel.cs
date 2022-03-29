@@ -14,7 +14,7 @@ internal class SubscriptionUserListingResponseServerModel : IListingResponse<Sub
     [JsonProperty("pagination")]
     public PaginationResponseModel Pagination { get; set; }
 
-    public IEnumerator<SubscriptionUserModel> GetEnumerator() => GetEnumerator();
+    public IEnumerator<SubscriptionUserModel> GetEnumerator() => Users.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator() => Users.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

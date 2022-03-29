@@ -4,7 +4,6 @@ using Kentico.Kontent.Management.Modules.HttpClient;
 using Kentico.Kontent.Management.Modules.ResiliencePolicy;
 using NSubstitute;
 using Polly;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
