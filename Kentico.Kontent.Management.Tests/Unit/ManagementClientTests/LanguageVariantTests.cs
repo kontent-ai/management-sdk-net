@@ -9,6 +9,7 @@ using FluentAssertions;
 using Kentico.Kontent.Management.Models.StronglyTyped;
 using System.Linq;
 using Kentico.Kontent.Management.Extensions;
+using Kentico.Kontent.Management.Models.Workflow;
 
 namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
 {
@@ -224,7 +225,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
             var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var response = await client.UpsertLanguageVariantAsync(identifier, GetExpectedComplexTestModel().Elements);
+            var response = await client.UpsertLanguageVariantAsync(identifier, GetExpectedComplexTestModel().Elements, null);
 
             response.Should().BeEquivalentTo(expected);
         }
@@ -234,7 +235,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
-            await client.Invoking(x => x.UpsertLanguageVariantAsync(null, new ComplexTestModel()))
+            await client.Invoking(x => x.UpsertLanguageVariantAsync(null, new ComplexTestModel(), null))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
@@ -247,7 +248,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
             var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (ComplexTestModel)null))
+            await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (ComplexTestModel)null, null))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
@@ -350,7 +351,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
                 Item = Reference.ById(Guid.Parse(itemId)),
                 Language = Reference.ById(Guid.Parse(languageId)),
                 LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
-                WorkflowStep = Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9")),
+                Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
                 Elements = ElementsData.GetExpectedDynamicElements(),
             };
         }
@@ -360,7 +361,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             Item = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")),
             Language = Reference.ById(Guid.Parse(languageId)),
             LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
-            WorkflowStep = Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9")),
+            Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
             Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
         };
     }

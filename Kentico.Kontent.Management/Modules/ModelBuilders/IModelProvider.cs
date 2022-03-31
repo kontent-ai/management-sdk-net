@@ -1,6 +1,7 @@
 ﻿using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.StronglyTyped;
+using Kentico.Kontent.Management.Models.Workflow;
 
 namespace Kentico.Kontent.Management.Modules.ModelBuilders
 {
@@ -22,8 +23,9 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
         /// </summary>
         /// <typeparam name="T">Strongly typed elements model.</typeparam>
         /// <param name="variantElements">Strongly typed language variant elements data.</param>
+        /// <param name="workflow">Workflow data</param>
         /// <returns>Non-generic language variant model.</returns>
-        LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements) where T : new();
+        LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements, WorkflowStepIdentifier workflow = null) where T : new();
 
         /// <summary>
         /// Builds a strongly typed asset model from non-generic model.

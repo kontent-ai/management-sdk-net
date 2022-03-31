@@ -100,7 +100,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             // Remove next line in codesample
             client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
-            var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
+            var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements, null);
         }
 
         [Fact]
@@ -195,7 +195,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
             // Upserts a language variant of a content item
-            var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
+            var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements, null);
         }
 
         [Fact]
@@ -272,7 +272,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
             // Upserts a language variant of your content item
-            var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
+            var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier, stronglyTypedElements, null);
         }
         
         [Fact]

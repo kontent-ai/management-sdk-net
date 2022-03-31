@@ -525,19 +525,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
 
             Assert.Single(response);
         }
-
-        // DocSection: cm_api_v2_get_workflow_steps
-        // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-        [Fact]
-        public async void GetWorkflowSteps()
-        {
-            var client = _fileSystemFixture.CreateMockClientWithResponse("WorkflowSteps.json");
-
-            var response = await client.ListWorkflowStepsAsync();
-
-            Assert.Equal(4, response.Count());
-        }
-
+        
         // DocSection: cm_api_v2_get_role
         // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
         [Fact]
@@ -1677,7 +1665,10 @@ namespace Kentico.Kontent.Management.Tests.Unit.CodeSamples
             var workflowStepIdentifier = Reference.ById(Guid.Parse("16221cc2-bd22-4414-a513-f3e555c0fc93"));
 
             var exception = await Record.ExceptionAsync(async () =>
-                await client.ChangeLanguageVariantWorkflowStepAsync(new WorkflowIdentifier(itemIdentifier, languageIdentifier, workflowStepIdentifier)));
+                await client.ChangeLanguageVariantWorkflowAsync(
+                    new LanguageVariantIdentifier(itemIdentifier, languageIdentifier),
+                    new WorkflowStepIdentifier(Reference.ById(Guid.Empty), workflowStepIdentifier)
+                    ));
             Assert.Null(exception);
         }
 

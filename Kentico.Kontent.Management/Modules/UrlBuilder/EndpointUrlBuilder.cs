@@ -1,6 +1,5 @@
 ﻿using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.Shared;
-using Kentico.Kontent.Management.Models.Workflow;
 using Kentico.Kontent.Management.Modules.UrlBuilder;
 using Kentico.Kontent.Management.Modules.UrlBuilder.Templates;
 using System;
@@ -88,14 +87,16 @@ namespace Kentico.Kontent.Management.UrlBuilder
         public string BuildWebhooksEnableUrl(Reference identifier) => GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
 
         public string BuildWebhooksDisableUrl(Reference identifier) => GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
+        
+        public string BuildWorkflowsUrl() => GetProjectUrl(_workflowTemplate.Url);
 
-        public string BuildWorkflowUrl() => GetProjectUrl(_workflowTemplate.Url);
+        public string BuildWorkflowsUrl(Reference identifier) => GetProjectUrl(_workflowTemplate.GetIdentifierUrlSegment(identifier));
 
-        public string BuildWorkflowChangeUrl(WorkflowIdentifier identifier) => GetProjectUrl(
+        public string BuildWorkflowChangeUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
                 string.Concat(
                     _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                     _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
-                    _workflowTemplate.GetIdentifierUrlSegment(identifier.WorkflowStepIdentifier)));
+                    "/change-workflow"));
 
         public string BuildPublishVariantUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
                 string.Concat(
