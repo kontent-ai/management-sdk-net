@@ -225,7 +225,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
             var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            var response = await client.UpsertLanguageVariantAsync(identifier, GetExpectedComplexTestModel().Elements, null);
+            var response = await client.UpsertLanguageVariantAsync(identifier, GetExpectedComplexTestModel().Elements);
 
             response.Should().BeEquivalentTo(expected);
         }
@@ -235,7 +235,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
         {
             var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
-            await client.Invoking(x => x.UpsertLanguageVariantAsync(null, new ComplexTestModel(), null))
+            await client.Invoking(x => x.UpsertLanguageVariantAsync(null, new ComplexTestModel()))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
@@ -248,7 +248,7 @@ namespace Kentico.Kontent.Management.Tests.Unit.ManagementClientTests
             var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
             var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-            await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (ComplexTestModel)null, null))
+            await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (ComplexTestModel)null))
                 .Should().ThrowExactlyAsync<ArgumentNullException>();
         }
 
