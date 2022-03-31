@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.Workflow
 {
     /// <summary>
-    /// Represents the custom workflow step response model.
+    /// Represents the Archived workflow step response model.
     /// </summary>
-    public class WorkflowStepModel
+    public class WorkflowArchivedStepModel
     {
         /// <summary>
         /// Gets or sets the workflow step's internal ID.
@@ -26,18 +26,6 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// </summary>
         [JsonProperty("codename")]
         public string Codename { get; set; }
-
-        /// <summary>
-        /// Gets or sets the workflow step's color.
-        /// </summary>
-        [JsonProperty("color")]
-        public WorkflowStepColorModel Color { get; set; }
-
-        /// <summary>
-        /// Gets or sets the workflow steps that this step can transition to.
-        /// </summary>
-        [JsonProperty("transitions_to")]
-        public IReadOnlyList<WorkflowStepTransitionToModel> TransitionsTo { get; set; }
 
         /// <summary>
         /// Gets or sets the roles which can work with an item in this step.

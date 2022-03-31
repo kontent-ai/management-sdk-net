@@ -1,4 +1,5 @@
-﻿using Kentico.Kontent.Management.Models.Assets;
+﻿using System;
+using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.AssetRenditions;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
@@ -152,10 +153,11 @@ namespace Kentico.Kontent.Management
         Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
         /// <summary>
-        /// Changes workflow step.
+        /// Changes workflow.
         /// </summary>
-        /// <param name="identifier">Identifier of the workflow step to be changed.</param>
-        Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier);
+        /// <param name="identifier">Identifier of the language variant to be changed.</param>
+        /// <param name="workflowStepIdentifier">Workflow step identifier to set.</param>
+        Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, WorkflowStepIdentifier workflowStepIdentifier);
 
         /// <summary>
         /// Creates the asset folder.
@@ -432,10 +434,16 @@ namespace Kentico.Kontent.Management
         Task<IEnumerable<WebhookModel>> ListWebhooksAsync();
 
         /// <summary>
-        /// Returns listing of workflow steps.
+        /// Returns listing of workflows.
         /// </summary>
-        /// <returns>The <see cref="IEnumerable{WorkflowStepModel}"/> instance that represents the listing of workflow steps.</returns>
-        Task<IEnumerable<WorkflowStepModel>> ListWorkflowStepsAsync();
+        /// <returns>The <see cref="IEnumerable{WorkflowResponseModel}"/> instance that represents the listing of workflow steps.</returns>
+        Task<IEnumerable<WorkflowModel>> ListWorkflowsAsync();
+
+        /// <summary>
+        /// Deletes the given workflow.
+        /// </summary>
+        /// <param name="identifier">The identifier of the workflow.</param>
+        Task DeleteWorkflowAsync(Reference identifier);
 
         /// <summary>
         /// Modifies the asset folder.
@@ -536,8 +544,9 @@ namespace Kentico.Kontent.Management
         /// <typeparam name="T">Type of the content item elements</typeparam>
         /// <param name="identifier">The identifier of the language variant.</param>
         /// <param name="variantElements">Represents inserted or updated strongly typed language variant elements.</param>
+        /// <param name="workflow">Workflow step definition to set the inserted or updated language variant.</param>
         /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents inserted or updated language variant.</returns>
-        Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements) where T : new();
+        Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements, WorkflowStepIdentifier workflow = null) where T : new();
 
         /// <summary>
         /// Validates the project.

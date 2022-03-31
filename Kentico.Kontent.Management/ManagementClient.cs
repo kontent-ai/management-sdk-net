@@ -39,7 +39,7 @@ namespace Kentico.Kontent.Management
     /// <summary>
     /// Executes requests against the Kontent Management API.
     /// </summary>
-    public sealed class ManagementClient : IManagementClient
+    public sealed partial class ManagementClient : IManagementClient
     {
         private const int MAX_FILE_SIZE_MB = 100;
 
@@ -463,7 +463,7 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements) where T : new()
+        public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements, WorkflowStepIdentifier workflow = null) where T : new()
         {
             if (identifier == null)
             {
@@ -476,7 +476,7 @@ namespace Kentico.Kontent.Management
             }
 
             var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-            var variantUpsertModel = _modelProvider.GetLanguageVariantUpsertModel(variantElements);
+            var variantUpsertModel = _modelProvider.GetLanguageVariantUpsertModel(variantElements, workflow);
             var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
 
             return _modelProvider.GetLanguageVariantModel<T>(response);
@@ -812,18 +812,16 @@ namespace Kentico.Kontent.Management
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<WorkflowStepModel>> ListWorkflowStepsAsync()
-        {
-            var endpointUrl = _urlBuilder.BuildWorkflowUrl();
-            return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowStepModel>>(endpointUrl, HttpMethod.Get);
-        }
-
-        /// <inheritdoc />
-        public async Task ChangeLanguageVariantWorkflowStepAsync(WorkflowIdentifier identifier)
+        public async Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, WorkflowStepIdentifier workflowStepIdentifier)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
+            }
+
+            if (workflowStepIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(workflowStepIdentifier));
             }
 
             var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);

@@ -1,6 +1,7 @@
 ﻿using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.LanguageVariants;
 using Kentico.Kontent.Management.Models.StronglyTyped;
+using Kentico.Kontent.Management.Models.Workflow;
 
 namespace Kentico.Kontent.Management.Modules.ModelBuilders
 {
@@ -19,14 +20,15 @@ namespace Kentico.Kontent.Management.Modules.ModelBuilders
                 Item = variant.Item,
                 Language = variant.Language,
                 LastModified = variant.LastModified,
-                WorkflowStep = variant.WorkflowStep,
+                Workflow = variant.Workflow,
                 Elements = _elementModelProvider.GetStronglyTypedElements<T>(variant.Elements)
             };
 
-        public LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements) where T : new() =>
+        public LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements, WorkflowStepIdentifier workflow = null) where T : new() =>
             new()
             {
-                Elements = _elementModelProvider.GetDynamicElements(variantElements)
+                Elements = _elementModelProvider.GetDynamicElements(variantElements),
+                Workflow = workflow,
             };
 
         public AssetModel<T> GetAssetModel<T>(AssetModel asset) where T : new() =>

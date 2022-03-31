@@ -160,8 +160,13 @@
           ]
         }
       ],
-      "workflow_step": {
-        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      "workflow": {
+        "workflow_identifier": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "step_identifier": {
+          "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+        }
       },
       "item": {
         "id": "10000000-0000-0000-0000-000000000000"
@@ -331,8 +336,13 @@
           ]
         }
       ],
-      "workflow_step": {
-        "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+      "workflow": {
+        "workflow_identifier": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "step_identifier": {
+          "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
+        }
       },
       "item": {
         "id": "10000000-0000-0000-0000-000000000000"

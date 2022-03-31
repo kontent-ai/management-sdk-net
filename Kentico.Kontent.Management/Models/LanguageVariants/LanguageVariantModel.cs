@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Kentico.Kontent.Management.Models.Shared;
+using Kentico.Kontent.Management.Models.Workflow;
 using Newtonsoft.Json;
 
 namespace Kentico.Kontent.Management.Models.LanguageVariants
@@ -33,11 +34,11 @@ namespace Kentico.Kontent.Management.Models.LanguageVariants
         /// </summary>
         [JsonProperty("last_modified")]
         public DateTime? LastModified { get; set; }
-
+        
         /// <summary>
-        /// Gets or sets workflow steps of the language variant.
+        /// Gets or sets workflow step identifier.
         /// </summary>
-        [JsonProperty("workflow_step")]
-        public Reference WorkflowStep { get; set; }
+        [JsonProperty("workflow")]
+        public WorkflowStepIdentifier Workflow { get; set; }
     }
 }

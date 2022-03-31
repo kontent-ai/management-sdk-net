@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 namespace Kentico.Kontent.Management.Models.Workflow
 {
     /// <summary>
-    /// Represents the custom workflow step response model.
+    /// Represents the Published workflow step response model.
     /// </summary>
-    public class WorkflowStepModel
+    public class WorkflowPublishedStepModel
     {
         /// <summary>
         /// Gets or sets the workflow step's internal ID.
@@ -26,23 +26,17 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// </summary>
         [JsonProperty("codename")]
         public string Codename { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the roles which can unpublish the item's variant.
+        /// </summary>
+        [JsonProperty("unpublish_role_ids")]
+        public IReadOnlyCollection<Guid> UnpublishRoleIds { get; set; }
 
         /// <summary>
-        /// Gets or sets the workflow step's color.
+        /// Gets or sets the roles which can create new version from published variant.
         /// </summary>
-        [JsonProperty("color")]
-        public WorkflowStepColorModel Color { get; set; }
-
-        /// <summary>
-        /// Gets or sets the workflow steps that this step can transition to.
-        /// </summary>
-        [JsonProperty("transitions_to")]
-        public IReadOnlyList<WorkflowStepTransitionToModel> TransitionsTo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the roles which can work with an item in this step.
-        /// </summary>
-        [JsonProperty("role_ids")]
-        public IReadOnlyCollection<Guid> RoleIds { get; set; }
+        [JsonProperty("create_new_version_role_ids")]
+        public IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; set; }
     }
 }
