@@ -56,9 +56,9 @@ Once you create a `ManagementClient`, you can start managing content in your pro
 The SDK uses an _Reference_ object representation identifying an entity you want to perform the given operation on. There are 3 types of identification you can use to create the identifier:
 
 ```csharp
-Reference codenameIdentifier = Reference.ByCodename("on_roasts");
-Reference idIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-Reference externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
+var codenameIdentifier = Reference.ByCodename("on_roasts");
+var idIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
 ```
 
 - **Codenames** are generated automatically by Kontent based on the object's name. They can make your code more readable but are not guaranteed to be unique. Use them only when there is no chance of naming conflicts.
@@ -115,7 +115,7 @@ Or you can construct instance of strongly type model without necessity to retrie
 
 ```csharp
 // Defines the content elements to update
-ArticleModel stronglyTypedElements = new ArticleModel
+var stronglyTypedElements = new ArticleModel
 {
     Title = new TextElement() { Value = "On Roasts - changed" },
     PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) },
@@ -201,15 +201,15 @@ var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 The Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) currently does not support generating a strongly-typed model from your asset type. But you can construct an instance of a strongly-typed model yourself. You just need to provide the elements you want to change.
 
 ```csharp
-MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-string fileName = "Hello.txt";
-string contentType = "text/plain";
+var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+var fileName = "Hello.txt";
+var contentType = "text/plain";
 
 // Returns a reference that you can later use to create an asset
-FileReference fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
+var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
 
 // Defines the content elements to create
-AssetMetadataModel stronglyTypedTaxonomyElements = new AssetMetadataModel
+var stronglyTypedTaxonomyElements = new AssetMetadataModel
 {
     TaxonomyCategories = new TaxonomyElement()
     {
@@ -249,7 +249,7 @@ var asset = new AssetUpsertModel
     Elements = taxonomyElements
 };
 
-Reference assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
+var assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
 
 // Updates asset metadata
 var response = await client.UpsertAssetAsync(assetReference, asset);
@@ -330,7 +330,7 @@ var taxonomyTermGuid1 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
 var taxonomyTermGuid2 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
 
 // Defines the content elements to update
-ArticleModel stronglyTypedElements = new ArticleModel
+var stronglyTypedElements = new ArticleModel
 {
     Title = new TextElement() { Value = "On Roasts" },
     PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
