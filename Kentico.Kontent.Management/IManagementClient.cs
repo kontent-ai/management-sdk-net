@@ -1,5 +1,4 @@
-﻿using System;
-using Kentico.Kontent.Management.Models.Assets;
+﻿using Kentico.Kontent.Management.Models.Assets;
 using Kentico.Kontent.Management.Models.AssetRenditions;
 using Kentico.Kontent.Management.Models.Assets.Patch;
 using Kentico.Kontent.Management.Models.Collections;
@@ -434,16 +433,16 @@ public interface IManagementClient
     Task<IEnumerable<WebhookModel>> ListWebhooksAsync();
 
     /// <summary>
-        /// Returns listing of workflows.
+    /// Returns listing of workflows.
     /// </summary>
-        /// <returns>The <see cref="IEnumerable{WorkflowResponseModel}"/> instance that represents the listing of workflow steps.</returns>
-        Task<IEnumerable<WorkflowModel>> ListWorkflowsAsync();
+    /// <returns>The <see cref="IEnumerable{WorkflowResponseModel}"/> instance that represents the listing of workflow steps.</returns>
+    Task<IEnumerable<WorkflowModel>> ListWorkflowsAsync();
 
-        /// <summary>
-        /// Deletes the given workflow.
-        /// </summary>
-        /// <param name="identifier">The identifier of the workflow.</param>
-        Task DeleteWorkflowAsync(Reference identifier);
+    /// <summary>
+    /// Deletes the given workflow.
+    /// </summary>
+    /// <param name="identifier">The identifier of the workflow.</param>
+    Task DeleteWorkflowAsync(Reference identifier);
 
     /// <summary>
     /// Modifies the asset folder.

@@ -24,12 +24,12 @@ internal class ModelProvider : IModelProvider
             Elements = _elementModelProvider.GetStronglyTypedElements<T>(variant.Elements)
         };
 
-        public LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements, WorkflowStepIdentifier workflow = null) where T : new() =>
-        new()
-        {
-            Elements = _elementModelProvider.GetDynamicElements(variantElements)
-            Workflow = workflow,
-        };
+    public LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements, WorkflowStepIdentifier workflow = null) where T : new() =>
+    new()
+    {
+        Elements = _elementModelProvider.GetDynamicElements(variantElements),
+        Workflow = workflow,
+    };
 
     public AssetModel<T> GetAssetModel<T>(AssetModel asset) where T : new() =>
         new()

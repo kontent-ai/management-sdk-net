@@ -16,9 +16,9 @@ public sealed class LanguageVariantUpsertModel
     public IEnumerable<dynamic> Elements { get; set; }
 
     /// <summary>
-        /// Gets or sets workflow step identifier to update.
-        /// </summary>
-        public WorkflowStepIdentifier Workflow { get; set; }
+    /// Gets or sets workflow step identifier to update.
+    /// </summary>
+    public WorkflowStepIdentifier Workflow { get; set; }
 
         /// <summary>
     /// Creates an instance of the language variant upsert model.
