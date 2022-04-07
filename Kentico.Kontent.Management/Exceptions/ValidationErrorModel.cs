@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Exceptions
+namespace Kentico.Kontent.Management.Exceptions;
+
+internal class ValidationErrorModel
 {
-    internal class ValidationErrorModel
-    {
-        [JsonProperty("message")]
-        public string Message { get; set; }
-    }
+    [JsonProperty("message")]
+    public string Message { get; set; }
 }

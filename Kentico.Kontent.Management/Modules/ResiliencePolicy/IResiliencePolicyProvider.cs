@@ -2,16 +2,15 @@
 
 using Polly;
 
-namespace Kentico.Kontent.Management.Modules.ResiliencePolicy
+namespace Kentico.Kontent.Management.Modules.ResiliencePolicy;
+
+/// <summary>
+/// Provides a resilience policy.
+/// </summary>
+public interface IResiliencePolicyProvider
 {
     /// <summary>
-    /// Provides a resilience policy.
+    /// Gets the resilience policy.
     /// </summary>
-    public interface IResiliencePolicyProvider
-    {
-        /// <summary>
-        /// Gets the resilience policy.
-        /// </summary>
-        IAsyncPolicy<HttpResponseMessage> Policy { get; }
-    }
+    IAsyncPolicy<HttpResponseMessage> Policy { get; }
 }

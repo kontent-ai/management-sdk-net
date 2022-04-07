@@ -1,0 +1,54 @@
+{
+  "project": {
+    "id": "8d20758c-d74c-4f59-ae04-ee928c0816b7",
+    "name": "Sample project",
+    "environment": "production"
+  },
+  "variant_issues": [
+    {
+      "item": {
+        "id": "b2fea94c-73fd-42ec-a22f-f409878de187",
+        "name": "My article",
+        "codename": "my_article"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "English (United States)",
+        "codename": "default"
+      },
+      "issues": [
+        {
+          "element": {
+            "id": "b9dc537c-2518-e4f5-8325-ce4fce26171e",
+            "name": "Meta description",
+            "codename": "meta_description"
+          },
+          "messages": [
+            "Element 'Meta description' should have at most 160 characters(s) but has 174 character(s)."
+          ]
+        }
+      ]
+    }
+  ],
+  "type_issues": [
+    {
+      "type": {
+        "id": "929985ac-4aa5-436b-85a2-94c2d4fbbebd",
+        "name": "Article",
+        "codename": "article"
+      },
+      "issues": [
+        {
+          "element": {
+            "id": "1ee64175-fde7-fc1e-5259-511a31c326c3",
+            "name": "Categories",
+            "codename": "categories"
+          },
+          "messages": [
+            "Element 'Categories' contains references to non-existing taxonomy group with ID 79b1c5b6-30bc-d076-a236-d9ec9f1ff01b."
+          ]
+        }
+      ]
+    }
+  ]
+}

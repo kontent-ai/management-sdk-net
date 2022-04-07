@@ -1,102 +1,288 @@
-# Kentico Kontent Management .NET SDK
+# Kontent Management .NET SDK
 
 [![Build & Test](https://github.com/Kentico/kontent-management-sdk-net/actions/workflows/integrate.yml/badge.svg)](https://github.com/Kentico/kontent-management-sdk-net/actions/workflows/integrate.yml)
 [![codecov](https://codecov.io/gh/Kentico/kontent-management-sdk-net/branch/master/graph/badge.svg?token=xhM2JrUuA4)](https://codecov.io/gh/Kentico/kontent-management-sdk-net)
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-kontent)
+[![Discord](https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent%20Discord&logo=discord)](https://discord.gg/SKCxwPtevJ)
 
-| Package        | Version  | Downloads | Documentation |
-| ------------- |:-------------:| :-------------:|  :-------------:|
-| Management SDK | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management) | [📖](#using-the-managementclient) |
-| Content Item Edit-URL Builder  | [![NuGet](https://img.shields.io/nuget/v/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [📖](#helper-methods) |
+| Package                       |                                                                         Version                                                                         |                                                                       Downloads                                                                       |                        Compatibility                         |           Documentation           |
+| ----------------------------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------: | :-------------------------------: |
+| Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) | [📖](#using-the-managementclient) |
+| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) |       [📖](#helper-methods)       |
+
+> \* We highly recommend targetting [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) in your projects. [`netstandard2.0`](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) is supported to allow older projects to iteratively upgrade.
 
 ## Summary
 
-:warning: **Please note that this SDK uses [Management API v1](https://kontent.ai/learn/reference/management-api-v1) with the exception of the Assets API Endpoints. Those are using the V2 API.**
+The Kontent Management .NET SDK is a client library used for managing content in Kontent by Kentico. It provides read/write access to your Kontent projects.
 
-ℹ If you want to take a look to the next version supporting full Management API v2 scope, checkout the [vNext branch](https://github.com/Kentico/kontent-management-sdk-net/tree/vNext). ℹ
-
-The Kentico Kontent Management .NET SDK is a client library used for managing content in Kentico Kontent. It provides read/write access to your Kentico Kontent projects.
-
-You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management/) to migrate existing content into your Kentico Kontent project or update content in your content items. You can import content items, their language variants, and assets.
+You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management) to migrate existing content into your Kontent project or update your content model.
 
 The Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
 
-You can head over to our Developer Hub for the complete [Management API Reference](https://kontent.ai/learn/reference/content-management-api-v1).
+💡 If you want to see all .NET related resources including REST API reference with .NET code samples for every endpoint, check out the ["Develop .NET apps" overview page](https://kontent.ai/learn/tutorials/develop-apps/overview?tech=dotnet).
 
 ## Prerequisites
 
-To manage content in a Kentico Kontent project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
-
-You also need to prepare the structure of your Kentico Kontent project before importing your content. This means defining the [content types](https://kontent.ai/learn/tutorials/manage-kontent/content-modeling/create-and-delete-content-types) of the items you want to import. You might also need to set up your [languages](https://kontent.ai/learn/tutorials/manage-kontent/projects/set-up-languages), [taxonomy](https://kontent.ai/learn/tutorials/manage-kontent/content-modeling/create-taxonomies) or [sitemaps](https://kontent.ai/learn/tutorials/develop-apps/optimize-your-app/seo-friendly-content#a-sitemaps) (if you plan to use them).
+To manage content in a Kontent project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
 
 ## Using the ManagementClient
 
-The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and assets in your Kentico Kontent projects.
+The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and others in your Kontent projects.
 
-To create an instance of the class, you need to provide a [project ID](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id) and a valid [Management API Key](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
+To create an instance of the class, you need to provide:
+- [ProjectId](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id): the ID of your Kontent project. This parameter must always be set.
+- [SubscriptionId](https://kontent.ai/learn/reference/management-api-v2/#tag/Subscription): the ID of your subcription. Set it up if you need to manage users and their permissions.
+- [ApiKey](https://kontent.ai/learn/reference/management-api-v2/#section/Authentication/API-keys): either Management or Subscription API key.
+    - Subscription API key can be used for all endpoints but is limited to subscription admins
+    - Management API key can be used with project-specific endpoints and is limited to users with the Manage APIs permission.
 
 ```csharp
-ManagementOptions options = new ManagementOptions
+// Initializes an instance of the ManagementClient client with specified options.
+var client = new ManagementClient(new ManagementOptions
 {
-    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+    ProjectId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
+    SubscriptionId = "a27b9841-fc99-48a7-a46d-65b2549d6c0"
     ApiKey = "ew0...1eo"
-};
-
-// Initializes an instance of the ManagementClient client
-ManagementClient client = new ManagementClient(options);
+});
 ```
 
-Once you create a `ManagementClient`, you can start managing content in your project by calling methods on the client instance. See [Importing content items](#importing-content-items) for details.
+Once you create a `ManagementClient`, you can start managing content in your project by calling methods on the client instance.
 
 ### Codename vs. ID vs. External ID
 
-Most methods of the SDK accept an *Identifier* object that specifies which content item, language variant, or asset you want to perform the given operation on. There are 3 types of identification you can use to create the identifier:
+The SDK uses an _Reference_ object representation identifying an entity you want to perform the given operation on. There are 3 types of identification you can use to create the identifier:
 
 ```csharp
-ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("on_roasts");
-ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
+var codenameIdentifier = Reference.ByCodename("on_roasts");
+var idIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
 ```
 
-* **Codenames** are generated automatically by Kentico Kontent based on the object's name. They can make your code more readable but are not guaranteed to be unique. Use them only when there is no chance of naming conflicts.
-  * Unless set while creating a content item, the codename is initially generated from the item's name. When updating an item without specifying its codename, the codename gets autogenerated based on the name's value.
-* (internal) **IDs** are random [GUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) assigned to objects by Kentico Kontent at the moment of import/creation. They are unique and generated by the system for existing objects. This means you cannot use them to refer to content that is not imported yet.
-* **External IDs** are string-based custom identifiers defined by you. Use them when importing a batch of cross-referencing content. See [Importing linked content](#importing-linked-content) for more details.
+- **Codenames** are generated automatically by Kontent based on the object's name. They can make your code more readable but are not guaranteed to be unique. Use them only when there is no chance of naming conflicts.
+  - Unless set while creating a content item, the codename is initially generated from the item's name. When updating an item without specifying its codename, the codename gets autogenerated based on the name's value.
+- (internal) **IDs** are random [GUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) assigned to objects by Kontent at the moment of import/creation. They are unique and generated by the system for existing objects. This means you cannot use them to refer to content that is not imported yet. **This identification is used for all responses from Management API**
+- **External IDs** are string-based custom identifiers defined by you. Use them when importing a batch of cross-referencing content. See [Importing linked content](#importing-linked-content) for more details.
 
-### Strongly-typed models of your content
+> The set of identification types varies based on the entity. The SDK does not check whether, for example, webhooks allows only ID for identification. This is being handled by the API itself. To check what identification types are allowed for a given entity, see the [API documentation](https://kontent.ai/learn/reference/management-api-v2/).
 
-The `ManagementClient` also supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kentico Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net).
+### User identifier
+
+The SDK also suports endpoints that require either user ID or email. _UserIdentifier_ object represents identification of an user. See following example for more detail.
 
 ```csharp
-// Elements to update
-ArticleModel stronglyTypedElements = new ArticleModel
+UserIdentifier identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
+UserIdentifier identifier = UserIdentifier.ByEmail("user@email.com");
+```
+
+### Handling Kontent **errors**
+
+You can catch Kontent errors (more in [error section in Management API reference](https://kontent.ai/learn/reference/management-api-v2#section/Errors))) by using `try-catch` block and catching `Kentico.Kontent.Management.Exceptions.ManagementException`.
+
+```csharp
+try
 {
-    Title = "On Roasts",
-    PostDate = new DateTime(2017, 7, 4)
+    var response = await client.UpsertLanguageVariantAsync(identifier, elements);
+}
+catch (ManagementException ex)
+{
+    Console.WriteLine(ex.StatusCode);
+    Console.WriteLine(ex.Message);
+}
+```
+
+### Working with language variants
+
+The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) and then be able to retrieve the data in a strongly typed form.
+
+```csharp
+// Retrieve strongly-typed content item
+var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
+var response = await client.GetLanguageVariantAsync<ArticleModel>(identifier);
+
+response.Elements.Title = new TextElement() { Value = "On Roasts - changed" };
+response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) };
+
+var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
+```
+
+Or you can construct instance of strongly type model without necessity to retrieve the data from Kontent. You just provide the elements you want to change. If the property is not initialized (is `null`) the SDK won't include to the payload.
+
+```csharp
+// Defines the content elements to update
+var stronglyTypedElements = new ArticleModel
+{
+    Title = new TextElement() { Value = "On Roasts - changed" },
+    PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) },
 };
 
+// Specifies the content item and the language variant
+var itemIdentifier = Reference.ByCodename("on_roasts");
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
 // Upserts a language variant of a content item
-ContentItemVariantModel<ArticleModel> response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
+var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
 ```
 
-You can also use anonymous objects to achieve the same result:
+You can also use anonymous dynamic objects to work with language variants. For upsert operations, you need to provide element identification - `element.id`/`element.codename` (optionally load element's ID or codename from generated content model):
 
 ```csharp
+var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
 // Elements to update
-var elements = new
+var elements = new dynamic[]
 {
-    title = "On Roasts",
-    post_date = new DateTime(2017, 7, 4)
+    new
+    {
+        element = new
+        {
+            // You can use `Reference.ById` if you don't have the model
+            id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
+        },
+        value = "On Roasts - changed",
+    },
+    new
+    {
+        element = new
+        {
+            // You can use `Reference.ById` if you don't have the model
+            id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()
+        },
+        value = new DateTime(2018, 7, 4),
+    }
 };
-ContentItemVariantUpsertModel upsertModel = new ContentItemVariantUpsertModel() { Elements = elements };
+
+var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
 
 // Upserts a language variant of a content item
-ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, upsertModel);
+var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 ```
 
-However, we encourage you to use strongly-typed models for their convenience and type safety. Examples in this document use strongly-typed models where possible.
+You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. That is **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
+
+```csharp
+var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+
+// Elements to update
+var elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+{
+    new TextElement()
+    {
+        // You can use `Reference.ById` if you don't have the model
+        Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()),
+        Value = "On Roasts - changed"
+    },
+    new DateTimeElement()
+    {
+        // You can use `Reference.ById` if you don't have the model
+        Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()),
+        Value = new DateTime(2018, 7, 4)
+    },
+});
+
+var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
+
+// Upserts a language variant of a content item
+var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
+```
+
+### Working with assets
+
+The Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) currently does not support generating a strongly-typed model from your asset type. But you can construct an instance of a strongly-typed model yourself. You just need to provide the elements you want to change.
+
+```csharp
+var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
+var fileName = "Hello.txt";
+var contentType = "text/plain";
+
+// Returns a reference that you can later use to create an asset
+var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
+
+// Defines the content elements to create
+var stronglyTypedTaxonomyElements = new AssetMetadataModel
+{
+    TaxonomyCategories = new TaxonomyElement()
+    {
+        Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
+    },
+};
+
+// Defines the asset to create
+var asset = new AssetCreateModel<AssetMetadataModel>
+{
+    FileReference = fileResult,
+    Elements = stronglyTypedTaxonomyElements
+};
+
+// Creates an asset
+var response = await client.CreateAssetAsync(asset);
+```
+
+You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. That is **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
+
+```csharp
+ // Elements to update
+var taxonomyElements = ElementBuilder.GetElementsAsDynamic(
+    new TaxonomyElement
+    {
+        Element = Reference.ByCodename("taxonomy-categories"),
+        Value = new[]
+        {
+            Reference.ByCodename("hello"),
+            Reference.ByCodename("SDK"),
+        }
+    });
+
+// Defines the asset to update
+var asset = new AssetUpsertModel
+{
+    Elements = taxonomyElements
+};
+
+var assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
+
+// Updates asset metadata
+var response = await client.UpsertAssetAsync(assetReference, asset);
+```
+
+You can also use anonymous dynamic objects to work with assets same as with the language variants.
 
 ## Quick start
+
+### Retrieving content items
+
+Responses from Kontent by Kentico API are paginated. To retrieve all of content items, you need to go page by page. Here's how:
+
+```csharp
+var items = new List<ContentItemModel>();
+
+var response = await _client.ListContentItemsAsync();
+
+while (true)
+{
+    items.AddRange(response);
+
+    if (!response.HasNextPage())
+    {
+        break;
+    }
+
+    response = await response.GetNextPage();
+}
+```
+If you need all content items you can use `GetAllAsync`:
+
+```csharp
+var response = await _client.ListContentItemsAsync().GetAllAsync();
+```
 
 ### Importing content items
 
@@ -105,435 +291,93 @@ Importing content items is a 2 step process, using 2 separate methods:
 1. Creating an empty content item which serves as a wrapper for your content.
 1. Adding content inside a language variant of the content item.
 
-Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kentico Kontent](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
+Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kontent](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
 
 #### 1. Creating a content item
 
 ```csharp
 // Creates an instance of the Management client
-ManagementClient client = new ManagementClient(options);
+var client = new ManagementClient(options);
 
-// Defines the content item to import
-ContentItemCreateModel item = new ContentItemCreateModel()
+var item = new ContentItemCreateModel
 {
-    CodeName = "on_roasts", // When not specified, the codename gets autogenerated based on the name's value
+    Codename = "on_roasts",
     Name = "On Roasts",
-    Type = ContentTypeIdentifier.ByCodename("article"),
-    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("articles") }
+    Type = Reference.ByCodename("article")
 };
 
-// Adds the content item to your project in Kentico Kontent
-ContentItemModel response = await client.CreateContentItemAsync(item);
+var responseItem = await client.CreateContentItemAsync(item);
 ```
 
-Kentico Kontent will generate an internal ID for the (new and empty) content item and include it in the response. If you do not specify a codename, it will be generated based on name. In the next step, we will add the actual (localized) content.
+Kontent will generate an internal ID for the (new and empty) content item and include it in the response. If you do not specify a codename, it will be generated based on name. In the next step, we will add the actual (localized) content.
 
 #### 2. Adding language variants
 
 To add localized content, you have to specify:
 
-* The content item you are importing into.
-* The language variant of the content item.
-* The content elements of the language variant you want to add or update. Omitted elements will remain unchanged.
+- The content item you are importing into.
+- The language variant of the content item.
+- The language variant elements you want to add or update. Omitted elements will remain unchanged.
 
 ```csharp
+var componentId = "04bc8d32-97ab-431a-abaa-83102fc4c198";
+var contentTypeCodename = "article";
+var relatedArticle1Guid = Guid.Parse("b4e7bfaa-593c-4ae4-a231-5136b10757b8");
+var relatedArticle2Guid = Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea");
+var taxonomyTermGuid1 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
+var taxonomyTermGuid2 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
+
 // Defines the content elements to update
-ArticleModel stronglyTypedElements = new ArticleModel
+var stronglyTypedElements = new ArticleModel
 {
-    Title = "On Roasts",
-    PostDate = new DateTime(2017, 7, 4),
-    BodyCopy = @"
-        <h1>Light Roasts</h1>
-        <p>Usually roasted for 6 - 8 minutes or simply until achieving a light brown color. This method
-        is used for milder coffee  varieties and for coffee tasting. This type of roasting allows the natural
-        characteristics of each coffee to show. The aroma of coffees produced from light roasts is usually
-        more intense.The cup itself is more acidic and the concentration of caffeine is higher.</p>
-    ",
-    RelatedArticles = new [] { ContentItemIdentifier.ByCodename("which_brewing_fits_you_") },
-    UrlPattern = "on-roasts",
-    Personas = new [] { TaxonomyTermIdentifier.ByCodename("barista") }
+    Title = new TextElement() { Value = "On Roasts" },
+    PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
+    BodyCopy = new RichTextElement
+    {
+        Value = $"<p>Rich Text</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{componentId}\"></object>",
+        Components = new ComponentModel[]
+        {
+            new ComponentModel
+            {
+                Id = Guid.Parse(componentId),
+                Type = Reference.ByCodename(contentTypeCodename),
+                Elements = new dynamic[]
+                {
+                    new
+                    {
+                        element = new
+                        {
+                            id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
+                        },
+                        value = "Article component title",
+                    }
+                }
+            }
+        }
+    },
+    RelatedArticles = new LinkedItemsElement
+    {
+        Value = new[] { relatedArticle1Guid, relatedArticle2Guid }.Select(Reference.ById)
+    },
+    Personas = new TaxonomyElement
+    {
+        Value = new[] { taxonomyTermGuid1, taxonomyTermGuid2 }.Select(Reference.ById)
+    },
+    UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
 };
 
 // Specifies the content item and the language variant
-ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("on_roasts");
-LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
+var itemIdentifier = Reference.ByCodename("on_roasts");
+var languageIdentifier = Reference.ByCodename("en-US");
+var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
 // Upserts a language variant of your content item
-ContentItemVariantModel<ArticleModel> response = await client.UpsertContentItemVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
-```
-
-### Importing assets
-
-Importing assets using the Management API is usually a 2-step process:
-
-1. Uploading a file to Kentico Kontent.
-1. Creating a new asset using the given file reference.
-
-This SDK, however, simplifies the process and allows you to upload assets using a single method:
-
-```csharp
-// Defines the description of an asset
-AssetDescription assetDescription = new AssetDescription
-{
-    Description = "Description of the asset in English Language",
-    Language = LanguageIdentifier.ByCodename("en-US")
-};
-
-IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
-
-// Title of a new asset
-string title = "Asset title";
-
-// Defines the asset to upsert
-AssetUpdateModel asset = new AssetUpdateModel
-{
-    Descriptions = descriptions,
-    Title = title
-};
-
-string filePath = "‪C:\\Users\\Kentico\\Desktop\\puppies.png";
-string contentType = "image/png";
-
-// Uploads the file and links it to a new asset
-AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), asset);
-```
-
-### Importing linked content
-
-The content you are importing will often contain references to other pieces of imported content. A content item can reference assets, link to other content items in the *Linked items* or *Rich Text* element, and contain hypertext links in the rich text editor. To avoid having to import objects in a specific order (and solve problems with cyclical dependencies), you can use **external IDs** to reference non-existent (not imported yet) content:
-
-1. Define external IDs for all content items and assets you want to import in advance.
-1. When referencing another content item or asset, use its external ID.
-1. Import your content using the upsert methods with external ID. The system will resolve all references.
-
-This way, you can import your content in any order and run the import process repeatedly to keep your project up to date. In the example below, we import an asset and a content item that uses it:
-
-```csharp
-// Upserts an asset, assuming you already have the fileResult reference to the uploaded file
-AssetUpsertModel asset = new AssetUpsertModel
-{
-    FileReference = fileResult
-};
-
-string assetExternalId = "Ext-Asset-123-png";
-AssetModel assetResponse = await client.UpsertAssetByExternalIdAsync(assetExternalId, asset);
-
-// Upserts a content item
-ContentItemUpsertModel item = new ContentItemUpsertModel
-{
-    CodeName = "brno", // When not specified, the codename gets autogenerated based on the name's value
-    Name = "Brno",
-    Type = ContentTypeIdentifier.ByCodename("cafe")
-};
-
-string itemExternalId = "Ext-Item-456-Brno";
-ContentItemModel itemResponse = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
-
-// Upsert a language variant which references the asset using external ID
-CafeModel stronglyTypedElements = new CafeModel
-{
-    Picture = new [] { AssetIdentifier.ByExternalId(assetExternalId) },
-    City = "Brno",
-    Country = "Czech Republic"
-};
-
-ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId(itemExternalId);
-LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
-
-ContentItemVariantModel<CafeModel> variantResponse = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, stronglyTypedElements);
-```
-
-### Content item methods
-
-#### Upserting a content item by external ID
-
-```csharp
-// Defines a content item to upsert
-ContentItemUpsertModel item = new ContentItemUpsertModel
-{
-    CodeName = "new_or_updated_codename" // When not specified, the codename gets autogenerated based on the name's value
-    Name = "New or updated name",
-    Type = ContentTypeIdentifier.ByCodename("cafe"),
-    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }
-};
-
-string itemExternalId = "Ext-Item-456-Brno";
-
-// Upserts a content item by external ID
-ContentItemModel response = await client.UpsertContentItemByExternalIdAsync(itemExternalId, item);
-```
-
-#### Adding a content item
-
-```csharp
-// Defines a content item to add
-ContentItemCreateModel item = new ContentItemCreateModel
-{
-    CodeName = "brno", // When not specified, the codename gets autogenerated based on the name's value
-    Name = "Brno",
-    Type = ContentTypeIdentifier.ByCodename("cafe"),
-    SitemapLocations = new[] { SitemapNodeIdentifier.ByCodename("cafes") }
-};
-
-// Creates a content item
-ContentItemModel response = await client.CreateContentItemAsync(item);
-```
-
-#### Viewing a content item
-
-```csharp
-ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-
-// Retrieves a content item
-ContentItemModel response = await client.GetContentItemAsync(identifier);
-```
-
-#### Listing content items
-
-```csharp
-// Retrieves a list of content items
-ListingResponseModel<ContentItemModel> response = await client.ListContentItemsAsync();
-
-while (true)
-{
-    foreach (var item in response)
-    {
-        // use your content item
-    }
-
-    if (!response.HasNextPage())
-    {
-        break;
-    }
-
-    response = await response.GetNextPage();
-}
- ```
- 
-#### Updating a content item
-
-```csharp
-ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-
-// Defines new properties of a content item
-ContentItemUpdateModel item = new ContentItemUpdateModel
-{
-    CodeName = "new_codename", // When not specified, the codename gets autogenerated based on the name's value
-    Name = "New name",
-    SitemapLocations = new[] {
-        SitemapNodeIdentifier.ByCodename("cafes"),
-        SitemapNodeIdentifier.ByCodename("europe")
-    }
-};
-
-// Updates a content item
-ContentItemModel reponse = await client.UpdateContentItemAsync(identifier, item);
-```
-
-#### Deleting a content item
-
-```csharp
-ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-
-// Deletes a content item
-client.DeleteContentItemAsync(identifier);
-```
-
-### Language variant methods
-
-#### Upserting a language variant
-
-```csharp
-// Defines the elements to update
-CafeModel stronglyTypedElements = new CafeModel
-{
-    Street = "Nove Sady 25",
-    City = "Brno",
-    Country = "Czech Republic"
-};
-
-ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-
-LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-
-// Combines item and language identifiers into one
-ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
-// Upserts a language variant of a content item
-ContentItemVariantModel<CafeModel> response = await client.UpsertContentItemVariantAsync<CafeModel>(identifier, stronglyTypedElements);
-```
-
-#### Viewing a language variant
-
-```csharp
-ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-
-LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-
-// Combines item and language identifiers into one
-ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
-// Retrieves a language variant of a content item
-ContentItemVariantModel<CafeModel> response = await client.GetContentItemVariantAsync<CafeModel>(identifier);
-```
-
-#### Listing language variants
-
-```csharp
-ContentItemIdentifier identifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier identifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79"));
-// ContentItemIdentifier identifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-
-// Retrieves language variants of a content item
-IEnumerable<ContentItemVariantModel<CafeModel>> response = await client.ListContentItemVariantsAsync<CafeModel>(identifier);
-```
-
-#### Deleting a language variant
-
-```csharp
-ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByCodename("brno");
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ById(Guid.Parse("8ceeb2d8-9676-48ae-887d-47ccb0f54a79")));
-// ContentItemIdentifier itemIdentifier = ContentItemIdentifier.ByExternalId("Ext-Item-456-Brno");
-
-LanguageIdentifier languageIdentifier = LanguageIdentifier.ByCodename("en-US");
-// LanguageIdentifier languageIdentifier = LanguageIdentifier.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-
-// Combines item and language identifiers into one
-ContentItemVariantIdentifier identifier = new ContentItemVariantIdentifier(itemIdentifier, languageIdentifier);
-// Deletes a language variant of a content item
-await client.DeleteContentItemVariantAsync(identifier);
-```
-
-### Asset methods
-
-#### Uploading a file
-
-Upload a file to Kentico Kontent.
-
-```csharp
-MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-string fileName = "Hello.txt";
-string contentType = "text/plain";
-
-// Returns a reference that you can later use to create an asset
-FileReference fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
-```
-
-#### Upserting an asset using external ID
-
-Update or create an asset using a `fileResult` reference to a previously uploaded file. You can specify an asset description for each language in your Kentico Kontent project. Specifying title of a new asset is optional. Use the asset title to better identify and filter your assets in the UI.
-
-```csharp
-AssetDescription assetDescription = new AssetDescription
-{
-    Description = "Description of the asset in English Language",
-    Language = LanguageIdentifier.ByCodename("en-US")
-};
-IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
-
-// Title of a new asset
-string title = "Asset title";
-
-// Defines the asset to upsert
-AssetUpsertModel asset = new AssetUpsertModel
-{
-    FileReference = fileResult,
-    Descriptions = descriptions,
-    Title = title
-};
-
-string externalId = "Ext-Asset-123-png";
-
-// Upserts an asset by external ID
-AssetModel response = await client.UpsertAssetByExternalIdAsync(externalId, asset);
-```
-
-#### Uploading an asset from a file system in a single step
-
-Import the asset file and its descriptions using a single method. Specifying title of an asset is optional. You can use the asset title to better identify and filter your assets in the UI.
-
-```csharp
-AssetDescription assetDescription = new AssetDescription
-{
-    Description = "Description of the asset in English Language",
-    Language = LanguageIdentifier.ByCodename("en-US")
-};
-
-IEnumerable<AssetDescription> descriptions = new [] { assetDescription };
-
-// Title of a new asset
-string title = "Asset title";
-
-// Defines the asset to update
-AssetUpdateModel asset = new AssetUpdateModel
-{
-    Descriptions = descriptions,
-    Title = title
-};
-
-string filePath = "‪C:\Users\Kentico\Desktop\puppies.png";
-string contentType = "image/png";
-
-// Creates a new asset using the given file and its descriptions
-AssetModel response = await client.CreateAssetAsync(new FileContentSource(filePath, contentType), asset);
-```
-
-#### Viewing an asset
-
-```csharp
-AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
-// AssetIdentifier identifier = AssetIdentifier.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
-
-// Retrieves an asset
-AssetModel response = await client.GetAssetAsync(identifier);
-```
-
-#### Listing assets
-
-```csharp
-// Retrieves a list of all assets
-ListingResponseModel<AssetModel> response = await client.ListAssetsAsync();
-
-while (true)
-{
-    foreach (var asset in response)
-    {
-        // use your asset
-    }
-
-    if (!response.HasNextPage())
-    {
-        break;
-    }
-
-    response = await response.GetNextPage();
-}
-```
-
-#### Deleting an asset
-
-```csharp
-AssetIdentifier identifier = AssetIdentifier.ByExternalId("Ext-Asset-123-png");
-// AssetIdentifier identifier = AssetIdentifier.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
-
-// Deletes an asset
-client.DeleteAssetAsync(identifier);
+var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
 ```
 
 ### Helper Methods
 
-Methods for building links to content items and their elements in Kentico Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers/).
+Methods for building links to content items and their elements in Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers/).
 
 #### Getting an edit link for a content item
 
@@ -601,21 +445,27 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 ```
 
 ## How to use [SourceLink](https://github.com/dotnet/sourcelink/) for debugging
- This repository is configured to generate SourceLink tag in the Nuget package that allows to debug this repository source code when it is referenced as a Nuget package. Source code is downloaded directly from github to the Visual Studio.
+
+This repository is configured to generate SourceLink tag in the Nuget package that allows to debug this repository source code when it is referenced as a Nuget package. Source code is downloaded directly from github to the Visual Studio.
 
 ### How to configure Source Link
 
-1. Open a solution with a project referencing the Kentico.Kontent.Delivery (or Kentico.Kontent.Delivery.RX) Nuget package.
-2. Open Tools -> Options -> Debugging -> General.
-    * Clear **Enable Just My Code**.
-    * Select **Enable Source Link Support**.
-    * (Optional) Clear **Require source files to exactly match the original version**.
-3. Build your solution.
-4. [Add a symbol server `https://symbols.nuget.org/download/symbols`](https://blog.nuget.org/20181116/Improved-debugging-experience-with-the-NuGet-org-symbol-server-and-snupkg.html)
-  * ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
-5. Run a debugging session and try to step into the Kentico.Kontent.Delivery code.
-6. Allow Visual Studio to download the source code from GitHub.
-  * ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
+1. Open a solution with a project referencing the Kentico.Kontent.Management Nuget package.
+1. Open Tools -> Options -> Debugging -> General.
+
+   - Clear **Enable Just My Code**.
+   - Select **Enable Source Link Support**.
+   - (Optional) Clear **Require source files to exactly match the original version**.
+
+1. Build your solution.
+1. [Add a symbol server `https://symbols.nuget.org/download/symbols`](https://blog.nuget.org/20181116/Improved-debugging-experience-with-the-NuGet-org-symbol-server-and-snupkg.html)
+
+   - ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
+
+1. Run a debugging session and try to step into the Kentico.Kontent.Management code.
+1. Allow Visual Studio to download the source code from GitHub.
+
+- ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
 
 **Now you are able to debug the source code of our library without needing to download the source code manually!**
 
@@ -631,17 +481,17 @@ Prerequisites:
 [.NET Core SDK](https://www.microsoft.com/net/download/core).
 
 Optional:
-* [Visual Studio 2017](https://www.visualstudio.com/vs/) for full experience
-* or [Visual Studio Code](https://code.visualstudio.com/)
+
+- [Visual Studio 2017](https://www.visualstudio.com/vs/) for full experience
+- or [Visual Studio Code](https://code.visualstudio.com/)
 
 #### Tests
-Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType` specifies target environemnt for tests. Commit always with TestRunType.MockFromFileSystem. For updating mocked data use `TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem` and before commit update `Data` directory with the content from `\Kentico.Kontent.Management.Tests\bin\Debug\net5.0\Data\`. When using `TestRunType.MockFromFileSystem`, at the build time, data from `Data` directory are copied to bin and tests are running against mocked data.
 
-##### For internal maintainers
-Note source project's got the `Backup` environment with the copy of the project. It might be used to restore if the source environment is corrupted. When changing project data, do not forget to update. or even better create a new environment with commit/issue identifier timestamp. 
+Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType` specifies target environment for tests. Commit always with TestRunType.MockFromFileSystem.
 
-##### For external contributors
-Exported backup of the project created by [Template manager](https://kentico.github.io/kontent-template-manager/) is stored in `import-package.zip`. Note, items, language variants, sitemaps, assets,  might be imported with different `Id`s so it might be needed to update tests.
+> _The following section is meant to be used by maintainers and people with access to the live endpoint project._
+>
+> For updating mocked data use `TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem`. When using `TestRunType.MockFromFileSystem`, at the build time, data from `Data` directory are being used as a mocked data.
 
 ### Creating a new release
 
@@ -650,4 +500,3 @@ Exported backup of the project created by [Template manager](https://kentico.git
 ## Feedback & Contributing
 
 Check out the [contributing](https://github.com/Kentico/content-management-sdk-net/blob/master/CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
-

@@ -1,0 +1,22 @@
+{
+  "collections": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "Default",
+      "codename": "default"
+    },
+    {
+      "id": "56ddd0f8-d3a3-5e36-9ccb-80dbe77aed23",
+      "external_id": "second_external_id",
+      "name": "Second collection",
+      "codename": "second_collection"
+    },
+    {
+      "id": "a4c47429-505b-4917-a852-f03ac49bc304",
+      "external_id": "third_external_id",
+      "name": "third collection",
+      "codename": "third_collection"
+    }
+  ],
+  "last_modified": "2021-03-04T08:16:24.3620957Z"
+}

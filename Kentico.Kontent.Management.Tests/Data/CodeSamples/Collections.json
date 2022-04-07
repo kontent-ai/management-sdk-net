@@ -1,0 +1,16 @@
+{
+  "collections": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "Default",
+      "codename": "default"
+    },
+    {
+      "id": "56ddd0f8-d3a3-5e36-9ccb-80dbe77aed23",
+      "external_id": "second_external_id",
+      "name": "Second collection",
+      "codename": "second_collection"
+    }
+  ],
+  "last_modified": "2021-03-04T08:16:24.3620957Z"
+}

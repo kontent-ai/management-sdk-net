@@ -1,0 +1,14 @@
+{
+  "roles": [
+    {
+      "id": "a23d3727-3b16-4d94-9eb0-85225d29cfef",
+      "name": "Project manager",
+      "codename": "project-manager"
+    },
+    {
+      "id": "6fc02850-4952-4673-895a-9b7194a958bf",
+      "name": "Content creator",
+      "codename": "content-creator"
+    }
+  ]
+}

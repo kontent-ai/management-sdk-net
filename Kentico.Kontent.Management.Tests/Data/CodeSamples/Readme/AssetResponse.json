@@ -1,0 +1,36 @@
+{
+  "elements": [
+    {
+      "element": {
+        "id": "39952d91-6441-4f7c-a76a-c36dbd6d3b4a"
+      },
+      "value": [
+        {
+          "id": "15dc4084-3b2d-4574-9635-11335dd5712d"
+        },
+        {
+          "id": "e4903208-d53e-4ac7-b743-5db9dfc85c38"
+        }
+      ]
+    }
+  ],
+  "id": "2bbaaebf-c798-51bd-9e58-29835aa94007",
+  "file_name": "Hello.txt",
+  "title": null,
+  "size": 179559,
+  "type": "text/plain",
+  "url": "https://assets-us-01.kc-usercontent.com/0234a4a8-d14d-0199-a2bb-9f33c35b1213/c0ecaaa0-264c-49c6-9eee-02394633d9e3/dice.png",
+  "file_reference": {
+    "id": "c0ecaaa0-264c-49c6-9eee-02394633d9e3",
+    "type": "internal"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "description": null
+    }
+  ],
+  "last_modified": "2022-03-03T14:38:35.4550017Z"
+}

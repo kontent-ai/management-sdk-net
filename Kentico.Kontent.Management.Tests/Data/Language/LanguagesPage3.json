@@ -1,0 +1,19 @@
+{
+  "languages": [
+    {
+      "id": "10000000-0000-0000-0000-000000000000",
+      "name": "Czech",
+      "codename": "cz",
+      "external_id": "string",
+      "is_active": true,
+      "is_default": false,
+      "fallback_language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}

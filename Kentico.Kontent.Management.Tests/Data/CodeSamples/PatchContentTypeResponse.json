@@ -1,0 +1,118 @@
+{
+  "id": "dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e",
+  "codename": "new_article",
+  "external_id": "article-custom-id",
+  "last_modified": "2021-06-17T06:28:11.6503569Z",
+  "name": "Article",
+  "content_groups": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "Content",
+      "codename": "content"
+    },
+    {
+      "id": "0acae5f5-5479-46e9-aad0-9481abb4dcab",
+      "name": "Author",
+      "codename": "author"
+    },
+    {
+      "id": "b619a436-4e27-4cf3-8e42-c54ad9fccef7",
+      "name": "URL",
+      "codename": "url"
+    }
+  ],
+  "elements": [
+    {
+      "snippet": {
+        "id": "b14f8a4a-229d-4429-9474-4d6b9789cb95"
+      },
+      "type": "snippet",
+      "id": "4e8b4583-f4f9-4db8-b9e5-683a9ed8cac6",
+      "codename": "snippet_with_title_element",
+      "content_group": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "maximum_text_length": null,
+      "maximum_image_size": null,
+      "allowed_content_types": [
+        {
+          "id": "f89956fd-92cc-473f-86bf-7616ffe72f5f"
+        }
+      ],
+      "image_width_limit": null,
+      "image_height_limit": null,
+      "allowed_image_types": "any",
+      "allowed_blocks": [
+        "text",
+        "tables",
+        "components-and-items"
+      ],
+      "allowed_formatting": [],
+      "allowed_text_blocks": [
+        "paragraph",
+        "heading-two",
+        "heading-three",
+        "heading-four",
+        "ordered-list",
+        "unordered-list"
+      ],
+      "allowed_table_blocks": [
+        "text"
+      ],
+      "allowed_table_formatting": [],
+      "allowed_table_text_blocks": [
+        "paragraph"
+      ],
+      "name": "Content",
+      "guidelines": "Make it snappy. Rock it like a rocket fuel.",
+      "is_required": true,
+      "type": "rich_text",
+      "id": "23375e4a-2ed8-42bf-aa3a-dfb32e6a42ec",
+      "codename": "content",
+      "content_group": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "item_count_limit": {
+        "value": 1,
+        "condition": "at_least"
+      },
+      "allowed_content_types": [
+        {
+          "id": "9fdd0ca7-e19d-4b83-9631-e9443f0e9d0e"
+        }
+      ],
+      "name": "Author",
+      "guidelines": "Select the author or authors.",
+      "is_required": true,
+      "type": "modular_content",
+      "id": "02249cf0-e9db-4e96-a582-479a2650fbc1",
+      "codename": "author",
+      "content_group": {
+        "id": "0acae5f5-5479-46e9-aad0-9481abb4dcab"
+      }
+    },
+    {
+      "depends_on": {
+        "snippet": {
+          "id": "b14f8a4a-229d-4429-9474-4d6b9789cb95"
+        },
+        "element": {
+          "id": "e44db8df-3795-4455-95ee-d4fe10251371"
+        }
+      },
+      "name": "URL",
+      "guidelines": "If needed, provide a custom URL slug.",
+      "is_required": true,
+      "type": "url_slug",
+      "id": "4a90f541-2de4-4a69-b1ef-fe53c6abf0f4",
+      "codename": "url",
+      "content_group": {
+        "id": "b619a436-4e27-4cf3-8e42-c54ad9fccef7"
+      }
+    }
+  ]
+}

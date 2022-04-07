@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kentico.Kontent.Management.Models.ProjectReport
-{
+namespace Kentico.Kontent.Management.Models.ProjectReport;
+
 	/// <summary>
 	/// Represents information necessary to identify 
 	/// the language variant and lists the content elements
@@ -10,7 +10,7 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
 	public sealed class VariantIssue
 	{
 		/// <summary>
-		/// Gets or sets information about content item
+		/// Gets or sets information about the content item
 		/// </summary>
 		[JsonProperty("item")]
 		public Metadata Item { get; set; }
@@ -26,6 +26,5 @@ namespace Kentico.Kontent.Management.Models.ProjectReport
 		/// found in specific content elements
 		/// </summary>
 		[JsonProperty("issues")]
-		public List<ContentElementIssue> Issues { get; set; }
+		public List<ElementIssue> Issues { get; set; }
 	}
-}

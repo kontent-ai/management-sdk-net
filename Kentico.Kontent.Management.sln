@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.161
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32203.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Kontent.Management", "Kentico.Kontent.Management\Kentico.Kontent.Management.csproj", "{3F7CE0EF-5E4C-4380-A4BF-14F34E7E6711}"
 EndProject
@@ -10,6 +10,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Kontent.Management.Helpers", "Kentico.Kontent.Management.Helpers\Kentico.Kontent.Management.Helpers.csproj", "{B473043B-1B7F-4AE8-BF7C-5AF2CAFB3F12}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Kontent.Management.Helpers.Tests", "Kentico.Kontent.Management.Helpers.Tests\Kentico.Kontent.Management.Helpers.Tests.csproj", "{A320E9B4-77D3-4567-B753-DE12AD4DBD94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57DEC162-A67F-4DBC-80EB-94DC8B8E91C7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,14 @@
+{
+  "id": "335d17ac-b6ba-4c6a-ae31-23c1193215cb",
+  "name": "My article",
+  "codename": "my_article_2",
+  "type": {
+    "id": "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89"
+  },
+  "collection": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  },
+  "sitemap_locations": [],
+  "external_id": "my-1337-article",
+  "last_modified": "2020-04-04T13:45:30.7692802Z"
+}

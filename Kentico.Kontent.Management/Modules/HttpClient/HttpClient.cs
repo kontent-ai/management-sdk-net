@@ -1,15 +1,11 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Kentico.Kontent.Management.Modules.HttpClient
+namespace Kentico.Kontent.Management.Modules.HttpClient;
+
+internal class HttpClient : IHttpClient
 {
-    internal class HttpClient : IHttpClient
-    {
-        private readonly System.Net.Http.HttpClient _baseClient = new System.Net.Http.HttpClient();
-        
-        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
-        {
-            return await _baseClient.SendAsync(request);
-        }
-    }
+    private readonly System.Net.Http.HttpClient _baseClient = new();
+
+    public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request) => await _baseClient.SendAsync(request);
 }

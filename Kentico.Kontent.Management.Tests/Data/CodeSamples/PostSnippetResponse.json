@@ -1,0 +1,24 @@
+{
+  "id": "c295baa0-f910-499f-9ca2-523be657019d",
+  "codename": "my_metadata",
+  "name": "Metadata",
+  "external_id": "my_metadata_elements",
+  "elements": [
+    {
+      "name": "Meta title",
+      "guidelines": "Length: 30–60 characters",
+      "type": "text",
+      "id": "c44bf9dd-aa3f-41c7-b4d9-a09390e41e16",
+      "codename": "my_metadata__meta_title",
+      "external_id": "my-meta-title"
+    },
+    {
+      "name": "Meta description",
+      "guidelines": "Length: 70-150 characters",
+      "type": "text",
+      "id": "59b9800b-81a9-4720-bef0-d4cecbaa646c",
+      "codename": "my_metadata__meta_description",
+      "external_id": "my-meta-description"
+    }
+  ]
+}

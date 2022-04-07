@@ -1,0 +1,27 @@
+{
+  "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+  "file_name": "file_name.jpeg",
+  "title": "Description of what the file contains",
+  "size": 148636,
+  "type": "image/jpeg",
+  "url": "https://assets-us-01.kc-usercontent.com/8d20758c-d74c-4f59-ae04-ee928c0816b7/adf26cd2-1acb-403f-9d1e-6d04e46c39f1/file_name.png",
+  "image_width": 1280,
+  "image_height": 548,
+  "file_reference": {
+    "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+    "type": "internal"
+  },
+  "folder": {
+    "id": "8fe4ff47-0ca8-449d-bc63-c280efee44ea"
+  },
+  "descriptions": [
+    {
+      "language": {
+        "codename": "default"
+      },
+      "description": "The asset's alt text in the default language describing what the file or image shows."
+    }
+  ],
+  "external_id": "custom-asset-identifier",
+  "last_modified": "2017-09-12T08:29:36.1645977Z"
+}

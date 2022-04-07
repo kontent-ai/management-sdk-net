@@ -2,20 +2,26 @@ name: Build & Test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, vNext ]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: | 
+          5.0.x
+          6.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -23,4 +29,5 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     - name: Codecov
+      if: ${{ runner.os == 'Linux' }}
       uses: codecov/codecov-action@v1

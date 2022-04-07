@@ -2,14 +2,13 @@
 
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Exceptions
-{
-    internal class ErrorResponseModel
-    {
-        [JsonProperty("message")]
-        public string Message { get; set; }
+namespace Kentico.Kontent.Management.Exceptions;
 
-        [JsonProperty("validation_errors")]
-        public IEnumerable<ValidationErrorModel> ValidationErrors { get; set; }
-    }
+internal class ErrorResponseModel
+{
+    [JsonProperty("message")]
+    public string Message { get; set; }
+
+    [JsonProperty("validation_errors")]
+    public IEnumerable<ValidationErrorModel> ValidationErrors { get; set; }
 }
