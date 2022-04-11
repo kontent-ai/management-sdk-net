@@ -159,7 +159,7 @@ public sealed partial class ManagementClient : IManagementClient
         {
             throw new ArgumentNullException(nameof(asset));
         }
-        
+
         var result = await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset));
 
         return _modelProvider.GetAssetModel<T>(result);
@@ -239,8 +239,8 @@ public sealed partial class ManagementClient : IManagementClient
             }
         }
     }
-    
-            
+
+
     /// <inheritdoc />
     public async Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier)
     {
@@ -248,7 +248,7 @@ public sealed partial class ManagementClient : IManagementClient
         {
             throw new ArgumentNullException(nameof(identifier));
         }
-        
+
         var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
         return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionModel>(endpointUrl, HttpMethod.Get);
     }
@@ -260,10 +260,10 @@ public sealed partial class ManagementClient : IManagementClient
         {
             throw new ArgumentNullException(nameof(assetIdentifier));
         }
-        
+
         var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-        
+
         return new ListingResponseModel<AssetRenditionModel>(
             GetNextListingPageAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>,
             response.Pagination?.Token,
@@ -283,7 +283,7 @@ public sealed partial class ManagementClient : IManagementClient
         {
             throw new ArgumentNullException(nameof(createModel));
         }
-        
+
         var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
         return await _actionInvoker.InvokeMethodAsync<AssetRenditionCreateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Post, createModel);
     }
@@ -299,7 +299,7 @@ public sealed partial class ManagementClient : IManagementClient
         {
             throw new ArgumentNullException(nameof(updateModel));
         }
-        
+
         var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
         return await _actionInvoker.InvokeMethodAsync<AssetRenditionUpdateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Put, updateModel);
     }
@@ -818,16 +818,16 @@ public sealed partial class ManagementClient : IManagementClient
         if (identifier == null)
         {
             throw new ArgumentNullException(nameof(identifier));
-            }
+        }
 
-            if (workflowStepIdentifier == null)
-            {
-                throw new ArgumentNullException(nameof(workflowStepIdentifier));
+        if (workflowStepIdentifier == null)
+        {
+            throw new ArgumentNullException(nameof(workflowStepIdentifier));
         }
 
         var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);
 
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, workflowStepIdentifier);
     }
 
     /// <inheritdoc />
