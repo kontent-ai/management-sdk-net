@@ -19,7 +19,21 @@ public sealed partial class ManagementClient
         var endpointUrl = _urlBuilder.BuildWorkflowsUrl();
         return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowModel>>(endpointUrl, HttpMethod.Get);
     }
-  
+
+    /// <inheritdoc />
+    public async Task<WorkflowModel> CreateWorkflowAsync(WorkflowUpsertModel workflow)
+    {
+        var endpointUrl = _urlBuilder.BuildWorkflowsUrl();
+        return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Post, workflow);
+    }
+
+    /// <inheritdoc />
+    public async Task<WorkflowModel> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow)
+    {
+        var endpointUrl = _urlBuilder.BuildWorkflowsUrl(identifier);
+        return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Put, workflow);
+    }
+
     /// <inheritdoc />
     public async Task DeleteWorkflowAsync(Reference identifier)
     {
