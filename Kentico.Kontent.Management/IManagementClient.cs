@@ -445,6 +445,21 @@ public interface IManagementClient
     Task DeleteWorkflowAsync(Reference identifier);
 
     /// <summary>
+    /// Creates the new workflow.
+    /// </summary>
+    /// <param name="workflow">Represents workflow that will be created.</param>
+    /// <returns>The <see cref="WorkflowModel"/> instance that represents the created workflow.</returns>
+    Task<WorkflowModel> CreateWorkflowAsync(WorkflowUpsertModel workflow);
+
+    /// <summary>
+    /// Update the specified workflow.
+    /// </summary>
+    /// <param name="identifier">The identifier of the workflow to update.</param>
+    /// <param name="workflow">Represents the changed workflow to update.</param>
+    /// <returns>The <see cref="WorkflowModel"/> instance that represents the updated workflow.</returns>
+    Task<WorkflowModel> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow);
+
+    /// <summary>
     /// Modifies the asset folder.
     /// </summary>
     /// /// <param name="changes">Represents changes that will be applied to the asset folder.</param>
