@@ -16,7 +16,8 @@
           "type": "text",
           "external_id": "20bf9ba1-28fe-203c-5920-6f9610498fb9",
           "id": "f09fb430-2a58-59cf-be03-621e1c367501",
-          "codename": "tweet_link"
+          "codename": "tweet_link",
+          "is_non_localizable": true
         },
         {
           "mode": "single",
@@ -77,7 +78,7 @@
       "content_groups": [],
       "elements": [
         {
-          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. Itâ€™s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
           "type": "guidelines",
           "external_id": "1a0d5bc9-a269-e705-494d-f9657cf113a5",
           "id": "14f8fb57-6d36-530d-a417-cb523858e438",
@@ -131,7 +132,7 @@
       "content_groups": [],
       "elements": [
         {
-          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations, or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Home page is modular</h2><p>The home page is built of multiple content items based on smaller content types to embrace a modular approach. This lets you compose pages of independent modules.</p><p>For example, a <em>Hero unit</em>, &nbsp;<em>Articles</em>, or <em>Fact about us</em> are smaller content chunks that you can create independently and then assign to a homepage to have it all together.</p>",
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. Itâ€™s a place where you can include your content brief, voice and tone recommendations, or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Home page is modular</h2><p>The home page is built of multiple content items based on smaller content types to embrace a modular approach. This lets you compose pages of independent modules.</p><p>For example, a <em>Hero unit</em>, &nbsp;<em>Articles</em>, or <em>Fact about us</em> are smaller content chunks that you can create independently and then assign to a homepage to have it all together.</p>",
           "type": "guidelines",
           "external_id": "9367da14-3d08-4ed1-4841-24bf8055f916",
           "id": "4cb65a0b-3747-51db-a6f3-c0bb90b70b1a",

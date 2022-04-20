@@ -23,6 +23,17 @@
   ],
   "elements": [
     {
+      "maximum_text_length": null,
+      "name": "Tweet link",
+      "guidelines": "",
+      "is_required": true,
+      "type": "text",
+      "external_id": "20bf9ba1-28fe-203c-5920-6f9610498fb9",
+      "id": "f09fb430-2a58-59cf-be03-621e1c367501",
+      "codename": "tweet_link",
+      "is_non_localizable": true
+    },
+    {
       "snippet": {
         "id": "b14f8a4a-229d-4429-9474-4d6b9789cb95"
       },
