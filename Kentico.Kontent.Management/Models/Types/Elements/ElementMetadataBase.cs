@@ -41,4 +41,10 @@ public abstract class ElementMetadataBase
     /// </summary>
     [JsonProperty("content_group", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public Reference ContentGroup { get; set; }
+    
+    /// <summary>
+    /// Gets or sets element is non-localizable
+    /// </summary>
+    [JsonProperty("is_non_localizable")]
+    public bool IsNonLocalizable { get; set; }
 }
