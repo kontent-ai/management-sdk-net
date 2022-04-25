@@ -16,7 +16,8 @@
           "term_count_limit": null,
           "type": "taxonomy",
           "id": "b4ac2640-eaca-43ea-874b-8bb257c9b6a9",
-          "codename": "to_delete"
+          "codename": "to_delete",
+          "is_non_localizable": false
         }
       ]
     }
