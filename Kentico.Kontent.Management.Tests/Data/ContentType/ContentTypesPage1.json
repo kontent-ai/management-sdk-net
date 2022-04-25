@@ -41,7 +41,8 @@
           "type": "multiple_choice",
           "external_id": "779b27fd-5a4d-5e5f-66dc-b30931fcba92",
           "id": "05017deb-18b2-5094-b367-e7f8796dd1b8",
-          "codename": "theme"
+          "codename": "theme",
+          "is_non_localizable": false
         },
         {
           "mode": "multiple",
@@ -65,7 +66,8 @@
           "type": "multiple_choice",
           "external_id": "8c6db6cf-1003-951e-5407-b2a19c15b4cd",
           "id": "19e38194-a3a8-5d17-abed-9b70d7a5fd25",
-          "codename": "display_options"
+          "codename": "display_options",
+          "is_non_localizable": false
         }
       ]
     },
@@ -82,7 +84,8 @@
           "type": "guidelines",
           "external_id": "1a0d5bc9-a269-e705-494d-f9657cf113a5",
           "id": "14f8fb57-6d36-530d-a417-cb523858e438",
-          "codename": "n1a0d5bc9_a269_e705_494d_f9657cf113a5"
+          "codename": "n1a0d5bc9_a269_e705_494d_f9657cf113a5",
+          "is_non_localizable": false
         },
         {
           "item_count_limit": null,
@@ -93,7 +96,8 @@
           "type": "modular_content",
           "external_id": "cff560dc-ed24-7036-cbb6-b7a1b61b196a",
           "id": "2cce36cd-3aac-5fee-9b6a-c071257aab24",
-          "codename": "facts"
+          "codename": "facts",
+          "is_non_localizable": false
         },
         {
           "depends_on": {
@@ -110,7 +114,8 @@
           "type": "url_slug",
           "external_id": "50cb9acf-45f5-a186-5c00-9a9e4a37d84a",
           "id": "0db832ad-1ad4-5a0a-882b-9b2dd9194d4e",
-          "codename": "url_pattern"
+          "codename": "url_pattern",
+          "is_non_localizable": false
         },
         {
           "snippet": {
@@ -119,7 +124,8 @@
           "type": "snippet",
           "external_id": "a8131aca-9210-a0e4-6239-3af2231f7ca9",
           "id": "64d55a22-9997-5c6f-a5ba-24eb261e8979",
-          "codename": "metadata"
+          "codename": "metadata",
+          "is_non_localizable": false
         }
       ]
     },
@@ -136,7 +142,8 @@
           "type": "guidelines",
           "external_id": "9367da14-3d08-4ed1-4841-24bf8055f916",
           "id": "4cb65a0b-3747-51db-a6f3-c0bb90b70b1a",
-          "codename": "n9367da14_3d08_4ed1_4841_24bf8055f916"
+          "codename": "n9367da14_3d08_4ed1_4841_24bf8055f916",
+          "is_non_localizable": false
         },
         {
           "item_count_limit": null,
@@ -147,7 +154,8 @@
           "type": "modular_content",
           "external_id": "2b15a8f3-2e5f-7d01-4d8e-5b22e222aa76",
           "id": "5a1f5c5e-b2ff-5cf2-927e-80aa2d6d2e40",
-          "codename": "hero_unit"
+          "codename": "hero_unit",
+          "is_non_localizable": false
         },
         {
           "item_count_limit": null,
@@ -158,7 +166,8 @@
           "type": "modular_content",
           "external_id": "222f3a69-a54f-3e92-83ac-05f8a08e667f",
           "id": "d1d8d364-7bf0-5c0f-b763-f261fb5d175d",
-          "codename": "articles"
+          "codename": "articles",
+          "is_non_localizable": false
         },
         {
           "item_count_limit": null,
@@ -169,7 +178,8 @@
           "type": "modular_content",
           "external_id": "617bccc0-4844-4beb-4ede-6247e954633a",
           "id": "9e239a77-a610-5c29-898e-379932980b0a",
-          "codename": "our_story"
+          "codename": "our_story",
+          "is_non_localizable": false
         },
         {
           "item_count_limit": null,
@@ -180,7 +190,8 @@
           "type": "modular_content",
           "external_id": "6356c948-0fd6-00d0-8fc1-e2484180ae7c",
           "id": "aa4aed47-18c7-59a2-a28f-ad2204509f70",
-          "codename": "cafes"
+          "codename": "cafes",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -205,7 +216,8 @@
           "type": "rich_text",
           "external_id": "ee854076-236b-5312-0ed5-8c3cd55ca9e0",
           "id": "9aea8064-c23c-5c0c-9119-3bc2b1470a90",
-          "codename": "contact"
+          "codename": "contact",
+          "is_non_localizable": false
         },
         {
           "depends_on": {
@@ -222,7 +234,8 @@
           "type": "url_slug",
           "external_id": "dd70db4b-ee97-5ab4-b752-4f9d70389426",
           "id": "61ab1348-3d94-5c0b-84b8-444529bbf8dc",
-          "codename": "url_pattern"
+          "codename": "url_pattern",
+          "is_non_localizable": false
         },
         {
           "snippet": {
@@ -231,7 +244,8 @@
           "type": "snippet",
           "external_id": "255d6748-ba3a-1b59-af5c-afd4a7d6cb4f",
           "id": "ff8f4177-08d7-5494-9edb-60142a01891c",
-          "codename": "metadata"
+          "codename": "metadata",
+          "is_non_localizable": false
         }
       ]
     }

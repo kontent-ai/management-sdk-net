@@ -11,7 +11,8 @@
       "type": "guidelines",
       "external_id": "2a3a744e-0529-dd13-793c-9e668133d48b",
       "id": "f9f65756-5ed8-55ed-9d2a-43f9fe7974cd",
-      "codename": "n2a3a744e_0529_dd13_793c_9e668133d48b"
+      "codename": "n2a3a744e_0529_dd13_793c_9e668133d48b",
+      "is_non_localizable": false
     },
     {
       "maximum_text_length": null,
@@ -22,7 +23,8 @@
       "external_id": "85d5efc6-f47e-2fde-a6f5-0950fe89ecd1",
       "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977",
       "codename": "title",
-      "validation_regex": null
+      "validation_regex": null,
+      "is_non_localizable": true
     },
     {
       "source_url": "https://example.com",
@@ -33,7 +35,8 @@
       "is_required": false,
       "type": "custom",
       "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd",
-      "codename": "selectedform"
+      "codename": "selectedform",
+      "is_non_localizable": false
     },
     {
       "name": "Rating",
@@ -41,7 +44,8 @@
       "is_required": false,
       "type": "number",
       "id": "773940f4-9e67-4a26-a93f-67e55fd7d837",
-      "codename": "rating"
+      "codename": "rating",
+      "is_non_localizable": false
     },
     {
       "mode": "multiple",
@@ -62,7 +66,8 @@
       "is_required": false,
       "type": "multiple_choice",
       "id": "53a25074-b136-4a1f-a16d-3c130f696c66",
-      "codename": "options"
+      "codename": "options",
+      "is_non_localizable": false
     },
     {
       "asset_count_limit": null,
@@ -76,7 +81,8 @@
       "type": "asset",
       "external_id": "62eb9881-e222-6b81-91d2-fdf052726414",
       "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56",
-      "codename": "teaser_image"
+      "codename": "teaser_image",
+      "is_non_localizable": false
     },
     {
       "name": "Post date",
@@ -85,7 +91,8 @@
       "type": "date_time",
       "external_id": "4ae5f7a9-fe1f-1e8c-bfec-d321455139c4",
       "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7",
-      "codename": "post_date"
+      "codename": "post_date",
+      "is_non_localizable": false
     },
     {
       "maximum_text_length": null,
@@ -101,7 +108,8 @@
         "regex": "^[a-zA-Z.,?!\\s]{1,160}$",
         "flags": null,
         "validation_message": "Your text does not match the the given regex"
-      }
+      },
+      "is_non_localizable": true
     },
     {
       "maximum_text_length": null,
@@ -126,7 +134,8 @@
       "type": "rich_text",
       "external_id": "108ed7c0-fc8c-c0ec-d0b5-5a8071408b54",
       "id": "55a88ab3-4009-5bf9-a590-f32162f09b92",
-      "codename": "body_copy"
+      "codename": "body_copy",
+      "is_non_localizable": false
     },
     {
       "item_count_limit": null,
@@ -137,7 +146,8 @@
       "type": "modular_content",
       "external_id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
       "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1",
-      "codename": "related_articles"
+      "codename": "related_articles",
+      "is_non_localizable": false
     },
     {
       "maximum_text_length": null,
@@ -153,7 +163,8 @@
         "regex": "[a-zA-Z][a-zA-Z0-9]*,\\s*",
         "flags": null,
         "validation_message": "Your text does not match the the given regex"
-      }
+      },
+      "is_non_localizable": false
     },
     {
       "guidelines": "Provide all personas for which this article is relevant.",
@@ -165,7 +176,8 @@
       "type": "taxonomy",
       "external_id": "0a16b642-ac3e-584d-a45a-ba354a30b2bd",
       "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d",
-      "codename": "personas"
+      "codename": "personas",
+      "is_non_localizable": false
     },
     {
       "maximum_text_length": null,
@@ -175,7 +187,8 @@
       "type": "text",
       "external_id": "b9dc537c-2518-e4f5-8325-ce4fce26171e",
       "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815",
-      "codename": "meta_description"
+      "codename": "meta_description",
+      "is_non_localizable": false
     },
     {
       "depends_on": {
@@ -198,7 +211,8 @@
         "regex": "^[^\\s\\.\\s]*$",
         "flags": null,
         "validation_message": "Your text does not match the the given regex"
-      }
+      },
+      "is_non_localizable": false
     },
     {
       "snippet": {
@@ -207,7 +221,8 @@
       "type": "snippet",
       "external_id": "08c3994a-02f2-1278-7bed-e8fd9d26f3a4",
       "id": "328810f4-7209-504e-b676-b4d48d11a6fb",
-      "codename": "metadata"
+      "codename": "metadata",
+      "is_non_localizable": false
     },
     {
       "item_count_limit": {
@@ -221,7 +236,8 @@
       "type": "subpages",
       "external_id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
       "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1",
-      "codename": "related_articles"
+      "codename": "related_articles",
+      "is_non_localizable": false
     }
   ]
 }

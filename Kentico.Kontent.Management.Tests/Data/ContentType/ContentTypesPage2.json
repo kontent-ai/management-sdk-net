@@ -9,11 +9,12 @@
       "content_groups": [],
       "elements": [
         {
-          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content entry. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content entry. Itï¿½s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
           "type": "guidelines",
           "external_id": "14cba67c-fc38-63f9-93c7-c29c03c20292",
           "id": "55bd6dec-5390-5b65-91fa-a1532cb8153a",
-          "codename": "n14cba67c_fc38_63f9_93c7_c29c03c20292"
+          "codename": "n14cba67c_fc38_63f9_93c7_c29c03c20292",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -23,7 +24,8 @@
           "type": "text",
           "external_id": "b7b9604e-c74e-79ea-2a0f-d74d6347e35a",
           "id": "f26d319a-893c-597e-b87d-7ae0de41dbe2",
-          "codename": "product_name"
+          "codename": "product_name",
+          "is_non_localizable": true
         },
         {
           "name": "Price",
@@ -32,7 +34,8 @@
           "type": "number",
           "external_id": "1e14595d-7fe8-7765-6df6-fad6a6e4851f",
           "id": "d74bcab8-f89a-5219-973c-0fa66f218eb0",
-          "codename": "price"
+          "codename": "price",
+          "is_non_localizable": false
         },
         {
           "asset_count_limit": null,
@@ -41,12 +44,13 @@
           "image_width_limit": null,
           "image_height_limit": null,
           "name": "Image",
-          "guidelines": "Upload one product image; the recommended size is 300 × 300 px.",
+          "guidelines": "Upload one product image; the recommended size is 300 ï¿½ 300 px.",
           "is_required": false,
           "type": "asset",
           "external_id": "7fe226b9-d21f-80ff-e680-6e6f44ce044b",
           "id": "c43c95e0-63bc-5b13-aed6-d6a6a2d44bac",
-          "codename": "image"
+          "codename": "image",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -56,7 +60,8 @@
           "type": "text",
           "external_id": "2c389736-7dfa-b03e-8996-7eba451cfdb5",
           "id": "69e47b7b-5135-5c40-ad2d-abbfcb1d871e",
-          "codename": "manufacturer"
+          "codename": "manufacturer",
+          "is_non_localizable": true
         },
         {
           "guidelines": "Add a product status if the product is included in a special offering.",
@@ -68,7 +73,8 @@
           "type": "taxonomy",
           "external_id": "54120e88-82cc-2202-e72d-9cae0ced3f51",
           "id": "a8160201-d60f-5944-8ed8-21810001d9e2",
-          "codename": "product_status"
+          "codename": "product_status",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -93,7 +99,8 @@
           "type": "rich_text",
           "external_id": "23ee310f-9732-9193-ad5e-80f75bfc276d",
           "id": "2a2b1070-b2fe-5497-8c06-654af5feaf34",
-          "codename": "short_description"
+          "codename": "short_description",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -118,7 +125,8 @@
           "type": "rich_text",
           "external_id": "21e77286-e87b-d6e3-902d-13b5814b5e75",
           "id": "bf7f428c-a3d4-507b-b30e-d826415c76e9",
-          "codename": "long_description"
+          "codename": "long_description",
+          "is_non_localizable": false
         },
         {
           "depends_on": {
@@ -135,7 +143,8 @@
           "type": "url_slug",
           "external_id": "bf6ad588-11e5-ba0d-2c18-ccd50064a32a",
           "id": "dab8d1dd-2503-54d5-9765-15f16b7cc8ff",
-          "codename": "url_pattern"
+          "codename": "url_pattern",
+          "is_non_localizable": false
         },
         {
           "snippet": {
@@ -144,7 +153,8 @@
           "type": "snippet",
           "external_id": "75c6b7ad-eabf-e936-2843-bd31f0cfff1d",
           "id": "15305a25-375f-58c9-8136-892648686cdf",
-          "codename": "metadata"
+          "codename": "metadata",
+          "is_non_localizable": false
         }
       ]
     },
@@ -157,11 +167,12 @@
       "content_groups": [],
       "elements": [
         {
-          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. Itï¿½s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p>",
           "type": "guidelines",
           "external_id": "327e98b0-f269-c0e5-230a-46b7d0be0f45",
           "id": "6d73a092-aace-57d3-a8ea-676421fea646",
-          "codename": "n327e98b0_f269_c0e5_230a_46b7d0be0f45"
+          "codename": "n327e98b0_f269_c0e5_230a_46b7d0be0f45",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -171,7 +182,8 @@
           "type": "text",
           "external_id": "f9e2672c-5035-412e-3985-d6112b3781bd",
           "id": "ebc9437c-cd20-5a0c-9f82-a819617b3809",
-          "codename": "product_name"
+          "codename": "product_name",
+          "is_non_localizable": false
         },
         {
           "name": "Price",
@@ -180,7 +192,8 @@
           "type": "number",
           "external_id": "51d63ac3-d40d-15ea-c219-be207714077c",
           "id": "8132b5ea-b770-5024-bce8-11ce35960054",
-          "codename": "price"
+          "codename": "price",
+          "is_non_localizable": false
         },
         {
           "asset_count_limit": null,
@@ -189,12 +202,13 @@
           "image_width_limit": null,
           "image_height_limit": null,
           "name": "Image",
-          "guidelines": "Upload one product image; the recommended size is 300 × 300 px.",
+          "guidelines": "Upload one product image; the recommended size is 300 ï¿½ 300 px.",
           "is_required": false,
           "type": "asset",
           "external_id": "f0db12e6-86e4-8597-903b-c5984076d6b3",
           "id": "1163fd00-bf10-5aa7-b635-d6e12047f9dc",
-          "codename": "image"
+          "codename": "image",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -204,7 +218,8 @@
           "type": "text",
           "external_id": "ab75ff46-b629-5ce5-aac9-79ed8a7b869c",
           "id": "fec42a2e-82e6-54ce-a097-9ef03597f582",
-          "codename": "manufacturer"
+          "codename": "manufacturer",
+          "is_non_localizable": false
         },
         {
           "guidelines": "Add a product status if the product is included in a special offering.",
@@ -216,7 +231,8 @@
           "type": "taxonomy",
           "external_id": "ef13b1f4-b558-f707-35a4-86146dbe4518",
           "id": "8a7948e1-4998-561e-a540-0f7533c73cce",
-          "codename": "product_status"
+          "codename": "product_status",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -241,7 +257,8 @@
           "type": "rich_text",
           "external_id": "9740e2d0-87e8-52f5-ff4c-566fa00b1253",
           "id": "2a211ea9-f9ac-5130-aab1-d231af4f1c13",
-          "codename": "short_description"
+          "codename": "short_description",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -266,7 +283,8 @@
           "type": "rich_text",
           "external_id": "1f961774-a589-4e21-9f8e-a8c4908ea476",
           "id": "8c7bfa94-82bd-595e-bc48-40a1d82a9974",
-          "codename": "long_description"
+          "codename": "long_description",
+          "is_non_localizable": false
         },
         {
           "depends_on": {
@@ -283,7 +301,8 @@
           "type": "url_slug",
           "external_id": "69e4af48-f1ac-1146-e6c9-d20d55ca5792",
           "id": "c604e5c9-4d23-58dc-b254-fd96c1f6ae0f",
-          "codename": "url_pattern"
+          "codename": "url_pattern",
+          "is_non_localizable": false
         },
         {
           "snippet": {
@@ -292,7 +311,8 @@
           "type": "snippet",
           "external_id": "8abb0298-218b-de99-ccfe-d49630fad6fd",
           "id": "b3400b75-8f6c-5a4c-b566-8f653c711b61",
-          "codename": "metadata"
+          "codename": "metadata",
+          "is_non_localizable": false
         }
       ]
     },
@@ -305,21 +325,23 @@
       "content_groups": [],
       "elements": [
         {
-          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It’s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Guidelines sample</h2><p>All articles will be displayed in the same section of the web site. Stick to an informal tone of voice when writing articles.</p><p>Use the following keywords: grinders, dripper, coffee.</p>",
+          "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. Itï¿½s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Guidelines sample</h2><p>All articles will be displayed in the same section of the web site. Stick to an informal tone of voice when writing articles.</p><p>Use the following keywords: grinders, dripper, coffee.</p>",
           "type": "guidelines",
           "external_id": "2a3a744e-0529-dd13-793c-9e668133d48b",
           "id": "f9f65756-5ed8-55ed-9d2a-43f9fe7974cd",
-          "codename": "n2a3a744e_0529_dd13_793c_9e668133d48b"
+          "codename": "n2a3a744e_0529_dd13_793c_9e668133d48b",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
           "name": "Title",
-          "guidelines": "The title should fit within 60 characters.Our voice and tone recommendations: — avoid coffee jargon.",
+          "guidelines": "The title should fit within 60 characters.Our voice and tone recommendations: ï¿½ avoid coffee jargon.",
           "is_required": false,
           "type": "text",
           "external_id": "85d5efc6-f47e-2fde-a6f5-0950fe89ecd1",
           "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977",
-          "codename": "title"
+          "codename": "title",
+          "is_non_localizable": false
         },
         {
           "source_url": "https://example.com",
@@ -330,7 +352,8 @@
           "is_required": false,
           "type": "custom",
           "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd",
-          "codename": "selectedform"
+          "codename": "selectedform",
+          "is_non_localizable": false
         },
         {
           "name": "Rating",
@@ -338,7 +361,8 @@
           "is_required": false,
           "type": "number",
           "id": "773940f4-9e67-4a26-a93f-67e55fd7d837",
-          "codename": "rating"
+          "codename": "rating",
+          "is_non_localizable": false
         },
         {
           "mode": "multiple",
@@ -359,7 +383,8 @@
           "is_required": false,
           "type": "multiple_choice",
           "id": "53a25074-b136-4a1f-a16d-3c130f696c66",
-          "codename": "options"
+          "codename": "options",
+          "is_non_localizable": false
         },
         {
           "asset_count_limit": null,
@@ -368,12 +393,13 @@
           "image_width_limit": null,
           "image_height_limit": null,
           "name": "Teaser image",
-          "guidelines": "Upload an image at a resolution of at least 600 × 1200 px.",
+          "guidelines": "Upload an image at a resolution of at least 600 ï¿½ 1200 px.",
           "is_required": false,
           "type": "asset",
           "external_id": "62eb9881-e222-6b81-91d2-fdf052726414",
           "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56",
-          "codename": "teaser_image"
+          "codename": "teaser_image",
+          "is_non_localizable": false
         },
         {
           "name": "Post date",
@@ -382,7 +408,8 @@
           "type": "date_time",
           "external_id": "4ae5f7a9-fe1f-1e8c-bfec-d321455139c4",
           "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7",
-          "codename": "post_date"
+          "codename": "post_date",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -392,7 +419,8 @@
           "type": "text",
           "external_id": "90550cbe-7bff-40a9-2947-9c81489fe562",
           "id": "15517aa3-da8a-5551-a4d4-555461fd5226",
-          "codename": "summary"
+          "codename": "summary",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -412,12 +440,13 @@
             "paragraph"
           ],
           "name": "Body Copy",
-          "guidelines": "Keep the article structured with concise paragraphs complemented with headlines that will help the reader navigate through the article's content.Preferred glossary terms — coffee, brewing, grinder, drip, roast, filter.",
+          "guidelines": "Keep the article structured with concise paragraphs complemented with headlines that will help the reader navigate through the article's content.Preferred glossary terms ï¿½ coffee, brewing, grinder, drip, roast, filter.",
           "is_required": false,
           "type": "rich_text",
           "external_id": "108ed7c0-fc8c-c0ec-d0b5-5a8071408b54",
           "id": "55a88ab3-4009-5bf9-a590-f32162f09b92",
-          "codename": "body_copy"
+          "codename": "body_copy",
+          "is_non_localizable": false
         },
         {
           "item_count_limit": null,
@@ -428,17 +457,19 @@
           "type": "modular_content",
           "external_id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
           "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1",
-          "codename": "related_articles"
+          "codename": "related_articles",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
           "name": "Meta keywords",
-          "guidelines": "Enter tags separated with a comma. Example: coffee, \"coffee roast”, grinder",
+          "guidelines": "Enter tags separated with a comma. Example: coffee, \"coffee roastï¿½, grinder",
           "is_required": false,
           "type": "text",
           "external_id": "5efb2425-5987-a4a6-a2d3-b14712b56e73",
           "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd",
-          "codename": "meta_keywords"
+          "codename": "meta_keywords",
+          "is_non_localizable": false
         },
         {
           "guidelines": "Provide all personas for which this article is relevant.",
@@ -450,7 +481,8 @@
           "type": "taxonomy",
           "external_id": "0a16b642-ac3e-584d-a45a-ba354a30b2bd",
           "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d",
-          "codename": "personas"
+          "codename": "personas",
+          "is_non_localizable": false
         },
         {
           "maximum_text_length": null,
@@ -460,7 +492,8 @@
           "type": "text",
           "external_id": "b9dc537c-2518-e4f5-8325-ce4fce26171e",
           "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815",
-          "codename": "meta_description"
+          "codename": "meta_description",
+          "is_non_localizable": false
         },
         {
           "depends_on": {
@@ -477,7 +510,8 @@
           "type": "url_slug",
           "external_id": "f2ff5e3f-a9ca-4604-58b0-34a2ad6a7cf1",
           "id": "1f37e15b-27a0-5f48-b314-03b401c19cee",
-          "codename": "url_pattern"
+          "codename": "url_pattern",
+          "is_non_localizable": false
         },
         {
           "snippet": {
@@ -486,7 +520,8 @@
           "type": "snippet",
           "external_id": "08c3994a-02f2-1278-7bed-e8fd9d26f3a4",
           "id": "328810f4-7209-504e-b676-b4d48d11a6fb",
-          "codename": "metadata"
+          "codename": "metadata",
+          "is_non_localizable": false
         }
       ]
     }
