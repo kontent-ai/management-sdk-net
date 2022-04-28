@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Kentico.Kontent.Management;
 
-public partial class ManagementClient : IManagementClient
+public partial class ManagementClient
 {
     /// <inheritdoc />
     public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier)
