@@ -6,7 +6,7 @@
   "name": "Metadata",
   "elements": [
     {
-      "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It�s a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Guidelines sample</h2><p>All articles will be displayed in the same section of the web site. Stick to an informal tone of voice when writing articles.</p><p>Use the following keywords: grinders, dripper, coffee.</p>",
+      "guidelines": "<h2>Keep Guidelines where the creative process happens.</h2><p>These are sample guidelines that you can place for the whole content item. It's a place where you can include your content brief, voice and tone recommendations or the URL to a wireframe, so the author will have all the relevant instructions at hand before writing a single line.</p><p>Besides overview guidelines, you can include instructions for each particular content element, as you will see below.</p><h2>Guidelines sample</h2><p>All articles will be displayed in the same section of the web site. Stick to an informal tone of voice when writing articles.</p><p>Use the following keywords: grinders, dripper, coffee.</p>",
       "type": "guidelines",
       "external_id": "2a3a744e-0529-dd13-793c-9e668133d48b",
       "id": "f9f65756-5ed8-55ed-9d2a-43f9fe7974cd",
@@ -16,7 +16,7 @@
     {
       "maximum_text_length": null,
       "name": "Title",
-      "guidelines": "The title should fit within 60 characters.Our voice and tone recommendations: � avoid coffee jargon.",
+      "guidelines": "The title should fit within 60 characters.Our voice and tone recommendations: - avoid coffee jargon.",
       "is_required": false,
       "type": "text",
       "external_id": "85d5efc6-f47e-2fde-a6f5-0950fe89ecd1",
@@ -80,7 +80,7 @@
       "image_width_limit": null,
       "image_height_limit": null,
       "name": "Teaser image",
-      "guidelines": "Upload an image at a resolution of at least 600 � 1200 px.",
+      "guidelines": "Upload an image at a resolution of at least 600 x 1200 px.",
       "is_required": false,
       "type": "asset",
       "external_id": "62eb9881-e222-6b81-91d2-fdf052726414",
@@ -127,7 +127,7 @@
         "paragraph"
       ],
       "name": "Body Copy",
-      "guidelines": "Keep the article structured with concise paragraphs complemented with headlines that will help the reader navigate through the article's content.Preferred glossary terms � coffee, brewing, grinder, drip, roast, filter.",
+      "guidelines": "Keep the article structured with concise paragraphs complemented with headlines that will help the reader navigate through the article's content.Preferred glossary terms - coffee, brewing, grinder, drip, roast, filter.",
       "is_required": false,
       "type": "rich_text",
       "external_id": "108ed7c0-fc8c-c0ec-d0b5-5a8071408b54",
@@ -150,7 +150,7 @@
     {
       "maximum_text_length": null,
       "name": "Meta keywords",
-      "guidelines": "Enter tags separated with a comma. Example: coffee, \"coffee roast�, grinder",
+      "guidelines": "Enter tags separated with a comma. Example: coffee, \"coffee roast\", grinder",
       "is_required": false,
       "type": "text",
       "external_id": "5efb2425-5987-a4a6-a2d3-b14712b56e73",
