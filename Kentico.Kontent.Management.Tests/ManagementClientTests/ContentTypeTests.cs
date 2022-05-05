@@ -6,10 +6,10 @@ using FluentAssertions;
 using Kentico.Kontent.Management.Models.Shared;
 using System;
 using System.Net.Http;
-using static Kentico.Kontent.Management.Tests.Base.Scenario;
 using System.Collections.Generic;
 using Kentico.Kontent.Management.Models.Types.Patch;
 using Kentico.Kontent.Management.Models.Types.Elements;
+using static Kentico.Kontent.Management.Tests.Base.Scenario;
 
 namespace Kentico.Kontent.Management.Tests.ManagementClientTests;
 
