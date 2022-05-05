@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
+using Kentico.Kontent.Management.Models.TaxonomyGroups.Patch;
+using Kentico.Kontent.Management.Models.Types.Patch;
 using Kentico.Kontent.Management.Tests.Base.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,7 +37,11 @@ internal class Expectations
         _expectedResponse = default;
         _deserializeSettings = new()
             {
-                Converters = new List<JsonConverter> { new ContentTypeOperationBaseModelConverter() }
+                Converters = new List<JsonConverter> 
+                { 
+                    new OperationConverter<TaxonomyGroupOperationBaseModel>(),
+                    new OperationConverter<ContentTypeOperationBaseModel>()
+                }
             };
 }
 
