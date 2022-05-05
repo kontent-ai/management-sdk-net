@@ -12,13 +12,13 @@ public abstract class ContentTypeOperationBaseModel
     /// Gets specification of the operation to perform.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
     /// </summary>
-    [JsonProperty("op", Required = Required.Always)]
+    [JsonProperty("op")]
     public abstract string Op { get; }
 
     /// <summary>
     /// Gets or sets a string identifying where the new object or property should be added/replaced/removed.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
     /// </summary>
-    [JsonProperty("path", Required = Required.Always)]
+    [JsonProperty("path")]
     public string Path { get; set; }
 }
