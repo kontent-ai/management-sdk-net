@@ -1,5 +1,4 @@
-﻿using Kentico.Kontent.Management.Models.Types.Patch;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -8,30 +7,32 @@ using static Kentico.Kontent.Management.Tests.Base.Converters.ConverterHelper;
 
 namespace Kentico.Kontent.Management.Tests.Base.Converters;
 
-internal class ContentTypeOperationBaseModelConverter : JsonConverter
+internal class OperationConverter<T> : JsonConverter
 {
-    public override bool CanConvert(Type objectType) => IsCollectionOf<ContentTypeOperationBaseModel>(objectType);
+    private const string _propertyName = "Op"; 
+
+    public override bool CanConvert(Type objectType) => HasProperty<T>(_propertyName) && IsOperationModel<T>() && IsCollectionOf<T>(objectType);
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
-        var result = new List<ContentTypeOperationBaseModel>();
+        var result = new List<T>();
 
         var jArray = JArray.Load(reader);
 
-        var operationTypeMap = typeof(ContentTypeOperationBaseModel)
+        var operationTypeMap = typeof(T)
             .Assembly.GetTypes()
-            .Where(t => t.IsSubclassOf(typeof(ContentTypeOperationBaseModel)) && !t.IsAbstract)
+            .Where(t => t.IsSubclassOf(typeof(T)) && !t.IsAbstract)
             .Select(t =>
             {
-                var instance = (ContentTypeOperationBaseModel)Activator.CreateInstance(t);
-                return (Key: instance.Op, Type: t);
+                var instance = (T)Activator.CreateInstance(t);
+                return (Key: instance.GetPropertyValue(_propertyName), Type: t);
             }).ToDictionary(tuple => tuple.Key, tuple => tuple.Type);
 
         foreach (var item in jArray)
         {
             var operation = item["op"].ToString();
 
-            result.Add((ContentTypeOperationBaseModel)item.ToObject(operationTypeMap[operation]));
+            result.Add((T)item.ToObject(operationTypeMap[operation]));
         }
 
         return result;
