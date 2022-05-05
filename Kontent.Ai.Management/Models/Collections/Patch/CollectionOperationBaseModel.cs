@@ -12,6 +12,6 @@ public abstract class CollectionOperationBaseModel
     /// Gets specification of the operation to perform.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
     /// </summary>
-    [JsonProperty("op", Required = Required.Always)]
+    [JsonProperty("op")]
     public abstract string Op { get; }
 }
