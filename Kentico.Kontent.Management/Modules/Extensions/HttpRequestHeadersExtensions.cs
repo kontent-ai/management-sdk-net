@@ -19,6 +19,27 @@ internal static class HttpRequestHeadersExtensions
 
     internal static string GetSdkTrackingHeader() => $"{PackageRepositoryHost};{SdkPackageId.Value};{SdkVersion.Value}";
 
+    internal static bool RetryAfterExists(this HttpResponseHeaders headers)
+        => headers?.RetryAfter?.Delta != null || headers?.RetryAfter?.Date != null;
+
+
+    internal static TimeSpan GetRetryAfter(this HttpResponseHeaders headers)
+    {
+        static TimeSpan GetPositiveOrZero(TimeSpan timeSpan) => timeSpan < TimeSpan.Zero ? TimeSpan.Zero : timeSpan;
+
+        if (headers?.RetryAfter?.Delta != null)
+        {
+            return GetPositiveOrZero(headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.Zero));
+        }
+
+        if (headers?.RetryAfter?.Date != null)
+        {
+            return GetPositiveOrZero(headers.RetryAfter.Date.Value - DateTime.UtcNow);
+        }
+
+        return TimeSpan.Zero;
+    }
+
     private static string GetSdkVersion()
     {
         var assembly = Assembly.GetExecutingAssembly();
