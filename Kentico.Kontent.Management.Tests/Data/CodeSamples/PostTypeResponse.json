@@ -34,6 +34,11 @@
       "maximum_text_length": null,
       "maximum_image_size": null,
       "allowed_content_types": [],
+      "allowed_item_link_types": [
+        {
+          "id": "02827ac6-a112-47ac-9ba7-c42f22235174"
+        }
+      ],
       "image_width_limit": null,
       "image_height_limit": null,
       "allowed_image_types": "any",
@@ -57,6 +62,7 @@
       "maximum_text_length": null,
       "maximum_image_size": null,
       "allowed_content_types": [],
+      "allowed_item_link_types": [],
       "image_width_limit": null,
       "image_height_limit": null,
       "allowed_image_types": "any",
