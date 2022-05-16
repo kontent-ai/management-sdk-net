@@ -44,6 +44,12 @@ public class RichTextElementMetadataModel : ElementMetadataBase
     /// </summary>
     [JsonProperty("allowed_content_types")]
     public IEnumerable<Reference> AllowedTypes { get; set; }
+    
+    /// <summary>
+    /// Specifies content types of items that are allowed to be used in links as an array of references.
+    /// </summary>
+    [JsonProperty("allowed_item_link_types")]
+    public IEnumerable<Reference> AllowedItemLinkTypes { get; set; }
 
     /// <summary>
     /// Specifies the width limitation for images.
