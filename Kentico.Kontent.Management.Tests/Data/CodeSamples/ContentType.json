@@ -52,6 +52,11 @@
           "id": "f89956fd-92cc-473f-86bf-7616ffe72f5f"
         }
       ],
+      "allowed_item_link_types": [
+        {
+          "id": "02827ac6-a112-47ac-9ba7-c42f22235174"
+        }
+      ],
       "image_width_limit": null,
       "image_height_limit": null,
       "allowed_image_types": "any",
@@ -96,6 +101,7 @@
           "id": "9fdd0ca7-e19d-4b83-9631-e9443f0e9d0e"
         }
       ],
+      "allowed_item_link_types": [],
       "name": "Author",
       "guidelines": "Select the author or authors.",
       "is_required": true,
