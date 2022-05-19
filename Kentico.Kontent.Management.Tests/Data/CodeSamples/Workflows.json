@@ -76,62 +76,56 @@
     }
   },
   {
-    "id": "9f74c888-a49a-44e3-8526-d2a3fab50041",
-    "name": "Marketing",
-    "codename": "marketing",
+    "id": "8bfdb62d-7aa1-473b-9d80-311ef93db108",
+    "name": "My workflow",
+    "codename": "my_workflow",
     "scopes": [
       {
-        "id": "f5937d83-e5ca-4021-bf9f-821109d52a37",
         "content_types": [
-          { "id": "b33a98e8-2d0b-409a-a601-3df59edd82be" }
+          {
+            "id": "1aeb9220-f167-4f8e-a7db-1bfec365fa80"
+          }
         ]
       }
     ],
     "steps": [
       {
-        "id": "64eea830-bf59-4534-bb97-3861a74ea7f1",
-        "name": "Draft",
-        "codename": "draft_2",
-        "color": "red",
+        "name": "First step",
+        "codename": "first_step",
+        "color": "sky-blue",
         "transitions_to": [
           {
             "step": {
-              "id": "c199950d-99f0-4983-b711-6c4c91624b22"
+              "codename": "second_step"
             }
-          },
+          }
+        ],
+        "role_ids": []
+      },
+      {
+        "name": "Second step",
+        "codename": "second_step",
+        "color": "rose",
+        "transitions_to": [
           {
             "step": {
-              "id": "7a535a69-ad34-47f8-806a-def1fdf4d391"
+              "codename": "published"
             }
           }
         ],
         "role_ids": [
-          "b28a237e-e821-4d7d-a5bd-e69e158887d6"
+          "e796887c-38a1-4ab2-a999-c40861bb7a4b"
         ]
       }
     ],
     "published_step": {
-      "id": "c199950d-99f0-4983-b711-6c4c91624b22",
-      "name": "Published",
-      "codename": "published",
-      "color": "persian-green",
-      "transitions_to": [],
       "unpublish_role_ids": [
-        "b28a237e-e821-4d7d-a5bd-e69e158887d6"
+        "e796887c-38a1-4ab2-a999-c40861bb7a4b"
       ],
-      "create_new_version_role_ids": [
-        "b28a237e-e821-4d7d-a5bd-e69e158887d6"
-      ]
+      "create_new_version_role_ids": []
     },
     "archived_step": {
-      "id": "7a535a69-ad34-47f8-806a-def1fdf4d391",
-      "name": "Archived",
-      "codename": "archived",
-      "color": "gray",
-      "transitions_to": [],
-      "role_ids": [
-        "b28a237e-e821-4d7d-a5bd-e69e158887d6"
-      ]
+      "role_ids": []
     }
   }
 ]
