@@ -13,7 +13,8 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// Gets or sets the workflow step's identifier. 
         /// </summary>
         /// <remarks>
-        /// Not applicable for creating a new workflow.
+        /// Not applicable for creating a new workflow because the property is used
+        /// to identify already existing steps within the edited workflow
         /// </remarks>
         [JsonProperty("id", Required = Required.Default)]
         public Guid? Id { get; set; }
@@ -28,7 +29,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// Gets or sets the workflow step's codename.
         /// </summary>
         [JsonProperty("codename", Required = Required.Always)]
-        public string CodeName { get; set; }
+        public string Codename { get; set; }
 
         /// <summary>
         /// Gets or sets the workflow step's color.
