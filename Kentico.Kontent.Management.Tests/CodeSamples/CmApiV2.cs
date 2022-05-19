@@ -165,6 +165,20 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         await client.DeleteWebhookAsync(identifier);
     }
 
+
+    // DocSection: cm_api_v2_delete_workflow
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void DeleteWorkflow()
+    {
+        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+
+        var identifier = Reference.ById(Guid.Parse("8bfdb62d-7aa1-473b-9d80-311ef93db108"));
+        // var identifier = Reference.ByCodename("my_workflow");
+
+        await client.DeleteWorkflowAsync(identifier);
+    }
+
     // DocSection: cm_api_v2_delete_environment
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -525,19 +539,19 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         Assert.Single(response);
     }
-
-    // DocSection: cm_api_v2_get_workflow_steps
+    
+    // DocSection: cm_api_v2_get_workflows
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetWorkflowSteps()
+    public async void GetWorkflows()
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("Workflows.json");
 
         var response = await client.ListWorkflowsAsync();
-        var workflowSteps = response.FirstOrDefault(x => x.Codename == "default").Steps;
 
-        Assert.Equal(3, workflowSteps.Count);
+        Assert.Equal(2, response.Count());
     }
+
 
     // DocSection: cm_api_v2_get_role
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
@@ -1300,6 +1314,68 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.NotNull(response);
     }
 
+    // DocSection: cm_api_v2_post_workflow
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void PostWorkflow()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflow.json");
+
+        var response = await client.CreateWorkflowAsync(new WorkflowUpsertModel
+        {
+            Name = "My workflow",
+            Scopes = new List<WorkflowScopeUpsertModel>
+            {
+                new()
+                {
+                    ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
+                }
+            },
+            Steps = new List<WorkflowStepUpsertModel>
+            {
+                new()
+                {
+                    Name = "First step",
+                    Codename = "first_step",
+                    Color = WorkflowStepColorModel.SkyBlue,
+                    RoleIds = new List<Guid>(),
+                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
+                    {
+                        new()
+                        {
+                            Step = Reference.ByCodename("second_step")
+                        }
+                    }
+                },
+                new()
+                {
+                    Name = "Second step",
+                    Codename = "second_step",
+                    Color = WorkflowStepColorModel.Rose,
+                    RoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") },
+                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
+                    {
+                        new()
+                        {
+                            Step = Reference.ByCodename("published")
+                        }
+                    }
+                }
+            },
+            PublishedStep = new WorkflowPublishedStepUpsertModel
+            {
+                RoleCreateNewVersionIds = new List<Guid>(),
+                RolesUnpublishArchivedCancelSchedulingIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+            },
+            ArchivedStep = new WorkflowArchivedStepUpsertModel
+            {
+                RoleIds = new List<Guid>()
+            }
+        });
+
+        Assert.NotNull(response);
+    }
+
     // DocSection: cm_api_v2_post_user
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -1710,6 +1786,68 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         var exception = await Record.ExceptionAsync(async () =>
             await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
         Assert.Null(exception);
+    }
+
+    // DocSection: cm_api_v2_put_workflow
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void PutWorkflow()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflow.json");
+
+        var response = await client.UpdateWorkflowAsync(Reference.ByCodename("my_workflow"), new WorkflowUpsertModel
+        {
+            Name = "My workflow",
+            Scopes = new List<WorkflowScopeUpsertModel>
+            {
+                new()
+                {
+                    ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
+                }
+            },
+            Steps = new List<WorkflowStepUpsertModel>
+            {
+                new()
+                {
+                    Name = "First step",
+                    Codename = "first_step",
+                    Color = WorkflowStepColorModel.SkyBlue,
+                    RoleIds = new List<Guid>(),
+                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
+                    {
+                        new()
+                        {
+                            Step = Reference.ByCodename("second_step")
+                        }
+                    }
+                },
+                new()
+                {
+                    Name = "Second step",
+                    Codename = "second_step",
+                    Color = WorkflowStepColorModel.Rose,
+                    RoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") },
+                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
+                    {
+                        new()
+                        {
+                            Step = Reference.ByCodename("published")
+                        }
+                    }
+                }
+            },
+            PublishedStep = new WorkflowPublishedStepUpsertModel
+            {
+                RoleCreateNewVersionIds = new List<Guid>(),
+                RolesUnpublishArchivedCancelSchedulingIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+            },
+            ArchivedStep = new WorkflowArchivedStepUpsertModel
+            {
+                RoleIds = new List<Guid>()
+            }
+        });
+
+        Assert.NotNull(response);
     }
 
     // DocSection: cm_api_v2_put_user
