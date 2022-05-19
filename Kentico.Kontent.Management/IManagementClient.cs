@@ -445,7 +445,7 @@ public interface IManagementClient
     Task DeleteWorkflowAsync(Reference identifier);
 
     /// <summary>
-    /// Creates the new workflow.
+    /// Creates a new workflow.
     /// </summary>
     /// <param name="workflow">Represents workflow that will be created.</param>
     /// <returns>The <see cref="WorkflowModel"/> instance that represents the created workflow.</returns>
