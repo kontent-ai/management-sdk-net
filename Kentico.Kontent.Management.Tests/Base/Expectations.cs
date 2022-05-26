@@ -3,6 +3,7 @@ using FluentAssertions.Execution;
 using Kentico.Kontent.Management.Tests.Base.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,12 +53,29 @@ internal class Expectations
         return this;
     }
 
+    public Expectations RequestPayload<T>(T requestPayload, Func<string, T> toObject) where T : class
+    {
+        _expectedRequest = toObject(_httpClientMockData.Payload);
+        _request = requestPayload;
+
+        return this;
+    }
+
     public Expectations Response<T>(T response)
     {
         if (_filePaths.Count > 0)
         {
             _expectedResponse = new List<object> { JsonConvert.DeserializeObject<T>(File.ReadAllText(_filePaths.First())) };
         }
+
+        _resposne = new List<object> { response };
+
+        return this;
+    }
+
+    public Expectations Response<T>(T response, T expected)
+    {
+        _expectedResponse = new List<object> { expected };
 
         _resposne = new List<object> { response };
 
