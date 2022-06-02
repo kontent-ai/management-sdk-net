@@ -12,13 +12,13 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// <summary>
         /// Gets or sets the roles which can create new version from published variant.
         /// </summary>
-        [JsonProperty("create_new_version_role_ids", Required = Required.Always)]
+        [JsonProperty("create_new_version_role_ids")]
         public IReadOnlyCollection<Guid> RoleCreateNewVersionIds  { get; set; }
 
         /// <summary>
         /// Gets or sets the roles which can unpublish the item's variant.
         /// </summary>
-        [JsonProperty("unpublish_role_ids", Required = Required.Always)]
+        [JsonProperty("unpublish_role_ids")]
         public IReadOnlyCollection<Guid> RolesUnpublishArchivedCancelSchedulingIds { get; set; }
     }
 }

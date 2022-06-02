@@ -1795,7 +1795,10 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("Workflow.json");
 
-        var response = await client.UpdateWorkflowAsync(Reference.ByCodename("my_workflow"), new WorkflowUpsertModel
+        var identifier = Reference.ByCodename("my_workflow");
+        // var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
+
+        var response = await client.UpdateWorkflowAsync(identifier, new WorkflowUpsertModel
         {
             Name = "My workflow",
             Scopes = new List<WorkflowScopeUpsertModel>

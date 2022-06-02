@@ -30,7 +30,7 @@ public class WorkflowTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void CreateWorkflow_ReturnsCreatedWorkflow()
+    public async void CreateWorkflow_CreatesWorkflow()
     {
         var newWorkflow = new WorkflowUpsertModel
         {
@@ -82,7 +82,7 @@ public class WorkflowTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void UpdateWorkflow_ReturnsUpdatedWorkflow()
+    public async void UpdateWorkflow_UpdatesWorkflow()
     {
         var newWorkflow = new WorkflowUpsertModel
         {
