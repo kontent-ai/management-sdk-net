@@ -10,7 +10,20 @@ namespace Kentico.Kontent.Management.Tests.Modules.ModelBuilders;
 public class ElementReferenceTests
 {
     [Fact]
-    public void FromDynamic_Id_ById()
+    public void FromDynamic_GuidId_ById()
+    {
+        var id = Guid.NewGuid();
+        dynamic source = new ExpandoObject();
+        source.id = id;
+        var idReference = Reference.FromDynamic(source);
+
+        Assert.Equal(null, idReference.ExternalId);
+        Assert.Equal(id, idReference.Id);
+        Assert.Equal(null, idReference.Codename);
+    }
+
+    [Fact]
+    public void FromDynamic_StringId_ById()
     {
         var id = Guid.NewGuid();
         dynamic source = new ExpandoObject();

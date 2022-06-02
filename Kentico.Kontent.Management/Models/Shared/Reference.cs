@@ -54,7 +54,9 @@ public sealed class Reference
     {
         if (DynamicExtensions.HasProperty(source, "id"))
         {
-            return ById(Guid.Parse(source.id));
+            var id = source.id.GetType() == typeof(string) ? Guid.Parse(source.id) : source.id;
+
+            return ById(id);
         }
 
         if (DynamicExtensions.HasProperty(source, "codename"))
