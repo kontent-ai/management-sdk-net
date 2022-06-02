@@ -19,7 +19,7 @@ public class MultipleChoiceElement : BaseElement
     /// Coverts the multiple-choice element to the dynamic object.
     /// </summary>
     public override dynamic ToDynamic() => new {
-        element = GetDynamicReference(),
+        element = Element.ToDynamic(),
         value = Value,
     };
 }

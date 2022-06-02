@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kentico.Kontent.Management.Extensions;
+using Newtonsoft.Json;
 using System;
 
 namespace Kentico.Kontent.Management.Models.Shared;
@@ -45,4 +46,56 @@ public sealed class Reference
     /// </summary>
     /// <param name="externalId">The external id of the identifier.</param>
     public static Reference ByExternalId(string externalId) => new() { ExternalId = externalId };
+
+    /// <summary>
+    /// Transforms the dynamic object to the <see cref="Reference"/>
+    /// </summary>
+    public static Reference FromDynamic(dynamic source)
+    {
+        if (DynamicExtensions.HasProperty(source, "id"))
+        {
+            return ById(Guid.Parse(source.id));
+        }
+
+        if (DynamicExtensions.HasProperty(source, "codename"))
+        {
+            return ByCodename(source.codename);
+        }
+
+        if (DynamicExtensions.HasProperty(source, "external_id"))
+        {
+            return ByExternalId(source.external_id);
+        }
+
+        throw new DataMisalignedException("Dynamic element reference does not contain any identifier.");
+    }
+
+    /// <summary>
+    /// Transforms the <see cref="Reference"/> to the dynamic object.
+    /// </summary>
+    public dynamic ToDynamic()
+    {
+        if (Id != null)
+        {
+            return new {
+                id = Id,
+            };
+        }
+
+        if (Codename != null)
+        {
+            return new {
+                codename = Codename,
+            };
+        }
+
+        if (ExternalId != null)
+        {
+            return new {
+                external_id = ExternalId,
+            };
+        }
+
+        throw new DataMisalignedException("Element reference does not contain any identifier.");
+    }
 }
