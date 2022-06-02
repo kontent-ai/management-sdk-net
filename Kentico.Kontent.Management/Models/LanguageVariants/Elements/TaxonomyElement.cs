@@ -19,7 +19,7 @@ public class TaxonomyElement : BaseElement
     /// Coverts the taxonomy element to the dynamic object.
     /// </summary>
     public override dynamic ToDynamic() => new {
-        element = GetDynamicReference(),
+        element = Element.ToDynamic(),
         value = Value,
     };
 }

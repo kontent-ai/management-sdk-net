@@ -18,7 +18,7 @@ public class DateTimeElement : BaseElement
     /// Coverts the datetime element to the dynamic object.
     /// </summary>
     public override dynamic ToDynamic() => new {
-        element = GetDynamicReference(),
+        element = Element.ToDynamic(),
         value = Value,
     };
 }

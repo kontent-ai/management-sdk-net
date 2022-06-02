@@ -23,7 +23,7 @@ public class CustomElement : BaseElement
     /// Coverts the custom element to the dynamic object.
     /// </summary>
     public override dynamic ToDynamic() => new {
-        element = GetDynamicReference(),
+        element = Element.ToDynamic(),
         value = Value,
         searchable_value = SearchableValue
     };

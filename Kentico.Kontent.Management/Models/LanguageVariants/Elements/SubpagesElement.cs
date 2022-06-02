@@ -19,7 +19,7 @@ public class SubpagesElement : BaseElement
     /// Coverts the subpages element to the dynamic object.
     /// </summary>
     public override dynamic ToDynamic() => new {
-        element = GetDynamicReference(),
+        element = Element.ToDynamic(),
         value = Value,
     };
 }
