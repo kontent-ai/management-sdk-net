@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// <summary>
         /// Gets or sets the workflow scope's content types.
         /// </summary>
-        [JsonProperty("content_types", Required = Required.Always)]
+        [JsonProperty("content_types")]
         public IReadOnlyList<Reference> ContentTypes { get; set; }
     }
 }

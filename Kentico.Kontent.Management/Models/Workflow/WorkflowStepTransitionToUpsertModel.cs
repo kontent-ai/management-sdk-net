@@ -11,7 +11,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// <summary>
         /// Gets or sets the workflow step's internal ID.
         /// </summary>
-        [JsonProperty("step", Required = Required.Always)]
+        [JsonProperty("step")]
         public Reference Step { get; set; }
     }
 }

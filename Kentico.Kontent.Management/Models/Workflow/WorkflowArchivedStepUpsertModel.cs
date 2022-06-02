@@ -12,7 +12,7 @@ namespace Kentico.Kontent.Management.Models.Workflow
         /// <summary>
         /// Gets or sets the roles which can work with an item in this step.
         /// </summary>
-        [JsonProperty("role_ids", Required = Required.Always)]
+        [JsonProperty("role_ids")]
         public IReadOnlyCollection<Guid> RoleIds { get; set; }
     }
 }
