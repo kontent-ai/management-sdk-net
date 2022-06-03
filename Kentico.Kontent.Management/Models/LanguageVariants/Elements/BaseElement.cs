@@ -50,105 +50,114 @@ public abstract class BaseElement
     {
         ValidateSource(source);
 
-        if (type == typeof(TextElement))
+        try
         {
-            return new TextElement
+            if (type == typeof(TextElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = source?.value,
-            };
-        }
-        else if (type == typeof(NumberElement))
-        {
-            return new NumberElement
-            {
-                Element = Reference.FromDynamic(source.element),
-                Value = Convert.ToDecimal(source.value),
-            };
-        }
-        else if (type == typeof(RichTextElement))
-        {
-            return new RichTextElement
-            {
-                Element = Reference.FromDynamic(source.element),
-                Value = source.value,
-                Components = (source.components as IEnumerable<dynamic>)?.Select(component => new ComponentModel
+                return new TextElement
                 {
-                    Id = Guid.Parse(component.id),
-                    Type = Reference.ById(Guid.Parse(component.type.id)),
-                    Elements = (component.elements as IEnumerable<dynamic>)
-                })
-            };
-        }
-        else if (type == typeof(AssetElement))
-        {
-            return new AssetElement
+                    Element = Reference.FromDynamic(source.element),
+                    Value = source?.value,
+                };
+            }
+            else if (type == typeof(NumberElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = (source.value as IEnumerable<dynamic>)?
-                    .Select(assetWithRenditionsReferences =>
-                        new AssetWithRenditionsReference(
-                            Reference.ById(Guid.Parse(assetWithRenditionsReferences.id)),
-                            (assetWithRenditionsReferences.renditions as IEnumerable<dynamic>)?.Select<dynamic, Reference>(renditionIdentifier => Reference.ById(Guid.Parse(renditionIdentifier.id))))),
-            };
-        }
-        else if (type == typeof(DateTimeElement))
-        {
-            return new DateTimeElement
+                return new NumberElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = Convert.ToDecimal(source.value),
+                };
+            }
+            else if (type == typeof(RichTextElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = Convert.ToDateTime(source.value)
-            };
-        }
-        else if (type == typeof(LinkedItemsElement))
-        {
-            return new LinkedItemsElement
+                return new RichTextElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = source.value,
+                    Components = (source.components as IEnumerable<dynamic>)?.Select(component => new ComponentModel
+                    {
+                        Id = Guid.Parse(component.id),
+                        Type = Reference.ById(Guid.Parse(component.type.id)),
+                        Elements = (component.elements as IEnumerable<dynamic>)
+                    })
+                };
+            }
+            else if (type == typeof(AssetElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
-            };
-        }
-        else if (type == typeof(MultipleChoiceElement))
-        {
-            return new MultipleChoiceElement
+                return new AssetElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = (source.value as IEnumerable<dynamic>)?
+                        .Select(assetWithRenditionsReferences =>
+                            new AssetWithRenditionsReference(
+                                Reference.ById(Guid.Parse(assetWithRenditionsReferences.id)),
+                                (assetWithRenditionsReferences.renditions as IEnumerable<dynamic>)?.Select<dynamic, Reference>(renditionIdentifier => Reference.ById(Guid.Parse(renditionIdentifier.id))))),
+                };
+            }
+            else if (type == typeof(DateTimeElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
-            };
-        }
-        else if (type == typeof(TaxonomyElement))
-        {
-            return new TaxonomyElement
+                return new DateTimeElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = Convert.ToDateTime(source.value)
+                };
+            }
+            else if (type == typeof(LinkedItemsElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
-            };
-        }
-        else if (type == typeof(UrlSlugElement))
-        {
-            return new UrlSlugElement
+                return new LinkedItemsElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                };
+            }
+            else if (type == typeof(MultipleChoiceElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Mode = source.mode?.ToString(),
-                Value = source.value?.ToString()
-            };
-        }
-        else if (type == typeof(CustomElement))
-        {
-            return new CustomElement
+                return new MultipleChoiceElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                };
+            }
+            else if (type == typeof(TaxonomyElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = source.value?.ToString(),
-                SearchableValue = source.searchable_value?.ToString()
-            };
-        }
-        else if (type == typeof(SubpagesElement))
-        {
-            return new SubpagesElement
+                return new TaxonomyElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                };
+            }
+            else if (type == typeof(UrlSlugElement))
             {
-                Element = Reference.FromDynamic(source.element),
-                Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
-            };
+                return new UrlSlugElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Mode = source.mode?.ToString(),
+                    Value = source.value?.ToString()
+                };
+            }
+            else if (type == typeof(CustomElement))
+            {
+                return new CustomElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = source.value?.ToString(),
+                    SearchableValue = source.searchable_value?.ToString()
+                };
+            }
+            else if (type == typeof(SubpagesElement))
+            {
+                return new SubpagesElement
+                {
+                    Element = Reference.FromDynamic(source.element),
+                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                };
+            }
+        }
+        catch (Exception exception)
+        {
+            throw new DataMisalignedException(
+                "Object could not be converted to the strongly-typed element. Please check if it has expected properties with expected type",
+                exception);
         }
 
         throw new ArgumentOutOfRangeException($"{type} is not a valid element");

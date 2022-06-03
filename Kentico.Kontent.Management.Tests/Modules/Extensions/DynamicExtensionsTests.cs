@@ -1,7 +1,4 @@
 ﻿using Kentico.Kontent.Management.Extensions;
-using Kentico.Kontent.Management.Modules.Extensions;
-using Kentico.Kontent.Management.Modules.ModelBuilders;
-using System;
 using System.Dynamic;
 using Xunit;
 
