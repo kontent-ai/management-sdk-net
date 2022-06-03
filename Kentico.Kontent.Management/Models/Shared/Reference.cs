@@ -52,21 +52,30 @@ public sealed class Reference
     /// </summary>
     public static Reference FromDynamic(dynamic source)
     {
-        if (DynamicExtensions.HasProperty(source, "id"))
+        try
         {
-            var id = source.id.GetType() == typeof(string) ? Guid.Parse(source.id) : source.id;
+            if (DynamicExtensions.HasProperty(source, "id"))
+            {
+                var id = source.id.GetType() == typeof(string) ? Guid.Parse(source.id) : source.id;
 
-            return ById(id);
+                return ById(id);
+            }
+
+            if (DynamicExtensions.HasProperty(source, "codename"))
+            {
+                return ByCodename(source.codename);
+            }
+
+            if (DynamicExtensions.HasProperty(source, "external_id"))
+            {
+                return ByExternalId(source.external_id);
+            }
         }
-
-        if (DynamicExtensions.HasProperty(source, "codename"))
+        catch (Exception exception)
         {
-            return ByCodename(source.codename);
-        }
-
-        if (DynamicExtensions.HasProperty(source, "external_id"))
-        {
-            return ByExternalId(source.external_id);
+            throw new DataMisalignedException(
+                "Object could not be converted to the strongly-typed reference. Please check if it has expected properties with expected type",
+                exception);
         }
 
         throw new DataMisalignedException("Dynamic element reference does not contain any identifier.");
