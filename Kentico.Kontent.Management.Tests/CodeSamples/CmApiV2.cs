@@ -539,7 +539,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         Assert.Single(response);
     }
-    
+
     // DocSection: cm_api_v2_get_workflows
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -866,6 +866,15 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 Path = "/elements/codename:my_text_element/guidelines",
                 Value = "Here you can tell users how to fill in the element."
             },
+            new ContentTypeReplacePatchModel
+            {
+                Path = "/elements/codename:my_text_element/default",
+                Value = new TextElementDefaultValueModel {
+                    Global = new() {
+                        Value = "This is a default value of the text element."
+                    }
+                }
+            },
             new ContentTypeAddIntoPatchModel
             {
                 Path = "/elements",
@@ -1191,6 +1200,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Name = "Article title",
                     Codename = "title",
                     ContentGroup = Reference.ByCodename("article-copy"),
+                    DefaultValue = new TextElementDefaultValueModel {
+                        Global = new() {
+                            Value = "This is the default value of the text element."
+                        }
+                    }
                 },
                 new RichTextElementMetadataModel
                 {

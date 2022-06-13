@@ -26,6 +26,12 @@ public class DateTimeElementMetadataModel : ElementMetadataBase
     public string Guidelines { get; set; }
 
     /// <summary>
+    /// Specifies the default value for the element value.
+    /// </summary>
+    [JsonProperty("default")]
+    public DateElementDefaultValueModel DefaultValue { get; set; }
+
+    /// <summary>
     /// Represents the type of the content type element.
     /// </summary>
     public override ElementMetadataType Type => ElementMetadataType.DateTime;
