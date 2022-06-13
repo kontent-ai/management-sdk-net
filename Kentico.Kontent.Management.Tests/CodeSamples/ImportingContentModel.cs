@@ -159,7 +159,12 @@ public class ImportingContentModel : IClassFixture<FileSystemFixture>
                 new TextElementMetadataModel
                 {
                     Name = "Title",
-                    ContentGroup = Reference.ByExternalId("content")
+                    ContentGroup = Reference.ByExternalId("content"),
+                    DefaultValue = new TextElementDefaultValueModel {
+                        Global = new() {
+                            Value = "This is the default value of the text element."
+                        }
+                    }
                 },
                 new AssetElementMetadataModel
                 {

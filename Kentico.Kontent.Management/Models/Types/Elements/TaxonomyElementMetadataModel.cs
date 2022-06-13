@@ -33,6 +33,12 @@ public class TaxonomyElementMetadataModel : ElementMetadataBase
     public LimitModel TermCountLimit { get; set; }
 
     /// <summary>
+    /// Specifies the default value for the element value.
+    /// </summary>
+    [JsonProperty("default")]
+    public TaxonomyElementDefaultValueModel DefaultValue { get; set; }
+
+    /// <summary>
     /// Gets or sets terms in the taxonomy group.
     /// </summary>
     public override ElementMetadataType Type => ElementMetadataType.Taxonomy;

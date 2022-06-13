@@ -114,6 +114,15 @@ public class ContentTypeTests : IClassFixture<FileSystemFixture>
                 Value = "bla bla bla",
                 Path = $"/elements/codename:display_options/guidelines"
             },
+            new ContentTypeReplacePatchModel
+            {
+                Value = new TextElementDefaultValueModel {
+                    Global = new() {
+                        Value = "This is the default value"
+                    }
+                },
+                Path = $"/elements/codename:title/default"
+            },
             new ContentTypeAddIntoPatchModel
             {
                 Value = new TextElementMetadataModel
