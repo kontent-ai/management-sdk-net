@@ -1,17 +1,16 @@
 ﻿using Kentico.Kontent.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Workflow
+namespace Kentico.Kontent.Management.Models.Workflow;
+
+/// <summary>
+/// Represents the workflow step's 'transition to' upsert model.
+/// </summary>
+public class WorkflowStepTransitionToUpsertModel
 {
     /// <summary>
-    /// Represents the workflow step's 'transition to' upsert model.
+    /// Gets or sets the workflow step's internal ID.
     /// </summary>
-    public class WorkflowStepTransitionToUpsertModel
-    {
-        /// <summary>
-        /// Gets or sets the workflow step's internal ID.
-        /// </summary>
-        [JsonProperty("step")]
-        public Reference Step { get; set; }
-    }
+    [JsonProperty("step")]
+    public Reference Step { get; set; }
 }
