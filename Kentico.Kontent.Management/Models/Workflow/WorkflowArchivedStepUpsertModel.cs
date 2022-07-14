@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Kentico.Kontent.Management.Models.Workflow
+namespace Kentico.Kontent.Management.Models.Workflow;
+
+/// <summary>
+/// Represents the Archived workflow step upsert model.
+/// </summary>
+public class WorkflowArchivedStepUpsertModel
 {
     /// <summary>
-    /// Represents the Archived workflow step upsert model.
+    /// Gets or sets the roles which can work with an item in this step.
     /// </summary>
-    public class WorkflowArchivedStepUpsertModel
-    {
-        /// <summary>
-        /// Gets or sets the roles which can work with an item in this step.
-        /// </summary>
-        [JsonProperty("role_ids")]
-        public IReadOnlyCollection<Guid> RoleIds { get; set; }
-    }
+    [JsonProperty("role_ids")]
+    public IReadOnlyCollection<Guid> RoleIds { get; set; }
 }

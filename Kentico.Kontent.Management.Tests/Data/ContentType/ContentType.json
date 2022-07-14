@@ -24,7 +24,12 @@
       "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977",
       "codename": "title",
       "validation_regex": null,
-      "is_non_localizable": true
+      "is_non_localizable": true,
+      "default": {
+        "global": {
+          "value": "This is the default value of the element." 
+        } 
+      } 
     },
     {
       "source_url": "https://example.com",
@@ -45,7 +50,12 @@
       "type": "number",
       "id": "773940f4-9e67-4a26-a93f-67e55fd7d837",
       "codename": "rating",
-      "is_non_localizable": false
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": "10"
+        }
+      }
     },
     {
       "mode": "multiple",
@@ -67,7 +77,14 @@
       "type": "multiple_choice",
       "id": "53a25074-b136-4a1f-a16d-3c130f696c66",
       "codename": "options",
-      "is_non_localizable": false
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "8972dc90-ae2e-416e-995d-95df6c77e3b2" } 
+          ]
+        }
+      }
     },
     {
       "asset_count_limit": null,
@@ -92,7 +109,12 @@
       "external_id": "4ae5f7a9-fe1f-1e8c-bfec-d321455139c4",
       "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7",
       "codename": "post_date",
-      "is_non_localizable": false
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": "2022-01-01T00:00:00.000Z"
+        }
+      }
     },
     {
       "maximum_text_length": null,
@@ -177,7 +199,14 @@
       "external_id": "0a16b642-ac3e-584d-a45a-ba354a30b2bd",
       "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d",
       "codename": "personas",
-      "is_non_localizable": false
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8" }
+          ]
+        }
+      }
     },
     {
       "maximum_text_length": null,

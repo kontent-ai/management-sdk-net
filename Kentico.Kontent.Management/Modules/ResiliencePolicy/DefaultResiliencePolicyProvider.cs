@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Kentico.Kontent.Management.Modules.Extensions;
 using Polly;
-using Polly.Wrap;
 
 namespace Kentico.Kontent.Management.Modules.ResiliencePolicy;
 
