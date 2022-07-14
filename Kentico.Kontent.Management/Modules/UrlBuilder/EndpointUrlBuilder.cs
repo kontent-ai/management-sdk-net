@@ -85,10 +85,12 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildWebhooksUrl(Reference identifier) => GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildWebhooksEnableUrl(Reference identifier) => GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildWebhooksEnableUrl(Reference identifier) => 
+        string.Concat(GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/enable");
 
-    public string BuildWebhooksDisableUrl(Reference identifier) => GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
-        
+    public string BuildWebhooksDisableUrl(Reference identifier) =>
+        string.Concat(GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
+
     public string BuildWorkflowsUrl() => GetProjectUrl(_workflowTemplate.Url);
 
     public string BuildWorkflowsUrl(Reference identifier) => GetProjectUrl(_workflowTemplate.GetIdentifierUrlSegment(identifier));
