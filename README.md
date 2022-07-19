@@ -497,8 +497,9 @@ Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType
 
 ### Creating a new release
 
-[Release & version management](https://github.com/Kentico/kontent-management-sdk-net/wiki/Release-&-version-management)
+* [**Release & version management**](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Release-%26-version-management-of-.NET-projects.md)
+  * [Kentico's best practices for .csproj files](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Kontent.ai-best-practices-for-.csproj-files.md)
 
 ## Feedback & Contributing
 
-Check out the [contributing](https://github.com/Kentico/content-management-sdk-net/blob/master/CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
+Check out the [contributing](./CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
