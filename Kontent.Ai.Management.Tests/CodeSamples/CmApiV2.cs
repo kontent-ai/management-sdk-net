@@ -20,18 +20,10 @@ using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.Assets.Patch;
-using Kontent.Ai.Management.Models.Collections.Patch;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
-using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
-using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Models.Types.Patch;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
-using Kontent.Ai.Management.Models.Users;
-using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.ModelBuilders;
@@ -42,7 +34,7 @@ using Xunit;
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
-/// Source for Code examples being store in https://github.com/KenticoDocs/kontent-docs-samples/tree/master/net/cm-api-v2
+/// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/management-api-v2
 /// </summary>
 public class CmApiV2 : IClassFixture<FileSystemFixture>
 {
@@ -595,7 +587,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUser.json");
 
-        var identifier = UserIdentifier.ByEmail("Joe.Joe@kentico.com");
+        var identifier = UserIdentifier.ByEmail("Joe.Joe@kontent.ai");
         //var identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
 
         var response = await client.GetSubscriptionUserAsync(identifier);
@@ -1030,7 +1022,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("PostFileResponse.json");
 
-        var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "kentico_rgb_bigger.png");
+        var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "kai-logo-hor-pos-rgb.png");
         var contentType = "image/png";
 
         // Binary file reference to be used when adding a new asset
@@ -1882,7 +1874,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
 
-        var identifier = UserIdentifier.ByEmail("user@kentico.com");
+        var identifier = UserIdentifier.ByEmail("user@kontentai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
 
         var response = await client.ModifyUsersRolesAsync(
@@ -1919,7 +1911,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
-        var identifier = UserIdentifier.ByEmail("user@kentico.com");
+        var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
 
         var exception = await Record.ExceptionAsync(
@@ -1935,7 +1927,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
-        var identifier = UserIdentifier.ByEmail("user@kentico.com");
+        var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
 
         var exception = await Record.ExceptionAsync(
