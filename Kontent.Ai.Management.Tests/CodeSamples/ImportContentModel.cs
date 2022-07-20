@@ -4,23 +4,21 @@ using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.TaxonomyGroups;
-using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Tests.Base;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
-/// Source for Code examples being store in https://github.com/KenticoDocs/kontent-docs-samples/tree/master/net/importing-content-model
+/// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-content-model
 /// </summary>
-public class ImportingContentModel : IClassFixture<FileSystemFixture>
+public class ImportContentModel : IClassFixture<FileSystemFixture>
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
     private readonly FileSystemFixture _fileSystemFixture;
 
-    public ImportingContentModel(FileSystemFixture fileSystemFixture)
+    public ImportContentModel(FileSystemFixture fileSystemFixture)
     {
         _fileSystemFixture = fileSystemFixture;
         _fileSystemFixture.SetSubFolder("CodeSamples");

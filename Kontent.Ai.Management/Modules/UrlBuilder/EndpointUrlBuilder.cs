@@ -5,18 +5,6 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Shared;
 
-/* Unmerged change from project 'Kontent.Ai.Management (net6.0)'
-Before:
-using Kontent.Ai.Management.Configuration;
-After:
-using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Modules.UrlBuilder;
-using Kentico;
-using Kentico.Kontent;
-using Kontent.Ai.Management;
-using Kontent.Ai.Management.Modules;
-using Kontent.Ai.Management.Modules.UrlBuilder;
-*/
 using Kontent.Ai.Management.Configuration;
 
 namespace Kontent.Ai.Management.Modules.UrlBuilder;
