@@ -2,23 +2,24 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-		<LangVersion>latest</LangVersion>
-		<Authors>Kentico Software</Authors>
-		<Company>Kentico Software</Company>
-		<Product>Kontent by Kentico</Product>
-		<Description>Kontent Management SDK</Description>
-		<Copyright>© 2017 Kentico Software. All rights reserved.</Copyright>
+		<Authors>Kontent s.r.o.</Authors>
+		<Company>Kontent s.r.o.</Company>
+		<Product>Kontent.ai</Product>
+		<Description>Kontent.ai Management SDK Helpers</Description>
+		<Copyright>© 2022 Kontent s.r.o. All rights reserved.</Copyright>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/Kentico/content-management-sdk-net</PackageProjectUrl>
-		<PackageIconUrl>https://github.com/Kentico/Home/blob/master/images/kk-logo-nuget.png?raw=true</PackageIconUrl>
-		<RepositoryUrl>https://github.com/Kentico/content-management-sdk-net.git</RepositoryUrl>
-		<PackageTags>kentico;mvc;aspnet;aspnetmvc</PackageTags>
-		<NeutralLanguage>en-US</NeutralLanguage>
+		<PackageProjectUrl>https://github.com/kontent-ai/management-sdk-net</PackageProjectUrl>
+		<PackageIconUrl>https://github.com/kontent-ai/.github/blob/main/logos/kai-logo-symbol-color-rgb.png?raw=true</PackageIconUrl>
+		<RepositoryUrl>https://github.com/kontent-ai/management-sdk-net.git</RepositoryUrl>
+		<PackageTags>kontent-ai;sdk;mvc;aspnet;aspnetmvc</PackageTags>
+		<RepositoryType>git</RepositoryType>
+		<NeutralLanguage>English (United States)</NeutralLanguage>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

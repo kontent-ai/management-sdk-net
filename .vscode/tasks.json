@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Kentico.Kontent.Management.Tests/Kentico.Kontent.Management.Tests.csproj",
+                "${workspaceFolder}/Kontent.Ai.Management.Tests/Kontent.Ai.Management.Tests.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Kentico.Kontent.Management.Tests/Kentico.Kontent.Management.Tests.csproj",
+                "${workspaceFolder}/Kontent.Ai.Management.Tests/Kontent.Ai.Management.Tests.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Kentico.Kontent.Management.Tests/Kentico.Kontent.Management.Tests.csproj",
+                "${workspaceFolder}/Kontent.Ai.Management.Tests/Kontent.Ai.Management.Tests.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
