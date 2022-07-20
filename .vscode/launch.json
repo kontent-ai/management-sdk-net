@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Kentico.Kontent.Management.Tests/bin/Debug/net5.0/Kentico.Kontent.Management.Tests.dll",
+            "program": "${workspaceFolder}/Kontent.Ai.Management.Tests/bin/Debug/net5.0/Kontent.Ai.Management.Tests.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Kentico.Kontent.Management.Tests",
+            "cwd": "${workspaceFolder}/Kontent.Ai.Management.Tests",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
