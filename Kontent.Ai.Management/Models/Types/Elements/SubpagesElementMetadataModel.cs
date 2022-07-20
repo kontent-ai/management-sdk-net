@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.Types;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 

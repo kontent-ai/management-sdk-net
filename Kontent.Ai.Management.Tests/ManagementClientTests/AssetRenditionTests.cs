@@ -8,7 +8,6 @@ using Kontent.Ai.Management.Models.AssetRenditions;
 using Xunit;
 using Kontent.Ai.Management.Tests.Base;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.AssetRenditions;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

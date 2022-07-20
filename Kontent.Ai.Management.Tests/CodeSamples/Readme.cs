@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Kontent.Ai.Management;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Items;

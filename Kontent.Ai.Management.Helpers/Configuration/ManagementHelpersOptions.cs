@@ -1,6 +1,4 @@
-﻿using Kontent.Ai.Management.Helpers;
-
-namespace Kontent.Ai.Management.Helpers.Configuration;
+﻿namespace Kontent.Ai.Management.Helpers.Configuration;
 
 /// <summary>
 /// Keeps settings which are provided by customer or have default values, used in <see cref="EditLinkBuilder"/>.

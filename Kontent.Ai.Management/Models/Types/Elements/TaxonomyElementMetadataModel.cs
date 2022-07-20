@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.Types;
 using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;

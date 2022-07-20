@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Tests.Base;
 using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 

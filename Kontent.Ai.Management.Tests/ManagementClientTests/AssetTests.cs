@@ -9,9 +9,7 @@ using System.IO;
 using System.Text;
 using Kontent.Ai.Management.Tests.Data;
 using Kontent.Ai.Management.Tests.Base;
-using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
