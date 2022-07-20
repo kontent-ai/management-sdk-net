@@ -28,7 +28,7 @@ public class ProjectUserTests : IClassFixture<FileSystemFixture>
 
         var invitation = new UserInviteModel
         {
-            Email = "test@kentico.com",
+            Email = "test@kontent.ai",
             CollectionGroup = expected.CollectionGroup
         };
 
@@ -52,7 +52,7 @@ public class ProjectUserTests : IClassFixture<FileSystemFixture>
 
         var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
 
-        var response = await client.ModifyUsersRolesAsync(UserIdentifier.ByEmail("test@kentico.com"), expected);
+        var response = await client.ModifyUsersRolesAsync(UserIdentifier.ByEmail("test@kontent.ai"), expected);
 
         response.Should().BeEquivalentTo(expected);
     }
