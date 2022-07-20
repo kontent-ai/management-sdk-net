@@ -33,17 +33,17 @@ public class EditLinkBuilder : IEditLinkBuilder
     /// <summary>
     /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
     /// </summary>
-    /// <param name="managementHelpersOptions">The settings of the Kontent project.</param>
+    /// <param name="managementHelpersOptions">The settings of the Kontent.ai project.</param>
     public EditLinkBuilder(ManagementHelpersOptions managementHelpersOptions)
     {
         if (string.IsNullOrEmpty(managementHelpersOptions.AdminUrl))
         {
-            throw new ArgumentException("Kontent Edit App endpoint is not specified.", nameof(managementHelpersOptions.AdminUrl));
+            throw new ArgumentException("Kontent.ai Edit App endpoint is not specified.", nameof(managementHelpersOptions.AdminUrl));
         }
 
         if (string.IsNullOrEmpty(managementHelpersOptions.ProjectId))
         {
-            throw new ArgumentException("Kontent project identifier is not specified.", nameof(managementHelpersOptions.ProjectId));
+            throw new ArgumentException("Kontent.ai project identifier is not specified.", nameof(managementHelpersOptions.ProjectId));
         }
 
         if (!Guid.TryParse(managementHelpersOptions.ProjectId, out _))
@@ -57,7 +57,7 @@ public class EditLinkBuilder : IEditLinkBuilder
     /// <summary>
     /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
     /// </summary>
-    /// <param name="managementHelpersOptions">The settings of the Kontent project.</param>
+    /// <param name="managementHelpersOptions">The settings of the Kontent.ai project.</param>
     public EditLinkBuilder(IOptionsMonitor<ManagementHelpersOptions> managementHelpersOptions)
     {
         managementHelpersOptionsMonitor = managementHelpersOptions;

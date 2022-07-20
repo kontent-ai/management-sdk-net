@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 namespace Kontent.Ai.Management.Exceptions;
 
 /// <summary>
-/// Represents an error response from the Kontent Management API.
+/// Represents an error response from the Kontent.ai Management API.
 /// </summary>
 public sealed class ManagementException : Exception
 {

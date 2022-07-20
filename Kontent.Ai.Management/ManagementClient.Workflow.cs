@@ -9,7 +9,7 @@ using Kontent.Ai.Management.Models.Workflow;
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// Executes requests against the Kontent Management API.
+/// Executes requests against the Kontent.ai Management API.
 /// </summary>
 public sealed partial class ManagementClient
 {
