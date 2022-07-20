@@ -17,7 +17,7 @@ public static class PropertyInfoExtensions
         var attribute = property.GetCustomAttribute<KontentElementIdAttribute>();
 
         return attribute == null
-            ? throw new InvalidOperationException($"Cannot get kontent element id as there is no attribute of type {nameof(KontentElementIdAttribute)}")
+            ? throw new InvalidOperationException($"Cannot get Kontent.ai element id as there is no attribute of type {nameof(KontentElementIdAttribute)}")
             : Guid.Parse(property.GetCustomAttribute<KontentElementIdAttribute>()?.ElementId);
     }
 }

@@ -14,7 +14,7 @@ using Kontent.Ai.Management.Modules.UrlBuilder;
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// Executes requests against the Kontent Management API.
+/// Executes requests against the Kontent.ai Management API.
 /// </summary>
 public sealed partial class ManagementClient : IManagementClient
 {
@@ -27,7 +27,7 @@ public sealed partial class ManagementClient : IManagementClient
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified project.
     /// </summary>
-    /// <param name="ManagementOptions">The settings of the Kontent project.</param>
+    /// <param name="ManagementOptions">The settings of the Kontent.ai project.</param>
     public ManagementClient(ManagementOptions ManagementOptions)
     {
         if (ManagementOptions == null)
@@ -37,7 +37,7 @@ public sealed partial class ManagementClient : IManagementClient
 
         if (string.IsNullOrEmpty(ManagementOptions.ProjectId))
         {
-            throw new ArgumentException("Kontent project identifier is not specified.", nameof(ManagementOptions.ProjectId));
+            throw new ArgumentException("Kontent.ai project identifier is not specified.", nameof(ManagementOptions.ProjectId));
         }
 
         if (!Guid.TryParse(ManagementOptions.ProjectId, out _))
