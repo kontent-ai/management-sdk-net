@@ -1,26 +1,26 @@
 # Kontent.ai Management .NET SDK
 
-[![Build & Test](https://github.com/Kentico/kontent-management-sdk-net/actions/workflows/integrate.yml/badge.svg)](https://github.com/Kentico/kontent-management-sdk-net/actions/workflows/integrate.yml)
-[![codecov](https://codecov.io/gh/Kentico/kontent-management-sdk-net/branch/master/graph/badge.svg?token=xhM2JrUuA4)](https://codecov.io/gh/Kentico/kontent-management-sdk-net)
-[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-kontent)
+[![Build & Test](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml/badge.svg)](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml)
+[![codecov](https://codecov.io/gh/kontent-ai/management-sdk-net/branch/master/graph/badge.svg?token=xhM2JrUuA4)](https://codecov.io/gh/kontent-ai/management-sdk-net)
+[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kontent-ai)
 [![Discord](https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent%20Discord&logo=discord)](https://discord.gg/SKCxwPtevJ)
 
 > ℹ️ This repository is currently being migrated from Kentico GitHub organization. Some aspects may still remain unchanged, thank you for your understanding!
 
-| Package                       |                                                                         Version                                                                         |                                                                       Downloads                                                                       |                        Compatibility                         |           Documentation           |
-| ----------------------------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------: | :-------------------------------: |
-| Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) | [📖](#using-the-managementclient) |
-| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kentico.Kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/kentico.kontent.Management.Helpers.svg)](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers) | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) |       [📖](#helper-methods)       |
+| Package                       |                                                                    Version                                                                    |                                                                  Downloads                                                                  |                                                                  Compatibility                                                                   |           Documentation           |
+| ----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------: |
+| Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) | [📖](#using-the-managementclient) |
+| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) |       [📖](#helper-methods)       |
 
 > \* We highly recommend targetting [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) in your projects. [`netstandard2.0`](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) is supported to allow older projects to iteratively upgrade.
 
 ## Summary
 
-The Kontent Management .NET SDK is a client library used for managing content in Kontent by Kentico. It provides read/write access to your Kontent projects.
+The Kontent Management .NET SDK is a client library used for managing content in Kontent.ai. It provides read/write access to your Kontent projects.
 
-You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management) to migrate existing content into your Kontent project or update your content model.
+You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kontent.Ai.Management) to migrate existing content into your Kontent project or update your content model.
 
-The Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/Kentico/delivery-sdk-net) instead.
+The Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/kontent-ai/delivery-sdk-net) instead.
 
 💡 If you want to see all .NET related resources including REST API reference with .NET code samples for every endpoint, check out the ["Develop .NET apps" overview page](https://kontent.ai/learn/tutorials/develop-apps/overview?tech=dotnet).
 
@@ -33,11 +33,12 @@ To manage content in a Kontent project via the Management API, you first need to
 The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and others in your Kontent projects.
 
 To create an instance of the class, you need to provide:
+
 - [ProjectId](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id): the ID of your Kontent project. This parameter must always be set.
 - [SubscriptionId](https://kontent.ai/learn/reference/management-api-v2/#tag/Subscription): the ID of your subcription. Set it up if you need to manage users and their permissions.
 - [ApiKey](https://kontent.ai/learn/reference/management-api-v2/#section/Authentication/API-keys): either Management or Subscription API key.
-    - Subscription API key can be used for all endpoints but is limited to subscription admins
-    - Management API key can be used with project-specific endpoints and is limited to users with the Manage APIs permission.
+  - Subscription API key can be used for all endpoints but is limited to subscription admins
+  - Management API key can be used with project-specific endpoints and is limited to users with the Manage APIs permission.
 
 ```csharp
 // Initializes an instance of the ManagementClient client with specified options.
@@ -79,7 +80,7 @@ UserIdentifier identifier = UserIdentifier.ByEmail("user@email.com");
 
 ### Handling Kontent **errors**
 
-You can catch Kontent errors (more in [error section in Management API reference](https://kontent.ai/learn/reference/management-api-v2#section/Errors))) by using `try-catch` block and catching `Kentico.Kontent.Management.Exceptions.ManagementException`.
+You can catch Kontent errors (more in [error section in Management API reference](https://kontent.ai/learn/reference/management-api-v2#section/Errors))) by using `try-catch` block and catching `Kontent.Ai.Management.Exceptions.ManagementException`.
 
 ```csharp
 try
@@ -95,7 +96,7 @@ catch (ManagementException ex)
 
 ### Working with language variants
 
-The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) and then be able to retrieve the data in a strongly typed form.
+The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kontent [model generator utility](https://github.com/kontent-ai/generators-net) and then be able to retrieve the data in a strongly typed form.
 
 ```csharp
 // Retrieve strongly-typed content item
@@ -198,7 +199,7 @@ var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 
 ### Working with assets
 
-The Kontent [model generator utility](https://github.com/Kentico/kontent-generators-net) currently does not support generating a strongly-typed model from your asset type. But you can construct an instance of a strongly-typed model yourself. You just need to provide the elements you want to change.
+The Kontent [model generator utility](https://github.com/kontent-ai/model-generators-net) currently does not support generating a strongly-typed model from your asset type. But you can construct an instance of a strongly-typed model yourself. You just need to provide the elements you want to change.
 
 ```csharp
 var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
@@ -261,7 +262,7 @@ You can also use anonymous dynamic objects to work with assets same as with the 
 
 ### Retrieving content items
 
-Responses from Kontent by Kentico API are paginated. To retrieve all of content items, you need to go page by page. Here's how:
+Responses from Kontent.ai API are paginated. To retrieve all of content items, you need to go page by page. Here's how:
 
 ```csharp
 var items = new List<ContentItemModel>();
@@ -280,6 +281,7 @@ while (true)
     response = await response.GetNextPage();
 }
 ```
+
 If you need all content items you can use `GetAllAsync`:
 
 ```csharp
@@ -379,7 +381,7 @@ var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier,
 
 ### Helper Methods
 
-Methods for building links to content items and their elements in Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kentico.Kontent.Management.Helpers/).
+Methods for building links to content items and their elements in Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers/).
 
 #### Getting an edit link for a content item
 
@@ -452,7 +454,7 @@ This repository is configured to generate SourceLink tag in the Nuget package th
 
 ### How to configure Source Link
 
-1. Open a solution with a project referencing the Kentico.Kontent.Management Nuget package.
+1. Open a solution with a project referencing the Kontent.Ai.Management Nuget package.
 1. Open Tools -> Options -> Debugging -> General.
 
    - Clear **Enable Just My Code**.
@@ -464,7 +466,7 @@ This repository is configured to generate SourceLink tag in the Nuget package th
 
    - ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
 
-1. Run a debugging session and try to step into the Kentico.Kontent.Management code.
+1. Run a debugging session and try to step into the Kontent.Ai.Management code.
 1. Allow Visual Studio to download the source code from GitHub.
 
 - ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
@@ -497,8 +499,8 @@ Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType
 
 ### Creating a new release
 
-* [**Release & version management**](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Release-%26-version-management-of-.NET-projects.md)
-  * [Kentico's best practices for .csproj files](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Kontent.ai-best-practices-for-.csproj-files.md)
+- [**Release & version management**](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Release-%26-version-management-of-.NET-projects.md)
+- [Kontent.ai's best practices for .csproj files](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Kontent.ai-best-practices-for-.csproj-files.md)
 
 ## Feedback & Contributing
 
