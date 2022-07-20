@@ -6,7 +6,6 @@ using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.ResiliencePolicy;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Modules.UrlBuilder;

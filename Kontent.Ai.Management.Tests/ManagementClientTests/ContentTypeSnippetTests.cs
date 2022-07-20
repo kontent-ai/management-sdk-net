@@ -4,8 +4,6 @@ using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.TypeSnippets;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Collections.Generic;

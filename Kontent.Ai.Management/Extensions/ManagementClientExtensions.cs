@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Kontent.Ai.Management.Models.Items;
-using Kontent.Ai.Management;
 using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
 

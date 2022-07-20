@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Kontent.Ai.Management;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Modules.UrlBuilder;
 using Kontent.Ai.Management.Modules.ActionInvoker;

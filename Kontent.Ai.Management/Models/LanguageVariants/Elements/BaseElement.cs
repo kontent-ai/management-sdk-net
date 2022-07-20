@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types.Elements;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;

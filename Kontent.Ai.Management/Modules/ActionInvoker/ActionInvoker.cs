@@ -7,7 +7,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Converters;
-using Kontent.Ai.Management.Modules.ActionInvoker;
 using Kontent.Ai.Management.Modules.HttpClient;
 
 namespace Kontent.Ai.Management.Modules.ActionInvoker;

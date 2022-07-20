@@ -6,7 +6,6 @@ using Xunit;
 using System.Collections.Generic;
 using System;
 using _ActionInvoker = Kontent.Ai.Management.Modules.ActionInvoker.ActionInvoker;
-using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Models.LanguageVariants;
