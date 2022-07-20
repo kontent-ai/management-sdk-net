@@ -4,7 +4,6 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using Xunit;
@@ -12,15 +11,15 @@ using Xunit;
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
-/// Source for Code examples being store in https://github.com/KenticoDocs/kontent-docs-samples/tree/master/net/importing-assets
+/// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-assets
 /// </summary>
-public class ImportingAssets : IClassFixture<FileSystemFixture>
+public class ImportAssets : IClassFixture<FileSystemFixture>
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
     private readonly FileSystemFixture _fileSystemFixture;
 
-    public ImportingAssets(FileSystemFixture fileSystemFixture)
+    public ImportAssets(FileSystemFixture fileSystemFixture)
     {
         _fileSystemFixture = fileSystemFixture;
         _fileSystemFixture.SetSubFolder("CodeSamples");

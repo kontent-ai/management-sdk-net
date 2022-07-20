@@ -3,18 +3,6 @@ using System.Net;
 using System.Net.Http;
 using System.Linq;
 
-
-/* Unmerged change from project 'Kontent.Ai.Management (net6.0)'
-Before:
-using Newtonsoft.Json.Linq;
-After:
-using Newtonsoft.Json.Linq;
-using Kentico;
-using Kentico.Kontent;
-using Kontent.Ai.Management;
-using Kontent.Ai.Management.Exceptions;
-using Kontent.Ai.Management.Exceptions;
-*/
 using Newtonsoft.Json.Linq;
 
 namespace Kontent.Ai.Management.Exceptions;
