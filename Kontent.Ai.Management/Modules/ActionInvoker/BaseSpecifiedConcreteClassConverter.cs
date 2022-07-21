@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Types.Elements;
+using Kontent.Ai.Management.Models.ProjectValidation;
 
 namespace Kontent.Ai.Management.Modules.ActionInvoker;
 
@@ -20,5 +21,6 @@ internal class BaseSpecifiedConcreteClassConverter : DefaultContractResolver
 
     private static bool IsKnownConcreteClassWithDefinedConverter(Type objectType) =>
         typeof(ElementMetadataBase).IsAssignableFrom(objectType) ||
-        typeof(ImageTransformation).IsAssignableFrom(objectType);
+        typeof(ImageTransformation).IsAssignableFrom(objectType) ||
+        typeof(AsyncValidationTaskIssue).IsAssignableFrom(objectType);
 }

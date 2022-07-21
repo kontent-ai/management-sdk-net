@@ -24,6 +24,8 @@ using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Collections;
+using System;
+using Kontent.Ai.Management.Models.ProjectValidation;
 
 namespace Kontent.Ai.Management;
 
@@ -567,6 +569,24 @@ public interface IManagementClient
     /// </summary>
     /// <returns><see cref="ProjectReportModel"/></returns>
     Task<ProjectReportModel> ValidateProjectAsync();
+
+    /// <summary>
+    /// Initiates asynchronous project validation.
+    /// </summary>
+    /// <returns><see cref="AsyncValidationTask"/></returns>
+    Task<AsyncValidationTask> InitiateProjectAsyncValidationTaskAsync();
+
+    /// <summary>
+    /// Gets async validation task.
+    /// </summary>
+    /// <returns><see cref="AsyncValidationTask"/></returns>
+    Task<AsyncValidationTask> GetAsyncValidationTaskAsync(Guid taskId);
+
+    /// <summary>
+    /// Gets async validation task issues.
+    /// </summary>
+    /// <returns><see cref="IListingResponseModel{AsyncValidationTaskIssue}"/></returns>
+    Task<IListingResponseModel<AsyncValidationTaskIssue>> GetAsyncValidationTaskIssuesAsync(Guid taskId);
 
     /// <summary>
     /// Lists all roles in project.
