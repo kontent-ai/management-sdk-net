@@ -7,12 +7,10 @@
 
 > ℹ️ This repository is currently being migrated from Kentico GitHub organization. Some aspects may still remain unchanged, thank you for your understanding!
 
-| Package                       |                                                                    Version                                                                    |                                                                  Downloads                                                                  |                                                                  Compatibility                                                                   |           Documentation           |
-| ----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------: |
-| Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) | [📖](#using-the-managementclient) |
-| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) [`netstandard2.0`\*](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) |       [📖](#helper-methods)       |
-
-> \* We highly recommend targetting [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) in your projects. [`netstandard2.0`](https://docs.microsoft.com/en-us/dotnet/standard/net-standard) is supported to allow older projects to iteratively upgrade.
+| Package                       |                                                                    Version                                                                    |                                                                  Downloads                                                                  |                        Compatibility                         |           Documentation           |
+| ----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------: | :-------------------------------: |
+| Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) | [📖](#using-the-managementclient) |
+| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) |       [📖](#helper-methods)       |
 
 ## Summary
 
@@ -295,7 +293,7 @@ Importing content items is a 2 step process, using 2 separate methods:
 1. Creating an empty content item which serves as a wrapper for your content.
 1. Adding content inside a language variant of the content item.
 
-Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kontent](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
+Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kontent.ai](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
 
 #### 1. Creating a content item
 

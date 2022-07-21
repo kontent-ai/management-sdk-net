@@ -13,9 +13,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: |
-            5.0.x
-            6.0.x
+          dotnet-version: 6.0.x
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
@@ -35,9 +33,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: |
-            5.0.x
-            6.0.x
+          dotnet-version: 6.0.x
       - name: Extract version from tag
         id: get_version
         uses: battila7/get-version-action@v2
