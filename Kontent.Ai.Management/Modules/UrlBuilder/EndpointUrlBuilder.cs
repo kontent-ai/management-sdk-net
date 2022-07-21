@@ -158,6 +158,12 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildValidationUrl() => GetProjectUrl(_validateTemplate.Url);
 
+    public string BuildAsyncValidationUrl() => GetProjectUrl("/validate-async");
+
+    public string BuildAsyncValidationTaskUrl(Guid taskId) => GetProjectUrl($"/validate-async/tasks/{taskId}");
+
+    public string BuildAsyncValidationTaskIssuesUrl(Guid taskId) => GetProjectUrl($"/validate-async/tasks/{taskId}/issues");
+
     public string BuildProjectUrl() => string.Format(_options.EndpointV2, $"projects/{_options.ProjectId}");
 
     public string BuildCollectionsUrl() => GetProjectUrl(_collectionTemplate.Url);
