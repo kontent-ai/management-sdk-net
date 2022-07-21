@@ -6,7 +6,8 @@
 		<Authors>Kontent s.r.o.</Authors>
 		<Company>Kontent s.r.o.</Company>
 		<Product>Kontent.ai</Product>
-		<Description>Kontent.ai Management SDK</Description>
+		<Description>Kontent.ai Management SDK Helpers</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Copyright>© 2022 Kontent s.r.o. All rights reserved.</Copyright>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
