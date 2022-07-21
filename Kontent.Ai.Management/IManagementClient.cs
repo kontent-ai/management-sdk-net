@@ -583,10 +583,10 @@ public interface IManagementClient
     Task<AsyncValidationTask> GetAsyncValidationTaskAsync(Guid taskId);
 
     /// <summary>
-    /// Gets async validation task issues.
+    /// Lists async validation task issues.
     /// </summary>
     /// <returns><see cref="IListingResponseModel{AsyncValidationTaskIssue}"/></returns>
-    Task<IListingResponseModel<AsyncValidationTaskIssue>> GetAsyncValidationTaskIssuesAsync(Guid taskId);
+    Task<IListingResponseModel<AsyncValidationTaskIssue>> ListAsyncValidationTaskIssuesAsync(Guid taskId);
 
     /// <summary>
     /// Lists all roles in project.
