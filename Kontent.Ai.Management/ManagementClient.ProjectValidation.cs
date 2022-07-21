@@ -31,7 +31,7 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AsyncValidationTaskIssue>> GetAsyncValidationTaskIssuesAsync(Guid taskId)
+    public async Task<IListingResponseModel<AsyncValidationTaskIssue>> ListAsyncValidationTaskIssuesAsync(Guid taskId)
     {
         var endpointUrl = _urlBuilder.BuildAsyncValidationTaskIssuesUrl(taskId);
 

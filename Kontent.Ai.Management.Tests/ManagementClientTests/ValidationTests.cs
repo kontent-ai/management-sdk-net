@@ -1,6 +1,9 @@
 ﻿using FluentAssertions;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.ProjectReport;
+using Kontent.Ai.Management.Models.ProjectValidation;
 using Kontent.Ai.Management.Tests.Base;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
@@ -23,6 +26,42 @@ public class ValidationTests : IClassFixture<FileSystemFixture>
         var expected = _fileSystemFixture.GetExpectedResponse<ProjectReportModel>("ProjectValidation.json");
 
         var response = await client.ValidateProjectAsync();
+
+        response.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async void InitiateProjectAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+
+        var expected = _fileSystemFixture.GetExpectedResponse<AsyncValidationTask>("AsyncValidationTask.json");
+
+        var response = await client.InitiateProjectAsyncValidationTaskAsync();
+
+        response.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async void GetAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+
+        var expected = _fileSystemFixture.GetExpectedResponse<AsyncValidationTask>("AsyncValidationTask.json");
+
+        var response = await client.GetAsyncValidationTaskAsync(System.Guid.Empty);
+
+        response.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public async void GetAsyncValidationTaskIssuesAsync_ReturnsAsyncValidationTask()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTaskIssues.json");
+
+        var expected = _fileSystemFixture.GetExpectedResponse<List<AsyncValidationTaskIssue>>("ExpectedAsyncValidationTaskIssues.json");
+
+        var response = await client.ListAsyncValidationTaskIssuesAsync(System.Guid.Empty).GetAllAsync();
 
         response.Should().BeEquivalentTo(expected);
     }

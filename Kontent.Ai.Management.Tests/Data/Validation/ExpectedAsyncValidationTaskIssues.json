@@ -1,0 +1,27 @@
+[
+  {
+    "item": {
+      "id": "2a67418c-1df4-4196-8efd-107521963fba",
+      "name": "The item",
+      "codename": "the_item"
+    },
+    "language": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "Default project language",
+      "codename": "default"
+    },
+    "issues": [
+      {
+        "element": {
+          "id": "42facc8c-ed7a-4843-8e74-61aa6fbdbc09",
+          "name": "Taxo",
+          "codename": "taxo"
+        },
+        "messages": [
+          "Element 'Taxo' references a non-existent taxonomy term 7c24abc5-93c0-4481-b3cb-39b80c25d4d6."
+        ]
+      }
+    ],
+    "issue_type": "variant_issue"
+  }
+]
