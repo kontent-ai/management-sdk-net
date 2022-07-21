@@ -6,8 +6,8 @@
 		<Company>Kontent s.r.o.</Company>
 		<Product>Kontent.ai</Product>
 		<Description>Kontent.ai Management SDK</Description>
-		<PackageReadmeFile>../README.md</PackageReadmeFile>
-		<PackageIcon>../kai-logo-symbol-color-rgb.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>kai-logo-symbol-color-rgb.png</PackageIcon>
 		<Copyright>© 2022 Kontent s.r.o. All rights reserved.</Copyright>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -21,6 +21,7 @@
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
@@ -29,8 +30,8 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Microsoft.Sourcelink.Github" Version="1.0.0-*" PrivateAssets="All" />
 		<PackageReference Include="Polly" Version="7.1.1" />
-		<None Include="../README.md" Pack="true" PackagePath="../"/>
-		<None Include="../kai-logo-symbol-color-rgb.png" Pack="true" PackagePath="../"/>
+		<None Include="../README.md" Pack="true" PackagePath=""/>
+		<None Include="../kai-logo-symbol-color-rgb.png" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 </Project>
