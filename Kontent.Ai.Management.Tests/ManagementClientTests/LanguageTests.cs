@@ -40,7 +40,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             response.Name.Should().BeEquivalentTo(newLanguage.Name);
             response.Codename.Should().BeEquivalentTo(newLanguage.Codename);
             response.ExternalId.Should().BeEquivalentTo(newLanguage.ExternalId);
-            response.FallbackLanguage.Id.Should().Equals(newLanguage.FallbackLanguage.Id);
+            response.FallbackLanguage.Id.Should().Be(newLanguage.FallbackLanguage.Id);
         }
     }
 
@@ -68,7 +68,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             response.Name.Should().BeEquivalentTo("Default project language");
             response.Codename.Should().BeEquivalentTo("default");
             response.ExternalId.Should().BeEquivalentTo("string");
-            response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+            response.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
             response.IsActive.Should().BeTrue();
             response.IsDefault.Should().BeTrue();
         }
@@ -86,7 +86,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             response.Name.Should().BeEquivalentTo("Default project language");
             response.Codename.Should().BeEquivalentTo("default");
             response.ExternalId.Should().BeEquivalentTo("string");
-            response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+            response.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
             response.IsActive.Should().BeTrue();
             response.IsDefault.Should().BeTrue();
         }
@@ -104,7 +104,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             response.Name.Should().BeEquivalentTo("Default project language");
             response.Codename.Should().BeEquivalentTo("default");
             response.ExternalId.Should().BeEquivalentTo("string");
-            response.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+            response.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
             response.IsActive.Should().BeTrue();
             response.IsDefault.Should().BeTrue();
         }
@@ -135,7 +135,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
         using (new AssertionScope())
         {
             modifiedLanguage.Name.Should().BeEquivalentTo("Deutsch");
-            modifiedLanguage.FallbackLanguage.Id.Should().Equals(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+            modifiedLanguage.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
         }
     }
