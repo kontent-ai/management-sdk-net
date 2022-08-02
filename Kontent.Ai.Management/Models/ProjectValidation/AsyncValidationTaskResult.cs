@@ -10,18 +10,18 @@ public enum AsyncValidationTaskResult
     /// <summary>
     /// The async validation task is not finished yet.
     /// </summary>
-    [EnumMember(Value = "unknown")]
-    Unknown,
+    [EnumMember(Value = "none")]
+    None,
 
     /// <summary>
     /// Project doesn't contain any issues.
     /// </summary>
-    [EnumMember(Value = "valid")]
-    Valid,
+    [EnumMember(Value = "no_issues")]
+    NoIssues,
 
     /// <summary>
     /// Project contains validation issues.
     /// </summary>
-    [EnumMember(Value = "invalid")]
-    Invalid,
+    [EnumMember(Value = "issues_found")]
+    IssuesFound,
 }

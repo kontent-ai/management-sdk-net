@@ -573,20 +573,20 @@ public interface IManagementClient
     /// <summary>
     /// Initiates asynchronous project validation.
     /// </summary>
-    /// <returns><see cref="AsyncValidationTask"/></returns>
-    Task<AsyncValidationTask> InitiateProjectAsyncValidationTaskAsync();
+    /// <returns><see cref="AsyncValidationTaskModel"/></returns>
+    Task<AsyncValidationTaskModel> InitiateProjectAsyncValidationTaskAsync();
 
     /// <summary>
     /// Gets async validation task.
     /// </summary>
-    /// <returns><see cref="AsyncValidationTask"/></returns>
-    Task<AsyncValidationTask> GetAsyncValidationTaskAsync(Guid taskId);
+    /// <returns><see cref="AsyncValidationTaskModel"/></returns>
+    Task<AsyncValidationTaskModel> GetAsyncValidationTaskAsync(Guid taskId);
 
     /// <summary>
     /// Lists async validation task issues.
     /// </summary>
     /// <returns><see cref="IListingResponseModel{AsyncValidationTaskIssue}"/></returns>
-    Task<IListingResponseModel<AsyncValidationTaskIssue>> ListAsyncValidationTaskIssuesAsync(Guid taskId);
+    Task<IListingResponseModel<AsyncValidationTaskIssueModel>> ListAsyncValidationTaskIssuesAsync(Guid taskId);
 
     /// <summary>
     /// Lists all roles in project.

@@ -13,7 +13,7 @@ internal class AsyncValidationTaskIssueConverter : JsonConverter
         ContractResolver = new BaseSpecifiedConcreteClassConverter()
     };
 
-    public override bool CanConvert(Type objectType) => (objectType == typeof(AsyncValidationTaskIssue));
+    public override bool CanConvert(Type objectType) => (objectType == typeof(AsyncValidationTaskIssueModel));
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
@@ -23,11 +23,11 @@ internal class AsyncValidationTaskIssueConverter : JsonConverter
 
         return type switch
         {
-            AsyncValidationTaskIssueType.VariantIssue => JsonConvert.DeserializeObject<AsyncValidationTaskVariantIssue>(
+            AsyncValidationTaskIssueType.VariantIssue => JsonConvert.DeserializeObject<AsyncValidationTaskVariantIssueModel>(
                 jObject.ToString(), _specifiedSubclassConversion),
-            AsyncValidationTaskIssueType.TypeIssue => JsonConvert.DeserializeObject<AsyncValidationTaskTypeIssue>(
+            AsyncValidationTaskIssueType.TypeIssue => JsonConvert.DeserializeObject<AsyncValidationTaskTypeIssueModel>(
                 jObject.ToString(), _specifiedSubclassConversion),
-            _ => throw new InvalidEnumArgumentException(nameof(type), Convert.ToInt32(type), typeof(AsyncValidationTaskIssue))
+            _ => throw new InvalidEnumArgumentException(nameof(type), Convert.ToInt32(type), typeof(AsyncValidationTaskIssueModel))
         };
     }
 

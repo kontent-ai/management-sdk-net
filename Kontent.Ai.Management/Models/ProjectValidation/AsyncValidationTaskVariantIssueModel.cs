@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Models.ProjectValidation;
 /// <summary>
 /// Async validation task variant issue.
 /// </summary>
-public sealed class AsyncValidationTaskVariantIssue : AsyncValidationTaskIssue
+public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel
 {
     /// <summary>
     /// Gets or sets item reference.

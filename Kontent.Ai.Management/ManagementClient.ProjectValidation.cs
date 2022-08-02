@@ -17,28 +17,28 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<AsyncValidationTask> InitiateProjectAsyncValidationTaskAsync()
+    public async Task<AsyncValidationTaskModel> InitiateProjectAsyncValidationTaskAsync()
     {
         var endpointUrl = _urlBuilder.BuildAsyncValidationUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<AsyncValidationTask>(endpointUrl, HttpMethod.Post);
+        return await _actionInvoker.InvokeReadOnlyMethodAsync<AsyncValidationTaskModel>(endpointUrl, HttpMethod.Post);
     }
 
     /// <inheritdoc />
-    public async Task<AsyncValidationTask> GetAsyncValidationTaskAsync(Guid taskId)
+    public async Task<AsyncValidationTaskModel> GetAsyncValidationTaskAsync(Guid taskId)
     {
         var endpointUrl = _urlBuilder.BuildAsyncValidationTaskUrl(taskId);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<AsyncValidationTask>(endpointUrl, HttpMethod.Get);
+        return await _actionInvoker.InvokeReadOnlyMethodAsync<AsyncValidationTaskModel>(endpointUrl, HttpMethod.Get);
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AsyncValidationTaskIssue>> ListAsyncValidationTaskIssuesAsync(Guid taskId)
+    public async Task<IListingResponseModel<AsyncValidationTaskIssueModel>> ListAsyncValidationTaskIssuesAsync(Guid taskId)
     {
         var endpointUrl = _urlBuilder.BuildAsyncValidationTaskIssuesUrl(taskId);
 
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AsyncValidationTaskIssuesResponseServerModel>(endpointUrl, HttpMethod.Get);
 
-        return new ListingResponseModel<AsyncValidationTaskIssue>(
-                (token, url) => GetNextListingPageAsync<AsyncValidationTaskIssuesResponseServerModel, AsyncValidationTaskIssue>(token, url),
+        return new ListingResponseModel<AsyncValidationTaskIssueModel>(
+                (token, url) => GetNextListingPageAsync<AsyncValidationTaskIssuesResponseServerModel, AsyncValidationTaskIssueModel>(token, url),
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Issues);

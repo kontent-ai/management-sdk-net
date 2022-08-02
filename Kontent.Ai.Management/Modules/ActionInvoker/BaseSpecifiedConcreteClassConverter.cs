@@ -22,5 +22,5 @@ internal class BaseSpecifiedConcreteClassConverter : DefaultContractResolver
     private static bool IsKnownConcreteClassWithDefinedConverter(Type objectType) =>
         typeof(ElementMetadataBase).IsAssignableFrom(objectType) ||
         typeof(ImageTransformation).IsAssignableFrom(objectType) ||
-        typeof(AsyncValidationTaskIssue).IsAssignableFrom(objectType);
+        typeof(AsyncValidationTaskIssueModel).IsAssignableFrom(objectType);
 }
