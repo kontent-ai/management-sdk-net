@@ -8,7 +8,7 @@ namespace Kontent.Ai.Management.Models.ProjectValidation;
 /// Async validation task issue.
 /// </summary>
 [JsonConverter(typeof(AsyncValidationTaskIssueConverter))]
-public abstract class AsyncValidationTaskIssue
+public abstract class AsyncValidationTaskIssueModel
 {
     /// <summary>
     /// Gets or sets the type of the async validation task issue.

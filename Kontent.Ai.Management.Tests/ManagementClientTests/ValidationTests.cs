@@ -35,7 +35,7 @@ public class ValidationTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
 
-        var expected = _fileSystemFixture.GetExpectedResponse<AsyncValidationTask>("AsyncValidationTask.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<AsyncValidationTaskModel>("AsyncValidationTask.json");
 
         var response = await client.InitiateProjectAsyncValidationTaskAsync();
 
@@ -47,7 +47,7 @@ public class ValidationTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
 
-        var expected = _fileSystemFixture.GetExpectedResponse<AsyncValidationTask>("AsyncValidationTask.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<AsyncValidationTaskModel>("AsyncValidationTask.json");
 
         var response = await client.GetAsyncValidationTaskAsync(System.Guid.Empty);
 
@@ -59,7 +59,7 @@ public class ValidationTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTaskIssues.json");
 
-        var expected = _fileSystemFixture.GetExpectedResponse<List<AsyncValidationTaskIssue>>("ExpectedAsyncValidationTaskIssues.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<List<AsyncValidationTaskIssueModel>>("ExpectedAsyncValidationTaskIssues.json");
 
         var response = await client.ListAsyncValidationTaskIssuesAsync(System.Guid.Empty).GetAllAsync();
 

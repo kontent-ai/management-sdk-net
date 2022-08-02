@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Models.ProjectValidation;
 /// <summary>
 /// Async validation task.
 /// </summary>
-public sealed class AsyncValidationTask
+public sealed class AsyncValidationTaskModel
 {
     /// <summary>
     /// Gets or sets the id of the task.
