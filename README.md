@@ -3,7 +3,7 @@
 [![Build & Test](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml/badge.svg)](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml)
 [![codecov](https://codecov.io/gh/kontent-ai/management-sdk-net/branch/master/graph/badge.svg?token=xhM2JrUuA4)](https://codecov.io/gh/kontent-ai/management-sdk-net)
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kontent-ai)
-[![Discord](https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent%20Discord&logo=discord)](https://discord.gg/SKCxwPtevJ)
+[![Discord](https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent.ai%20Discord&logo=discord)](https://discord.gg/SKCxwPtevJ)
 
 > ℹ️ This repository is currently being migrated from Kentico GitHub organization. Some aspects may still remain unchanged, thank you for your understanding!
 
