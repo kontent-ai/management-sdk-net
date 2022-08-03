@@ -5,8 +5,6 @@
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kontent-ai)
 [![Discord](https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent.ai%20Discord&logo=discord)](https://discord.gg/SKCxwPtevJ)
 
-> ℹ️ This repository is currently being migrated from Kentico GitHub organization. Some aspects may still remain unchanged, thank you for your understanding!
-
 | Package                       |                                                                    Version                                                                    |                                                                  Downloads                                                                  |                        Compatibility                         |           Documentation           |
 | ----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------: | :-------------------------------: |
 | Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) | [📖](#using-the-managementclient) |
