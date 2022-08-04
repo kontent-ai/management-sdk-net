@@ -3,7 +3,7 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
