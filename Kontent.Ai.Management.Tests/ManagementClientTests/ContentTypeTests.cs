@@ -8,6 +8,8 @@ using Kontent.Ai.Management.Tests.Base;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
+using Kontent.Ai.Management.Models.Types.Patch;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
