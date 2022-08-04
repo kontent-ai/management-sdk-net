@@ -3,7 +3,6 @@ using FluentAssertions.Execution;
 using Kontent.Ai.Management.Tests.Base.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,21 +34,13 @@ internal class Expectations
         _expectedResponse = default;
         _deserializeSettings = new()
         {
-            Converters = new List<JsonConverter> { new ContentTypeOperationBaseModelConverter() }
+            Converters = new List<JsonConverter> { new ContentTypeOperationBaseModelConverter(), new TaxonomyGroupOperationBaseModelConverter() }
         };
     }
 
     public Expectations Url(string url)
     {
         _expectedUrl = url;
-        return this;
-    }
-
-    public Expectations RequestPayload<T>(T requestPayload, Func<string, T> deserializer) where T : class
-    {
-        _expectedRequest = deserializer(_httpClientMockData.Payload);
-        _request = requestPayload;
-
         return this;
     }
 

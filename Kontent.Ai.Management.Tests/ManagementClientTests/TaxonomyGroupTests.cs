@@ -7,12 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using Xunit;
-using Kentico.Kontent.Management.Extensions;
-using static Kentico.Kontent.Management.Tests.Base.Scenario;
+using Kontent.Ai.Management.Extensions;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class TaxonomyGroupTests : IClassFixture<FileSystemFixture>
+public class TaxonomyGroupTests
 {
     private readonly Scenario _scenario;
 
