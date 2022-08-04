@@ -18,7 +18,7 @@ using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class LanguageVariantTests : IClassFixture<FileSystemFixture>
+public class LanguageVariantTests
 {
     private readonly Scenario _scenario;
     
