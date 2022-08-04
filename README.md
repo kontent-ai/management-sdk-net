@@ -5,8 +5,6 @@
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kontent-ai)
 [![Discord](https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent.ai%20Discord&logo=discord)](https://discord.gg/SKCxwPtevJ)
 
-> ℹ️ This repository is currently being migrated from Kentico GitHub organization. Some aspects may still remain unchanged, thank you for your understanding!
-
 | Package                       |                                                                    Version                                                                    |                                                                  Downloads                                                                  |                        Compatibility                         |           Documentation           |
 | ----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------: | :-------------------------------: |
 | Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         | [`net6.0`](https://dotnet.microsoft.com/download/dotnet/6.0) | [📖](#using-the-managementclient) |
@@ -480,20 +478,12 @@ For more developer resources, visit the [overview of .NET tools](https://kontent
 Prerequisites:
 
 **Required:**
-[.NET Core SDK](https://www.microsoft.com/net/download/core).
+[.NET](https://dotnet.microsoft.com/en-us/download/dotnet).
 
 Optional:
 
-- [Visual Studio 2017](https://www.visualstudio.com/vs/) for full experience
+- [Visual Studio](https://visualstudio.microsoft.com/vs/) for full experience
 - or [Visual Studio Code](https://code.visualstudio.com/)
-
-#### Tests
-
-Tests can run against Live endpoint or mocked filesystem. `TestUtils.TestRunType` specifies target environment for tests. Commit always with TestRunType.MockFromFileSystem.
-
-> _The following section is meant to be used by maintainers and people with access to the live endpoint project._
->
-> For updating mocked data use `TestUtils.TestRunType.LiveEndPoint_SaveToFileSystem`. When using `TestRunType.MockFromFileSystem`, at the build time, data from `Data` directory are being used as a mocked data.
 
 ### Creating a new release
 
