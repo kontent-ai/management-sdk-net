@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
-using Kontent.Ai.Management.Models.Types.Patch;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
