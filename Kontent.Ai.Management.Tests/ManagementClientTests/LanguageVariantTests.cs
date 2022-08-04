@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class LanguageVariantTests : IClassFixture<FileSystemFixture>
+public class LanguageVariantTests
 {
     private readonly Scenario _scenario;
     
