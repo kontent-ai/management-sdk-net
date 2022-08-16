@@ -1022,8 +1022,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("PostFileResponse.json");
 
-        var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "kai-logo-hor-pos-rgb.png");
-        var contentType = "image/png";
+        var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "which-brewing-fits-you-1080px.jpg");
+        var contentType = "image/jpeg";
 
         // Binary file reference to be used when adding a new asset
         var response = await client.UploadFileAsync(new FileContentSource(filePath, contentType));
