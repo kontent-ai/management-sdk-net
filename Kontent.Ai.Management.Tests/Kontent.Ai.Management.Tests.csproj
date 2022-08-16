@@ -34,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Data\kai-logo-hor-pos-rgb.png">
+		<None Update="Data\which-brewing-fits-you-1080px.jpg">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Data\brno-cafe-1080px.jpg">
