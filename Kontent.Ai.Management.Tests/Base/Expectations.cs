@@ -34,7 +34,12 @@ internal class Expectations
         _expectedResponse = default;
         _deserializeSettings = new()
         {
-            Converters = new List<JsonConverter> { new ContentTypeOperationBaseModelConverter(), new TaxonomyGroupOperationBaseModelConverter() }
+            Converters = new List<JsonConverter> 
+            { 
+                new ContentTypeOperationBaseModelConverter(),
+                new TaxonomyGroupOperationBaseModelConverter(),
+                new ContentTypeSnippetOperationBaseModelConverter()
+            }
         };
     }
 
