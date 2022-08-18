@@ -631,6 +631,30 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.NotNull(response);
     }
 
+    // DocSection: mapi_v2_get_validation_task
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void GetValidationTask()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+
+        var response = await client.GetAsyncValidationTaskAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
+
+        Assert.NotNull(response);
+    }
+
+    // DocSection: mapi_v2_get_validation_issues
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void GetValidationIssues()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTaskIssues.json");
+
+        var response = await client.ListAsyncValidationTaskIssuesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
+
+        Assert.NotNull(response);
+    }
+
     // DocSection: cm_api_v2_patch_asset_folders
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -1438,6 +1462,18 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")
             }
         });
+
+        Assert.NotNull(response);
+    }
+
+    // DocSection: mapi_v2_post_validate_async
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void PostValidateProject()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+
+        var response = await client.InitiateProjectAsyncValidationTaskAsync();
 
         Assert.NotNull(response);
     }
