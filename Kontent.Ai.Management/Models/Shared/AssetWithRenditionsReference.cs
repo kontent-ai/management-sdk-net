@@ -38,6 +38,11 @@ public sealed class AssetWithRenditionsReference
     [JsonProperty("renditions", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IEnumerable<Reference> Renditions => _renditions;
 
+    [JsonConstructor]
+    private AssetWithRenditionsReference(Guid id) : this(Reference.ById(id), null as IEnumerable<Reference>)
+    {
+    }
+
     /// <summary>
     /// Creates instance from asset reference and a single rendition reference.
     /// </summary>

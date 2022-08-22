@@ -99,7 +99,14 @@
       "external_id": "62eb9881-e222-6b81-91d2-fdf052726414",
       "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56",
       "codename": "teaser_image",
-      "is_non_localizable": false
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "1592be38-2db9-4037-a756-49204b736442" }
+          ]
+        }
+      }
     },
     {
       "name": "Post date",
@@ -169,7 +176,14 @@
       "external_id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
       "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1",
       "codename": "related_articles",
-      "is_non_localizable": false
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "3ab14319-bf46-464a-8635-301011d8702a" }
+          ]
+        }
+      }
     },
     {
       "maximum_text_length": null,
