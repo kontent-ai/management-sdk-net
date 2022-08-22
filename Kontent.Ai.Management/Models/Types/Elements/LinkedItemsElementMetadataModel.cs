@@ -40,6 +40,12 @@ public class LinkedItemsElementMetadataModel : ElementMetadataBase
     public IEnumerable<Reference> AllowedTypes { get; set; }
 
     /// <summary>
+    /// Specifies the default value for the element value.
+    /// </summary>
+    [JsonProperty("default")]
+    public LinkedItemsDefaultValueModel DefaultValue { get; set; }
+
+    /// <summary>
     /// Represents the type of the content type element.
     /// </summary>
     public override ElementMetadataType Type => ElementMetadataType.LinkedItems;
