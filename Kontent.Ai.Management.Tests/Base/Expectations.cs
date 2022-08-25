@@ -47,7 +47,7 @@ internal class Expectations
     public Expectations RequestPayload<T>(T requestPayload) where T : class
     {
         _expectedRequest = JsonConvert.DeserializeObject<T>(_httpClientMockData.Payload, _deserializeSettings);
-        _request = requestPayload;
+        _request = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(requestPayload), _deserializeSettings);
 
         return this;
     }
