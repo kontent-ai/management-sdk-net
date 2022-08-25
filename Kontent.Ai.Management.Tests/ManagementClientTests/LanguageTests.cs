@@ -1,5 +1,4 @@
 using FluentAssertions;
-using FluentAssertions.Execution;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.Shared;
@@ -11,20 +10,102 @@ namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class LanguageTests : IClassFixture<FileSystemFixture>
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public LanguageTests(FileSystemFixture fileSystemFixture)
+    public LanguageTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("Language");
+        _scenario = new Scenario(folder: "Language");
     }
 
     [Fact]
-    public async void CreateLanguage_CreatesLanguage()
+    public async void ListLanguagesAsync_ListsLanguages()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("CreateLanguage_CreatesLanguage.json");
+        var client = _scenario
+            .WithResponses("LanguagesPage1.json", "LanguagesPage2.json", "LanguagesPage3.json")
+            .CreateManagementClient();
 
-        var newLanguage = new LanguageCreateModel
+        var response = await client.ListLanguagesAsync().GetAllAsync();
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .ListingResponse(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages")
+            .Validate();
+    }
+    
+    [Fact]
+    public async void GetLanguageAsync_ById_GetsLanguage()
+    {
+        var client = _scenario
+        .WithResponses("SingleLanguageResponse.json")
+        .CreateManagementClient();
+
+        var identifier = Reference.ById(Guid.NewGuid());
+        var response = await client.GetLanguageAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/{identifier.Id}")
+            .Validate();
+    }
+    
+    [Fact]
+    public async void GetLanguageAsync_ByCodename_GetsLanguage()
+    {
+        var client = _scenario
+        .WithResponses("SingleLanguageResponse.json")
+        .CreateManagementClient();
+
+        var identifier = Reference.ByCodename("mycodename");
+        var response = await client.GetLanguageAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/codename/{identifier.Codename}")
+            .Validate();
+    }
+
+    [Fact]
+    public async void GetLanguageAsync_ByExternalId_GetsLanguage()
+    {
+        var client = _scenario
+        .WithResponses("SingleLanguageResponse.json")
+        .CreateManagementClient();
+
+        var identifier = Reference.ByExternalId("externalId");
+        var response = await client.GetLanguageAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/external-id/{identifier.ExternalId}")
+            .Validate();
+    }
+
+    [Fact]
+    public async void GetLanguageAsync_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.GetLanguageAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+    
+    [Fact]
+    public async void CreateLanguageAsync_CreatesLanguage()
+    {
+        var client = _scenario
+            .WithResponses("CreateLanguage_CreatesLanguage.json")
+            .CreateManagementClient();
+
+        var expected = _scenario.GetExpectedResponse<LanguageModel>();
+
+        var createModel = new LanguageCreateModel
         {
             Name = "German (Germany)",
             Codename = "de-DE",
@@ -33,110 +114,114 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             FallbackLanguage = Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"))
         };
 
-        var response = await client.CreateLanguageAsync(newLanguage);
+        var response = await client.CreateLanguageAsync(createModel);
 
-        using (new AssertionScope())
-        {
-            response.Name.Should().BeEquivalentTo(newLanguage.Name);
-            response.Codename.Should().BeEquivalentTo(newLanguage.Codename);
-            response.ExternalId.Should().BeEquivalentTo(newLanguage.ExternalId);
-            response.FallbackLanguage.Id.Should().Be(newLanguage.FallbackLanguage.Id);
-        }
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Post)
+            .RequestPayload(createModel)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages")
+            .Validate();
     }
 
     [Fact]
-    public async void ListLanguages_ListsLanguages()
+    public async void CreateLanguageAsync_CreateModelIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguagesPage1.json", "LanguagesPage2.json", "LanguagesPage3.json");
+        var client = _scenario.CreateManagementClient();
 
-        var expectedItems = _fileSystemFixture.GetItemsOfExpectedListingResponse<LanguageModel>("LanguagesPage1.json", "LanguagesPage2.json", "LanguagesPage3.json");
-
-        var response = await client.ListLanguagesAsync().GetAllAsync();
-
-        response.Should().BeEquivalentTo(expectedItems);
+        await client.Invoking(x => x.CreateLanguageAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void GetLanguage_ById_GetsLanguage()
+    public async void ModifyLanguagesAsync_ById_ModifiesLanguages()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SingleLanguageResponse.json");
+        var client = _scenario
+            .WithResponses("ModifyLanguages_Replace_ModifiesLanguages.json")
+            .CreateManagementClient();
+        var changes = GetChanges();
 
-        var response = await client.GetLanguageAsync(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")));
+        var identifier = Reference.ById(Guid.NewGuid());
+        var response = await client.ModifyLanguageAsync(identifier, changes);
 
-        using (new AssertionScope())
-        {
-            response.Name.Should().BeEquivalentTo("Default project language");
-            response.Codename.Should().BeEquivalentTo("default");
-            response.ExternalId.Should().BeEquivalentTo("string");
-            response.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-            response.IsActive.Should().BeTrue();
-            response.IsDefault.Should().BeTrue();
-        }
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/{identifier.Id}")
+            .Validate();
     }
 
     [Fact]
-    public async void GetLanguage_ByCodename_GetsLanguage()
+    public async void ModifyLanguagesAsync_ByCodename_ModifiesLanguages()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SingleLanguageResponse.json");
+        var client = _scenario
+            .WithResponses("ModifyLanguages_Replace_ModifiesLanguages.json")
+            .CreateManagementClient();
+        var changes = GetChanges();
 
-        var response = await client.GetLanguageAsync(Reference.ByCodename("default"));
+        var identifier = Reference.ByCodename("code");
+        var response = await client.ModifyLanguageAsync(identifier, changes);
 
-        using (new AssertionScope())
-        {
-            response.Name.Should().BeEquivalentTo("Default project language");
-            response.Codename.Should().BeEquivalentTo("default");
-            response.ExternalId.Should().BeEquivalentTo("string");
-            response.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-            response.IsActive.Should().BeTrue();
-            response.IsDefault.Should().BeTrue();
-        }
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/codename/{identifier.Codename}")
+            .Validate();
     }
 
     [Fact]
-    public async void GetLanguage_ByExternalId_GetsLanguage()
+    public async void ModifyLanguagesAsync_ByExternalId_ModifiesLanguages()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SingleLanguageResponse.json");
+        var client = _scenario
+            .WithResponses("ModifyLanguages_Replace_ModifiesLanguages.json")
+            .CreateManagementClient();
+        var changes = GetChanges();
 
-        var response = await client.GetLanguageAsync(Reference.ByExternalId("string"));
+        var identifier = Reference.ByExternalId("externalId");
+        var response = await client.ModifyLanguageAsync(identifier, changes);
 
-        using (new AssertionScope())
-        {
-            response.Name.Should().BeEquivalentTo("Default project language");
-            response.Codename.Should().BeEquivalentTo("default");
-            response.ExternalId.Should().BeEquivalentTo("string");
-            response.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-            response.IsActive.Should().BeTrue();
-            response.IsDefault.Should().BeTrue();
-        }
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/external-id/{identifier.ExternalId}")
+            .Validate();
     }
 
     [Fact]
-    public async void ModifyLanguages_Replace_ModifiesLanguages()
+    public async void ModifyLanguages_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ModifyLanguages_Replace_ModifiesLanguages.json");
+        var client = _scenario.CreateManagementClient();
 
-        var patchModel = new[]
-        {
-            new LanguagePatchModel
-            {
-                PropertyName = LanguagePropertyName.FallbackLanguage,
-                Value = new {
-                    Codename = "en-US"
-                }
-            },
-            new LanguagePatchModel
-            {
-                PropertyName = LanguagePropertyName.Name,
-                Value = "Deutsch"
-            }
-        };
-
-        var modifiedLanguage = await client.ModifyLanguageAsync(Reference.ByCodename("de-DE"), patchModel);
-        using (new AssertionScope())
-        {
-            modifiedLanguage.Name.Should().BeEquivalentTo("Deutsch");
-            modifiedLanguage.FallbackLanguage.Id.Should().Be(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-
-        }
+        await client.Invoking(x => x.ModifyLanguageAsync(null, GetChanges())).Should().ThrowAsync<ArgumentNullException>();
     }
+
+    private static LanguagePatchModel[] GetChanges() => new[]
+    {
+        new LanguagePatchModel
+        {
+            PropertyName = LanguagePropertyName.FallbackLanguage,
+            Value = Reference.ByCodename("en-US")
+        },
+        new LanguagePatchModel
+        {
+            PropertyName = LanguagePropertyName.Name,
+            Value = "Deutsch"
+        },
+        new LanguagePatchModel
+        {
+            PropertyName= LanguagePropertyName.Codename,
+            Value = "de-DE"
+        },
+        new LanguagePatchModel
+        {
+            PropertyName = LanguagePropertyName.IsActive,
+            Value = false
+        }
+    };
 }
