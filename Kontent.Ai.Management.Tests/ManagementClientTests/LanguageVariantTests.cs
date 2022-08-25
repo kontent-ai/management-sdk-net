@@ -259,12 +259,10 @@ public class LanguageVariantTests
 
         var response = await client.UpsertLanguageVariantAsync(identifier, GetExpectedComplexTestModel().Elements);
 
-        var expectedRequest = SerializeAndDeserialize(new LanguageVariantUpsertModel { Elements = GetExpectedLanguageVariantModel().Elements });
-
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .RequestPayload(expectedRequest)
+            .RequestPayload(new LanguageVariantUpsertModel { Elements = GetExpectedLanguageVariantModel().Elements })
             .Response(response, GetExpectedComplexTestModel())
             .Url(expectedUrl)
             .Validate();
@@ -304,12 +302,10 @@ public class LanguageVariantTests
 
         var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 
-        var expectedRequest = SerializeAndDeserialize(upsertModel);
-
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .RequestPayload(expectedRequest)
+            .RequestPayload(upsertModel)
             .Response(response, expected)
             .Url(expectedUrl)
             .Validate();
@@ -347,12 +343,10 @@ public class LanguageVariantTests
 
         var response = await client.UpsertLanguageVariantAsync(identifier, expected);
 
-        var expectedRequest = SerializeAndDeserialize(new LanguageVariantUpsertModel(expected));
-
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .RequestPayload(expectedRequest)
+            .RequestPayload(new LanguageVariantUpsertModel(expected))
             .Response(response, expected)
             .Url(expectedUrl)
             .Validate();
@@ -419,12 +413,6 @@ public class LanguageVariantTests
         Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
     };
 
-    private T SerializeAndDeserialize<T>(T @object)
-    {
-        var serialized = JsonConvert.SerializeObject(@object);
-        return JsonConvert.DeserializeObject<T>(serialized);
-    }
-
     private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
     {
 
@@ -454,9 +442,9 @@ public class LanguageVariantTests
             }
         }
 
-        protected (Reference Identifier, string UrlSegment) ById => (Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")), "4b628214-e4fe-4fe0-b1ff-955df33e1515");
-        protected (Reference Identifier, string UrlSegment) ByCodename => (Reference.ByCodename("codename"), "codename/codename");
-        protected (Reference Identifier, string UrlSegment) ByExternalId => (Reference.ByExternalId("external-id"), "external-id/external-id");
+        static protected (Reference Identifier, string UrlSegment) ById => (Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")), "4b628214-e4fe-4fe0-b1ff-955df33e1515");
+        static protected (Reference Identifier, string UrlSegment) ByCodename => (Reference.ByCodename("codename"), "codename/codename");
+        static protected (Reference Identifier, string UrlSegment) ByExternalId => (Reference.ByExternalId("external-id"), "external-id/external-id");
     }
 
     private class CombinationOfIdentifiers : CombinationOfIdentifiersAndUrl, IEnumerable<object[]>
