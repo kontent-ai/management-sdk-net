@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Modules.ActionInvoker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace Kontent.Ai.Management.Models.Shared;
 /// <summary>
 /// Represents identifier of asset with renditions.
 /// </summary>
+[JsonConverter(typeof(AssetWithRenditionsReferenceConverter))]
 public sealed class AssetWithRenditionsReference
 {
     private readonly IList<Reference> _renditions;
@@ -37,11 +39,6 @@ public sealed class AssetWithRenditionsReference
     /// </summary>
     [JsonProperty("renditions", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IEnumerable<Reference> Renditions => _renditions;
-
-    [JsonConstructor]
-    private AssetWithRenditionsReference(Guid id) : this(Reference.ById(id), null as IEnumerable<Reference>)
-    {
-    }
 
     /// <summary>
     /// Creates instance from asset reference and a single rendition reference.
