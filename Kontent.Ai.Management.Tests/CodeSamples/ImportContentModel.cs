@@ -4,6 +4,7 @@ using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 using Kontent.Ai.Management.Tests.Base;
 using Xunit;
 

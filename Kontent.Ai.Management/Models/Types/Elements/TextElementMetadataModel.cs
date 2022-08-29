@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 

@@ -24,6 +24,7 @@ using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
+using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.ModelBuilders;

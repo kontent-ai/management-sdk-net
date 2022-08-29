@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Kontent.Ai.Management.Models.Types.Elements;
+namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 /// <summary>
 /// Base class for the element's default value definition
