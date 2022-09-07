@@ -99,7 +99,8 @@ public abstract class BaseElement
                 return new DateTimeElement
                 {
                     Element = Reference.FromDynamic(source.element),
-                    Value = Convert.ToDateTime(source.value)
+                    Value = Convert.ToDateTime(source.value),
+                    DisplayTimeZone = source.display_timezone?.ToString()
                 };
             }
             else if (type == typeof(LinkedItemsElement))

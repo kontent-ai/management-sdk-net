@@ -14,4 +14,10 @@ public class ScheduleModel
     /// </summary>
     [JsonProperty("scheduled_to")]
     public DateTimeOffset ScheduleTo { get; set; }
+
+    /// <summary>
+    /// IANA time zone name used to display time offset of the scheduled publish date in the UI.
+    /// </summary>
+    [JsonProperty("display_timezone")]
+    public string DisplayTimeZone { get; set; }
 }

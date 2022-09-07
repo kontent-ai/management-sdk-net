@@ -97,7 +97,7 @@ public class Readme : IClassFixture<FileSystemFixture>
         var response = await client.GetLanguageVariantAsync<ArticleModel>(identifier);
 
         response.Elements.Title = new TextElement() { Value = "On Roasts - changed" };
-        response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) };
+        response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4), DisplayTimeZone = "Europe/Prague" };
 
         // Remove next line in codesample
         client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
@@ -166,7 +166,8 @@ public class Readme : IClassFixture<FileSystemFixture>
             {
                 // You can use `Reference.ById` if you don't have the model
                 Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()),
-                Value = new DateTime(2018, 7, 4)
+                Value = new DateTime(2018, 7, 4),
+                DisplayTimeZone = "Europe/Prague"
             },
         });
 
@@ -187,7 +188,7 @@ public class Readme : IClassFixture<FileSystemFixture>
         var stronglyTypedElements = new ArticleModel
         {
             Title = new TextElement() { Value = "On Roasts - changed" },
-            PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) },
+            PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4), DisplayTimeZone = "Europe/London" },
         };
 
         // Specifies the content item and the language variant

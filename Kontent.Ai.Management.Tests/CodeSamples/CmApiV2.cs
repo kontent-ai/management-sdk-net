@@ -1643,7 +1643,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     new DateTimeElement
                     {
                         Element = Reference.ByCodename("post_date"),
-                        Value = DateTime.Parse("2014-11-07T00:00:00Z")
+                        Value = DateTime.Parse("2014-11-07T00:00:00Z"),
+                        DisplayTimeZone = "Australia/Sydney"
                     },
                     new TextElement
                     {
@@ -1757,7 +1758,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         // Scheduled publish
         var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
+            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00"),
+            DisplayTimeZone = "Europe/London"
         }));
 
         Assert.Null(immediateException);
@@ -1784,7 +1786,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         // Scheduled unpublish
         var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00")
+            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00"),
+            DisplayTimeZone = "Europe/London"
         }));
 
         Assert.Null(immediateException);
