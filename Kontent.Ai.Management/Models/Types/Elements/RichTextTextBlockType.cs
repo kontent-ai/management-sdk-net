@@ -47,5 +47,17 @@ public enum RichTextTextBlockType
     /// HeadingFour
     /// </summary>
     [EnumMember(Value = "heading-four")]
-    HeadingFour
+    HeadingFour,
+    
+    /// <summary>
+    /// HeadingFive
+    /// </summary>
+    [EnumMember(Value = "heading-five")]
+    HeadingFive,
+    
+    /// <summary>
+    /// HeadingSix
+    /// </summary>
+    [EnumMember(Value = "heading-six")]
+    HeadingSix
 }
