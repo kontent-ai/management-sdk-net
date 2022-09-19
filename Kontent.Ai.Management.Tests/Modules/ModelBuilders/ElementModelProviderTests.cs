@@ -10,6 +10,7 @@ using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Modules.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+using FluentAssertions;
 
 namespace Kontent.Ai.Management.Tests.Modules.ModelBuilders;
 
@@ -32,6 +33,7 @@ public class ElementModelProviderTests
         Assert.Equal(expected.Title.Value, actual.Title.Value);
         Assert.Equal(expected.Rating.Value, actual.Rating.Value);
         Assert.Equal(expected.PostDate.Value, actual.PostDate.Value);
+        Assert.Equal(expected.PostDate.DisplayTimeZone, actual.PostDate.DisplayTimeZone);
         Assert.Equal(expected.UrlPattern.Mode, actual.UrlPattern.Mode);
         Assert.Equal(expected.UrlPattern.Value, actual.UrlPattern.Value);
         Assert.Equal(expected.BodyCopy.Value, actual.BodyCopy.Value);
@@ -70,9 +72,9 @@ public class ElementModelProviderTests
                 elementObject.element.id == type.GetProperty(nameof(model.SelectedForm))?.GetKontentElementId()
         );
 
-        var postDateValue = dynamicElements.SingleOrDefault(elementObject =>
+        var postDateElement = dynamicElements.SingleOrDefault(elementObject =>
              elementObject.element.id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId()
-        ).value;
+        );
 
         var urlPatternElement = dynamicElements.SingleOrDefault(elementObject =>
              elementObject.element.id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId()
@@ -102,7 +104,8 @@ public class ElementModelProviderTests
         Assert.Equal(model.Rating.Value, ratingValue);
         Assert.Equal(model.SelectedForm.Value, selectedForm.value);
         Assert.Equal(model.SelectedForm.SearchableValue, selectedForm.searchable_value);
-        Assert.Equal(model.PostDate.Value, postDateValue);
+        Assert.Equal(model.PostDate.Value, postDateElement.value);
+        Assert.Equal(model.PostDate.DisplayTimeZone, postDateElement.display_timezone);
         Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
         Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
         Assert.Equal(model.BodyCopy.Value, bodyCopyElement.value);
@@ -128,7 +131,7 @@ public class ElementModelProviderTests
                 SearchableValue = "Almighty form!",
 
             },
-            PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
+            PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4), DisplayTimeZone = "Australia/Sydney" },
             UrlPattern = new UrlSlugElement { Value = "urlslug", Mode = "custom" },
             BodyCopy = new RichTextElement
             {
@@ -185,7 +188,8 @@ public class ElementModelProviderTests
             new
             {
                 element = new { id = type.GetProperty(nameof(ComplexTestModel.PostDate))?.GetKontentElementId() },
-                value = model.PostDate.Value
+                value = model.PostDate.Value,
+                display_timezone = model.PostDate.DisplayTimeZone
             },
             new
             {
