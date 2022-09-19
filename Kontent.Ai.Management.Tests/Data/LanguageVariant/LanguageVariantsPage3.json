@@ -60,7 +60,8 @@
           "element": {
             "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
           },
-          "value": "2017-07-04T00:00:00Z"
+          "value": "2017-07-04T00:00:00Z",
+          "display_timezone": null
         },
         {
           "element": {
@@ -236,7 +237,8 @@
           "element": {
             "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7"
           },
-          "value": "2017-07-04T00:00:00Z"
+          "value": "2017-07-04T00:00:00Z",
+          "display_timezone": null
         },
         {
           "element": {

@@ -10,7 +10,8 @@
       "element": {
         "id": "abe785d6-9146-4cab-8096-cba555d3840f"
       },
-      "value": "2018-07-04T00:00:00Z"
+      "value": "2018-07-04T00:00:00Z",
+      "display_timezone": "Europe/Prague"
     },
     {
       "components": [

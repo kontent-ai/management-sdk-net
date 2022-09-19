@@ -25,7 +25,7 @@ internal static class ElementsData
             GetElementAsDynamic(complexModel.MetaKeywords.Element.Id, complexModel.MetaKeywords.Value),
             GetArrayElementAsDynamic(complexModel.Options.Element.Id, complexModel.Options.Value),
             GetArrayElementAsDynamic(complexModel.Personas.Element.Id, complexModel.Personas.Value),
-            GetElementAsDynamic(complexModel.PostDate.Element.Id, complexModel.PostDate.Value),
+            GetDateTimeAsDynamic(complexModel.PostDate.Element.Id, complexModel.PostDate.Value, complexModel.PostDate.DisplayTimeZone),
             GetArrayElementAsDynamic(complexModel.RelatedArticles.Element.Id, complexModel.RelatedArticles.Value),
             GetElementAsDynamic(complexModel.Rating.Element.Id, complexModel.Rating.Value),
             GetCustomElementAsDynamic(complexModel.SelectedForm.Element.Id, complexModel.SelectedForm.Value, complexModel.SelectedForm.SearchableValue),
@@ -80,7 +80,8 @@ internal static class ElementsData
         PostDate = new DateTimeElement
         {
             Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()),
-            Value = new DateTime(2017, 7, 4)
+            Value = new DateTime(2017, 7, 4),
+            DisplayTimeZone = null
         },
         RelatedArticles = new LinkedItemsElement
         {
@@ -223,6 +224,16 @@ internal static class ElementsData
         element.element = GetElement(elementId.Value.ToString("d"));
         element.value = value;
         element.mode = mode;
+
+        return element;
+    }
+
+    private static dynamic GetDateTimeAsDynamic(Guid? elementId, dynamic value, string displayTimeZone)
+    {
+        dynamic element = new ExpandoObject();
+        element.element = GetElement(elementId.Value.ToString("d"));
+        element.value = value;
+        element.display_timezone = displayTimeZone;
 
         return element;
     }
