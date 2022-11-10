@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 
@@ -42,19 +43,18 @@ internal static class HttpRequestHeadersExtensions
 
     private static string GetSdkVersion()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-        var sdkVersion = fileVersionInfo.ProductVersion;
+        var assembly = typeof(ManagementClient).Assembly;
+        var sdkVersion = assembly
+            .GetCustomAttributes<AssemblyInformationalVersionAttribute>().FirstOrDefault()?.InformationalVersion;
 
         return sdkVersion;
     }
 
     private static string GetSdkPackageId()
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = typeof(ManagementClient).Assembly;
         var sdkPackageId = assembly.GetName().Name;
 
         return sdkPackageId;
-
     }
 }
