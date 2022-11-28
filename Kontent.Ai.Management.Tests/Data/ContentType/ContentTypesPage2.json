@@ -13,8 +13,7 @@
           "type": "guidelines",
           "external_id": "14cba67c-fc38-63f9-93c7-c29c03c20292",
           "id": "55bd6dec-5390-5b65-91fa-a1532cb8153a",
-          "codename": "n14cba67c_fc38_63f9_93c7_c29c03c20292",
-          "is_non_localizable": false
+          "codename": "n14cba67c_fc38_63f9_93c7_c29c03c20292"
         },
         {
           "maximum_text_length": null,
@@ -153,8 +152,7 @@
           "type": "snippet",
           "external_id": "75c6b7ad-eabf-e936-2843-bd31f0cfff1d",
           "id": "15305a25-375f-58c9-8136-892648686cdf",
-          "codename": "metadata",
-          "is_non_localizable": false
+          "codename": "metadata"
         }
       ]
     },
@@ -171,8 +169,7 @@
           "type": "guidelines",
           "external_id": "327e98b0-f269-c0e5-230a-46b7d0be0f45",
           "id": "6d73a092-aace-57d3-a8ea-676421fea646",
-          "codename": "n327e98b0_f269_c0e5_230a_46b7d0be0f45",
-          "is_non_localizable": false
+          "codename": "n327e98b0_f269_c0e5_230a_46b7d0be0f45"
         },
         {
           "maximum_text_length": null,

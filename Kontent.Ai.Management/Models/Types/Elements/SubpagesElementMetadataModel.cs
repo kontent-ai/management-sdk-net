@@ -22,6 +22,12 @@ public class SubpagesElementMetadataModel : ElementMetadataBase
     public bool IsRequired { get; set; }
 
     /// <summary>
+    /// Gets or sets element is non-localizable
+    /// </summary>
+    [JsonProperty("is_non_localizable")]
+    public bool IsNonLocalizable { get; set; }
+
+    /// <summary>
     /// Gets or sets the element's guidelines, providing instructions on what to fill in.
     /// </summary>
     [JsonProperty("guidelines")]
