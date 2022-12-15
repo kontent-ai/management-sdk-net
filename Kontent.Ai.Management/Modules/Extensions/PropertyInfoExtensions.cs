@@ -20,4 +20,16 @@ public static class PropertyInfoExtensions
             ? throw new InvalidOperationException($"Cannot get Kontent.ai element id as there is no attribute of type {nameof(KontentElementIdAttribute)}")
             : Guid.Parse(property.GetCustomAttribute<KontentElementIdAttribute>()?.ElementId);
     }
+
+    /// <summary>
+    /// Get Element External ID from strongly typed model property.
+    /// </summary>
+    public static string GetKontentElementExternalId(this PropertyInfo property)
+    {
+        var attribute = property.GetCustomAttribute<KontentElementExternalIdAttribute>();
+
+        return attribute == null
+            ? throw new InvalidOperationException($"Cannot get Kontent.ai element external id as there is no attribute of type {nameof(KontentElementExternalIdAttribute)}")
+            : property.GetCustomAttribute<KontentElementExternalIdAttribute>()?.ElementExternalId;
+    }
 }
