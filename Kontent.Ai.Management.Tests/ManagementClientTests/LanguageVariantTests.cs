@@ -3,10 +3,8 @@ using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
 using System.Linq;
-using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Data;
 using Kontent.Ai.Management.Tests.Base;
-using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.LanguageVariants;
@@ -29,7 +27,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
         var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
         var expected = new[] { "00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000" }
-        .Select(GetExpectedComplexTestModel);
+        .Select(LanguageVariantsData.GetExpectedComplexTestModel);
 
         var identifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
 
@@ -53,7 +51,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
         var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
 
         var expected = new[] { "00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000" }
-        .Select(x => GetExpectedLanguageVariantModel(languageId: x));
+        .Select(x => LanguageVariantsData.GetExpectedLanguageVariantModel(languageId: x));
 
         var identifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
 
@@ -84,7 +82,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
             (itemId: "10000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
             (itemId: "20000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
             (itemId: "20000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000")
-        }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
+        }.Select(x => LanguageVariantsData.GetExpectedLanguageVariantModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
 
@@ -115,7 +113,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
             (itemId: "10000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
             (itemId: "20000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
             (itemId: "20000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000")
-        }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
+        }.Select(x => LanguageVariantsData.GetExpectedLanguageVariantModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
 
@@ -146,7 +144,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
             (itemId: "10000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
             (itemId: "20000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
             (itemId: "20000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000")
-        }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
+        }.Select(x => LanguageVariantsData.GetExpectedLanguageVariantModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
 
@@ -169,7 +167,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
-        var expected = GetExpectedComplexTestModel();
+        var expected = LanguageVariantsData.GetExpectedComplexTestModel();
 
         var itemIdentifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
         var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
@@ -194,7 +192,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
-        var expected = GetExpectedLanguageVariantModel();
+        var expected = LanguageVariantsData.GetExpectedLanguageVariantModel();
 
         var itemIdentifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
         var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
@@ -219,13 +217,13 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
-        var expected = GetExpectedComplexTestModel();
+        var expected = LanguageVariantsData.GetExpectedComplexTestModel();
 
         var itemIdentifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
         var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
         var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-        var response = await client.UpsertLanguageVariantAsync(identifier, GetExpectedComplexTestModel().Elements);
+        var response = await client.UpsertLanguageVariantAsync(identifier, LanguageVariantsData.GetExpectedComplexTestModel().Elements);
 
         response.Should().BeEquivalentTo(expected);
     }
@@ -257,7 +255,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
-        var expected = GetExpectedLanguageVariantModel();
+        var expected = LanguageVariantsData.GetExpectedLanguageVariantModel();
 
         var upsertModel = new LanguageVariantUpsertModel { Elements = expected.Elements };
 
@@ -297,7 +295,7 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
 
-        var expected = GetExpectedLanguageVariantModel();
+        var expected = LanguageVariantsData.GetExpectedLanguageVariantModel();
 
         var itemIdentifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
         var languageIdentifier = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024"));
@@ -341,24 +339,4 @@ public class LanguageVariantTests : IClassFixture<FileSystemFixture>
 
         await deleteTaxonomy.Should().NotThrowAsync();
     }
-
-    private static LanguageVariantModel GetExpectedLanguageVariantModel(
-        string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024",
-        string itemId = "4b628214-e4fe-4fe0-b1ff-955df33e1515") => new()
-        {
-            Item = Reference.ById(Guid.Parse(itemId)),
-            Language = Reference.ById(Guid.Parse(languageId)),
-            LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
-            Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
-            Elements = ElementsData.GetExpectedDynamicElements(),
-        };
-
-    private static LanguageVariantModel<ComplexTestModel> GetExpectedComplexTestModel(string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024") => new()
-    {
-        Item = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")),
-        Language = Reference.ById(Guid.Parse(languageId)),
-        LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
-        Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
-        Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
-    };
 }

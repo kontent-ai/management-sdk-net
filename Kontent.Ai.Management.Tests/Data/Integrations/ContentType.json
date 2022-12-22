@@ -1,0 +1,271 @@
+{
+  "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7",
+  "codename": "article",
+  "last_modified": "2021-07-26T14:58:19.1748311Z",
+  "external_id": "b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89",
+  "name": "Article",
+  "content_groups": [],
+  "elements": [
+    {
+      "maximum_text_length": null,
+      "name": "Title",
+      "guidelines": "The title should fit within 60 characters.Our voice and tone recommendations: — avoid coffee jargon.",
+      "is_required": false,
+      "type": "text",
+      "external_id": "85d5efc6-f47e-2fde-a6f5-0950fe89ecd1",
+      "id": "ba7c8840-bcbc-5e3b-b292-24d0a60f3977",
+      "codename": "title",
+      "validation_regex": null,
+      "is_non_localizable": true,
+      "default": {
+        "global": {
+          "value": "This is the default value of the element."
+        }
+      }
+    },
+    {
+      "source_url": "https://example.com",
+      "json_parameters": null,
+      "allowed_elements": [],
+      "name": "SelectedForm",
+      "guidelines": null,
+      "is_required": false,
+      "type": "custom",
+      "id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd",
+      "external_id": "47bf7d6d-285d-4ed0-9919-1d1a98b43acd",
+      "codename": "selectedform",
+      "is_non_localizable": false
+    },
+    {
+      "name": "Rating",
+      "guidelines": null,
+      "is_required": false,
+      "type": "number",
+      "id": "773940f4-9e67-4a26-a93f-67e55fd7d837",
+      "external_id": "773940f4-9e67-4a26-a93f-67e55fd7d837",
+      "codename": "rating",
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": "10"
+        }
+      }
+    },
+    {
+      "mode": "multiple",
+      "options": [
+        {
+          "id": "00c0f86a-7c51-4e60-abeb-a150e9092e53",
+          "codename": "paid",
+          "name": "Paid"
+        },
+        {
+          "id": "8972dc90-ae2e-416e-995d-95df6c77e3b2",
+          "codename": "featured",
+          "name": "Featured"
+        }
+      ],
+      "name": "Options",
+      "guidelines": null,
+      "is_required": false,
+      "type": "multiple_choice",
+      "id": "53a25074-b136-4a1f-a16d-3c130f696c66",
+      "external_id": "53a25074-b136-4a1f-a16d-3c130f696c66",
+      "codename": "options",
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "8972dc90-ae2e-416e-995d-95df6c77e3b2" }
+          ]
+        }
+      }
+    },
+    {
+      "asset_count_limit": null,
+      "maximum_file_size": null,
+      "allowed_file_types": "adjustable",
+      "image_width_limit": null,
+      "image_height_limit": null,
+      "name": "Teaser image",
+      "guidelines": "Upload an image at a resolution of at least 600 × 1200 px.",
+      "is_required": false,
+      "type": "asset",
+      "external_id": "62eb9881-e222-6b81-91d2-fdf052726414",
+      "id": "9c6a4fbc-3f73-585f-9521-8d57636adf56",
+      "codename": "teaser_image",
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "1592be38-2db9-4037-a756-49204b736442" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Post date",
+      "guidelines": "Provide a date that will appear on the live site as the date this article was posted live. This date will also influence the order of the articles. ",
+      "is_required": false,
+      "type": "date_time",
+      "external_id": "4ae5f7a9-fe1f-1e8c-bfec-d321455139c4",
+      "id": "0827e079-3754-5a1d-9381-8ff695a5bbf7",
+      "codename": "post_date",
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": "2022-01-01T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "maximum_text_length": null,
+      "name": "Summary",
+      "guidelines": "Provide a short summary of the text. It should be catchy and make the visitor want to read the whole article.The summary should fit within 160 characters.",
+      "is_required": false,
+      "type": "text",
+      "external_id": "90550cbe-7bff-40a9-2947-9c81489fe562",
+      "id": "15517aa3-da8a-5551-a4d4-555461fd5226",
+      "codename": "summary",
+      "validation_regex": {
+        "is_active": false,
+        "regex": "^[a-zA-Z.,?!\\s]{1,160}$",
+        "flags": null,
+        "validation_message": "Your text does not match the the given regex"
+      },
+      "is_non_localizable": true
+    },
+    {
+      "maximum_text_length": null,
+      "maximum_image_size": null,
+      "allowed_content_types": [],
+      "image_width_limit": null,
+      "image_height_limit": null,
+      "allowed_image_types": "any",
+      "allowed_blocks": [],
+      "allowed_formatting": [],
+      "allowed_text_blocks": [],
+      "allowed_table_blocks": [
+        "text"
+      ],
+      "allowed_table_formatting": [],
+      "allowed_table_text_blocks": [
+        "paragraph"
+      ],
+      "name": "Body Copy",
+      "guidelines": "Keep the article structured with concise paragraphs complemented with headlines that will help the reader navigate through the article's content.Preferred glossary terms — coffee, brewing, grinder, drip, roast, filter.",
+      "is_required": false,
+      "type": "rich_text",
+      "external_id": "108ed7c0-fc8c-c0ec-d0b5-5a8071408b54",
+      "id": "55a88ab3-4009-5bf9-a590-f32162f09b92",
+      "codename": "body_copy",
+      "is_non_localizable": false
+    },
+    {
+      "item_count_limit": null,
+      "allowed_content_types": [],
+      "name": "Related articles",
+      "guidelines": "Provide articles with related topics. ",
+      "is_required": true,
+      "type": "modular_content",
+      "external_id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
+      "id": "77108990-3c30-5ffb-8dcd-8eb85fc52cb1",
+      "codename": "related_articles",
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "3ab14319-bf46-464a-8635-301011d8702a" }
+          ]
+        }
+      }
+    },
+    {
+      "maximum_text_length": null,
+      "name": "Meta keywords",
+      "guidelines": "Enter tags separated with a comma. Example: coffee, \"coffee roast”, grinder",
+      "is_required": false,
+      "type": "text",
+      "external_id": "5efb2425-5987-a4a6-a2d3-b14712b56e73",
+      "id": "0ee20a72-0aaa-521f-8801-df3d9293b7dd",
+      "codename": "meta_keywords",
+      "validation_regex": {
+        "is_active": true,
+        "regex": "[a-zA-Z][a-zA-Z0-9]*,\\s*",
+        "flags": null,
+        "validation_message": "Your text does not match the the given regex"
+      },
+      "is_non_localizable": false
+    },
+    {
+      "guidelines": "Provide all personas for which this article is relevant.",
+      "taxonomy_group": {
+        "id": "7fad4cb0-c96c-5bce-a6c4-ec02a0280632"
+      },
+      "is_required": false,
+      "term_count_limit": null,
+      "type": "taxonomy",
+      "external_id": "0a16b642-ac3e-584d-a45a-ba354a30b2bd",
+      "id": "c1dc36b5-558d-55a2-8f31-787430a68e4d",
+      "codename": "personas",
+      "is_non_localizable": false,
+      "default": {
+        "global": {
+          "value": [
+            { "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8" }
+          ]
+        }
+      }
+    },
+    {
+      "maximum_text_length": null,
+      "name": "Meta description",
+      "guidelines": "Sum up the blog for SEO purposes. Limit for the meta description is 160 characters.",
+      "is_required": false,
+      "type": "text",
+      "external_id": "b9dc537c-2518-e4f5-8325-ce4fce26171e",
+      "id": "7df0048f-eaaf-50f8-85cf-fa0fc0d6d815",
+      "codename": "meta_description",
+      "is_non_localizable": false
+    },
+    {
+      "depends_on": {
+        "snippet": {
+          "id": "5482e7b6-9c79-5e81-8c4b-90e172e7ab48"
+        },
+        "element": {
+          "id": "f85f9ef6-ced1-5f04-9d92-163349d50e36"
+        }
+      },
+      "name": "URL pattern",
+      "guidelines": "Provide a SEO-friendly URL.",
+      "is_required": false,
+      "type": "url_slug",
+      "external_id": "f2ff5e3f-a9ca-4604-58b0-34a2ad6a7cf1",
+      "id": "1f37e15b-27a0-5f48-b314-03b401c19cee",
+      "codename": "url_pattern",
+      "validation_regex": {
+        "is_active": true,
+        "regex": "^[^\\s\\.\\s]*$",
+        "flags": null,
+        "validation_message": "Your text does not match the the given regex"
+      },
+      "is_non_localizable": false
+    },
+    {
+      "item_count_limit": {
+        "value": 2,
+        "condition": "at_least"
+      },
+      "allowed_content_types": [],
+      "name": "Cafe",
+      "guidelines": "Cafe guidelines",
+      "is_required": true,
+      "type": "subpages",
+      "external_id": "a29858ff-fa9f-5841-a682-d7fb6cc6effe",
+      "id": "a29858ff-fa9f-5841-a682-d7fb6cc6effe",
+      "codename": "cafe_subpage",
+      "is_non_localizable": false
+    }
+  ]
+}

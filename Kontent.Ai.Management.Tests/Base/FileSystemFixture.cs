@@ -9,6 +9,7 @@ using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Modules.UrlBuilder;
 using Kontent.Ai.Management.Modules.ActionInvoker;
 using Kontent.Ai.Management.Modules.HttpClient;
+using Kontent.Ai.Management.Modules.ModelBuilders;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
@@ -39,10 +40,10 @@ public sealed class FileSystemFixture : IDisposable
 
     public void SetSubFolder(string folder) => _folder = folder;
 
-    public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
+    public IManagementClient CreateMockClient(IManagementHttpClient httpClient, IModelProvider modelProvider = null)
     {
         var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
-        return new ManagementClient(_urlBuilder, actionInvoker);
+        return new ManagementClient(_urlBuilder, actionInvoker, modelProvider);
     }
 
     public IManagementClient CreateMockClientWithUrl(string expectedUrl)
@@ -61,27 +62,11 @@ public sealed class FileSystemFixture : IDisposable
         return CreateMockClient(mockedHttpClient);
     }
 
-    public IManagementClient CreateMockClientWithResponse(params string[] responseFileNames)
-    {
-        List<HttpResponseMessage> responses = new();
-        foreach (var responseFileName in responseFileNames)
-        {
-            var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
+    public IManagementClient CreateMockClientWithResponse(params string[] responseFileNames) =>
+        CreateMockClientWithResponseInternal(responseFileNames: responseFileNames);
 
-            var responsePath = Path.Combine(dataPath, responseFileName);
-            var result = new HttpResponseMessage
-            {
-                Content = new StringContent(File.ReadAllText(responsePath))
-            };
-
-            responses.Add(result);
-        }
-
-        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-         .Returns(responses.First(), responses.Skip(1).ToArray());
-        return CreateMockClient(mockedHttpClient);
-    }
+    public IManagementClient CreateMockClientWithResponse(IModelProvider modelProvider, params string[] responseFileNames) =>
+        CreateMockClientWithResponseInternal(modelProvider, responseFileNames);
 
     public IManagementClient CreateMockClientWithoutResponse()
     {
@@ -124,5 +109,27 @@ public sealed class FileSystemFixture : IDisposable
 
     public void Dispose()
     {
+    }
+
+    private IManagementClient CreateMockClientWithResponseInternal(IModelProvider modelProvider = null, params string[] responseFileNames)
+    {
+        List<HttpResponseMessage> responses = new();
+        foreach (var responseFileName in responseFileNames)
+        {
+            var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
+
+            var responsePath = Path.Combine(dataPath, responseFileName);
+            var result = new HttpResponseMessage
+            {
+                Content = new StringContent(File.ReadAllText(responsePath))
+            };
+
+            responses.Add(result);
+        }
+
+        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
+        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
+            .Returns(responses.First(), responses.Skip(1).ToArray());
+        return CreateMockClient(mockedHttpClient, modelProvider);
     }
 }
