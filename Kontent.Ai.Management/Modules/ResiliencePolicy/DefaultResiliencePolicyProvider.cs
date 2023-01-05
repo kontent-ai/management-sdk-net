@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Polly.Extensions.Http;
 
 namespace Kontent.Ai.Management.Modules.ResiliencePolicy;
 
@@ -13,16 +14,6 @@ namespace Kontent.Ai.Management.Modules.ResiliencePolicy;
 /// </summary>
 public class DefaultResiliencePolicyProvider : IResiliencePolicyProvider
 {
-    private static readonly HttpStatusCode[] StatusCodesToRetry =
-    {
-            HttpStatusCode.RequestTimeout,
-            (HttpStatusCode)429, // Too Many Requests
-            HttpStatusCode.InternalServerError,
-            HttpStatusCode.BadGateway,
-            HttpStatusCode.ServiceUnavailable,
-            HttpStatusCode.GatewayTimeout,
-    };
-
     private static readonly HttpStatusCode[] StatusCodesWithPossibleRetryHeader =
     {
             (HttpStatusCode)429, // Too Many Requests
@@ -47,8 +38,9 @@ public class DefaultResiliencePolicyProvider : IResiliencePolicyProvider
 
     private IAsyncPolicy<HttpResponseMessage> WrappedPolicy()
     {
-        var defaultPolicy = Polly.Policy
-            .HandleResult<HttpResponseMessage>(result => StatusCodesToRetry.Contains(result.StatusCode))
+        var defaultPolicy = HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .OrResult(result => result.StatusCode == HttpStatusCode.TooManyRequests)
             .WaitAndRetryAsync(
                 _maxRetryAttempts,
                 retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(2, retryAttempt) * 100));

@@ -59,10 +59,15 @@ internal class ManagementHttpClient : IManagementHttpClient
             }
 
             // Use the resilience logic.
-            var policyResult = await _resiliencePolicyProvider.Policy.ExecuteAndCaptureAsync(() =>
-                SendHttpMessage(messageCreator, endpointUrl, method, requestContent, headers));
-
-            response = policyResult.FinalHandledResult ?? policyResult.Result;
+            try
+            {
+                response = await _resiliencePolicyProvider.Policy.ExecuteAsync(() =>
+                    SendHttpMessage(messageCreator, endpointUrl, method, requestContent, headers));
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
         else
         {

@@ -14,7 +14,7 @@ public sealed class ManagementException : Exception
     /// <summary>
     /// Gets the HTTP status code of the response.
     /// </summary>
-    public HttpStatusCode StatusCode { get; }
+    public HttpStatusCode? StatusCode { get; }
 
     /// <summary>
     /// Gets the error message from the response.
