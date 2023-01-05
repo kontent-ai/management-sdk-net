@@ -9,11 +9,15 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using NSubstitute.ExceptionExtensions;
+using FluentAssertions;
 
 namespace Kontent.Ai.Management.Tests;
 
 public class ManagementHttpClientTests
 {
+    private const int MAX_RETRIES = 2;
+
     private readonly IMessageCreator messageCreator = new MessageCreator(string.Empty);
     private readonly string endpointUrl = string.Empty;
     private readonly HttpMethod method = HttpMethod.Get;
@@ -25,7 +29,7 @@ public class ManagementHttpClientTests
     {
         _defaultClient = new ManagementHttpClient(
             httpClient,
-            new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
+            new DefaultResiliencePolicyProvider(MAX_RETRIES),
             Constants.ENABLE_RESILIENCE_POLICY);
     }
 
@@ -46,7 +50,7 @@ public class ManagementHttpClientTests
     }
 
     [Fact]
-    public async Task SendAsync_SendsMessageOnSuccessReturnsResponse()
+    public async Task SendAsync_OkResponse_Succeeds()
     {
         var successfulMessage = new HttpRequestMessage();
         var successfulResponse = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
@@ -59,8 +63,9 @@ public class ManagementHttpClientTests
     }
 
     [Fact]
-    public async Task SendAsync_SendsMessageOnFailureThrows()
+    public async Task SendAsync_InternalServerErrorResponse_ThrowsAfterAllRetries()
     {
+        var expectedAttempts = MAX_RETRIES + 1;
         var failfulMessage = new HttpRequestMessage();
         var failfulResponseMessage = "Internal server error";
         var content = new StringContent("Content");
@@ -68,13 +73,13 @@ public class ManagementHttpClientTests
         httpClient.SendAsync(failfulMessage).ReturnsForAnyArgs(failfulResponse);
 
         await Assert.ThrowsAsync<ManagementException>(async () => { await _defaultClient.SendAsync(messageCreator, endpointUrl, method); });
-        await httpClient.ReceivedWithAnyArgs().SendAsync(failfulMessage);
+        await httpClient.ReceivedWithAnyArgs(expectedAttempts).SendAsync(failfulMessage);
     }
 
     [Fact]
-    public async void Retries_WithDefaultSettings_FailsAfterAllRetries()
+    public async void SendAsync_RequestTimeoutResponse_ThrowsAfterAllRetries()
     {
-        var expectedAttempts = Constants.DEFAULT_MAX_RETRIES + 1;
+        var expectedAttempts = MAX_RETRIES + 1;
         var failfulMessage = new HttpRequestMessage();
         httpClient
             .SendAsync(failfulMessage)
@@ -86,7 +91,36 @@ public class ManagementHttpClientTests
     }
 
     [Fact]
-    public async void Retries_WithDefaultSettings_NoRetryAfterValue_Succeeds()
+    public async void SendAsync_InternalServerException_ThrowsAfterAllRetries()
+    {
+        //+1 for regular attempt
+        var expectedAttempts = MAX_RETRIES + 1;
+        httpClient
+            .SendAsync(Arg.Any<HttpRequestMessage>())
+            .ThrowsAsync(new HttpRequestException("my exception", inner: null, statusCode: HttpStatusCode.InternalServerError));
+
+        (await _defaultClient.Invoking(async x => await x.SendAsync(messageCreator, endpointUrl, method)).Should().ThrowAsync<HttpRequestException>())
+            .And.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+
+        await httpClient.ReceivedWithAnyArgs(expectedAttempts).SendAsync(Arg.Any<HttpRequestMessage>());
+    }
+
+    [Fact]
+    public async void SendAsync_RequestTimeoutException_ThrowsAfterAllRetries()
+    {
+        //+1 for regular attempt
+        var expectedAttempts = MAX_RETRIES + 1;
+        httpClient
+            .SendAsync(Arg.Any<HttpRequestMessage>())
+            .ThrowsAsync(new HttpRequestException("my exception", inner: null, statusCode: HttpStatusCode.RequestTimeout));
+
+        (await _defaultClient.Invoking(async x => await x.SendAsync(messageCreator, endpointUrl, method)).Should().ThrowAsync<HttpRequestException>())
+            .And.StatusCode.Should().Be(HttpStatusCode.RequestTimeout);
+        await httpClient.ReceivedWithAnyArgs(expectedAttempts).SendAsync(Arg.Any<HttpRequestMessage>());
+    }
+
+    [Fact]
+    public async void SendAsync_TooManyRequestsResponse_WithoutRetryAfterHeader_RetryAfterPocilyIsApplied_Succeeds()
     {
         var expectedAttempts = 2;
         var failfulMessage = new HttpRequestMessage();
@@ -107,7 +141,7 @@ public class ManagementHttpClientTests
     }
 
     [Fact]
-    public async void Retries_WithDefaultSettings_WithRetryAfterHeader_Succeeds()
+    public async void SendAsync_TooManyRequestsResponse_WithRetryAfterHeader_RetryAfterPocilyIsApplied_Succeeds()
     {
         var expectedAttempts = 2;
         var failfulMessage = new HttpRequestMessage();
@@ -119,7 +153,7 @@ public class ManagementHttpClientTests
                 return new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.TooManyRequests,
-                    Headers = { { "Retry-After", "2" } }
+                    Headers = { { "Retry-After", "1" } }
                 };
             },
             x =>
@@ -132,9 +166,9 @@ public class ManagementHttpClientTests
     }
 
     [Fact]
-    public async void Retries_WithDefaultSettings_WithRetryAfterHeader_RetryAfterPocilyIsApplied()
+    public async void SendAsync_TooManyRequestsResponse_WithRetryAfterHeader_RetryAfterPocilyIsApplied_ThrowsAfterAllRetries()
     {
-        var expectedAttempts = 2 * (Constants.DEFAULT_MAX_RETRIES + 1);
+        var expectedAttempts = 2 * (MAX_RETRIES + 1);
         var failfulMessage = new HttpRequestMessage();
         httpClient
             .SendAsync(failfulMessage)
@@ -154,10 +188,10 @@ public class ManagementHttpClientTests
     }
 
     [Fact]
-    public async void Retries_WithDefaultSettings_WithoutRetryAfterHeader_RetryAfterPocilyIsSkipped()
+    public async void SendAsync_TooManyRequestsResponse_WithoutRetryAfterHeader_RetryAfterPocilyIsSkipped_ThrowsAfterAllRetries()
     {
         //+1 for regular attempt
-        var expectedAttempts = Constants.DEFAULT_MAX_RETRIES + 1;
+        var expectedAttempts = MAX_RETRIES + 1;
         var failfulMessage = new HttpRequestMessage();
         httpClient
             .SendAsync(failfulMessage)
@@ -169,7 +203,7 @@ public class ManagementHttpClientTests
     }
 
     [Fact]
-    public async void Retries_EnableResilienceLogicDisabled_DoesNotRetry()
+    public async void SendAsync_EnableResilienceLogicDisabled_RetryPolicyIsNotApplied_Throws()
     {
         var failfulMessage = new HttpRequestMessage();
         httpClient
@@ -178,7 +212,7 @@ public class ManagementHttpClientTests
 
         var customClient = new ManagementHttpClient(
             httpClient,
-            new DefaultResiliencePolicyProvider(Constants.DEFAULT_MAX_RETRIES),
+            new DefaultResiliencePolicyProvider(MAX_RETRIES),
             Constants.DISABLE_RESILIENCE_POLICY);
 
         httpClient.ClearReceivedCalls();
