@@ -1,17 +1,17 @@
+using FluentAssertions;
+using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Modules.ActionInvoker;
+using Kontent.Ai.Management.Modules.HttpClient;
+using Kontent.Ai.Management.Modules.UrlBuilder;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Modules.UrlBuilder;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management.Modules.HttpClient;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NSubstitute;
 
 namespace Kontent.Ai.Management.Tests.Base;
 

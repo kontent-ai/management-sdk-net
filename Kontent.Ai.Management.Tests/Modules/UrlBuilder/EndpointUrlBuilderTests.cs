@@ -1,5 +1,5 @@
-﻿using Kontent.Ai.Management.Modules.UrlBuilder;
-using Kontent.Ai.Management.Configuration;
+﻿using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Modules.UrlBuilder;
 
 namespace Kontent.Ai.Management.Tests.Modules.UrlBuilder;
 

@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 

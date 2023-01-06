@@ -62,7 +62,7 @@ public class AssetElementMetadataModel : ElementMetadataBase
     /// </summary>
     [JsonProperty("image_height_limit")]
     public LimitModel ImageHeightLimit { get; set; }
-    
+
     /// <summary>
     /// Specifies the default value for the element value.
     /// </summary>

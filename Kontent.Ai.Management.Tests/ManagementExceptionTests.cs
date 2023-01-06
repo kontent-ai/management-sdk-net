@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Kontent.Ai.Management.Exceptions;
+using System;
 using System.Net;
 using System.Net.Http;
-using Kontent.Ai.Management.Exceptions;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests;

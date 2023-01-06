@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Modules.ActionInvoker;
+using Kontent.Ai.Management.Modules.Extensions;
+using Kontent.Ai.Management.Modules.ModelBuilders;
+using Kontent.Ai.Management.Tests.Data;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management.Modules.ModelBuilders;
-using Newtonsoft.Json;
 using Xunit;
-using Kontent.Ai.Management.Tests.Data;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Modules.Extensions;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using FluentAssertions;
 
 namespace Kontent.Ai.Management.Tests.Modules.ModelBuilders;
 

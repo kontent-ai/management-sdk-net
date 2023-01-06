@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;

@@ -1,16 +1,16 @@
-﻿using System;
+﻿using FluentAssertions;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.Assets;
+using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.StronglyTyped;
+using Kontent.Ai.Management.Tests.Base;
+using Kontent.Ai.Management.Tests.Data;
+using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using FluentAssertions;
-using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.StronglyTyped;
-using System.IO;
-using System.Text;
-using Kontent.Ai.Management.Tests.Data;
-using Kontent.Ai.Management.Tests.Base;
-using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

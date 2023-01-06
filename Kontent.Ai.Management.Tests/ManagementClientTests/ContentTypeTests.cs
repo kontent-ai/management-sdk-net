@@ -1,14 +1,14 @@
-﻿using Xunit;
-using FluentAssertions;
-using System;
-using Kontent.Ai.Management.Models.Types.Patch;
-using System.Collections.Generic;
-using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Tests.Base;
+﻿using FluentAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
+using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+using Kontent.Ai.Management.Models.Types.Patch;
+using Kontent.Ai.Management.Tests.Base;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -117,8 +117,10 @@ public class ContentTypeTests : IClassFixture<FileSystemFixture>
             },
             new ContentTypeReplacePatchModel
             {
-                Value = new TextElementDefaultValueModel {
-                    Global = new() {
+                Value = new TextElementDefaultValueModel
+                {
+                    Global = new()
+                    {
                         Value = "This is the default value"
                     }
                 },

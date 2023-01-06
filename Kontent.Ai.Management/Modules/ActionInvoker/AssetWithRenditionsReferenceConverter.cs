@@ -12,7 +12,7 @@ internal class AssetWithRenditionsReferenceConverter : JsonConverter
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         var jObject = JObject.Load(reader);
-        var id = jObject["id"]?.ToObject<string>() 
+        var id = jObject["id"]?.ToObject<string>()
                  ?? throw new ArgumentException("Object does not contain 'id' property or it is null.", nameof(reader));
 
         return new AssetWithRenditionsReference(Reference.ById(Guid.Parse(id)));

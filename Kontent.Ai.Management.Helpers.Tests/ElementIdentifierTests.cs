@@ -1,5 +1,5 @@
-﻿using System;
-using Kontent.Ai.Management.Helpers.Models;
+﻿using Kontent.Ai.Management.Helpers.Models;
+using System;
 using Xunit;
 
 namespace Kontent.Ai.Management.Helpers.Tests;

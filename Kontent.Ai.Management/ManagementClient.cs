@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Modules.ActionInvoker;
+using Kontent.Ai.Management.Modules.HttpClient;
+using Kontent.Ai.Management.Modules.ModelBuilders;
+using Kontent.Ai.Management.Modules.ResiliencePolicy;
+using Kontent.Ai.Management.Modules.UrlBuilder;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Kontent.Ai.Management.Modules.HttpClient;
-using Kontent.Ai.Management.Modules.ResiliencePolicy;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Modules.ModelBuilders;
-using Kontent.Ai.Management.Modules.UrlBuilder;
 
 namespace Kontent.Ai.Management;
 

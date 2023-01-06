@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Kontent.Ai.Management.Models.Workflow;
+﻿using Kontent.Ai.Management.Models.Workflow;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 

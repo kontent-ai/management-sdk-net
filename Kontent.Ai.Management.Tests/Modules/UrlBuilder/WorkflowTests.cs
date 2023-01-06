@@ -1,5 +1,5 @@
-﻿using System;
-using Kontent.Ai.Management.Models.Shared;
+﻿using Kontent.Ai.Management.Models.Shared;
+using System;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Modules.UrlBuilder;
