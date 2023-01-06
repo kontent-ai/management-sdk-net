@@ -28,6 +28,3 @@ jobs:
       - name: Codecov
         if: ${{ runner.os == 'Linux' }}
         uses: codecov/codecov-action@v2
-        with:
-          verbose: true
-
