@@ -1,12 +1,12 @@
-using System;
 using Kontent.Ai.Management.Models.Items;
-using Kontent.Ai.Management.Models.Types;
-using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.Types;
+using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
+using System;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;

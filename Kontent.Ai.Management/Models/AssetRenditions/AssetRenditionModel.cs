@@ -1,5 +1,5 @@
-using System;
 using Newtonsoft.Json;
+using System;
 
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 

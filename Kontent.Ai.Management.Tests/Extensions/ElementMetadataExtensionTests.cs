@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using System;
 using System.Collections.Generic;
@@ -68,114 +68,114 @@ public class ElementMetadataExtensionTests
 
     public static List<ElementMetadataBase> GetElementMetadata() => new()
     {
-                new AssetElementMetadataModel
-                {
-                    Name = "MyAsset",
-                    AllowedFileTypes = FileType.Any,
-                    Codename = ""
-                },
-                new CustomElementMetadataModel
-                {
-                    Name= "name",
-                    Codename = "codename",
-                    Guidelines = "guidelines",
-                    JsonParameters = "das,adas"
-                },
-                new ContentTypeSnippetElementMetadataModel
-                {
-                    Codename = "contenttypesnippet_codename",
-                    ExternalId = "contentTypeSnippet_externalId",
-                    SnippetIdentifier = Reference.ByCodename("codename"),
-                },
-                new DateTimeElementMetadataModel
-                {
-                    Codename = "datetimeelement_codename",
-                    ExternalId = "DateTimeElementSnippet_externalId",
-                    IsRequired = false,
-                    Name = "DateTimename",
-                },
-                new GuidelinesElementMetadataModel
-                {
-                    Codename = "guidelines_codename",
-                    ExternalId = "guidelines_external_id",
-                    Guidelines = "<h3>Guidelines</h3>",
-                },
-                new LinkedItemsElementMetadataModel
-                {
-                    Codename = "linkeditemselementcodename",
-                    IsRequired = true,
-                    ItemCountLimit = new LimitModel { Value = 10, Condition = LimitType.AtMost },
-                    Name = "LinkedItemsElementName",
-                },
-                new MultipleChoiceElementMetadataModel
-                {
-                    Name = "Is special Delivery",
-                    Codename = "multiple_choice_element_codename",
-                    IsRequired = false,
-                    Mode = MultipleChoiceMode.Single,
-                    Options = new[] {
+        new AssetElementMetadataModel
+        {
+            Name = "MyAsset",
+            AllowedFileTypes = FileType.Any,
+            Codename = ""
+        },
+        new CustomElementMetadataModel
+        {
+            Name= "name",
+            Codename = "codename",
+            Guidelines = "guidelines",
+            JsonParameters = "das,adas"
+        },
+        new ContentTypeSnippetElementMetadataModel
+        {
+            Codename = "contenttypesnippet_codename",
+            ExternalId = "contentTypeSnippet_externalId",
+            SnippetIdentifier = Reference.ByCodename("codename"),
+        },
+        new DateTimeElementMetadataModel
+        {
+            Codename = "datetimeelement_codename",
+            ExternalId = "DateTimeElementSnippet_externalId",
+            IsRequired = false,
+            Name = "DateTimename",
+        },
+        new GuidelinesElementMetadataModel
+        {
+            Codename = "guidelines_codename",
+            ExternalId = "guidelines_external_id",
+            Guidelines = "<h3>Guidelines</h3>",
+        },
+        new LinkedItemsElementMetadataModel
+        {
+            Codename = "linkeditemselementcodename",
+            IsRequired = true,
+            ItemCountLimit = new LimitModel { Value = 10, Condition = LimitType.AtMost },
+            Name = "LinkedItemsElementName",
+        },
+        new MultipleChoiceElementMetadataModel
+        {
+            Name = "Is special Delivery",
+            Codename = "multiple_choice_element_codename",
+            IsRequired = false,
+            Mode = MultipleChoiceMode.Single,
+            Options = new[] {
                         new MultipleChoiceOptionModel
                         {
                             Name = "Yes",
                             Codename = "yes"
                         }
                     },
-                },
-                new NumberElementMetadataModel
-                {
-                    Codename = "numberrlementcodename",
-                    ExternalId = "NumberElementexternal_id",
-                    Guidelines = "<h3>NumberElement</h3>",
-                    Name = "NumberElementName",
-                },
-                new RichTextElementMetadataModel
-                {
-                    Codename = "richtextelementcodename",
-                    ExternalId = "RichTextElementexternal_id",
-                    Guidelines = "<h3>RichTextElement</h3>",
-                    Name = "RichTextElementName",
-                },
-                new TaxonomyElementMetadataModel
-                {
-                    Codename = "taxonomyelementcodename",
-                    ExternalId = "TaxonomyElementMetadata_id",
-                    Guidelines = "<h3>TaxonomyElement</h3>",
-                    TaxonomyGroup = Reference.ById(Guid.Empty),
-                },
-                new TextElementMetadataModel
-                {
-                    Codename = "textelementmetadatacodename",
-                    Name = "TextElementMetadataName",
-                    IsRequired = false,
-                    ValidationRegex = new ValidationRegexModel
-                    {
-                            IsActive = true,
-                        Regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
-                        Flags = "i",
-                        ValidationMessage = "Type a value matching the pattern required in this element."
-                    }
-                },
-                new UrlSlugElementMetadataModel
-                {
-                    Codename = "urlslugrlementcodename",
-                    Name = "UrlSlugElementMetadataName",
-                    IsRequired = false,
-                        ValidationRegex = new ValidationRegexModel
-                        {
-                            IsActive = true,
-                            Regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
-                            Flags = "i",
-                            ValidationMessage = "Type a value matching the pattern required in this element."
-                        },
-                    DependsOn = new UrlSlugDependency { Element = Reference.ByCodename("textelementmetadatacodename") },
-                },
-                new SubpagesElementMetadataModel
-                {
-                    Codename = "subpagescodename",
-                    Name = "SubpagesElementName",
-                    IsRequired = false,
-                    ItemCountLimit = new LimitModel {Value = 2, Condition = LimitType.AtMost},
-                    AllowedContentTypes = new[] { Reference.ById(Guid.Empty) }
-                }
-            };
+        },
+        new NumberElementMetadataModel
+        {
+            Codename = "numberrlementcodename",
+            ExternalId = "NumberElementexternal_id",
+            Guidelines = "<h3>NumberElement</h3>",
+            Name = "NumberElementName",
+        },
+        new RichTextElementMetadataModel
+        {
+            Codename = "richtextelementcodename",
+            ExternalId = "RichTextElementexternal_id",
+            Guidelines = "<h3>RichTextElement</h3>",
+            Name = "RichTextElementName",
+        },
+        new TaxonomyElementMetadataModel
+        {
+            Codename = "taxonomyelementcodename",
+            ExternalId = "TaxonomyElementMetadata_id",
+            Guidelines = "<h3>TaxonomyElement</h3>",
+            TaxonomyGroup = Reference.ById(Guid.Empty),
+        },
+        new TextElementMetadataModel
+        {
+            Codename = "textelementmetadatacodename",
+            Name = "TextElementMetadataName",
+            IsRequired = false,
+            ValidationRegex = new ValidationRegexModel
+            {
+                IsActive = true,
+                Regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
+                Flags = "i",
+                ValidationMessage = "Type a value matching the pattern required in this element."
+            }
+        },
+        new UrlSlugElementMetadataModel
+        {
+            Codename = "urlslugrlementcodename",
+            Name = "UrlSlugElementMetadataName",
+            IsRequired = false,
+            ValidationRegex = new ValidationRegexModel
+            {
+                IsActive = true,
+                Regex = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s./0-9]*$",
+                Flags = "i",
+                ValidationMessage = "Type a value matching the pattern required in this element."
+            },
+            DependsOn = new UrlSlugDependency { Element = Reference.ByCodename("textelementmetadatacodename") },
+        },
+        new SubpagesElementMetadataModel
+        {
+            Codename = "subpagescodename",
+            Name = "SubpagesElementName",
+            IsRequired = false,
+            ItemCountLimit = new LimitModel { Value = 2, Condition = LimitType.AtMost },
+            AllowedContentTypes = new[] { Reference.ById(Guid.Empty) }
+        }
+    };
 }

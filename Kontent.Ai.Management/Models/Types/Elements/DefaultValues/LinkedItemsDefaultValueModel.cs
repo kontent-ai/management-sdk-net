@@ -6,4 +6,4 @@ namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 /// <summary>
 /// The default value model for the linked item element
 /// </summary>
-public class LinkedItemsDefaultValueModel: ElementDefaultValue<TypeValue<IEnumerable<Reference>>, IEnumerable<Reference>> { }
+public class LinkedItemsDefaultValueModel : ElementDefaultValue<TypeValue<IEnumerable<Reference>>, IEnumerable<Reference>> { }

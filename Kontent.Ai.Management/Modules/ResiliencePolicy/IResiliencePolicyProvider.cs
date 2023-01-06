@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using Polly;
+﻿using Polly;
+using System.Net.Http;
 
 namespace Kontent.Ai.Management.Modules.ResiliencePolicy;
 

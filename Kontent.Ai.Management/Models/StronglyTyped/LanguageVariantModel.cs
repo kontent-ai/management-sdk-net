@@ -1,7 +1,7 @@
-﻿using System;
-using Kontent.Ai.Management.Models.Shared;
+﻿using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Newtonsoft.Json;
+using System;
 
 namespace Kontent.Ai.Management.Models.StronglyTyped;
 

@@ -1,6 +1,6 @@
-using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Exceptions;
 using Kontent.Ai.Management.Modules.ActionInvoker;
+using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.ResiliencePolicy;
 using NSubstitute;
 using Polly;

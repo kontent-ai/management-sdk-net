@@ -1,9 +1,9 @@
-using System;
 using FluentAssertions;
-using System.Dynamic;
-using Xunit;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
+using System;
+using System.Dynamic;
+using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Modules.ModelBuilders;
 

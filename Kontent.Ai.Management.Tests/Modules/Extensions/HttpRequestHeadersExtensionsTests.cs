@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using System.Net.Http;
-
+﻿using Kontent.Ai.Management.Modules.Extensions;
 using Kontent.Ai.Management.Modules.HttpClient;
-using Kontent.Ai.Management.Modules.Extensions;
-
+using System.Diagnostics;
+using System.Net.Http;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Modules.Extensions;

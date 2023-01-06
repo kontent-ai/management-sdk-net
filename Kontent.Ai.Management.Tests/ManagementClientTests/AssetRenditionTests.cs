@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Execution;
+using Kontent.Ai.Management.Models.AssetRenditions;
+using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions.Execution;
-using Kontent.Ai.Management.Models.AssetRenditions;
 using Xunit;
-using Kontent.Ai.Management.Tests.Base;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

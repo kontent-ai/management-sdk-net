@@ -1,5 +1,5 @@
-﻿using Kontent.Ai.Management.Modules.ModelBuilders;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+﻿using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+using Kontent.Ai.Management.Modules.ModelBuilders;
 using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Tests.Data;

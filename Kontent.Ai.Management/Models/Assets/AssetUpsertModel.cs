@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Kontent.Ai.Management.Models.Shared;
 using Newtonsoft.Json;
-using Kontent.Ai.Management.Models.Shared;
+using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Assets;
 

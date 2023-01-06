@@ -1,5 +1,5 @@
-﻿using Kontent.Ai.Management.Modules.ModelBuilders;
-using Kontent.Ai.Management.Modules.Extensions;
+﻿using Kontent.Ai.Management.Modules.Extensions;
+using Kontent.Ai.Management.Modules.ModelBuilders;
 using Newtonsoft.Json;
 using System;
 using Xunit;

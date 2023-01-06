@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Kontent.Ai.Management.Modules.Extensions;
+using Polly;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Kontent.Ai.Management.Modules.Extensions;
-using Polly;
 
 namespace Kontent.Ai.Management.Modules.ResiliencePolicy;
 

@@ -1,11 +1,10 @@
-﻿using System;
-using Kontent.Ai.Management.Modules.UrlBuilder.Templates;
-using Kontent.Ai.Management.Modules.Extensions;
-using Kontent.Ai.Management.Models.LanguageVariants;
+﻿using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.AssetRenditions;
+using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Shared;
-
-using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Modules.Extensions;
+using Kontent.Ai.Management.Modules.UrlBuilder.Templates;
+using System;
 
 namespace Kontent.Ai.Management.Modules.UrlBuilder;
 

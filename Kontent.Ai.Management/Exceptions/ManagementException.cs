@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Linq;
-
-using Newtonsoft.Json.Linq;
 
 namespace Kontent.Ai.Management.Exceptions;
 

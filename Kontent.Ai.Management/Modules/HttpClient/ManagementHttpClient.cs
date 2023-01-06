@@ -1,10 +1,10 @@
+using Kontent.Ai.Management.Exceptions;
+using Kontent.Ai.Management.Modules.ActionInvoker;
+using Kontent.Ai.Management.Modules.ResiliencePolicy;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Kontent.Ai.Management.Exceptions;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management.Modules.ResiliencePolicy;
 
 namespace Kontent.Ai.Management.Modules.HttpClient;
 
