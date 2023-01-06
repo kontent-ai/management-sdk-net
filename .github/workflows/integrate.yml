@@ -28,3 +28,7 @@ jobs:
       - name: Codecov
         if: ${{ runner.os == 'Linux' }}
         uses: codecov/codecov-action@v3
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
