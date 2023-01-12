@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": "6b0a7992-e4a3-490f-a159-599846e918e6",
+      "name": "Home coffee mug2",
+      "codename": "big_mug",
+      "type": {
+        "id": "070917d4-4e14-499f-9a8c-492a973ba892"
+      },
+      "collection": {
+        "id": "df334bbb-6540-41cc-9aad-ea7114fb47ee"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-05-28T11:54:49.8609984Z"
+    },
+    {
+      "id": "0121325b-ae77-4837-b552-14ea60ef64ac",
+      "name": "coffee at cafe",
+      "codename": "small_mug",
+      "type": {
+        "id": "070917d4-4e14-499f-9a8c-492a973ba892"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-01-06T07:23:56.0307608Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
