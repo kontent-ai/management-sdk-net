@@ -81,7 +81,7 @@ internal static class ElementsData
         {
             Element = Reference.ById(typeof(ComplexTestModel).GetProperty(nameof(ComplexTestModel.PostDate)).GetKontentElementId()),
             Value = new DateTime(2017, 7, 4),
-            DisplayTimeZone = null
+            DisplayTimeZone = "Prague"
         },
         RelatedArticles = new LinkedItemsElement
         {
