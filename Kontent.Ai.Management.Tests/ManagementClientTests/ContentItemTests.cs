@@ -10,6 +10,7 @@ using Xunit;
 using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
+
 public class ContentItemTests
 {
     private readonly Scenario _scenario;
