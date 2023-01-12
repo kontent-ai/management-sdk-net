@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
@@ -7,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using Xunit;
-using Kontent.Ai.Management.Extensions;
 using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
@@ -37,7 +37,7 @@ public class TaxonomyGroupTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies")
             .Validate();
     }
-    
+
     [Fact]
     public async void GetTaxonomyGroupAsync_ById_GetsTaxonomyGroup()
     {
@@ -55,7 +55,7 @@ public class TaxonomyGroupTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/{identifier.Id}")
             .Validate();
     }
-    
+
     [Fact]
     public async void GetTaxonomyGroupAsync_ByCodename_GetsTaxonomyGroup()
     {
@@ -73,7 +73,7 @@ public class TaxonomyGroupTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/codename/{identifier.Codename}")
             .Validate();
     }
-    
+
     [Fact]
     public async void GetTaxonomyGroupAsync_ByExternalId_GetsTaxonomyGroup()
     {
@@ -277,7 +277,7 @@ public class TaxonomyGroupTests
         {
             PropertyName = PropertyName.Terms,
             Reference = Reference.ByCodename("old"),
-            Value = new List<TaxonomyTermCreateModel> { 
+            Value = new List<TaxonomyTermCreateModel> {
                 new TaxonomyTermCreateModel
                 {
                     Name = "Espro",

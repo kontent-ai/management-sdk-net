@@ -7,16 +7,20 @@ using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
 using Kontent.Ai.Management.Tests.Data;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class LanguageVariantTests
 {
     private readonly Scenario _scenario;
-    
+
     public LanguageVariantTests()
     {
         _scenario = new Scenario(folder: "LanguageVariant");
@@ -39,7 +43,7 @@ public class LanguageVariantTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/items/{identifier.Id}/variants")
             .Validate();
     }
-    
+
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_StronglyTyped_IdentifierIsNull_Throws()
     {
@@ -49,7 +53,7 @@ public class LanguageVariantTests
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
-    
+
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_DynamicallyTyped_ListsVariants()
     {
@@ -68,7 +72,7 @@ public class LanguageVariantTests
             .Validate();
     }
 
-    
+
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
@@ -105,7 +109,7 @@ public class LanguageVariantTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/types/{identifier.Id}/variants")
             .Validate();
     }
-    
+
     [Fact]
     public async Task ListLanguageVariantsByTypeAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
@@ -115,7 +119,7 @@ public class LanguageVariantTests
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
-    
+
     [Fact]
     public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_DynamicallyTyped_ListsVariants()
     {
@@ -143,7 +147,7 @@ public class LanguageVariantTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/types/{identifier.Id}/components")
             .Validate();
     }
-    
+
     [Fact]
     public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
@@ -152,7 +156,7 @@ public class LanguageVariantTests
         await client.Invoking(x => x.ListLanguageVariantsOfContentTypeWithComponentsAsync(null))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
-    
+
     [Fact]
     public async void ListLanguageVariantsByCollectionAsync_DynamicallyTyped_ListsVariants()
     {
@@ -180,7 +184,7 @@ public class LanguageVariantTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/collections/{identifier.Id}/variants")
             .Validate();
     }
-    
+
     [Fact]
     public async Task ListLanguageVariantsByCollectionAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
@@ -207,7 +211,7 @@ public class LanguageVariantTests
             .Url(expectedUrl)
             .Validate();
     }
-    
+
     [Fact]
     public async Task GetLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
     {
@@ -262,7 +266,7 @@ public class LanguageVariantTests
             .Url(expectedUrl)
             .Validate();
     }
-   
+
     [Fact]
     public async Task UpsertLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
     {
@@ -306,7 +310,7 @@ public class LanguageVariantTests
             .Validate();
     }
 
-    
+
     [Fact]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
@@ -347,7 +351,7 @@ public class LanguageVariantTests
             .Validate();
     }
 
-    
+
     [Fact]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantModel_IdentifierIsNull_Throws()
     {
@@ -381,7 +385,7 @@ public class LanguageVariantTests
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
-    
+
     private static List<LanguageVariantModel> GetExpectedLanguageVariantModels(params string[] languageIds)
     => languageIds.Select(x => GetExpectedLanguageVariantModel(x)).ToList();
 
@@ -396,7 +400,7 @@ public class LanguageVariantTests
             Elements = ElementsData.GetExpectedDynamicElements(),
         };
 
-    private static List<LanguageVariantModel<ComplexTestModel>> GetExpectedComplexTestModels(params string[] languageIds) 
+    private static List<LanguageVariantModel<ComplexTestModel>> GetExpectedComplexTestModels(params string[] languageIds)
         => languageIds.Select(GetExpectedComplexTestModel).ToList();
 
     private static LanguageVariantModel<ComplexTestModel> GetExpectedComplexTestModel(string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024") => new()
@@ -415,7 +419,7 @@ public class LanguageVariantTests
 
         public IEnumerator<object[]> GetEnumerator()
         {
-            foreach(var (Identifier, Url) in GetPermutation())
+            foreach (var (Identifier, Url) in GetPermutation())
             {
                 yield return new object[] { Identifier, Url };
             }
