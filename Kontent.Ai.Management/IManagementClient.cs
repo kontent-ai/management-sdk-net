@@ -8,6 +8,7 @@ using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.PreviewConfiguration;
 using Kontent.Ai.Management.Models.ProjectReport;
 using Kontent.Ai.Management.Models.ProjectValidation;
 using Kontent.Ai.Management.Models.Roles;
@@ -724,4 +725,16 @@ public interface IManagementClient
     /// <param name="identifier">The identifier of the space.</param>
     Task DeleteSpaceAsync(Reference identifier);
 
+    /// <summary>
+    /// Returns the preview configuration.
+    /// </summary>
+    /// <returns>The <see cref="PreviewConfigurationResponseModel"/> instance that represents the preview configuration.</returns>
+    Task<PreviewConfigurationResponseModel> GetPreviewConfigurationAsync();
+
+    /// <summary>
+    /// Updates the preview configuration.
+    /// </summary>
+    /// <param name="previewConfiguration">Represents configuration that will be used for project.</param>
+    /// <returns>The <see cref="PreviewConfigurationResponseModel"/> instance that represents the preview configuration.</returns>
+    Task<PreviewConfigurationResponseModel> UpdatePreviewConfigurationAsync(PreviewConfigurationRequestModel previewConfiguration);
 }
