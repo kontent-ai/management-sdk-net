@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": "93ba9b6f-1dd9-4706-9dc4-be8e0ad4f3d6",
+      "name": "Tady napises svuj novy article",
+      "codename": "tady_napises_svuj_novy_article",
+      "type": {
+        "id": "070917d4-4e14-499f-9a8c-492a973ba892"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-02-16T12:25:20.1269357Z"
+    },
+    {
+      "id": "a1988b42-87a6-488e-bff6-d588ed63ddb8",
+      "name": "AfterDeletion2",
+      "codename": "afterdeletion",
+      "type": {
+        "id": "070917d4-4e14-499f-9a8c-492a973ba892"
+      },
+      "collection": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "sitemap_locations": [],
+      "last_modified": "2021-07-07T10:00:39.9575259Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
