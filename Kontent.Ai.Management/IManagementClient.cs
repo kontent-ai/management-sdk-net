@@ -12,6 +12,8 @@ using Kontent.Ai.Management.Models.ProjectReport;
 using Kontent.Ai.Management.Models.ProjectValidation;
 using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.Spaces;
+using Kontent.Ai.Management.Models.Spaces.Patch;
 using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Subscription;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
@@ -688,5 +690,38 @@ public interface IManagementClient
     /// <param name="changes">Represents changes that will be applied to the environment.</param>
     /// <returns>The <see cref="EnvironmentModel"/> instance that represents the modified environment.</returns>
     Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes);
+
+    /// <summary>
+    /// Creates the space.
+    /// </summary>
+    /// <param name="space">The space to be created.</param>
+    /// <returns>The <see cref="SpaceModel"/> instance that represents the created space.</returns>
+    Task<SpaceModel> CreateSpaceAsync(SpaceCreateModel space);
+
+    /// <summary>
+    /// Returns the space.
+    /// </summary>
+    /// <returns>The <see cref="SpaceModel"/> instance that represents the space.</returns>
+    Task<SpaceModel> GetSpaceAsync(Reference identifier);
+
+    /// <summary>
+    /// Returns all spaces.
+    /// </summary>
+    /// <returns>The <see cref="IEnumerable{SpaceModel}"/> instance that represents the listing of spaces.</returns>
+    Task<IEnumerable<SpaceModel>> ListSpacesAsync();
+
+    /// <summary>
+    /// Modifies the space.
+    /// </summary>
+    /// <param name="identifier">The identifier of the space.</param>
+    /// <param name="changes">The changes that will be applied to the space.</param>
+    /// <returns>The <see cref="SpaceModel"/> instance that represents the modified space.</returns>
+    Task<SpaceModel> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes);
+
+    /// <summary>
+    /// Deletes the space.
+    /// </summary>
+    /// <param name="identifier">The identifier of the space.</param>
+    Task DeleteSpaceAsync(Reference identifier);
 
 }

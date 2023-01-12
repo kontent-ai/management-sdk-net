@@ -20,6 +20,7 @@ internal sealed class EndpointUrlBuilder
     private readonly AssetRenditionTemplate _assetRenditionTemplate;
     private readonly LanguageTemplate _languageTemplate;
     private readonly SnippetTemplate _snippetTemplate;
+    private readonly SpaceTemplate _spaceTemplate;
     private readonly CollectionTemplate _collectionTemplate;
     private readonly TypeTemplate _typeTemplate;
     private readonly ValidateTemplate _validateTemplate;
@@ -39,6 +40,7 @@ internal sealed class EndpointUrlBuilder
         _assetRenditionTemplate = new AssetRenditionTemplate();
         _languageTemplate = new LanguageTemplate();
         _snippetTemplate = new SnippetTemplate();
+        _spaceTemplate = new SpaceTemplate();
         _collectionTemplate = new CollectionTemplate();
         _typeTemplate = new TypeTemplate();
         _validateTemplate = new ValidateTemplate();
@@ -72,6 +74,10 @@ internal sealed class EndpointUrlBuilder
     public string BuildSnippetsUrl() => GetProjectUrl(_snippetTemplate.Url);
 
     public string BuildSnippetsUrl(Reference identifier) => GetProjectUrl(_snippetTemplate.GetIdentifierUrlSegment(identifier));
+
+    public string BuildSpacesUrl() => GetProjectUrl(_spaceTemplate.Url);
+
+    public string BuildSpacesUrl(Reference identifier) => GetProjectUrl(_spaceTemplate.GetIdentifierUrlSegment(identifier));
 
     public string BuildTaxonomyUrl() => GetProjectUrl(_taxonomyTemplate.Url);
 
