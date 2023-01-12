@@ -38,7 +38,7 @@ public class CollectionTests
             .Validate();
     }
 
-    
+
     [Theory]
     [MemberData(nameof(GetIdentifers))]
     public async void ModifyCollection_Remove_RemovesCollection(Reference identifier)

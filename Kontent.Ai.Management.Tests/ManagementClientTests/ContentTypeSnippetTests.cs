@@ -7,10 +7,10 @@ using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 using static Kontent.Ai.Management.Tests.Base.Scenario;
-using System.Net.Http;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -39,7 +39,7 @@ public class ContentTypeSnippetTests
             .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets")
             .Validate();
     }
-   
+
     [Fact]
     public async Task GetContentTypeSnippetAsync_ById_GetsContentTypeSnippetAsync()
     {
@@ -104,7 +104,7 @@ public class ContentTypeSnippetTests
 
         await client.Invoking(x => x.GetContentTypeSnippetAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
-   
+
     [Fact]
     public async void CreateContentTypeSnippetAsync_CreatesContentTypeSnippetAsync()
     {
@@ -133,7 +133,7 @@ public class ContentTypeSnippetTests
             .Validate();
     }
 
-    
+
     [Fact]
     public async void CreateContentTypeSnippetAsync_CreateModelIsNull_Throws()
     {
@@ -142,7 +142,7 @@ public class ContentTypeSnippetTests
         await client.Invoking(x => x.CreateContentTypeSnippetAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 
-    
+
     [Fact]
     public async void DeleteContentTypeSnippetAsync_ById_DeletesContentTypeSnippetAsync()
     {
@@ -187,7 +187,7 @@ public class ContentTypeSnippetTests
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
-    
+
     [Fact]
     public async void DeleteContentTypeSnippetAsync_IdentifierIsNull_Throws()
     {
@@ -195,7 +195,7 @@ public class ContentTypeSnippetTests
 
         await client.Invoking(x => x.DeleteContentTypeSnippetAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
-    
+
     [Fact]
     public async void ModifyContentTypeSnippetAsync_ById_ModifiesContentTypeSnippet()
     {

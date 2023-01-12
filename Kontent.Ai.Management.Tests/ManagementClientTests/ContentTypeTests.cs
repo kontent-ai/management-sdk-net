@@ -1,21 +1,23 @@
 ﻿
+using FluentAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class ContentTypeTests
 {
     private readonly Scenario _scenario;
-    
+
     public ContentTypeTests()
     {
         _scenario = new Scenario(folder: "ContentType");
@@ -27,7 +29,7 @@ public class ContentTypeTests
         var client = _scenario
             .WithResponses("ContentTypesPage1.json", "ContentTypesPage2.json", "ContentTypesPage3.json")
             .CreateManagementClient();
-        
+
         var response = await client.ListContentTypesAsync().GetAllAsync();
 
         _scenario
@@ -99,7 +101,7 @@ public class ContentTypeTests
 
         await client.Invoking(x => x.GetContentTypeAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
-    
+
     [Fact]
     public async void CreateContentTypeAsync_CreatesContentType()
     {
@@ -117,7 +119,7 @@ public class ContentTypeTests
             ExternalId = expected.ExternalId,
             Name = expected.Name
         };
-        
+
         var response = await client.CreateContentTypeAsync(createModel);
 
         _scenario
