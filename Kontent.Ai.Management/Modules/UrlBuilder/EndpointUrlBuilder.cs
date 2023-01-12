@@ -171,6 +171,8 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildProjectUrl() => string.Format(_options.EndpointV2, $"projects/{_options.ProjectId}");
 
+    public string BuildProjectPreviewConfigurationUrl() => GetProjectUrl("preview-configuration");
+    
     public string BuildCollectionsUrl() => GetProjectUrl(_collectionTemplate.Url);
 
     public string BuildUsersUrl() => GetProjectUrl(_userTemplate.Url);

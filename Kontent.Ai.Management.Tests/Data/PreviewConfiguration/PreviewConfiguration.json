@@ -1,0 +1,31 @@
+{
+  "space_domains": [
+    {
+      "space": {
+        "codename": "my_space"
+      },
+      "domain": "www.mysite.com"
+    }
+  ],
+  "preview_url_patterns": [
+    {
+      "content_type": {
+        "codename": "article"
+      },
+      "url_patterns": [
+        {
+          "space": null,
+          "url_pattern": "https://www.globalsite.com/{URLSlug}",
+          "enabled": true
+        },
+        {
+          "space": {
+            "codename": "my_space"
+          },
+          "url_pattern": "https://{Space}/{URLSlug}/test",
+          "enabled": true
+        }
+      ]
+    }
+  ]
+}
