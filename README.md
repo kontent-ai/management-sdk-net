@@ -150,8 +150,8 @@ var elements = new dynamic[]
     {
         element = new
         {
-            // You can use `Reference.ById` if you don't have the model
-            id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()
+            // You can use `Reference.ByCodename` if you don't have the model
+            codename = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementCodename()
         },
         value = new DateTime(2018, 7, 4),
     }
@@ -181,8 +181,8 @@ var elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
     },
     new DateTimeElement()
     {
-        // You can use `Reference.ById` if you don't have the model
-        Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()),
+        // You can use `Reference.ByCodename` if you don't have the model
+        Element = Reference.ByCodename(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementCodename()),
         Value = new DateTime(2018, 7, 4)
     },
 });
