@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using Kontent.Ai.Management.Modules.ModelBuilders;
+using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Modules.Extensions;
 
@@ -18,6 +19,18 @@ public static class PropertyInfoExtensions
 
         return attribute == null
             ? throw new InvalidOperationException($"Cannot get Kontent.ai element id as there is no attribute of type {nameof(KontentElementIdAttribute)}")
-            : Guid.Parse(property.GetCustomAttribute<KontentElementIdAttribute>()?.ElementId);
+            : Guid.Parse(attribute.ElementId);
+    }
+
+    /// <summary>
+    /// Get Element codename from strongly typed model property.
+    /// </summary>
+    public static string GetKontentElementCodename(this PropertyInfo property)
+    {
+        var attribute = property.GetCustomAttribute<JsonPropertyAttribute>();
+
+        return attribute == null
+            ? throw new InvalidOperationException($"Cannot get Kontent.ai element codename as there is no attribute of type {nameof(JsonPropertyAttribute)}")
+            : attribute.PropertyName;
     }
 }
