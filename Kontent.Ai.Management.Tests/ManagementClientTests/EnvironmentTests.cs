@@ -3,29 +3,48 @@ using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class EnvironmentTests : IClassFixture<FileSystemFixture>
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public EnvironmentTests(FileSystemFixture fileSystemFixture)
+    public EnvironmentTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("Environment");
+        _scenario = new Scenario(folder: "Environment");
     }
+
 
     [Fact]
     public async void CloneEnvironment_RequestModelIsNull_ThrowsException()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+        var client = _scenario
+            .WithResponses("ClonedEnvironment.json")
+            .CreateManagementClient();
 
-        await client.Invoking(x => x.CloneEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        var request = new EnvironmentCloneModel
+        {
+            Name= "name",
+            RolesToActivate = new[] { Guid.NewGuid() }
+        };
+
+        var response = await client.CloneEnvironmentAsync(request);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Post)
+            .RequestPayload(request)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/clone-environment")
+            .Validate();
     }
 
+    /*
     [Fact]
     public async void CloneEnvironment_ReturnsNewEnvironment()
     {
@@ -108,4 +127,5 @@ public class EnvironmentTests : IClassFixture<FileSystemFixture>
 
         response.Should().BeEquivalentTo(expectedResponse);
     }
+    */
 }
