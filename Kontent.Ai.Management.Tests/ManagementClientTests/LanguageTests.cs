@@ -4,7 +4,9 @@ using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
 using System;
+using System.Net.Http;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -33,7 +35,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .Url($"{Endpoint}/projects/{PROJECT_ID}/languages")
             .Validate();
     }
-    
+
     [Fact]
     public async void GetLanguageAsync_ById_GetsLanguage()
     {
@@ -51,7 +53,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/{identifier.Id}")
             .Validate();
     }
-    
+
     [Fact]
     public async void GetLanguageAsync_ByCodename_GetsLanguage()
     {
@@ -95,7 +97,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
 
         await client.Invoking(x => x.GetLanguageAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
-    
+
     [Fact]
     public async void CreateLanguageAsync_CreatesLanguage()
     {
