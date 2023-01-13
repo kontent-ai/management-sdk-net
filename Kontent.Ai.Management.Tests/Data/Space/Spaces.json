@@ -1,0 +1,17 @@
+[
+  {
+    "id": "ece703a9-900e-4781-9d21-bdfbf9762751",
+    "codename": "space_1",
+    "name": "Space 1"
+  },
+  {
+    "id": "191bdf9f-c885-44e5-83de-6ea5131f9c86",
+    "codename": "space_2",
+    "name": "Space 2"
+  },
+  {
+    "id": "191bdf9f-c885-44e5-83de-6ea5131f9c86",
+    "codename": "space_3",
+    "name": "Space 3"
+  }
+]
