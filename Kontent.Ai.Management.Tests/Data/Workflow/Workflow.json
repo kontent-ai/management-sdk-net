@@ -5,9 +5,14 @@
   "scopes": [
     {
       "id": "f5937d83-e5ca-4021-bf9f-821109d52a37",
+      "collections": [
+        {
+          "id": "bbab58d7-5f33-4741-a71d-f5435586519c"
+        }
+      ],
       "content_types": [
         {
-           "id": "b33a98e8-2d0b-409a-a601-3df59edd82be"
+          "id": "b33a98e8-2d0b-409a-a601-3df59edd82be"
         }
       ]
     }

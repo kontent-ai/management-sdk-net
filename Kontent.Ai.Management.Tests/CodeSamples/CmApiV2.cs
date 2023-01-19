@@ -1367,6 +1367,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             {
                 new()
                 {
+                    Collections = new List<Reference>{ Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024")) },
                     ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
                 }
             },
@@ -1859,6 +1860,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             {
                 new()
                 {
+                    Collections = new List<Reference>{ Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024")) },
                     ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
                 }
             },

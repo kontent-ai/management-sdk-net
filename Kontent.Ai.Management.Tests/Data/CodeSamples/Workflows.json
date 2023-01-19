@@ -81,6 +81,11 @@
     "codename": "my_workflow",
     "scopes": [
       {
+        "collections": [
+          {
+            "id": "d29d1904-9011-45ca-8ed3-0f2737a28024"
+          }
+        ],
         "content_types": [
           {
             "id": "1aeb9220-f167-4f8e-a7db-1bfec365fa80"

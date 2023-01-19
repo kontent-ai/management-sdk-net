@@ -4,6 +4,11 @@
   "codename": "my_workflow",
   "scopes": [
     {
+      "collections": [
+        {
+          "id": "1aeb9220-f167-4f8e-a7db-1bfec365fa80"
+        }
+      ],
       "content_types": [
         {
           "id": "1aeb9220-f167-4f8e-a7db-1bfec365fa80"
