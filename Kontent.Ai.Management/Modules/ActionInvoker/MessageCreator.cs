@@ -27,6 +27,7 @@ internal class MessageCreator : IMessageCreator
         }
         message.Content = content;
         message.Headers.AddSdkTrackingHeader();
+        message.Headers.AddSourceTrackingHeader();
         return message;
     }
 }
