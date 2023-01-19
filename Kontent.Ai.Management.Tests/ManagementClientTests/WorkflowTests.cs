@@ -39,6 +39,7 @@ public class WorkflowTests : IClassFixture<FileSystemFixture>
                 {
                     new()
                     {
+                        Collections = new List<Reference>{ Reference.ById(Guid.Parse("bbab58d7-5f33-4741-a71d-f5435586519c")) },
                         ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("b33a98e8-2d0b-409a-a601-3df59edd82be")) }
                     }
                 },
