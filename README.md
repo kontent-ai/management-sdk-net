@@ -444,6 +444,47 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 //    item/d31d27cf-ddf6-4040-ab67-2f70edc0d46b/element/some-Element-Codename-4"
 ```
 
+## Add source tracking header 
+
+Are you developing a plugin or tool based on this SDK? Great! Then please include the source tracking header to your code. This way, we'll be able to identify that the traffic to Kontent.ai APIs is originating from your plugin and will be able to share its statistics with you!
+
+You can either attach it to the **AssemblyInfo.cs**
+```c#
+[assembly: SourceTrackingHeaderAttribute()]
+```
+
+Or to the **.csproj**:
+
+```xml
+  <ItemGroup>
+    <AssemblyAttribute Include="Kontent.Ai.Management.Attributes.SourceTrackingHeader" />
+  </ItemGroup>
+```
+
+By default, it'll load the necessary info (package name + version) from your assembly. If you want to customize it, please use one of the other constructors:
+
+```c#
+// You specify the name, the version is extracted from the assembly
+public SourceTrackingHeaderAttribute(string packageName)
+
+// Or you specify the name and the version
+public SourceTrackingHeaderAttribute(string packageName, int majorVersion, int minorVersion, int patchVersion, string preReleaseLabel = null)
+```
+
+If you use the **.csproj**:
+```xml
+<AssemblyAttribute Include="Kontent.Ai.Management.Attributes.SourceTrackingHeader">
+	<_Parameter1>My.Module</_Parameter1>
+	<_Parameter2>1</_Parameter2>
+	<_Parameter2_IsLiteral>true</_Parameter2_IsLiteral>
+	<_Parameter3>2</_Parameter3>
+	<_Parameter3_IsLiteral>true</_Parameter3_IsLiteral>
+	<_Parameter4>3</_Parameter4>
+	<_Parameter4_IsLiteral>true</_Parameter4_IsLiteral>
+	<_Parameter5>beta</_Parameter5>
+</AssemblyAttribute>
+```
+
 ## How to use [SourceLink](https://github.com/dotnet/sourcelink/) for debugging
 
 This repository is configured to generate SourceLink tag in the Nuget package that allows to debug this repository source code when it is referenced as a Nuget package. Source code is downloaded directly from github to the Visual Studio.

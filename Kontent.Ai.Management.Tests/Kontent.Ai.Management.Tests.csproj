@@ -34,6 +34,25 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<AssemblyAttribute Include="Kontent.Ai.Management.Attributes.SourceTrackingHeader">
+			<!--
+			<_Parameter1>My.Module</_Parameter1>
+
+			<_Parameter2>1</_Parameter2>
+			<_Parameter2_IsLiteral>true</_Parameter2_IsLiteral>
+
+			<_Parameter3>2</_Parameter3>
+			<_Parameter3_IsLiteral>true</_Parameter3_IsLiteral>
+
+			<_Parameter4>3</_Parameter4>
+			<_Parameter4_IsLiteral>true</_Parameter4_IsLiteral>
+
+			<_Parameter5>beta</_Parameter5>
+			-->
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Update="Data\which-brewing-fits-you-1080px.jpg">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
