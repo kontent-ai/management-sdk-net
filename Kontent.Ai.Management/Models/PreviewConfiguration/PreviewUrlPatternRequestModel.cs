@@ -19,10 +19,4 @@ public class PreviewUrlPatternRequestModel
     /// </summary>
     [JsonProperty("url_pattern")]
     public string UrlPattern { get; set; }
-
-    /// <summary>
-    /// Gets or sets if the URL pattern should be enabled.
-    /// </summary>
-    [JsonProperty("enabled")]
-    public bool Enabled { get; set; }
 }
