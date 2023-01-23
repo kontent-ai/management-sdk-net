@@ -45,20 +45,16 @@ public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
                    ContentType = Reference.ByCodename("article"),
                    UrlPatterns = new List<PreviewUrlPatternRequestModel> {
                        new() {
-                           Enabled = true,
                            Space = null,
                            UrlPattern = "https://www.globalsite.com/{URLSlug}"
                        },
                        new() {
-                           Enabled = true,
                            Space = Reference.ByCodename("my_space"),
                            UrlPattern = "https://{Space}/{URLSlug}/test"
                        },
-
                    }
                }
            }
-
         };
 
         var client = _fileSystemFixture.CreateMockClientWithResponse("PreviewConfiguration.json");
