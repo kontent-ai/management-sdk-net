@@ -728,13 +728,13 @@ public interface IManagementClient
     /// <summary>
     /// Returns the preview configuration.
     /// </summary>
-    /// <returns>The <see cref="PreviewConfigurationResponseModel"/> instance that represents the preview configuration.</returns>
-    Task<PreviewConfigurationResponseModel> GetPreviewConfigurationAsync();
+    /// <returns>The <see cref="PreviewConfigurationModel"/> instance that represents the preview configuration.</returns>
+    Task<PreviewConfigurationModel> GetPreviewConfigurationAsync();
 
     /// <summary>
     /// Updates the preview configuration.
     /// </summary>
     /// <param name="previewConfiguration">Represents configuration that will be used for project.</param>
-    /// <returns>The <see cref="PreviewConfigurationResponseModel"/> instance that represents the preview configuration.</returns>
-    Task<PreviewConfigurationResponseModel> UpdatePreviewConfigurationAsync(PreviewConfigurationRequestModel previewConfiguration);
+    /// <returns>The <see cref="PreviewConfigurationModel"/> instance that represents the preview configuration.</returns>
+    Task<PreviewConfigurationModel> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration);
 }

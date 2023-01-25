@@ -4,19 +4,19 @@ using System.Collections.Generic;
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents the preview configuration request model.
+/// Represents the preview configuration model.
 /// </summary>
-public class PreviewConfigurationRequestModel
+public class PreviewConfigurationModel
 {
     /// <summary>
     /// Gets or sets space domains.
     /// </summary>
     [JsonProperty("space_domains")]
-    public IReadOnlyCollection<SpaceDomainRequestModel> SpaceDomains { get; set; }
+    public IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; set; }
 
     /// <summary>
     /// Gets or sets preview URL patterns.
     /// </summary>
     [JsonProperty("preview_url_patterns")]
-    public IReadOnlyCollection<TypePreviewUrlPatternRequestModel> PreviewUrlPatterns { get; set; }
+    public IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
@@ -24,7 +23,7 @@ public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
         var client = _fileSystemFixture.CreateMockClientWithResponse("PreviewConfiguration.json");
         var response = await client.GetPreviewConfigurationAsync();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<PreviewConfigurationResponseModel>("PreviewConfiguration.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<PreviewConfigurationModel>("PreviewConfiguration.json");
 
         response.Should().BeEquivalentTo(expected);
     }
@@ -32,18 +31,18 @@ public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async void UpdatePreviewConfiguration_UpdatesPreviewConfiguration()
     {
-        var newPreviewConfiguration = new PreviewConfigurationRequestModel
+        var newPreviewConfiguration = new PreviewConfigurationModel
         {
-           SpaceDomains = new List<SpaceDomainRequestModel> {
+           SpaceDomains = new List<SpaceDomainModel> {
                new() {
                    Domain = "www.mysite.com",
                    Space = Reference.ByCodename("my_space")
                }
            },
-           PreviewUrlPatterns = new List<TypePreviewUrlPatternRequestModel> {
+           PreviewUrlPatterns = new List<TypePreviewUrlPatternModel> {
                new() {
                    ContentType = Reference.ByCodename("article"),
-                   UrlPatterns = new List<PreviewUrlPatternRequestModel> {
+                   UrlPatterns = new List<PreviewUrlPatternModel> {
                        new() {
                            Space = null,
                            UrlPattern = "https://www.globalsite.com/{URLSlug}"
@@ -59,7 +58,7 @@ public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
 
         var client = _fileSystemFixture.CreateMockClientWithResponse("PreviewConfiguration.json");
         var response = await client.UpdatePreviewConfigurationAsync(newPreviewConfiguration);
-        var expected = _fileSystemFixture.GetExpectedResponse<PreviewConfigurationResponseModel>("PreviewConfiguration.json");
+        var expected = _fileSystemFixture.GetExpectedResponse<PreviewConfigurationModel>("PreviewConfiguration.json");
 
         response.Should().BeEquivalentTo(expected);
     }
