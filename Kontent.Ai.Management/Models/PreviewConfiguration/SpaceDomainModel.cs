@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents space domain request model.
+/// Represents space domain model.
 /// </summary>
-public class SpaceDomainRequestModel
+public class SpaceDomainModel
 {
     /// <summary>
     /// Gets or sets the space reference.

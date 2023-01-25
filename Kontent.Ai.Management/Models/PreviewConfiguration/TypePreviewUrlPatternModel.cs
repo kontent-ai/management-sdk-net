@@ -5,9 +5,9 @@ using System.Collections.Generic;
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents content type preview URL patterns request model.
+/// Represents content type preview URL patterns model.
 /// </summary>
-public class TypePreviewUrlPatternRequestModel
+public class TypePreviewUrlPatternModel
 {
     /// <summary>
     /// Gets or sets the content type reference.
@@ -19,5 +19,5 @@ public class TypePreviewUrlPatternRequestModel
     /// Gets or sets content type's url patterns.
     /// </summary>
     [JsonProperty("url_patterns")]
-    public IReadOnlyCollection<PreviewUrlPatternRequestModel> UrlPatterns { get; set; }
+    public IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; set; }
 }

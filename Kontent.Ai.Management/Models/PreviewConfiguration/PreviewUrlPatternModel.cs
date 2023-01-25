@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents space domain response model.
+/// Represents preview URL pattern model.
 /// </summary>
-public class SpaceDomainResponseModel
+public class PreviewUrlPatternModel
 {
     /// <summary>
     /// Gets or sets the space reference.
@@ -15,8 +15,8 @@ public class SpaceDomainResponseModel
     public Reference Space { get; set; }
 
     /// <summary>
-    /// Gets or sets the space domain.
+    /// Gets or sets the content type URL pattern.
     /// </summary>
-    [JsonProperty("domain")]
-    public string Domain { get; set; }
+    [JsonProperty("url_pattern")]
+    public string UrlPattern { get; set; }
 }
