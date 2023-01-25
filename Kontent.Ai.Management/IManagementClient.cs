@@ -732,9 +732,9 @@ public interface IManagementClient
     Task<PreviewConfigurationModel> GetPreviewConfigurationAsync();
 
     /// <summary>
-    /// Updates the preview configuration.
+    /// Modify the preview configuration.
     /// </summary>
     /// <param name="previewConfiguration">Represents configuration that will be used for project.</param>
     /// <returns>The <see cref="PreviewConfigurationModel"/> instance that represents the preview configuration.</returns>
-    Task<PreviewConfigurationModel> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration);
+    Task<PreviewConfigurationModel> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration);
 }
