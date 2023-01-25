@@ -14,7 +14,7 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<PreviewConfigurationModel> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration)
+    public async Task<PreviewConfigurationModel> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration)
     {
         var endpointUrl = _urlBuilder.BuildPreviewConfigurationUrl();
         return await _actionInvoker.InvokeMethodAsync<PreviewConfigurationModel, PreviewConfigurationModel >(endpointUrl, HttpMethod.Put, previewConfiguration);

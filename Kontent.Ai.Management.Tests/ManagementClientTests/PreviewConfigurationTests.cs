@@ -29,7 +29,7 @@ public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
     }
     
     [Fact]
-    public async void UpdatePreviewConfiguration_UpdatesPreviewConfiguration()
+    public async void ModifyPreviewConfiguration_UpdatesPreviewConfiguration()
     {
         var newPreviewConfiguration = new PreviewConfigurationModel
         {
@@ -57,7 +57,7 @@ public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
         };
 
         var client = _fileSystemFixture.CreateMockClientWithResponse("PreviewConfiguration.json");
-        var response = await client.UpdatePreviewConfigurationAsync(newPreviewConfiguration);
+        var response = await client.ModifyPreviewConfigurationAsync(newPreviewConfiguration);
         var expected = _fileSystemFixture.GetExpectedResponse<PreviewConfigurationModel>("PreviewConfiguration.json");
 
         response.Should().BeEquivalentTo(expected);
