@@ -28,6 +28,11 @@ public partial class ManagementClient
             throw new ArgumentNullException(nameof(identifier));
         }
 
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user));
+        }
+
         var endpointUrl = _urlBuilder.BuildModifyUsersRoleUrl(identifier);
         return await _actionInvoker.InvokeMethodAsync<UserModel, UserModel>(endpointUrl, HttpMethod.Put, user);
     }
