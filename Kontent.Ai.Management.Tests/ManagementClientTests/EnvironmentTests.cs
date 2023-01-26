@@ -4,7 +4,6 @@ using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 using static Kontent.Ai.Management.Tests.Base.Scenario;
 
@@ -19,113 +18,126 @@ public class EnvironmentTests : IClassFixture<FileSystemFixture>
         _scenario = new Scenario(folder: "Environment");
     }
 
-
     [Fact]
-    public async void CloneEnvironment_RequestModelIsNull_ThrowsException()
+    public async void CloneEnvironmentAsync_ReturnsNewEnvironment()
     {
         var client = _scenario
             .WithResponses("ClonedEnvironment.json")
             .CreateManagementClient();
 
-        var request = new EnvironmentCloneModel
+        var clone = new EnvironmentCloneModel
         {
             Name= "name",
             RolesToActivate = new[] { Guid.NewGuid() }
         };
 
-        var response = await client.CloneEnvironmentAsync(request);
+        var response = await client.CloneEnvironmentAsync(clone);
 
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Post)
-            .RequestPayload(request)
+            .RequestPayload(clone)
             .Response(response)
             .Url($"{Endpoint}/projects/{PROJECT_ID}/clone-environment")
             .Validate();
     }
 
-    /*
     [Fact]
-    public async void CloneEnvironment_ReturnsNewEnvironment()
+    public async void CloneEnvironmentAsync_RequestModelIsNull_ThrowsException()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
-        var expectedResponse = _fileSystemFixture.GetExpectedResponse<EnvironmentClonedModel>("ClonedEnvironment.json");
+        var client = _scenario.CreateManagementClient();
 
-        var cloneEnvironmentModel = new EnvironmentCloneModel
-        {
-            Name = "New environment",
-            RolesToActivate = new[] { Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d") }
-        };
-
-        var response = await client.CloneEnvironmentAsync(cloneEnvironmentModel);
-        response.Should().BeEquivalentTo(expectedResponse);
+        await client.Invoking(x => x.CloneEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
+
     [Fact]
-    public async void GetEnvironmentCloningState_ReturnsCloningState()
+    public async void GetEnvironmentCloningStateAsync_ReturnsCloningState()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("EnvironmentCloningState.json");
-        var expectedResponse = _fileSystemFixture.GetExpectedResponse<EnvironmentCloningStateModel>("EnvironmentCloningState.json");
+        var client = _scenario
+            .WithResponses("ClonedEnvironment.json")
+            .CreateManagementClient();
 
         var response = await client.GetEnvironmentCloningStateAsync();
-        response.Should().BeEquivalentTo(expectedResponse);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/environment-cloning-state")
+            .Validate();
     }
 
-    [Fact]
-    public async void MarkEnvironmentAsProduction_RequestModelIsNull_ThrowsException()
+    [Fact] 
+    public async void MarkEnvironmentAsProduction_MarkEnvironmentAsProduction()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+        var client = _scenario.CreateManagementClient();
+
+        var markAsProduction = new MarkAsProductionModel
+        {
+            EnableWebhooks = true
+        };
+
+        await client.MarkEnvironmentAsProductionAsync(markAsProduction);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .RequestPayload(markAsProduction)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/mark-environment-as-production")
+            .Validate();
+    }
+
+
+    [Fact]
+    public async void MarkEnvironmentAsProductionAsync_RequestModelIsNull_ThrowsException()
+    {
+        var client = _scenario.CreateManagementClient();
 
         await client.Invoking(x => x.MarkEnvironmentAsProductionAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void MarkEnvironmentAsProduction_MarkEnvironmentAsProduction()
+    public async void DeleteEnvironmentAsync_DeletesEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _scenario.CreateManagementClient();
 
-        var markAsProductionModel = new MarkAsProductionModel
-        {
-            EnableWebhooks = true
+        await client.DeleteEnvironmentAsync();
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Delete)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}")
+            .Validate();
+    }
+
+    [Fact]
+    public async void ModifyEnvironmentAsync_Rename_RenamesEnvironment()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        var changes = new[] {
+            new EnvironmentRenamePatchModel
+            {
+                Value= "newName"
+            }
         };
 
-        Func<Task> markEnvironmentAsProduction = async () => await client.MarkEnvironmentAsProductionAsync(markAsProductionModel);
+        await client.ModifyEnvironmentAsync(changes);
 
-        await markEnvironmentAsProduction.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}")
+            .Validate();
     }
 
     [Fact]
-    public async void DeleteEnvironment_DeletesEnvironment()
+    public async void ModifyEnvironmentAsync_RequestModelIsNull_ThrowsException()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        Func<Task> deleteEnvironment = async () => await client.DeleteEnvironmentAsync();
-
-        await deleteEnvironment.Should().NotThrowAsync();
-    }
-
-    [Fact]
-    public async void ModifyEnvironment_RequestModelIsNull_ThrowsException()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+        var client = _scenario.CreateManagementClient();
 
         await client.Invoking(x => x.ModifyEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
-    [Fact]
-    public async void ModifyEnvironment_Rename_RenamesEnvironment()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Environment.json");
-
-        var expectedResponse = _fileSystemFixture.GetExpectedResponse<EnvironmentModel>("Environment.json");
-
-        var changes = new[] { new EnvironmentRenamePatchModel
-        {
-            Value = "New name"
-        }};
-
-        var response = await client.ModifyEnvironmentAsync(changes);
-
-        response.Should().BeEquivalentTo(expectedResponse);
-    }
-    */
 }
