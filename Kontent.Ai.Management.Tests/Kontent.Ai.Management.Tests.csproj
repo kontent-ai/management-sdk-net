@@ -36,6 +36,7 @@
 	<ItemGroup>
 		<AssemblyAttribute Include="Kontent.Ai.Management.Attributes.SourceTrackingHeader">
 			<!--
+			More info: https://github.com/kontent-ai/management-sdk-net#add-source-tracking-header
 			<_Parameter1>My.Module</_Parameter1>
 
 			<_Parameter2>1</_Parameter2>
