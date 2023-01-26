@@ -3,76 +3,153 @@ using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Tests.Base;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class ProjectUserTests : IClassFixture<FileSystemFixture>
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public ProjectUserTests(FileSystemFixture fileSystemFixture)
+    public ProjectUserTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("ProjectUser");
+        _scenario = new Scenario(folder: "ProjectUser");
     }
 
     [Fact]
-    public async Task InviteUser_InvitesUser()
+    public async Task InviteUserIntoProjectAsync_InvitesUser()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
-
-        var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
+        var client = _scenario
+            .WithResponses("ProjectUser.json")
+            .CreateManagementClient();
 
         var invitation = new UserInviteModel
         {
             Email = "test@kontent.ai",
-            CollectionGroup = expected.CollectionGroup
+            CollectionGroup = new[] { 
+                new UserCollectionGroup
+                {
+                    Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
+                    Roles = new[] {
+                        new RoleModel
+                        {
+                            Id = Guid.NewGuid(),
+                            Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
+                        }
+                    }
+                }
+            }
         };
 
         var response = await client.InviteUserIntoProjectAsync(invitation);
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Post)
+            .RequestPayload(invitation)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/users")
+            .Validate();
     }
 
+    
     [Fact]
-    public async Task InviteUser_UserInvitationModelNotProvided_ThrowsException()
+    public async Task InviteUserIntoProjectAsync_UserInvitationModelIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = _scenario.CreateManagementClient();
 
         await client.Invoking(x => x.InviteUserIntoProjectAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
+    
     [Fact]
-    public async Task ModifyUsersRole_ByEmail_ModifiesUserRoles()
+    public async Task ModifyUsersRolesAsync_ByEmail_ModifiesUserRoles()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = _scenario
+            .WithResponses("ProjectUser.json")
+            .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
+        var user = new UserModel
+        {
+            CollectionGroup = new[] {
+                new UserCollectionGroup
+                {
+                    Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
+                    Roles = new[] {
+                        new RoleModel
+                        {
+                            Id = Guid.NewGuid(),
+                            Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
+                        }
+                    }
+                }
+            },
+            Id = "somethingId"
+        };
 
-        var response = await client.ModifyUsersRolesAsync(UserIdentifier.ByEmail("test@kontent.ai"), expected);
+        var identifier = UserIdentifier.ByEmail("test@kontent.ai");
+        var response = await client.ModifyUsersRolesAsync(identifier, user);
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/users/email/{identifier.Email}/roles")
+            .Validate();
     }
 
     [Fact]
-    public async Task ModifyUsersRole_ById_ModifiesUserRoles()
+    public async Task ModifyUsersRolesAsync_ById_ModifiesUserRoles()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = _scenario
+        .WithResponses("ProjectUser.json")
+        .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<UserModel>("ProjectUser.json");
+        var user = new UserModel
+        {
+            CollectionGroup = new[] {
+                new UserCollectionGroup
+                {
+                    Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
+                    Roles = new[] {
+                        new RoleModel
+                        {
+                            Id = Guid.NewGuid(),
+                            Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
+                        }
+                    }
+                }
+            },
+            Id = "somethingId"
+        };
 
-        var response = await client.ModifyUsersRolesAsync(UserIdentifier.ById(expected.Id), expected);
+        var identifier = UserIdentifier.ById("userId");
+        var response = await client.ModifyUsersRolesAsync(identifier, user);
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/users/{identifier.Id}/roles")
+            .Validate();
     }
 
     [Fact]
-    public async Task ModifyUsersRole_NullIdentifier_ModifiesUserRoles()
+    public async Task ModifyUsersRolesAsync_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = _scenario.CreateManagementClient();
 
         await client.Invoking(x => x.ModifyUsersRolesAsync(null, new UserModel())).Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async Task ModifyUsersRolesAsync_UserModelIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.ModifyUsersRolesAsync(UserIdentifier.ById("userId"), null)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }
