@@ -119,7 +119,7 @@ internal class Expectations
         _httpClientMockData.Url.Should().Be(_expectedUrl, "the URL should be the same as the expected one");
         _httpClientMockData.HttpMethod.Should().Be(_expectedHttpMethod, "the HTTP method should be the same as the expected one");
         _httpClientMockData.Headers.Should().BeEquivalentTo(_expectedHeaders, "The headers should be the same as the expected ones");
-        _request.Should().BeEquivalentTo(_expectedRequest, "the request should be the same as the expected one");
+        _request.Should().BeEquivalentTo(_expectedRequest);
         _resposne.Should().BeEquivalentTo(_expectedResponse, "the response should be the same as the expected one");
     }
 }
