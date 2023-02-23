@@ -1,0 +1,149 @@
+{
+  "users": [
+    {
+      "id": "usr_0vKjTCH2TkO687K3y3b333",
+      "first_name": "Joe",
+      "last_name": "Biden",
+      "email": "Joe.Biden@kontent.ai",
+      "has_pending_invitation": false,
+      "projects": [
+        {
+          "id": "9cfeebe3-721f-410a-b7f5-56d4d6392842",
+          "name": "random project name",
+          "environments": [
+            {
+              "id": "fb8c204a-770b-4712-ad3d-489397eff147",
+              "name": "Production",
+              "is_user_active": true,
+              "last_activity_at": "2022-01-18T13:37:15.987Z",
+              "collection_groups": [
+                {
+                  "collections": [
+                    { "id": "00000000-0000-0000-0000-000000000000" },
+                    { "id": "cccc204a-bcbc-4712-ad3d-489397eff147" }
+                  ],
+                  "roles": [
+                    {
+                      "id": "1f4529e0-e3d3-4388-9d84-694a2963a9f5",
+                      "name": "Project manager",
+                      "codename": "project-manager",
+                      "languages": [
+                        {
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "name": "english",
+                          "external_id": "english_123",
+                          "codename": "english",
+                          "is_active": "true"
+                        },
+                        {
+                          "id": "1f4511e0-e343-4388-6984-aaaa2963a9f5",
+                          "name": "espanol",
+                          "external_id": "espanol_123",
+                          "codename": "espanol",
+                          "is_active": "false"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "1f4529e0-1234-4388-9d84-694a2963a9f5",
+                      "name": "Espanol editor",
+                      "codename": "espanol-editor",
+                      "languages": [
+                        {
+                          "id": "1f4511e0-e343-4388-6984-aaaa2963a9f5",
+                          "name": "espanol",
+                          "external_id": "espanol_123",
+                          "codename": "espanol",
+                          "is_active": "false"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "collections": [
+                    { "id": "cccc204a-bcbc-0000-ad3d-489397eff147" }
+                  ],
+                  "roles": [
+                    {
+                      "id": "1f4529e0-0000-4388-9d84-694a2963a9f5",
+                      "name": "Espanol editor",
+                      "codename": "espanol-editor",
+                      "languages": [
+                        {
+                          "id": "1f4511e0-e343-4388-6984-aaaa2963a9f5",
+                          "name": "espanol",
+                          "external_id": "espanol_123",
+                          "codename": "espanol",
+                          "is_active": "false"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "fb8c204a-1111-4712-ad3d-489397eff147",
+              "name": "Production",
+              "is_user_active": false,
+              "last_activity_at": "2022-01-18T13:37:15.987Z",
+              "collection_groups": [
+                {
+                  "collections": [
+                    { "id": "00000000-0000-0000-0000-000000000000" }
+                  ],
+                  "roles": [
+                    {
+                      "id": "1f4529e0-2222-4388-9d84-694a2963a9f5",
+                      "name": "Project manager",
+                      "codename": "project-manager",
+                      "languages": [
+                        {
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "name": "english",
+                          "external_id": "english_123",
+                          "codename": "english",
+                          "is_active": "true"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "e6f3c6e3-58d9-41e4-a72a-837d091edb72",
+          "name": "random second name",
+          "environments": [
+            {
+              "id": "430f47dc-41f4-47e7-9fc8-551d60d6fc05",
+              "name": "Production",
+              "is_user_active": true,
+              "last_activity_at": "2022-02-02T14:48:00.77Z",
+              "collection_groups": [
+                {
+                  "collections": [],
+                  "roles": [
+                    {
+                      "id": "370730f9-a35e-479a-bc45-3a0c34e0e906",
+                      "name": "Project manager",
+                      "codename": "project-manager",
+                      "languages": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}
