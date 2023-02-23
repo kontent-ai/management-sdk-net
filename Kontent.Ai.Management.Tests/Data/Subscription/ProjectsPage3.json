@@ -1,0 +1,19 @@
+{
+  "projects": [
+    {
+      "id": "941f62b5-896b-459a-a967-34a2aa09ae9b",
+      "name": "aa",
+      "is_active": true,
+      "environments": [
+        {
+          "id": "9274306a-847c-4ac5-98d5-dadc4350ffaa",
+          "name": "Production"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}

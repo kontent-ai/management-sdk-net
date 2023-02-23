@@ -1,0 +1,49 @@
+{
+  "projects": [
+    {
+      "id": "30a484c3-12a8-40f8-955b-7a7184d1e494",
+      "name": "b",
+      "is_active": true,
+      "environments": [
+        {
+          "id": "68b4ed00-372a-49f9-b8b0-8ba6ae2b10d1",
+          "name": "Production"
+        }
+      ]
+    },
+    {
+      "id": "3702a7e9-b62a-460b-b87d-f2692c6bcc0f",
+      "name": "bb",
+      "is_active": true,
+      "environments": [
+        {
+          "id": "f73b7f1f-2540-441b-a3ea-b2b3b4eda146",
+          "name": "Production"
+        },
+        {
+          "id": "197ceed1-59bd-4306-bf68-c8a7fa0b8dbb",
+          "name": "Dev"
+        }
+      ]
+    },
+    {
+      "id": "66733f76-c67d-4eb6-b7f1-f3ae10460b24",
+      "name": "bbb",
+      "is_active": false,
+      "environments": [
+        {
+          "id": "33fc4d54-6799-4df1-87ce-bdf71b68aee7",
+          "name": "Production"
+        },
+        {
+          "id": "d7176fb7-837b-4a17-a7ae-42c5ed54c2ee",
+          "name": "Dev"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
