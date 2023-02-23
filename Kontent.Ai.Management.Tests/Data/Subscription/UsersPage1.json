@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": "usr_0vKjTCH2TkO687K3y3bKNS",
+      "id": "usr_0vKjTCH2TkO687K3y12345S",
       "first_name": "Joe",
       "last_name": "Biden",
       "email": "Joe.Biden@kontent.ai",
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "id": "bFXqT1VAhjcERoJZru5xFQp45sWHUjWFEu6tujsGmo7",
+      "id": "bFXqT1VAhjcERoJZru5xFQp45sWHUjWFEu4567",
       "first_name": "Donald",
       "last_name": "Trump",
       "email": "Donald.Trump@kontent.ai",
@@ -202,7 +202,7 @@
     }
   ],
   "pagination": {
-    "continuation_token": null,
-    "next_page": null
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
   }
 }

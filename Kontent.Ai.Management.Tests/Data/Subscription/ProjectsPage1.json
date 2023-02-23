@@ -43,7 +43,7 @@
     }
   ],
   "pagination": {
-    "continuation_token": null,
-    "next_page": null
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
   }
 }
