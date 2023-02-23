@@ -1,152 +1,191 @@
 ﻿using FluentAssertions;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.Subscription;
 using Kontent.Ai.Management.Tests.Base;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class SubscriptionTests : IClassFixture<FileSystemFixture>
+public class SubscriptionTests
 {
-    private readonly FileSystemFixture _fileSystemFixture;
-    private readonly string _subscriptionEndpoint;
+    private readonly Scenario _scenario;
 
-    public SubscriptionTests(FileSystemFixture fileSystemFixture)
+    public SubscriptionTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("Subscription");
-        _subscriptionEndpoint = $"{FileSystemFixture.Endpoint}/subscriptions/{FileSystemFixture.SUBCRIPTION_ID}";
+        _scenario = new Scenario(folder: "Subscription");
     }
 
     [Fact]
-    public async Task ListSubscriptionProjects_ListsSubscriptionProjects()
+    public async void ListSubscriptionProjectsAsync_WithContinuation_ListsSubscriptionProjects()
     {
-        var expected = _fileSystemFixture.GetItemsOfExpectedListingResponse<SubscriptionProjectModel>("Projects.json");
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Projects.json");
+        var client = _scenario
+            .WithResponses("ProjectsPage1.json", "ProjectsPage2.json", "ProjectsPage3.json")
+            .CreateManagementClient();
 
-        var response = await client.ListSubscriptionProjectsAsync();
+        var response = await client.ListSubscriptionProjectsAsync().GetAllAsync();
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .ListingResponse(response)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/projects")
+            .Validate();
+    }
+
+
+    [Fact]
+    public async Task ListSubscriptionUsersAsync_WithContinuation_ListsSubscriptionUsers()
+    {
+        var client = _scenario
+            .WithResponses("UsersPage1.json", "UsersPage2.json", "UsersPage3.json")
+            .CreateManagementClient();
+
+        var response = await client.ListSubscriptionUsersAsync().GetAllAsync();
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .ListingResponse(response)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users")
+            .Validate();
     }
 
     [Fact]
-    public async Task ListSubscriptionUsers_ListsSubscriptionUsers()
+    public async Task GetSubscriptionUserAsync_ById_GetsSubscriptionUser()
     {
-        var expected = _fileSystemFixture.GetItemsOfExpectedListingResponse<SubscriptionUserModel>("Users.json");
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Users.json");
+        var client = _scenario
+            .WithResponses("User.json")
+            .CreateManagementClient();
 
-        var response = await client.ListSubscriptionUsersAsync();
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetSubscriptionUser_ById_GetsSubscriptionUser()
-    {
-        var expected = _fileSystemFixture.GetExpectedResponse<SubscriptionUserModel>("User.json");
-
-        var identifier = UserIdentifier.ById(expected.Id);
-
-        var client = _fileSystemFixture.CreateMockClientWithResponse("User.json");
+        var identifier = UserIdentifier.ById("some_id");
 
         var response = await client.GetSubscriptionUserAsync(identifier);
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/{identifier.Id}")
+            .Validate();
     }
 
+
     [Fact]
-    public async Task GetSubscriptionUser_ByEmail_GetsSubscriptionUser()
+    public async Task GetSubscriptionUserAsync_ByEmail_GetsSubscriptionUser()
     {
-        var expected = _fileSystemFixture.GetExpectedResponse<SubscriptionUserModel>("User.json");
+        var client = _scenario
+            .WithResponses("User.json")
+            .CreateManagementClient();
 
-        var identifier = UserIdentifier.ByEmail(expected.Email);
-
-        var client = _fileSystemFixture.CreateMockClientWithResponse("User.json");
+        var identifier = UserIdentifier.ByEmail("some_email");
 
         var response = await client.GetSubscriptionUserAsync(identifier);
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/email/{identifier.Email}")
+            .Validate();
     }
 
     [Fact]
-    public async Task GetSubscriptionUser_ByNull_ThrowsException()
+    public async void GetSubscriptionUserAsync_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _scenario.CreateManagementClient();
 
-        await client.Invoking(x => x.GetSubscriptionUserAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.GetSubscriptionUserAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ActivateUser_ById_ActivatesUser()
+    public async void ActivateSubscriptionUserAsync_ById_ActivatesUser()
     {
-        var expected = _fileSystemFixture.GetExpectedResponse<SubscriptionUserModel>("User.json");
+        var client = _scenario
+            .WithResponses("User.json")
+            .CreateManagementClient();
 
-        var identifier = UserIdentifier.ById(expected.Id);
+        var identifier = UserIdentifier.ById("some_id");
 
-        var client = _fileSystemFixture.CreateMockClientWithUrl(expectedUrl: $"{_subscriptionEndpoint}/users/{expected.Id}/activate");
+        await client.ActivateSubscriptionUserAsync(identifier);
 
-        Func<Task> activateUser = async () => await client.ActivateSubscriptionUserAsync(identifier);
-
-        await activateUser.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/{identifier.Id}/activate")
+            .Validate();
     }
 
     [Fact]
-    public async void ActivateUser_ByEmail_ActivatesUser()
+    public async void ActivateSubscriptionUserAsync_ByEmail_ActivatesUser()
     {
-        var expected = _fileSystemFixture.GetExpectedResponse<SubscriptionUserModel>("User.json");
+        var client = _scenario
+            .WithResponses("User.json")
+            .CreateManagementClient();
 
-        var identifier = UserIdentifier.ByEmail(expected.Email);
+        var identifier = UserIdentifier.ByEmail("some_email");
 
-        var client = _fileSystemFixture.CreateMockClientWithUrl(expectedUrl: $"{_subscriptionEndpoint}/users/email/{expected.Email}/activate");
+        await client.ActivateSubscriptionUserAsync(identifier);
 
-        Func<Task> activateUser = async () => await client.ActivateSubscriptionUserAsync(identifier);
-
-        await activateUser.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/email/{identifier.Email}/activate")
+            .Validate();
     }
 
     [Fact]
-    public async Task ActivateUser_ByNull_ThrowsException()
+    public async void ActivateSubscriptionUserAsync_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _scenario.CreateManagementClient();
 
-        await client.Invoking(x => x.ActivateSubscriptionUserAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ActivateSubscriptionUserAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void DeactivateUser_ById_DeactivatesUser()
+    public async void DeactivateSubscriptionUserAsync_ById_ActivatesUser()
     {
-        var expected = _fileSystemFixture.GetExpectedResponse<SubscriptionUserModel>("User.json");
+        var client = _scenario
+            .WithResponses("User.json")
+            .CreateManagementClient();
 
-        var identifier = UserIdentifier.ById(expected.Id);
+        var identifier = UserIdentifier.ById("some_id");
 
-        var client = _fileSystemFixture.CreateMockClientWithUrl(expectedUrl: $"{_subscriptionEndpoint}/users/{expected.Id}/deactivate");
+        await client.DeactivateSubscriptionUserAsync(identifier);
 
-        Func<Task> activateUser = async () => await client.DeactivateSubscriptionUserAsync(identifier);
-
-        await activateUser.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/{identifier.Id}/deactivate")
+            .Validate();
     }
 
     [Fact]
-    public async void DeactivateUser_ByEmail_DectivatesUser()
+    public async void DeactivateSubscriptionUserAsync_ByEmail_ActivatesUser()
     {
-        var expected = _fileSystemFixture.GetExpectedResponse<SubscriptionUserModel>("User.json");
+        var client = _scenario
+            .WithResponses("User.json")
+            .CreateManagementClient();
 
-        var identifier = UserIdentifier.ByEmail(expected.Email);
+        var identifier = UserIdentifier.ByEmail("some_email");
 
-        var client = _fileSystemFixture.CreateMockClientWithUrl(expectedUrl: $"{_subscriptionEndpoint}/users/email/{expected.Email}/deactivate");
+        await client.DeactivateSubscriptionUserAsync(identifier);
 
-        Func<Task> activateUser = async () => await client.DeactivateSubscriptionUserAsync(identifier);
-
-        await activateUser.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/email/{identifier.Email}/deactivate")
+            .Validate();
     }
 
     [Fact]
-    public async Task DeactivateUser_ByNull_ThrowsException()
+    public async void DeactivateSubscriptionUserAsync_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _scenario.CreateManagementClient();
 
-        await client.Invoking(x => x.DeactivateSubscriptionUserAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.DeactivateSubscriptionUserAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 }
