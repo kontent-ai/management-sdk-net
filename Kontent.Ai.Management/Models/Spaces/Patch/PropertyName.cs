@@ -18,4 +18,10 @@ public enum PropertyName
     /// </summary>
     [EnumMember(Value = "name")]
     Name,
+    
+    /// <summary>
+    /// The web spotlight root item of the space.
+    /// </summary>
+    [EnumMember(Value = "web_spotlight_root_item")]
+    WebSpotlightRootItem,
 }

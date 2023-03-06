@@ -26,7 +26,7 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
 
         var expected = _fileSystemFixture.GetExpectedResponse<SpaceModel>("Space.json");
 
-        var createModel = new SpaceCreateModel { Codename = expected.Codename, Name = expected.Name };
+        var createModel = new SpaceCreateModel { Codename = expected.Codename, Name = expected.Name, WebSpotlightRootItem = expected.WebSpotlightRootItem };
 
         var response = await client.CreateSpaceAsync(createModel);
 
@@ -79,7 +79,9 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
         var changes = new SpaceOperationReplaceModel[]
         {
             new() { PropertyName = PropertyName.Name, Value = "New space name" },
-            new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" }
+            new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" },
+            new() { PropertyName = PropertyName.WebSpotlightRootItem, Value = Reference.ById(Guid.Parse("1024356f-858f-421a-b804-07c6bfe10ce5")) }
+            
         };
 
         var response =  await client.ModifySpaceAsync(Reference.ById(expected.Id), changes);
