@@ -23,5 +23,5 @@ public class SpaceOperationReplaceModel
     /// Gets or sets the value to insert in the specified property.
     /// </summary>
     [JsonProperty("value", Required = Required.Always)]
-    public string Value { get; set; }
+    public dynamic Value { get; set; }
 }

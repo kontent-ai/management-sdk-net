@@ -1,5 +1,8 @@
 {
   "id": "ece703a9-900e-4781-9d21-bdfbf9762751",
   "codename": "space_1",
-  "name": "Space 1"
+  "name": "Space 1",
+  "web_spotlight_root_item": {
+    "id": "1024356f-858f-421a-b804-07c6bfe10ce5"
+  }
 }

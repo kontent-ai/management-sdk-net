@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Models.Shared;
 using Newtonsoft.Json;
 using System;
 
@@ -25,4 +26,10 @@ public class SpaceModel
     /// </summary>
     [JsonProperty("name")]
     public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the space's root item.
+    /// </summary>
+    [JsonProperty("web_spotlight_root_item")]
+    public Reference WebSpotlightRootItem { get; set; }
 }
