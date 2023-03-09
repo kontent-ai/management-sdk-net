@@ -1,7 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
 using Newtonsoft.Json;
 
-namespace Kontent.Ai.Management.Models.Assets.Patch;
+namespace Kontent.Ai.Management.Models.AssetFolders.Patch;
 
 /// <summary>
 /// Represents addInto operation to perform on the folder.

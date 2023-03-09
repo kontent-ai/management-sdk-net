@@ -1,18 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using Kontent.Ai.Management.Extensions;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.Assets;
+namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
-/// Represents the Asset Folder Hierarchy (recursive)
+/// Represents the Asset Folder Hierarchy with parent folder traversal links. 
+/// This class is a derivation of the <see cref="AssetFolderHierarchy"/> class. To receive an instance of this class call <see cref="AssetExtensions.GetParentLinkedFolderHierarchy"/>
 /// </summary>
-public sealed class AssetFolderHierarchy
+public sealed class AssetFolderLinkingHierarchy
 {
     /// <summary>
     /// The referenced folder's ID. Not present if the asset is not in a folder. "00000000-0000-0000-0000-000000000000" means outside of any folder.
     /// </summary>
     [JsonProperty("id")]
-    public string Id { get; private set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// Gets external id of the identifier. The folder's external ID. Only present if specified when adding folders or modifying the folders collection to add new folders.
@@ -21,14 +23,20 @@ public sealed class AssetFolderHierarchy
     public string ExternalId { get; set; }
 
     /// <summary>
-    /// Gets or sets the name of the folder
+    /// Name of the folder
     /// </summary>
     [JsonProperty("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// Gets or sets nested folders
+    /// Nested folders
     /// </summary>
     [JsonProperty("folders")]
-    public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+    public IEnumerable<AssetFolderLinkingHierarchy> Folders { get; set; }
+
+    /// <summary>
+    /// Reference to the parent folder
+    /// </summary>
+    [JsonIgnore()]
+    public AssetFolderLinkingHierarchy Parent { get; set; }
 }

@@ -9,5 +9,5 @@ internal static class ConverterHelper
         objectType.IsGenericType &&
         typeof(IEnumerable).IsAssignableFrom(objectType.GetGenericTypeDefinition()) &&
         objectType.GenericTypeArguments.Length == 1 &&
-        objectType.GenericTypeArguments.FirstOrDefault() == typeof(T);
+        objectType.GenericTypeArguments.Single() == typeof(T);
 }

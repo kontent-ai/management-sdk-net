@@ -39,7 +39,8 @@ internal class Expectations
             {
                 new ContentTypeOperationBaseModelConverter(),
                 new TaxonomyGroupOperationBaseModelConverter(),
-                new ContentTypeSnippetOperationBaseModelConverter()
+                new ContentTypeSnippetOperationBaseModelConverter(),
+                new AssetFolderOperationBaseModelConverter()
             }
         };
     }
@@ -60,7 +61,15 @@ internal class Expectations
 
     public Expectations RequestPayload<T>(T requestPayload) where T : class
     {
-        _expectedRequest = JsonConvert.DeserializeObject<T>(_httpClientMockData.Payload, _deserializeSettings);
+        try
+        {
+            _expectedRequest = JsonConvert.DeserializeObject<T>(_httpClientMockData.Payload, _deserializeSettings);
+        }
+        catch
+        {
+            _expectedRequest = _httpClientMockData.Payload;
+        }
+
         _request = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(requestPayload), _deserializeSettings);
 
         return this;

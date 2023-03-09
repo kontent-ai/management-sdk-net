@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Kontent.Ai.Management.Models.Assets;
+namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
 /// Represents an asset folder
