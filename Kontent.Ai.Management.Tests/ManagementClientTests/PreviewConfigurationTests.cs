@@ -1,53 +1,70 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
 using Kontent.Ai.Management.Tests.Base;
 using Xunit;
+using System.Net.Http;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
+public class PreviewConfigurationTests
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public PreviewConfigurationTests(FileSystemFixture fileSystemFixture)
+    public PreviewConfigurationTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("PreviewConfiguration");
+        _scenario = new Scenario(folder: "PreviewConfiguration");
     }
 
     [Fact]
     public async void GetPreviewConfigurations_GetsPreviewConfiguration()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PreviewConfiguration.json");
+        var client = _scenario
+            .WithResponses("PreviewConfiguration.json")
+            .CreateManagementClient();
+
         var response = await client.GetPreviewConfigurationAsync();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<PreviewConfigurationModel>("PreviewConfiguration.json");
-
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/preview-configuration")
+            .Validate();
     }
-    
+
     [Fact]
-    public async void ModifyPreviewConfiguration_UpdatesPreviewConfiguration()
+    public async void ModifyPreviewConfiguration_ModifiesPreviewConfiguration()
     {
+        var client = _scenario
+            .WithResponses("PreviewConfiguration.json")
+            .CreateManagementClient();
+
         var newPreviewConfiguration = new PreviewConfigurationModel
         {
-           SpaceDomains = new List<SpaceDomainModel> {
-               new() {
-                   Domain = "www.mysite.com",
-                   Space = Reference.ByCodename("my_space")
-               }
-           },
-           PreviewUrlPatterns = new List<TypePreviewUrlPatternModel> {
-               new() {
-                   ContentType = Reference.ByCodename("article"),
-                   UrlPatterns = new List<PreviewUrlPatternModel> {
-                       new() {
-                           Space = null,
-                           UrlPattern = "https://www.globalsite.com/{URLSlug}"
+            SpaceDomains = new List<SpaceDomainModel> 
+            {
+                new()
+                {
+                    Domain = "www.mysite.com",
+                    Space = Reference.ByCodename("my_space")
+                }
+            },
+            PreviewUrlPatterns = new List<TypePreviewUrlPatternModel> 
+            {
+                new() 
+                {
+                    ContentType = Reference.ByCodename("article"),
+                    UrlPatterns = new List<PreviewUrlPatternModel> 
+                    {
+                        new()
+                        {
+                            Space = null,
+                            UrlPattern = "https://www.globalsite.com/{URLSlug}"
                        },
-                       new() {
+                       new()
+                       {
                            Space = Reference.ByCodename("my_space"),
                            UrlPattern = "https://{Space}/{URLSlug}/test"
                        },
@@ -56,11 +73,15 @@ public class PreviewConfigurationTests : IClassFixture<FileSystemFixture>
            }
         };
 
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PreviewConfiguration.json");
         var response = await client.ModifyPreviewConfigurationAsync(newPreviewConfiguration);
-        var expected = _fileSystemFixture.GetExpectedResponse<PreviewConfigurationModel>("PreviewConfiguration.json");
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .RequestPayload(newPreviewConfiguration)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/preview-configuration")
+            .Validate();
     }
-    
+
 }
