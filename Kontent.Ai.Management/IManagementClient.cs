@@ -11,6 +11,7 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
 using Kontent.Ai.Management.Models.ProjectReport;
 using Kontent.Ai.Management.Models.ProjectValidation;
+using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
