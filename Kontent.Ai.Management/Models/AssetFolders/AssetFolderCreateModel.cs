@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.Assets;
+namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
 /// Represents the asset folder list.
