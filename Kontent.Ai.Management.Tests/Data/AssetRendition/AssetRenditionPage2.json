@@ -1,0 +1,23 @@
+{
+  "asset_renditions": [
+    {
+      "rendition_id": "06713b52-92be-4248-883b-992bf099a588",
+      "asset_id": "1a510cc5-e844-4552-9f3e-b964bc966bee",
+      "transformation": {
+        "mode": "rect",
+        "fit": "clip",
+        "custom_width": 200,
+        "custom_height": 200,
+        "x": 314,
+        "y": 208,
+        "width": 200,
+        "height": 200
+      },
+      "last_modified": "2021-11-22T13:06:38.4812554Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
