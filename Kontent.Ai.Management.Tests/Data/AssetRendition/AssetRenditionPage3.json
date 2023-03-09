@@ -1,0 +1,23 @@
+{
+  "asset_renditions": [
+    {
+      "rendition_id": "f6aa26cc-5da7-49e1-b98d-8e29b48d7467",
+      "asset_id": "1a510cc5-e844-4552-9f3e-b964bc966bee",
+      "transformation": {
+        "mode": "rect",
+        "fit": "clip",
+        "custom_width": 600,
+        "custom_height": 400,
+        "x": 138,
+        "y": 9,
+        "width": 600,
+        "height": 400
+      },
+      "last_modified": "2022-02-16T15:42:26.2018482Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}

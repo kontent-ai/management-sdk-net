@@ -30,40 +30,11 @@
         "height": 100
       },
       "last_modified": "2021-11-22T12:23:04.577095Z"
-    },
-    {
-      "rendition_id": "06713b52-92be-4248-883b-992bf099a588",
-      "asset_id": "1a510cc5-e844-4552-9f3e-b964bc966bee",
-      "transformation": {
-        "mode": "rect",
-        "fit": "clip",
-        "custom_width": 200,
-        "custom_height": 200,
-        "x": 314,
-        "y": 208,
-        "width": 200,
-        "height": 200
-      },
-      "last_modified": "2021-11-22T13:06:38.4812554Z"
-    },
-    {
-      "rendition_id": "f6aa26cc-5da7-49e1-b98d-8e29b48d7467",
-      "asset_id": "1a510cc5-e844-4552-9f3e-b964bc966bee",
-      "transformation": {
-        "mode": "rect",
-        "fit": "clip",
-        "custom_width": 600,
-        "custom_height": 400,
-        "x": 138,
-        "y": 9,
-        "width": 600,
-        "height": 400
-      },
-      "last_modified": "2022-02-16T15:42:26.2018482Z"
     }
   ],
   "pagination": {
-    "continuation_token": null,
-    "next_page": null
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
   }
 }
+
