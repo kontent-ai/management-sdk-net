@@ -1,4 +1,4 @@
-﻿namespace Kontent.Ai.Management.Models.Assets.Patch;
+﻿namespace Kontent.Ai.Management.Models.AssetFolders.Patch;
 
 /// <summary>
 /// Represents remove operation to perform on the folder.
