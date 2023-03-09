@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Kontent.Ai.Management.Models.Workflow;
+namespace Kontent.Ai.Management.Models.Publishing;
 
 /// <summary>
 /// Represents the schedule model.
