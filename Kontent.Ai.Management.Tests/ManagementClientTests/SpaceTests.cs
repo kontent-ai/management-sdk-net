@@ -4,77 +4,170 @@ using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
-using System.Collections.Generic;
+using System.Net.Http;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class SpaceTests : IClassFixture<FileSystemFixture>
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public SpaceTests(FileSystemFixture fileSystemFixture)
+    public SpaceTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("Space");
+        _scenario = new Scenario(folder: "Space");
     }
 
     [Fact]
-    public async void CreateSpace_CreatesSpace()
+    public async void ListSpacesAsync_ListsSpaces()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Space.json");
-
-        var expected = _fileSystemFixture.GetExpectedResponse<SpaceModel>("Space.json");
-
-        var createModel = new SpaceCreateModel { Codename = expected.Codename, Name = expected.Name };
-
-        var response = await client.CreateSpaceAsync(createModel);
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async void ListSpaces_ListsSpaces()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Spaces.json");
-
-        var expected = _fileSystemFixture.GetExpectedResponse<IEnumerable<SpaceModel>>("Spaces.json");
+        var client = _scenario
+            .WithResponses("Spaces.json")
+            .CreateManagementClient();
 
         var response = await client.ListSpacesAsync();
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces")
+            .Validate();
     }
 
     [Fact]
-    public async void GetSpace_ById_GetsSpace()
+    public async void GetSpaceAsync_ById_GetsSpace()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Space.json");
+        var client = _scenario
+            .WithResponses("Space.json")
+            .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<SpaceModel>("Space.json");
+        var identifier = Reference.ById(Guid.NewGuid());
+        var response = await client.GetSpaceAsync(identifier);
 
-        var response = await client.GetSpaceAsync(Reference.ById(expected.Id));
-
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/{identifier.Id}")
+            .Validate();
     }
 
     [Fact]
-    public async void GetSpace_ByCodename_GetsSpace()
+    public async void GetSpaceAsync_ByCodename_GetsSpace()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Space.json");
+        var client = _scenario
+            .WithResponses("Space.json")
+            .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<SpaceModel>("Space.json");
+        var identifier = Reference.ByCodename("codename");
+        var response = await client.GetSpaceAsync(identifier);
 
-        var response = await client.GetSpaceAsync(Reference.ByCodename(expected.Codename));
-
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/codename/{identifier.Codename}")
+            .Validate();
     }
 
     [Fact]
-    public async void ModifySpace_Replace_ModifiesSpace()
+    public async void GetSpaceAsync_ByExternalId_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ModifySpace_Replace_ModifiesSpace.json");
+        var client = _scenario.CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<SpaceModel>("ModifySpace_Replace_ModifiesSpace.json");
+        await client.Invoking(x => x.GetSpaceAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
+    }
+
+    [Fact]
+    public async void GetSpaceAsync_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.GetSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async void CreateSpaceAsync_CreatesSpace()
+    {
+        var client = _scenario
+            .WithResponses("Space.json")
+            .CreateManagementClient();
+
+        var createModel = new SpaceCreateModel { Codename = "codename", Name = "name"};
+
+        var response = await client.CreateSpaceAsync(createModel);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Post)
+            .RequestPayload(createModel)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces")
+            .Validate();
+    }
+
+    [Fact]
+    public async void CreateSpaceAsync_CreateModelIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.CreateSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async void DeleteSpaceAsync_ById_DeletesSpace()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        var identifier = Reference.ById(Guid.NewGuid());
+        await client.DeleteSpaceAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/{identifier.Id}")
+            .HttpMethod(HttpMethod.Delete)
+            .Validate();
+    }
+
+    [Fact]
+    public async void DeleteSpaceAsync_ByCodename_DeletesSpace()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        var identifier = Reference.ByCodename("codename");
+        await client.DeleteSpaceAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/codename/{identifier.Codename}")
+            .HttpMethod(HttpMethod.Delete)
+            .Validate();
+    }
+
+    [Fact]
+    public async void DeleteSpaceAsync_ByExternalId_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.DeleteSpaceAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
+    }
+
+    [Fact]
+    public async void DeleteSpaceAsync_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.DeleteSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async void ModifySpaceAsync_ById_ModifiesSpace()
+    {
+        var client = _scenario
+            .WithResponses("ModifySpace_Replace_ModifiesSpace.json")
+            .CreateManagementClient();
 
         var changes = new SpaceOperationReplaceModel[]
         {
@@ -82,29 +175,68 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
             new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" }
         };
 
-        var response =  await client.ModifySpaceAsync(Reference.ById(expected.Id), changes);
+        var identifier = Reference.ById(Guid.NewGuid());
+        var response = await client.ModifySpaceAsync(identifier, changes);
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/{identifier.Id}")
+            .Validate();
     }
 
     [Fact]
-    public async void DeleteSpace_ById_DeletesSpace()
+    public async void ModifySpaceAsync_ByCodename_ModifiesSpace()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-        
-        var deleteSpace = async () => await client.DeleteSpaceAsync(Reference.ById(Guid.NewGuid()));
+        var client = _scenario
+            .WithResponses("ModifySpace_Replace_ModifiesSpace.json")
+            .CreateManagementClient();
 
-        await deleteSpace.Should().NotThrowAsync();
+        var changes = new SpaceOperationReplaceModel[]
+        {
+            new() { PropertyName = PropertyName.Name, Value = "New space name" },
+            new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" }
+        };
+
+        var identifier = Reference.ByCodename("codename");
+        var response = await client.ModifySpaceAsync(identifier, changes);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/codename/{identifier.Codename}")
+            .Validate();
     }
 
     [Fact]
-    public async void DeleteSpace_ByCodename_DeletesSpace()
+    public async void ModifySpaceAsync_ByExternalId_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-        
-        var deleteSpace = async () => await client.DeleteSpaceAsync(Reference.ByCodename("space_1"));
+        var client = _scenario.CreateManagementClient();
 
-        await deleteSpace.Should().NotThrowAsync();
+        var changes = new SpaceOperationReplaceModel[]
+        {
+            new() { PropertyName = PropertyName.Name, Value = "New space name" },
+            new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" }
+        };
+
+        await client.Invoking(x => x.ModifySpaceAsync(Reference.ByExternalId("externalId"), changes)).Should().ThrowAsync<Exception>();
+    }
+
+    [Fact]
+    public async void ModifySpaceAsync_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        var changes = new SpaceOperationReplaceModel[]
+        {
+            new() { PropertyName = PropertyName.Name, Value = "New space name" },
+            new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" }
+        };
+
+        await client.Invoking(x => x.ModifySpaceAsync(null, changes)).Should().ThrowAsync<ArgumentNullException>();
     }
 }
-    

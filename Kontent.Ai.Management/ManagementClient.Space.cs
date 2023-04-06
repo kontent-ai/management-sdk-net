@@ -17,6 +17,11 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<SpaceModel> CreateSpaceAsync(SpaceCreateModel space)
     {
+        if (space == null)
+        {
+            throw new ArgumentNullException(nameof(space));
+        }
+
         var endpointUrl = _urlBuilder.BuildSpacesUrl();
         return await _actionInvoker.InvokeMethodAsync<SpaceCreateModel, SpaceModel>(endpointUrl, HttpMethod.Post, space);
     }
