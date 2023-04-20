@@ -92,7 +92,7 @@ catch (ManagementException ex)
 
 ### Working with language variants
 
-The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kontent.ai [model generator utility](https://github.com/kontent-ai/generators-net) and then be able to retrieve the data in a strongly typed form.
+The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kontent.ai [model generator utility](https://github.com/kontent-ai/model-generator-net) and then be able to retrieve the data in a strongly typed form.
 
 ```csharp
 // Retrieve strongly-typed content item
