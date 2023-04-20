@@ -4,94 +4,71 @@ using Kontent.Ai.Management.Models.Collections.Patch;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class CollectionTests : IClassFixture<FileSystemFixture>
+public class CollectionTests
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public CollectionTests(FileSystemFixture fileSystemFixture)
+    public CollectionTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("Collection");
+        _scenario = new Scenario(folder: "Collection");
     }
 
     [Fact]
     public async Task ListCollections_ListsCollections()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
-
-        var expectedItems = _fileSystemFixture.GetExpectedResponse<CollectionsModel>("Collections.json");
+        var client = _scenario
+            .WithResponses("Collections.json")
+            .CreateManagementClient();
 
         var response = await client.ListCollectionsAsync();
 
-        response.Should().BeEquivalentTo(expectedItems);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Validate();
     }
 
-
-    [Fact]
-    public async void ModifyCollection_Remove_ById_RemovesCollection()
+    [Theory]
+    [MemberData(nameof(GetIdentifers))]
+    public async void ModifyCollection_Remove_RemovesCollection(Reference identifier)
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        var identifier = Reference.ById(Guid.NewGuid());
+        var client = _scenario
+            .WithResponses("Collections.json")
+            .CreateManagementClient();
 
         var changes = new[] { new CollectionRemovePatchModel
         {
             CollectionIdentifier = identifier
         }};
 
-        Func<Task> deleteCollection = async () => await client.ModifyCollectionAsync(changes);
+        var response = await client.ModifyCollectionAsync(changes);
 
-        await deleteCollection.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Validate();
     }
 
-
-    [Fact]
-    public async void ModifyCollection_Remove_ByCodename_RemovesCollection()
+    [Theory]
+    [MemberData(nameof(GetIdentifers))]
+    public async void ModifyCollection_Move_After_MovesCollection(Reference identifier)
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        var identifier = Reference.ByCodename("codename");
-
-        var changes = new[] { new CollectionRemovePatchModel
-        {
-            CollectionIdentifier = identifier
-        }};
-
-        Func<Task> deleteCollection = async () => await client.ModifyCollectionAsync(changes);
-
-        await deleteCollection.Should().NotThrowAsync();
-    }
-
-    [Fact]
-    public async void ModifyCollection_Remove_ByExternalId_RemovesCollection()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        var identifier = Reference.ByExternalId("externalId");
-
-        var changes = new[] { new CollectionRemovePatchModel
-        {
-            CollectionIdentifier = identifier
-        }};
-
-        Func<Task> deleteCollection = async () => await client.ModifyCollectionAsync(changes);
-
-        await deleteCollection.Should().NotThrowAsync();
-    }
-
-    [Fact]
-    public async void ModifyCollection_Move_After_MovesCollection()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
-
-        var expectedItems = _fileSystemFixture.GetExpectedResponse<CollectionsModel>("Collections.json");
-
-        var identifier = Reference.ByExternalId("second_external_id");
+        var client = _scenario
+            .WithResponses("Collections.json")
+            .CreateManagementClient();
 
         var changes = new[] { new CollectionMovePatchModel
         {
@@ -101,17 +78,22 @@ public class CollectionTests : IClassFixture<FileSystemFixture>
 
         var response = await client.ModifyCollectionAsync(changes);
 
-        response.Should().BeEquivalentTo(expectedItems, options => options.WithStrictOrderingFor(x => x.Collections));
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Validate();
     }
 
-    [Fact]
-    public async void ModifyCollection_Move_Before_MovesCollection()
+    [Theory]
+    [MemberData(nameof(GetIdentifers))]
+    public async void ModifyCollection_Move_Before_MovesCollection(Reference identifier)
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
-
-        var expectedItems = _fileSystemFixture.GetExpectedResponse<CollectionsModel>("Collections.json");
-
-        var identifier = Reference.ByExternalId("second_external_id");
+        var client = _scenario
+            .WithResponses("Collections.json")
+            .CreateManagementClient();
 
         var changes = new[] { new CollectionMovePatchModel
         {
@@ -121,13 +103,22 @@ public class CollectionTests : IClassFixture<FileSystemFixture>
 
         var response = await client.ModifyCollectionAsync(changes);
 
-        response.Should().BeEquivalentTo(expectedItems, options => options.WithStrictOrderingFor(x => x.Collections));
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Validate();
     }
 
-    [Fact]
-    public async void ModifyCollection_AddInto_MovesCollection()
+    [Theory]
+    [MemberData(nameof(GetIdentifers))]
+    public async void ModifyCollection_AddInto_MovesCollection(Reference identifier)
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
+        var client = _scenario
+            .WithResponses("Collections.json")
+            .CreateManagementClient();
 
         var expected = new CollectionCreateModel
         {
@@ -136,19 +127,26 @@ public class CollectionTests : IClassFixture<FileSystemFixture>
             Name = "Second collection"
         };
 
-        var change = new CollectionAddIntoPatchModel { Value = expected, After = Reference.ById(Guid.Empty) };
+        var changes = new[] { new CollectionAddIntoPatchModel { Value = expected, After = identifier } };
 
-        var response = await client.ModifyCollectionAsync(new[] { change });
+        var response = await client.ModifyCollectionAsync(changes);
 
-        response.Collections.Should().ContainEquivalentOf(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Validate();
     }
 
-    [Fact]
-    public async void ModifyCollection_Replace_ReplacesCollection()
+    [Theory]
+    [MemberData(nameof(GetIdentifers))]
+    public async void ModifyCollection_Replace_ReplacesCollection(Reference identifier)
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
-
-        var identifier = Reference.ByExternalId("second_external_id");
+        var client = _scenario
+            .WithResponses("Collections.json")
+            .CreateManagementClient();
 
         var changes = new[] { new CollectionReplacePatchModel
         {
@@ -159,6 +157,27 @@ public class CollectionTests : IClassFixture<FileSystemFixture>
 
         var response = await client.ModifyCollectionAsync(changes);
 
-        response.Collections.Should().ContainSingle(x => x.Name == "Second collection");
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Validate();
+    }
+
+    [Fact]
+    public async void ModifyCollection_ChangesAreNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.ModifyCollectionAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    public static IEnumerable<object[]> GetIdentifers()
+    {
+        yield return new object[] { Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")) };
+        yield return new object[] { Reference.ByCodename("codename") };
+        yield return new object[] { Reference.ByExternalId("external-id") };
     }
 }

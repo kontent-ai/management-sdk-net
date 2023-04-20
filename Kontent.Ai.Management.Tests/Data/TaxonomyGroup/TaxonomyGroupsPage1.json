@@ -1,0 +1,98 @@
+﻿{
+  "taxonomies": [
+    {
+      "last_modified": "2021-06-02T11:08:26.4276693Z",
+      "id": "7fad4cb0-c96c-5bce-a6c4-ec02a0280632",
+      "name": "Personas",
+      "codename": "personas",
+      "external_id": "f30c7f72-e9ab-8832-2a57-62944a038809",
+      "terms": [
+        {
+          "id": "0681c1ab-9b46-5a9d-bad0-5b2255cbaa3e",
+          "name": "Coffee expert",
+          "codename": "coffee_expert",
+          "external_id": "6693ca6e-79e0-57e4-000d-d23d5ce8f656",
+          "terms": [
+            {
+              "id": "6e8b18d5-c5e3-5fc1-9014-44c18ef5f5d8",
+              "name": "Barista",
+              "codename": "barista",
+              "external_id": "6a372f43-ccd7-e524-6308-c2094e7b6596",
+              "terms": []
+            },
+            {
+              "id": "f36cb6b1-a77a-5c85-83a1-e380458552e1",
+              "name": "Cafe owner",
+              "codename": "cafe_owner",
+              "external_id": "cdf2f3c6-89e3-5df1-f7de-7179460bd6b4",
+              "terms": []
+            }
+          ]
+        },
+        {
+          "id": "63e3086d-be0f-534f-ab7a-02c6eb9e766a",
+          "name": "Coffee enthusiast",
+          "codename": "coffee_enthusiast",
+          "external_id": "ab2b73a3-473d-4232-0652-495598f5d670",
+          "terms": [
+            {
+              "id": "f3189a2d-82b4-5a91-bdc8-c1971ed0c10e",
+              "name": "Coffee lover",
+              "codename": "coffee_lover",
+              "external_id": "208a9095-1b92-10da-7627-75ae311935cf",
+              "terms": []
+            },
+            {
+              "id": "36a4819d-e7f4-5f20-a3f0-ccd09cc0dc48",
+              "name": "Coffee blogger",
+              "codename": "coffee_blogger",
+              "external_id": "4fa27320-c363-3ebe-5ab5-b531300f053f",
+              "terms": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "last_modified": "2021-06-02T11:08:26.2089083Z",
+      "id": "f6851a6e-a342-5253-8bc6-e8abc8f56b15",
+      "name": "Manufacturer",
+      "codename": "manufacturer",
+      "external_id": "4ce421e9-c403-eee8-fdc2-74f09392a749",
+      "terms": [
+        {
+          "id": "d052a5a6-b8a5-52b2-b8e6-f0e073e5a943",
+          "name": "Aerobie",
+          "codename": "aerobie",
+          "external_id": "f04c8552-1b97-a49b-3944-79275622f471",
+          "terms": []
+        },
+        {
+          "id": "09060657-7288-5e14-806a-e3fd5548d2e5",
+          "name": "Chemex",
+          "codename": "chemex",
+          "external_id": "16d27bf1-e0f4-8646-0e54-1b71efc6947f",
+          "terms": []
+        },
+        {
+          "id": "33a832cf-ce27-54eb-8d84-e435a930fad3",
+          "name": "Espro",
+          "codename": "espro",
+          "external_id": "b378225f-6dfc-e261-3848-dd030a6d7883",
+          "terms": []
+        },
+        {
+          "id": "6b6aac7a-1528-58d5-9e5b-c49f6f217a84",
+          "name": "Hario",
+          "codename": "hario",
+          "external_id": "6fde9724-5b72-8bc9-6da0-4f0573a54532",
+          "terms": []
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}

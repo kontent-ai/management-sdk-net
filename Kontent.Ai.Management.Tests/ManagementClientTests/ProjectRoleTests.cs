@@ -1,68 +1,94 @@
 ﻿using FluentAssertions;
-using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
-
-using static FluentAssertions.FluentActions;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class ProjectRoleTests : IClassFixture<FileSystemFixture>
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public ProjectRoleTests(FileSystemFixture fileSystemFixture)
+    public ProjectRoleTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("ProjectRole");
+        _scenario = new Scenario(folder: "ProjectRole");
     }
 
     [Fact]
-    public async Task ListProjectRoles_ListsProjectRoles()
+    public async void ListProjectRolesAsync_ListsProjectRoles()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRoles.json");
-
-        var expectedItems = _fileSystemFixture.GetExpectedResponse<ProjectRolesModel>("ProjectRoles.json");
+        var client = _scenario
+            .WithResponses("ProjectRoles.json")
+            .CreateManagementClient();
 
         var response = await client.ListProjectRolesAsync();
 
-        response.Should().BeEquivalentTo(expectedItems);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/roles")
+            .Validate();
     }
 
     [Fact]
-    public async Task GetProjectRole_NoIdentifier_ExceptionRaised()
+    public async Task GetProjectRoleAsync_ById_GetsProjectRole()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        var client = _scenario
+            .WithResponses("ProjectRole.json")
+            .CreateManagementClient();
 
-        await Awaiting(() => client.GetProjectRoleAsync(null))
-            .Should()
-            .ThrowAsync<ArgumentNullException>();
+        var identifier = Reference.ById(Guid.NewGuid());
+        var response = await client.GetProjectRoleAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/roles/{identifier.Id}")
+            .Validate();
     }
 
     [Fact]
-    public async Task GetProjectRole_ById_GetsProjectRole()
+    public async Task GetProjectRoleAsync_ByCodename_GetsProjectRole()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        var client = _scenario
+            .WithResponses("ProjectRole.json")
+            .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<ProjectRoleModel>("ProjectRole.json");
+        var identifier = Reference.ByCodename("codename");
+        var response = await client.GetProjectRoleAsync(identifier);
 
-        var response = await client.GetProjectRoleAsync(Reference.ById(expected.Id));
-
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/roles/codename/{identifier.Codename}")
+            .Validate();
     }
 
     [Fact]
-    public async Task GetProjectRole_ByCodename_GetsProjectRole()
+    public async Task GetProjectRoleAsync_ByExternalId_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        var client = _scenario
+            .WithResponses("ProjectRole.json")
+            .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<ProjectRoleModel>("ProjectRole.json");
+        var identifier = Reference.ByExternalId("externalId");
+        await client.Invoking(x => x.GetProjectRoleAsync(identifier)).Should().ThrowAsync<Exception>();
+    }
 
-        var response = await client.GetProjectRoleAsync(Reference.ByCodename(expected.Codename));
+    [Fact]
+    public async Task GetProjectRoleAsync_IdentifierIsNull_Throws()
+    {
+        var client = _scenario
+            .WithResponses("ProjectRole.json")
+            .CreateManagementClient();
 
-        response.Should().BeEquivalentTo(expected);
+        await client.Invoking(x => x.GetProjectRoleAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }

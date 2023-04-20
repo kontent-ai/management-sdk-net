@@ -1,6 +1,7 @@
-﻿using Kontent.Ai.Management.Models.AssetRenditions;
+﻿using Kontent.Ai.Management.Models.AssetFolders;
+using Kontent.Ai.Management.Models.AssetFolders.Patch;
+using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.Assets.Patch;
 using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
 using Kontent.Ai.Management.Models.Environments;
@@ -11,6 +12,7 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
 using Kontent.Ai.Management.Models.ProjectReport;
 using Kontent.Ai.Management.Models.ProjectValidation;
+using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;

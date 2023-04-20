@@ -1,135 +1,293 @@
 ﻿using FluentAssertions;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net.Http;
 using Xunit;
+using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class TaxonomyGroupTests : IClassFixture<FileSystemFixture>
+public class TaxonomyGroupTests
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private readonly Scenario _scenario;
 
-    public TaxonomyGroupTests(FileSystemFixture fileSystemFixture)
+    public TaxonomyGroupTests()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("TaxonomyGroup");
+        _scenario = new Scenario(folder: "TaxonomyGroup");
     }
 
     [Fact]
-    public async void ListTaxonomyGroups_ListsTaxonomyGroups()
+    public async void ListTaxonomyGroupsAsync_ListsTaxonomyGroups()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroups.json");
+        var client = _scenario
+            .WithResponses("TaxonomyGroupsPage1.json", "TaxonomyGroupsPage2.json")
+            .CreateManagementClient();
 
-        var expectedItems = _fileSystemFixture.GetItemsOfExpectedListingResponse<TaxonomyGroupModel>("TaxonomyGroups.json");
+        var response = await client.ListTaxonomyGroupsAsync().GetAllAsync();
 
-        var response = await client.ListTaxonomyGroupsAsync();
-
-        response.ToList().Should().BeEquivalentTo(expectedItems);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .ListingResponse(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies")
+            .Validate();
     }
 
     [Fact]
-    public async void GetTaxonomyGroup_ById_GetsTaxonomyGroup()
+    public async void GetTaxonomyGroupAsync_ById_GetsTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
+        var client = _scenario
+            .WithResponses("TaxonomyGroup.json")
+            .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<TaxonomyGroupModel>("TaxonomyGroup.json");
+        var identifier = Reference.ById(Guid.NewGuid());
+        var response = await client.GetTaxonomyGroupAsync(identifier);
 
-        var response = await client.GetTaxonomyGroupAsync(Reference.ById(expected.Id));
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-
-    [Fact]
-    public async void GetTaxonomyGroup_ByCodename_GetsTaxonomyGroup()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
-
-        var expected = _fileSystemFixture.GetExpectedResponse<TaxonomyGroupModel>("TaxonomyGroup.json");
-
-        var response = await client.GetTaxonomyGroupAsync(Reference.ByCodename(expected.Codename));
-
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/{identifier.Id}")
+            .Validate();
     }
 
     [Fact]
-    public async void GetTaxonomyGroup_ByExternalId_GetsTaxonomyGroup()
+    public async void GetTaxonomyGroupAsync_ByCodename_GetsTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
+        var client = _scenario
+            .WithResponses("TaxonomyGroup.json")
+            .CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<TaxonomyGroupModel>("TaxonomyGroup.json");
+        var identifier = Reference.ByCodename("codename");
+        var response = await client.GetTaxonomyGroupAsync(identifier);
 
-        var response = await client.GetTaxonomyGroupAsync(Reference.ByExternalId(expected.ExternalId));
-
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/codename/{identifier.Codename}")
+            .Validate();
     }
 
+    [Fact]
+    public async void GetTaxonomyGroupAsync_ByExternalId_GetsTaxonomyGroup()
+    {
+        var client = _scenario
+            .WithResponses("TaxonomyGroup.json")
+            .CreateManagementClient();
+
+        var identifier = Reference.ByExternalId("external");
+        var response = await client.GetTaxonomyGroupAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/external-id/{identifier.ExternalId}")
+            .Validate();
+    }
 
     [Fact]
-    public async void CreateTaxonomyGroup_CreatesTaxonomyGroup()
+    public async void GetTaxonomyGroupAsync_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
+        var client = _scenario.CreateManagementClient();
 
-        var expected = _fileSystemFixture.GetExpectedResponse<TaxonomyGroupModel>("TaxonomyGroup.json");
+        await client.Invoking(x => x.GetTaxonomyGroupAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
 
-        var createModel = ToCreateModel(expected);
+    [Fact]
+    public async void CreateTaxonomyGroupAsync_CreatesTaxonomyGroup()
+    {
+        var client = _scenario
+            .WithResponses("TaxonomyGroup.json")
+            .CreateManagementClient();
+
+        var createModel = new TaxonomyGroupCreateModel
+        {
+            Codename = "manufacturer",
+            ExternalId = "4ce421e9-c403-eee8-fdc2-74f09392a749",
+            Name = "Manufacturer",
+            Terms = new TaxonomyTermCreateModel[]
+            {
+                new TaxonomyTermCreateModel
+                {
+                    Codename = "aerobie",
+                    Name = "Aerobie",
+                    ExternalId = "f04c8552-1b97-a49b-3944-79275622f471",
+                    Terms = Array.Empty<TaxonomyTermCreateModel>()
+                }
+            }
+        };
 
         var response = await client.CreateTaxonomyGroupAsync(createModel);
 
-        response.Should().BeEquivalentTo(expected);
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Post)
+            .RequestPayload(createModel)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies")
+            .Validate();
     }
 
     [Fact]
-    public async void DeleteTaxonomyGroup_ByCodename_DeletesTaxonomyGroup()
+    public async void CreateTaxonomyGroupAsync_CreateModelIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.CreateTaxonomyGroupAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async void DeleteTaxonomyGroupAsync_ById_DeletesTaxonomyGroup()
+    {
+        var client = _scenario.CreateManagementClient();
 
         var identifier = Reference.ByCodename("codename");
+        await client.DeleteTaxonomyGroupAsync(identifier);
 
-        Func<Task> deleteTaxonomy = async () => await client.DeleteTaxonomyGroupAsync(identifier);
-
-        await deleteTaxonomy.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/codename/{identifier.Codename}")
+            .HttpMethod(HttpMethod.Delete)
+            .Validate();
     }
 
     [Fact]
-    public async void DeleteTaxonomyGroup_ById_DeletesTaxonomyGroup()
+    public async void DeleteTaxonomyGroupAsync_ByCodename_DeletesTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _scenario.CreateManagementClient();
 
         var identifier = Reference.ById(Guid.NewGuid());
+        await client.DeleteTaxonomyGroupAsync(identifier);
 
-        Func<Task> deleteTaxonomy = async () => await client.DeleteTaxonomyGroupAsync(identifier);
-
-        await deleteTaxonomy.Should().NotThrowAsync();
+        _scenario
+            .CreateExpectations()
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/{identifier.Id}")
+            .HttpMethod(HttpMethod.Delete)
+            .Validate();
     }
 
     [Fact]
-    public async void DeleteTaxonomyGroup_ByExternalId_DeletesTaxonomyGroup()
+    public async void DeleteTaxonomyGroupAsync_ByExternalId_DeletesTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _scenario.CreateManagementClient();
 
-        var identifier = Reference.ByExternalId("externalId");
+        var identifier = Reference.ByExternalId("external");
+        await client.DeleteTaxonomyGroupAsync(identifier);
 
-        Func<Task> deleteTaxonomy = async () => await client.DeleteTaxonomyGroupAsync(identifier);
+        _scenario
+            .CreateExpectations()
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/external-id/{identifier.ExternalId}")
+            .HttpMethod(HttpMethod.Delete)
+            .Validate();
+    }
 
-        await deleteTaxonomy.Should().NotThrowAsync();
+    [Fact]
+    public async void DeleteTaxonomyGroupAsync_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.DeleteTaxonomyGroupAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async void ModifyTaxonomyGroupAsync_ById_ModifiesTaxonomyGroup()
+    {
+        var client = _scenario
+            .WithResponses("TaxonomyGroup.json")
+            .CreateManagementClient();
+
+        var changes = GetChanges();
+        var identifier = Reference.ById(Guid.NewGuid());
+        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/{identifier.Id}")
+            .Validate();
     }
 
 
     [Fact]
-    public async void ModifyTaxonomyGroup_AddInto_ModifiesTaxonomyGroup()
+    public async void ModifyTaxonomyGroupAsync_ByCodename_ModifiesTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
+        var client = _scenario
+            .WithResponses("TaxonomyGroup.json")
+            .CreateManagementClient();
 
-        var taxonomy = _fileSystemFixture.GetExpectedResponse<TaxonomyGroupModel>("TaxonomyGroup.json");
+        var changes = GetChanges();
+        var identifier = Reference.ByCodename("codename");
+        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
-        var changes = new TaxonomyGroupAddIntoPatchModel
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/codename/{identifier.Codename}")
+            .Validate();
+    }
+
+    [Fact]
+    public async void ModifyTaxonomyGroupAsync_ByExternalId_ModifiesTaxonomyGroup()
+    {
+        var client = _scenario
+            .WithResponses("TaxonomyGroup.json")
+            .CreateManagementClient();
+
+        var changes = GetChanges();
+        var identifier = Reference.ByExternalId("external");
+        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(new HttpMethod("PATCH"))
+            .RequestPayload(changes)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/external-id/{identifier.ExternalId}")
+            .Validate();
+    }
+
+    [Fact]
+    public async void ModifyTaxonomyGroupAsync_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        List<TaxonomyGroupOperationBaseModel> changes = new();
+
+        await client.Invoking(x => x.ModifyTaxonomyGroupAsync(null, changes)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    private static List<TaxonomyGroupOperationBaseModel> GetChanges() => new()
+    {
+        new TaxonomyGroupRemovePatchModel
+        {
+            Reference = Reference.ByCodename("toBeRemoved"),
+        },
+        new TaxonomyGroupReplacePatchModel
+        {
+            PropertyName = PropertyName.Terms,
+            Reference = Reference.ByCodename("old"),
+            Value = new List<TaxonomyTermCreateModel> {
+                new TaxonomyTermCreateModel
+                {
+                    Name = "Espro",
+                    Codename = "espro",
+                    ExternalId = "b378225f-6dfc-e261-3848-dd030a6d7883",
+                    Terms = Array.Empty<TaxonomyTermCreateModel>()
+                }
+            }
+        },
+        new TaxonomyGroupAddIntoPatchModel
         {
             Value = new TaxonomyTermCreateModel
             {
@@ -138,82 +296,6 @@ public class TaxonomyGroupTests : IClassFixture<FileSystemFixture>
                 ExternalId = "b378225f-6dfc-e261-3848-dd030a6d7883",
                 Terms = Array.Empty<TaxonomyTermCreateModel>()
             }
-        };
-
-        var response = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(taxonomy.Codename), new List<TaxonomyGroupAddIntoPatchModel> { changes });
-
-        response.Terms.Should().ContainEquivalentOf(changes.Value);
-    }
-
-
-    [Fact]
-    public async void ModifyTaxonomyGroup_Replace_ModifiesTaxonomyGroup()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
-
-        var taxonomy = _fileSystemFixture.GetExpectedResponse<TaxonomyGroupModel>("TaxonomyGroup.json");
-
-        var newTerm = new TaxonomyTermCreateModel
-        {
-            Name = "Espro",
-            Codename = "espro",
-            ExternalId = "b378225f-6dfc-e261-3848-dd030a6d7883",
-            Terms = Array.Empty<TaxonomyTermCreateModel>()
-        };
-
-        var changes = new TaxonomyGroupReplacePatchModel
-        {
-            PropertyName = PropertyName.Terms,
-            Reference = Reference.ByCodename("old"),
-            Value = new List<TaxonomyTermCreateModel> { newTerm }
-        };
-
-        var response = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(taxonomy.Codename), new List<TaxonomyGroupReplacePatchModel> { changes });
-
-        response.Terms.Should().ContainEquivalentOf(newTerm);
-    }
-
-    [Fact]
-    public async void ModifyTaxonomyGroup_Remove_ModifiesTaxonomyGroup()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
-
-        var taxonomy = _fileSystemFixture.GetExpectedResponse<TaxonomyGroupModel>("TaxonomyGroup.json");
-
-        var changes = new TaxonomyGroupRemovePatchModel
-        {
-            Reference = Reference.ByCodename("toBeRemoved"),
-        };
-
-        var response = await client.ModifyTaxonomyGroupAsync(Reference.ByCodename(taxonomy.Codename), new List<TaxonomyGroupRemovePatchModel> { changes });
-
-        response.Terms.Should().NotContain(term => term.Codename == "toBeRemoved");
-    }
-
-    private TaxonomyGroupCreateModel ToCreateModel(TaxonomyGroupModel source) => new()
-    {
-        Codename = source.Codename,
-        ExternalId = source.ExternalId,
-        Name = source.Name,
-        Terms = ToCreateModel(source.Terms),
-    };
-
-    private IEnumerable<TaxonomyTermCreateModel> ToCreateModel(IEnumerable<TaxonomyTermModel> terms)
-    {
-        var result = new List<TaxonomyTermCreateModel>();
-
-        foreach (var term in terms)
-        {
-            result.Add(new TaxonomyTermCreateModel
-            {
-                Codename = term.Codename,
-                ExternalId = term.ExternalId,
-                Name = term.Name,
-                Terms = ToCreateModel(term.Terms)
-            });
         }
-
-        return result;
-    }
-
+    };
 }

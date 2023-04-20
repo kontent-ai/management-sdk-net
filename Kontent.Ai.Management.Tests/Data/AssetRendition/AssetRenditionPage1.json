@@ -1,0 +1,40 @@
+{
+  "asset_renditions": [
+    {
+      "rendition_id": "966f65b2-b395-4624-a84a-d9aa5e1864d7",
+      "asset_id": "1a510cc5-e844-4552-9f3e-b964bc966bee",
+      "external_id": "rendition-1",
+      "transformation": {
+        "mode": "rect",
+        "fit": "clip",
+        "custom_width": 120,
+        "custom_height": 240,
+        "x": 300,
+        "y": 200,
+        "width": 360,
+        "height": 720
+      },
+      "last_modified": "2021-11-22T13:55:55.7490007Z"
+    },
+    {
+      "rendition_id": "96b35610-7278-453f-b7f2-f0b7971f7b27",
+      "asset_id": "1a510cc5-e844-4552-9f3e-b964bc966bee",
+      "transformation": {
+        "mode": "rect",
+        "fit": "clip",
+        "custom_width": 100,
+        "custom_height": 100,
+        "x": 382,
+        "y": 242,
+        "width": 100,
+        "height": 100
+      },
+      "last_modified": "2021-11-22T12:23:04.577095Z"
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
+
