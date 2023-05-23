@@ -33,6 +33,12 @@ public sealed class AssetCreateModel
     /// </summary>
     [JsonProperty("folder")]
     public Reference Folder { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the Collection for the asset.
+    /// </summary>
+    [JsonProperty("collection")]
+    public AssetCollectionReference Collection { get; set; }
 
     /// <summary>
     /// Gets or sets the external identifier of the asset.

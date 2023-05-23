@@ -42,6 +42,12 @@ public sealed class AssetCreateModel<T> where T : new()
     public string ExternalId { get; set; }
 
     /// <summary>
+    /// Gets or sets the Collection for the asset.
+    /// </summary>
+    [JsonProperty("collection")]
+    public AssetCollectionReference Collection { get; set; }
+
+    /// <summary>
     /// Gets or sets elements of the asset.
     /// </summary>
     [JsonProperty("elements")]
