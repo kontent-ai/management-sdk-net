@@ -36,6 +36,12 @@ public sealed class AssetUpsertModel<T> where T : new()
     public Reference Folder { get; set; }
 
     /// <summary>
+    /// Gets or sets the Collection for the asset.
+    /// </summary>
+    [JsonProperty("collection")]
+    public AssetCollectionReference Collection { get; set; }
+
+    /// <summary>
     /// Gets or sets elements of the asset.
     /// </summary>
     [JsonProperty("elements", Required = Required.Always)]

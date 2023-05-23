@@ -87,6 +87,12 @@ public sealed class AssetModel
     /// </summary>
     [JsonProperty("folder")]
     public AssetFolder Folder { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the Collection for the asset.
+    /// </summary>
+    [JsonProperty("collection")]
+    public AssetCollectionReference Collection { get; set; }
 
     /// <summary>
     /// Gets or sets elements of the asset.

@@ -47,6 +47,7 @@ internal class ModelProvider : IModelProvider
             ImageHeight = asset.ImageHeight,
             ImageWidth = asset.ImageWidth,
             Folder = asset.Folder,
+            Collection = asset.Collection,
             Elements = _elementModelProvider.GetStronglyTypedElements<T>(asset.Elements),
         };
 
@@ -58,6 +59,7 @@ internal class ModelProvider : IModelProvider
             Title = asset.Title,
             Folder = asset.Folder,
             ExternalId = asset.ExternalId,
+            Collection = asset.Collection,
             Elements = _elementModelProvider.GetDynamicElements(asset.Elements),
         };
 
@@ -68,6 +70,7 @@ internal class ModelProvider : IModelProvider
             Descriptions = asset.Descriptions,
             Title = asset.Title,
             Folder = asset.Folder,
+            Collection = asset.Collection,
             Elements = _elementModelProvider.GetDynamicElements(asset.Elements),
         };
 }
