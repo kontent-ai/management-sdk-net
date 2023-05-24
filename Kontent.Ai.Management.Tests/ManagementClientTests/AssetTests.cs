@@ -645,6 +645,7 @@ public class AssetTests : IClassFixture<FileSystemFixture>
             FileReference = stronglyTyped.FileReference,
             LastModified = stronglyTyped.LastModified,
             Descriptions = stronglyTyped.Descriptions,
+            Collection = stronglyTyped.Collection,
             Elements = ElementsData.GetExpectedDynamicElements(),
         };
     }
@@ -678,6 +679,9 @@ public class AssetTests : IClassFixture<FileSystemFixture>
                 Language = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024")),
                 Description = "Bolso de cafe en grano"
             }
+        },
+        Collection = new AssetCollectionReference {
+            Reference = Reference.ById(Guid.Empty)
         },
         Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
     };
