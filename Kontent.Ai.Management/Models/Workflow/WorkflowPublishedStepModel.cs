@@ -5,8 +5,12 @@ using System.Collections.Generic;
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Published workflow step response model.
+/// Represents the Published workflow step response model. If a variant is in this step, it indicated that it has been
+/// published and is (soon to be) available as Published content in Delivery APIs. Such variants are read-only.
 /// </summary>
+/// <remarks>
+/// All <c>Id</c>, <c>Name</c>, and <c>Codename</c> properties are predefined by the system and cannot be changed.
+/// </remarks>
 public class WorkflowPublishedStepModel
 {
     /// <summary>
