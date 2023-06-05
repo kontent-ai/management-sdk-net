@@ -46,6 +46,12 @@ public class WorkflowModel
     public WorkflowPublishedStepModel PublishedStep { get; set; }
 
     /// <summary>
+    /// Gets or sets the workflow's Scheduled step.
+    /// </summary>
+    [JsonProperty("scheduled_step")]
+    public WorkflowScheduledStepModel ScheduledStep { get; set; }
+
+    /// <summary>
     /// Gets or sets the workflow's Archived step.
     /// </summary>
     [JsonProperty("archived_step")]
