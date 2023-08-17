@@ -69,12 +69,15 @@ public class AssetTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async Task GetAssetAsync_StronglyTyped_ByCodename_Throws()
+    public async Task GetAssetAsync_StronglyTyped_ByCodename_GetsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
 
-        await client.Invoking(c => c.GetAssetAsync<ComplexTestModel>(Reference.ByCodename("codename")))
-            .Should().ThrowExactlyAsync<InvalidOperationException>();
+        var expected = GetExpectedStronglyTypedAssetModel();
+
+        var response = await client.GetAssetAsync<ComplexTestModel>(Reference.ByCodename(expected.Codename));
+
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -111,12 +114,15 @@ public class AssetTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async Task GetAssetAsync_DynamicallyTyped_ByCodename_Throws()
+    public async Task GetAssetAsync_DynamicallyTyped_ByCodename_GetsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
 
-        await client.Invoking(c => c.GetAssetAsync(Reference.ByCodename("codename")))
-            .Should().ThrowExactlyAsync<InvalidOperationException>();
+        var expected = GetExpectedDynamicAssetModel();
+
+        var response = await client.GetAssetAsync(Reference.ByCodename(expected.Codename));
+
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -315,12 +321,19 @@ public class AssetTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task UpsertAssetAsync_StronglyTyped_ByCodename_UpsertsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
 
-        var updateModel = new AssetUpsertModel<ComplexTestModel> { Title = "xxx" };
+        var expected = GetExpectedStronglyTypedAssetModel();
 
-        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByCodename("c"), updateModel))
-            .Should().ThrowExactlyAsync<InvalidOperationException>();
+        var updateModel = new AssetUpsertModel<ComplexTestModel>
+        {
+            Title = expected.Title,
+            Elements = expected.Elements
+        };
+
+        var response = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), updateModel);
+
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -385,12 +398,19 @@ public class AssetTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task UpsertAssetAsync_DynamicallyTyped_ByCodename_UpsertsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
 
-        var updateModel = new AssetUpsertModel { Title = "xxx" };
+        var expected = GetExpectedDynamicAssetModel();
 
-        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByCodename("c"), updateModel))
-            .Should().ThrowExactlyAsync<InvalidOperationException>();
+        var updateModel = new AssetUpsertModel
+        {
+            Title = expected.Title,
+            Elements = expected.Elements
+        };
+
+        var response = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), updateModel);
+
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -580,7 +600,7 @@ public class AssetTests : IClassFixture<FileSystemFixture>
         var client = _fileSystemFixture.CreateMockClientWithoutResponse();
 
         await client.Invoking(c => c.DeleteAssetAsync(Reference.ByCodename("c")))
-            .Should().ThrowExactlyAsync<InvalidOperationException>();
+            .Should().NotThrowAsync();
     }
 
     [Fact]
@@ -634,6 +654,7 @@ public class AssetTests : IClassFixture<FileSystemFixture>
         return new AssetModel
         {
             Id = stronglyTyped.Id,
+            Codename = stronglyTyped.Codename,
             ExternalId = stronglyTyped.ExternalId,
             FileName = stronglyTyped.FileName,
             Title = stronglyTyped.Title,
@@ -653,6 +674,7 @@ public class AssetTests : IClassFixture<FileSystemFixture>
     private static AssetModel<ComplexTestModel> GetExpectedStronglyTypedAssetModel(string assetId = "01647205-c8c4-4b41-b524-1a98a7b12750") => new()
     {
         Id = Guid.Parse(assetId),
+        Codename = "my_super_asset",
         ExternalId = "asset-1",
         FileName = "our-story.jpg",
         Title = "My super asset",

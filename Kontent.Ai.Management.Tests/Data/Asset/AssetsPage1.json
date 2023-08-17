@@ -2,6 +2,7 @@
   "assets": [
     {
       "id": "00000000-0000-0000-0000-000000000000",
+      "codename": "my_super_asset",
       "external_id": "asset-1",
       "file_name": "our-story.jpg",
       "title": "My super asset",

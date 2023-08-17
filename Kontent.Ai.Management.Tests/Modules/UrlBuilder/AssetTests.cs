@@ -18,9 +18,13 @@ public partial class EndpointUrlBuilderTests
     }
 
     [Fact]
-    public void BuildAssetsUrlFromExternalId_ByCodename_ReturnsExpectedUrl()
+    public void BuildAssetsUrlFromCodename_ByCodename_ReturnsExpectedUrl()
     {
-        _builder.Invoking(c => c.BuildAssetsUrl(Reference.ByCodename("c"))).Should().Throw<InvalidOperationException>();
+        var codename = "which_brewing_fits_you";
+        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/codename/{codename}";
+        var actualResult = _builder.BuildAssetsUrl(Reference.ByCodename(codename));
+
+        Assert.Equal(expectedResult, actualResult);
     }
 
     [Fact]

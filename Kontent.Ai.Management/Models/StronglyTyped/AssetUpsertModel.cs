@@ -16,6 +16,12 @@ public sealed class AssetUpsertModel<T> where T : new()
     /// </summary>
     [JsonProperty("file_reference", Required = Required.Always)]
     public FileReference FileReference { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the codename of the asset.
+    /// </summary>
+    [JsonProperty("codename")]
+    public string Codename { set; get; }
 
     /// <summary>
     /// Gets or sets the description for the asset.

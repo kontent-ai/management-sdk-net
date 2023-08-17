@@ -18,6 +18,12 @@ public sealed class AssetModel<T> where T : new()
     public Guid Id { get; set; }
 
     /// <summary>
+    /// Gets or sets the codename of the asset.
+    /// </summary>
+    [JsonProperty("codename")]
+    public string Codename { set; get; }
+
+    /// <summary>
     /// Gets or sets the file name of the asset.
     /// </summary>
     [JsonProperty("file_name")]

@@ -51,4 +51,10 @@ public sealed class AssetCreateModel
     /// </summary>
     [JsonProperty("elements")]
     public IEnumerable<dynamic> Elements { get; set; }
+
+    /// <summary>
+    /// Gets or sets the codename of the asset.
+    /// </summary>
+    [JsonProperty("codename")]
+    public string Codename { set; get; }
 }

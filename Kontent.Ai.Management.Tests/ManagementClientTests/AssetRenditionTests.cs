@@ -41,11 +41,21 @@ public class AssetRenditionTests
     }
 
     [Fact]
-    public async Task ListAssetRenditionsAsync_ByCodename_Throws()
+    public async Task ListAssetRenditionsAsync_ByCodename_ReturnsRenditions()
     {
-        var client = _scenario.CreateManagementClient();
+        var client = _scenario
+            .WithResponses("AssetRenditionPage1.json", "AssetRenditionPage2.json", "AssetRenditionPage3.json")
+            .CreateManagementClient();
 
-        await client.Invoking(x => x.ListAssetRenditionsAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
+        var identifier = Reference.ByCodename("codename");
+        var response = await client.ListAssetRenditionsAsync(identifier).GetAllAsync();
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .ListingResponse(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/codename/{identifier.Codename}/renditions")
+            .Validate();
     }
 
     [Fact]
@@ -143,16 +153,36 @@ public class AssetRenditionTests
     }
 
     [Fact]
-    public async Task CreateAssetRenditionAsync_ByCodename_Throws()
+    public async Task CreateAssetRenditionAsync_ByCodename_CreatesRenditions()
     {
         var client = _scenario
             .WithResponses("AssetRendition.json")
             .CreateManagementClient();
 
-        var identifier = Reference.ByCodename("codename");
-        var createRenditionModel = new AssetRenditionCreateModel();
+        var createModel = new AssetRenditionCreateModel
+        {
+            ExternalId = "rendition-1",
+            Transformation = new RectangleResizeTransformation
+            {
+                CustomWidth = 120,
+                CustomHeight = 240,
+                X = 300,
+                Y = 200,
+                Width = 360,
+                Height = 720,
+            }
+        };
 
-        await client.Invoking(x => x.CreateAssetRenditionAsync(identifier, createRenditionModel)).Should().ThrowAsync<Exception>();
+        var identifier = Reference.ByCodename("codename");
+        var response = await client.CreateAssetRenditionAsync(identifier, createModel);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Post)
+            .RequestPayload(createModel)
+            .Response(response)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/codename/{identifier.Codename}/renditions")
+            .Validate();
     }
 
     [Fact]
@@ -284,7 +314,7 @@ public class AssetRenditionTests
 
         public IEnumerable<(AssetRenditionIdentifier Identifier, string Url)> GetPermutation()
         {
-            var assetIdentifier = new[] { ById, ByExternalId };
+            var assetIdentifier = new[] { ById, ByCodename, ByExternalId };
             var renditionIdentifiers = new[] { ById, ByExternalId };
 
             foreach (var item in assetIdentifier)
@@ -299,6 +329,7 @@ public class AssetRenditionTests
         }
 
         private static (Reference Identifier, string UrlSegment) ById => (Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")), "4b628214-e4fe-4fe0-b1ff-955df33e1515");
+        private static (Reference Identifier, string UrlSegment) ByCodename => (Reference.ByCodename("codename"), "codename/codename");
         private static (Reference Identifier, string UrlSegment) ByExternalId => (Reference.ByExternalId("external-id"), "external-id/external-id");
     }
 }
