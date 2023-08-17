@@ -42,6 +42,7 @@ internal class ModelProvider : IModelProvider
             FileReference = asset.FileReference,
             Descriptions = asset.Descriptions,
             Title = asset.Title,
+            Codename = asset.Codename,
             ExternalId = asset.ExternalId,
             LastModified = asset.LastModified,
             ImageHeight = asset.ImageHeight,
@@ -58,6 +59,7 @@ internal class ModelProvider : IModelProvider
             Descriptions = asset.Descriptions,
             Title = asset.Title,
             Folder = asset.Folder,
+            Codename = asset.Codename,
             ExternalId = asset.ExternalId,
             Collection = asset.Collection,
             Elements = _elementModelProvider.GetDynamicElements(asset.Elements),
@@ -70,6 +72,7 @@ internal class ModelProvider : IModelProvider
             Descriptions = asset.Descriptions,
             Title = asset.Title,
             Folder = asset.Folder,
+            Codename = asset.Codename,
             Collection = asset.Collection,
             Elements = _elementModelProvider.GetDynamicElements(asset.Elements),
         };

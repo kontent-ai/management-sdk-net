@@ -18,6 +18,12 @@ public sealed class AssetCreateModel<T> where T : new()
     public FileReference FileReference { get; set; }
 
     /// <summary>
+    /// Gets or sets the codename of the asset.
+    /// </summary>
+    [JsonProperty("codename")]
+    public string Codename { set; get; }
+
+    /// <summary>
     /// Gets or sets the description for the asset.
     /// </summary>
     [JsonProperty("descriptions")]

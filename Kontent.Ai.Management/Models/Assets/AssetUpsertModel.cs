@@ -44,4 +44,10 @@ public sealed class AssetUpsertModel
     /// </summary>
     [JsonProperty("file_reference")]
     public FileReference FileReference { get; set; }
+
+    /// <summary>
+    /// Gets or sets the codename of the asset.
+    /// </summary>
+    [JsonProperty("codename")]
+    public string Codename { set; get; }
 }

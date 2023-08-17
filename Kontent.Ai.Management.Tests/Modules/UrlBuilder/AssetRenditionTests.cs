@@ -73,10 +73,14 @@ public partial class EndpointUrlBuilderTests
     }
 
     [Fact]
-    public void BuildAssetRenditionsUrlFromAssetCodenameAndRenditionId_AssetDoesNotSupportCodename_Throws()
+    public void BuildAssetRenditionsUrlFromAssetCodenameAndRenditionId_WithGivenAssetAndRenditionIds_ReturnsExpectedUrl()
     {
-        _builder.Invoking(x => x.BuildAssetRenditionsUrl(new AssetRenditionIdentifier(Reference.ByCodename("not-supported"), Reference.ById(Guid.NewGuid()))))
-            .Should().ThrowExactly<InvalidOperationException>();
+        var assetCodename = "which_brewing_fits_you";
+        var renditionId = Guid.NewGuid();
+        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/codename/{assetCodename}/renditions/{renditionId}";
+        var actualResult = _builder.BuildAssetRenditionsUrl(new AssetRenditionIdentifier(Reference.ByCodename(assetCodename), Reference.ById(renditionId)));
+
+        Assert.Equal(expectedResult, actualResult);
     }
 
     [Fact]
