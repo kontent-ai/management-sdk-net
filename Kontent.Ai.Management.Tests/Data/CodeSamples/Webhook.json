@@ -1,67 +1,87 @@
 {
-  "last_modified": "2019-09-18T09:29:08.4356117Z",
   "id": "5df74e27-1213-484e-b9ae-bcbe90bd5990",
   "name": "Example webhook",
   "url": "https://example.com/webhook",
   "secret": "secret_key",
   "enabled": true,
-  "triggers": {
-    "delivery_api_content_changes": [
-      {
-        "type": "content_item_variant",
-        "operations": [
-          "publish",
-          "unpublish"
-        ]
-      },
-      {
-        "type": "taxonomy",
-        "operations": [
-          "archive",
-          "restore",
-          "upsert"
-        ]
+  "last_modified": "2023-12-13T11:22:34.4079256Z",
+  "delivery_triggers": {
+    "content_type": {
+      "enabled": true,
+      "actions": [
+        {
+          "action": "changed"
+        },
+        {
+          "action": "deleted"
+        },
+        {
+          "action": "created"
+        }
+      ]
+    },
+    "content_item": {
+      "enabled": true,
+      "actions": [
+        {
+          "action": "metadata_changed",
+          "transition_to": null
+        },
+        {
+          "action": "published",
+          "transition_to": null
+        },
+        {
+          "action": "unpublished",
+          "transition_to": null
+        }
+      ],
+      "filters": {
+        "collections": [],
+        "content_types": [],
+        "languages": []
       }
-    ],
-    "preview_delivery_api_content_changes": [
-      {
-        "type": "content_item_variant",
-        "operations": [
-          "archive",
-          "upsert"
-        ]
-      },
-      {
-        "type": "taxonomy",
-        "operations": [
-          "archive",
-          "restore",
-          "upsert"
-        ]
-      }
-    ],
-    "workflow_step_changes": [
-      {
-        "type": "content_item_variant",
-        "transitions_to": [
-          {
-            "id": "b4363ccd-8f21-45fd-a840-5843d7b7f008"
-          },
-          {
-            "id": "88ac5e6e-1c5c-4638-96e1-0d61221ad5bf"
-          }
-        ]
-      }
-    ],
-    "management_api_content_changes": [
-      {
-        "type": "content_item_variant",
-        "operations": [
-          "archive",
-          "create",
-          "restore"
-        ]
-      }
-    ]
+    },
+    "taxonomy": {
+      "enabled": true,
+      "actions": [
+        {
+          "action": "deleted"
+        },
+        {
+          "action": "created"
+        },
+        {
+          "action": "metadata_changed"
+        }
+      ]
+    },
+    "asset": {
+      "enabled": true,
+      "actions": [
+        {
+          "action": "changed"
+        },
+        {
+          "action": "deleted"
+        },
+        {
+          "action": "created"
+        },
+        {
+          "action": "metadata_changed"
+        }
+      ]
+    },
+    "language": {
+      "enabled": true,
+      "actions": [
+        {
+          "action": "created"
+        }
+      ]
+    },
+    "slot": "published",
+    "events": "all"
   }
 }

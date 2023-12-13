@@ -9,6 +9,7 @@ using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LegacyWebhooks;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
 using Kontent.Ai.Management.Models.ProjectReport;
 using Kontent.Ai.Management.Models.ProjectValidation;
@@ -214,12 +215,19 @@ public interface IManagementClient
     Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup);
 
     /// <summary>
+    /// Creates the legacy webhook.
+    /// </summary>
+    /// <param name="webhook">The legacy webhook to be created.</param>
+    /// <returns>The <see cref="LegacyWebhookModel"/> instance that represents created legacy webhook.</returns>
+    Task<LegacyWebhookModel> CreateLegacyWebhookAsync(LegacyWebhookCreateModel webhook);
+
+    /// <summary>
     /// Creates the webhook.
     /// </summary>
     /// <param name="webhook">The webhook to be created.</param>
     /// <returns>The <see cref="WebhookModel"/> instance that represents created webhook.</returns>
     Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook);
-
+    
     /// <summary>
     /// Deletes the given content item.
     /// </summary>
@@ -251,10 +259,22 @@ public interface IManagementClient
     Task DeleteTaxonomyGroupAsync(Reference identifier);
 
     /// <summary>
+    /// Deletes the legacy webhook.
+    /// </summary>
+    /// <param name="identifier">The identifier of the legacy webhook.</param>
+    Task DeleteLegacyWebhookAsync(Reference identifier);
+
+    /// <summary>
     /// Deletes the webhook.
     /// </summary>
     /// <param name="identifier">The identifier of the webhook.</param>
     Task DeleteWebhookAsync(Reference identifier);
+
+    /// <summary>
+    /// Disables the legacy webhook.
+    /// </summary>
+    /// <param name="identifier">The identifier of the legacy webhook.</param>
+    Task DisableLegacyWebhookAsync(Reference identifier);
 
     /// <summary>
     /// Disables the webhook.
@@ -263,11 +283,17 @@ public interface IManagementClient
     Task DisableWebhookAsync(Reference identifier);
 
     /// <summary>
+    /// Enables the legacy webhook.
+    /// </summary>
+    /// <param name="identifier">The identifier of the legacy webhook.</param>
+    Task EnableLegacyWebhookAsync(Reference identifier);
+
+    /// <summary>
     /// Enables the webhook.
     /// </summary>
     /// <param name="identifier">The identifier of the webhook.</param>
     Task EnableWebhookAsync(Reference identifier);
-
+    
     /// <summary>
     /// Get the Asset Folders
     /// </summary>
@@ -330,6 +356,13 @@ public interface IManagementClient
     /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents requested taxonomy group.</returns>
     Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier);
 
+    /// <summary>
+    /// Returns the legacy webhook.
+    /// </summary>
+    /// <param name="identifier">The identifier of the legacy webhook.</param>
+    /// <returns>The <see cref="LegacyWebhookModel"/> instance that represents requested legacy webhook.</returns>
+    Task<LegacyWebhookModel> GetLegacyWebhookAsync(Reference identifier);
+    
     /// <summary>
     /// Returns the webhook.
     /// </summary>
@@ -433,6 +466,12 @@ public interface IManagementClient
     /// <returns>The <see cref="IListingResponseModel{TaxonomyGroupModel}"/> instance that represents the listing of taxonomy groups.</returns>
     Task<IListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync();
 
+    /// <summary>
+    /// Returns listing of legacy webhooks.
+    /// </summary>
+    /// <returns>The <see cref="IEnumerable{LegacyWebhookModel}"/> instance that represents the listing of legacy webhooks.</returns>
+    Task<IEnumerable<LegacyWebhookModel>> ListLegacyWebhooksAsync();
+    
     /// <summary>
     /// Returns listing of webhooks.
     /// </summary>

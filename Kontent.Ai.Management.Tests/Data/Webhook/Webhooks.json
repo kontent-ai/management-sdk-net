@@ -1,124 +1,189 @@
-﻿[
+[
   {
-    "last_modified": "2021-08-06T06:39:19.2776995Z",
-    "id": "ef6eb5e6-24f6-4a3a-a291-1cff8d4eecc5",
-    "name": "Webhook_all_triggers",
+    "id": "3e18029a-ed40-406f-a49a-1a8856200e11",
+    "name": "webhooks_all_triggers",
     "url": "http://test",
-    "secret": "5OD07VVZ7ZD7Kq0ozmA0SQSn4qWbF2HrXmXh9zb1/Ig=",
-    "enabled": false,
-    "triggers": {
-      "delivery_api_content_changes": [
-        {
-          "type": "content_item_variant",
-          "operations": [
-            "publish",
-            "unpublish"
-          ]
-        },
-        {
-          "type": "taxonomy",
-          "operations": [
-            "archive",
-            "restore",
-            "upsert"
-          ]
+    "secret": "AQA1jsNDjLBUcRRD69GQtuzBBqxGPdz+0XhTKhICv4o=",
+    "enabled": true,
+    "last_modified": "2023-12-13T11:22:34.4079256Z",
+    "delivery_triggers": {
+      "content_type": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "changed"
+          },
+          {
+            "action": "deleted"
+          },
+          {
+            "action": "created"
+          }
+        ]
+      },
+      "content_item": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "metadata_changed",
+            "transition_to": null
+          },
+          {
+            "action": "published",
+            "transition_to": null
+          },
+          {
+            "action": "unpublished",
+            "transition_to": null
+          }
+        ],
+        "filters": {
+          "collections": [],
+          "content_types": [],
+          "languages": []
         }
-      ],
-      "preview_delivery_api_content_changes": [
-        {
-          "type": "content_item_variant",
-          "operations": [
-            "upsert",
-            "archive"
-          ]
-        },
-        {
-          "type": "taxonomy",
-          "operations": [
-            "archive",
-            "restore",
-            "upsert"
-          ]
-        }
-      ],
-      "workflow_step_changes": [
-        {
-          "type": "content_item_variant",
-          "transitions_to": [
-            {
-              "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
-            },
-            {
-              "id": "9d2b0228-4d0d-4c23-8b49-01a698857709"
-            },
-            {
-              "id": "c199950d-99f0-4983-b711-6c4c91624b22"
-            },
-            {
-              "id": "7a535a69-ad34-47f8-806a-def1fdf4d391"
-            }
-          ]
-        }
-      ],
-      "management_api_content_changes": [
-        {
-          "type": "content_item_variant",
-          "operations": [
-            "create",
-            "archive",
-            "restore"
-          ]
-        }
-      ]
+      },
+      "taxonomy": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "deleted"
+          },
+          {
+            "action": "created"
+          },
+          {
+            "action": "metadata_changed"
+          },
+          {
+            "action": "term_changed"
+          },
+          {
+            "action": "term_created"
+          },
+          {
+            "action": "term_deleted"
+          },
+          {
+            "action": "terms_moved"
+          }
+        ]
+      },
+      "asset": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "changed"
+          },
+          {
+            "action": "deleted"
+          },
+          {
+            "action": "created"
+          },
+          {
+            "action": "metadata_changed"
+          }
+        ]
+      },
+      "language": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "changed"
+          },
+          {
+            "action": "deleted"
+          },
+          {
+            "action": "created"
+          }
+        ]
+      },
+      "slot": "published",
+      "events": "all"
     }
   },
   {
-    "last_modified": "2021-08-04T06:39:19.2776995Z",
-    "id": "ef6eb5e6-24f6-4a3a-a291-1cff8d4ee000",
+    "id": "78d634ed-445f-4b2e-aefc-8914c9bef201",
     "name": "second_webhook",
-    "url": "http://test2",
-    "secret": "00007VVZ7ZD7Kq0ozmA0SQSn4qWbF2HrXmXh9zb1/Ig=",
-    "enabled": false,
-    "triggers": {
-      "delivery_api_content_changes": [
-        {
-          "type": "content_item_variant",
-          "operations": [
-            "publish",
-            "unpublish"
-          ]
-        },
-        {
-          "type": "taxonomy",
-          "operations": [
-            "archive",
-            "restore",
-            "upsert"
-          ]
+    "url": "http://test",
+    "secret": "Ye7/QP5fyP+pjCD5rQeKkqUBeVfFus3EULWPPY0OaKI=",
+    "enabled": true,
+    "last_modified": "2023-12-13T11:31:11.1874628Z",
+    "delivery_triggers": {
+      "content_type": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "deleted"
+          },
+          {
+            "action": "created"
+          }
+        ]
+      },
+      "content_item": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "changed",
+            "transition_to": null
+          },
+          {
+            "action": "deleted",
+            "transition_to": null
+          },
+          {
+            "action": "created",
+            "transition_to": null
+          },
+          {
+            "action": "metadata_changed",
+            "transition_to": null
+          },
+          {
+            "action": "workflow_step_changed",
+            "transition_to": []
+          }
+        ],
+        "filters": {
+          "collections": [],
+          "content_types": [],
+          "languages": []
         }
-      ],
-      "preview_delivery_api_content_changes": [
-        {
-          "type": "content_item_variant",
-          "operations": [
-            "upsert",
-            "archive"
-          ]
-        }
-      ],
-      "workflow_step_changes": [
-        {
-          "type": "content_item_variant",
-          "transitions_to": [
-            {
-              "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
-            },
-            {
-              "id": "9d2b0228-4d0d-4c23-8b49-01a698857709"
-            }
-          ]
-        }
-      ]
+      },
+      "taxonomy": {
+        "enabled": false,
+        "actions": []
+      },
+      "asset": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "changed"
+          },
+          {
+            "action": "deleted"
+          },
+          {
+            "action": "created"
+          },
+          {
+            "action": "metadata_changed"
+          }
+        ]
+      },
+      "language": {
+        "enabled": true,
+        "actions": [
+          {
+            "action": "deleted"
+          }
+        ]
+      },
+      "slot": "preview",
+      "events": "specific"
     }
   }
 ]
