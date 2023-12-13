@@ -25,9 +25,7 @@ public partial class ManagementClient
         }
 
         var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<WebhookModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return await _actionInvoker.InvokeReadOnlyMethodAsync<WebhookModel>(endpointUrl, HttpMethod.Get);
     }
 
     /// <inheritdoc />
@@ -51,7 +49,6 @@ public partial class ManagementClient
         }
 
         var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
-
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
     }
 
@@ -64,7 +61,6 @@ public partial class ManagementClient
         }
 
         var endpointUrl = _urlBuilder.BuildWebhooksEnableUrl(identifier);
-
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
     }
 
@@ -77,7 +73,6 @@ public partial class ManagementClient
         }
 
         var endpointUrl = _urlBuilder.BuildWebhooksDisableUrl(identifier);
-
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
     }
 }

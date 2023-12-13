@@ -1,12 +1,13 @@
 ﻿using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Webhooks;
+using Kontent.Ai.Management.Models.Webhooks.Triggers;
+using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Net.Http;
 using Xunit;
 using static Kontent.Ai.Management.Tests.Base.Scenario;
-using Kontent.Ai.Management.Models.Webhooks.Triggers;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -27,12 +28,12 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
             .CreateManagementClient();
 
         var response = await client.ListWebhooksAsync();
-
+        
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks")
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext")
             .Validate();
     }
 
@@ -42,42 +43,42 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
         var client = _scenario
             .WithResponses("Webhook.json")
             .CreateManagementClient();
-
+        
         var identifier = Reference.ById(Guid.NewGuid());
         var response = await client.GetWebhookAsync(identifier);
-
+        
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}")
             .Validate();
     }
 
     [Fact]
-    public async void GetWebhookAsync_ByCodename_GetsWebhook()
+    public async void GetWebhookAsync_ByCodename_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.GetWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void GetWebhookAsync_ByExternalId_GetsWebhook()
+    public async void GetWebhookAsync_ByExternalId_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.GetWebhookAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
     }
-
+    
     [Fact]
-    public async void GetWebhookAsync_IdentifierIsNull_GetsWebhook()
+    public async void GetWebhookAsync_IdentifierIsNull_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.GetWebhookAsync(null)).Should().ThrowAsync<Exception>();
     }
-
+    
     [Fact]
     public async void CreateWebhookAsync_CreatesWebhook()
     {
@@ -85,26 +86,27 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
             .WithResponses("Webhook.json")
             .CreateManagementClient();
 
-        var request = new WebhookCreateModel
-        {
+        var request = new WebhookCreateModel {
             Enabled = true,
             Name = "name",
-            Secret= "password",
-            Url= "url",
-            Triggers = new WebhookTriggersModel
-            {
-                DeliveryApiContentChanges = new[] { new DeliveryApiTriggerModel { Operations = new[] { "neco" }, Type = TriggerChangeType.LanguageVariant } }
+            Secret = "password",
+            Url = "url",
+            DeliveryTriggers = new DeliveryTriggersModel {
+                ContentType = new ContentTypeTriggerModel {
+                    Enabled = true,
+                    Actions = new[] { new ContentTypeActionModel { Action = ContentTypeActionEnum.Created } }
+                }
             }
         };
 
         var response = await client.CreateWebhookAsync(request);
-
+        
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Post)
             .Response(response)
             .RequestPayload(request)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks")
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext")
             .Validate();
     }
 
@@ -112,7 +114,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
     public async void CreateWebhookAsync_CreateModelIsNull_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.CreateWebhookAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 
@@ -124,24 +126,24 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
         var identifier = Reference.ById(Guid.NewGuid());
 
         await client.DeleteWebhookAsync(identifier);
-
+        
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Delete)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}")
             .Validate();
     }
 
     [Fact]
-    public async void DeleteWebhookAsync_ByCodename_DeletesWebhook()
+    public async void DeleteWebhookAsync_ByCodename_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.DeleteWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void DeleteWebhookAsync_ByExternalId_DeletesWebhook()
+    public async void DeleteWebhookAsync_ByExternalId_Throws()
     {
         var client = _scenario.CreateManagementClient();
 
@@ -149,13 +151,13 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void DeleteWebhookAsync_IdentifierIsNull_DeletesWebhook()
+    public async void DeleteWebhookAsync_IdentifierIsNull_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.DeleteWebhookAsync(null)).Should().ThrowAsync<Exception>();
     }
-    
+
     [Fact]
     public async void EnableWebhookAsync_ById_EnablesWebhook()
     {
@@ -168,60 +170,60 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}/enable")
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}/enable")
             .Validate();
     }
 
     [Fact]
-    public async void EnableWebhookAsync_ByCodename_DeletesWebhook()
+    public async void EnableWebhookAsync_ByCodename_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.EnableWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void EnableWebhookAsync_ByExternalId_DeletesWebhook()
+    public async void EnableWebhookAsync_ByExternalId_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.EnableWebhookAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void EnableWebhookAsync_IdentifierIsNull_DeletesWebhook()
+    public async void EnableWebhookAsync_IdentifierIsNull_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.EnableWebhookAsync(null)).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void DisableWebhookAsync_ById_EnablesWebhook()
+    public async void DisableWebhookAsync_ById_DisablesWebhook()
     {
         var client = _scenario.CreateManagementClient();
 
         var identifier = Reference.ById(Guid.NewGuid());
 
         await client.DisableWebhookAsync(identifier);
-
+        
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}/disable")
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}/disable")
             .Validate();
     }
 
     [Fact]
-    public async void DisableWebhookAsync_ByCodename_DeletesWebhook()
+    public async void DisableWebhookAsync_ByCodename_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.DisableWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void DisableWebhookAsync_ByExternalId_DeletesWebhook()
+    public async void DisableWebhookAsync_ByExternalId_Throws()
     {
         var client = _scenario.CreateManagementClient();
 
@@ -229,10 +231,10 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void DisableWebhookAsync_IdentifierIsNull_DeletesWebhook()
+    public async void DisableWebhookAsync_IdentifierIsNull_Throws()
     {
         var client = _scenario.CreateManagementClient();
-
+        
         await client.Invoking(x => x.DisableWebhookAsync(null)).Should().ThrowAsync<Exception>();
     }
 }

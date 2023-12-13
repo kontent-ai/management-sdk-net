@@ -25,6 +25,7 @@ internal sealed class EndpointUrlBuilder
     private readonly TypeTemplate _typeTemplate;
     private readonly ValidateTemplate _validateTemplate;
     private readonly VariantTemplate _variantTemplate;
+    private readonly LegacyWebhookTemplate _legacyWebhookTemplate;
     private readonly WebhookTemplate _webhookTemplate;
     private readonly WorkflowTemplate _workflowTemplate;
     private readonly ItemTemplate _itemTemplate;
@@ -45,6 +46,7 @@ internal sealed class EndpointUrlBuilder
         _typeTemplate = new TypeTemplate();
         _validateTemplate = new ValidateTemplate();
         _variantTemplate = new VariantTemplate();
+        _legacyWebhookTemplate = new LegacyWebhookTemplate();
         _webhookTemplate = new WebhookTemplate();
         _workflowTemplate = new WorkflowTemplate();
         _itemTemplate = new ItemTemplate();
@@ -87,8 +89,18 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildLanguagesUrl(Reference identifier) => GetProjectUrl(_languageTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildWebhooksUrl() => GetProjectUrl(_webhookTemplate.Url);
+    public string BuildLegacyWebhooksUrl() => GetProjectUrl(_legacyWebhookTemplate.Url);
 
+    public string BuildLegacyWebhooksUrl(Reference identifier) => GetProjectUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier));
+
+    public string BuildLegacyWebhooksEnableUrl(Reference identifier) =>
+        string.Concat(GetProjectUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/enable");
+
+    public string BuildLegacyWebhooksDisableUrl(Reference identifier) =>
+        string.Concat(GetProjectUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
+    
+    public string BuildWebhooksUrl() => GetProjectUrl(_webhookTemplate.Url);
+    
     public string BuildWebhooksUrl(Reference identifier) => GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
 
     public string BuildWebhooksEnableUrl(Reference identifier) =>
@@ -96,7 +108,7 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildWebhooksDisableUrl(Reference identifier) =>
         string.Concat(GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
-
+    
     public string BuildWorkflowsUrl() => GetProjectUrl(_workflowTemplate.Url);
 
     public string BuildWorkflowsUrl(Reference identifier) => GetProjectUrl(_workflowTemplate.GetIdentifierUrlSegment(identifier));

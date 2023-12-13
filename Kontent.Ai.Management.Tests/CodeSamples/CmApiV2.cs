@@ -10,6 +10,8 @@ using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+using Kontent.Ai.Management.Models.LegacyWebhooks;
+using Kontent.Ai.Management.Models.LegacyWebhooks.Triggers;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
@@ -23,6 +25,11 @@ using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
+using Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
+using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
+using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
+using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
+using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.ModelBuilders;
@@ -155,6 +162,18 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         await client.DeleteLanguageVariantAsync(identifier);
     }
+    
+    // DocSection: cm_api_v2_delete_legacy_webhook
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void DeleteLegacyWebhook()
+    {
+        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        
+        var identifier = Reference.ById(Guid.Parse("d53360f7-79e1-42f4-a524-1b53a417d03e"));
+        
+        await client.DeleteLegacyWebhookAsync(identifier);
+    }
 
     // DocSection: cm_api_v2_delete_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
@@ -167,7 +186,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         await client.DeleteWebhookAsync(identifier);
     }
-
 
     // DocSection: cm_api_v2_delete_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
@@ -516,7 +534,21 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         Assert.Single(response);
     }
+    
+    // DocSection: cm_api_v2_get_legacy_webhook
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void GetLegacyWebhook()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("LegacyWebhook.json");
 
+        var identifier = Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"));
+
+        var response = await client.GetLegacyWebhookAsync(identifier);
+
+        Assert.NotNull(response);
+    }
+    
     // DocSection: cm_api_v2_get_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -526,11 +558,23 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         var identifier = Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"));
 
-        var response = await client.GetContentTypeAsync(identifier);
+        var response = await client.GetWebhookAsync(identifier);
 
         Assert.NotNull(response);
     }
 
+    // DocSection: cm_api_v2_get_legacy_webhooks
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void GetLegacyWebhooks()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("LegacyWebhooks.json");
+
+        var response = await client.ListLegacyWebhooksAsync();
+
+        Assert.Single(response);
+    }
+    
     // DocSection: cm_api_v2_get_webhooks
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -1268,19 +1312,19 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.NotNull(response);
     }
 
-    // DocSection: cm_api_v2_post_webhook
+    // DocSection: cm_api_v2_post_legacy_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostWebhook()
+    public async void PostLegacyWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostWebhookResponse.json");
+        var client = _fileSystemFixture.CreateMockClientWithResponse("PostLegacyWebhookResponse.json");
 
-        var response = await client.CreateWebhookAsync(new WebhookCreateModel
+        var response = await client.CreateLegacyWebhookAsync(new LegacyWebhookCreateModel
         {
             Name = "Example webhook",
             Url = "https://example.com/webhook",
             Secret = "secret_key",
-            Triggers = new WebhookTriggersModel
+            Triggers = new LegacyWebhookTriggersModel
             {
                 DeliveryApiContentChanges = new[]
                 {
@@ -1349,6 +1393,89 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                         }
                     }
                 },
+            }
+        });
+
+        Assert.NotNull(response);
+    }
+    
+    // DocSection: cm_api_v2_post_webhook
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void PostWebhook()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("PostWebhookResponse.json");
+
+        var response = await client.CreateWebhookAsync(new WebhookCreateModel
+        {
+            Name = "Example webhook",
+            Url = "https://example.com/webhook",
+            Secret = "secret_key",
+            DeliveryTriggers = new DeliveryTriggersModel
+            {
+                ContentType = new ContentTypeTriggerModel
+                {
+                    Enabled = true,
+                    Actions = new []
+                    {
+                       new ContentTypeActionModel { Action = ContentTypeActionEnum.Created },
+                       new ContentTypeActionModel { Action = ContentTypeActionEnum.Changed },
+                       new ContentTypeActionModel { Action = ContentTypeActionEnum.Deleted }
+                    }
+                },
+                ContentItem = new ContentItemTriggerModel
+                {
+                    Enabled = true,
+                    Actions = new []
+                    {
+                        new ContentItemActionModel
+                        {
+                            Action = ContentItemActionEnum.Deleted,
+                            TransitionTo = new []
+                            {
+                                new ContentItemWorkflowTransition {
+                                    WorkflowReference = Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
+                                    WorkflowStepReference = Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008"))
+                                }
+                            }
+                        }
+                    },
+                    Filters = new ContentItemFiltersModel
+                    {
+                        Languages = new []
+                        {
+                            Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))
+                        }
+                    }
+                },
+                Taxonomy = new TaxonomyTriggerModel
+                {
+                    Enabled = true,
+                    Actions = new []
+                    {
+                        new TaxonomyActionModel { Action = TaxonomyActionEnum.TermChanged },
+                        new TaxonomyActionModel { Action = TaxonomyActionEnum.MetadataChanged }
+                    }
+                },
+                Asset = new AssetTriggerModel
+                {
+                    Enabled = true,
+                    Actions = new []
+                    {
+                        new AssetActionModel { Action = AssetActionEnum.Created },
+                        new AssetActionModel { Action = AssetActionEnum.Changed }
+                    }
+                },
+                Language = new LanguageTriggerModel
+                {
+                    Enabled = true,
+                    Actions = new []
+                    {
+                        new LanguageActionModel { Action = LanguageActionEnum.Created }
+                    }
+                },
+                Slot = DeliverySlot.Published,
+                Events =  WebhookEvents.Specific
             }
         });
 
@@ -1821,6 +1948,18 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.Null(exception);
     }
 
+    // DocSection: mapi_v2_disable_legacy_webhook
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void PutDisableLegacyWebhook()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+
+        var exception = await Record.ExceptionAsync(async () =>
+            await client.DisableLegacyWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
+        Assert.Null(exception);
+    }
+    
     // DocSection: mapi_v2_disable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -1833,6 +1972,18 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.Null(exception);
     }
 
+    // DocSection: mapi_v2_enable_legacy_webhook
+    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+    [Fact]
+    public async void PutEnableLegacyWebhook()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+
+        var exception = await Record.ExceptionAsync(async () =>
+            await client.EnableLegacyWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
+        Assert.Null(exception);
+    }
+    
     // DocSection: mapi_v2_enable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
