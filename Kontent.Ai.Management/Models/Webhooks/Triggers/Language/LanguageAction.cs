@@ -1,26 +1,26 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
+namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 
 /// <summary>
-/// Represents content type actions.
+/// Represents language actions.
 /// </summary>
-public enum ContentTypeActionEnum
+public enum LanguageAction
 {
     /// <summary>
-    /// Content type created action.
+    /// Language created action.
     /// </summary>
     [EnumMember(Value = "created")]
     Created,
     
     /// <summary>
-    /// Content type changed action.
+    /// Language changed action.
     /// </summary>
     [EnumMember(Value = "changed")]
     Changed,
     
     /// <summary>
-    /// Content type deleted action.
+    /// Language deleted action.
     /// </summary>
     [EnumMember(Value = "deleted")]
     Deleted

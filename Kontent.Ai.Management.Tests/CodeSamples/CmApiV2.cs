@@ -1418,9 +1418,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Enabled = true,
                     Actions = new []
                     {
-                       new ContentTypeActionModel { Action = ContentTypeActionEnum.Created },
-                       new ContentTypeActionModel { Action = ContentTypeActionEnum.Changed },
-                       new ContentTypeActionModel { Action = ContentTypeActionEnum.Deleted }
+                       new ContentTypeActionModel { Action = ContentTypeAction.Created },
+                       new ContentTypeActionModel { Action = ContentTypeAction.Changed },
+                       new ContentTypeActionModel { Action = ContentTypeAction.Deleted }
                     }
                 },
                 ContentItem = new ContentItemTriggerModel
@@ -1430,7 +1430,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     {
                         new ContentItemActionModel
                         {
-                            Action = ContentItemActionEnum.Deleted,
+                            Action = ContentItemAction.Deleted,
                             TransitionTo = new []
                             {
                                 new ContentItemWorkflowTransition {
@@ -1453,8 +1453,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Enabled = true,
                     Actions = new []
                     {
-                        new TaxonomyActionModel { Action = TaxonomyActionEnum.TermChanged },
-                        new TaxonomyActionModel { Action = TaxonomyActionEnum.MetadataChanged }
+                        new TaxonomyActionModel { Action = TaxonomyAction.TermChanged },
+                        new TaxonomyActionModel { Action = TaxonomyAction.MetadataChanged }
                     }
                 },
                 Asset = new AssetTriggerModel
@@ -1462,8 +1462,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Enabled = true,
                     Actions = new []
                     {
-                        new AssetActionModel { Action = AssetActionEnum.Created },
-                        new AssetActionModel { Action = AssetActionEnum.Changed }
+                        new AssetActionModel { Action = AssetAction.Created },
+                        new AssetActionModel { Action = AssetAction.Changed }
                     }
                 },
                 Language = new LanguageTriggerModel
@@ -1471,7 +1471,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Enabled = true,
                     Actions = new []
                     {
-                        new LanguageActionModel { Action = LanguageActionEnum.Created }
+                        new LanguageActionModel { Action = LanguageAction.Created }
                     }
                 },
                 Slot = DeliverySlot.Published,

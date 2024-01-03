@@ -11,5 +11,5 @@ public class ContentTypeActionModel
     /// Content type action.
     /// </summary>
     [JsonProperty("action")]
-    public ContentTypeActionEnum Action { get; set; }
+    public ContentTypeAction Action { get; set; }
 }
