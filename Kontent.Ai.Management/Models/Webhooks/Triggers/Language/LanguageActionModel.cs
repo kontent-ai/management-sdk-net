@@ -11,5 +11,5 @@ public class LanguageActionModel
     /// Language action.
     /// </summary>
     [JsonProperty("action")]
-    public LanguageActionEnum Action { get; set; }
+    public LanguageAction Action { get; set; }
 }

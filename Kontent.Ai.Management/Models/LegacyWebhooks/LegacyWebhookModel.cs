@@ -14,6 +14,12 @@ public class LegacyWebhookModel
     /// </summary>
     [JsonProperty("last_modified")]
     public DateTime? LastModified { get; set; }
+    
+    /// <summary>
+    /// The webhook's health status tells you whether the webhook is operational.
+    /// </summary>
+    [JsonProperty("health_status")]
+    public LegacyWebhookHealthStatus HealthStatus { get; set; }
 
     /// <summary>
     /// Gets or sets the webhook's internal ID.

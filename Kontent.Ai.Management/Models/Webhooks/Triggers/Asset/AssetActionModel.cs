@@ -11,5 +11,5 @@ public class AssetActionModel
     /// Asset action.
     /// </summary>
     [JsonProperty("action")]
-    public AssetActionEnum Action { get; set; }
+    public AssetAction Action { get; set; }
 }

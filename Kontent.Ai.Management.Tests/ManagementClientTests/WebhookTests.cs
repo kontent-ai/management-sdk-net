@@ -94,7 +94,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
             DeliveryTriggers = new DeliveryTriggersModel {
                 ContentType = new ContentTypeTriggerModel {
                     Enabled = true,
-                    Actions = new[] { new ContentTypeActionModel { Action = ContentTypeActionEnum.Created } }
+                    Actions = new[] { new ContentTypeActionModel { Action = ContentTypeAction.Created } }
                 }
             }
         };

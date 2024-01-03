@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
 /// <summary>
 /// Represents asset actions.
 /// </summary>
-public enum AssetActionEnum
+public enum AssetAction
 {
     /// <summary>
     /// Asset created action.

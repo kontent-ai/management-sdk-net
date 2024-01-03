@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 /// <summary>
 /// Represents content item actions.
 /// </summary>
-public enum ContentItemActionEnum
+public enum ContentItemAction
 {
     /// <summary>
     /// Content item created action.

@@ -11,5 +11,5 @@ public class TaxonomyActionModel
     /// Taxonomy action.
     /// </summary>
     [JsonProperty("action")]
-    public TaxonomyActionEnum Action { get; set; }
+    public TaxonomyAction Action { get; set; }
 }

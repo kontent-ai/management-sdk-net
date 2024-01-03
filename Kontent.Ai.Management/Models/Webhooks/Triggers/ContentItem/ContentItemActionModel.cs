@@ -12,7 +12,7 @@ public class ContentItemActionModel
     /// The action performed on a content item.
     /// </summary>
     [JsonProperty("action")]
-    public ContentItemActionEnum Action { get; set; }
+    public ContentItemAction Action { get; set; }
     
     /// <summary>
     /// Specifies a workflow and its workflow step. 
