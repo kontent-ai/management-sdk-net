@@ -3,7 +3,7 @@
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 
 /// <summary>
-/// Represents language actions.
+/// Represents a language action.
 /// </summary>
 public enum LanguageAction
 {
