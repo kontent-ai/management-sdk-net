@@ -423,6 +423,16 @@ public interface IManagementClient
     Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier);
 
     /// <summary>
+    /// Returns strongly typed listing of language variants for specified space.
+    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
+    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// </summary>
+    /// <param name="identifier">The identifier of the collection.</param>
+    /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
+    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsBySpaceAsync(Reference identifier);
+
+    /// <summary>
     /// Returns strongly typed listing of language variants for the specified content item.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>

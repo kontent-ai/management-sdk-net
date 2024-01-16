@@ -194,6 +194,44 @@ public class LanguageVariantTests
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
+
+    [Fact]
+    public async void ListLanguageVariantsBySpaceAsync_DynamicallyTyped_ListsVariants()
+    {
+        var client = _scenario
+            .WithResponses("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json")
+            .CreateManagementClient();
+
+        var expected = new[]
+        {
+            (itemId: "00000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+            (itemId: "00000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
+            (itemId: "10000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+            (itemId: "10000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
+            (itemId: "20000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+            (itemId: "20000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000")
+        }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
+
+        var identifier = Reference.ById(Guid.Parse("f81647c8-778a-4b20-a47e-d09dc8541151"));
+        var response = await client.ListLanguageVariantsBySpaceAsync(identifier).GetAllAsync();
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response, expected)
+            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/{identifier.Id}/variants")
+            .Validate();
+    }
+
+    [Fact]
+    public async Task ListLanguageVariantsBySpaceAsync_DynamicallyTyped_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.ListLanguageVariantsBySpaceAsync(null))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
     [Theory]
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task GetLanguageVariantAsync_StronglyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
