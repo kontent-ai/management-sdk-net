@@ -10,6 +10,10 @@
       "collection": {
         "id": "df334bbb-6540-41cc-9aad-ea7114fb47ee"
       },
+      "spaces": [
+        { "id": "ece703a9-900e-4781-9d21-bdfbf9762751" },
+        { "id": "f87dadc0-a0ac-4d3f-bdfd-6dc1df575ab5" }
+      ],
       "sitemap_locations": [],
       "last_modified": "2021-05-28T11:54:49.8609984Z"
     },
@@ -23,6 +27,7 @@
       "collection": {
         "id": "00000000-0000-0000-0000-000000000000"
       },
+      "spaces": [],
       "sitemap_locations": [],
       "last_modified": "2021-01-06T07:23:56.0307608Z"
     }
