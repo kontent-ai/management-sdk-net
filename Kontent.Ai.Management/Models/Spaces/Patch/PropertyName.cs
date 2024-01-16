@@ -24,4 +24,10 @@ public enum PropertyName
     /// </summary>
     [EnumMember(Value = "web_spotlight_root_item")]
     WebSpotlightRootItem,
+
+    /// <summary>
+    /// The collections belonging to the space.
+    /// </summary>
+    [EnumMember(Value = "collections")]
+    Collections,
 }
