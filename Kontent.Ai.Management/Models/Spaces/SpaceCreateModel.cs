@@ -1,5 +1,6 @@
 using Kontent.Ai.Management.Models.Shared;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Spaces;
 
@@ -25,4 +26,10 @@ public class SpaceCreateModel
     /// </summary>
     [JsonProperty("web_spotlight_root_item")]
     public Reference WebSpotlightRootItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets the space's collections
+    /// </summary>
+    [JsonProperty("collections")]
+    public IEnumerable<Reference> Collections { get; set; }
 }
