@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
@@ -33,6 +34,14 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
             .Response(response)
             .Url(SpacesBaseUrl)
             .Validate();
+    }
+
+    [Fact]
+    public async void CreateSpace_ModelIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.CreateSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -80,6 +89,14 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
+    public async void GetSpace_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.GetSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
     public async void ModifySpace_Replace_ModifiesSpace()
     {
         var client = _scenario.WithResponses("ModifySpace_Replace_ModifiesSpace.json").CreateManagementClient();
@@ -99,6 +116,27 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
             .Response(response)
             .Url(SpacesBaseUrl + $"/{identifier.Id}")
             .Validate();
+    }
+
+    [Fact]
+    public async void ModifySpace_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+        var changes = new SpaceOperationReplaceModel[]
+        {
+            new() { PropertyName = PropertyName.Name, Value = "New space name" }
+        };
+
+        await client.Invoking(x => x.ModifySpaceAsync(null, changes)).Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async void ModifySpace_ChangesAreNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+        var identifier = Reference.ById(Guid.NewGuid());
+
+        await client.Invoking(x => x.ModifySpaceAsync(identifier, null)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -128,6 +166,14 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
             .Url(SpacesBaseUrl + $"/codename/{identifier.Codename}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
+    }
+
+    [Fact]
+    public async void DeleteSpace_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.DeleteSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
     }
 }
     
