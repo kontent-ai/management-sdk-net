@@ -3,6 +3,7 @@ using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<SpaceModel> CreateSpaceAsync(SpaceCreateModel space)
     {
+        ArgumentNullException.ThrowIfNull(space);
+
         var endpointUrl = _urlBuilder.BuildSpacesUrl();
         return await _actionInvoker.InvokeMethodAsync<SpaceCreateModel, SpaceModel>(endpointUrl, HttpMethod.Post, space);
     }
@@ -24,10 +27,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<SpaceModel> GetSpaceAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
         return await _actionInvoker.InvokeReadOnlyMethodAsync<SpaceModel>(endpointUrl, HttpMethod.Get);
@@ -43,10 +43,8 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<SpaceModel> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
         var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
         return await _actionInvoker.InvokeMethodAsync<IEnumerable<SpaceOperationReplaceModel>, SpaceModel>(endpointUrl, HttpMethod.Patch, changes);
@@ -55,10 +53,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteSpaceAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
