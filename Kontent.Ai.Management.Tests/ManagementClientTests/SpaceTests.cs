@@ -23,7 +23,8 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
         var createModel = new SpaceCreateModel {
             Codename = expected.Codename,
             Name = expected.Name,
-            WebSpotlightRootItem = expected.WebSpotlightRootItem
+            WebSpotlightRootItem = expected.WebSpotlightRootItem,
+            Collections = expected.Collections
         };
 
         var response = await client.CreateSpaceAsync(createModel);
@@ -105,7 +106,11 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
         {
             new() { PropertyName = PropertyName.Name, Value = "New space name" },
             new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" },
-            new() { PropertyName = PropertyName.WebSpotlightRootItem, Value = identifier }
+            new() { PropertyName = PropertyName.WebSpotlightRootItem, Value = identifier },
+            new() { PropertyName = PropertyName.Collections, Value = new[] {
+                    Reference.ByCodename("collection_codename"),
+                    Reference.ById(Guid.NewGuid()) }
+            }
         };
 
         var response =  await client.ModifySpaceAsync(identifier, changes);
