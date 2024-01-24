@@ -19,7 +19,10 @@
           {
             "action": "created"
           }
-        ]
+        ],
+        "filters": {
+          "content_types": []
+        }
       },
       "content_item": {
         "enabled": true,
@@ -55,7 +58,10 @@
           {
             "action": "metadata_changed"
           }
-        ]
+        ],
+        "filters": {
+          "taxonomies": []
+        }
       },
       "asset": {
         "enabled": true,
@@ -80,7 +86,10 @@
           {
             "action": "created"
           }
-        ]
+        ],
+        "filters": {
+          "languages": []
+        }
       },
       "slot": "published",
       "events": "all"

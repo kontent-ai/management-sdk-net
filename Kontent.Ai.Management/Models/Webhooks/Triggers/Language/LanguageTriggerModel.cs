@@ -21,4 +21,11 @@ public class LanguageTriggerModel
     /// </summary>
     [JsonProperty("actions")]
     public IEnumerable<LanguageActionModel> Actions { get; set; }
+
+    /// <summary>
+    /// Represents language filters.
+    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// </summary>
+    [JsonProperty("filters")]
+    public LanguageFiltersModel Filters { get; set; }
 }
