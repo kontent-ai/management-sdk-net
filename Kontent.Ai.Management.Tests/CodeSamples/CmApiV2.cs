@@ -1421,6 +1421,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                        new ContentTypeActionModel { Action = ContentTypeAction.Created },
                        new ContentTypeActionModel { Action = ContentTypeAction.Changed },
                        new ContentTypeActionModel { Action = ContentTypeAction.Deleted }
+                    },
+                    Filters = new ContentTypeFiltersModel {
+                        ContentTypes = new [] {
+                            Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))
+                        }
                     }
                 },
                 ContentItem = new ContentItemTriggerModel
@@ -1455,6 +1460,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     {
                         new TaxonomyActionModel { Action = TaxonomyAction.TermChanged },
                         new TaxonomyActionModel { Action = TaxonomyAction.MetadataChanged }
+                    },
+                    Filters = new TaxonomyFiltersModel
+                    {
+                        Taxonomies = new[] {
+                            Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))
+                        }
                     }
                 },
                 Asset = new AssetTriggerModel
@@ -1472,9 +1483,15 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Actions = new []
                     {
                         new LanguageActionModel { Action = LanguageAction.Created }
+                    },
+                    Filters = new LanguageFiltersModel
+                    {
+                        Languages = new[] {
+                            Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))
+                        }
                     }
                 },
-                Slot = DeliverySlot.Published,
+                Slot = DeliverySlot.Preview,
                 Events =  WebhookEvents.Specific
             }
         });

@@ -18,7 +18,10 @@
         {
           "action": "created"
         }
-      ]
+      ],
+      "filters": {
+        "content_types": []
+      }
     },
     "content_item": {
       "enabled": true,
@@ -66,7 +69,10 @@
         {
           "action": "terms_moved"
         }
-      ]
+      ],
+      "filters": {
+        "taxonomies": []
+      }
     },
     "asset": {
       "enabled": true,
@@ -97,7 +103,10 @@
         {
           "action": "created"
         }
-      ]
+      ],
+      "filters": {
+        "languages": []
+      }
     },
     "slot": "published",
     "events": "all"

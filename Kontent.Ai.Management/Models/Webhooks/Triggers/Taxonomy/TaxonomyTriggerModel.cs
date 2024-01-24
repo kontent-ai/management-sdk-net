@@ -21,4 +21,11 @@ public class TaxonomyTriggerModel
     /// </summary>
     [JsonProperty("actions")]
     public IEnumerable<TaxonomyActionModel> Actions { get; set; }
+
+    /// <summary>
+    /// Represents taxonomy filters.
+    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// </summary>
+    [JsonProperty("filters")]
+    public TaxonomyFiltersModel Filters { get; set; }
 }
