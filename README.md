@@ -31,7 +31,7 @@ The `ManagementClient` class is the main class of the SDK. Using this class, you
 To create an instance of the class, you need to provide:
 
 - [ProjectId](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id): the ID of your Kontent.ai project. This parameter must always be set.
-- [SubscriptionId](https://kontent.ai/learn/reference/management-api-v2/#tag/Subscription): the ID of your subcription. Set it up if you need to manage users and their permissions.
+- [SubscriptionId](https://kontent.ai/learn/reference/management-api-v2/#tag/Subscription): the ID of your subscription. Set it up if you need to manage users and their permissions.
 - [ApiKey](https://kontent.ai/learn/reference/management-api-v2/#section/Authentication/API-keys): either Management or Subscription API key.
   - Subscription API key can be used for all endpoints but is limited to subscription admins
   - Management API key can be used with project-specific endpoints and is limited to users with the Manage APIs permission.
@@ -67,7 +67,7 @@ var externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
 
 ### User identifier
 
-The SDK also suports endpoints that require either user ID or email. _UserIdentifier_ object represents identification of an user. See following example for more detail.
+The SDK also supports endpoints that require either user ID or email. _UserIdentifier_ object represents identification of an user. See following example for more detail.
 
 ```csharp
 UserIdentifier identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
