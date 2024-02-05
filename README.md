@@ -26,7 +26,7 @@ To manage content in a Kontent.ai project via the Management API, you first need
 
 ## Using the ManagementClient
 
-The `ManagementClient` class is the main class of the SDK. Using this class, you can import, update, view and delete content items, language variants, and others in your Kontent.ai projects.
+The `ManagementClient` class is the main class of the SDK. Using it, you can import, update, view and delete content items, language variants, and other objects in your Kontent.ai projects.
 
 To create an instance of the class, you need to provide:
 
@@ -67,7 +67,7 @@ var externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
 
 ### User identifier
 
-The SDK also supports endpoints that require either user ID or email. _UserIdentifier_ object represents identification of an user. See following example for more detail.
+The SDK also supports endpoints that require either user ID or email. _UserIdentifier_ object represents identification of a user. See the following example for more detail:
 
 ```csharp
 UserIdentifier identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
@@ -76,7 +76,7 @@ UserIdentifier identifier = UserIdentifier.ByEmail("user@email.com");
 
 ### Handling Kontent.ai **errors**
 
-You can catch Kontent.ai errors (more in [error section in Management API reference](https://kontent.ai/learn/reference/management-api-v2#section/Errors))) by using `try-catch` block and catching `Kontent.Ai.Management.Exceptions.ManagementException`.
+You can catch Kontent.ai errors (more in [error section in Management API reference](https://kontent.ai/learn/reference/management-api-v2#section/Errors)) by using `try-catch` block and catching `Kontent.Ai.Management.Exceptions.ManagementException`.
 
 ```csharp
 try
@@ -108,7 +108,7 @@ response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 
 var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
 ```
 
-Or you can construct instance of strongly type model without necessity to retrieve the data from Kontent. You just provide the elements you want to change. If the property is not initialized (is `null`) the SDK won't include to the payload.
+You can also construct an instance of strongly type model and provide values for the elements you want to change, without the necessity to retrieve the data from Kontent.ai. If a property is not initialized (is `null`) the SDK won't include it in the payload.
 
 ```csharp
 // Defines the content elements to update
@@ -195,7 +195,7 @@ var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 
 ### Working with assets
 
-The Kontent.ai [model generator utility](https://github.com/kontent-ai/model-generators-net) currently does not support generating a strongly-typed model from your asset type. But you can construct an instance of a strongly-typed model yourself. You just need to provide the elements you want to change.
+The Kontent.ai [model generator utility](https://github.com/kontent-ai/model-generators-net) currently does not support generating a strongly-typed model from your asset type, however, you can construct an instance of a strongly-typed model yourself. Simply provide the elements you want to change:
 
 ```csharp
 var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
@@ -225,7 +225,7 @@ var asset = new AssetCreateModel<AssetMetadataModel>
 var response = await client.CreateAssetAsync(asset);
 ```
 
-You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. That is **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
+You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. This is a **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
 
 ```csharp
  // Elements to update
@@ -252,7 +252,7 @@ var assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f
 var response = await client.UpsertAssetAsync(assetReference, asset);
 ```
 
-You can also use anonymous dynamic objects to work with assets same as with the language variants.
+You can also use anonymous dynamic objects to work with assets, same as with language variants.
 
 ## Quick start
 
@@ -286,17 +286,17 @@ var response = await _client.ListContentItemsAsync().GetAllAsync();
 
 ### Importing content items
 
-Importing content items is a 2 step process, using 2 separate methods:
+Importing content items is a 2-step process, using 2 separate methods:
 
 1. Creating an empty content item which serves as a wrapper for your content.
-1. Adding content inside a language variant of the content item.
+1. Adding content into a language variant of the content item.
 
 Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kontent.ai](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
 
 #### 1. Creating a content item
 
 ```csharp
-// Creates an instance of the Management client
+// Creates an instance of the ManagementClient
 var client = new ManagementClient(options);
 
 var item = new ContentItemCreateModel
@@ -377,7 +377,7 @@ var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier,
 
 ### Helper Methods
 
-Methods for building links to content items and their elements in Kontent. Available as a [separate NuGet package](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers/).
+Methods for building links to content items and their elements in Kontent.ai. Available as a [separate NuGet package](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers/).
 
 #### Getting an edit link for a content item
 
@@ -446,7 +446,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
 
 ## Add source tracking header 
 
-Are you developing a plugin or tool based on this SDK? Great! Then please include the source tracking header to your code. This way, we'll be able to identify that the traffic to Kontent.ai APIs is originating from your plugin and will be able to share its statistics with you!
+Are you developing a plugin or a tool based on this SDK? Great! Then please include the source tracking header in your code. This way, we'll be able to identify that the traffic to Kontent.ai APIs is originating from your plugin and share its statistics with you!
 
 You can either attach it to the **AssemblyInfo.cs**
 ```c#
@@ -461,7 +461,7 @@ Or to the **.csproj**:
   </ItemGroup>
 ```
 
-By default, it'll load the necessary info (package name + version) from your assembly. If you want to customize it, please use one of the other constructors:
+By default, it will load the necessary info (package name + version) from your assembly. If you want to customize it, please use one of the constructors:
 
 ```c#
 // You specify the name, the version is extracted from the assembly
@@ -487,9 +487,9 @@ If you use the **.csproj**:
 
 ## How to use [SourceLink](https://github.com/dotnet/sourcelink/) for debugging
 
-This repository is configured to generate SourceLink tag in the Nuget package that allows to debug this repository source code when it is referenced as a Nuget package. Source code is downloaded directly from github to the Visual Studio.
+This repository is configured to generate SourceLink tag in the Nuget package, allowing to debug its source code when it is referenced as a Nuget package. Source code is downloaded directly from github to Visual Studio.
 
-### How to configure Source Link
+### How to configure SourceLink
 
 1. Open a solution with a project referencing the Kontent.Ai.Management Nuget package.
 1. Open Tools -> Options -> Debugging -> General.
@@ -508,7 +508,7 @@ This repository is configured to generate SourceLink tag in the Nuget package th
 
 - ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
 
-**Now you are able to debug the source code of our library without needing to download the source code manually!**
+**Now you are able to debug the source code of our library without having to download it manually!**
 
 ## Further information
 
