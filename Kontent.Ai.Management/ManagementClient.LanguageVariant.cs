@@ -81,6 +81,21 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
+    public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsBySpaceAsync(Reference identifier)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        var endpointUrl = _urlBuilder.BuildListVariantsBySpaceUrl(identifier);
+        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+        return new ListingResponseModel<LanguageVariantModel>(
+            (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+            response.Pagination?.Token,
+            endpointUrl,
+            response.Variants);
+    }
+
+    /// <inheritdoc />
     public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier) where T : new()
     {
         if (identifier == null)

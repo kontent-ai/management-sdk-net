@@ -64,6 +64,8 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildListVariantsByCollectionUrl(Reference identifier) => GetProjectUrl(string.Concat(_collectionTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
+    public string BuildListVariantsBySpaceUrl(Reference identifier) => GetProjectUrl(string.Concat(_spaceTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
+
     public string BuildVariantsUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),

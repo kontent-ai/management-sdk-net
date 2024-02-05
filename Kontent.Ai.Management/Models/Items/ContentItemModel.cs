@@ -41,6 +41,12 @@ public sealed class ContentItemModel
     public Reference Collection { get; set; }
 
     /// <summary>
+    /// Gets or sets the spaces of the content item
+    /// </summary>
+    [JsonProperty("spaces")]
+    public IReadOnlyCollection<Reference> Spaces { get; set; }
+
+    /// <summary>
     /// Gets or sets sitemap locations of the content item.
     /// </summary>
     [JsonProperty("sitemap_locations")]

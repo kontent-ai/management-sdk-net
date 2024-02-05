@@ -10,6 +10,10 @@
       "collection": {
         "id": "df334bbb-6540-41cc-9aad-ea7114fb47ee"
       },
+      "spaces": [
+        { "id": "ece703a9-900e-4781-9d21-bdfbf9762751" },
+        { "id": "f87dadc0-a0ac-4d3f-bdfd-6dc1df575ab5" }
+      ],
       "sitemap_locations": [],
       "last_modified": "2021-05-28T12:08:35.9298382Z"
     }
