@@ -1,5 +1,5 @@
 # Info
 
-This folder is ment to be for creating code samples. This should help to create code samples that are compilable.
+This folder is intended for storing code samples, to ensure they are compilable.
 
-Once the code sample are bing merged here, update also code samples sources => https://github.com/KenticoDocs/kontent-docs-samples/tree/master/net
+After merging a PR with updated or new code samples here, make sure to also update them in the designated repository => https://github.com/KenticoDocs/kontent-docs-samples/tree/master/net
