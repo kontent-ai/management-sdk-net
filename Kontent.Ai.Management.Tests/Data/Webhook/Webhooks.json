@@ -4,6 +4,12 @@
     "name": "webhooks_all_triggers",
     "url": "http://test",
     "secret": "AQA1jsNDjLBUcRRD69GQtuzBBqxGPdz+0XhTKhICv4o=",
+    "headers": [
+      {
+        "key": "key1",
+        "value": "value1"
+      }      
+    ],
     "enabled": true,
     "last_modified": "2023-12-13T11:22:34.4079256Z",
     "delivery_triggers": {
@@ -115,6 +121,7 @@
     "name": "second_webhook",
     "url": "http://test",
     "secret": "Ye7/QP5fyP+pjCD5rQeKkqUBeVfFus3EULWPPY0OaKI=",
+    "headers": [],
     "enabled": true,
     "last_modified": "2023-12-13T11:31:11.1874628Z",
     "delivery_triggers": {

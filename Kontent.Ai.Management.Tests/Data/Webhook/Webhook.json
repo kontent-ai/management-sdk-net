@@ -3,6 +3,12 @@
   "name": "Webhook_all_triggers",
   "url": "http://test",
   "secret": "AQA1jsNDjLBUcRRD69GQtuzBBqxGPdz+0XhTKhICv4o=",
+  "headers": [
+    {
+      "key": "key1",
+      "value": "value1"
+    }
+  ],
   "enabled": true,
   "last_modified": "2023-12-13T11:22:34.4079256Z",
   "delivery_triggers": {

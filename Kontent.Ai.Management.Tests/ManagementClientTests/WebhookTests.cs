@@ -90,6 +90,14 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
             Enabled = true,
             Name = "name",
             Secret = "password",
+            Headers = new []
+            {
+                new CustomHeaderModel
+                {
+                    Key = "key1",
+                    Value = "value1"
+                }
+            },
             Url = "url",
             DeliveryTriggers = new DeliveryTriggersModel {
                 ContentType = new ContentTypeTriggerModel {
