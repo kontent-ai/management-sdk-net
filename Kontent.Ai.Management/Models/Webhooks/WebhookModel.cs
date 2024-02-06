@@ -1,6 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Webhooks;
 
@@ -32,6 +33,12 @@ public class WebhookModel
     /// </summary>
     [JsonProperty("secret")]
     public string Secret { get; set; }
+    
+    /// <summary>
+    /// Gets or sets webhook's custom HTTP headers, used to send extra information in webhook notifications.
+    /// </summary>
+    [JsonProperty("headers")]
+    public IEnumerable<CustomHeaderModel> Headers { get; set; }
     
     /// <summary>
     /// Determines if the webhook is enabled. By default, the enabled property is set to true.
