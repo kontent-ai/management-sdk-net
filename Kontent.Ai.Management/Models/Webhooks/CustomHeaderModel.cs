@@ -3,7 +3,7 @@
 namespace Kontent.Ai.Management.Models.Webhooks;
 
 /// <summary>
-/// Represents webhook custom HTTP headers. Custom headers are sent together with existing headers.
+/// Represents a custom HTTP header of a webhook. Custom headers are sent together with existing headers.
 /// </summary>
 public class CustomHeaderModel
 {
