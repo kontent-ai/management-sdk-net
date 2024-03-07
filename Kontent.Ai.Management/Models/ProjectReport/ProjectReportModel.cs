@@ -24,6 +24,6 @@ public sealed class EnvironmentReportModel
     /// Gets or sets reports of the problems found in the environment's content types
     /// </summary>
     [JsonProperty("type_issues")]
-    public List<TypeIssues> TypeIssues { get; set; }
+    public List<TypeIssue> TypeIssues { get; set; }
 }
 
