@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace Kontent.Ai.Management.Models.ProjectReport;
 
 /// <summary>
-/// Represents the report of the problems found in the project's content types.
+/// Represents the report of the problems found in the environment's content types.
 /// </summary>
-public class TypeIssues
+public class TypeIssue
 {
     /// <summary>
     /// Gets or sets information about content type
