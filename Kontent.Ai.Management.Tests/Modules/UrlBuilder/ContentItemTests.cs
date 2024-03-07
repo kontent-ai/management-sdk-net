@@ -10,7 +10,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildItemsUrl_ReturnsCorrectUrl()
     {
         var actualUrl = _builder.BuildItemsUrl();
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/items";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -20,7 +20,7 @@ public partial class EndpointUrlBuilderTests
     {
         var identifier = Reference.ById(Guid.NewGuid());
         var actualUrl = _builder.BuildItemUrl(identifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/{identifier.Id}";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -30,7 +30,7 @@ public partial class EndpointUrlBuilderTests
     {
         var identifier = Reference.ByCodename("codename");
         var actualUrl = _builder.BuildItemUrl(identifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/codename/{identifier.Codename}";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/items/codename/{identifier.Codename}";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -40,7 +40,7 @@ public partial class EndpointUrlBuilderTests
     {
         var identifier = Reference.ByExternalId("externalId");
         var actualUrl = _builder.BuildItemUrl(identifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/items/external-id/{identifier.ExternalId}";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/items/external-id/{identifier.ExternalId}";
 
         Assert.Equal(expectedUrl, actualUrl);
     }

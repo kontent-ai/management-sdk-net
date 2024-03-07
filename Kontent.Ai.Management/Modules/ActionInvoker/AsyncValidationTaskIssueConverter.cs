@@ -1,4 +1,4 @@
-﻿using Kontent.Ai.Management.Models.ProjectValidation;
+﻿using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;

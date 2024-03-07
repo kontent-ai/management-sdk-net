@@ -34,7 +34,7 @@ public class TaxonomyGroupTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies")
             .Validate();
     }
 
@@ -52,7 +52,7 @@ public class TaxonomyGroupTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/{identifier.Id}")
             .Validate();
     }
 
@@ -70,7 +70,7 @@ public class TaxonomyGroupTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -88,7 +88,7 @@ public class TaxonomyGroupTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/external-id/{identifier.ExternalId}")
             .Validate();
     }
 
@@ -131,7 +131,7 @@ public class TaxonomyGroupTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies")
             .Validate();
     }
 
@@ -153,7 +153,7 @@ public class TaxonomyGroupTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/codename/{identifier.Codename}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -168,7 +168,7 @@ public class TaxonomyGroupTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/{identifier.Id}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -183,7 +183,7 @@ public class TaxonomyGroupTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/external-id/{identifier.ExternalId}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -212,7 +212,7 @@ public class TaxonomyGroupTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/{identifier.Id}")
             .Validate();
     }
 
@@ -233,7 +233,7 @@ public class TaxonomyGroupTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -253,7 +253,7 @@ public class TaxonomyGroupTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/taxonomies/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/external-id/{identifier.ExternalId}")
             .Validate();
     }
 

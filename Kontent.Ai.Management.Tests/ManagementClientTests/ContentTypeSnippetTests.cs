@@ -36,7 +36,7 @@ public class ContentTypeSnippetTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets")
             .Validate();
     }
 
@@ -55,7 +55,7 @@ public class ContentTypeSnippetTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/{identifier.Id}")
             .Validate();
     }
 
@@ -74,7 +74,7 @@ public class ContentTypeSnippetTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -93,7 +93,7 @@ public class ContentTypeSnippetTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/external-id/{identifier.ExternalId}")
             .Validate();
     }
 
@@ -129,7 +129,7 @@ public class ContentTypeSnippetTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets")
             .Validate();
     }
 
@@ -153,7 +153,7 @@ public class ContentTypeSnippetTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/{identifier.Id}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -168,7 +168,7 @@ public class ContentTypeSnippetTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/codename/{identifier.Codename}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -183,7 +183,7 @@ public class ContentTypeSnippetTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/external-id/{identifier.ExternalId}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -212,7 +212,7 @@ public class ContentTypeSnippetTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/{identifier.Id}")
             .Validate();
     }
 
@@ -232,7 +232,7 @@ public class ContentTypeSnippetTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -252,7 +252,7 @@ public class ContentTypeSnippetTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/snippets/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/external-id/{identifier.ExternalId}")
             .Validate();
     }
     [Fact]

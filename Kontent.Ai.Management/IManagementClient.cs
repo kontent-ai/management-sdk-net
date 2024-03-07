@@ -11,8 +11,8 @@ using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LegacyWebhooks;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
-using Kontent.Ai.Management.Models.ProjectReport;
-using Kontent.Ai.Management.Models.ProjectValidation;
+using Kontent.Ai.Management.Models.EnvironmentReport;
+using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Models.Shared;
@@ -344,10 +344,10 @@ public interface IManagementClient
     Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new();
 
     /// <summary>
-    /// Returns project information
+    /// Returns environment information
     /// </summary>
-    /// <returns>The <see cref="Project"/> instance that represents the project information.</returns>
-    Task<Project> GetProjectInformationAsync();
+    /// <returns>The <see cref="Environment"/> instance that represents the environment information.</returns>
+    Task<Models.EnvironmentReport.Environment> GetEnvironmentInformationAsync();
 
     /// <summary>
     /// Returns taxonomy group.
@@ -619,16 +619,16 @@ public interface IManagementClient
     Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements, WorkflowStepIdentifier workflow = null) where T : new();
 
     /// <summary>
-    /// Validates the project.
+    /// Validates the environment.
     /// </summary>
-    /// <returns><see cref="ProjectReportModel"/></returns>
-    Task<ProjectReportModel> ValidateProjectAsync();
+    /// <returns><see cref="EnvironmentReportModel"/></returns>
+    Task<EnvironmentReportModel> ValidateEnvironmentAsync();
 
     /// <summary>
-    /// Initiates asynchronous project validation.
+    /// Initiates asynchronous environment validation.
     /// </summary>
     /// <returns><see cref="AsyncValidationTaskModel"/></returns>
-    Task<AsyncValidationTaskModel> InitiateProjectAsyncValidationTaskAsync();
+    Task<AsyncValidationTaskModel> InitiateEnvironmentAsyncValidationTaskAsync();
 
     /// <summary>
     /// Gets async validation task.
@@ -643,29 +643,29 @@ public interface IManagementClient
     Task<IListingResponseModel<AsyncValidationTaskIssueModel>> ListAsyncValidationTaskIssuesAsync(Guid taskId);
 
     /// <summary>
-    /// Lists all roles in project.
+    /// Lists all roles in an environment.
     /// </summary>
-    /// <returns>The <see cref="ProjectRolesModel"/> instance that represents the listing of roles in project.</returns>
-    Task<ProjectRolesModel> ListProjectRolesAsync();
+    /// <returns>The <see cref="EnvironmentRolesModel"/> instance that represents the listing of roles in an environment.</returns>
+    Task<EnvironmentRolesModel> ListEnvironmentRolesAsync();
 
     /// <summary>
-    /// Returns project role.
+    /// Returns environment role.
     /// </summary>
-    /// <param name="identifier">The identifier of the project role.</param>
-    /// <returns>The <see cref="ProjectRoleModel"/> instance that represents requested project role.</returns>
-    Task<ProjectRoleModel> GetProjectRoleAsync(Reference identifier);
+    /// <param name="identifier">The identifier of the environment role.</param>
+    /// <returns>The <see cref="EnvironmentRoleModel"/> instance that represents requested environment role.</returns>
+    Task<EnvironmentRoleModel> GetEnvironmentRoleAsync(Reference identifier);
 
     /// <summary>
-    /// Invites a new user to project.
+    /// Invites a new user to an environment.
     /// </summary>
     /// <param name="invitation">Represents an user that is to be invited.</param>
     /// <returns>Returns the newly invited user.</returns>
-    Task<UserModel> InviteUserIntoProjectAsync(UserInviteModel invitation);
+    Task<UserModel> InviteUserIntoEnvironmentAsync(UserInviteModel invitation);
 
     /// <summary>
     /// Modifies user's roles.
     /// </summary>
-    /// <param name="identifier">The identifier of the project user.</param>
+    /// <param name="identifier">The identifier of the environment user.</param>
     /// <param name="user">Represents an user that is to be modified.</param>
     /// <returns>Returns the modified user.</returns>
     Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user);

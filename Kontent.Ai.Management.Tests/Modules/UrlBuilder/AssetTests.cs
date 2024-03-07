@@ -11,7 +11,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildAssetsUrlFromId_ById_ReturnsExpectedUrl()
     {
         var assetId = Guid.NewGuid();
-        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/{assetId}";
+        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/assets/{assetId}";
         var actualResult = _builder.BuildAssetsUrl(Reference.ById(assetId));
 
         Assert.Equal(expectedResult, actualResult);
@@ -21,7 +21,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildAssetsUrlFromCodename_ByCodename_ReturnsExpectedUrl()
     {
         var codename = "which_brewing_fits_you";
-        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/codename/{codename}";
+        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/assets/codename/{codename}";
         var actualResult = _builder.BuildAssetsUrl(Reference.ByCodename(codename));
 
         Assert.Equal(expectedResult, actualResult);
@@ -31,7 +31,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildAssetsUrlFromExternalId_ByExternalId_ReturnsExpectedUrl()
     {
         var externalId = "which-brewing-fits-you";
-        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/assets/external-id/{externalId}";
+        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/assets/external-id/{externalId}";
         var actualResult = _builder.BuildAssetsUrl(Reference.ByExternalId(externalId));
 
         Assert.Equal(expectedResult, actualResult);
@@ -41,7 +41,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildUploadFileUrl_ReturnsExpectedUrl()
     {
         var fileName = "which-brewing-fits-you-1080px.jpg";
-        var expectedResult = $"https://manage.kontent.ai/v2/projects/{PROJECT_ID}/files/{fileName}";
+        var expectedResult = $"https://manage.kontent.ai/v2/projects/{ENVIRONMENT_ID}/files/{fileName}";
         var actualResult = _builder.BuildUploadFileUrl(fileName);
 
         Assert.Equal(expectedResult, actualResult);

@@ -114,6 +114,6 @@ public class ImportLinkedContent : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
 
-        var response = await client.ValidateProjectAsync();
+        var response = await client.ValidateEnvironmentAsync();
     }
 }

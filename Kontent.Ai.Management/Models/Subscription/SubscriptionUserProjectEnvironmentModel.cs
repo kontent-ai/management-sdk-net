@@ -10,7 +10,7 @@ namespace Kontent.Ai.Management.Models.Subscription;
 public sealed class SubscriptionUserProjectEnvironmentModel
 {
     /// <summary>
-    /// Gets or sets he environment's internal ID. Use this as projectId path parameter in project specific endpoints.
+    /// Gets or sets he environment's internal ID.
     /// </summary>
     [JsonProperty("id")]
     public Guid Id { get; set; }

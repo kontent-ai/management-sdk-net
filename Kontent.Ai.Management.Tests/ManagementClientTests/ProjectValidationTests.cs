@@ -7,46 +7,46 @@ using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class ProjectValidationTests : IClassFixture<FileSystemFixture>
+public class EnvironmentValidationTests : IClassFixture<FileSystemFixture>
 {
     private readonly Scenario _scenario;
 
-    public ProjectValidationTests()
+    public EnvironmentValidationTests()
     {
         _scenario = new Scenario(folder: "ProjectValidation");
     }
 
     [Fact]
-    public async void ValidateProject_ReturnsProjectReportModel()
+    public async void ValidateEnvironment_ReturnsEnvironmentReportModel()
     {
         var client = _scenario
             .WithResponses("ProjectValidation.json")
             .CreateManagementClient();
 
-        var response = await client.ValidateProjectAsync();
+        var response = await client.ValidateEnvironmentAsync();
 
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Post)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/validate")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate")
             .Validate();
     }
 
     [Fact]
-    public async void InitiateProjectAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
+    public async void InitiateEnvironmentAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
     {
         var client = _scenario
             .WithResponses("AsyncValidationTask.json")
             .CreateManagementClient();
 
-        var response = await client.InitiateProjectAsyncValidationTaskAsync();
+        var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Post)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/validate-async")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async")
             .Validate();
     }
  
@@ -64,7 +64,7 @@ public class ProjectValidationTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/validate-async/tasks/{taskIdentifier}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskIdentifier}")
             .Validate();
     }
  
@@ -82,7 +82,7 @@ public class ProjectValidationTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/validate-async/tasks/{taskIdentifier}/issues")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskIdentifier}/issues")
             .Validate();
     }
 }

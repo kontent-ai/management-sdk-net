@@ -8,7 +8,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildCloneEnvironmentUrl_ReturnsCorrectUrl()
     {
         var actualUrl = _builder.BuildCloneEnvironmentUrl();
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/clone-environment";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/clone-environment";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -17,7 +17,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildGetEnvironmentCloningStateUrl_ReturnsCorrectUrl()
     {
         var actualUrl = _builder.BuildGetEnvironmentCloningStateUrl();
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/environment-cloning-state";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/environment-cloning-state";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -26,7 +26,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildMarkEnvironmentAsProductionUrl_ReturnsCorrectUrl()
     {
         var actualUrl = _builder.BuildMarkEnvironmentAsProductionUrl();
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/mark-environment-as-production";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/mark-environment-as-production";
 
         Assert.Equal(expectedUrl, actualUrl);
     }

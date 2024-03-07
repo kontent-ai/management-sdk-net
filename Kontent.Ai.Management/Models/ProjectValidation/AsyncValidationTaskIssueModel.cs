@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.ProjectValidation;
+namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
 /// Async validation task issue.

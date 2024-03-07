@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
 
-namespace Kontent.Ai.Management.Models.ProjectReport;
+namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
-/// Represents information about the specified project
+/// Represents information about the specified environment
 /// </summary>
-public sealed class Project
+public sealed class Environment
 {
     /// <summary>
-    /// Gets or sets the id of the project
+    /// Gets or sets the id of the environment
     /// </summary>
     [JsonProperty("id")]
     public string Id { get; set; }
@@ -17,11 +17,11 @@ public sealed class Project
     /// Gets or sets the name of the project
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string ProjectName { get; set; }
 
     /// <summary>
-    /// Gets or sets the environment of the project
+    /// Gets or sets the environment name
     /// </summary>
     [JsonProperty("environment")]
-    public string Environment { get; set; }
+    public string EnvironmentName { get; set; }
 }

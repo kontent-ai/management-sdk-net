@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace Kontent.Ai.Management.Models.Roles;
 
 /// <summary>
-/// Represents project's roles
+/// Represents environment's roles
 /// </summary>
-public class ProjectRolesModel
+public class EnvironmentRolesModel
 {
     /// <summary>
-    /// Gets or sets the list of project roles
+    /// Gets or sets the list of environment roles
     /// </summary>
     [JsonProperty("roles")]
-    public IEnumerable<ProjectRoleModel> Roles { get; set; }
+    public IEnumerable<EnvironmentRoleModel> Roles { get; set; }
 }

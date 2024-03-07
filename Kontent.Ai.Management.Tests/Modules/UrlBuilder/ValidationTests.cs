@@ -7,7 +7,7 @@ public partial class EndpointUrlBuilderTests
     [Fact]
     public void BuildValidationUrl_ReturnsValidationUrl()
     {
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/validate";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/validate";
         var actualUrl = _builder.BuildValidationUrl();
 
         Assert.Equal(expectedUrl, actualUrl);

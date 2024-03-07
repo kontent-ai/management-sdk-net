@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.ProjectValidation;
+namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 [JsonObject]
 internal class AsyncValidationTaskIssuesResponseServerModel : IListingResponse<AsyncValidationTaskIssueModel>

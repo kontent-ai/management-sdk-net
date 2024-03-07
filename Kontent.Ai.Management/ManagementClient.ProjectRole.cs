@@ -9,21 +9,21 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<ProjectRolesModel> ListProjectRolesAsync()
+    public async Task<EnvironmentRolesModel> ListEnvironmentRolesAsync()
     {
-        var endpointUrl = _urlBuilder.BuildProjectRolesUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectRolesModel>(endpointUrl, HttpMethod.Get);
+        var endpointUrl = _urlBuilder.BuildEnvironmentRolesUrl();
+        return await _actionInvoker.InvokeReadOnlyMethodAsync<EnvironmentRolesModel>(endpointUrl, HttpMethod.Get);
     }
 
     /// <inheritdoc />
-    public async Task<ProjectRoleModel> GetProjectRoleAsync(Reference identifier)
+    public async Task<EnvironmentRoleModel> GetEnvironmentRoleAsync(Reference identifier)
     {
         if (identifier == null)
         {
             throw new ArgumentNullException(nameof(identifier));
         }
 
-        var endpointUrl = _urlBuilder.BuildProjectRoleUrl(identifier);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectRoleModel>(endpointUrl, HttpMethod.Get);
+        var endpointUrl = _urlBuilder.BuildEnvironmentRoleUrl(identifier);
+        return await _actionInvoker.InvokeReadOnlyMethodAsync<EnvironmentRoleModel>(endpointUrl, HttpMethod.Get);
     }
 }

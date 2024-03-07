@@ -311,7 +311,7 @@ public class PublishingTests
                 foreach (var language in languageIdentifiers)
                 {
                     var identifier = new LanguageVariantIdentifier(item.Identifier, language.Identifier);
-                    var url = $"{Endpoint}/projects/{PROJECT_ID}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
+                    var url = $"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
                     yield return (identifier, url);
                 }
             }

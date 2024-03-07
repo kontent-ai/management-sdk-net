@@ -35,7 +35,7 @@ public class ContentTypeTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types")
             .Validate();
     }
 
@@ -53,7 +53,7 @@ public class ContentTypeTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}")
             .Validate();
     }
 
@@ -71,7 +71,7 @@ public class ContentTypeTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -89,7 +89,7 @@ public class ContentTypeTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/external-id/{identifier.ExternalId}")
             .Validate();
     }
 
@@ -126,7 +126,7 @@ public class ContentTypeTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types")
             .Validate();
     }
 
@@ -148,7 +148,7 @@ public class ContentTypeTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -164,7 +164,7 @@ public class ContentTypeTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/codename/{identifier.Codename}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -179,7 +179,7 @@ public class ContentTypeTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/external-id/{identifier.ExternalId}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -208,7 +208,7 @@ public class ContentTypeTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}")
             .Validate();
     }
 
@@ -228,7 +228,7 @@ public class ContentTypeTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -248,7 +248,7 @@ public class ContentTypeTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/external-id/{identifier.ExternalId}")
             .Validate();
     }
 

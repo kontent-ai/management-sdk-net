@@ -36,7 +36,7 @@ public class AssetRenditionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/{identifier.Id}/renditions")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/assets/{identifier.Id}/renditions")
             .Validate();
     }
 
@@ -54,7 +54,7 @@ public class AssetRenditionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/codename/{identifier.Codename}/renditions")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/assets/codename/{identifier.Codename}/renditions")
             .Validate();
     }
 
@@ -72,7 +72,7 @@ public class AssetRenditionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/external-id/{identifier.ExternalId}/renditions")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/assets/external-id/{identifier.ExternalId}/renditions")
             .Validate();
     }
 
@@ -148,7 +148,7 @@ public class AssetRenditionTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/{identifier.Id}/renditions")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/assets/{identifier.Id}/renditions")
             .Validate();
     }
 
@@ -181,7 +181,7 @@ public class AssetRenditionTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/codename/{identifier.Codename}/renditions")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/assets/codename/{identifier.Codename}/renditions")
             .Validate();
     }
 
@@ -214,7 +214,7 @@ public class AssetRenditionTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/assets/external-id/{identifier.ExternalId}/renditions")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/assets/external-id/{identifier.ExternalId}/renditions")
             .Validate();
     }
 
@@ -322,7 +322,7 @@ public class AssetRenditionTests
                 foreach (var language in renditionIdentifiers)
                 {
                     var identifier = new AssetRenditionIdentifier(item.Identifier, language.Identifier);
-                    var url = $"{Endpoint}/projects/{PROJECT_ID}/assets/{item.UrlSegment}/renditions/{language.UrlSegment}";
+                    var url = $"{Endpoint}/projects/{ENVIRONMENT_ID}/assets/{item.UrlSegment}/renditions/{language.UrlSegment}";
                     yield return (identifier, url);
                 }
             }

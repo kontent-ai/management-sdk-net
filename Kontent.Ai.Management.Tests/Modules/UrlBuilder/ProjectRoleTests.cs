@@ -9,8 +9,8 @@ public partial class EndpointUrlBuilderTests
     [Fact]
     public void BuildProjectRolesUrl_ReturnsCorrectUrl()
     {
-        var actualUrl = _builder.BuildProjectRolesUrl();
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/roles";
+        var actualUrl = _builder.BuildEnvironmentRolesUrl();
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/roles";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -19,8 +19,8 @@ public partial class EndpointUrlBuilderTests
     public void BuildProjectRoleUrl_WithId_ReturnsCorrectUrl()
     {
         var roleIdentifier = Reference.ById(Guid.NewGuid());
-        var actualUrl = _builder.BuildProjectRoleUrl(roleIdentifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/roles/{roleIdentifier.Id}";
+        var actualUrl = _builder.BuildEnvironmentRoleUrl(roleIdentifier);
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/roles/{roleIdentifier.Id}";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -29,8 +29,8 @@ public partial class EndpointUrlBuilderTests
     public void BuildProjectRoleUrl_WithCodename_ReturnsCorrectUrl()
     {
         var roleIdentifier = Reference.ByCodename("codename");
-        var actualUrl = _builder.BuildProjectRoleUrl(roleIdentifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/roles/codename/{roleIdentifier.Codename}";
+        var actualUrl = _builder.BuildEnvironmentRoleUrl(roleIdentifier);
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/roles/codename/{roleIdentifier.Codename}";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -39,6 +39,6 @@ public partial class EndpointUrlBuilderTests
     public void BuildProjectRoleUrl_WithExternalId_Throws()
     {
         var roleIdentifier = Reference.ByExternalId("external");
-        Assert.Throws<InvalidOperationException>(() => _builder.BuildProjectRoleUrl(roleIdentifier));
+        Assert.Throws<InvalidOperationException>(() => _builder.BuildEnvironmentRoleUrl(roleIdentifier));
     }
 }

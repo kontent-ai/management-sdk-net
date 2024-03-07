@@ -16,8 +16,8 @@ namespace Kontent.Ai.Management.Tests.Base;
 internal class Scenario
 {
     public static string Endpoint => "https://manage.kontent.ai/v2";
-    public static string PROJECT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
-    public static string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
+    public static string ENVIRONMENT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
+    public static string SUBSCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
     private readonly EndpointUrlBuilder _urlBuilder;
     private readonly MessageCreator _messageCreator;
@@ -32,8 +32,8 @@ internal class Scenario
         var managementOptions = new ManagementOptions()
         {
             ApiKey = "Dummy_API_key",
-            ProjectId = PROJECT_ID,
-            SubscriptionId = SUBCRIPTION_ID
+            EnvironmentId = ENVIRONMENT_ID,
+            SubscriptionId = SUBSCRIPTION_ID
         };
         _urlBuilder = new EndpointUrlBuilder(managementOptions);
         _messageCreator = new MessageCreator(managementOptions.ApiKey);

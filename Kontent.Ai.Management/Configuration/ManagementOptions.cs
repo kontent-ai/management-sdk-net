@@ -18,9 +18,9 @@ public class ManagementOptions
     public string EndpointV2 { get; set; } = "https://manage.kontent.ai/v2/{0}";
 
     /// <summary>
-    /// Gets or sets the Project identifier.
+    /// Gets or sets the Environment identifier.
     /// </summary>
-    public string ProjectId { get; set; }
+    public string EnvironmentId { get; set; }
 
     /// <summary>
     /// Gets or sets the Subscription identifier.

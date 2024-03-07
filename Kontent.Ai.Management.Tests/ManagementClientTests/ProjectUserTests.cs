@@ -44,14 +44,14 @@ public class ProjectUserTests : IClassFixture<FileSystemFixture>
             }
         };
 
-        var response = await client.InviteUserIntoProjectAsync(invitation);
+        var response = await client.InviteUserIntoEnvironmentAsync(invitation);
 
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(invitation)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/users")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users")
             .Validate();
     }
 
@@ -61,7 +61,7 @@ public class ProjectUserTests : IClassFixture<FileSystemFixture>
     {
         var client = _scenario.CreateManagementClient();
 
-        await client.Invoking(x => x.InviteUserIntoProjectAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.InviteUserIntoEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     
@@ -97,7 +97,7 @@ public class ProjectUserTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/users/email/{identifier.Email}/roles")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/email/{identifier.Email}/roles")
             .Validate();
     }
 
@@ -133,7 +133,7 @@ public class ProjectUserTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/users/{identifier.Id}/roles")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/{identifier.Id}/roles")
             .Validate();
     }
 

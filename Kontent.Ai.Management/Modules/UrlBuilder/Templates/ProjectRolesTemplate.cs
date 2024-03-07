@@ -2,7 +2,7 @@
 
 namespace Kontent.Ai.Management.Modules.UrlBuilder.Templates;
 
-internal class ProjectRolesTemplate : UrlTemplate
+internal class EnvironmentRolesTemplate : UrlTemplate
 {
     public override string Url => "/roles";
     public override string UrlId => "/roles/{0}";

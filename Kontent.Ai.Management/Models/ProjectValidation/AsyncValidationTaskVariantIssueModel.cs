@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Kontent.Ai.Management.Models.ProjectValidation;
+namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
 /// Async validation task variant issue.
