@@ -24,9 +24,9 @@ public sealed partial class ManagementClient : IManagementClient
     private readonly IModelProvider _modelProvider;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified project.
+    /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified environment.
     /// </summary>
-    /// <param name="ManagementOptions">The settings of the Kontent.ai project.</param>
+    /// <param name="ManagementOptions">The settings of the Kontent.ai environment.</param>
     public ManagementClient(ManagementOptions ManagementOptions)
     {
         if (ManagementOptions == null)
@@ -34,14 +34,14 @@ public sealed partial class ManagementClient : IManagementClient
             throw new ArgumentNullException(nameof(ManagementOptions));
         }
 
-        if (string.IsNullOrEmpty(ManagementOptions.ProjectId))
+        if (string.IsNullOrEmpty(ManagementOptions.EnvironmentId))
         {
-            throw new ArgumentException("Kontent.ai project identifier is not specified.", nameof(ManagementOptions.ProjectId));
+            throw new ArgumentException("Kontent.ai environment identifier is not specified.", nameof(ManagementOptions.EnvironmentId));
         }
 
-        if (!Guid.TryParse(ManagementOptions.ProjectId, out _))
+        if (!Guid.TryParse(ManagementOptions.EnvironmentId, out _))
         {
-            throw new ArgumentException($"Provided string is not a valid project identifier ({ManagementOptions.ProjectId}). Haven't you accidentally passed the API key instead of the project identifier?", nameof(ManagementOptions.ProjectId));
+            throw new ArgumentException($"Provided string is not a valid environment identifier ({ManagementOptions.EnvironmentId}). Haven't you accidentally passed the API key instead of the environment identifier?", nameof(ManagementOptions.EnvironmentId));
         }
 
         if (string.IsNullOrEmpty(ManagementOptions.ApiKey))

@@ -36,7 +36,7 @@ public class AssetFolderTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/folders")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/folders")
             .Validate();
     }
 
@@ -67,7 +67,7 @@ public class AssetFolderTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(folderModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/folders")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/folders")
             .Validate();
     }
 
@@ -94,7 +94,7 @@ public class AssetFolderTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/folders")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/folders")
             .Validate();
     }
 

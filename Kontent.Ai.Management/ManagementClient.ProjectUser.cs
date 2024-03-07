@@ -9,7 +9,7 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<UserModel> InviteUserIntoProjectAsync(UserInviteModel invitation)
+    public async Task<UserModel> InviteUserIntoEnvironmentAsync(UserInviteModel invitation)
     {
         if (invitation == null)
         {

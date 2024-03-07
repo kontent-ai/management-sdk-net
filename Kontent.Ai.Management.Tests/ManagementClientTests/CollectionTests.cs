@@ -34,7 +34,7 @@ public class CollectionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections")
             .Validate();
     }
 
@@ -58,7 +58,7 @@ public class CollectionTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections")
             .Validate();
     }
 
@@ -83,7 +83,7 @@ public class CollectionTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections")
             .Validate();
     }
 
@@ -108,7 +108,7 @@ public class CollectionTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections")
             .Validate();
     }
 
@@ -136,7 +136,7 @@ public class CollectionTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections")
             .Validate();
     }
 
@@ -162,7 +162,7 @@ public class CollectionTests
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections")
             .Validate();
     }
 

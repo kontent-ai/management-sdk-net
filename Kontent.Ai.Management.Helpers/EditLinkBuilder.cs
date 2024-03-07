@@ -41,14 +41,14 @@ public class EditLinkBuilder : IEditLinkBuilder
             throw new ArgumentException("Kontent.ai Edit App endpoint is not specified.", nameof(managementHelpersOptions.AdminUrl));
         }
 
-        if (string.IsNullOrEmpty(managementHelpersOptions.ProjectId))
+        if (string.IsNullOrEmpty(managementHelpersOptions.EnvironmentId))
         {
-            throw new ArgumentException("Kontent.ai project identifier is not specified.", nameof(managementHelpersOptions.ProjectId));
+            throw new ArgumentException("Kontent.ai project identifier is not specified.", nameof(managementHelpersOptions.EnvironmentId));
         }
 
-        if (!Guid.TryParse(managementHelpersOptions.ProjectId, out _))
+        if (!Guid.TryParse(managementHelpersOptions.EnvironmentId, out _))
         {
-            throw new ArgumentException($"Provided string is not a valid project identifier ({managementHelpersOptions.ProjectId}).", nameof(managementHelpersOptions.ProjectId));
+            throw new ArgumentException($"Provided string is not a valid project identifier ({managementHelpersOptions.EnvironmentId}).", nameof(managementHelpersOptions.EnvironmentId));
         }
 
         ManagementHelpersOptions = managementHelpersOptions;
@@ -82,7 +82,7 @@ public class EditLinkBuilder : IEditLinkBuilder
         }
 
         return string.Format(ManagementHelpersOptions.AdminUrl,
-            string.Format(URL_TEMPLATE_EDIT_ITEM, ManagementHelpersOptions.ProjectId, language, itemId));
+            string.Format(URL_TEMPLATE_EDIT_ITEM, ManagementHelpersOptions.EnvironmentId, language, itemId));
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public class EditLinkBuilder : IEditLinkBuilder
 
         var elements = string.Join("/", elementIdentifiers.Select(BuildSingleElementSegment));
         return string.Format(ManagementHelpersOptions.AdminUrl,
-            string.Format(URL_TEMPLATE_EDIT_ITEM_ELEMENT, ManagementHelpersOptions.ProjectId, language, elements));
+            string.Format(URL_TEMPLATE_EDIT_ITEM_ELEMENT, ManagementHelpersOptions.EnvironmentId, language, elements));
     }
 
     private string BuildSingleElementSegment(ElementIdentifier elementIdentifier)

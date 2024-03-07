@@ -12,7 +12,7 @@ namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class SpaceTests : IClassFixture<FileSystemFixture>
 {
-    private static readonly string SpacesBaseUrl = $"{Endpoint}/projects/{PROJECT_ID}/spaces";
+    private static readonly string SpacesBaseUrl = $"{Endpoint}/projects/{ENVIRONMENT_ID}/spaces";
     private readonly Scenario _scenario = new("Space");
 
     [Fact]

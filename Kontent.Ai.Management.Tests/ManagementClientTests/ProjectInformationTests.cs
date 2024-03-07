@@ -6,29 +6,29 @@ using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class ProjectInformationTests
+public class EnvironmentInformationTests
 {
     private readonly Scenario _scenario;
 
-    public ProjectInformationTests()
+    public EnvironmentInformationTests()
     {
         _scenario = new Scenario(folder: "ProjectInformation");
     }
 
     [Fact]
-    public async Task GetProjectInformationAsync_GetsProjectInformationAsync()
+    public async Task GetEnvironmentInformationAsync_GetsEnvironmentInformationAsync()
     {
         var client = _scenario
             .WithResponses("Project.json")
             .CreateManagementClient();
 
-        var response = await client.GetProjectInformationAsync();
+        var response = await client.GetEnvironmentInformationAsync();
 
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}")
             .Validate();
     }
 }

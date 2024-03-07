@@ -32,7 +32,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages")
             .Validate();
     }
 
@@ -50,7 +50,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/{identifier.Id}")
             .Validate();
     }
 
@@ -68,7 +68,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -86,7 +86,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/external-id/{identifier.ExternalId}")
             .Validate();
     }
 
@@ -123,7 +123,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages")
             .Validate();
     }
 
@@ -151,7 +151,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/{identifier.Id}")
             .Validate();
     }
 
@@ -171,7 +171,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -191,7 +191,7 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/languages/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/external-id/{identifier.ExternalId}")
             .Validate();
     }
 

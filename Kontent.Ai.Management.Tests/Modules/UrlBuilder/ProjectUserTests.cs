@@ -10,7 +10,7 @@ public partial class EndpointUrlBuilderTests
     [Fact]
     public void BuildUsersUrl_ReturnsExpectedUrl()
     {
-        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/users";
+        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/users";
         var actualResult = _builder.BuildUsersUrl();
 
         Assert.Equal(expectedResult, actualResult);
@@ -20,7 +20,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildModifyUsersRoleUrl_WithEmail_ReturnsExpectedUrl()
     {
         var email = "test@test.test";
-        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/users/email/{email}/roles";
+        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/users/email/{email}/roles";
         var actualResult = _builder.BuildModifyUsersRoleUrl(UserIdentifier.ByEmail(email));
 
         Assert.Equal(expectedResult, actualResult);
@@ -30,7 +30,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildModifyUsersRoleUrl_WithId_ReturnsExpectedUrl()
     {
         var id = "id";
-        var expectedResult = $"{ENDPOINT}/projects/{PROJECT_ID}/users/{id}/roles";
+        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/users/{id}/roles";
         var actualResult = _builder.BuildModifyUsersRoleUrl(UserIdentifier.ById(id));
 
         Assert.Equal(expectedResult, actualResult);

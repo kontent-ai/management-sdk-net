@@ -30,7 +30,7 @@ public class PreviewConfigurationTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/preview-configuration")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/preview-configuration")
             .Validate();
     }
 
@@ -80,7 +80,7 @@ public class PreviewConfigurationTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(newPreviewConfiguration)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/preview-configuration")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/preview-configuration")
             .Validate();
     }
 

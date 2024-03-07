@@ -32,7 +32,7 @@ public class SubscriptionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/projects")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/projects")
             .Validate();
     }
 
@@ -50,7 +50,7 @@ public class SubscriptionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users")
             .Validate();
     }
 
@@ -69,7 +69,7 @@ public class SubscriptionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/{identifier.Id}")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/{identifier.Id}")
             .Validate();
     }
 
@@ -89,7 +89,7 @@ public class SubscriptionTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/email/{identifier.Email}")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/email/{identifier.Email}")
             .Validate();
     }
 
@@ -115,7 +115,7 @@ public class SubscriptionTests
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/{identifier.Id}/activate")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/{identifier.Id}/activate")
             .Validate();
     }
 
@@ -133,7 +133,7 @@ public class SubscriptionTests
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/email/{identifier.Email}/activate")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/email/{identifier.Email}/activate")
             .Validate();
     }
 
@@ -159,7 +159,7 @@ public class SubscriptionTests
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/{identifier.Id}/deactivate")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/{identifier.Id}/deactivate")
             .Validate();
     }
 
@@ -177,7 +177,7 @@ public class SubscriptionTests
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBCRIPTION_ID}/users/email/{identifier.Email}/deactivate")
+            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/email/{identifier.Email}/deactivate")
             .Validate();
     }
 

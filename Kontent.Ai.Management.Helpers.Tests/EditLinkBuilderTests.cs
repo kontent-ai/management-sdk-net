@@ -9,11 +9,11 @@ public class EditLinkBuilderTests
 {
     private readonly string _itemId = "1cdaa8ef-cb2b-4f82-82e9-45467b2e01b9";
     private readonly string _language = "some-Language-Codename";
-    private readonly string _projectId = "14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43";
+    private readonly string _environmentId = "14dc0cf8-6cc1-4f20-8e2e-0b5edea89e43";
 
     private ManagementHelpersOptions DefaultOptions => new()
     {
-        ProjectId = _projectId
+        EnvironmentId = _environmentId
     };
 
     [Fact]
@@ -32,7 +32,7 @@ public class EditLinkBuilderTests
         var options = new ManagementHelpersOptions
         {
             AdminUrl = "https://someOther.url/{0}",
-            ProjectId = "34998683-4dd6-441c-b4cb-57493cafcaf0",
+            EnvironmentId = "34998683-4dd6-441c-b4cb-57493cafcaf0",
         };
 
         var underTest = new EditLinkBuilder(options);
@@ -68,25 +68,25 @@ public class EditLinkBuilderTests
     }
 
     [Fact]
-    public void EditLinkBuilder_MissingProjectId_ThrowsException()
+    public void EditLinkBuilder_MissingEnvironmentId_ThrowsException()
     {
-        var noProjectIdOptions = new ManagementHelpersOptions
+        var noEnvironmentIdOptions = new ManagementHelpersOptions
         {
-            ProjectId = string.Empty
+            EnvironmentId = string.Empty
         };
 
-        Assert.Throws<ArgumentException>(() => new EditLinkBuilder(noProjectIdOptions));
+        Assert.Throws<ArgumentException>(() => new EditLinkBuilder(noEnvironmentIdOptions));
     }
 
     [Fact]
-    public void EditLinkBuilder_ProjectIdBadFormat_ThrowsException()
+    public void EditLinkBuilder_EnvironmentIdBadFormat_ThrowsException()
     {
-        var badFormatProjectIdOptions = new ManagementHelpersOptions
+        var badFormatEnvironmentIdOptions = new ManagementHelpersOptions
         {
-            ProjectId = "aa-bb-cc"
+            EnvironmentId = "aa-bb-cc"
         };
 
-        Assert.Throws<ArgumentException>(() => new EditLinkBuilder(badFormatProjectIdOptions));
+        Assert.Throws<ArgumentException>(() => new EditLinkBuilder(badFormatEnvironmentIdOptions));
     }
 
     [Fact]

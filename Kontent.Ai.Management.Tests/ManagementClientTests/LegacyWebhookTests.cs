@@ -32,7 +32,7 @@ public class LegacyWebhookTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks")
             .Validate();
     }
 
@@ -50,7 +50,7 @@ public class LegacyWebhookTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks/{identifier.Id}")
             .Validate();
     }
 
@@ -104,7 +104,7 @@ public class LegacyWebhookTests : IClassFixture<FileSystemFixture>
             .HttpMethod(HttpMethod.Post)
             .Response(response)
             .RequestPayload(request)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks")
             .Validate();
     }
 
@@ -128,7 +128,7 @@ public class LegacyWebhookTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Delete)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks/{identifier.Id}")
             .Validate();
     }
 
@@ -168,7 +168,7 @@ public class LegacyWebhookTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}/enable")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks/{identifier.Id}/enable")
             .Validate();
     }
 
@@ -208,7 +208,7 @@ public class LegacyWebhookTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks/{identifier.Id}/disable")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks/{identifier.Id}/disable")
             .Validate();
     }
 

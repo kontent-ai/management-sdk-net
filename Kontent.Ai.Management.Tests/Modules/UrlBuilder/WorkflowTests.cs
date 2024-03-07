@@ -9,7 +9,7 @@ public partial class EndpointUrlBuilderTests
     [Fact]
     public void BuildWorkflowsUrl_ReturnsWorkflowsUrl()
     {
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/workflows";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/workflows";
         var actualUrl = _builder.BuildWorkflowsUrl();
 
         Assert.Equal(expectedUrl, actualUrl);
@@ -22,7 +22,7 @@ public partial class EndpointUrlBuilderTests
 
         var actualUrl = _builder.BuildWorkflowsUrl(Reference.ById(internalId));
 
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/workflows/{internalId}";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/workflows/{internalId}";
         Assert.Equal(expectedUrl, actualUrl);
     }
 
@@ -33,7 +33,7 @@ public partial class EndpointUrlBuilderTests
 
         var actualUrl = _builder.BuildWorkflowsUrl(Reference.ByCodename(codename));
 
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/workflows/codename/{codename}";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/workflows/codename/{codename}";
         Assert.Equal(expectedUrl, actualUrl);
     }
 

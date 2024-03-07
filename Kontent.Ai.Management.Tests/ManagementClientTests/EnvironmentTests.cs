@@ -38,7 +38,7 @@ public class EnvironmentTests : IClassFixture<FileSystemFixture>
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(clone)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/clone-environment")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/clone-environment")
             .Validate();
     }
 
@@ -64,7 +64,7 @@ public class EnvironmentTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/environment-cloning-state")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/environment-cloning-state")
             .Validate();
     }
 
@@ -84,7 +84,7 @@ public class EnvironmentTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(markAsProduction)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/mark-environment-as-production")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/mark-environment-as-production")
             .Validate();
     }
 
@@ -107,7 +107,7 @@ public class EnvironmentTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Delete)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}")
             .Validate();
     }
 
@@ -129,7 +129,7 @@ public class EnvironmentTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(new HttpMethod("PATCH"))
             .RequestPayload(changes)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}")
             .Validate();
     }
 

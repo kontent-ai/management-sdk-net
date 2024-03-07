@@ -10,7 +10,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildWebhooksUrl_ReturnsCorrectUrl()
     {
         var actualUrl = _builder.BuildWebhooksUrl();
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/webhooks-vnext";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/webhooks-vnext";
         
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -20,7 +20,7 @@ public partial class EndpointUrlBuilderTests
     {
         var identifier = Reference.ById(Guid.NewGuid());
         var actualUrl = _builder.BuildWebhooksUrl(identifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}";
         
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -30,7 +30,7 @@ public partial class EndpointUrlBuilderTests
     {
         var identifier = Reference.ById(Guid.NewGuid());
         var actualUrl = _builder.BuildWebhooksEnableUrl(identifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}/enable";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}/enable";
         
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -40,7 +40,7 @@ public partial class EndpointUrlBuilderTests
     {
         var identifier = Reference.ById(Guid.NewGuid());
         var actualUrl = _builder.BuildWebhooksDisableUrl(identifier);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}/disable";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}/disable";
         
         Assert.Equal(expectedUrl, actualUrl);
     }

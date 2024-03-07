@@ -31,7 +31,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteEnvironmentAsync()
     {
-        var endpointUrl = _urlBuilder.BuildProjectUrl();
+        var endpointUrl = _urlBuilder.BuildEnvironmentUrl();
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
     }
 
@@ -55,7 +55,7 @@ public partial class ManagementClient
             throw new ArgumentNullException(nameof(changes));
         }
 
-        var endpointUrl = _urlBuilder.BuildProjectUrl();
+        var endpointUrl = _urlBuilder.BuildEnvironmentUrl();
         return await _actionInvoker.InvokeMethodAsync<IEnumerable<EnvironmentOperationBaseModel>, EnvironmentModel>(endpointUrl, new HttpMethod("PATCH"), changes);
     }
 }

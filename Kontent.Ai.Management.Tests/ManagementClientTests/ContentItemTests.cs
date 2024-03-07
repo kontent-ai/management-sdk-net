@@ -33,7 +33,7 @@ public class ContentItemTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items")
             .Validate();
     }
 
@@ -51,7 +51,7 @@ public class ContentItemTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}")
             .Validate();
     }
 
@@ -69,7 +69,7 @@ public class ContentItemTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -87,7 +87,7 @@ public class ContentItemTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/external-id/{identifier.ExternalId}")
             .Validate();
     }
 
@@ -124,7 +124,7 @@ public class ContentItemTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(createModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items")
             .Validate();
     }
 
@@ -163,7 +163,7 @@ public class ContentItemTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(upsertModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}")
             .Validate();
     }
 
@@ -194,7 +194,7 @@ public class ContentItemTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(upsertModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -225,7 +225,7 @@ public class ContentItemTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(upsertModel)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/external-id/{identifier.ExternalId}")
             .Validate();
     }
 
@@ -275,7 +275,7 @@ public class ContentItemTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(model)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}")
             .Validate();
     }
 
@@ -306,7 +306,7 @@ public class ContentItemTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(model)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -337,7 +337,7 @@ public class ContentItemTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(model)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/external-id/{identifier.ExternalId}")
             .Validate();
     }
 
@@ -370,7 +370,7 @@ public class ContentItemTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -386,7 +386,7 @@ public class ContentItemTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/codename/{identifier.Codename}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -401,7 +401,7 @@ public class ContentItemTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/external-id/{identifier.ExternalId}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/external-id/{identifier.ExternalId}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }

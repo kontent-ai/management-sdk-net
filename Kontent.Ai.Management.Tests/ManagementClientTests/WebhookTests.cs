@@ -33,7 +33,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext")
             .Validate();
     }
 
@@ -51,7 +51,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}")
             .Validate();
     }
 
@@ -114,7 +114,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
             .HttpMethod(HttpMethod.Post)
             .Response(response)
             .RequestPayload(request)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext")
             .Validate();
     }
 
@@ -138,7 +138,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Delete)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}")
             .Validate();
     }
 
@@ -178,7 +178,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}/enable")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}/enable")
             .Validate();
     }
 
@@ -218,7 +218,7 @@ public class WebhookTests : IClassFixture<FileSystemFixture>
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/webhooks-vnext/{identifier.Id}/disable")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}/disable")
             .Validate();
     }
 

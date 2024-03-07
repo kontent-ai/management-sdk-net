@@ -1,5 +1,5 @@
-﻿using Kontent.Ai.Management.Models.ProjectReport;
-using Kontent.Ai.Management.Models.ProjectValidation;
+﻿using Kontent.Ai.Management.Models.EnvironmentReport;
+using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Models.Shared;
 using System;
 using System.Net.Http;
@@ -10,14 +10,14 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<ProjectReportModel> ValidateProjectAsync()
+    public async Task<EnvironmentReportModel> ValidateEnvironmentAsync()
     {
         var endpointUrl = _urlBuilder.BuildValidationUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<ProjectReportModel>(endpointUrl, HttpMethod.Post);
+        return await _actionInvoker.InvokeReadOnlyMethodAsync<EnvironmentReportModel>(endpointUrl, HttpMethod.Post);
     }
 
     /// <inheritdoc />
-    public async Task<AsyncValidationTaskModel> InitiateProjectAsyncValidationTaskAsync()
+    public async Task<AsyncValidationTaskModel> InitiateEnvironmentAsyncValidationTaskAsync()
     {
         var endpointUrl = _urlBuilder.BuildAsyncValidationUrl();
         return await _actionInvoker.InvokeReadOnlyMethodAsync<AsyncValidationTaskModel>(endpointUrl, HttpMethod.Post);

@@ -9,7 +9,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildAsyncValidationUrl_ReturnsCorrectUrl()
     {
         var actualUrl = _builder.BuildAsyncValidationUrl();
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/validate-async";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/validate-async";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -20,7 +20,7 @@ public partial class EndpointUrlBuilderTests
         var taskId = Guid.NewGuid();
 
         var actualUrl = _builder.BuildAsyncValidationTaskUrl(taskId);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/validate-async/tasks/{taskId}";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskId}";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
@@ -31,7 +31,7 @@ public partial class EndpointUrlBuilderTests
         var taskId = Guid.NewGuid();
 
         var actualUrl = _builder.BuildAsyncValidationTaskIssuesUrl(taskId);
-        var expectedUrl = $"{ENDPOINT}/projects/{PROJECT_ID}/validate-async/tasks/{taskId}/issues";
+        var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskId}/issues";
 
         Assert.Equal(expectedUrl, actualUrl);
     }

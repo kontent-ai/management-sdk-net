@@ -29,7 +29,7 @@ internal sealed class EndpointUrlBuilder
     private readonly WebhookTemplate _webhookTemplate;
     private readonly WorkflowTemplate _workflowTemplate;
     private readonly ItemTemplate _itemTemplate;
-    private readonly ProjectRolesTemplate _projectRolesTemplate;
+    private readonly EnvironmentRolesTemplate _environmentRolesTemplate;
     private readonly UserTemplate _userTemplate;
 
     private readonly ManagementOptions _options;
@@ -50,148 +50,148 @@ internal sealed class EndpointUrlBuilder
         _webhookTemplate = new WebhookTemplate();
         _workflowTemplate = new WorkflowTemplate();
         _itemTemplate = new ItemTemplate();
-        _projectRolesTemplate = new ProjectRolesTemplate();
+        _environmentRolesTemplate = new EnvironmentRolesTemplate();
         _userTemplate = new UserTemplate();
 
         _options = options;
     }
 
-    public string BuildListVariantsByItemUrl(Reference identifier) => GetProjectUrl(string.Concat(_itemTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
+    public string BuildListVariantsByItemUrl(Reference identifier) => GetEnvironmentUrl(string.Concat(_itemTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
-    public string BuildListVariantsByTypeUrl(Reference identifier) => GetProjectUrl(string.Concat(_typeTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
+    public string BuildListVariantsByTypeUrl(Reference identifier) => GetEnvironmentUrl(string.Concat(_typeTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
-    public string BuildListVariantsByComponentUrl(Reference identifier) => GetProjectUrl(string.Concat(_typeTemplate.GetIdentifierUrlSegment(identifier), "/components"));
+    public string BuildListVariantsByComponentUrl(Reference identifier) => GetEnvironmentUrl(string.Concat(_typeTemplate.GetIdentifierUrlSegment(identifier), "/components"));
 
-    public string BuildListVariantsByCollectionUrl(Reference identifier) => GetProjectUrl(string.Concat(_collectionTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
+    public string BuildListVariantsByCollectionUrl(Reference identifier) => GetEnvironmentUrl(string.Concat(_collectionTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
-    public string BuildListVariantsBySpaceUrl(Reference identifier) => GetProjectUrl(string.Concat(_spaceTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
+    public string BuildListVariantsBySpaceUrl(Reference identifier) => GetEnvironmentUrl(string.Concat(_spaceTemplate.GetIdentifierUrlSegment(identifier), _variantTemplate.Url));
 
-    public string BuildVariantsUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
+    public string BuildVariantsUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier)));
 
-    public string BuildTypeUrl() => GetProjectUrl(_typeTemplate.Url);
+    public string BuildTypeUrl() => GetEnvironmentUrl(_typeTemplate.Url);
 
-    public string BuildTypeUrl(Reference identifier) => GetProjectUrl(_typeTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildTypeUrl(Reference identifier) => GetEnvironmentUrl(_typeTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildSnippetsUrl() => GetProjectUrl(_snippetTemplate.Url);
+    public string BuildSnippetsUrl() => GetEnvironmentUrl(_snippetTemplate.Url);
 
-    public string BuildSnippetsUrl(Reference identifier) => GetProjectUrl(_snippetTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildSnippetsUrl(Reference identifier) => GetEnvironmentUrl(_snippetTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildSpacesUrl() => GetProjectUrl(_spaceTemplate.Url);
+    public string BuildSpacesUrl() => GetEnvironmentUrl(_spaceTemplate.Url);
 
-    public string BuildSpacesUrl(Reference identifier) => GetProjectUrl(_spaceTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildSpacesUrl(Reference identifier) => GetEnvironmentUrl(_spaceTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildTaxonomyUrl() => GetProjectUrl(_taxonomyTemplate.Url);
+    public string BuildTaxonomyUrl() => GetEnvironmentUrl(_taxonomyTemplate.Url);
 
-    public string BuildTaxonomyUrl(Reference identifier) => GetProjectUrl(_taxonomyTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildTaxonomyUrl(Reference identifier) => GetEnvironmentUrl(_taxonomyTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildLanguagesUrl() => GetProjectUrl(_languageTemplate.Url);
+    public string BuildLanguagesUrl() => GetEnvironmentUrl(_languageTemplate.Url);
 
-    public string BuildLanguagesUrl(Reference identifier) => GetProjectUrl(_languageTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildLanguagesUrl(Reference identifier) => GetEnvironmentUrl(_languageTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildLegacyWebhooksUrl() => GetProjectUrl(_legacyWebhookTemplate.Url);
+    public string BuildLegacyWebhooksUrl() => GetEnvironmentUrl(_legacyWebhookTemplate.Url);
 
-    public string BuildLegacyWebhooksUrl(Reference identifier) => GetProjectUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildLegacyWebhooksUrl(Reference identifier) => GetEnvironmentUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier));
 
     public string BuildLegacyWebhooksEnableUrl(Reference identifier) =>
-        string.Concat(GetProjectUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/enable");
+        string.Concat(GetEnvironmentUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/enable");
 
     public string BuildLegacyWebhooksDisableUrl(Reference identifier) =>
-        string.Concat(GetProjectUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
+        string.Concat(GetEnvironmentUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
     
-    public string BuildWebhooksUrl() => GetProjectUrl(_webhookTemplate.Url);
+    public string BuildWebhooksUrl() => GetEnvironmentUrl(_webhookTemplate.Url);
     
-    public string BuildWebhooksUrl(Reference identifier) => GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildWebhooksUrl(Reference identifier) => GetEnvironmentUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
 
     public string BuildWebhooksEnableUrl(Reference identifier) =>
-        string.Concat(GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/enable");
+        string.Concat(GetEnvironmentUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/enable");
 
     public string BuildWebhooksDisableUrl(Reference identifier) =>
-        string.Concat(GetProjectUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
+        string.Concat(GetEnvironmentUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
     
-    public string BuildWorkflowsUrl() => GetProjectUrl(_workflowTemplate.Url);
+    public string BuildWorkflowsUrl() => GetEnvironmentUrl(_workflowTemplate.Url);
 
-    public string BuildWorkflowsUrl(Reference identifier) => GetProjectUrl(_workflowTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildWorkflowsUrl(Reference identifier) => GetEnvironmentUrl(_workflowTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildWorkflowChangeUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
+    public string BuildWorkflowChangeUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
         string.Concat(
             _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
             _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
             "/change-workflow"));
 
-    public string BuildPublishVariantUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
+    public string BuildPublishVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
                 "/publish"));
 
-    public string BuildCancelPublishingVariantUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
+    public string BuildCancelPublishingVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
                 "/cancel-scheduled-publish"));
 
-    public string BuildUnpublishVariantUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
+    public string BuildUnpublishVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
                 "/unpublish-and-archive"));
 
-    public string BuildCancelUnpublishingVariantUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
+    public string BuildCancelUnpublishingVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
                 "/cancel-scheduled-unpublish"));
-    public string BuildNewVersionVariantUrl(LanguageVariantIdentifier identifier) => GetProjectUrl(
+    public string BuildNewVersionVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
                 "/new-version"));
-    public string BuildItemsUrl() => GetProjectUrl(_itemTemplate.Url);
+    public string BuildItemsUrl() => GetEnvironmentUrl(_itemTemplate.Url);
 
-    public string BuildItemUrl(Reference identifier) => GetProjectUrl(_itemTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildItemUrl(Reference identifier) => GetEnvironmentUrl(_itemTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildAssetsUrl() => GetProjectUrl(_assetTemplate.Url);
+    public string BuildAssetsUrl() => GetEnvironmentUrl(_assetTemplate.Url);
 
-    public string BuildAssetFoldersUrl() => GetProjectUrl(URL_ASSET_FOLDERS);
+    public string BuildAssetFoldersUrl() => GetEnvironmentUrl(URL_ASSET_FOLDERS);
 
-    public string BuildAssetsUrl(Reference identifier) => GetProjectUrl(_assetTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildAssetsUrl(Reference identifier) => GetEnvironmentUrl(_assetTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildUploadFileUrl(string fileName) => GetProjectUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
+    public string BuildUploadFileUrl(string fileName) => GetEnvironmentUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
 
-    public string BuildAssetRenditionsUrl(Reference assetIdentifier) => GetProjectUrl(
+    public string BuildAssetRenditionsUrl(Reference assetIdentifier) => GetEnvironmentUrl(
         string.Concat(
             _assetTemplate.GetIdentifierUrlSegment(assetIdentifier),
             _assetRenditionTemplate.Url));
 
-    public string BuildAssetRenditionsUrl(AssetRenditionIdentifier identifier) => GetProjectUrl(
+    public string BuildAssetRenditionsUrl(AssetRenditionIdentifier identifier) => GetEnvironmentUrl(
         string.Concat(
             _assetTemplate.GetIdentifierUrlSegment(identifier.AssetIdentifier),
             _assetRenditionTemplate.GetIdentifierUrlSegment(identifier.RenditionIdentifier)));
 
-    public string BuildProjectRolesUrl() => GetProjectUrl(_projectRolesTemplate.Url);
+    public string BuildEnvironmentRolesUrl() => GetEnvironmentUrl(_environmentRolesTemplate.Url);
 
-    public string BuildProjectRoleUrl(Reference identifier) => GetProjectUrl(_projectRolesTemplate.GetIdentifierUrlSegment(identifier));
+    public string BuildEnvironmentRoleUrl(Reference identifier) => GetEnvironmentUrl(_environmentRolesTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildValidationUrl() => GetProjectUrl(_validateTemplate.Url);
+    public string BuildValidationUrl() => GetEnvironmentUrl(_validateTemplate.Url);
 
-    public string BuildAsyncValidationUrl() => GetProjectUrl("/validate-async");
+    public string BuildAsyncValidationUrl() => GetEnvironmentUrl("/validate-async");
 
-    public string BuildAsyncValidationTaskUrl(Guid taskId) => GetProjectUrl($"/validate-async/tasks/{taskId}");
+    public string BuildAsyncValidationTaskUrl(Guid taskId) => GetEnvironmentUrl($"/validate-async/tasks/{taskId}");
 
-    public string BuildAsyncValidationTaskIssuesUrl(Guid taskId) => GetProjectUrl($"/validate-async/tasks/{taskId}/issues");
+    public string BuildAsyncValidationTaskIssuesUrl(Guid taskId) => GetEnvironmentUrl($"/validate-async/tasks/{taskId}/issues");
 
-    public string BuildProjectUrl() => string.Format(_options.EndpointV2, $"projects/{_options.ProjectId}");
+    public string BuildEnvironmentUrl() => string.Format(_options.EndpointV2, $"projects/{_options.EnvironmentId}");
 
-    public string BuildPreviewConfigurationUrl() => GetProjectUrl("/preview-configuration");
+    public string BuildPreviewConfigurationUrl() => GetEnvironmentUrl("/preview-configuration");
     
-    public string BuildCollectionsUrl() => GetProjectUrl(_collectionTemplate.Url);
+    public string BuildCollectionsUrl() => GetEnvironmentUrl(_collectionTemplate.Url);
 
-    public string BuildUsersUrl() => GetProjectUrl(_userTemplate.Url);
+    public string BuildUsersUrl() => GetEnvironmentUrl(_userTemplate.Url);
 
-    public string BuildModifyUsersRoleUrl(UserIdentifier identifier) => GetProjectUrl(string.Concat(_userTemplate.GetIdentifierUrlSegment(identifier), "/roles"));
+    public string BuildModifyUsersRoleUrl(UserIdentifier identifier) => GetEnvironmentUrl(string.Concat(_userTemplate.GetIdentifierUrlSegment(identifier), "/roles"));
 
     public string BuildSubscriptionProjectsUrl() => GetSubscriptionUrl("/projects");
 
@@ -211,13 +211,13 @@ internal sealed class EndpointUrlBuilder
 
     private string BuildSubscriptionUrl() => string.Format(_options.EndpointV2, $"subscriptions/{_options.SubscriptionId}");
 
-    public string BuildCloneEnvironmentUrl() => GetProjectUrl("/clone-environment");
+    public string BuildCloneEnvironmentUrl() => GetEnvironmentUrl("/clone-environment");
 
-    public string BuildGetEnvironmentCloningStateUrl() => GetProjectUrl("/environment-cloning-state");
+    public string BuildGetEnvironmentCloningStateUrl() => GetEnvironmentUrl("/environment-cloning-state");
 
-    public string BuildMarkEnvironmentAsProductionUrl() => GetProjectUrl("/mark-environment-as-production");
+    public string BuildMarkEnvironmentAsProductionUrl() => GetEnvironmentUrl("/mark-environment-as-production");
 
-    private string GetProjectUrl(string path, params string[] parameters) => GetUrl(BuildProjectUrl(), path, parameters);
+    private string GetEnvironmentUrl(string path, params string[] parameters) => GetUrl(BuildEnvironmentUrl(), path, parameters);
 
     private string GetSubscriptionUrl(string path, params string[] parameters) => GetUrl(BuildSubscriptionUrl(), path, parameters);
 

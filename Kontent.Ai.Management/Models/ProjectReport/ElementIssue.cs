@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.ProjectReport;
+namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
 /// Represents element issue with messages and element metadata

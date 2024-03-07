@@ -32,7 +32,7 @@ public class WorkflowTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/workflows")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows")
             .Validate();
     }
 
@@ -52,7 +52,7 @@ public class WorkflowTests
             .HttpMethod(HttpMethod.Post)
             .RequestPayload(newWorkflow)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/workflows")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows")
             .Validate();
     }
 
@@ -81,7 +81,7 @@ public class WorkflowTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(newWorkflow)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/workflows/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/{identifier.Id}")
             .Validate();
     }
 
@@ -102,7 +102,7 @@ public class WorkflowTests
             .HttpMethod(HttpMethod.Put)
             .RequestPayload(newWorkflow)
             .Response(response)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/workflows/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/codename/{identifier.Codename}")
             .Validate();
     }
 
@@ -140,7 +140,7 @@ public class WorkflowTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/workflows/{identifier.Id}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/{identifier.Id}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }
@@ -155,7 +155,7 @@ public class WorkflowTests
 
         _scenario
             .CreateExpectations()
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/workflows/codename/{identifier.Codename}")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/codename/{identifier.Codename}")
             .HttpMethod(HttpMethod.Delete)
             .Validate();
     }

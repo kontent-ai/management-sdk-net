@@ -59,7 +59,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // var client = new ManagementClient(new ManagementOptions
     // {
     //     ApiKey = "<YOUR_API_KEY>",
-    //     ProjectId = "<YOUR_PROJECT_ID>"
+    //     EnvironmentId = "<YOUR_ENVIRONMENT_ID>"
     // });
     // 
     // var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
@@ -377,7 +377,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("Project.json");
 
-        var response = await client.GetProjectInformationAsync();
+        var response = await client.GetEnvironmentInformationAsync();
 
         Assert.NotNull(response);
     }
@@ -610,7 +610,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         var identifier = Reference.ById(Guid.Parse("a23d3727-3b16-4d94-9eb0-85225d29cfef"));
         //var identifier = Reference.ByCodename("project-manager");
 
-        var response = await client.GetProjectRoleAsync(identifier);
+        var response = await client.GetEnvironmentRoleAsync(identifier);
 
         Assert.NotNull(response);
     }
@@ -622,7 +622,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRoles.json");
 
-        var response = await client.ListProjectRolesAsync();
+        var response = await client.ListEnvironmentRolesAsync();
 
         Assert.Equal(2, response.Roles.Count());
     }
@@ -1307,7 +1307,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("PostValidateResponse.json");
 
-        var response = await client.ValidateProjectAsync();
+        var response = await client.ValidateEnvironmentAsync();
 
         Assert.NotNull(response);
     }
@@ -1582,7 +1582,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
 
-        var response = await client.InviteUserIntoProjectAsync(new UserInviteModel
+        var response = await client.InviteUserIntoEnvironmentAsync(new UserInviteModel
         {
             CollectionGroup = new List<UserCollectionGroup>
             {
@@ -1630,11 +1630,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: mapi_v2_post_validate_async
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostValidateProject()
+    public async void PostValidateEnvironment()
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
 
-        var response = await client.InitiateProjectAsyncValidationTaskAsync();
+        var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
         Assert.NotNull(response);
     }

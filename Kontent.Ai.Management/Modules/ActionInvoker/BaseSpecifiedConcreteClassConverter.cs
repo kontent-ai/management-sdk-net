@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.AssetRenditions;
-using Kontent.Ai.Management.Models.ProjectValidation;
+using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

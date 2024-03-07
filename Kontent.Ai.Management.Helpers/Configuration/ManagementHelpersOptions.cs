@@ -11,7 +11,7 @@ public class ManagementHelpersOptions
     public string AdminUrl { get; set; } = "https://app.kontent.ai/{0}";
 
     /// <summary>
-    /// Gets or sets the Project identifier.
+    /// Gets or sets the Environment identifier.
     /// </summary>
-    public string ProjectId { get; set; }
+    public string EnvironmentId { get; set; }
 }

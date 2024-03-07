@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.ProjectReport;
+namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
 /// Represents information necessary to identify 
@@ -16,7 +16,7 @@ public sealed class VariantIssue
     public Metadata Item { get; set; }
 
     /// <summary>
-    /// Gets or sets information about project language
+    /// Gets or sets information about environment language
     /// </summary>
     [JsonProperty("language")]
     public Metadata Language { get; set; }

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.ProjectValidation;
+namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
 /// Represents element issue with messages and element metadata.

@@ -40,7 +40,7 @@ public class LanguageVariantTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response, GetExpectedComplexTestModels("00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000"))
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/{identifier.Id}/variants")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}/variants")
             .Validate();
     }
 
@@ -68,7 +68,7 @@ public class LanguageVariantTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response, GetExpectedLanguageVariantModels("00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000"))
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/items/{identifier.Id}/variants")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}/variants")
             .Validate();
     }
 
@@ -106,7 +106,7 @@ public class LanguageVariantTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response, expected)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/{identifier.Id}/variants")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}/variants")
             .Validate();
     }
 
@@ -144,7 +144,7 @@ public class LanguageVariantTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response, expected)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/types/{identifier.Id}/components")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}/components")
             .Validate();
     }
 
@@ -181,7 +181,7 @@ public class LanguageVariantTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response, expected)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/collections/{identifier.Id}/variants")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections/{identifier.Id}/variants")
             .Validate();
     }
 
@@ -219,7 +219,7 @@ public class LanguageVariantTests
             .CreateExpectations()
             .HttpMethod(HttpMethod.Get)
             .Response(response, expected)
-            .Url($"{Endpoint}/projects/{PROJECT_ID}/spaces/{identifier.Id}/variants")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/spaces/{identifier.Id}/variants")
             .Validate();
     }
 
@@ -473,7 +473,7 @@ public class LanguageVariantTests
                 foreach (var language in languageIdentifiers)
                 {
                     var identifier = new LanguageVariantIdentifier(item.Identifier, language.Identifier);
-                    var url = $"{Endpoint}/projects/{PROJECT_ID}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
+                    var url = $"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
                     yield return (identifier, url);
                 }
             }

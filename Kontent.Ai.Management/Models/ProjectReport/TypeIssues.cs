@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Kontent.Ai.Management.Models.ProjectReport;
+namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
 /// Represents the report of the problems found in the project's content types.
 /// </summary>
-public class TypeIssues
+public class TypeIssues // TODO: rename
 {
     /// <summary>
     /// Gets or sets information about content type

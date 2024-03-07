@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Kontent.Ai.Management.Models.ProjectReport;
+namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
 /// Represents the Metadata object.

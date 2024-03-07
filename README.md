@@ -12,41 +12,41 @@
 
 ## Summary
 
-The Kontent.ai Management .NET SDK is a client library used for managing content in Kontent.ai. It provides read/write access to your Kontent.ai projects.
+The Kontent.ai Management .NET SDK is a client library used for managing content in Kontent.ai. It provides read/write access to your Kontent.ai projects and environments.
 
 You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kontent.Ai.Management) to migrate existing content into your Kontent.ai project or update your content model.
 
 The Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/kontent-ai/delivery-sdk-net) instead.
 
-💡 If you want to see all .NET related resources including REST API reference with .NET code samples for every endpoint, check out the ["Develop .NET apps" overview page](https://kontent.ai/learn/tutorials/develop-apps/overview?tech=dotnet).
+💡 If you want to see all .NET related resources including REST API reference with .NET code samples for every endpoint, check out the ["Develop .NET apps" overview page](https://kontent.ai/learn/develop/develop-with-kontent-ai/net).
 
 ## Prerequisites
 
-To manage content in a Kontent.ai project via the Management API, you first need to activate the API for the project. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview#a-management-api).
+To manage content in a Kontent.ai project via the Management API, you first need to activate it for the project environment in question. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Making-requests).
 
 ## Using the ManagementClient
 
-The `ManagementClient` class is the main class of the SDK. Using it, you can import, update, view and delete content items, language variants, and other objects in your Kontent.ai projects.
+The `ManagementClient` class is the main class of the SDK. Using it, you can import, update, view and delete content items, language variants, and other objects in your Kontent.ai environments.
 
 To create an instance of the class, you need to provide:
 
-- [ProjectId](https://kontent.ai/learn/tutorials/develop-apps/get-content/get-content-items#a-1-find-your-project-id): the ID of your Kontent.ai project. This parameter must always be set.
-- [SubscriptionId](https://kontent.ai/learn/reference/management-api-v2/#tag/Subscription): the ID of your subscription. Set it up if you need to manage users and their permissions.
-- [ApiKey](https://kontent.ai/learn/reference/management-api-v2/#section/Authentication/API-keys): either Management or Subscription API key.
+- [EnvironmentId](https://kontent.ai/learn/docs/environments#a-get-your-environment-id): the ID of your Kontent.ai environment. This parameter must always be set.
+- [SubscriptionId](https://kontent.ai/learn/docs/apis/openapi/subscription-api/): the ID of your subscription. Set it up if you need to manage users and their permissions.
+- [ApiKey](https://kontent.ai/learn/docs/apis/openapi/subscription-api/): either Management or Subscription API key.
   - Subscription API key can be used for all endpoints but is limited to subscription admins
-  - Management API key can be used with project-specific endpoints and is limited to users with the Manage APIs permission.
+  - Management API key can be used with environment-specific endpoints and is limited to users with the Manage APIs permission.
 
 ```csharp
 // Initializes an instance of the ManagementClient client with specified options.
 var client = new ManagementClient(new ManagementOptions
 {
-    ProjectId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
+    EnvironmentId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
     SubscriptionId = "a27b9841-fc99-48a7-a46d-65b2549d6c0"
     ApiKey = "ew0...1eo"
 });
 ```
 
-Once you create a `ManagementClient`, you can start managing content in your project by calling methods on the client instance.
+Once you create a `ManagementClient`, you can start managing content in your environment by calling methods on the client instance.
 
 ### Codename vs. ID vs. External ID
 
@@ -291,7 +291,7 @@ Importing content items is a 2-step process, using 2 separate methods:
 1. Creating an empty content item which serves as a wrapper for your content.
 1. Adding content into a language variant of the content item.
 
-Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your project only uses one language**. See our tutorial on [Importing to Kontent.ai](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
+Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your environment only uses one language**. See our tutorial on [Importing to Kontent.ai](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
 
 #### 1. Creating a content item
 
@@ -384,7 +384,7 @@ Methods for building links to content items and their elements in Kontent.ai. Av
 ```csharp
 var options = new ManagementHelpersOptions
 {
-    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+    EnvironmentId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
 };
 
 string itemId = "8ceeb2d8-9676-48ae-887d-47ccb0f54a79";
@@ -402,7 +402,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, itemId);
 ```csharp
 var options = new ManagementHelpersOptions
 {
-    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+    EnvironmentId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
 };
 
 string itemId = "8ceeb2d8-9676-48ae-887d-47ccb0f54a79";
@@ -421,7 +421,7 @@ var result = linkBuilder.BuildEditItemUrl(languageCodename, elementIdentifier);
 ```csharp
 var options = new ManagementHelpersOptions
 {
-    ProjectId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
+    EnvironmentId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
 };
 
 string languageCodename = "en-US";
