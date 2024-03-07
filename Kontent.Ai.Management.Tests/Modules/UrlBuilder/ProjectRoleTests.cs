@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Tests.Modules.UrlBuilder;
 public partial class EndpointUrlBuilderTests
 {
     [Fact]
-    public void BuildProjectRolesUrl_ReturnsCorrectUrl()
+    public void BuildEnvironmentRolesUrl_ReturnsCorrectUrl()
     {
         var actualUrl = _builder.BuildEnvironmentRolesUrl();
         var expectedUrl = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/roles";
@@ -16,7 +16,7 @@ public partial class EndpointUrlBuilderTests
     }
 
     [Fact]
-    public void BuildProjectRoleUrl_WithId_ReturnsCorrectUrl()
+    public void BuildEnvironmentRoleUrl_WithId_ReturnsCorrectUrl()
     {
         var roleIdentifier = Reference.ById(Guid.NewGuid());
         var actualUrl = _builder.BuildEnvironmentRoleUrl(roleIdentifier);
@@ -26,7 +26,7 @@ public partial class EndpointUrlBuilderTests
     }
 
     [Fact]
-    public void BuildProjectRoleUrl_WithCodename_ReturnsCorrectUrl()
+    public void BuildEnvironmentRoleUrl_WithCodename_ReturnsCorrectUrl()
     {
         var roleIdentifier = Reference.ByCodename("codename");
         var actualUrl = _builder.BuildEnvironmentRoleUrl(roleIdentifier);
@@ -36,7 +36,7 @@ public partial class EndpointUrlBuilderTests
     }
 
     [Fact]
-    public void BuildProjectRoleUrl_WithExternalId_Throws()
+    public void BuildEnvironmentRoleUrl_WithExternalId_Throws()
     {
         var roleIdentifier = Reference.ByExternalId("external");
         Assert.Throws<InvalidOperationException>(() => _builder.BuildEnvironmentRoleUrl(roleIdentifier));

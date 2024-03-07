@@ -15,7 +15,7 @@ public class TypeIssue
     public Metadata Type { get; set; }
 
     /// <summary>
-    /// Gets or sets information about project language
+    /// Gets or sets information about environment language
     /// </summary>
     [JsonProperty("issues")]
     public IEnumerable<ElementIssue> Issues { get; set; }

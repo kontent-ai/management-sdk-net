@@ -10,11 +10,11 @@ using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class ProjectUserTests : IClassFixture<FileSystemFixture>
+public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
 {
     private readonly Scenario _scenario;
 
-    public ProjectUserTests()
+    public EnvironmentUserTests()
     {
         _scenario = new Scenario(folder: "ProjectUser");
     }

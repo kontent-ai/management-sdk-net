@@ -33,7 +33,7 @@ public class EditLinkBuilder : IEditLinkBuilder
     /// <summary>
     /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
     /// </summary>
-    /// <param name="managementHelpersOptions">The settings of the Kontent.ai project.</param>
+    /// <param name="managementHelpersOptions">The settings of the Kontent.ai environment.</param>
     public EditLinkBuilder(ManagementHelpersOptions managementHelpersOptions)
     {
         if (string.IsNullOrEmpty(managementHelpersOptions.AdminUrl))
@@ -43,12 +43,12 @@ public class EditLinkBuilder : IEditLinkBuilder
 
         if (string.IsNullOrEmpty(managementHelpersOptions.EnvironmentId))
         {
-            throw new ArgumentException("Kontent.ai project identifier is not specified.", nameof(managementHelpersOptions.EnvironmentId));
+            throw new ArgumentException("Kontent.ai environment identifier is not specified.", nameof(managementHelpersOptions.EnvironmentId));
         }
 
         if (!Guid.TryParse(managementHelpersOptions.EnvironmentId, out _))
         {
-            throw new ArgumentException($"Provided string is not a valid project identifier ({managementHelpersOptions.EnvironmentId}).", nameof(managementHelpersOptions.EnvironmentId));
+            throw new ArgumentException($"Provided string is not a valid environment identifier ({managementHelpersOptions.EnvironmentId}).", nameof(managementHelpersOptions.EnvironmentId));
         }
 
         ManagementHelpersOptions = managementHelpersOptions;
@@ -57,7 +57,7 @@ public class EditLinkBuilder : IEditLinkBuilder
     /// <summary>
     /// Initializes a new instance of the <see cref="EditLinkBuilder"/> class for retrieving edit urls.
     /// </summary>
-    /// <param name="managementHelpersOptions">The settings of the Kontent.ai project.</param>
+    /// <param name="managementHelpersOptions">The settings of the Kontent.ai environment.</param>
     public EditLinkBuilder(IOptionsMonitor<ManagementHelpersOptions> managementHelpersOptions)
     {
         managementHelpersOptionsMonitor = managementHelpersOptions;
