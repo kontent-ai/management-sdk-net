@@ -17,7 +17,7 @@ public static class ListingExtensions
     /// </summary>
     /// <typeparam name="T">Entity model e.g <see cref="LanguageModel"/>, <see cref="TaxonomyGroupModel"/> and etc.</typeparam>
     /// <param name="method">To be extended method that returns <see cref="Task{IListingResponseModel}"/></param>
-    /// <returns><see cref="List{T}"/> all items for project</returns>
+    /// <returns><see cref="List{T}"/> all items for environment</returns>
     public async static Task<List<T>> GetAllAsync<T>(this Task<IListingResponseModel<T>> method)
     {
         var result = new List<T>();

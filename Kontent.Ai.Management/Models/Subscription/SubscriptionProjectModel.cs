@@ -31,5 +31,5 @@ public sealed class SubscriptionProjectModel
     /// Gets or sets the project's environments.
     /// </summary>
     [JsonProperty("environments")]
-    public IEnumerable<SubscriptionProjectEnvironmentModel> Environmnets { get; set; }
+    public IEnumerable<SubscriptionProjectEnvironmentModel> Environments { get; set; }
 }
