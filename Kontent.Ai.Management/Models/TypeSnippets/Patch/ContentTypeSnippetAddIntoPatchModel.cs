@@ -29,7 +29,7 @@ public class ContentTypeSnippetAddIntoPatchModel : ContentTypeSnippetOperationBa
     public Reference Before { get; set; }
 
     /// <summary>
-    /// Gets or sets reference of the existing object before which you want to add the new object.
+    /// Gets or sets reference of the existing object after which you want to add the new object.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("after")]
