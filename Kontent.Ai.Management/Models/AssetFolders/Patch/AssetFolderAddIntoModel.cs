@@ -27,7 +27,7 @@ public class AssetFolderAddIntoModel : AssetFolderOperationBaseModel
     public Reference Before { get; set; }
 
     /// <summary>
-    /// Gets or sets reference of the existing folder before which you want to add the new folder.
+    /// Gets or sets reference of the existing folder after which you want to add the new folder.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("after")]
