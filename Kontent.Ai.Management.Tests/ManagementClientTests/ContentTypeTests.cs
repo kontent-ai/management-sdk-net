@@ -303,6 +303,10 @@ public class ContentTypeTests
                 },
                 Before = Reference.ByCodename("theme"),
                 Path = "/elements"
+            },
+            new ContentTypeMovePatchModel {
+                Path = "/elements/codename:display_options",
+                After = Reference.ByCodename("theme")
             }
         };
 }
