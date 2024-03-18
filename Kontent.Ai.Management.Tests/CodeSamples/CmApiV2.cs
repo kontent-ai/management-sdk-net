@@ -846,6 +846,16 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             new ContentTypeSnippetPatchRemoveModel
             {
                 Path = "/elements/external_id:my-multiple-choice-id/options/codename:my_option"
+            },
+            new ContentTypeSnippetPatchMoveModel
+            {
+                Path = "/elements/codename:my_metadata_snippet__my_meta_title",
+                After = Reference.ByCodename("my_metadata_snippet__my_meta_description")
+            },
+            new ContentTypeSnippetPatchMoveModel
+            {
+                Path = "/elements/external_id:my-multiple-choice-id/options/id:8e6ec8b1-6510-4b9b-b4be-6c977f4bdfbc",
+                Before = Reference.ById(Guid.Parse("6bfe5a60-5cc2-4303-8f72-9cc53431046b"))
             }
         });
 
@@ -908,6 +918,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     ExternalId = "my-new-term",
                     Terms = Array.Empty<TaxonomyTermCreateModel>()
                 }
+            },
+            new TaxonomyGroupMovePatchModel
+            {
+                Reference = Reference.ByExternalId("my-new-term"),
+                Before = Reference.ByCodename("first_term")
             }
         });
 
@@ -959,6 +974,16 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             new ContentTypeRemovePatchModel
             {
                 Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
+            },
+            new ContentTypeMovePatchModel
+            {
+                Path = "/elements/codename:my_text_element",
+                After = Reference.ByExternalId("my-title-id")
+            },
+            new ContentTypeMovePatchModel
+            {
+                Path = "/elements/external_id:my-multiple-choice-id/options/id:d66ffa49-86ff-eeaa-c33b-e5d9eefe8b81",
+                Before = Reference.ById(Guid.Parse("523e6231-8d80-a158-3601-dffde4e64a78"))
             }
         });
 

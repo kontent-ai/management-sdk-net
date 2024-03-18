@@ -304,6 +304,10 @@ public class ContentTypeSnippetTests
             },
             After = Reference.ByCodename("personas"),
             Path = "/elements"
+        },
+        new ContentTypeSnippetPatchMoveModel {
+            Path = "/elements/codename:summary",
+            After = Reference.ByCodename("personas")
         }
     };
 

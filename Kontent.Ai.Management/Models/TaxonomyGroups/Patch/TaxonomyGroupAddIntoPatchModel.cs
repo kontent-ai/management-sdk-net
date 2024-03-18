@@ -28,7 +28,7 @@ public class TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBaseModel
     public Reference Before { get; set; }
 
     /// <summary>
-    /// Gets or sets reference of the existing taxonomy term before which you want to add the new taxonomy term.
+    /// Gets or sets reference of the existing taxonomy term after which you want to add the new taxonomy term.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("after")]

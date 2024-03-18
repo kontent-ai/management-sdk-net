@@ -296,6 +296,10 @@ public class TaxonomyGroupTests
                 ExternalId = "b378225f-6dfc-e261-3848-dd030a6d7883",
                 Terms = Array.Empty<TaxonomyTermCreateModel>()
             }
+        },
+        new TaxonomyGroupMovePatchModel {
+            Reference = Reference.ByCodename("chemex"),
+            Under = Reference.ByCodename("hario")
         }
     };
 }
