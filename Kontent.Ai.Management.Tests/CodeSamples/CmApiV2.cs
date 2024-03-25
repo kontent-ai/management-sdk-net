@@ -1943,7 +1943,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         // Scheduled publish
         var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00"),
+            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08"),
             DisplayTimeZone = "Europe/London"
         }));
 
@@ -1971,7 +1971,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         // Scheduled unpublish
         var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08+01:00"),
+            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08"),
             DisplayTimeZone = "Europe/London"
         }));
 
