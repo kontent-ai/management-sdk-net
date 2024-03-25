@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Workflow;
@@ -435,6 +436,7 @@ public class LanguageVariantTests
             Language = Reference.ById(Guid.Parse(languageId)),
             LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
             Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
+            Schedule = GetExpectedScheduleResponseModel(),
             Elements = ElementsData.GetExpectedDynamicElements(),
         };
 
@@ -447,7 +449,16 @@ public class LanguageVariantTests
         Language = Reference.ById(Guid.Parse(languageId)),
         LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
         Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
+        Schedule = GetExpectedScheduleResponseModel(),
         Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
+    };
+
+    private static ScheduleResponseModel GetExpectedScheduleResponseModel() => new()
+    {
+        PublishTime = DateTimeOffset.Parse("2024-03-31T08:00:00Z").UtcDateTime,
+        PublishDisplayTimeZone = "Europe/Prague",
+        UnpublishTime = DateTimeOffset.Parse("2024-04-30T08:00:00Z").UtcDateTime,
+        UnpublishDisplayTimeZone = "Europe/Prague"
     };
 
     private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
