@@ -20,6 +20,7 @@ internal class ModelProvider : IModelProvider
             Item = variant.Item,
             Language = variant.Language,
             LastModified = variant.LastModified,
+            Schedule = variant.Schedule,
             Workflow = variant.Workflow,
             Elements = _elementModelProvider.GetStronglyTypedElements<T>(variant.Elements)
         };
