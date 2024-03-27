@@ -437,6 +437,7 @@ public class LanguageVariantTests
             LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
             Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
             Schedule = GetExpectedScheduleResponseModel(),
+            DueDate = GetExpectedDueDateModel(),
             Elements = ElementsData.GetExpectedDynamicElements(),
         };
 
@@ -450,6 +451,7 @@ public class LanguageVariantTests
         LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
         Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
         Schedule = GetExpectedScheduleResponseModel(),
+        DueDate = GetExpectedDueDateModel(),
         Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
     };
 
@@ -460,6 +462,9 @@ public class LanguageVariantTests
         UnpublishTime = DateTimeOffset.Parse("2024-04-30T08:00:00Z").UtcDateTime,
         UnpublishDisplayTimeZone = "Europe/Prague"
     };
+
+    private static DueDateResponseModel GetExpectedDueDateModel() =>
+        new() { Value = DateTimeOffset.Parse("2092-01-07T06:04:00.7069564Z").UtcDateTime };
 
     private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
     {
