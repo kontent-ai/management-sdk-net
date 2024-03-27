@@ -1,4 +1,5 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+﻿using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Newtonsoft.Json;
 using System;
@@ -39,4 +40,10 @@ public sealed class LanguageVariantModel<T> where T : new()
     /// </summary>
     [JsonProperty("workflow")]
     public WorkflowStepIdentifier Workflow { get; set; }
+
+    /// <summary>
+    /// Gets or sets due date.
+    /// </summary>
+    [JsonProperty("due_date")]
+    public DueDateResponseModel DueDate { get; set; }
 }
