@@ -21,6 +21,11 @@ public sealed class LanguageVariantUpsertModel
     public WorkflowStepIdentifier Workflow { get; set; }
 
     /// <summary>
+    /// Gets or sets due date to update.
+    /// </summary>
+    public DueDateModel DueDate { get; set; }
+
+    /// <summary>
     /// Creates an instance of the language variant upsert model.
     /// </summary>
     public LanguageVariantUpsertModel()
@@ -31,5 +36,6 @@ public sealed class LanguageVariantUpsertModel
     {
         Elements = languageVariant.Elements;
         Workflow = languageVariant.Workflow;
+        DueDate = languageVariant.DueDate;
     }
 }
