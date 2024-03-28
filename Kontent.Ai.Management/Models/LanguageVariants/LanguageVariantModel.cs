@@ -52,5 +52,5 @@ public sealed class LanguageVariantModel
     /// Gets or sets due date.
     /// </summary>
     [JsonProperty("due_date")]
-    public DueDateResponseModel DueDate { get; set; }
+    public DueDateModel DueDate { get; set; }
 }
