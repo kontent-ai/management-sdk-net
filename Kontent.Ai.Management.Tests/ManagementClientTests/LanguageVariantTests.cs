@@ -452,7 +452,7 @@ public class LanguageVariantTests
         Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
     };
 
-    private static DueDateResponseModel GetExpectedDueDateModel() =>
+    private static DueDateModel GetExpectedDueDateModel() =>
         new() { Value = DateTimeOffset.Parse("2092-01-07T06:04:00.7069564Z").UtcDateTime };
 
     private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
