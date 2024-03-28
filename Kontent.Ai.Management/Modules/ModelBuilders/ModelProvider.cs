@@ -21,7 +21,8 @@ internal class ModelProvider : IModelProvider
             Language = variant.Language,
             LastModified = variant.LastModified,
             Workflow = variant.Workflow,
-            Elements = _elementModelProvider.GetStronglyTypedElements<T>(variant.Elements)
+            DueDate = variant.DueDate,
+            Elements = _elementModelProvider.GetStronglyTypedElements<T>(variant.Elements),
         };
 
     public LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements, WorkflowStepIdentifier workflow = null) where T : new() =>

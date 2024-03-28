@@ -40,4 +40,10 @@ public sealed class LanguageVariantModel
     /// </summary>
     [JsonProperty("workflow")]
     public WorkflowStepIdentifier Workflow { get; set; }
+
+    /// <summary>
+    /// Gets or sets due date.
+    /// </summary>
+    [JsonProperty("due_date")]
+    public DueDateModel DueDate { get; set; }
 }
