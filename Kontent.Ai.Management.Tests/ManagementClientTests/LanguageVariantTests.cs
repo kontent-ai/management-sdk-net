@@ -289,6 +289,60 @@ public class LanguageVariantTests
 
     [Theory]
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    public async Task GetPublishedLanguageVariantAsync_StronglyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
+    {
+        var client = _scenario
+            .WithResponses("LanguageVariant.json")
+            .CreateManagementClient();
+
+        var response = await client.GetPublishedLanguageVariantAsync<ComplexTestModel>(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response, GetExpectedComplexTestModel())
+            .Url(expectedUrl + "/published")
+            .Validate();
+    }
+
+    [Fact]
+    public async Task GetPublishedLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.GetPublishedLanguageVariantAsync<ComplexTestModel>(null))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Theory]
+    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    public async Task GetPublishedLanguageVariantAsync_DynamicallyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
+    {
+        var client = _scenario
+            .WithResponses("LanguageVariant.json")
+            .CreateManagementClient();
+
+        var response = await client.GetPublishedLanguageVariantAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response, GetExpectedLanguageVariantModel())
+            .Url(expectedUrl + "/published")
+            .Validate();
+    }
+
+    [Fact]
+    public async Task GetPublishedLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.GetPublishedLanguageVariantAsync(null))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Theory]
+    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task UpsertLanguageVariantAsync_StronglyTyped_UpsertsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var client = _scenario
