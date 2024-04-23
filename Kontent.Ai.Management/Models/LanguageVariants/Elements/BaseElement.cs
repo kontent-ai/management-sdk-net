@@ -124,7 +124,7 @@ public abstract class BaseElement
                 return new TaxonomyElement
                 {
                     Element = Reference.FromDynamic(source.element),
-                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                    Value = (source.value as IEnumerable<dynamic>)?.Select(Reference.FromDynamic)
                 };
             }
             else if (type == typeof(UrlSlugElement))

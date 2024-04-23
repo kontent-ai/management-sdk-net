@@ -91,9 +91,11 @@ public class ElementModelProviderTests
             elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
         ).value as IEnumerable<AssetWithRenditionsReference>;
 
-        var personaValue = dynamicElements.SingleOrDefault(elementObject =>
+        var persona = dynamicElements.SingleOrDefault(elementObject =>
              elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
-        ).value as IEnumerable<Reference>;
+        );
+
+        var personaValue = ((TaxonomyElement)TaxonomyElement.FromDynamic(persona, Models.Types.Elements.ElementMetadataType.Taxonomy)).Value;
 
         var optionsValue = dynamicElements.SingleOrDefault(elementObject =>
              elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
