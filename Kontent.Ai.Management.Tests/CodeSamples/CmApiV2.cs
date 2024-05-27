@@ -1665,6 +1665,10 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             RolesToActivate = new[]
             {
                 Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")
+            },
+            CopyDataOptions = new CopyDataOptions {
+                ContentItemsAssets = true,
+                ContentItemVersionHistory = false
             }
         });
 
