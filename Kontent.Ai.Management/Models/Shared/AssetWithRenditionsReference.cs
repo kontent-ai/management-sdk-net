@@ -60,4 +60,58 @@ public sealed class AssetWithRenditionsReference
         _assetReference = assetReference;
         _renditions = renditionReferences?.ToList() ?? new List<Reference>();
     }
+
+    /// <summary>
+    /// Transforms the dynamic object to the <see cref="AssetWithRenditionsReference"/>
+    /// </summary>
+    public static AssetWithRenditionsReference FromDynamic(dynamic source)
+    {
+        try
+        {
+            var assetReference = Reference.FromDynamic(source);
+            var renditions = (source.renditions as IEnumerable<dynamic>)?.Select(Reference.FromDynamic);
+
+            return new AssetWithRenditionsReference(assetReference, renditions);
+        }
+        catch (Exception exception)
+        {
+            throw new DataMisalignedException(
+                "Object could not be converted to the strongly-typed reference. Please check if it has expected properties with expected type",
+                exception);
+        }
+
+        throw new DataMisalignedException("Dynamic element reference does not contain any identifier.");
+    }
+
+    /// <summary>
+    /// Transforms the <see cref="AssetWithRenditionsReference"/> to the dynamic object.
+    /// </summary>
+    public dynamic ToDynamic()
+    {
+        if (Id != null)
+        {
+            return new {
+                id = Id,
+                renditions = Renditions.Select(r => r.ToDynamic())
+            };
+        }
+
+        if (Codename != null)
+        {
+            return new {
+                codename = Codename,
+                renditions = Renditions.Select(r => r.ToDynamic())
+            };
+        }
+
+        if (ExternalId != null)
+        {
+            return new {
+                external_id = ExternalId,
+                renditions = Renditions.Select(r => r.ToDynamic())
+            };
+        }
+
+        throw new DataMisalignedException("Element reference does not contain any identifier.");
+    }
 }

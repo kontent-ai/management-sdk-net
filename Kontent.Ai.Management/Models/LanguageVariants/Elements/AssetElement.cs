@@ -1,6 +1,7 @@
 using Kontent.Ai.Management.Models.Shared;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -20,6 +21,6 @@ public class AssetElement : BaseElement
     /// </summary>
     public override dynamic ToDynamic() => new {
         element = Element.ToDynamic(),
-        value = Value,
+        value = Value.Select(v => v.ToDynamic())
     };
 }
