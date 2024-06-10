@@ -39,16 +39,29 @@ public class ElementModelProviderTests
         Assert.Single(actual.BodyCopy.Components);
         AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Id), actual.BodyCopy.Components.Select(x => x.Id));
         AssertIdentifiers(expected.BodyCopy.Components.Select(x => x.Type.Id.Value), actual.BodyCopy.Components.Select(x => x.Type.Id.Value));
-        AssertIdentifiers(expected.RelatedArticles.Value.Select(x => x.Id.Value), actual.RelatedArticles.Value.Select(x => x.Id.Value));
-        AssertIdentifiers(expected.TeaserImage.Value.Select(x => x.Id.Value), actual.TeaserImage.Value.Select(x => x.Id.Value));
+
+        AssertIdentifiers(expected.RelatedArticles.Value.Where(x => x.Id != null).Select(x => x.Id.Value), actual.RelatedArticles.Value.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(expected.RelatedArticles.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), actual.RelatedArticles.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(expected.RelatedArticles.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), actual.RelatedArticles.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
+
+        AssertIdentifiers(expected.TeaserImage.Value.Where(x => x.Id != null).Select(x => x.Id.Value), actual.TeaserImage.Value.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(expected.TeaserImage.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), actual.TeaserImage.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(expected.TeaserImage.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), actual.TeaserImage.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
+
         for (var i = 0; i < expected.TeaserImage.Value.Count(); i++)
         {
             AssertIdentifiers(
                 expected.TeaserImage.Value.ElementAt(i).Renditions.Select(x => x.Id.Value),
                 actual.TeaserImage.Value.ElementAt(i).Renditions.Select(x => x.Id.Value));
         }
-        AssertIdentifiers(expected.Options.Value.Select(x => x.Id.Value), actual.Options.Value.Select(x => x.Id.Value));
-        AssertIdentifiers(expected.Personas.Value.Select(x => x.Id.Value), actual.Personas.Value?.Select(x => x.Id.Value));
+
+        AssertIdentifiers(expected.Personas.Value.Where(x => x.Id != null).Select(x => x.Id.Value), actual.Personas.Value.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(expected.Personas.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), actual.Personas.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(expected.Personas.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), actual.Personas.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
+
+        AssertIdentifiers(expected.Options.Value.Where(x => x.Id != null).Select(x => x.Id.Value), actual.Options.Value.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(expected.Options.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), actual.Options.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(expected.Options.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), actual.Options.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
     }
 
     [Fact]
@@ -59,61 +72,69 @@ public class ElementModelProviderTests
 
         var dynamicElements = _elementModelProvider.GetDynamicElements(model);
 
-        var titleValue = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.Title))?.GetKontentElementId()
-        ).value;
+        var title = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.Title))?.GetKontentElementId() );
+        var titleValue = ((TextElement)TextElement.FromDynamic(title, Models.Types.Elements.ElementMetadataType.Text)).Value;
 
-        var ratingValue = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.Rating))?.GetKontentElementId()
-        ).value;
+        var rating = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.Rating))?.GetKontentElementId());
+        var ratingValue = ((NumberElement)NumberElement.FromDynamic(rating, Models.Types.Elements.ElementMetadataType.Number)).Value;
 
-        var selectedForm = dynamicElements.SingleOrDefault(elementObject =>
-                elementObject.element.id == type.GetProperty(nameof(model.SelectedForm))?.GetKontentElementId()
-        );
+        var selectedForm = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.SelectedForm))?.GetKontentElementId());
+        var selectedFormElement = ((CustomElement)CustomElement.FromDynamic(selectedForm, Models.Types.Elements.ElementMetadataType.Custom));
 
-        var postDateElement = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId()
-        );
+        var postDate = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.PostDate))?.GetKontentElementId());
+        var postDateElement = ((DateTimeElement)DateTimeElement.FromDynamic(postDate, Models.Types.Elements.ElementMetadataType.DateTime));
 
-        var urlPatternElement = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId()
-        );
+        var urlPattern = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.UrlPattern))?.GetKontentElementId());
+        var urlPatternElement = ((UrlSlugElement)UrlSlugElement.FromDynamic(urlPattern, Models.Types.Elements.ElementMetadataType.UrlSlug));
 
-        var bodyCopyElement = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId()
-        );
+        var bodyCopyElement = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.BodyCopy))?.GetKontentElementId());
 
-        var relatedArticlesValue = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
-        ).value as IEnumerable<Reference>;
+        var relatedArticles = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId());
+        var relatedArticlesValue = ((LinkedItemsElement)LinkedItemsElement.FromDynamic(relatedArticles, Models.Types.Elements.ElementMetadataType.LinkedItems)).Value;
 
-        var teaserImageValue = dynamicElements.SingleOrDefault(elementObject =>
-            elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
-        ).value as IEnumerable<AssetWithRenditionsReference>;
+        var teaserImage = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId());
+        var teaserImageValue = ((AssetElement)AssetElement.FromDynamic(teaserImage, Models.Types.Elements.ElementMetadataType.Asset)).Value;
 
-        var personaValue = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
-        ).value as IEnumerable<Reference>;
+        var persona = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId());
+        var personaValue = ((TaxonomyElement)TaxonomyElement.FromDynamic(persona, Models.Types.Elements.ElementMetadataType.Taxonomy)).Value;
 
-        var optionsValue = dynamicElements.SingleOrDefault(elementObject =>
-             elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
-        ).value as IEnumerable<Reference>;
+        var options = dynamicElements.SingleOrDefault(elementObject => elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId());
+        var optionsValue = ((MultipleChoiceElement)MultipleChoiceElement.FromDynamic(options, Models.Types.Elements.ElementMetadataType.MultipleChoice)).Value;
 
         Assert.Equal(model.Title.Value, titleValue);
         Assert.Equal(model.Rating.Value, ratingValue);
-        Assert.Equal(model.SelectedForm.Value, selectedForm.value);
-        Assert.Equal(model.SelectedForm.SearchableValue, selectedForm.searchable_value);
-        Assert.Equal(model.PostDate.Value, postDateElement.value);
-        Assert.Equal(model.PostDate.DisplayTimeZone, postDateElement.display_timezone);
-        Assert.Equal(model.UrlPattern.Value, urlPatternElement.value);
-        Assert.Equal(model.UrlPattern.Mode, urlPatternElement.mode);
+        Assert.Equal(model.SelectedForm.Value, selectedFormElement.Value);
+        Assert.Equal(model.SelectedForm.SearchableValue, selectedFormElement.SearchableValue);
+        Assert.Equal(model.PostDate.Value, postDateElement.Value);
+        Assert.Equal(model.PostDate.DisplayTimeZone, postDateElement.DisplayTimeZone);
+        Assert.Equal(model.UrlPattern.Value, urlPatternElement.Value);
+        Assert.Equal(model.UrlPattern.Mode, urlPatternElement.Mode);
         Assert.Equal(model.BodyCopy.Value, bodyCopyElement.value);
         Assert.Single(bodyCopyElement.components as IEnumerable<ComponentModel>);
         AssertIdentifiers(model.BodyCopy.Components.Select(x => x.Id), (bodyCopyElement.components as IEnumerable<ComponentModel>)?.Select(x => x.Id));
-        AssertIdentifiers(model.RelatedArticles.Value.Select(x => x.Id.Value), relatedArticlesValue.Select(x => x.Id.Value));
-        AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
-        AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
-        AssertIdentifiers(model.Options.Value.Select(x => x.Id.Value), optionsValue.Select(x => x.Id.Value));
+
+        AssertIdentifiers(model.RelatedArticles.Value.Where(x => x.Id != null).Select(x => x.Id.Value), relatedArticlesValue.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(model.RelatedArticles.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), relatedArticlesValue.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(model.RelatedArticles.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), relatedArticlesValue.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
+
+        AssertIdentifiers(model.TeaserImage.Value.Where(x => x.Id != null).Select(x => x.Id.Value), teaserImageValue.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(model.TeaserImage.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), teaserImageValue.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(model.TeaserImage.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), teaserImageValue.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
+
+        for (var i = 0; i < model.TeaserImage.Value.Count(); i++)
+        {
+            AssertIdentifiers(
+                model.TeaserImage.Value.ElementAt(i).Renditions.Select(x => x.Id.Value),
+                teaserImageValue.ElementAt(i).Renditions.Select(x => x.Id.Value));
+        }
+
+        AssertIdentifiers(model.Personas.Value.Where(x => x.Id != null).Select(x => x.Id.Value), personaValue.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(model.Personas.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), personaValue.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(model.Personas.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), personaValue.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
+
+        AssertIdentifiers(model.Options.Value.Where(x => x.Id != null).Select(x => x.Id.Value), optionsValue.Where(x => x.Id != null).Select(x => x.Id.Value));
+        AssertIdentifiers(model.Options.Value.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename), optionsValue.Where(x => !string.IsNullOrEmpty(x.Codename)).Select(x => x.Codename));
+        AssertIdentifiers(model.Options.Value.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId), optionsValue.Where(x => !string.IsNullOrEmpty(x.ExternalId)).Select(x => x.ExternalId));
     }
 
     private static ComplexTestModel GetTestModel()
@@ -150,16 +171,45 @@ public class ElementModelProviderTests
             },
             TeaserImage = new AssetElement
             {
-                Value = new[]
-                {
-                    new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), new[] { Reference.ById(Guid.NewGuid()) }),
-                    new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), new[] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()),  }),
-                    new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), Array.Empty<Reference>()),
-                }
+                Value =
+                [
+                    new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), [Reference.ById(Guid.NewGuid())]),
+                    new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()),]),
+                    new AssetWithRenditionsReference(Reference.ById(Guid.NewGuid()), []),
+                    new AssetWithRenditionsReference(Reference.ByCodename("asset-with-rendition"), []),
+                    new AssetWithRenditionsReference(Reference.ByExternalId("asset-with-external-id"), []),
+                ]
             },
-            RelatedArticles = new LinkedItemsElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToArray() },
-            Personas = new TaxonomyElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },
-            Options = new MultipleChoiceElement { Value = new[] { Guid.NewGuid(), Guid.NewGuid() }.Select(Reference.ById).ToList() },
+            RelatedArticles = new LinkedItemsElement 
+            {
+                Value =
+                [
+                    Reference.ById(Guid.NewGuid()),
+                    Reference.ById(Guid.NewGuid()),
+                    Reference.ByCodename("related-item-by-codename"),
+                    Reference.ByExternalId("related-item-by-external-id")
+                ]
+            },
+            Personas = new TaxonomyElement 
+            { 
+                Value = 
+                [
+                    Reference.ById(Guid.NewGuid()),
+                    Reference.ById(Guid.NewGuid()),
+                    Reference.ByCodename("taxonomy-item-by-codename"),
+                    Reference.ByExternalId("taxonomy-item-by-external-id")
+                ]
+            },
+            Options = new MultipleChoiceElement
+            {
+                Value =
+                [
+                    Reference.ById(Guid.NewGuid()),
+                    Reference.ById(Guid.NewGuid()),
+                    Reference.ByCodename("multi-choice-item-by-codename"),
+                    Reference.ByExternalId("multi-choice-item-by-external-id")
+                ]
+            },
         };
     }
 
@@ -208,17 +258,17 @@ public class ElementModelProviderTests
                 value = model.RelatedArticles.Value
             },
             new
-            {
+            { 
                 element = new { id = type.GetProperty(nameof(ComplexTestModel.TeaserImage))?.GetKontentElementId() },
                 value = model.TeaserImage.Value
             },
             new
-            {
+            { 
                 element = new { id = type.GetProperty(nameof(ComplexTestModel.Personas))?.GetKontentElementId() },
                 value = model.Personas.Value
             },
             new
-            {
+            { 
                 element = new { id = type.GetProperty(nameof(ComplexTestModel.Options))?.GetKontentElementId() },
                 value = model.Options.Value
             },
@@ -231,7 +281,7 @@ public class ElementModelProviderTests
         return JsonConvert.DeserializeObject<IEnumerable<dynamic>>(serialized, new JsonSerializerSettings { Converters = new JsonConverter[] { new DynamicObjectJsonConverter() } });
     }
 
-    private static void AssertIdentifiers(IEnumerable<Guid> expected, IEnumerable<Guid> actual)
+    private static void AssertIdentifiers<T>(IEnumerable<T> expected, IEnumerable<T> actual)
     {
         if (expected == null && actual == null)
         {
