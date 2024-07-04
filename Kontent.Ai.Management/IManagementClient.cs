@@ -28,6 +28,7 @@ using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
+using Kontent.Ai.Management.Models.WebSpotlight;
 using Kontent.Ai.Management.Models.Workflow;
 using System;
 using System.Collections.Generic;
@@ -788,4 +789,29 @@ public interface IManagementClient
     /// <param name="previewConfiguration">Represents configuration that will be used for project.</param>
     /// <returns>The <see cref="PreviewConfigurationModel"/> instance that represents the preview configuration.</returns>
     Task<PreviewConfigurationModel> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration);
+
+    /// <summary>
+    /// Activates the web spotlight status with possibility to provide existing Root Type ID.
+    /// </summary>
+    /// <param name="webSpotlightActivateModel">Represents configuration that will be used for web spotlight activation.</param>
+    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
+    Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel);
+
+    /// <summary>
+    /// Activates the web spotlight status.
+    /// </summary>
+    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
+    Task<WebSpotlightModel> ActivateWebSpotlightAsync();
+    
+    /// <summary>
+    /// Deactivates the web spotlight.
+    /// </summary>
+    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
+    Task<WebSpotlightModel> DeactivateWebSpotlightAsync();
+
+    /// <summary>
+    /// Returns the web spotlight status.
+    /// </summary>
+    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
+    Task<WebSpotlightModel> GetWebSpotlightStatusAsync();
 }
