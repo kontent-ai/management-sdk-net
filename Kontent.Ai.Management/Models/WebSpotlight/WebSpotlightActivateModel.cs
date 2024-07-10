@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using Kontent.Ai.Management.Models.Shared;
+using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.WebSpotlight;
 
@@ -11,6 +11,6 @@ public class WebSpotlightActivateModel
     /// <summary>
     /// Gets or sets the web spotlight's Root Type ID.
     /// </summary>
-    [JsonProperty("root_type_id")]
-    public Guid? RootTypeId { get; set; }
+    [JsonProperty("root_type")]
+    public Reference RootType { get; set; }
 }
