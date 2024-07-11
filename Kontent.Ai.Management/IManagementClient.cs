@@ -345,6 +345,21 @@ public interface IManagementClient
     Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new();
 
     /// <summary>
+    /// Returns strongly typed currently published language variant.
+    /// </summary>
+    /// <param name="identifier">The identifier of the language variant.</param>
+    /// <returns>The <see cref="LanguageVariantModel"/> instance that represents language variant.</returns>
+    Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier);
+
+    /// <summary>
+    /// Returns strongly typed currently published language variant with strongly typed elements.
+    /// </summary>
+    /// <typeparam name="T">Type of the content item elements</typeparam>
+    /// <param name="identifier">The identifier of the language variant.</param>
+    /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents language variant.</returns>
+    Task<LanguageVariantModel<T>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new();
+
+    /// <summary>
     /// Returns environment information
     /// </summary>
     /// <returns>The <see cref="Environment"/> instance that represents the environment information.</returns>

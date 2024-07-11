@@ -160,6 +160,12 @@
         ]
       }
     ],
+    "schedule": {
+      "publish_time": "2024-03-31T08:00:00",
+      "publish_display_timezone": "Europe/Prague",
+      "unpublish_time": "2024-04-30T08:00:00",
+      "unpublish_display_timezone": "Europe/Prague"
+    },
     "workflow": {
       "workflow_identifier": {
         "id": "00000000-0000-0000-0000-000000000000"
@@ -167,6 +173,9 @@
       "step_identifier": {
         "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
       }
+    },
+    "due_date": {
+      "value": "2092-01-07T06:04:00.7069564Z"
     },
     "item": {
       "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
@@ -337,6 +346,12 @@
         ]
       }
     ],
+    "schedule": {
+      "publish_time": "2024-03-31T08:00:00",
+      "publish_display_timezone": "Europe/Prague",
+      "unpublish_time": "2024-04-30T08:00:00",
+      "unpublish_display_timezone": "Europe/Prague"
+    },
     "workflow": {
       "workflow_identifier": {
         "id": "00000000-0000-0000-0000-000000000000"
@@ -344,6 +359,9 @@
       "step_identifier": {
         "id": "eee6db3b-545a-4785-8e86-e3772c8756f9"
       }
+    },
+    "due_date": {
+      "value": "2092-01-07T06:04:00.7069564Z"
     },
     "item": {
       "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"

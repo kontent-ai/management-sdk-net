@@ -138,6 +138,34 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
+    public async Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    {
+        if (identifier == null)
+        {
+            throw new ArgumentNullException(nameof(identifier));
+        }
+
+        var endpointUrl = _urlBuilder.BuildPublishedVariantsUrl(identifier);
+        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
+
+        return response;
+    }
+
+    /// <inheritdoc />
+    public async Task<LanguageVariantModel<T>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
+    {
+        if (identifier == null)
+        {
+            throw new ArgumentNullException(nameof(identifier));
+        }
+
+        var endpointUrl = _urlBuilder.BuildPublishedVariantsUrl(identifier);
+        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
+
+        return _modelProvider.GetLanguageVariantModel<T>(response);
+    }
+
+    /// <inheritdoc />
     public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
     {
         if (identifier == null)

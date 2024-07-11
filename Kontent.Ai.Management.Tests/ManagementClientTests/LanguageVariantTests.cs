@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Workflow;
@@ -288,6 +289,60 @@ public class LanguageVariantTests
 
     [Theory]
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    public async Task GetPublishedLanguageVariantAsync_StronglyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
+    {
+        var client = _scenario
+            .WithResponses("LanguageVariant.json")
+            .CreateManagementClient();
+
+        var response = await client.GetPublishedLanguageVariantAsync<ComplexTestModel>(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response, GetExpectedComplexTestModel())
+            .Url(expectedUrl + "/published")
+            .Validate();
+    }
+
+    [Fact]
+    public async Task GetPublishedLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.GetPublishedLanguageVariantAsync<ComplexTestModel>(null))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Theory]
+    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    public async Task GetPublishedLanguageVariantAsync_DynamicallyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
+    {
+        var client = _scenario
+            .WithResponses("LanguageVariant.json")
+            .CreateManagementClient();
+
+        var response = await client.GetPublishedLanguageVariantAsync(identifier);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response, GetExpectedLanguageVariantModel())
+            .Url(expectedUrl + "/published")
+            .Validate();
+    }
+
+    [Fact]
+    public async Task GetPublishedLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.GetPublishedLanguageVariantAsync(null))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Theory]
+    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task UpsertLanguageVariantAsync_StronglyTyped_UpsertsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var client = _scenario
@@ -435,6 +490,8 @@ public class LanguageVariantTests
             Language = Reference.ById(Guid.Parse(languageId)),
             LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
             Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
+            Schedule = GetExpectedScheduleResponseModel(),
+            DueDate = GetExpectedDueDateModel(),
             Elements = ElementsData.GetExpectedDynamicElements(),
         };
 
@@ -447,8 +504,21 @@ public class LanguageVariantTests
         Language = Reference.ById(Guid.Parse(languageId)),
         LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
         Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
+        Schedule = GetExpectedScheduleResponseModel(),
+        DueDate = GetExpectedDueDateModel(),
         Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
     };
+
+    private static ScheduleResponseModel GetExpectedScheduleResponseModel() => new()
+    {
+        PublishTime = DateTimeOffset.Parse("2024-03-31T08:00:00Z").UtcDateTime,
+        PublishDisplayTimeZone = "Europe/Prague",
+        UnpublishTime = DateTimeOffset.Parse("2024-04-30T08:00:00Z").UtcDateTime,
+        UnpublishDisplayTimeZone = "Europe/Prague"
+    };
+
+    private static DueDateModel GetExpectedDueDateModel() =>
+        new() { Value = DateTimeOffset.Parse("2092-01-07T06:04:00.7069564Z").UtcDateTime };
 
     private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
     {

@@ -73,6 +73,12 @@ internal sealed class EndpointUrlBuilder
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier)));
 
+    public string BuildPublishedVariantsUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
+        string.Concat(
+            _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+            _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+            "/published"));
+
     public string BuildTypeUrl() => GetEnvironmentUrl(_typeTemplate.Url);
 
     public string BuildTypeUrl(Reference identifier) => GetEnvironmentUrl(_typeTemplate.GetIdentifierUrlSegment(identifier));
