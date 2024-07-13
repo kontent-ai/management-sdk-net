@@ -798,12 +798,6 @@ public interface IManagementClient
     Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel);
 
     /// <summary>
-    /// Activates the web spotlight status.
-    /// </summary>
-    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
-    Task<WebSpotlightModel> ActivateWebSpotlightAsync();
-    
-    /// <summary>
     /// Deactivates the web spotlight.
     /// </summary>
     /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>

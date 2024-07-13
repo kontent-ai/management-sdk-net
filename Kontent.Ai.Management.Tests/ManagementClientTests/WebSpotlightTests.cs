@@ -20,8 +20,10 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
             .WithResponses("ActivationWebSpotlightResponse.json")
             .CreateManagementClient();
 
+        var webSpotlightActivateModel = new WebSpotlightActivateModel { RootType = null };
+
         var response = await client
-            .ActivateWebSpotlightAsync();
+            .ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
         _scenario
             .CreateExpectations()
