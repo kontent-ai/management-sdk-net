@@ -1,4 +1,5 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+﻿using Kontent.Ai.Management.Models.Publishing;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Newtonsoft.Json;
 using System;
@@ -36,8 +37,20 @@ public sealed class LanguageVariantModel
     public DateTime? LastModified { get; set; }
 
     /// <summary>
+    /// Gets or sets the publishing and unpublishing schedule of the language variant.
+    /// </summary>
+    [JsonProperty("schedule")]
+    public ScheduleResponseModel Schedule { get; set; }
+
+    /// <summary>
     /// Gets or sets workflow step identifier.
     /// </summary>
     [JsonProperty("workflow")]
     public WorkflowStepIdentifier Workflow { get; set; }
+
+    /// <summary>
+    /// Gets or sets due date.
+    /// </summary>
+    [JsonProperty("due_date")]
+    public DueDateModel DueDate { get; set; }
 }

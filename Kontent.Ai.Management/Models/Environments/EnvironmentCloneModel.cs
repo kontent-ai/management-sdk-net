@@ -20,4 +20,10 @@ public class EnvironmentCloneModel
     /// </summary>
     [JsonProperty("roles_to_activate")]
     public ICollection<Guid> RolesToActivate { get; set; }
+    
+    /// <sumary>
+    /// Gets or sets <see cref="Kontent.Ai.Management.Models.Environments.CopyDataOptions"/> for copying entities.
+    /// </sumary>
+    [JsonProperty("copy_data_options")]
+    public CopyDataOptions CopyDataOptions { get; set; }
 }
