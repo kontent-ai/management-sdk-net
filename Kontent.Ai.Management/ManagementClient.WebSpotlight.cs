@@ -18,14 +18,7 @@ public partial class ManagementClient
         var endpointUrl = _urlBuilder.BuildWebSpotlightUrl();
         return await _actionInvoker.InvokeMethodAsync<WebSpotlightActivateModel, WebSpotlightModel>(endpointUrl, HttpMethod.Put, webSpotlightActivateModel);
     }
-    
-    /// <inheritdoc />
-    public async Task<WebSpotlightModel> ActivateWebSpotlightAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildWebSpotlightUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<WebSpotlightModel>(endpointUrl, HttpMethod.Put);
-    }
-    
+
     /// <inheritdoc />
     public async Task<WebSpotlightModel> DeactivateWebSpotlightAsync()
     {
