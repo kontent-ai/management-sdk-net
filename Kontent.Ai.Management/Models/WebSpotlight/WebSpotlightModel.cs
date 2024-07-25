@@ -17,6 +17,6 @@ public class WebSpotlightModel
     /// <summary>
     /// Gets or sets the web spotlight's Root Type ID.
     /// </summary>
-    [JsonProperty("root_type_id")]
+    [JsonProperty("root_type")]
     public Guid? RootTypeId { get; set; }
 }
