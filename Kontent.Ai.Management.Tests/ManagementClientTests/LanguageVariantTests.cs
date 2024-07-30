@@ -84,6 +84,43 @@ public class LanguageVariantTests
     }
 
     [Fact]
+    public async Task ListLanguageVariantsByTypeAsync_StronglyTyped_ListsVariants()
+    {
+        var client = _scenario
+            .WithResponses("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json")
+            .CreateManagementClient();
+
+        var expected = new[]
+        {
+            (itemId: "00000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+            (itemId: "00000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
+            (itemId: "10000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+            (itemId: "10000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000"),
+            (itemId: "20000000-0000-0000-0000-000000000000", languageId: "00000000-0000-0000-0000-000000000000"),
+            (itemId: "20000000-0000-0000-0000-000000000000", languageId: "10000000-0000-0000-0000-000000000000")
+        }.Select(x => GetExpectedComplexTestModel(x.languageId, x.itemId));
+
+        var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
+        var response = await client.ListLanguageVariantsByTypeAsync<ComplexTestModel>(identifier).GetAllAsync();
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Get)
+            .Response(response, expected)
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}/variants")
+            .Validate();
+    }
+
+    [Fact]
+    public async Task ListLanguageVariantsByTypeAsync_StronglyTyped_IdentifierIsNull_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        await client.Invoking(x => x.ListLanguageVariantsByTypeAsync<ComplexTestModel>(null))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Fact]
     public async void ListLanguageVariantsByTypeAsync_DynamicallyTyped_ListsVariants()
     {
         var client = _scenario
@@ -119,7 +156,6 @@ public class LanguageVariantTests
         await client.Invoking(x => x.ListLanguageVariantsByTypeAsync(null))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
-
 
     [Fact]
     public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_DynamicallyTyped_ListsVariants()
@@ -496,18 +532,20 @@ public class LanguageVariantTests
         };
 
     private static List<LanguageVariantModel<ComplexTestModel>> GetExpectedComplexTestModels(params string[] languageIds)
-        => languageIds.Select(GetExpectedComplexTestModel).ToList();
+        => languageIds.Select(x => GetExpectedComplexTestModel(x)).ToList();
 
-    private static LanguageVariantModel<ComplexTestModel> GetExpectedComplexTestModel(string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024") => new()
-    {
-        Item = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")),
-        Language = Reference.ById(Guid.Parse(languageId)),
-        LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
-        Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
-        Schedule = GetExpectedScheduleResponseModel(),
-        DueDate = GetExpectedDueDateModel(),
-        Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
-    };
+    private static LanguageVariantModel<ComplexTestModel> GetExpectedComplexTestModel(
+        string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024",
+        string itemId = "4b628214-e4fe-4fe0-b1ff-955df33e1515") => new()
+        {
+            Item = Reference.ById(Guid.Parse(itemId)),
+            Language = Reference.ById(Guid.Parse(languageId)),
+            LastModified = DateTimeOffset.Parse("2021-11-06T13:57:26.7069564Z").UtcDateTime,
+            Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
+            Schedule = GetExpectedScheduleResponseModel(),
+            DueDate = GetExpectedDueDateModel(),
+            Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
+        };
 
     private static ScheduleResponseModel GetExpectedScheduleResponseModel() => new()
     {

@@ -45,6 +45,25 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
+    public async Task<IListingResponseModel<LanguageVariantModel<T>>> ListLanguageVariantsByTypeAsync<T>(Reference identifier) where T : new()
+    {
+        if (identifier == null)
+        {
+            throw new ArgumentNullException(nameof(identifier));
+        }
+
+        var endpointUrl = _urlBuilder.BuildListVariantsByTypeUrl(identifier);
+        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+
+        return new ListingResponseMappedModel<LanguageVariantModel, LanguageVariantModel<T>>(
+                (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                response.Pagination?.Token,
+                endpointUrl,
+                response.Variants,
+                _modelProvider.GetLanguageVariantModel<T>);
+    }
+
+    /// <inheritdoc />
     public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
     {
         if (identifier == null)
