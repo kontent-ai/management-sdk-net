@@ -71,6 +71,36 @@ public static class AssetExtensions
         }
         return null;
     }
+    
+    /// <summary>
+    /// Gets folder hierarchy for a given folder codename
+    /// </summary>
+    /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> property retrieved from the <see cref="IManagementClient.GetAssetFoldersAsync"/> method.</param>
+    /// <param name="codename">Folder codename</param>
+    /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given folder codename. Null if not found.</returns>
+    public static AssetFolderHierarchy GetFolderHierarchyByCodename(this IEnumerable<AssetFolderHierarchy> folders, string codename)
+    {
+        if (folders == null)
+        {
+            return null;
+        }
+
+        // Recursively search for the folder hierarchy that an asset is in. Returns null if file is not in a folder.
+        foreach (var folder in folders)
+        {
+            if (folder.Codename == codename)
+            {
+                return folder;
+            }
+
+            var nestedFolder = folder.Folders?.GetFolderHierarchyByCodename(codename);
+            if (nestedFolder != null) //This is required so you don't stop processing if the root contains many folders (let the above foreach loop continue)
+            {
+                return nestedFolder;
+            }
+        }
+        return null;
+    }
 
     /// <summary>
     /// Gets the full folder path string
@@ -147,6 +177,34 @@ public static class AssetExtensions
         }
         return null;
     }
+    
+    /// <summary>
+    /// Gets the folder hierarchy for a given folder identifier.
+    /// To use this method first convert your <see cref="AssetFoldersModel.Folders"/> property retrieved from <see cref="IManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.
+    /// </summary>
+    /// <param name="folders">The <see cref="IEnumerable{AssetFolderLinkingHierarchy}"/> instance.</param>
+    /// <param name="codename">Folder codename</param>
+    /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder identifier.</returns>
+    public static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyByCodename(this IEnumerable<AssetFolderLinkingHierarchy> folders, string codename)
+    {
+        if (folders != null)
+        {
+            foreach (var folder in folders)
+            {
+                if (folder.Codename == codename)
+                {
+                    return folder;
+                }
+
+                var nestedFolder = folder.Folders?.GetParentLinkedFolderHierarchyByCodename(codename);
+                if (nestedFolder != null) // This is required so you don't stop processing if the root contains many folders (let the above for-each loop continue)
+                {
+                    return nestedFolder;
+                }
+            }
+        }
+        return null;
+    }
 
     /// <summary>
     /// Retrieves a list of folders with the <see cref="AssetFolderLinkingHierarchy.Parent"/> property filled in.
@@ -166,6 +224,7 @@ public static class AssetExtensions
                 ExternalId = itm.ExternalId,
                 Folders = itm.Folders != null ? new List<AssetFolderLinkingHierarchy>() : null,
                 Id = itm.Id,
+                Codename = itm.Codename,
                 Name = itm.Name
             };
             if (itm.Folders != null)
