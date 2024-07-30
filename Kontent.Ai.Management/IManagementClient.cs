@@ -806,21 +806,21 @@ public interface IManagementClient
     Task<PreviewConfigurationModel> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration);
 
     /// <summary>
-    /// Activates the web spotlight status with possibility to provide existing Root Type ID.
+    /// Activates the web spotlight, allowing you to specify an existing Root Type ID.
     /// </summary>
     /// <param name="webSpotlightActivateModel">Represents configuration that will be used for web spotlight activation.</param>
-    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
+    /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
     Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel);
 
     /// <summary>
     /// Deactivates the web spotlight.
     /// </summary>
-    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
+    /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
     Task<WebSpotlightModel> DeactivateWebSpotlightAsync();
 
     /// <summary>
     /// Returns the web spotlight status.
     /// </summary>
-    /// <returns>The <see cref="WebSpotlightModel"/> instance that represents the web spotlight status.</returns>
+    /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
     Task<WebSpotlightModel> GetWebSpotlightStatusAsync();
 }
