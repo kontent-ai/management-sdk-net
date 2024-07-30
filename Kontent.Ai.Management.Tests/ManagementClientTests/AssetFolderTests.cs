@@ -55,6 +55,7 @@ public class AssetFolderTests
                 {
                     ExternalId = "external-id",
                     Name= "name",
+                    Codename = "codename",
                     Folders = Enumerable.Empty<AssetFolderHierarchy>()
                 }
             }
@@ -114,6 +115,7 @@ public class AssetFolderTests
                 {
                     ExternalId = "external-id",
                     Name= "name",
+                    Codename = "codename",
                     Folders = Enumerable.Empty<AssetFolderHierarchy>()
                 },
                 Before = Reference.ByCodename("codename"),

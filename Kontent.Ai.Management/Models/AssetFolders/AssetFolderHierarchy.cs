@@ -19,6 +19,12 @@ public sealed class AssetFolderHierarchy
     /// </summary>
     [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string ExternalId { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the codename of the folder.
+    /// </summary>
+    [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string Codename { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the folder
