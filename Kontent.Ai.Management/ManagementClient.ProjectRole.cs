@@ -18,10 +18,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<EnvironmentRoleModel> GetEnvironmentRoleAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildEnvironmentRoleUrl(identifier);
         return await _actionInvoker.InvokeReadOnlyMethodAsync<EnvironmentRoleModel>(endpointUrl, HttpMethod.Get);

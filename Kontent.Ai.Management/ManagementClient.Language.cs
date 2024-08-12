@@ -16,7 +16,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguagesListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<LanguageModel>(
-            (token, url) => GetNextListingPageAsync<LanguagesListingResponseServerModel, LanguageModel>(token, url),
+            GetNextListingPageAsync<LanguagesListingResponseServerModel, LanguageModel>,
             response.Pagination?.Token,
             endpointUrl,
             response.Languages);
@@ -25,10 +25,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageModel> GetLanguageAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageModel>(endpointUrl, HttpMethod.Get);
@@ -39,10 +36,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageModel> CreateLanguageAsync(LanguageCreateModel language)
     {
-        if (language == null)
-        {
-            throw new ArgumentNullException(nameof(language));
-        }
+        ArgumentNullException.ThrowIfNull(language);
 
         var endpointUrl = _urlBuilder.BuildLanguagesUrl();
         return await _actionInvoker.InvokeMethodAsync<LanguageCreateModel, LanguageModel>(endpointUrl, HttpMethod.Post, language);
@@ -51,10 +45,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageModel> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
         return await _actionInvoker.InvokeMethodAsync<IEnumerable<LanguagePatchModel>, LanguageModel>(endpointUrl, new HttpMethod("PATCH"), changes);

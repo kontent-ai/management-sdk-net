@@ -19,10 +19,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LegacyWebhookModel> GetLegacyWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildLegacyWebhooksUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LegacyWebhookModel>(endpointUrl, HttpMethod.Get);
@@ -33,10 +30,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LegacyWebhookModel> CreateLegacyWebhookAsync(LegacyWebhookCreateModel webhook)
     {
-        if (webhook == null)
-        {
-            throw new ArgumentNullException(nameof(webhook));
-        }
+        ArgumentNullException.ThrowIfNull(webhook);
 
         var endpointUrl = _urlBuilder.BuildLegacyWebhooksUrl();
         return await _actionInvoker.InvokeMethodAsync<LegacyWebhookCreateModel, LegacyWebhookModel>(endpointUrl, HttpMethod.Post, webhook);
@@ -45,10 +39,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteLegacyWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildLegacyWebhooksUrl(identifier);
 
@@ -58,10 +49,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task EnableLegacyWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildLegacyWebhooksEnableUrl(identifier);
 
@@ -71,10 +59,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DisableLegacyWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildLegacyWebhooksDisableUrl(identifier);
 

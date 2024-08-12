@@ -15,15 +15,9 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, WorkflowStepIdentifier workflowStepIdentifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (workflowStepIdentifier == null)
-        {
-            throw new ArgumentNullException(nameof(workflowStepIdentifier));
-        }
+        ArgumentNullException.ThrowIfNull(workflowStepIdentifier);
 
         var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);
 
@@ -33,10 +27,7 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
 
@@ -46,15 +37,9 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (scheduleModel == null)
-        {
-            throw new ArgumentNullException(nameof(scheduleModel));
-        }
+        ArgumentNullException.ThrowIfNull(scheduleModel);
 
         var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
 
@@ -64,10 +49,7 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildCancelPublishingVariantUrl(identifier);
 
@@ -77,10 +59,7 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
 
@@ -90,10 +69,7 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildCancelUnpublishingVariantUrl(identifier);
 
@@ -103,15 +79,9 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (scheduleModel == null)
-        {
-            throw new ArgumentNullException(nameof(scheduleModel));
-        }
+        ArgumentNullException.ThrowIfNull(scheduleModel);
 
         var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
 
@@ -121,10 +91,7 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildNewVersionVariantUrl(identifier);
 

@@ -19,10 +19,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<WebhookModel> GetWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
         return await _actionInvoker.InvokeReadOnlyMethodAsync<WebhookModel>(endpointUrl, HttpMethod.Get);
@@ -31,10 +28,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook)
     {
-        if (webhook == null)
-        {
-            throw new ArgumentNullException(nameof(webhook));
-        }
+        ArgumentNullException.ThrowIfNull(webhook);
 
         var endpointUrl = _urlBuilder.BuildWebhooksUrl();
         return await _actionInvoker.InvokeMethodAsync<WebhookCreateModel, WebhookModel>(endpointUrl, HttpMethod.Post, webhook);
@@ -43,10 +37,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
@@ -55,10 +46,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task EnableWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildWebhooksEnableUrl(identifier);
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
@@ -67,10 +55,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DisableWebhookAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildWebhooksDisableUrl(identifier);
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);

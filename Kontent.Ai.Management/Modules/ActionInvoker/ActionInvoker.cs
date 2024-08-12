@@ -81,10 +81,7 @@ internal class ActionInvoker : IActionInvoker
 
     public async Task<TResponse> UploadFileAsync<TResponse>(string endpointUrl, Stream stream, string contentType)
     {
-        if (stream == null)
-        {
-            throw new ArgumentNullException(nameof(stream));
-        }
+        ArgumentNullException.ThrowIfNull(stream);
 
         var content = new StreamContent(stream);
 

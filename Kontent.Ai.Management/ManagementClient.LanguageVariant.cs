@@ -15,10 +15,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
@@ -29,16 +26,13 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildListVariantsByTypeUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<LanguageVariantModel>(
-                (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Variants);
@@ -47,16 +41,13 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<LanguageVariantModel<T>>> ListLanguageVariantsByTypeAsync<T>(Reference identifier) where T : new()
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildListVariantsByTypeUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseMappedModel<LanguageVariantModel, LanguageVariantModel<T>>(
-                (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Variants,
@@ -66,16 +57,13 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildListVariantsByComponentUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<LanguageVariantModel>(
-                (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Variants);
@@ -84,16 +72,13 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildListVariantsByCollectionUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<LanguageVariantModel>(
-                (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Variants);
@@ -108,7 +93,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<LanguageVariantModel>(
-            (token, url) => GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(token, url),
+            GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
             response.Pagination?.Token,
             endpointUrl,
             response.Variants);
@@ -117,24 +102,18 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier) where T : new()
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
 
-        return response.Select(x => _modelProvider.GetLanguageVariantModel<T>(x)).ToList();
+        return response.Select(_modelProvider.GetLanguageVariantModel<T>).ToList();
     }
 
     /// <inheritdoc />
     public async Task<LanguageVariantModel> GetLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
@@ -145,10 +124,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
@@ -159,10 +135,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildPublishedVariantsUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
@@ -173,10 +146,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageVariantModel<T>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildPublishedVariantsUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
@@ -187,15 +157,9 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (languageVariantUpsertModel == null)
-        {
-            throw new ArgumentNullException(nameof(languageVariantUpsertModel));
-        }
+        ArgumentNullException.ThrowIfNull(languageVariantUpsertModel);
 
         var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
         var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, languageVariantUpsertModel);
@@ -206,15 +170,9 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (languageVariant == null)
-        {
-            throw new ArgumentNullException(nameof(languageVariant));
-        }
+        ArgumentNullException.ThrowIfNull(languageVariant);
 
         var languageVariantUpsertModel = new LanguageVariantUpsertModel(languageVariant);
 
@@ -224,10 +182,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements, WorkflowStepIdentifier workflow = null) where T : new()
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         if (variantElements == null)
         {
@@ -244,10 +199,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);

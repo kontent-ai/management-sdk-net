@@ -33,7 +33,7 @@ public class AssetTests : IClassFixture<FileSystemFixture>
             "00000000-0000-0000-0000-000000000000",
             "10000000-0000-0000-0000-000000000000",
             "20000000-0000-0000-0000-000000000000"
-        }.Select(x => GetExpectedDynamicAssetModel(assetId: x));
+        }.Select(GetExpectedDynamicAssetModel);
 
         var response = await client.ListAssetsAsync().GetAllAsync();
 
@@ -49,7 +49,7 @@ public class AssetTests : IClassFixture<FileSystemFixture>
             "00000000-0000-0000-0000-000000000000",
             "10000000-0000-0000-0000-000000000000",
             "20000000-0000-0000-0000-000000000000"
-        }.Select(x => GetExpectedStronglyTypedAssetModel(assetId: x));
+        }.Select(GetExpectedStronglyTypedAssetModel);
 
         var response = await client.ListAssetsAsync<ComplexTestModel>().GetAllAsync();
 

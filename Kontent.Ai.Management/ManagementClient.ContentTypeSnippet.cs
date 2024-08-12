@@ -18,7 +18,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<ContentTypeSnippetModel>(
-            (token, url) => GetNextListingPageAsync<SnippetListingResponseServerModel, ContentTypeSnippetModel>(token, url),
+            GetNextListingPageAsync<SnippetListingResponseServerModel, ContentTypeSnippetModel>,
             response.Pagination?.Token,
             endpointUrl,
             response.Snippets);
@@ -27,10 +27,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<ContentTypeSnippetModel> GetContentTypeSnippetAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeSnippetModel>(endpointUrl, HttpMethod.Get);
@@ -41,10 +38,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet)
     {
-        if (contentTypeSnippet == null)
-        {
-            throw new ArgumentNullException(nameof(contentTypeSnippet));
-        }
+        ArgumentNullException.ThrowIfNull(contentTypeSnippet);
 
         var endpointUrl = _urlBuilder.BuildSnippetsUrl();
         var response = await _actionInvoker.InvokeMethodAsync<ContentTypeSnippetCreateModel, ContentTypeSnippetModel>(endpointUrl, HttpMethod.Post, contentTypeSnippet);
@@ -55,10 +49,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteContentTypeSnippetAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
 
@@ -68,10 +59,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         if (changes == null || !changes.Any())
         {

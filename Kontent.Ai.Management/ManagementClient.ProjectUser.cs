@@ -11,10 +11,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<UserModel> InviteUserIntoEnvironmentAsync(UserInviteModel invitation)
     {
-        if (invitation == null)
-        {
-            throw new ArgumentNullException(nameof(invitation));
-        }
+        ArgumentNullException.ThrowIfNull(invitation);
 
         var endpointUrl = _urlBuilder.BuildUsersUrl();
         return await _actionInvoker.InvokeMethodAsync<UserInviteModel, UserModel>(endpointUrl, HttpMethod.Post, invitation);
@@ -23,15 +20,9 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (user == null)
-        {
-            throw new ArgumentNullException(nameof(user));
-        }
+        ArgumentNullException.ThrowIfNull(user);
 
         var endpointUrl = _urlBuilder.BuildModifyUsersRoleUrl(identifier);
         return await _actionInvoker.InvokeMethodAsync<UserModel, UserModel>(endpointUrl, HttpMethod.Put, user);

@@ -39,10 +39,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<AssetModel> GetAssetAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
@@ -61,15 +58,9 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (asset == null)
-        {
-            throw new ArgumentNullException(nameof(asset));
-        }
+        ArgumentNullException.ThrowIfNull(asset);
 
         var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
         var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
@@ -80,10 +71,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset) where T : new()
     {
-        if (asset == null)
-        {
-            throw new ArgumentNullException(nameof(asset));
-        }
+        ArgumentNullException.ThrowIfNull(asset);
 
         var result = await UpsertAssetAsync(identifier, _modelProvider.GetAssetUpsertModel(asset));
 
@@ -93,10 +81,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
     {
-        if (asset == null)
-        {
-            throw new ArgumentNullException(nameof(asset));
-        }
+        ArgumentNullException.ThrowIfNull(asset);
 
         var endpointUrl = _urlBuilder.BuildAssetsUrl();
         var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
@@ -107,10 +92,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new()
     {
-        if (asset == null)
-        {
-            throw new ArgumentNullException(nameof(asset));
-        }
+        ArgumentNullException.ThrowIfNull(asset);
 
         var result = await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset));
 
@@ -120,10 +102,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteAssetAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
@@ -132,10 +111,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
     {
-        if (fileContent == null)
-        {
-            throw new ArgumentNullException(nameof(fileContent));
-        }
+        ArgumentNullException.ThrowIfNull(fileContent);
 
         var stream = fileContent.OpenReadStream();
         try

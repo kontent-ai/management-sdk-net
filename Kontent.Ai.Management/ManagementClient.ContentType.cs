@@ -18,7 +18,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<ContentTypeModel>(
-            (token, url) => GetNextListingPageAsync<ContentTypeListingResponseServerModel, ContentTypeModel>(token, url),
+            GetNextListingPageAsync<ContentTypeListingResponseServerModel, ContentTypeModel>,
             response.Pagination?.Token,
             endpointUrl,
             response.Types);
@@ -27,10 +27,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeModel>(endpointUrl, HttpMethod.Get);
@@ -41,10 +38,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType)
     {
-        if (contentType == null)
-        {
-            throw new ArgumentNullException(nameof(contentType));
-        }
+        ArgumentNullException.ThrowIfNull(contentType);
 
         var endpointUrl = _urlBuilder.BuildTypeUrl();
         var response = await _actionInvoker.InvokeMethodAsync<ContentTypeCreateModel, ContentTypeModel>(endpointUrl, HttpMethod.Post, contentType);
@@ -55,10 +49,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteContentTypeAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
 
@@ -68,10 +59,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         if (changes == null || !changes.Any())
         {

@@ -21,10 +21,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
     {
-        if (folder == null)
-        {
-            throw new ArgumentNullException(nameof(folder));
-        }
+        ArgumentNullException.ThrowIfNull(folder);
 
         var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
         var response = await _actionInvoker.InvokeMethodAsync<AssetFolderCreateModel, AssetFoldersModel>(endpointUrl, HttpMethod.Post, folder);
@@ -35,10 +32,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
     {
-        if (changes == null)
-        {
-            throw new ArgumentNullException(nameof(changes));
-        }
+        ArgumentNullException.ThrowIfNull(changes);
 
         var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
         var response = await _actionInvoker.InvokeMethodAsync<IEnumerable<AssetFolderOperationBaseModel>, AssetFoldersModel>(endpointUrl, new HttpMethod("PATCH"), changes);

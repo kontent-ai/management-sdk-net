@@ -15,7 +15,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionProjectListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<SubscriptionProjectModel>(
-            (token, url) => GetNextListingPageAsync<SubscriptionProjectListingResponseServerModel, SubscriptionProjectModel>(token, url),
+            GetNextListingPageAsync<SubscriptionProjectListingResponseServerModel, SubscriptionProjectModel>,
             response.Pagination?.Token,
             endpointUrl,
             response.Projects);
@@ -28,7 +28,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionUserListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<SubscriptionUserModel>(
-            (token, url) => GetNextListingPageAsync<SubscriptionUserListingResponseServerModel, SubscriptionUserModel>(token, url),
+            GetNextListingPageAsync<SubscriptionUserListingResponseServerModel, SubscriptionUserModel>,
             response.Pagination?.Token,
             endpointUrl,
             response.Users);
@@ -37,10 +37,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<SubscriptionUserModel> GetSubscriptionUserAsync(UserIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildSubscriptionUserUrl(identifier);
 
@@ -50,10 +47,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task ActivateSubscriptionUserAsync(UserIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildSubscriptionUserActivateUrl(identifier);
 
@@ -63,10 +57,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeactivateSubscriptionUserAsync(UserIdentifier identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildSubscriptionUserDeactivateDisableUrl(identifier);
 
