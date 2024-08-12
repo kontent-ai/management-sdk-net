@@ -31,6 +31,7 @@ internal sealed class EndpointUrlBuilder
     private readonly ItemTemplate _itemTemplate;
     private readonly EnvironmentRolesTemplate _environmentRolesTemplate;
     private readonly UserTemplate _userTemplate;
+    private readonly WebSpotlightTemplate _webSpotlightTemplate;
 
     private readonly ManagementOptions _options;
 
@@ -52,6 +53,7 @@ internal sealed class EndpointUrlBuilder
         _itemTemplate = new ItemTemplate();
         _environmentRolesTemplate = new EnvironmentRolesTemplate();
         _userTemplate = new UserTemplate();
+        _webSpotlightTemplate = new WebSpotlightTemplate();
 
         _options = options;
     }
@@ -222,6 +224,8 @@ internal sealed class EndpointUrlBuilder
     public string BuildGetEnvironmentCloningStateUrl() => GetEnvironmentUrl("/environment-cloning-state");
 
     public string BuildMarkEnvironmentAsProductionUrl() => GetEnvironmentUrl("/mark-environment-as-production");
+
+    public string BuildWebSpotlightUrl() => GetEnvironmentUrl(_webSpotlightTemplate.Url);
 
     private string GetEnvironmentUrl(string path, params string[] parameters) => GetUrl(BuildEnvironmentUrl(), path, parameters);
 
