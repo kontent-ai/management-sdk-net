@@ -140,7 +140,7 @@ internal static class ElementsData
         dynamic element = new ExpandoObject();
         element.element = GetElement(elementId.Value.ToString("d"));
         element.value = value;
-        element.components = compoments.Select(x => GetRichTextComponentAsDynamic(x));
+        element.components = compoments.Select(GetRichTextComponentAsDynamic);
 
         return element;
     }

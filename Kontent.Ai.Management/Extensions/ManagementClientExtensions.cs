@@ -21,15 +21,9 @@ public static class ManagementClientExtensions
     /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
     public async static Task<ContentItemModel> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (contentItem == null)
-        {
-            throw new ArgumentNullException(nameof(contentItem));
-        }
+        ArgumentNullException.ThrowIfNull(contentItem);
 
         var contentItemUpdateModel = new ContentItemUpsertModel
         {
@@ -52,14 +46,8 @@ public static class ManagementClientExtensions
     /// <param name="assetCreateModel">Updated values for the asset.</param>
     public async static Task<AssetModel> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel)
     {
-        if (fileContent == null)
-        {
-            throw new ArgumentNullException(nameof(fileContent));
-        }
-        if (assetCreateModel == null)
-        {
-            throw new ArgumentNullException(nameof(assetCreateModel));
-        }
+        ArgumentNullException.ThrowIfNull(fileContent);
+        ArgumentNullException.ThrowIfNull(assetCreateModel);
 
         var fileResult = await client.UploadFileAsync(fileContent);
 
@@ -78,14 +66,8 @@ public static class ManagementClientExtensions
     /// <param name="assetCreateModel">Updated values for the strongly typed asset.</param>
     public async static Task<AssetModel<T>> CreateAssetAsync<T>(this IManagementClient client, FileContentSource fileContent, AssetCreateModel<T> assetCreateModel) where T : new()
     {
-        if (fileContent == null)
-        {
-            throw new ArgumentNullException(nameof(fileContent));
-        }
-        if (assetCreateModel == null)
-        {
-            throw new ArgumentNullException(nameof(assetCreateModel));
-        }
+        ArgumentNullException.ThrowIfNull(fileContent);
+        ArgumentNullException.ThrowIfNull(assetCreateModel);
 
         var fileResult = await client.UploadFileAsync(fileContent);
 
@@ -106,20 +88,11 @@ public static class ManagementClientExtensions
     /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
     public async static Task<AssetModel> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (fileContent == null)
-        {
-            throw new ArgumentNullException(nameof(fileContent));
-        }
+        ArgumentNullException.ThrowIfNull(fileContent);
 
-        if (upsertModel == null)
-        {
-            throw new ArgumentNullException(nameof(upsertModel));
-        }
+        ArgumentNullException.ThrowIfNull(upsertModel);
 
         var fileResult = await client.UploadFileAsync(fileContent);
 
@@ -140,20 +113,11 @@ public static class ManagementClientExtensions
     /// <returns>The <see cref="AssetModel{T}"/> instance that represents created or updated strongly typed asset.</returns>
     public async static Task<AssetModel<T>> UpsertAssetAsync<T>(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel<T> upsertModel) where T : new()
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (fileContent == null)
-        {
-            throw new ArgumentNullException(nameof(fileContent));
-        }
+        ArgumentNullException.ThrowIfNull(fileContent);
 
-        if (upsertModel == null)
-        {
-            throw new ArgumentNullException(nameof(upsertModel));
-        }
+        ArgumentNullException.ThrowIfNull(upsertModel);
 
         var fileResult = await client.UploadFileAsync(fileContent);
 

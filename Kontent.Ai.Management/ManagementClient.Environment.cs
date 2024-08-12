@@ -12,10 +12,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<EnvironmentClonedModel> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel)
     {
-        if (cloneEnvironmentModel == null)
-        {
-            throw new ArgumentNullException(nameof(cloneEnvironmentModel));
-        }
+        ArgumentNullException.ThrowIfNull(cloneEnvironmentModel);
 
         var endpointUrl = _urlBuilder.BuildCloneEnvironmentUrl();
         return await _actionInvoker.InvokeMethodAsync<EnvironmentCloneModel, EnvironmentClonedModel>(endpointUrl, HttpMethod.Post, cloneEnvironmentModel);
@@ -38,10 +35,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel)
     {
-        if (markAsProductionModel == null)
-        {
-            throw new ArgumentNullException(nameof(markAsProductionModel));
-        }
+        ArgumentNullException.ThrowIfNull(markAsProductionModel);
 
         var endpointUrl = _urlBuilder.BuildMarkEnvironmentAsProductionUrl();
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, markAsProductionModel);
@@ -50,10 +44,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes)
     {
-        if (changes == null)
-        {
-            throw new ArgumentNullException(nameof(changes));
-        }
+        ArgumentNullException.ThrowIfNull(changes);
 
         var endpointUrl = _urlBuilder.BuildEnvironmentUrl();
         return await _actionInvoker.InvokeMethodAsync<IEnumerable<EnvironmentOperationBaseModel>, EnvironmentModel>(endpointUrl, new HttpMethod("PATCH"), changes);

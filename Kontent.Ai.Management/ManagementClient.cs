@@ -29,10 +29,7 @@ public sealed partial class ManagementClient : IManagementClient
     /// <param name="ManagementOptions">The settings of the Kontent.ai environment.</param>
     public ManagementClient(ManagementOptions ManagementOptions)
     {
-        if (ManagementOptions == null)
-        {
-            throw new ArgumentNullException(nameof(ManagementOptions));
-        }
+        ArgumentNullException.ThrowIfNull(ManagementOptions);
 
         if (string.IsNullOrEmpty(ManagementOptions.EnvironmentId))
         {

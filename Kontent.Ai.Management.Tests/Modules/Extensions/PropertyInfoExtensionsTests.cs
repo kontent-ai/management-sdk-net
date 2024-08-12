@@ -40,7 +40,7 @@ public class PropertyInfoExtensionsTests
     {
         var property = typeof(PropertyInfoExtensionsTestsSampleClass).GetProperty("Property1");
 
-        Assert.Throws<InvalidOperationException>(() => property.GetKontentElementCodename());
+        Assert.Throws<InvalidOperationException>(property.GetKontentElementCodename);
     }
 
     [Fact]

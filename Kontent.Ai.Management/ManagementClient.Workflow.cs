@@ -22,10 +22,7 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task<WorkflowModel> CreateWorkflowAsync(WorkflowUpsertModel workflow)
     {
-        if (workflow == null)
-        {
-            throw new ArgumentNullException(nameof(workflow));
-        }
+        ArgumentNullException.ThrowIfNull(workflow);
 
         var endpointUrl = _urlBuilder.BuildWorkflowsUrl();
         return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Post, workflow);
@@ -34,15 +31,9 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task<WorkflowModel> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
-        if (workflow == null)
-        {
-            throw new ArgumentNullException(nameof(workflow));
-        }
+        ArgumentNullException.ThrowIfNull(workflow);
 
         var endpointUrl = _urlBuilder.BuildWorkflowsUrl(identifier);
         return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Put, workflow);
@@ -51,10 +42,7 @@ public sealed partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteWorkflowAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildWorkflowsUrl(identifier);
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);

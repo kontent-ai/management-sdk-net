@@ -21,7 +21,7 @@ internal class DynamicObjectJsonConverter : JsonConverter
         {
             if (property.Value is JArray array)
             {
-                resultAsDictionary.Add(property.Name, array.Select(arrayObject => ConvertJComplexObject(arrayObject)));
+                resultAsDictionary.Add(property.Name, array.Select(ConvertJComplexObject));
                 continue;
             }
 
@@ -48,7 +48,7 @@ internal class DynamicObjectJsonConverter : JsonConverter
     private static object ConvertJComplexObject(object input) => input switch
     {
         JObject obj => ConvertToDynamicObject(obj),
-        JArray array => array.Select(obj => ConvertJComplexObject(obj)),
+        JArray array => array.Select(ConvertJComplexObject),
         _ => throw new ArgumentOutOfRangeException(nameof(input), "JSON deserialization did not return either object nor array."),
     };
 

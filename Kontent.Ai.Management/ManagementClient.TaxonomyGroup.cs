@@ -16,7 +16,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<TaxonomyGroupModel>(
-            (token, url) => GetNextListingPageAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>(token, url),
+            GetNextListingPageAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>,
             response.Pagination?.Token,
             endpointUrl,
             response.Taxonomies);
@@ -25,10 +25,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupModel>(endpointUrl, HttpMethod.Get);
@@ -39,10 +36,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup)
     {
-        if (taxonomyGroup == null)
-        {
-            throw new ArgumentNullException(nameof(taxonomyGroup));
-        }
+        ArgumentNullException.ThrowIfNull(taxonomyGroup);
 
         var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
         return await _actionInvoker.InvokeMethodAsync<TaxonomyGroupCreateModel, TaxonomyGroupModel>(endpointUrl, HttpMethod.Post, taxonomyGroup);
@@ -51,10 +45,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
         return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, new HttpMethod("PATCH"), changes);
@@ -63,10 +54,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task DeleteTaxonomyGroupAsync(Reference identifier)
     {
-        if (identifier == null)
-        {
-            throw new ArgumentNullException(nameof(identifier));
-        }
+        ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
 

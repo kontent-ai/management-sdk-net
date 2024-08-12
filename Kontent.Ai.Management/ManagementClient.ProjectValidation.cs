@@ -38,7 +38,7 @@ public partial class ManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AsyncValidationTaskIssuesResponseServerModel>(endpointUrl, HttpMethod.Get);
 
         return new ListingResponseModel<AsyncValidationTaskIssueModel>(
-                (token, url) => GetNextListingPageAsync<AsyncValidationTaskIssuesResponseServerModel, AsyncValidationTaskIssueModel>(token, url),
+                GetNextListingPageAsync<AsyncValidationTaskIssuesResponseServerModel, AsyncValidationTaskIssueModel>,
                 response.Pagination?.Token,
                 endpointUrl,
                 response.Issues);
