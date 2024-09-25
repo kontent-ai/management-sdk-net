@@ -45,6 +45,18 @@ public sealed partial class ManagementClient
 
         await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
     }
+    
+    /// <inheritdoc />
+    public async Task SchedulePublishAndUnpublishOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule) 
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+        
+        ArgumentNullException.ThrowIfNull(schedule);
+
+        var endpointUrl = _urlBuilder.BuildSchedulePublishAndUnpublishVariantUrl(identifier);
+
+        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, schedule);
+    }
 
     /// <inheritdoc />
     public async Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)

@@ -606,6 +606,13 @@ public interface IManagementClient
     Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
 
     /// <summary>
+    /// Schedules publish and unpublish of language variant.
+    /// </summary>
+    /// <param name="identifier">The identifier of the language variant that should be scheduled.</param>
+    /// <param name="schedule">The interval in which the variant should be published</param>
+    Task SchedulePublishAndUnpublishOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule);
+
+    /// <summary>
     /// Unpublishes the language variant.
     /// </summary>
     /// <param name="identifier">Identifier of the language variant to be unpublished.</param>

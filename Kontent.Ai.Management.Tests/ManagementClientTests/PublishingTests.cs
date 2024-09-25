@@ -131,6 +131,46 @@ public class PublishingTests
         await client.Invoking(x => x.SchedulePublishingOfLanguageVariantAsync(null, schedule)).Should().ThrowAsync<ArgumentNullException>();
     }
 
+    [Theory]
+    [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
+    public async void SchedulePublishAndUnpublishOfLanguageVariantAsync_SchedulesVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    {
+        var client = _scenario.CreateManagementClient();
+
+        var schedule = new SchedulePublishAndUnpublishModel()
+        {
+            PublishDisplayTimeZone = "prague",
+            PublishScheduledTo = DateTimeOffset.UtcNow,
+            UnpublishDisplayTimeZone = "prague",
+            UnpublishScheduledTo = DateTimeOffset.UtcNow.AddDays(10)
+        };
+
+        await client.SchedulePublishAndUnpublishOfLanguageVariantAsync(variantIdentifier, schedule);
+
+        _scenario
+            .CreateExpectations()
+            .HttpMethod(HttpMethod.Put)
+            .RequestPayload(schedule)
+            .Url($"{expectedUrl}/schedule-publish-and-unpublish")
+            .Validate();
+    }
+
+    [Fact]
+    public async void SchedulePublishAndUnpublishOfLanguageVariantAsync_NoIdentifier_Throws()
+    {
+        var client = _scenario.CreateManagementClient();
+
+        var schedule = new SchedulePublishAndUnpublishModel()
+        {
+            PublishDisplayTimeZone = "prague",
+            PublishScheduledTo = DateTimeOffset.UtcNow,
+            UnpublishDisplayTimeZone = "prague",
+            UnpublishScheduledTo = DateTimeOffset.UtcNow.AddDays(10)
+        };
+
+        await client.Invoking(x => x.SchedulePublishAndUnpublishOfLanguageVariantAsync(null, schedule)).Should().ThrowAsync<ArgumentNullException>();
+    }
+    
     [Fact]
     public async void SchedulePublishingOfLanguageVariantAsync_ScheduleModelIsNull_Throws()
     {
