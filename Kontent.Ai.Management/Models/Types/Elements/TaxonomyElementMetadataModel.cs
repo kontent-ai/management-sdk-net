@@ -10,6 +10,11 @@ namespace Kontent.Ai.Management.Models.Types.Elements;
 public class TaxonomyElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
+    /// Gets or sets the element's display name.
+    /// </summary>
+    [JsonProperty("name")]
+    public string Name { get; set; }
+    /// <summary>
     /// Gets or sets a flag determining whether the element must be filled in.
     /// </summary>
     [JsonProperty("is_required")]
