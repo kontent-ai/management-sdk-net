@@ -1,4 +1,4 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.Shared;
 using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Items;
@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Models.Items;
 /// <summary>
 /// Represents the content item create model.
 /// </summary>
-public sealed class ContentItemCreateModel
+public class ContentItemCreateModel
 {
     /// <summary>
     /// Gets or sets the name of the content item.

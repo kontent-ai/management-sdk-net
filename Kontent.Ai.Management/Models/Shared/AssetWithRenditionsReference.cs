@@ -1,8 +1,8 @@
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kontent.Ai.Management.Modules.ActionInvoker;
+using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Shared;
 
@@ -10,7 +10,7 @@ namespace Kontent.Ai.Management.Models.Shared;
 /// Represents identifier of asset with renditions.
 /// </summary>
 [JsonConverter(typeof(AssetWithRenditionsReferenceConverter))]
-public sealed class AssetWithRenditionsReference
+public class AssetWithRenditionsReference
 {
     private readonly IList<Reference> _renditions;
 

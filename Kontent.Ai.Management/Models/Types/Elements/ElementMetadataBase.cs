@@ -1,7 +1,7 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using System;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Modules.ActionInvoker;
 using Newtonsoft.Json;
-using System;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
@@ -27,7 +27,7 @@ public abstract class ElementMetadataBase
     /// Gets or sets the element's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
 
     /// <summary>
     /// Gets or sets the element's codename.
