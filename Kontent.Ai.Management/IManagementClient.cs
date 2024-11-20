@@ -4,6 +4,8 @@ using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
+using Kontent.Ai.Management.Models.CustomApps;
+using Kontent.Ai.Management.Models.CustomApps.Patch;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
@@ -834,4 +836,34 @@ public interface IManagementClient
     /// </summary>
     /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
     Task<WebSpotlightModel> GetWebSpotlightStatusAsync();
+
+    /// <summary>
+    /// Returns list of custom apps.
+    /// </summary>
+    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
+    Task<IListingResponseModel<CustomAppModel>> ListCustomAppsAsync();
+
+    /// <summary>
+    /// Returns list of custom apps.
+    /// </summary>
+    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
+    Task<CustomAppModel> GetCustomAppAsync(Reference identifier);
+
+    /// <summary>
+    /// Returns list of custom apps.
+    /// </summary>
+    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
+    Task<CustomAppModel> CreateCustomAppAsync(CustomAppCreateModel customApp);
+
+    /// <summary>
+    /// Returns list of custom apps.
+    /// </summary>
+    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
+    Task DeleteCustomAppAsync(Reference identifier);
+    
+    /// <summary>
+    /// Returns list of custom apps.
+    /// </summary>
+    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
+    Task<CustomAppModel> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes);
 }

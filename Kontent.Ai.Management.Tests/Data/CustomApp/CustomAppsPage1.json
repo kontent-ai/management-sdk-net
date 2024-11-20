@@ -1,0 +1,53 @@
+{
+  "custom_apps": [
+    {
+      "id": "907623af-edeb-4096-8bb1-b24e1c476888",
+      "name": "Custom App",
+      "codename": "custom-app",
+      "source_url": "https://customapplication.net",
+      "config": "{ \"enabled\": \"True\" }",
+      "allowed_roles": [
+        {
+          "id": "051e7717-0b51-4bfa-a180-542718ae6829"
+        },
+        {
+          "id": "3c6cec4f-6f01-4eed-b5f4-7b2e7c8367e8"
+        }
+      ]
+    },
+    {
+      "id": "3c52d8e9-b21a-4fd2-98c5-dc76b238617a",
+      "name": "Advanced App",
+      "codename": "advanced-app",
+      "source_url": "https://advancedapplication.com",
+      "config": "{ \"enabled\": \"True\", \"version\": \"1.2\" }",
+      "allowed_roles": [
+        {
+          "id": "17f8d60e-c437-4fcd-b4f3-f99508ff5de3"
+        },
+        {
+          "id": "5d3a36c0-b3e6-470d-9a1f-8714303a2850"
+        }
+      ]
+    },
+    {
+      "id": "f7a8c6c2-b914-44f7-bb74-9b5d6d4b7b9f",
+      "name": "Pro App",
+      "codename": "pro-app",
+      "source_url": "https://proapplication.org",
+      "config": "{ \"enabled\": \"True\", \"max_users\": \"50\" }",
+      "allowed_roles": [
+        {
+          "id": "29b9b01e-95d9-4ca5-a0d1-d764ee65d019"
+        },
+        {
+          "id": "9b9f4b7c-1b5d-4007-a8b3-d0cba7e88f98"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}
