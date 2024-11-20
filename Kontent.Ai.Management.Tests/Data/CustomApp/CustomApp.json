@@ -1,0 +1,15 @@
+﻿{
+  "id": "907623af-edeb-4096-8bb1-b24e1c476888",
+  "name": "Custom App",
+  "codename": "custom-app",
+  "source_url": "https://customapplication.net",
+  "config": "{ \"enabled\": \"True\" }",
+  "allowed_roles": [
+    {
+      "id": "051e7717-0b51-4bfa-a180-542718ae6829"
+    },
+    {
+      "id": "3c6cec4f-6f01-4eed-b5f4-7b2e7c8367e8"
+    }
+  ]
+}

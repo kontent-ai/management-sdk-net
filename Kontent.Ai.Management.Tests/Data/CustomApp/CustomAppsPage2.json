@@ -1,0 +1,53 @@
+{
+  "custom_apps": [
+    {
+      "id": "d392aec1-9f74-44a0-97a4-d0f19db20a8b",
+      "name": "Beta App",
+      "codename": "beta-app",
+      "source_url": "https://betaapplication.io",
+      "config": "{ \"enabled\": \"False\", \"feature_flag\": \"beta_test\" }",
+      "allowed_roles": [
+        {
+          "id": "3e3c6d7b-fb6f-42ab-bf50-e2f84c88b093"
+        },
+        {
+          "id": "2347aabb-7403-4f1a-8a92-8a0e9e426ff9"
+        }
+      ]
+    },
+    {
+      "id": "eb5429c5-d9e3-4628-8e59-7285863c6330",
+      "name": "Custom App 2.0",
+      "codename": "custom-app-v2",
+      "source_url": "https://customapp2.0.com",
+      "config": "{ \"enabled\": \"True\", \"update_check\": \"True\" }",
+      "allowed_roles": [
+        {
+          "id": "5d6c0f93-e6d3-488b-b73a-f0b52d56f927"
+        },
+        {
+          "id": "f870be79-3b45-4f67-ae2a-2db7ca55dbe4"
+        }
+      ]
+    },
+    {
+      "id": "d8756d4b-fd4f-462d-b18b-df7b2e7f8a99",
+      "name": "Mobile App",
+      "codename": "mobile-app",
+      "source_url": "https://mobileapplication.mobi",
+      "config": "{ \"enabled\": \"True\", \"platform\": \"mobile\" }",
+      "allowed_roles": [
+        {
+          "id": "0f601fa5-4538-4f87-b973-c876db9a1498"
+        },
+        {
+          "id": "affd2f57-0a5a-4c89-8c93-78bb24a1b29f"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "continuation_token": "+RID:~...",
+    "next_page": "https://manage.kontent.ai/v2/projects/<project_id>/<resource>?continuationToken=%2bRID%3a~..."
+  }
+}

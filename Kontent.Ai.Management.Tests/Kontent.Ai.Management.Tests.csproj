@@ -72,6 +72,18 @@
 		<None Update="Data\WebSpotlight\GetStatusWebSpotlightResponse.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Data\CustomApp\CustomAppsPage2.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Data\CustomApp\CustomAppsPage3.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Data\CustomApp\ModifyCustomApp_Remove_ModifiesCustomApp.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Data\CustomApp\ModifyCustomApp_AddInto_ModifiesCustomApp.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
