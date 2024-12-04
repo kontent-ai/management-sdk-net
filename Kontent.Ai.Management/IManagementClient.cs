@@ -840,29 +840,28 @@ public interface IManagementClient
     /// <summary>
     /// Returns list of custom apps.
     /// </summary>
-    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
+    /// <returns>The <see cref="IListingResponseModel{CustomAppModel}"/> instance that represents the listing of custom apps.</returns>
     Task<IListingResponseModel<CustomAppModel>> ListCustomAppsAsync();
 
     /// <summary>
-    /// Returns list of custom apps.
+    /// Returns the custom app.
     /// </summary>
     /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
     Task<CustomAppModel> GetCustomAppAsync(Reference identifier);
 
     /// <summary>
-    /// Returns list of custom apps.
+    /// Creates the custom apps.
     /// </summary>
     /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
     Task<CustomAppModel> CreateCustomAppAsync(CustomAppCreateModel customApp);
 
     /// <summary>
-    /// Returns list of custom apps.
+    /// Deletes the custom apps.
     /// </summary>
-    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
     Task DeleteCustomAppAsync(Reference identifier);
     
     /// <summary>
-    /// Returns list of custom apps.
+    /// Modifies the custom apps.
     /// </summary>
     /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
     Task<CustomAppModel> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes);
