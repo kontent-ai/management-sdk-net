@@ -48,7 +48,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
 
         var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, HttpMethod.Patch, changes);
     }
 
     /// <inheritdoc />
