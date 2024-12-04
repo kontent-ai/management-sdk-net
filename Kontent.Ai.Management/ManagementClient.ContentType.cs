@@ -67,6 +67,6 @@ public partial class ManagementClient
         }
 
         var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, HttpMethod.Patch, changes);
     }
 }

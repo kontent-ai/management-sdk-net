@@ -47,6 +47,6 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(changes);
 
         var endpointUrl = _urlBuilder.BuildEnvironmentUrl();
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<EnvironmentOperationBaseModel>, EnvironmentModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        return await _actionInvoker.InvokeMethodAsync<IEnumerable<EnvironmentOperationBaseModel>, EnvironmentModel>(endpointUrl, HttpMethod.Patch, changes);
     }
 }

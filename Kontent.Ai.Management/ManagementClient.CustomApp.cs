@@ -57,6 +57,6 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(changes);
 
         var endpointUrl = _urlBuilder.BuildCustomAppUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<CustomAppOperationBaseModel>, CustomAppModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        return await _actionInvoker.InvokeMethodAsync<IEnumerable<CustomAppOperationBaseModel>, CustomAppModel>(endpointUrl, HttpMethod.Patch, changes);
     }
 }

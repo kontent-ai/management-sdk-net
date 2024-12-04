@@ -22,6 +22,6 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(changes);
 
         var endpointUrl = _urlBuilder.BuildCollectionsUrl();
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<CollectionOperationBaseModel>, CollectionsModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        return await _actionInvoker.InvokeMethodAsync<IEnumerable<CollectionOperationBaseModel>, CollectionsModel>(endpointUrl, HttpMethod.Patch, changes);
     }
 }

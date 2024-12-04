@@ -35,7 +35,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(changes);
 
         var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<IEnumerable<AssetFolderOperationBaseModel>, AssetFoldersModel>(endpointUrl, new HttpMethod("PATCH"), changes);
+        var response = await _actionInvoker.InvokeMethodAsync<IEnumerable<AssetFolderOperationBaseModel>, AssetFoldersModel>(endpointUrl, HttpMethod.Patch, changes);
 
         return response;
     }
