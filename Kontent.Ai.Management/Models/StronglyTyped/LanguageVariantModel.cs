@@ -4,6 +4,7 @@ using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.StronglyTyped;
 
@@ -53,4 +54,16 @@ public sealed class LanguageVariantModel<T> where T : new()
     /// </summary>
     [JsonProperty("due_date")]
     public DueDateModel DueDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets a note.
+    /// </summary>
+    [JsonProperty("note")]
+    public string Note { get; set; }
+
+    /// <summary>
+    /// Gets or sets the contributors.
+    /// </summary>
+    [JsonProperty("contributors")]
+    public IEnumerable<UserIdentifier> Contributors { get; set; }
 }

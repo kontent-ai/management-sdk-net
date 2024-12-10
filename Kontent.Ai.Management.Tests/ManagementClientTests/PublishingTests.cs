@@ -2,7 +2,6 @@
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Collections;
@@ -28,18 +27,18 @@ public class PublishingTests
     {
         var client = _scenario.CreateManagementClient();
 
-        var workflowIdentifier = new WorkflowStepIdentifier
+        var model = new ChangeLanguageVariantWorkflowModel
             (
                 workflowIdentifier: Reference.ById(Guid.NewGuid()),
                 stepIdentifier: Reference.ById(Guid.NewGuid())
             );
 
-        await client.ChangeLanguageVariantWorkflowAsync(variantIdentifier, workflowIdentifier);
+        await client.ChangeLanguageVariantWorkflowAsync(variantIdentifier, model);
 
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
-            .RequestPayload(workflowIdentifier)
+            .RequestPayload(model)
             .Url($"{expectedUrl}/change-workflow")
             .Validate();
     }
@@ -49,13 +48,13 @@ public class PublishingTests
     {
         var client = _scenario.CreateManagementClient();
 
-        var workflowIdentifier = new WorkflowStepIdentifier
+        var model = new ChangeLanguageVariantWorkflowModel
             (
                 workflowIdentifier: Reference.ById(Guid.NewGuid()),
                 stepIdentifier: Reference.ById(Guid.NewGuid())
             );
 
-        await client.Invoking(x => x.ChangeLanguageVariantWorkflowAsync(null, workflowIdentifier)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ChangeLanguageVariantWorkflowAsync(null, model)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]

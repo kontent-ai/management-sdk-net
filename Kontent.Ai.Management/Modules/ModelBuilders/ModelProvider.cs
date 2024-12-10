@@ -23,6 +23,8 @@ internal class ModelProvider : IModelProvider
             Schedule = variant.Schedule,
             Workflow = variant.Workflow,
             DueDate = variant.DueDate,
+            Note = variant.Note,
+            Contributors = variant.Contributors,
             Elements = _elementModelProvider.GetStronglyTypedElements<T>(variant.Elements),
         };
 

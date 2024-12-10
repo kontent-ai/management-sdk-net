@@ -528,6 +528,8 @@ public class LanguageVariantTests
             Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
             Schedule = GetExpectedScheduleResponseModel(),
             DueDate = GetExpectedDueDateModel(),
+            Contributors = GetExpectedContributors(),
+            Note = "Just a note",
             Elements = ElementsData.GetExpectedDynamicElements(),
         };
 
@@ -544,6 +546,8 @@ public class LanguageVariantTests
             Workflow = new WorkflowStepIdentifier(Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000")), Reference.ById(Guid.Parse("eee6db3b-545a-4785-8e86-e3772c8756f9"))),
             Schedule = GetExpectedScheduleResponseModel(),
             DueDate = GetExpectedDueDateModel(),
+            Contributors = GetExpectedContributors(),
+            Note = "Just a note",
             Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
         };
 
@@ -557,6 +561,9 @@ public class LanguageVariantTests
 
     private static DueDateModel GetExpectedDueDateModel() =>
         new() { Value = DateTimeOffset.Parse("2092-01-07T06:04:00.7069564Z").UtcDateTime };
+
+    private static List<UserIdentifier> GetExpectedContributors() =>
+        new List<UserIdentifier>() { UserIdentifier.ById("4b628214-e4fe-4fe0-b1ff-955df33e1515") };
 
     private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
     {
