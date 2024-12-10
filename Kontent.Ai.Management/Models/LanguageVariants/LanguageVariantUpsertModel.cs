@@ -1,4 +1,5 @@
-﻿using Kontent.Ai.Management.Models.Workflow;
+﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.Workflow;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -26,6 +27,18 @@ public sealed class LanguageVariantUpsertModel
     public DueDateModel DueDate { get; set; }
 
     /// <summary>
+    /// Gets or sets a note.
+    /// </summary>
+    [JsonProperty("note")]
+    public string Note { get; set; }
+
+    /// <summary>
+    /// Gets or sets the contributors.
+    /// </summary>
+    [JsonProperty("contributors")]
+    public IEnumerable<UserIdentifier> Contributors { get; set; }
+
+    /// <summary>
     /// Creates an instance of the language variant upsert model.
     /// </summary>
     public LanguageVariantUpsertModel()
@@ -37,5 +50,7 @@ public sealed class LanguageVariantUpsertModel
         Elements = languageVariant.Elements;
         Workflow = languageVariant.Workflow;
         DueDate = languageVariant.DueDate;
+        Note = languageVariant.Note;
+        Contributors = languageVariant.Contributors;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
-using Kontent.Ai.Management.Models.Workflow;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,15 +12,15 @@ namespace Kontent.Ai.Management;
 public sealed partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, WorkflowStepIdentifier workflowStepIdentifier)
+    public async Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        ArgumentNullException.ThrowIfNull(workflowStepIdentifier);
+        ArgumentNullException.ThrowIfNull(changeModel);
 
         var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);
 
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, workflowStepIdentifier);
+        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, changeModel);
     }
 
     /// <inheritdoc />

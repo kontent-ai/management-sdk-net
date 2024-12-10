@@ -1,4 +1,6 @@
-﻿namespace Kontent.Ai.Management.Models.Shared;
+﻿using Newtonsoft.Json;
+
+namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
 /// Represents identifier of users.
@@ -10,11 +12,13 @@ public sealed class UserIdentifier
     /// <summary>
     /// Gets the id of the identifier.
     /// </summary>
+    [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string Id { get; private set; }
 
     /// <summary>
     /// Gets the email of the identifier.
     /// </summary>
+    [JsonProperty("email", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string Email { get; private set; }
 
     /// <summary>
