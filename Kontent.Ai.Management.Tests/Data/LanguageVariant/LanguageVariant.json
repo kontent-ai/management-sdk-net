@@ -176,6 +176,12 @@
   "due_date": {
     "value": "2092-01-07T06:04:00.7069564Z"
   },
+  "contributors": [
+    {
+      "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+    }
+  ],
+  "note": "Just a note",
   "item": {
     "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
   },

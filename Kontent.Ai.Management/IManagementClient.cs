@@ -166,8 +166,8 @@ public interface IManagementClient
     /// Changes workflow.
     /// </summary>
     /// <param name="identifier">Identifier of the language variant to be changed.</param>
-    /// <param name="workflowStepIdentifier">Workflow step identifier to set.</param>
-    Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, WorkflowStepIdentifier workflowStepIdentifier);
+    /// <param name="changeModel">Change language variant workflow model.</param>
+    Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel);
 
     /// <summary>
     /// Creates the asset folder.

@@ -53,4 +53,16 @@ public sealed class LanguageVariantModel
     /// </summary>
     [JsonProperty("due_date")]
     public DueDateModel DueDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets a note.
+    /// </summary>
+    [JsonProperty("note")]
+    public string Note { get; set; }
+
+    /// <summary>
+    /// Gets or sets the contributors.
+    /// </summary>
+    [JsonProperty("contributors")]
+    public IEnumerable<UserIdentifier> Contributors { get; set; }
 }

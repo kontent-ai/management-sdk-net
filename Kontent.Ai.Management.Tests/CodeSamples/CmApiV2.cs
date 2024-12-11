@@ -2025,7 +2025,15 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         var exception = await Record.ExceptionAsync(async () =>
                 await client.ChangeLanguageVariantWorkflowAsync(
                     new LanguageVariantIdentifier(itemIdentifier, languageIdentifier),
-                    new WorkflowStepIdentifier(Reference.ById(Guid.Empty), workflowStepIdentifier)
+                    new ChangeLanguageVariantWorkflowModel(Reference.ById(Guid.Empty), workflowStepIdentifier)
+                        {
+                            DueDate = new DueDateModel
+                            {
+                                Value = DateTime.UtcNow.AddDays(42)
+                            },
+                            Contributors = new List<UserIdentifier> { UserIdentifier.ByEmail("user@kontent.ai") },
+                            Note = "Moving this to the next workflow step."
+                    }
                     ));
         Assert.Null(exception);
     }
