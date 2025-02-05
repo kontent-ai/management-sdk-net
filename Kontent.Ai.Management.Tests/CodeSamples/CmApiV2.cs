@@ -162,16 +162,16 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         await client.DeleteLanguageVariantAsync(identifier);
     }
-    
+
     // DocSection: cm_api_v2_delete_legacy_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
     public async void DeleteLegacyWebhook()
     {
         var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
-        
+
         var identifier = Reference.ById(Guid.Parse("d53360f7-79e1-42f4-a524-1b53a417d03e"));
-        
+
         await client.DeleteLegacyWebhookAsync(identifier);
     }
 
@@ -553,7 +553,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         Assert.Single(response);
     }
-    
+
     // DocSection: cm_api_v2_get_legacy_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -567,7 +567,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         Assert.NotNull(response);
     }
-    
+
     // DocSection: cm_api_v2_get_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -593,7 +593,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         Assert.Single(response);
     }
-    
+
     // DocSection: cm_api_v2_get_webhooks
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -1442,7 +1442,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         Assert.NotNull(response);
     }
-    
+
     // DocSection: cm_api_v2_post_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -1455,7 +1455,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             Name = "Example webhook",
             Url = "https://example.com/webhook",
             Secret = "secret_key",
-            Headers = new []
+            Headers = new[]
             {
                 new CustomHeaderModel
                 {
@@ -1473,14 +1473,15 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 ContentType = new ContentTypeTriggerModel
                 {
                     Enabled = true,
-                    Actions = new []
+                    Actions = new[]
                     {
                        new ContentTypeActionModel { Action = ContentTypeAction.Created },
                        new ContentTypeActionModel { Action = ContentTypeAction.Changed },
                        new ContentTypeActionModel { Action = ContentTypeAction.Deleted }
                     },
-                    Filters = new ContentTypeFiltersModel {
-                        ContentTypes = new [] {
+                    Filters = new ContentTypeFiltersModel
+                    {
+                        ContentTypes = new[] {
                             Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))
                         }
                     }
@@ -1488,7 +1489,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 ContentItem = new ContentItemTriggerModel
                 {
                     Enabled = true,
-                    Actions = new []
+                    Actions = new[]
                     {
                         new ContentItemActionModel
                         {
@@ -1504,7 +1505,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     },
                     Filters = new ContentItemFiltersModel
                     {
-                        Languages = new []
+                        Languages = new[]
                         {
                             Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))
                         }
@@ -1513,7 +1514,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 Taxonomy = new TaxonomyTriggerModel
                 {
                     Enabled = true,
-                    Actions = new []
+                    Actions = new[]
                     {
                         new TaxonomyActionModel { Action = TaxonomyAction.TermChanged },
                         new TaxonomyActionModel { Action = TaxonomyAction.MetadataChanged }
@@ -1528,7 +1529,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 Asset = new AssetTriggerModel
                 {
                     Enabled = true,
-                    Actions = new []
+                    Actions = new[]
                     {
                         new AssetActionModel { Action = AssetAction.Created },
                         new AssetActionModel { Action = AssetAction.Changed }
@@ -1537,7 +1538,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 Language = new LanguageTriggerModel
                 {
                     Enabled = true,
-                    Actions = new []
+                    Actions = new[]
                     {
                         new LanguageActionModel { Action = LanguageAction.Created }
                     },
@@ -1666,7 +1667,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             {
                 Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")
             },
-            CopyDataOptions = new CopyDataOptions {
+            CopyDataOptions = new CopyDataOptions
+            {
                 ContentItemsAssets = true,
                 ContentItemVersionHistory = false
             }
@@ -2026,13 +2028,13 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 await client.ChangeLanguageVariantWorkflowAsync(
                     new LanguageVariantIdentifier(itemIdentifier, languageIdentifier),
                     new ChangeLanguageVariantWorkflowModel(Reference.ById(Guid.Empty), workflowStepIdentifier)
+                    {
+                        DueDate = new DueDateModel
                         {
-                            DueDate = new DueDateModel
-                            {
-                                Value = DateTime.UtcNow.AddDays(42)
-                            },
-                            Contributors = new List<UserIdentifier> { UserIdentifier.ByEmail("user@kontent.ai") },
-                            Note = "Moving this to the next workflow step."
+                            Value = DateTime.UtcNow.AddDays(42)
+                        },
+                        Contributors = new List<UserIdentifier> { UserIdentifier.ByEmail("user@kontent.ai") },
+                        Note = "Moving this to the next workflow step."
                     }
                     ));
         Assert.Null(exception);
@@ -2049,7 +2051,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             await client.DisableLegacyWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
         Assert.Null(exception);
     }
-    
+
     // DocSection: mapi_v2_disable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -2073,7 +2075,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             await client.EnableLegacyWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
         Assert.Null(exception);
     }
-    
+
     // DocSection: mapi_v2_enable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
