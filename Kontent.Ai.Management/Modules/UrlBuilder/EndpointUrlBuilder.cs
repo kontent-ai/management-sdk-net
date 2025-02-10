@@ -137,6 +137,12 @@ internal sealed class EndpointUrlBuilder
                 _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
                 "/publish"));
 
+    public string BuildSchedulePublishAndUnpublishVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
+        string.Concat(
+            _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
+            _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
+            "/schedule-publish-and-unpublish"));
+    
     public string BuildCancelPublishingVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
