@@ -1,6 +1,3 @@
-﻿using Kontent.Ai.Management.Modules.HttpClient;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +5,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Kontent.Ai.Management.Modules.HttpClient;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Kontent.Ai.Management.Modules.ActionInvoker;
 
@@ -19,12 +19,12 @@ internal class ActionInvoker : IActionInvoker
     private readonly JsonSerializerSettings _serializeSettings = new()
     {
         NullValueHandling = NullValueHandling.Ignore,
-        Converters = new List<JsonConverter> { new DecimalObjectConverter(), new StringEnumConverter() }
+        Converters = [new DecimalObjectConverter(), new StringEnumConverter()]
     };
 
     private readonly JsonSerializerSettings _deserializeSettings = new()
     {
-        Converters = new List<JsonConverter> { new DynamicObjectJsonConverter() }
+        Converters = [new DynamicObjectJsonConverter()]
     };
 
 
@@ -60,6 +60,10 @@ internal class ActionInvoker : IActionInvoker
     public async Task<TResponse> InvokeReadOnlyMethodAsync<TResponse>(string endpointUrl, HttpMethod method, Dictionary<string, string> headers = null)
     {
         var response = await _cmHttpClient.SendAsync(_messageCreator, endpointUrl, method, null, headers);
+        if (response == null)
+        {
+            return default;
+        }
 
         return await ReadResultAsync<TResponse>(response);
     }
