@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using Xunit;
 
@@ -73,7 +74,7 @@ public class Readme : IClassFixture<FileSystemFixture>
         {
             EnvironmentId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
             ApiKey = "ew0...1eo"
-        });
+        }, new HttpClient());
     }
 
     [Fact]

@@ -73,6 +73,11 @@ internal class ManagementHttpClient : IManagementHttpClient
             return response;
         }
 
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+
         var responseContent = response.Content;
 
         throw responseContent != null ?
