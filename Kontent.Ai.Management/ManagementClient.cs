@@ -1,14 +1,14 @@
-﻿using Kontent.Ai.Management.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Modules.ActionInvoker;
 using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Modules.ResiliencePolicy;
 using Kontent.Ai.Management.Modules.UrlBuilder;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -28,6 +28,16 @@ public sealed partial class ManagementClient : IManagementClient
     /// </summary>
     /// <param name="ManagementOptions">The settings of the Kontent.ai environment.</param>
     public ManagementClient(ManagementOptions ManagementOptions)
+        : this(ManagementOptions, new System.Net.Http.HttpClient())
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified environment.
+    /// </summary>
+    /// <param name="ManagementOptions">The settings of the Kontent.ai environment.</param>
+    /// <param name="httpClient">Custom HttpClient instance to use for HTTP requests.</param>
+    public ManagementClient(ManagementOptions ManagementOptions, System.Net.Http.HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(ManagementOptions);
 
@@ -49,7 +59,7 @@ public sealed partial class ManagementClient : IManagementClient
 
         _urlBuilder = new EndpointUrlBuilder(ManagementOptions);
         _actionInvoker = new ActionInvoker(
-            new ManagementHttpClient(new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
+            new ManagementHttpClient(new Modules.HttpClient.HttpClient(httpClient), new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
             new MessageCreator(ManagementOptions.ApiKey));
         _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
     }
