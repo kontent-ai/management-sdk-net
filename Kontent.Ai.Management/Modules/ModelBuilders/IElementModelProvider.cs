@@ -13,7 +13,7 @@ public interface IElementModelProvider
     /// <typeparam name="T">Strongly typed elements model.</typeparam>
     /// <param name="elements">Dynamically typed element values</param>
     /// <returns>Strongly typed model of the element values.</returns>
-    T GetStronglyTypedElements<T>(IEnumerable<dynamic> elements) where T : new();
+    public T GetStronglyTypedElements<T>(IEnumerable<dynamic> elements) where T : new();
 
     /// <summary>
     /// Converts strongly typed element values model to dynamic model.
@@ -21,5 +21,5 @@ public interface IElementModelProvider
     /// <typeparam name="T">Strongly typed elements model.</typeparam>
     /// <param name="stronglyTypedElements">Strongly typed element values.</param>
     /// <returns>Dynamic element model values.</returns>
-    IEnumerable<dynamic> GetDynamicElements<T>(T stronglyTypedElements);
+    public IEnumerable<dynamic> GetDynamicElements<T>(T stronglyTypedElements);
 }
