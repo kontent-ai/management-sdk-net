@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Modules.ActionInvoker;
 using Newtonsoft.Json;
 using System;
@@ -46,7 +47,7 @@ public sealed class AssetWithRenditionsReference
     /// <param name="assetReference">Asset reference.</param>
     /// <param name="renditionReference">Rendition reference.</param>
     public AssetWithRenditionsReference(Reference assetReference, Reference renditionReference)
-        : this(assetReference, new[] { renditionReference })
+        : this(assetReference, [renditionReference])
     {
     }
 
@@ -58,6 +59,66 @@ public sealed class AssetWithRenditionsReference
     public AssetWithRenditionsReference(Reference assetReference, IEnumerable<Reference> renditionReferences = null)
     {
         _assetReference = assetReference;
-        _renditions = renditionReferences?.ToList() ?? new List<Reference>();
+        _renditions = renditionReferences?.ToList() ?? [];
+    }
+
+    /// <summary>
+    /// Transforms the dynamic object to the <see cref="AssetWithRenditionsReference"/>
+    /// </summary>
+    public static AssetWithRenditionsReference FromDynamic(dynamic source)
+    {
+        try
+        {
+            var assetReference = Reference.FromDynamic(source);
+            
+            IEnumerable<Reference> renditions = null;
+            if (DynamicExtensions.HasProperty(source, "renditions") && source.renditions != null)
+            {
+                renditions = (source.renditions as IEnumerable<dynamic>)?.Select(Reference.FromDynamic);
+            }
+
+            return new AssetWithRenditionsReference(assetReference, renditions);
+        }
+        catch (Exception exception)
+        {
+            throw new DataMisalignedException(
+                "Object could not be converted to the strongly-typed AssetWithRenditionsReference. Please check if it has expected properties with expected type",
+                exception);
+        }
+    }
+
+    /// <summary>
+    /// Transforms the <see cref="AssetWithRenditionsReference"/> to the dynamic object.
+    /// </summary>
+    public dynamic ToDynamic()
+    {
+        if (Id != null)
+        {
+            return new
+            {
+                id = Id,
+                renditions = (_renditions ?? []).Select(r => r.ToDynamic())
+            };
+        }
+        
+        if (Codename != null)
+        {
+            return new
+            {
+                codename = Codename,
+                renditions = (_renditions ?? []).Select(r => r.ToDynamic())
+            };
+        }
+        
+        if (ExternalId != null)
+        {
+            return new
+            {
+                external_id = ExternalId,
+                renditions = (_renditions ?? []).Select(r => r.ToDynamic())
+            };
+        }
+
+        return _assetReference.ToDynamic();
     }
 }
