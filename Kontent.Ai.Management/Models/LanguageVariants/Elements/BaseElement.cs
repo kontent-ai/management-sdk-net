@@ -87,11 +87,7 @@ public abstract class BaseElement
                 return new AssetElement
                 {
                     Element = Reference.FromDynamic(source.element),
-                    Value = (source.value as IEnumerable<dynamic>)?
-                        .Select(assetWithRenditionsReferences =>
-                            new AssetWithRenditionsReference(
-                                Reference.ById(Guid.Parse(assetWithRenditionsReferences.id)),
-                                (assetWithRenditionsReferences.renditions as IEnumerable<dynamic>)?.Select<dynamic, Reference>(renditionIdentifier => Reference.ById(Guid.Parse(renditionIdentifier.id))))),
+                    Value = (source.value as IEnumerable<dynamic>)?.Select(AssetWithRenditionsReference.FromDynamic)
                 };
             }
             else if (type == typeof(DateTimeElement))
@@ -108,7 +104,7 @@ public abstract class BaseElement
                 return new LinkedItemsElement
                 {
                     Element = Reference.FromDynamic(source.element),
-                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                    Value = (source.value as IEnumerable<dynamic>)?.Select(Reference.FromDynamic)
                 };
             }
             else if (type == typeof(MultipleChoiceElement))
@@ -116,7 +112,7 @@ public abstract class BaseElement
                 return new MultipleChoiceElement
                 {
                     Element = Reference.FromDynamic(source.element),
-                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                    Value = (source.value as IEnumerable<dynamic>)?.Select(Reference.FromDynamic)
                 };
             }
             else if (type == typeof(TaxonomyElement))
@@ -124,7 +120,7 @@ public abstract class BaseElement
                 return new TaxonomyElement
                 {
                     Element = Reference.FromDynamic(source.element),
-                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                    Value = (source.value as IEnumerable<dynamic>)?.Select(Reference.FromDynamic)
                 };
             }
             else if (type == typeof(UrlSlugElement))
@@ -150,7 +146,7 @@ public abstract class BaseElement
                 return new SubpagesElement
                 {
                     Element = Reference.FromDynamic(source.element),
-                    Value = (source.value as IEnumerable<dynamic>)?.Select<dynamic, Reference>(identifier => Reference.ById(Guid.Parse(identifier.id)))
+                    Value = (source.value as IEnumerable<dynamic>)?.Select(Reference.FromDynamic)
                 };
             }
         }

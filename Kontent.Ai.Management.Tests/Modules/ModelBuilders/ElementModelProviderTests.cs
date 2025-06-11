@@ -85,19 +85,19 @@ public class ElementModelProviderTests
 
         var relatedArticlesValue = dynamicElements.SingleOrDefault(elementObject =>
              elementObject.element.id == type.GetProperty(nameof(model.RelatedArticles))?.GetKontentElementId()
-        ).value as IEnumerable<Reference>;
+        ).value as IEnumerable<dynamic>;
 
         var teaserImageValue = dynamicElements.SingleOrDefault(elementObject =>
             elementObject.element.id == type.GetProperty(nameof(model.TeaserImage))?.GetKontentElementId()
-        ).value as IEnumerable<AssetWithRenditionsReference>;
+        ).value as IEnumerable<dynamic>;
 
         var personaValue = dynamicElements.SingleOrDefault(elementObject =>
              elementObject.element.id == type.GetProperty(nameof(model.Personas))?.GetKontentElementId()
-        ).value as IEnumerable<Reference>;
+        ).value as IEnumerable<dynamic>;
 
         var optionsValue = dynamicElements.SingleOrDefault(elementObject =>
              elementObject.element.id == type.GetProperty(nameof(model.Options))?.GetKontentElementId()
-        ).value as IEnumerable<Reference>;
+        ).value as IEnumerable<dynamic>;
 
         Assert.Equal(model.Title.Value, titleValue);
         Assert.Equal(model.Rating.Value, ratingValue);
@@ -110,10 +110,10 @@ public class ElementModelProviderTests
         Assert.Equal(model.BodyCopy.Value, bodyCopyElement.value);
         Assert.Single(bodyCopyElement.components as IEnumerable<ComponentModel>);
         AssertIdentifiers(model.BodyCopy.Components.Select(x => x.Id), (bodyCopyElement.components as IEnumerable<ComponentModel>)?.Select(x => x.Id));
-        AssertIdentifiers(model.RelatedArticles.Value.Select(x => x.Id.Value), relatedArticlesValue.Select(x => x.Id.Value));
-        AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue.Select(x => x.Id.Value));
-        AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue.Select(x => x.Id.Value));
-        AssertIdentifiers(model.Options.Value.Select(x => x.Id.Value), optionsValue.Select(x => x.Id.Value));
+        AssertIdentifiers(model.RelatedArticles.Value.Select(x => x.Id.Value), relatedArticlesValue?.Select(r => Reference.FromDynamic(r).Id ?? Guid.Empty).Cast<Guid>() ?? Enumerable.Empty<Guid>());
+        AssertIdentifiers(model.TeaserImage.Value.Select(x => x.Id.Value), teaserImageValue?.Select(a => AssetWithRenditionsReference.FromDynamic(a).Id ?? Guid.Empty).Cast<Guid>() ?? Enumerable.Empty<Guid>());
+        AssertIdentifiers(model.Personas.Value.Select(x => x.Id.Value), personaValue?.Select(p => Reference.FromDynamic(p).Id ?? Guid.Empty).Cast<Guid>() ?? Enumerable.Empty<Guid>());
+        AssertIdentifiers(model.Options.Value.Select(x => x.Id.Value), optionsValue?.Select(o => Reference.FromDynamic(o).Id ?? Guid.Empty).Cast<Guid>() ?? Enumerable.Empty<Guid>());
     }
 
     private static ComplexTestModel GetTestModel()

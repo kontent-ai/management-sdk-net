@@ -116,5 +116,23 @@ public class ElementReferenceTests
             .WithMessage("Element reference does not contain any identifier.");
     }
 
+    [Fact]
+    public void AssetWithRenditionsReference_FromDynamic_WithInvalidData_ThrowsDataMisalignedException()
+    {
+        Action action = () => AssetWithRenditionsReference.FromDynamic(new { invalidProperty = "invalid" });
 
+        action.Should()
+            .Throw<DataMisalignedException>()
+            .WithMessage("Object could not be converted to the strongly-typed AssetWithRenditionsReference. Please check if it has expected properties with expected type");
+    }
+
+    [Fact]
+    public void AssetWithRenditionsReference_FromDynamic_WithNullData_ThrowsDataMisalignedException()
+    {
+        Action action = () => AssetWithRenditionsReference.FromDynamic(null);
+
+        action.Should()
+            .Throw<DataMisalignedException>()
+            .WithMessage("Object could not be converted to the strongly-typed AssetWithRenditionsReference. Please check if it has expected properties with expected type");
+    }
 }
