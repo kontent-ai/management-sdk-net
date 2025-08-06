@@ -17,5 +17,5 @@ public class VariantFilterOrderModel
     /// Gets or sets the order direction.
     /// </summary>
     [JsonProperty("direction")]
-    public string Direction { get; set; }
+    public VariantFilterOrderDirection Direction { get; set; }
 }

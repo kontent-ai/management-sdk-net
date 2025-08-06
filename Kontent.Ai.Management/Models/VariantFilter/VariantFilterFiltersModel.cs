@@ -43,7 +43,7 @@ public class VariantFilterFiltersModel
     /// Gets or sets the completion statuses.
     /// </summary>
     [JsonProperty("completion_statuses")]
-    public IEnumerable<string> CompletionStatuses { get; set; }
+    public IEnumerable<VariantFilterCompletionStatus> CompletionStatuses { get; set; }
 
     /// <summary>
     /// Gets or sets the workflow steps.
