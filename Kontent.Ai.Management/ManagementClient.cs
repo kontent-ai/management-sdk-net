@@ -22,6 +22,7 @@ public sealed partial class ManagementClient : IManagementClient
     private readonly ActionInvoker _actionInvoker;
     private readonly EndpointUrlBuilder _urlBuilder;
     private readonly IModelProvider _modelProvider;
+    private readonly Lazy<ManagementClientEarlyAccess> _earlyAccess;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified environment.
@@ -62,6 +63,7 @@ public sealed partial class ManagementClient : IManagementClient
             new ManagementHttpClient(new Modules.HttpClient.HttpClient(httpClient), new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
             new MessageCreator(ManagementOptions.ApiKey));
         _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
+        _earlyAccess = new Lazy<ManagementClientEarlyAccess>(() => new ManagementClientEarlyAccess(_actionInvoker, _urlBuilder));
     }
 
     internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
@@ -69,7 +71,14 @@ public sealed partial class ManagementClient : IManagementClient
         _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
         _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
         _modelProvider = modelProvider ?? new ModelProvider();
+        _earlyAccess = new Lazy<ManagementClientEarlyAccess>(() => new ManagementClientEarlyAccess(_actionInvoker, _urlBuilder));
     }
+
+    /// <summary>
+    /// Gets the early access client for experimental features.
+    /// These features may change or be removed in future versions.
+    /// </summary>
+    public IManagementClientEarlyAccess EarlyAccess => _earlyAccess.Value;
 
     private async Task<IListingResponse<TModel>> GetNextListingPageAsync<TListingResponse, TModel>(string continuationToken, string url)
         where TListingResponse : IListingResponse<TModel>
