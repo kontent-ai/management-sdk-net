@@ -44,6 +44,12 @@ namespace Kontent.Ai.Management;
 public interface IManagementClient
 {
     /// <summary>
+    /// Gets the early access client for experimental features.
+    /// These features may change or be removed in future versions.
+    /// </summary>
+    IManagementClientEarlyAccess EarlyAccess { get; }
+
+    /// <summary>
     /// Returns asset.
     /// </summary>
     /// <param name="identifier">The identifier of the asset.</param>
@@ -872,4 +878,5 @@ public interface IManagementClient
     /// </summary>
     /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
     Task<CustomAppModel> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes);
+
 }
