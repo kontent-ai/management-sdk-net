@@ -35,12 +35,12 @@ public class VariantFilterTests : IClassFixture<FileSystemFixture>
                 {
                     Reference.ByCodename("article")
                 },
-                CompletionStatuses = new List<string> { "completed" }
+                CompletionStatuses = new List<VariantFilterCompletionStatus> { VariantFilterCompletionStatus.Completed }
             },
             Order = new VariantFilterOrderModel
             {
                 By = "name",
-                Direction = "asc"
+                Direction = VariantFilterOrderDirection.Ascending
             }
         };
 
@@ -106,7 +106,7 @@ public class VariantFilterTests : IClassFixture<FileSystemFixture>
                 {
                     UserIdentifier.ByEmail("user@example.com")
                 },
-                CompletionStatuses = new List<string> { "completed", "unfinished" },
+                CompletionStatuses = new List<VariantFilterCompletionStatus> { VariantFilterCompletionStatus.Completed, VariantFilterCompletionStatus.Unfinished },
                 WorkflowSteps = new List<VariantFilterWorkflowStepsModel>
                 {
                     new VariantFilterWorkflowStepsModel
@@ -134,7 +134,7 @@ public class VariantFilterTests : IClassFixture<FileSystemFixture>
             Order = new VariantFilterOrderModel
             {
                 By = "last_modified",
-                Direction = "desc"
+                Direction = VariantFilterOrderDirection.Descending
             }
         };
 
