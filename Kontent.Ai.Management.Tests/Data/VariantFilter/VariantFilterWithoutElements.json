@@ -1,0 +1,42 @@
+{
+  "data": [
+    {
+      "item": {
+        "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515",
+        "name": "Sample Article",
+        "codename": "sample_article",
+        "type": {
+          "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7",
+          "codename": "article"
+        },
+        "collection": {
+          "id": "00000000-0000-0000-0000-000000000000",
+          "codename": "default"
+        },
+        "spaces": [
+          {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "codename": "default"
+          }
+        ],
+        "sitemap_locations": [],
+        "last_modified": "2024-01-15T10:30:00.000Z"
+      },
+      "variant": {
+        "item": {
+          "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515",
+          "codename": "sample_article"
+        },
+        "language": {
+          "id": "00000000-0000-0000-0000-000000000000",
+          "codename": "en-US"
+        },
+        "last_modified": "2024-01-15T10:30:00.000Z"
+      }
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}
