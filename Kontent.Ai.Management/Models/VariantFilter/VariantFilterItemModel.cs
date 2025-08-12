@@ -16,7 +16,7 @@ public class VariantFilterItemModel
     public ContentItemModel Item { get; set; }
 
     /// <summary>
-    /// Gets or sets the language variant (only includes `elements` when include_content is not set to true).
+    /// Gets or sets the language variant (only includes `elements` when include_content is set to true).
     /// </summary>
     [JsonProperty("variant", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public LanguageVariantModel Variant { get; set; }
