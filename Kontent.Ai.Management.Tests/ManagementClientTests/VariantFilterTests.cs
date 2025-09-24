@@ -35,7 +35,7 @@ public class VariantFilterTests : IClassFixture<FileSystemFixture>
                 {
                     Reference.ByCodename("article")
                 },
-                CompletionStatuses = new List<VariantFilterCompletionStatus> { VariantFilterCompletionStatus.Completed }
+                CompletionStatuses = new List<VariantFilterCompletionStatus> { VariantFilterCompletionStatus.Ready }
             },
             Order = new VariantFilterOrderModel
             {
@@ -106,7 +106,7 @@ public class VariantFilterTests : IClassFixture<FileSystemFixture>
                 {
                     UserIdentifier.ByEmail("user@example.com")
                 },
-                CompletionStatuses = new List<VariantFilterCompletionStatus> { VariantFilterCompletionStatus.Completed, VariantFilterCompletionStatus.Unfinished },
+                CompletionStatuses = new List<VariantFilterCompletionStatus> { VariantFilterCompletionStatus.Ready, VariantFilterCompletionStatus.Unfinished },
                 WorkflowSteps = new List<VariantFilterWorkflowStepsModel>
                 {
                     new VariantFilterWorkflowStepsModel
@@ -249,7 +249,7 @@ public class VariantFilterTests : IClassFixture<FileSystemFixture>
                 Language = Reference.ByCodename("en-US"),
                 CompletionStatuses = new List<VariantFilterCompletionStatus> 
                 { 
-                    VariantFilterCompletionStatus.Completed,
+                    VariantFilterCompletionStatus.Ready,
                     VariantFilterCompletionStatus.Unfinished,
                     VariantFilterCompletionStatus.NotTranslated,
                     VariantFilterCompletionStatus.AllDone

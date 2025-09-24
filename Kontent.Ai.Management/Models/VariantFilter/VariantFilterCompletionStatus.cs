@@ -14,10 +14,10 @@ public enum VariantFilterCompletionStatus
     Unfinished,
 
     /// <summary>
-    /// The variant is completed.
+    /// The variant is ready.
     /// </summary>
-    [EnumMember(Value = "completed")]
-    Completed,
+    [EnumMember(Value = "ready")]
+    Ready,
 
     /// <summary>
     /// The variant is not translated.
