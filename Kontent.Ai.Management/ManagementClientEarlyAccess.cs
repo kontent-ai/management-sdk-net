@@ -33,20 +33,20 @@ public sealed class ManagementClientEarlyAccess : IManagementClientEarlyAccess
         var response = await _actionInvoker.InvokeMethodAsync<VariantFilterRequestModel, VariantFilterListingResponseServerModel>(endpointUrl, HttpMethod.Post, variantFilterRequest);
 
         return new ListingResponseModel<VariantFilterItemModel>(
-            GetNextListingPageAsync<VariantFilterListingResponseServerModel, VariantFilterItemModel>,
+            (continuationToken, url) => GetNextVariantFilterPageAsync(continuationToken, url, variantFilterRequest),
             response.Pagination?.Token,
             endpointUrl,
             response.Data);
     }
 
-    private async Task<IListingResponse<TModel>> GetNextListingPageAsync<TListingResponse, TModel>(string continuationToken, string url)
-        where TListingResponse : IListingResponse<TModel>
+    private async Task<IListingResponse<VariantFilterItemModel>> GetNextVariantFilterPageAsync(string continuationToken, string url, VariantFilterRequestModel variantFilterRequest)
     {
         var headers = new Dictionary<string, string>
         {
             { "x-continuation", continuationToken }
         };
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TListingResponse>(url, HttpMethod.Get, headers);
+
+        var response = await _actionInvoker.InvokeMethodAsync<VariantFilterRequestModel, VariantFilterListingResponseServerModel>(url, HttpMethod.Post, variantFilterRequest, headers);
 
         return response;
     }
