@@ -25,7 +25,6 @@ internal sealed class EndpointUrlBuilder
     private readonly TypeTemplate _typeTemplate;
     private readonly ValidateTemplate _validateTemplate;
     private readonly VariantTemplate _variantTemplate;
-    private readonly LegacyWebhookTemplate _legacyWebhookTemplate;
     private readonly WebhookTemplate _webhookTemplate;
     private readonly WorkflowTemplate _workflowTemplate;
     private readonly ItemTemplate _itemTemplate;
@@ -49,7 +48,6 @@ internal sealed class EndpointUrlBuilder
         _typeTemplate = new TypeTemplate();
         _validateTemplate = new ValidateTemplate();
         _variantTemplate = new VariantTemplate();
-        _legacyWebhookTemplate = new LegacyWebhookTemplate();
         _webhookTemplate = new WebhookTemplate();
         _workflowTemplate = new WorkflowTemplate();
         _itemTemplate = new ItemTemplate();
@@ -103,18 +101,8 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildLanguagesUrl(Reference identifier) => GetEnvironmentUrl(_languageTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildLegacyWebhooksUrl() => GetEnvironmentUrl(_legacyWebhookTemplate.Url);
-
-    public string BuildLegacyWebhooksUrl(Reference identifier) => GetEnvironmentUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier));
-
-    public string BuildLegacyWebhooksEnableUrl(Reference identifier) =>
-        string.Concat(GetEnvironmentUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/enable");
-
-    public string BuildLegacyWebhooksDisableUrl(Reference identifier) =>
-        string.Concat(GetEnvironmentUrl(_legacyWebhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
-    
     public string BuildWebhooksUrl() => GetEnvironmentUrl(_webhookTemplate.Url);
-    
+
     public string BuildWebhooksUrl(Reference identifier) => GetEnvironmentUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier));
 
     public string BuildWebhooksEnableUrl(Reference identifier) =>
@@ -122,7 +110,7 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildWebhooksDisableUrl(Reference identifier) =>
         string.Concat(GetEnvironmentUrl(_webhookTemplate.GetIdentifierUrlSegment(identifier)), "/disable");
-    
+
     public string BuildWorkflowsUrl() => GetEnvironmentUrl(_workflowTemplate.Url);
 
     public string BuildWorkflowsUrl(Reference identifier) => GetEnvironmentUrl(_workflowTemplate.GetIdentifierUrlSegment(identifier));
@@ -144,7 +132,7 @@ internal sealed class EndpointUrlBuilder
             _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
             _variantTemplate.GetIdentifierUrlSegment(identifier.LanguageIdentifier),
             "/schedule-publish-and-unpublish"));
-    
+
     public string BuildCancelPublishingVariantUrl(LanguageVariantIdentifier identifier) => GetEnvironmentUrl(
             string.Concat(
                 _itemTemplate.GetIdentifierUrlSegment(identifier.ItemIdentifier),
@@ -204,7 +192,7 @@ internal sealed class EndpointUrlBuilder
     public string BuildEnvironmentUrl() => string.Format(_options.EndpointV2, $"projects/{_options.EnvironmentId}");
 
     public string BuildPreviewConfigurationUrl() => GetEnvironmentUrl("/preview-configuration");
-    
+
     public string BuildCollectionsUrl() => GetEnvironmentUrl(_collectionTemplate.Url);
 
     public string BuildUsersUrl() => GetEnvironmentUrl(_userTemplate.Url);
@@ -236,7 +224,7 @@ internal sealed class EndpointUrlBuilder
     public string BuildMarkEnvironmentAsProductionUrl() => GetEnvironmentUrl("/mark-environment-as-production");
 
     public string BuildWebSpotlightUrl() => GetEnvironmentUrl(_webSpotlightTemplate.Url);
-    
+
     public string BuildCustomAppUrl() => GetEnvironmentUrl(_customAppTemplate.Url);
 
     public string BuildVariantFilterUrl() => GetEnvironmentUrl(_variantFilterTemplate.Url);
