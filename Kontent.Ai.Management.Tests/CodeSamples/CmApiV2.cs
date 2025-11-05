@@ -10,8 +10,6 @@ using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Models.LegacyWebhooks;
-using Kontent.Ai.Management.Models.LegacyWebhooks.Triggers;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
@@ -161,18 +159,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
 
         await client.DeleteLanguageVariantAsync(identifier);
-    }
-
-    // DocSection: cm_api_v2_delete_legacy_webhook
-    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-    [Fact]
-    public async void DeleteLegacyWebhook()
-    {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
-
-        var identifier = Reference.ById(Guid.Parse("d53360f7-79e1-42f4-a524-1b53a417d03e"));
-
-        await client.DeleteLegacyWebhookAsync(identifier);
     }
 
     // DocSection: cm_api_v2_delete_webhook
@@ -554,20 +540,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.Single(response);
     }
 
-    // DocSection: cm_api_v2_get_legacy_webhook
-    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-    [Fact]
-    public async void GetLegacyWebhook()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LegacyWebhook.json");
-
-        var identifier = Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"));
-
-        var response = await client.GetLegacyWebhookAsync(identifier);
-
-        Assert.NotNull(response);
-    }
-
     // DocSection: cm_api_v2_get_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -580,18 +552,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         var response = await client.GetWebhookAsync(identifier);
 
         Assert.NotNull(response);
-    }
-
-    // DocSection: cm_api_v2_get_legacy_webhooks
-    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-    [Fact]
-    public async void GetLegacyWebhooks()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LegacyWebhooks.json");
-
-        var response = await client.ListLegacyWebhooksAsync();
-
-        Assert.Single(response);
     }
 
     // DocSection: cm_api_v2_get_webhooks
@@ -1356,93 +1316,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.NotNull(response);
     }
 
-    // DocSection: cm_api_v2_post_legacy_webhook
-    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-    [Fact]
-    public async void PostLegacyWebhook()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostLegacyWebhookResponse.json");
-
-        var response = await client.CreateLegacyWebhookAsync(new LegacyWebhookCreateModel
-        {
-            Name = "Example webhook",
-            Url = "https://example.com/webhook",
-            Secret = "secret_key",
-            Triggers = new LegacyWebhookTriggersModel
-            {
-                DeliveryApiContentChanges = new[]
-                {
-                    new DeliveryApiTriggerModel
-                    {
-                        Type = TriggerChangeType.LanguageVariant,
-                        Operations = new []
-                        {
-                            "publish",
-                            "unpublish"
-                        }
-                    },
-                    new DeliveryApiTriggerModel
-                    {
-                        Type = TriggerChangeType.Taxonomy,
-                        Operations = new []
-                        {
-                            "archive",
-                            "restore",
-                            "upsert"
-                        }
-                    }
-                },
-                PreviewDeliveryApiContentChanges = new[]
-                {
-                    new DeliveryApiTriggerModel
-                    {
-                        Type = TriggerChangeType.LanguageVariant,
-                        Operations = new []
-                        {
-                            "archive",
-                            "upsert"
-                        }
-                    },
-                    new DeliveryApiTriggerModel
-                    {
-                        Type = TriggerChangeType.Taxonomy,
-                        Operations = new []
-                        {
-                            "archive",
-                            "restore",
-                            "upsert"
-                        }
-                    }
-                },
-                WorkflowStepChanges = new[]
-                {
-                    new WorkflowStepTriggerModel
-                    {
-                        TransitionsTo = new []
-                        {
-                            Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008")),
-                            Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
-                        }
-                    },
-                },
-                ManagementApiContentChanges = new[]
-                {
-                    new ManagementApiTriggerModel
-                    {
-                        Operations = new []
-                        {
-                            "archive",
-                            "create",
-                            "restore",
-                        }
-                    }
-                },
-            }
-        });
-
-        Assert.NotNull(response);
-    }
-
     // DocSection: cm_api_v2_post_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -2040,18 +1913,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         Assert.Null(exception);
     }
 
-    // DocSection: mapi_v2_disable_legacy_webhook
-    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-    [Fact]
-    public async void PutDisableLegacyWebhook()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
-
-        var exception = await Record.ExceptionAsync(async () =>
-            await client.DisableLegacyWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
-        Assert.Null(exception);
-    }
-
     // DocSection: mapi_v2_disable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
@@ -2061,18 +1922,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
 
         var exception = await Record.ExceptionAsync(async () =>
             await client.DisableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
-        Assert.Null(exception);
-    }
-
-    // DocSection: mapi_v2_enable_legacy_webhook
-    // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-    [Fact]
-    public async void PutEnableLegacyWebhook()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
-
-        var exception = await Record.ExceptionAsync(async () =>
-            await client.EnableLegacyWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
         Assert.Null(exception);
     }
 
