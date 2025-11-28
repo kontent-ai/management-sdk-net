@@ -4,6 +4,7 @@ using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Tests.Base;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -118,8 +119,7 @@ public class TaxonomyGroupTests
                 {
                     Codename = "aerobie",
                     Name = "Aerobie",
-                    ExternalId = "f04c8552-1b97-a49b-3944-79275622f471",
-                    Terms = Array.Empty<TaxonomyTermCreateModel>()
+                    ExternalId = "f04c8552-1b97-a49b-3944-79275622f471"
                 }
             }
         };

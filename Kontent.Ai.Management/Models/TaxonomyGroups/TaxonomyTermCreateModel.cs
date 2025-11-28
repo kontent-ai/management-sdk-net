@@ -11,6 +11,6 @@ public class TaxonomyTermCreateModel : TaxonomyBaseModel
     /// <summary>
     /// Gets or sets terms in the taxonomy group.
     /// </summary>
-    [JsonProperty("terms")]
+    [JsonProperty("terms", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IEnumerable<TaxonomyTermCreateModel> Terms { get; set; }
 }

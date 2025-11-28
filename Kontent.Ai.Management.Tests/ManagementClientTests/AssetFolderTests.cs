@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 using Kontent.Ai.Management.Tests.Base;
 using System.Net.Http;
@@ -55,8 +54,7 @@ public class AssetFolderTests
                 {
                     ExternalId = "external-id",
                     Name= "name",
-                    Codename = "codename",
-                    Folders = Enumerable.Empty<AssetFolderHierarchy>()
+                    Codename = "codename"
                 }
             }
         };
@@ -115,8 +113,7 @@ public class AssetFolderTests
                 {
                     ExternalId = "external-id",
                     Name= "name",
-                    Codename = "codename",
-                    Folders = Enumerable.Empty<AssetFolderHierarchy>()
+                    Codename = "codename"
                 },
                 Before = Reference.ByCodename("codename"),
                 After = Reference.ById(Guid.NewGuid())

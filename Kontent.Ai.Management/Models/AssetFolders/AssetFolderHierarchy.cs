@@ -35,6 +35,6 @@ public sealed class AssetFolderHierarchy
     /// <summary>
     /// Gets or sets nested folders
     /// </summary>
-    [JsonProperty("folders")]
+    [JsonProperty("folders", DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
 }
