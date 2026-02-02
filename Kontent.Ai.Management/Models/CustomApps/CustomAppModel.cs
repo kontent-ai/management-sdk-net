@@ -45,4 +45,10 @@ public class CustomAppModel
     /// </summary>
     [JsonProperty("allowed_roles")]
     public IReadOnlyCollection<Reference> AllowedRoles { get; set; }
+
+    /// <summary>
+    /// Gets or sets the custom app's display mode.
+    /// </summary>
+    [JsonProperty("display_mode")]
+    public CustomAppDisplayMode DisplayMode { get; init; }
 }

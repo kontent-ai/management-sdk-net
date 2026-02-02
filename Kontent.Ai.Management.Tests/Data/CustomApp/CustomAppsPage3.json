@@ -13,7 +13,8 @@
         {
           "id": "76d2e5a8-b2db-468d-b4c2-b5e6c229d453"
         }
-      ]
+      ],
+      "display_mode": "fullScreen"
     },
     {
       "id": "4a33f45c-1b13-4010-84cf-cc204cdbb768",
@@ -28,7 +29,8 @@
         {
           "id": "0638d1d9-7682-4840-a6b5-2831498fdaaf"
         }
-      ]
+      ],
+      "display_mode": "fullScreen"
     },
     {
       "id": "e1dcee56-5ed3-4f9a-957f-04522832b351",
@@ -43,7 +45,8 @@
         {
           "id": "2f3991f1-5cfc-45b5-a1e5-8f94e8b92c6a"
         }
-      ]
+      ],
+      "display_mode": "fullScreen"
     }
   ],
   "pagination": {
