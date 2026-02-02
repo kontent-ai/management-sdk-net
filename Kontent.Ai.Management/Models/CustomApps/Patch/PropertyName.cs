@@ -35,5 +35,11 @@ public enum PropertyName
     /// The custom app's allowed_roles.
     /// </summary>
     [EnumMember(Value = "allowed_roles")]
-    AllowedRoles
+    AllowedRoles,
+
+    /// <summary>
+    /// The custom app's display mode.
+    /// </summary>
+    [EnumMember(Value = "display_mode")]
+    DisplayMode
 }
