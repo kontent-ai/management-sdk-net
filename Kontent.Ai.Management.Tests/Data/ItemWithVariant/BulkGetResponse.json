@@ -21,6 +21,25 @@
         ],
         "sitemap_locations": [],
         "last_modified": "2024-01-15T10:30:00.000Z"
+      },
+      "variant": {
+        "item": {
+          "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515",
+          "codename": "sample_article"
+        },
+        "language": {
+          "id": "00000000-0000-0000-0000-000000000000",
+          "codename": "en-US"
+        },
+        "elements": [
+          {
+            "element": {
+              "id": "ba7c8840-bcbc-5e3b-b292-24d0d7f4c394"
+            },
+            "value": "Sample Article Title"
+          }
+        ],
+        "last_modified": "2024-01-15T10:30:00.000Z"
       }
     },
     {
@@ -45,23 +64,11 @@
         "sitemap_locations": [],
         "external_id": "ext_another_article",
         "last_modified": "2024-01-16T14:45:00.000Z"
-      },
-      "variant": {
-        "item": {
-          "id": "6a8b4d04-7d3e-4d3c-8b9a-4c7e8f9a1b2c",
-          "codename": "another_article"
-        },
-        "language": {
-          "id": "00000000-0000-0000-0000-000000000000",
-          "codename": "en-US"
-        },
-        "elements": [],
-        "last_modified": "2024-01-16T14:45:00.000Z"
       }
     }
   ],
   "pagination": {
-    "continuation_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-    "next_page": "https://manage.kontent.ai/v2/projects/environmentId/early-access/variants/filter?continuation_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+    "continuation_token": null,
+    "next_page": null
   }
 }

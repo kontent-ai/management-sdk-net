@@ -9,6 +9,7 @@ using Kontent.Ai.Management.Models.CustomApps.Patch;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
+using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
@@ -42,12 +43,6 @@ namespace Kontent.Ai.Management;
 /// </summary>
 public interface IManagementClient
 {
-    /// <summary>
-    /// Gets the early access client for experimental features.
-    /// These features may change or be removed in future versions.
-    /// </summary>
-    IManagementClientEarlyAccess EarlyAccess { get; }
-
     /// <summary>
     /// Returns asset.
     /// </summary>
@@ -839,5 +834,25 @@ public interface IManagementClient
     /// </summary>
     /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
     Task<CustomAppModel> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes);
+
+    /// <summary>
+    /// Returns listing of filtered item variant references.
+    /// The Content management API returns a dynamically paginated listing response limited to up to 50 objects.
+    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// </summary>
+    /// <param name="filterRequest">The filter request containing filters and ordering options.</param>
+    /// <returns>The <see cref="IListingResponseModel{ItemWithVariantFilterResultModel}"/> instance that represents the listing of filtered variant references.</returns>
+    Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest);
+
+    /// <summary>
+    /// Returns listing of content items with their language variants.
+    /// The Content management API returns a dynamically paginated listing response limited to up to 50 objects.
+    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
+    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// </summary>
+    /// <param name="bulkGetRequest">The bulk-get request containing variant identifiers.</param>
+    /// <returns>The <see cref="IListingResponseModel{ContentItemWithVariantModel}"/> instance that represents the listing of content items with variants.</returns>
+    Task<IListingResponseModel<ContentItemWithVariantModel>> BulkGetItemsWithVariantsAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest);
 
 }
