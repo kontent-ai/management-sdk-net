@@ -1,0 +1,16 @@
+{
+  "variants": [
+    {
+      "item": {
+        "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+  ],
+  "pagination": {
+    "continuation_token": null,
+    "next_page": null
+  }
+}
