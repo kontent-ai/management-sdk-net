@@ -206,7 +206,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
         items[0].Item.Id.Should().Be(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
         items[0].Item.Name.Should().Be("Sample Article");
         items[0].Variant.Should().NotBeNull();
-        items[0].Variant.Language.Codename.Should().Be("en-US");
+        items[0].Variant.Language.Id.Should().Be(Guid.Empty);
         items[0].Variant.Elements.Should().NotBeNull();
 
         items[1].Item.Should().NotBeNull();
@@ -236,6 +236,11 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
                 {
                     Item = Reference.ByCodename("sample_article"),
                     Language = Reference.ByCodename("en-US")
+                },
+                new VariantIdentifierModel
+                {
+                    Item = Reference.ByCodename("another_article"),
+                    Language = Reference.ByCodename("en-US")
                 }
             }
         };
@@ -249,5 +254,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
         items.Should().HaveCount(2);
         items[0].Item.Should().NotBeNull();
         items[0].Item.Name.Should().Be("Sample Article");
+        items[1].Item.Should().NotBeNull();
+        items[1].Item.Name.Should().Be("Another Article");
     }
 }

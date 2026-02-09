@@ -6,31 +6,16 @@
         "name": "Sample Article",
         "codename": "sample_article",
         "type": {
-          "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7",
-          "codename": "article"
+          "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
         },
         "collection": {
-          "id": "00000000-0000-0000-0000-000000000000",
-          "codename": "default"
+          "id": "00000000-0000-0000-0000-000000000000"
         },
-        "spaces": [
-          {
-            "id": "00000000-0000-0000-0000-000000000000",
-            "codename": "default"
-          }
-        ],
+        "spaces": [],
         "sitemap_locations": [],
-        "last_modified": "2024-01-15T10:30:00.000Z"
+        "last_modified": "2024-01-15T10:30:00.0000000Z"
       },
       "variant": {
-        "item": {
-          "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515",
-          "codename": "sample_article"
-        },
-        "language": {
-          "id": "00000000-0000-0000-0000-000000000000",
-          "codename": "en-US"
-        },
         "elements": [
           {
             "element": {
@@ -39,7 +24,35 @@
             "value": "Sample Article Title"
           }
         ],
-        "last_modified": "2024-01-15T10:30:00.000Z"
+        "workflow_step": {
+          "id": "c199950d-99f0-4983-b711-6c4c91624b22"
+        },
+        "workflow": {
+          "workflow_identifier": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "step_identifier": {
+            "id": "c199950d-99f0-4983-b711-6c4c91624b22"
+          }
+        },
+        "contributors": [],
+        "due_date": {
+          "value": null
+        },
+        "note": null,
+        "schedule": {
+          "publish_time": null,
+          "publish_display_timezone": null,
+          "unpublish_time": null,
+          "unpublish_display_timezone": null
+        },
+        "item": {
+          "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+        },
+        "language": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "last_modified": "2024-01-15T10:30:00.0000000Z"
       }
     },
     {
@@ -48,22 +61,15 @@
         "name": "Another Article",
         "codename": "another_article",
         "type": {
-          "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7",
-          "codename": "article"
+          "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
         },
         "collection": {
-          "id": "00000000-0000-0000-0000-000000000000",
-          "codename": "default"
+          "id": "00000000-0000-0000-0000-000000000000"
         },
-        "spaces": [
-          {
-            "id": "00000000-0000-0000-0000-000000000000",
-            "codename": "default"
-          }
-        ],
+        "spaces": [],
         "sitemap_locations": [],
         "external_id": "ext_another_article",
-        "last_modified": "2024-01-16T14:45:00.000Z"
+        "last_modified": "2024-01-16T14:45:00.0000000Z"
       }
     }
   ],
