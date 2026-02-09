@@ -18,7 +18,7 @@
     }
   ],
   "pagination": {
-    "continuation_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-    "next_page": "https://manage.kontent.ai/v2/projects/environmentId/items-with-variant/filter?continuation_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+    "continuation_token": "G5QAGBSh0hf0vP7kLAbXqbPOvADBBpwQJFRAPNkFQUYi2BGE4QfuHRQQGuwq",
+    "next_page": "https://manage.kontent.ai/v2/projects/bb6882a0-3088-405c-a6ac-4a0da46810b0/items-with-variant/filter"
   }
 }
