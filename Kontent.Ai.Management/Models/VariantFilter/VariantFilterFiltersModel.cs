@@ -56,4 +56,22 @@ public class VariantFilterFiltersModel
     /// </summary>
     [JsonProperty("taxonomy_groups")]
     public IEnumerable<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; set; }
+
+    /// <summary>
+    /// Gets or sets the spaces.
+    /// </summary>
+    [JsonProperty("spaces")]
+    public IEnumerable<Reference> Spaces { get; set; }
+
+    /// <summary>
+    /// Gets or sets the collections.
+    /// </summary>
+    [JsonProperty("collections")]
+    public IEnumerable<Reference> Collections { get; set; }
+
+    /// <summary>
+    /// Gets or sets the publishing states.
+    /// </summary>
+    [JsonProperty("publishing_states")]
+    public IEnumerable<VariantFilterPublishingState> PublishingStates { get; set; }
 }
