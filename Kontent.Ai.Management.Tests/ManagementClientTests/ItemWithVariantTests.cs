@@ -173,6 +173,115 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
+    public async Task FilterItemsWithVariantsAsync_WithSpacesFilter_ReturnsResults()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+
+        var request = new ItemWithVariantFilterRequestModel
+        {
+            Filters = new VariantFilterFiltersModel
+            {
+                Language = Reference.ByCodename("en-US"),
+                Spaces = new List<Reference>
+                {
+                    Reference.ByCodename("default"),
+                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
+                }
+            }
+        };
+
+        var response = await client.FilterItemsWithVariantsAsync(request);
+
+        response.Should().NotBeNull();
+        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
+        response.ToList().Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task FilterItemsWithVariantsAsync_WithCollectionsFilter_ReturnsResults()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+
+        var request = new ItemWithVariantFilterRequestModel
+        {
+            Filters = new VariantFilterFiltersModel
+            {
+                Language = Reference.ByCodename("en-US"),
+                Collections = new List<Reference>
+                {
+                    Reference.ByCodename("default"),
+                    Reference.ByExternalId("external-collection-1")
+                }
+            }
+        };
+
+        var response = await client.FilterItemsWithVariantsAsync(request);
+
+        response.Should().NotBeNull();
+        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
+        response.ToList().Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task FilterItemsWithVariantsAsync_WithPublishingStatesFilter_ReturnsResults()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+
+        var request = new ItemWithVariantFilterRequestModel
+        {
+            Filters = new VariantFilterFiltersModel
+            {
+                Language = Reference.ByCodename("en-US"),
+                PublishingStates = new List<VariantFilterPublishingState>
+                {
+                    VariantFilterPublishingState.Published,
+                    VariantFilterPublishingState.Unpublished
+                }
+            }
+        };
+
+        var response = await client.FilterItemsWithVariantsAsync(request);
+
+        response.Should().NotBeNull();
+        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
+        response.ToList().Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task FilterItemsWithVariantsAsync_WithAllNewFilters_ReturnsResults()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+
+        var request = new ItemWithVariantFilterRequestModel
+        {
+            Filters = new VariantFilterFiltersModel
+            {
+                Language = Reference.ByCodename("en-US"),
+                Spaces = new List<Reference>
+                {
+                    Reference.ByCodename("default")
+                },
+                Collections = new List<Reference>
+                {
+                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
+                },
+                PublishingStates = new List<VariantFilterPublishingState>
+                {
+                    VariantFilterPublishingState.Published,
+                    VariantFilterPublishingState.Unpublished,
+                    VariantFilterPublishingState.NotPublishedYet
+                }
+            }
+        };
+
+        var response = await client.FilterItemsWithVariantsAsync(request);
+
+        response.Should().NotBeNull();
+        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
+        response.ToList().Should().HaveCount(2);
+    }
+
+    [Fact]
     public async Task BulkGetItemsWithVariantsAsync_WithValidRequest_ReturnsItemsWithVariants()
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("BulkGetResponse.json");
