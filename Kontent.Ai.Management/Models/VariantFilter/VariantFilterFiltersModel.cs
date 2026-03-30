@@ -74,4 +74,10 @@ public class VariantFilterFiltersModel
     /// </summary>
     [JsonProperty("publishing_states")]
     public IEnumerable<VariantFilterPublishingState> PublishingStates { get; set; }
+
+    /// <summary>
+    /// Gets or sets the component types.
+    /// </summary>
+    [JsonProperty("component_types")]
+    public IEnumerable<Reference> ComponentTypes { get; set; }
 }

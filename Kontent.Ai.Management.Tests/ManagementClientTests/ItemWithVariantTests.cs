@@ -282,6 +282,31 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
+    public async Task FilterItemsWithVariantsAsync_WithComponentTypesFilter_ReturnsResults()
+    {
+        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+
+        var request = new ItemWithVariantFilterRequestModel
+        {
+            Filters = new VariantFilterFiltersModel
+            {
+                Language = Reference.ByCodename("en-US"),
+                ComponentTypes = new List<Reference>
+                {
+                    Reference.ByCodename("banner"),
+                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
+                }
+            }
+        };
+
+        var response = await client.FilterItemsWithVariantsAsync(request);
+
+        response.Should().NotBeNull();
+        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
+        response.ToList().Should().HaveCount(2);
+    }
+
+    [Fact]
     public async Task BulkGetItemsWithVariantsAsync_WithValidRequest_ReturnsItemsWithVariants()
     {
         var client = _fileSystemFixture.CreateMockClientWithResponse("BulkGetResponse.json");
