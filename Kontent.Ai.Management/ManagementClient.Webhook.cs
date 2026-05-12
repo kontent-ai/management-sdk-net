@@ -1,9 +1,6 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Webhooks;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -11,18 +8,14 @@ public partial class ManagementClient
 {
     /// <inheritdoc />
     public async Task<IEnumerable<WebhookModel>> ListWebhooksAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildWebhooksUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WebhookModel>>(endpointUrl, HttpMethod.Get);
-    }
+        => EnsureSuccess(await _managementApi.ListWebhooksInternalAsync());
 
     /// <inheritdoc />
     public async Task<WebhookModel> GetWebhookAsync(Reference identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<WebhookModel>(endpointUrl, HttpMethod.Get);
+        return EnsureSuccess(await _managementApi.GetWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id)));
     }
 
     /// <inheritdoc />
@@ -30,8 +23,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(webhook);
 
-        var endpointUrl = _urlBuilder.BuildWebhooksUrl();
-        return await _actionInvoker.InvokeMethodAsync<WebhookCreateModel, WebhookModel>(endpointUrl, HttpMethod.Post, webhook);
+        return EnsureSuccess(await _managementApi.CreateWebhookInternalAsync(webhook));
     }
 
     /// <inheritdoc />
@@ -39,8 +31,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildWebhooksUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id)));
     }
 
     /// <inheritdoc />
@@ -48,8 +39,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildWebhooksEnableUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        EnsureSuccess(await _managementApi.EnableWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id)));
     }
 
     /// <inheritdoc />
@@ -57,7 +47,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildWebhooksDisableUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        EnsureSuccess(await _managementApi.DisableWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id)));
     }
 }

@@ -23,7 +23,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetSpaceInternalAsync(identifier.ToUrlSegment()));
+        return EnsureSuccess(await _managementApi.GetSpaceInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)));
     }
 
     /// <inheritdoc />
@@ -36,7 +36,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);
 
-        return EnsureSuccess(await _managementApi.ModifySpaceInternalAsync(identifier.ToUrlSegment(), changes));
+        return EnsureSuccess(await _managementApi.ModifySpaceInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), changes));
     }
 
     /// <inheritdoc />
@@ -44,6 +44,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.DeleteSpaceInternalAsync(identifier.ToUrlSegment()));
+        EnsureSuccess(await _managementApi.DeleteSpaceInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)));
     }
 }

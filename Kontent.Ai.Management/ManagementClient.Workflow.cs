@@ -1,42 +1,30 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
-/// <summary>
-/// Executes requests against the Kontent.ai Management API.
-/// </summary>
-public sealed partial class ManagementClient
+public partial class ManagementClient
 {
     /// <inheritdoc />
     public async Task<IEnumerable<WorkflowModel>> ListWorkflowsAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowModel>>(endpointUrl, HttpMethod.Get);
-    }
+        => EnsureSuccess(await _managementApi.ListWorkflowsInternalAsync());
 
     /// <inheritdoc />
     public async Task<WorkflowModel> CreateWorkflowAsync(WorkflowUpsertModel workflow)
     {
         ArgumentNullException.ThrowIfNull(workflow);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl();
-        return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Post, workflow);
+        return EnsureSuccess(await _managementApi.CreateWorkflowInternalAsync(workflow));
     }
 
     /// <inheritdoc />
     public async Task<WorkflowModel> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(workflow);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Put, workflow);
+        return EnsureSuccess(await _managementApi.UpdateWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), workflow));
     }
 
     /// <inheritdoc />
@@ -44,7 +32,6 @@ public sealed partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)));
     }
 }

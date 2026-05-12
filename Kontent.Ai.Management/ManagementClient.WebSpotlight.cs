@@ -1,13 +1,7 @@
-﻿using Kontent.Ai.Management.Models.WebSpotlight;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Models.WebSpotlight;
 
 namespace Kontent.Ai.Management;
 
-/// <summary>
-/// Executes requests against the Kontent.ai Management API.
-/// </summary>
 public partial class ManagementClient
 {
     /// <inheritdoc />
@@ -15,21 +9,14 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(webSpotlightActivateModel);
 
-        var endpointUrl = _urlBuilder.BuildWebSpotlightUrl();
-        return await _actionInvoker.InvokeMethodAsync<WebSpotlightActivateModel, WebSpotlightModel>(endpointUrl, HttpMethod.Put, webSpotlightActivateModel);
+        return EnsureSuccess(await _managementApi.ActivateWebSpotlightInternalAsync(webSpotlightActivateModel));
     }
 
     /// <inheritdoc />
     public async Task<WebSpotlightModel> DeactivateWebSpotlightAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildWebSpotlightUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<WebSpotlightModel>(endpointUrl, HttpMethod.Put);
-    }
-    
+        => EnsureSuccess(await _managementApi.DeactivateWebSpotlightInternalAsync());
+
     /// <inheritdoc />
     public async Task<WebSpotlightModel> GetWebSpotlightStatusAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildWebSpotlightUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<WebSpotlightModel>(endpointUrl, HttpMethod.Get);
-    }
+        => EnsureSuccess(await _managementApi.GetWebSpotlightStatusInternalAsync());
 }
