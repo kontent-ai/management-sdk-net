@@ -90,22 +90,15 @@ public sealed partial class ManagementClient : IManagementClient
         return response;
     }
 
+    // The response is not disposed here — the legacy SDK never disposed responses either, and the test harness reuses
+    // the same HttpResponseMessage instances across calls. (Refit has already fully read the body for IApiResponse<T>.)
     private static T EnsureSuccess<T>(IApiResponse<T> response)
     {
-        using (response)
-        {
-            ThrowIfNotSuccess(response);
-            return response.Content!;
-        }
+        ThrowIfNotSuccess(response);
+        return response.Content!;
     }
 
-    private static void EnsureSuccess(IApiResponse response)
-    {
-        using (response)
-        {
-            ThrowIfNotSuccess(response);
-        }
-    }
+    private static void EnsureSuccess(IApiResponse response) => ThrowIfNotSuccess(response);
 
     private static void ThrowIfNotSuccess(IApiResponse response)
     {

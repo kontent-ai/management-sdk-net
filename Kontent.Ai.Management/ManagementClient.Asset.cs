@@ -1,9 +1,8 @@
-﻿using Kontent.Ai.Management.Models.Assets;
+using System.Net.Http.Headers;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -12,60 +11,50 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
     {
-        var endpointUrl = _urlBuilder.BuildAssetsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var response = EnsureSuccess(await _managementApi.ListAssetsInternalAsync());
 
         return new ListingResponseModel<AssetModel>(
-            GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
+            (continuationToken, _) => GetNextAssetsPageAsync(continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Assets);
     }
 
     /// <inheritdoc />
     public async Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new()
     {
-        var endpointUrl = _urlBuilder.BuildAssetsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var response = EnsureSuccess(await _managementApi.ListAssetsInternalAsync());
 
         return new ListingResponseMappedModel<AssetModel, AssetModel<T>>(
-            GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
+            (continuationToken, _) => GetNextAssetsPageAsync(continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Assets,
             _modelProvider.GetAssetModel<T>);
     }
+
+    private async Task<IListingResponse<AssetModel>> GetNextAssetsPageAsync(string continuationToken)
+        => EnsureSuccess(await _managementApi.ListAssetsInternalAsync(continuationToken));
 
     /// <inheritdoc />
     public async Task<AssetModel> GetAssetAsync(Reference identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return EnsureSuccess(await _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
     public async Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new()
-    {
-        var response = await GetAssetAsync(identifier);
-
-        return _modelProvider.GetAssetModel<T>(response);
-    }
+        => _modelProvider.GetAssetModel<T>(await GetAssetAsync(identifier));
 
     /// <inheritdoc />
     public async Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(asset);
 
-        var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-        var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
-
-        return response;
+        return EnsureSuccess(await _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset));
     }
 
     /// <inheritdoc />
@@ -73,9 +62,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(asset);
 
-        var result = await UpsertAssetAsync(identifier, _modelProvider.GetAssetUpsertModel(asset));
-
-        return _modelProvider.GetAssetModel<T>(result);
+        return _modelProvider.GetAssetModel<T>(await UpsertAssetAsync(identifier, _modelProvider.GetAssetUpsertModel(asset)));
     }
 
     /// <inheritdoc />
@@ -83,10 +70,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(asset);
 
-        var endpointUrl = _urlBuilder.BuildAssetsUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
-
-        return response;
+        return EnsureSuccess(await _managementApi.CreateAssetInternalAsync(asset));
     }
 
     /// <inheritdoc />
@@ -94,9 +78,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(asset);
 
-        var result = await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset));
-
-        return _modelProvider.GetAssetModel<T>(result);
+        return _modelProvider.GetAssetModel<T>(await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset)));
     }
 
     /// <inheritdoc />
@@ -104,8 +86,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -121,14 +102,15 @@ public partial class ManagementClient
                 throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
             }
 
-            var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
-            var response = await _actionInvoker.UploadFileAsync<FileReference>(endpointUrl, stream, fileContent.ContentType);
+            var content = new StreamContent(stream);
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse(fileContent.ContentType);
+            content.Headers.ContentLength = stream.Length;
 
-            return response;
+            return EnsureSuccess(await _managementApi.UploadFileInternalAsync(fileContent.FileName, content));
         }
         finally
         {
-            // Dispose the stream only in case new stream was created
+            // Dispose the stream only in case a new stream was created.
             if (fileContent.CreatesNewStream)
             {
                 stream.Dispose();

@@ -1,8 +1,6 @@
-﻿using Kontent.Ai.Management.Models.AssetRenditions;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -13,23 +11,25 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(assetIdentifier);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var assetSegment = assetIdentifier.ToUrlSegment();
+        var response = EnsureSuccess(await _managementApi.ListAssetRenditionsInternalAsync(assetSegment));
 
         return new ListingResponseModel<AssetRenditionModel>(
-            GetNextListingPageAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>,
+            (continuationToken, _) => GetNextAssetRenditionsPageAsync(assetSegment, continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.AssetRenditions);
     }
+
+    private async Task<IListingResponse<AssetRenditionModel>> GetNextAssetRenditionsPageAsync(string assetSegment, string continuationToken)
+        => EnsureSuccess(await _managementApi.ListAssetRenditionsInternalAsync(assetSegment, continuationToken));
 
     /// <inheritdoc />
     public async Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionModel>(endpointUrl, HttpMethod.Get);
+        return EnsureSuccess(await _managementApi.GetAssetRenditionInternalAsync(BuildRenditionPath(identifier)));
     }
 
     /// <inheritdoc />
@@ -38,18 +38,19 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(updateModel);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<AssetRenditionUpdateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Put, updateModel);
+        return EnsureSuccess(await _managementApi.UpdateAssetRenditionInternalAsync(BuildRenditionPath(identifier), updateModel));
     }
 
     /// <inheritdoc />
     public async Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel)
     {
         ArgumentNullException.ThrowIfNull(assetIdentifier);
-
         ArgumentNullException.ThrowIfNull(createModel);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
-        return await _actionInvoker.InvokeMethodAsync<AssetRenditionCreateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Post, createModel);
+        return EnsureSuccess(await _managementApi.CreateAssetRenditionInternalAsync(assetIdentifier.ToUrlSegment(), createModel));
     }
+
+    // Asset renditions are addressed by `{asset}/renditions/{rendition}`; the rendition part supports id or external id only.
+    private static string BuildRenditionPath(AssetRenditionIdentifier identifier) =>
+        $"{identifier.AssetIdentifier.ToUrlSegment()}/renditions/{identifier.RenditionIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.ExternalId)}";
 }
