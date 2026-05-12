@@ -1,26 +1,17 @@
-﻿using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
-/// <summary>
-/// Executes requests against the Kontent.ai Management API.
-/// </summary>
-public sealed partial class ManagementClient
+public partial class ManagementClient
 {
     /// <inheritdoc />
     public async Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(changeModel);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, changeModel);
+        EnsureSuccess(await _managementApi.ChangeLanguageVariantWorkflowInternalAsync(BuildVariantPath(identifier), changeModel));
     }
 
     /// <inheritdoc />
@@ -28,33 +19,25 @@ public sealed partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        EnsureSuccess(await _managementApi.PublishLanguageVariantInternalAsync(BuildVariantPath(identifier)));
     }
 
     /// <inheritdoc />
     public async Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
+        EnsureSuccess(await _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier), scheduleModel));
     }
-    
+
     /// <inheritdoc />
-    public async Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule) 
+    public async Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-        
         ArgumentNullException.ThrowIfNull(schedule);
 
-        var endpointUrl = _urlBuilder.BuildSchedulePublishAndUnpublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, schedule);
+        EnsureSuccess(await _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier), schedule));
     }
 
     /// <inheritdoc />
@@ -62,9 +45,7 @@ public sealed partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildCancelPublishingVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        EnsureSuccess(await _managementApi.CancelPublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier)));
     }
 
     /// <inheritdoc />
@@ -72,9 +53,7 @@ public sealed partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        EnsureSuccess(await _managementApi.UnpublishLanguageVariantInternalAsync(BuildVariantPath(identifier)));
     }
 
     /// <inheritdoc />
@@ -82,21 +61,16 @@ public sealed partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildCancelUnpublishingVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        EnsureSuccess(await _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier)));
     }
 
     /// <inheritdoc />
     public async Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
+        EnsureSuccess(await _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier), scheduleModel));
     }
 
     /// <inheritdoc />
@@ -104,8 +78,6 @@ public sealed partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildNewVersionVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        EnsureSuccess(await _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(BuildVariantPath(identifier)));
     }
 }
