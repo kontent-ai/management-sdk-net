@@ -1,6 +1,4 @@
-﻿using Kontent.Ai.Management.Models.PreviewConfiguration;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Models.PreviewConfiguration;
 
 namespace Kontent.Ai.Management;
 
@@ -8,15 +6,9 @@ public partial class ManagementClient
 {
     /// <inheritdoc />
     public async Task<PreviewConfigurationModel> GetPreviewConfigurationAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildPreviewConfigurationUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<PreviewConfigurationModel>(endpointUrl, HttpMethod.Get);
-    }
+        => EnsureSuccess(await _managementApi.GetPreviewConfigurationInternalAsync());
 
     /// <inheritdoc />
     public async Task<PreviewConfigurationModel> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration)
-    {
-        var endpointUrl = _urlBuilder.BuildPreviewConfigurationUrl();
-        return await _actionInvoker.InvokeMethodAsync<PreviewConfigurationModel, PreviewConfigurationModel >(endpointUrl, HttpMethod.Put, previewConfiguration);
-    }
+        => EnsureSuccess(await _managementApi.ModifyPreviewConfigurationInternalAsync(previewConfiguration));
 }
