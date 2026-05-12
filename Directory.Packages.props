@@ -1,0 +1,43 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Build infrastructure -->
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.19.0.132793">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+
+    <!-- HTTP transport (Refit-backed, target architecture) -->
+    <PackageVersion Include="Refit" Version="10.1.6" />
+    <PackageVersion Include="Refit.HttpClientFactory" Version="10.1.6" />
+
+    <!-- Core dependencies -->
+    <!-- M.E.* pinned to the 9.0.x servicing band: Refit.HttpClientFactory 10.x pulls in Microsoft.Extensions.Http 9.x transitively. -->
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.15" />
+    <!-- Legacy runtime dependencies, slated for removal during the rewrite -->
+    <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="Polly" Version="7.2.3" />
+    <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
+
+    <!-- Test dependencies -->
+    <!-- xunit core and FluentAssertions stay at the versions the legacy suite was written against: xunit 2.5+ overload
+         resolution breaks its dynamic-typed assertions, and FA 7 changed the collection equivalency its JSON-comparison tests
+         rely on. The test SDK / vstest adapter / coverlet are current (the old adapter can't run under the .NET 9 `dotnet test`
+         host). The whole stack moves forward when the suite is rewritten (MockHttp + Verify). -->
+    <PackageVersion Include="coverlet.collector" Version="3.2.0" />
+    <PackageVersion Include="coverlet.msbuild" Version="3.2.0" />
+    <PackageVersion Include="FluentAssertions" Version="6.7.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.15" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.15" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.15" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="NSubstitute" Version="4.4.0" />
+    <PackageVersion Include="xunit" Version="2.4.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+</Project>

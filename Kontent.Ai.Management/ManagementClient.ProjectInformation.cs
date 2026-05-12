@@ -1,6 +1,6 @@
-﻿using Kontent.Ai.Management.Models.EnvironmentReport;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Environment = Kontent.Ai.Management.Models.EnvironmentReport.Environment;
 
 namespace Kontent.Ai.Management;
 
