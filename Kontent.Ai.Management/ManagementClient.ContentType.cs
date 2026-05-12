@@ -1,11 +1,7 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Patch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -14,25 +10,24 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
     {
-        var endpointUrl = _urlBuilder.BuildTypeUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var response = EnsureSuccess(await _managementApi.ListContentTypesInternalAsync());
 
         return new ListingResponseModel<ContentTypeModel>(
-            GetNextListingPageAsync<ContentTypeListingResponseServerModel, ContentTypeModel>,
+            (continuationToken, _) => GetNextContentTypesPageAsync(continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Types);
     }
+
+    private async Task<IListingResponse<ContentTypeModel>> GetNextContentTypesPageAsync(string continuationToken)
+        => EnsureSuccess(await _managementApi.ListContentTypesInternalAsync(continuationToken));
 
     /// <inheritdoc />
     public async Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return EnsureSuccess(await _managementApi.GetContentTypeInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -40,10 +35,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(contentType);
 
-        var endpointUrl = _urlBuilder.BuildTypeUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ContentTypeCreateModel, ContentTypeModel>(endpointUrl, HttpMethod.Post, contentType);
-
-        return response;
+        return EnsureSuccess(await _managementApi.CreateContentTypeInternalAsync(contentType));
     }
 
     /// <inheritdoc />
@@ -51,9 +43,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteContentTypeInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -66,7 +56,6 @@ public partial class ManagementClient
             throw new ArgumentException("Please provide at least one operation.", nameof(changes));
         }
 
-        var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, HttpMethod.Patch, changes);
+        return EnsureSuccess(await _managementApi.ModifyContentTypeInternalAsync(identifier.ToUrlSegment(), changes));
     }
 }
