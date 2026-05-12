@@ -1,26 +1,21 @@
 using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
-public sealed partial class ManagementClient
+public partial class ManagementClient
 {
     /// <inheritdoc />
     public async Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest)
     {
         ArgumentNullException.ThrowIfNull(filterRequest);
 
-        var endpointUrl = _urlBuilder.BuildItemsWithVariantFilterUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantFilterRequestModel, ItemWithVariantFilterListingResponseServerModel>(endpointUrl, HttpMethod.Post, filterRequest);
+        var response = EnsureSuccess(await _managementApi.FilterItemsWithVariantsInternalAsync(filterRequest));
 
         return new ListingResponseModel<ItemWithVariantFilterResultModel>(
-            (continuationToken, url) => GetNextFilterItemsWithVariantsPageAsync(continuationToken, url, filterRequest),
+            (continuationToken, _) => GetNextFilterItemsWithVariantsPageAsync(continuationToken, filterRequest),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Variants);
     }
 
@@ -29,37 +24,18 @@ public sealed partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(bulkGetRequest);
 
-        var endpointUrl = _urlBuilder.BuildItemsWithVariantBulkGetUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantBulkGetRequestModel, ContentItemsWithVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Post, bulkGetRequest);
+        var response = EnsureSuccess(await _managementApi.BulkGetItemsWithVariantsInternalAsync(bulkGetRequest));
 
         return new ListingResponseModel<ContentItemWithVariantModel>(
-            (continuationToken, url) => GetNextBulkGetItemsWithVariantsPageAsync(continuationToken, url, bulkGetRequest),
+            (continuationToken, _) => GetNextBulkGetItemsWithVariantsPageAsync(continuationToken, bulkGetRequest),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Data);
     }
 
-    private async Task<IListingResponse<ItemWithVariantFilterResultModel>> GetNextFilterItemsWithVariantsPageAsync(string continuationToken, string url, ItemWithVariantFilterRequestModel filterRequest)
-    {
-        var headers = new Dictionary<string, string>
-        {
-            { "x-continuation", continuationToken }
-        };
+    private async Task<IListingResponse<ItemWithVariantFilterResultModel>> GetNextFilterItemsWithVariantsPageAsync(string continuationToken, ItemWithVariantFilterRequestModel filterRequest)
+        => EnsureSuccess(await _managementApi.FilterItemsWithVariantsInternalAsync(filterRequest, continuationToken));
 
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantFilterRequestModel, ItemWithVariantFilterListingResponseServerModel>(url, HttpMethod.Post, filterRequest, headers);
-
-        return response;
-    }
-
-    private async Task<IListingResponse<ContentItemWithVariantModel>> GetNextBulkGetItemsWithVariantsPageAsync(string continuationToken, string url, ItemWithVariantBulkGetRequestModel bulkGetRequest)
-    {
-        var headers = new Dictionary<string, string>
-        {
-            { "x-continuation", continuationToken }
-        };
-
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantBulkGetRequestModel, ContentItemsWithVariantsListingResponseServerModel>(url, HttpMethod.Post, bulkGetRequest, headers);
-
-        return response;
-    }
+    private async Task<IListingResponse<ContentItemWithVariantModel>> GetNextBulkGetItemsWithVariantsPageAsync(string continuationToken, ItemWithVariantBulkGetRequestModel bulkGetRequest)
+        => EnsureSuccess(await _managementApi.BulkGetItemsWithVariantsInternalAsync(bulkGetRequest, continuationToken));
 }

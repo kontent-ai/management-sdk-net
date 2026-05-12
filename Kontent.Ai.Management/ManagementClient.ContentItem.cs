@@ -1,8 +1,6 @@
-﻿using Kontent.Ai.Management.Models.Items;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -11,25 +9,24 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
     {
-        var endpointUrl = _urlBuilder.BuildItemsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var response = EnsureSuccess(await _managementApi.ListContentItemsInternalAsync());
 
         return new ListingResponseModel<ContentItemModel>(
-            GetNextListingPageAsync<ContentItemListingResponseServerModel, ContentItemModel>,
+            (continuationToken, _) => GetNextContentItemsPageAsync(continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Items);
     }
+
+    private async Task<IListingResponse<ContentItemModel>> GetNextContentItemsPageAsync(string continuationToken)
+        => EnsureSuccess(await _managementApi.ListContentItemsInternalAsync(continuationToken));
 
     /// <inheritdoc />
     public async Task<ContentItemModel> GetContentItemAsync(Reference identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return EnsureSuccess(await _managementApi.GetContentItemInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -37,23 +34,16 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        var endpointUrl = _urlBuilder.BuildItemsUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ContentItemCreateModel, ContentItemModel>(endpointUrl, HttpMethod.Post, contentItem);
-
-        return response;
+        return EnsureSuccess(await _managementApi.CreateContentItemInternalAsync(contentItem));
     }
 
     /// <inheritdoc />
     public async Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-        var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
-
-        return response;
+        return EnsureSuccess(await _managementApi.UpsertContentItemInternalAsync(identifier.ToUrlSegment(), contentItem));
     }
 
     /// <inheritdoc />
@@ -61,8 +51,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteContentItemInternalAsync(identifier.ToUrlSegment()));
     }
 }
