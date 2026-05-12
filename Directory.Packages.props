@@ -14,13 +14,15 @@
     <!-- HTTP transport (Refit-backed, target architecture) -->
     <PackageVersion Include="Refit" Version="10.1.6" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="10.1.6" />
+    <!-- Transitional: lets Refit serialize the existing Newtonsoft-annotated models; removed once models move to System.Text.Json. -->
+    <PackageVersion Include="Refit.Newtonsoft.Json" Version="10.1.6" />
 
     <!-- Core dependencies -->
     <!-- M.E.* pinned to the 9.0.x servicing band: Refit.HttpClientFactory 10.x pulls in Microsoft.Extensions.Http 9.x transitively. -->
     <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.15" />
     <!-- Legacy runtime dependencies, slated for removal during the rewrite -->
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="Polly" Version="7.2.3" />
     <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
 
