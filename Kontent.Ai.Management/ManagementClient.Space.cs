@@ -1,11 +1,7 @@
+using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -14,14 +10,12 @@ namespace Kontent.Ai.Management;
 /// </summary>
 public partial class ManagementClient
 {
-
     /// <inheritdoc />
     public async Task<SpaceModel> CreateSpaceAsync(SpaceCreateModel space)
     {
         ArgumentNullException.ThrowIfNull(space);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl();
-        return await _actionInvoker.InvokeMethodAsync<SpaceCreateModel, SpaceModel>(endpointUrl, HttpMethod.Post, space);
+        return EnsureSuccess(await _managementApi.CreateSpaceInternalAsync(space));
     }
 
     /// <inheritdoc />
@@ -29,16 +23,12 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<SpaceModel>(endpointUrl, HttpMethod.Get);
+        return EnsureSuccess(await _managementApi.GetSpaceInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
     public async Task<IEnumerable<SpaceModel>> ListSpacesAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildSpacesUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<SpaceModel>>(endpointUrl, HttpMethod.Get);
-    }
+        => EnsureSuccess(await _managementApi.ListSpacesInternalAsync());
 
     /// <inheritdoc />
     public async Task<SpaceModel> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes)
@@ -46,8 +36,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<SpaceOperationReplaceModel>, SpaceModel>(endpointUrl, HttpMethod.Patch, changes);
+        return EnsureSuccess(await _managementApi.ModifySpaceInternalAsync(identifier.ToUrlSegment(), changes));
     }
 
     /// <inheritdoc />
@@ -55,7 +44,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteSpaceInternalAsync(identifier.ToUrlSegment()));
     }
 }
