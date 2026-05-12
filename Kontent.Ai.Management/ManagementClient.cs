@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Exceptions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Modules.ActionInvoker;
 using Kontent.Ai.Management.Modules.HttpClient;
@@ -19,7 +21,9 @@ public sealed partial class ManagementClient : IManagementClient
 {
     private const int MAX_FILE_SIZE_MB = 100;
 
+    // Domains are being migrated to the Refit-backed _managementApi one at a time; the rest still go through _actionInvoker.
     private readonly ActionInvoker _actionInvoker;
+    private readonly IManagementApi _managementApi;
     private readonly EndpointUrlBuilder _urlBuilder;
     private readonly IModelProvider _modelProvider;
 
@@ -61,13 +65,16 @@ public sealed partial class ManagementClient : IManagementClient
         _actionInvoker = new ActionInvoker(
             new ManagementHttpClient(new Modules.HttpClient.HttpClient(httpClient), new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
             new MessageCreator(ManagementOptions.ApiKey));
+        // The supplied httpClient feeds the legacy path only; the Refit path builds its own client until the migration completes.
+        _managementApi = ManagementApiFactory.Create(ManagementOptions);
         _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
     }
 
-    internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
+    internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IManagementApi managementApi, IModelProvider modelProvider = null)
     {
         _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
         _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
+        _managementApi = managementApi;
         _modelProvider = modelProvider ?? new ModelProvider();
     }
 
@@ -81,5 +88,36 @@ public sealed partial class ManagementClient : IManagementClient
         var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TListingResponse>(url, HttpMethod.Get, headers);
 
         return response;
+    }
+
+    private static T EnsureSuccess<T>(IApiResponse<T> response)
+    {
+        using (response)
+        {
+            ThrowIfNotSuccess(response);
+            return response.Content!;
+        }
+    }
+
+    private static void EnsureSuccess(IApiResponse response)
+    {
+        using (response)
+        {
+            ThrowIfNotSuccess(response);
+        }
+    }
+
+    private static void ThrowIfNotSuccess(IApiResponse response)
+    {
+        if (response.IsSuccessStatusCode)
+        {
+            return;
+        }
+
+        var error = response.Error;
+        throw new ManagementException(
+            error?.StatusCode ?? response.StatusCode,
+            error?.ReasonPhrase ?? response.ReasonPhrase,
+            error?.Content ?? "CM API returned server error.");
     }
 }

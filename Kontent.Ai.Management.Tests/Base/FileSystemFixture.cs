@@ -42,7 +42,8 @@ public sealed class FileSystemFixture : IDisposable
     public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
     {
         var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
-        return new ManagementClient(_urlBuilder, actionInvoker);
+        // managementApi is unused by the domains this fixture serves (they still go through ActionInvoker).
+        return new ManagementClient(_urlBuilder, actionInvoker, managementApi: null!);
     }
 
     public IManagementClient CreateMockClientWithUrl(string expectedUrl)

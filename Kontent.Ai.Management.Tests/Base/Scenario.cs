@@ -1,4 +1,5 @@
-﻿using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Modules.ActionInvoker;
 using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.UrlBuilder;
@@ -19,6 +20,7 @@ internal class Scenario
     public static string ENVIRONMENT_ID => "a9931a80-9af4-010b-0590-ecb1273cf1b8";
     public static string SUBSCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
+    private readonly ManagementOptions _managementOptions;
     private readonly EndpointUrlBuilder _urlBuilder;
     private readonly MessageCreator _messageCreator;
     private readonly string _folder;
@@ -26,17 +28,18 @@ internal class Scenario
     private HttpClientMockData _clientData;
     private List<HttpResponseMessage> _responsesMessages;
     private List<string> _filePaths;
+    private int _refitResponseIndex;
 
     public Scenario(string folder)
     {
-        var managementOptions = new ManagementOptions()
+        _managementOptions = new ManagementOptions
         {
             ApiKey = "Dummy_API_key",
             EnvironmentId = ENVIRONMENT_ID,
             SubscriptionId = SUBSCRIPTION_ID
         };
-        _urlBuilder = new EndpointUrlBuilder(managementOptions);
-        _messageCreator = new MessageCreator(managementOptions.ApiKey);
+        _urlBuilder = new EndpointUrlBuilder(_managementOptions);
+        _messageCreator = new MessageCreator(_managementOptions.ApiKey);
         _responsesMessages = new();
         _folder = Path.Combine(Environment.CurrentDirectory, "Data", folder);
     }
@@ -49,6 +52,7 @@ internal class Scenario
     {
         _responsesMessages = new();
         _filePaths = new();
+        _refitResponseIndex = 0;
 
         foreach (var responseFileName in responseFileNames)
         {
@@ -112,7 +116,8 @@ internal class Scenario
 
 
         var actionInvoker = new ActionInvoker(mockedHttpClient, messageCreator);
-        return new ManagementClient(urlBuilder, actionInvoker);
+        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitCapturingHandler(this));
+        return new ManagementClient(urlBuilder, actionInvoker, managementApi);
     }
 
     private Func<CallInfo, HttpResponseMessage>[] GetRestOfResponses()
@@ -124,5 +129,30 @@ internal class Scenario
         }
 
         return Array.Empty<Func<CallInfo, HttpResponseMessage>>();
+    }
+
+    /// <summary>
+    /// Innermost handler for the Refit-backed <see cref="IManagementApi"/>: records the outgoing request into
+    /// <see cref="_clientData"/> (same shape the legacy <see cref="IManagementHttpClient"/> mock records) and replays
+    /// the configured response files in order.
+    /// </summary>
+    private sealed class RefitCapturingHandler(Scenario scenario) : HttpMessageHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var payload = request.Content is null ? null : await request.Content.ReadAsStringAsync(cancellationToken);
+
+            scenario._clientData = new HttpClientMockData(
+                Url: request.RequestUri!.AbsoluteUri,
+                HttpMethod: request.Method,
+                Payload: payload,
+                Headers: null);
+
+            var responses = scenario._responsesMessages;
+            var index = scenario._refitResponseIndex++;
+            return responses.Count == 0
+                ? new HttpResponseMessage()
+                : responses[Math.Min(index, responses.Count - 1)];
+        }
     }
 }

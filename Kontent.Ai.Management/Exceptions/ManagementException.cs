@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Net;
@@ -25,10 +25,21 @@ public sealed class ManagementException : Exception
     /// Initializes a new instance of the <see cref="ManagementException"/> class with information from an error response.
     /// </summary>
     /// <param name="response">The unsuccessful response.</param>
-    /// <param name="exceptionMessage">The error response.</param>
+    /// <param name="exceptionMessage">The error response body.</param>
     public ManagementException(HttpResponseMessage response, string exceptionMessage)
+        : this(response.StatusCode, response.ReasonPhrase, exceptionMessage)
     {
-        StatusCode = response.StatusCode;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ManagementException"/> class with information from an error response.
+    /// </summary>
+    /// <param name="statusCode">The HTTP status code of the response.</param>
+    /// <param name="reasonPhrase">The HTTP reason phrase of the response.</param>
+    /// <param name="exceptionMessage">The error response body.</param>
+    public ManagementException(HttpStatusCode statusCode, string? reasonPhrase, string exceptionMessage)
+    {
+        StatusCode = statusCode;
 
         try
         {
@@ -46,7 +57,7 @@ public sealed class ManagementException : Exception
         }
         catch (Exception)
         {
-            Message = $"Unknown error. HTTP status code: {StatusCode}. Reason phrase: {response.ReasonPhrase}.";
+            Message = $"Unknown error. HTTP status code: {StatusCode}. Reason phrase: {reasonPhrase}.";
         }
     }
 }
