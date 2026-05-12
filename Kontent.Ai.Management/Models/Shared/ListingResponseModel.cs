@@ -9,11 +9,11 @@ internal class ListingResponseModel<T> : IListingResponseModel<T>
 {
     private readonly IEnumerable<T> _result;
 
-    private readonly string _continuationToken;
+    private readonly string? _continuationToken;
     private readonly string _url;
     private readonly Func<string, string, Task<IListingResponse<T>>> _nextPageRetriever;
 
-    public ListingResponseModel(Func<string, string, Task<IListingResponse<T>>> retriever, string continuationToken, string url, IEnumerable<T> result)
+    public ListingResponseModel(Func<string, string, Task<IListingResponse<T>>> retriever, string? continuationToken, string url, IEnumerable<T> result)
     {
         _nextPageRetriever = retriever;
         _continuationToken = continuationToken;

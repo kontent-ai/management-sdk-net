@@ -1,9 +1,6 @@
-﻿using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -12,25 +9,24 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<LanguageModel>> ListLanguagesAsync()
     {
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguagesListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var response = EnsureSuccess(await _managementApi.ListLanguagesInternalAsync());
 
         return new ListingResponseModel<LanguageModel>(
-            GetNextListingPageAsync<LanguagesListingResponseServerModel, LanguageModel>,
+            (continuationToken, _) => GetNextLanguagesPageAsync(continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Languages);
     }
+
+    private async Task<IListingResponse<LanguageModel>> GetNextLanguagesPageAsync(string continuationToken)
+        => EnsureSuccess(await _managementApi.ListLanguagesInternalAsync(continuationToken));
 
     /// <inheritdoc />
     public async Task<LanguageModel> GetLanguageAsync(Reference identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return EnsureSuccess(await _managementApi.GetLanguageInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -38,8 +34,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(language);
 
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl();
-        return await _actionInvoker.InvokeMethodAsync<LanguageCreateModel, LanguageModel>(endpointUrl, HttpMethod.Post, language);
+        return EnsureSuccess(await _managementApi.CreateLanguageInternalAsync(language));
     }
 
     /// <inheritdoc />
@@ -47,7 +42,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<LanguagePatchModel>, LanguageModel>(endpointUrl, HttpMethod.Patch, changes);
+        return EnsureSuccess(await _managementApi.ModifyLanguageInternalAsync(identifier.ToUrlSegment(), changes));
     }
 }

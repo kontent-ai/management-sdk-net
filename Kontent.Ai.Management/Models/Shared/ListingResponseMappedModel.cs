@@ -10,14 +10,14 @@ internal class ListingResponseMappedModel<TRaw, T> : IListingResponseModel<T>
 {
     private readonly IEnumerable<TRaw> _rawResult;
 
-    private readonly string _continuationToken;
+    private readonly string? _continuationToken;
     private readonly string _url;
     private readonly Func<string, string, Task<IListingResponse<TRaw>>> _nextPageRetriever;
     private readonly Func<TRaw, T> _mapModel;
 
     public ListingResponseMappedModel(
         Func<string, string, Task<IListingResponse<TRaw>>> retriever,
-        string continuationToken,
+        string? continuationToken,
         string url,
         IEnumerable<TRaw> result,
         Func<TRaw, T> mapModel)
