@@ -24,6 +24,7 @@ public sealed partial class ManagementClient : IManagementClient
     // Domains are being migrated to the Refit-backed _managementApi one at a time; the rest still go through _actionInvoker.
     private readonly ActionInvoker _actionInvoker;
     private readonly IManagementApi _managementApi;
+    private readonly ISubscriptionApi _subscriptionApi;
     private readonly EndpointUrlBuilder _urlBuilder;
     private readonly IModelProvider _modelProvider;
 
@@ -67,14 +68,16 @@ public sealed partial class ManagementClient : IManagementClient
             new MessageCreator(ManagementOptions.ApiKey));
         // The supplied httpClient feeds the legacy path only; the Refit path builds its own client until the migration completes.
         _managementApi = ManagementApiFactory.Create(ManagementOptions);
+        _subscriptionApi = ManagementApiFactory.CreateSubscription(ManagementOptions);
         _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
     }
 
-    internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IManagementApi managementApi, IModelProvider modelProvider = null)
+    internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IManagementApi managementApi, ISubscriptionApi subscriptionApi, IModelProvider modelProvider = null)
     {
         _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
         _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
         _managementApi = managementApi;
+        _subscriptionApi = subscriptionApi;
         _modelProvider = modelProvider ?? new ModelProvider();
     }
 

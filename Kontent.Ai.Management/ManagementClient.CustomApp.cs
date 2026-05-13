@@ -1,10 +1,7 @@
-﻿using Kontent.Ai.Management.Models.CustomApps;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.CustomApps;
 using Kontent.Ai.Management.Models.CustomApps.Patch;
 using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -13,23 +10,24 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IListingResponseModel<CustomAppModel>> ListCustomAppsAsync()
     {
-        var endpointUrl = _urlBuilder.BuildCustomAppUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<CustomAppListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var response = EnsureSuccess(await _managementApi.ListCustomAppsInternalAsync());
 
         return new ListingResponseModel<CustomAppModel>(
-            GetNextListingPageAsync<CustomAppListingResponseServerModel, CustomAppModel>,
+            (continuationToken, _) => GetNextCustomAppsPageAsync(continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.CustomApps);
     }
+
+    private async Task<IListingResponse<CustomAppModel>> GetNextCustomAppsPageAsync(string continuationToken)
+        => EnsureSuccess(await _managementApi.ListCustomAppsInternalAsync(continuationToken));
 
     /// <inheritdoc />
     public async Task<CustomAppModel> GetCustomAppAsync(Reference identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildCustomAppUrl(identifier);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<CustomAppModel>(endpointUrl, HttpMethod.Get);
+        return EnsureSuccess(await _managementApi.GetCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)));
     }
 
     /// <inheritdoc />
@@ -37,8 +35,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(customApp);
 
-        var endpointUrl = _urlBuilder.BuildCustomAppUrl();
-        return await _actionInvoker.InvokeMethodAsync<CustomAppCreateModel, CustomAppModel>(endpointUrl, HttpMethod.Post, customApp);
+        return EnsureSuccess(await _managementApi.CreateCustomAppInternalAsync(customApp));
     }
 
     /// <inheritdoc />
@@ -46,8 +43,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildCustomAppUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)));
     }
 
     /// <inheritdoc />
@@ -56,7 +52,6 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildCustomAppUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<CustomAppOperationBaseModel>, CustomAppModel>(endpointUrl, HttpMethod.Patch, changes);
+        return EnsureSuccess(await _managementApi.ModifyCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), changes));
     }
 }

@@ -1,36 +1,33 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
+
 public partial class ManagementClient
 {
     /// <inheritdoc />
     public async Task<IListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
     {
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
+        var response = EnsureSuccess(await _managementApi.ListTaxonomyGroupsInternalAsync());
 
         return new ListingResponseModel<TaxonomyGroupModel>(
-            GetNextListingPageAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>,
+            (continuationToken, _) => GetNextTaxonomyGroupsPageAsync(continuationToken),
             response.Pagination?.Token,
-            endpointUrl,
+            url: string.Empty,
             response.Taxonomies);
     }
+
+    private async Task<IListingResponse<TaxonomyGroupModel>> GetNextTaxonomyGroupsPageAsync(string continuationToken)
+        => EnsureSuccess(await _managementApi.ListTaxonomyGroupsInternalAsync(continuationToken));
 
     /// <inheritdoc />
     public async Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return EnsureSuccess(await _managementApi.GetTaxonomyGroupInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -38,8 +35,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(taxonomyGroup);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
-        return await _actionInvoker.InvokeMethodAsync<TaxonomyGroupCreateModel, TaxonomyGroupModel>(endpointUrl, HttpMethod.Post, taxonomyGroup);
+        return EnsureSuccess(await _managementApi.CreateTaxonomyGroupInternalAsync(taxonomyGroup));
     }
 
     /// <inheritdoc />
@@ -47,8 +43,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, HttpMethod.Patch, changes);
+        return EnsureSuccess(await _managementApi.ModifyTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), changes));
     }
 
     /// <inheritdoc />
@@ -56,8 +51,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        EnsureSuccess(await _managementApi.DeleteTaxonomyGroupInternalAsync(identifier.ToUrlSegment()));
     }
 }

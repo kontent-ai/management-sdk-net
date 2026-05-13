@@ -1,8 +1,5 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Users;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
@@ -13,18 +10,31 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(invitation);
 
-        var endpointUrl = _urlBuilder.BuildUsersUrl();
-        return await _actionInvoker.InvokeMethodAsync<UserInviteModel, UserModel>(endpointUrl, HttpMethod.Post, invitation);
+        return EnsureSuccess(await _managementApi.InviteUserIntoEnvironmentInternalAsync(invitation));
     }
 
     /// <inheritdoc />
     public async Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(user);
 
-        var endpointUrl = _urlBuilder.BuildModifyUsersRoleUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<UserModel, UserModel>(endpointUrl, HttpMethod.Put, user);
+        return EnsureSuccess(await _managementApi.ModifyUsersRolesInternalAsync(UserSegment(identifier), user));
+    }
+
+    // A user is addressed by id or email — `{id}` or `email/{email}` (matches the legacy UserTemplate; Refit url-encodes the value).
+    private static string UserSegment(UserIdentifier identifier)
+    {
+        if (identifier.Id is not null)
+        {
+            return identifier.Id;
+        }
+
+        if (!string.IsNullOrEmpty(identifier.Email))
+        {
+            return $"email/{identifier.Email}";
+        }
+
+        throw new ArgumentException("You must provide user id or email");
     }
 }
