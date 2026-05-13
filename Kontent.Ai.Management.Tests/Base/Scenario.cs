@@ -28,7 +28,6 @@ internal class Scenario
     private HttpClientMockData _clientData;
     private List<HttpResponseMessage> _responsesMessages;
     private List<string> _filePaths;
-    private int _refitResponseIndex;
 
     public Scenario(string folder)
     {
@@ -52,7 +51,6 @@ internal class Scenario
     {
         _responsesMessages = new();
         _filePaths = new();
-        _refitResponseIndex = 0;
 
         foreach (var responseFileName in responseFileNames)
         {
@@ -116,9 +114,16 @@ internal class Scenario
 
 
         var actionInvoker = new ActionInvoker(mockedHttpClient, messageCreator);
-        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitCapturingHandler(this));
-        return new ManagementClient(urlBuilder, actionInvoker, managementApi);
+        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
+        var subscriptionApi = ManagementApiFactory.CreateSubscription(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
+        return new ManagementClient(urlBuilder, actionInvoker, managementApi, subscriptionApi);
     }
+
+    private void RecordRefitRequest(HttpRequestMessage request, string? payload) => _clientData = new HttpClientMockData(
+        Url: request.RequestUri!.AbsoluteUri,
+        HttpMethod: request.Method,
+        Payload: payload,
+        Headers: null);
 
     private Func<CallInfo, HttpResponseMessage>[] GetRestOfResponses()
     {
@@ -129,30 +134,5 @@ internal class Scenario
         }
 
         return Array.Empty<Func<CallInfo, HttpResponseMessage>>();
-    }
-
-    /// <summary>
-    /// Innermost handler for the Refit-backed <see cref="IManagementApi"/>: records the outgoing request into
-    /// <see cref="_clientData"/> (same shape the legacy <see cref="IManagementHttpClient"/> mock records) and replays
-    /// the configured response files in order.
-    /// </summary>
-    private sealed class RefitCapturingHandler(Scenario scenario) : HttpMessageHandler
-    {
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            var payload = request.Content is null ? null : await request.Content.ReadAsStringAsync(cancellationToken);
-
-            scenario._clientData = new HttpClientMockData(
-                Url: request.RequestUri!.AbsoluteUri,
-                HttpMethod: request.Method,
-                Payload: payload,
-                Headers: null);
-
-            var responses = scenario._responsesMessages;
-            var index = scenario._refitResponseIndex++;
-            return responses.Count == 0
-                ? new HttpResponseMessage()
-                : responses[Math.Min(index, responses.Count - 1)];
-        }
     }
 }

@@ -97,7 +97,7 @@ public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
             .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/email/{identifier.Email}/roles")
+            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/email/{Uri.EscapeDataString(identifier.Email)}/roles")
             .Validate();
     }
 

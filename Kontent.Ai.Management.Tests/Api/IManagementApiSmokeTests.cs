@@ -31,6 +31,7 @@ public class IManagementApiSmokeTests
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(responseBody, System.Text.Encoding.UTF8, "application/json"),
+                RequestMessage = request,
             };
         }
     }

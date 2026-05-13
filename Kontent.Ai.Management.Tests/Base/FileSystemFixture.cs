@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Modules.ActionInvoker;
 using Kontent.Ai.Management.Modules.HttpClient;
@@ -22,28 +23,33 @@ public sealed class FileSystemFixture : IDisposable
     public static string SUBCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
     private string _folder = "";
+    private readonly ManagementOptions _managementOptions;
     private readonly EndpointUrlBuilder _urlBuilder;
     private readonly MessageCreator _messageCreator;
 
     public FileSystemFixture()
     {
-        var managementOptions = new ManagementOptions()
+        _managementOptions = new ManagementOptions()
         {
             ApiKey = "Dummy_API_key",
             EnvironmentId = ENVIRONMENT_ID,
             SubscriptionId = SUBCRIPTION_ID
         };
-        _urlBuilder = new EndpointUrlBuilder(managementOptions);
-        _messageCreator = new MessageCreator(managementOptions.ApiKey);
+        _urlBuilder = new EndpointUrlBuilder(_managementOptions);
+        _messageCreator = new MessageCreator(_managementOptions.ApiKey);
     }
 
     public void SetSubFolder(string folder) => _folder = folder;
 
     public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
+        => BuildClient(httpClient, Array.Empty<HttpResponseMessage>());
+
+    private IManagementClient BuildClient(IManagementHttpClient httpClient, IReadOnlyList<HttpResponseMessage> refitResponses)
     {
         var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
-        // managementApi is unused by the domains this fixture serves (they still go through ActionInvoker).
-        return new ManagementClient(_urlBuilder, actionInvoker, managementApi: null!);
+        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitMockHandler(refitResponses));
+        var subscriptionApi = ManagementApiFactory.CreateSubscription(_managementOptions, new RefitMockHandler(refitResponses));
+        return new ManagementClient(_urlBuilder, actionInvoker, managementApi, subscriptionApi);
     }
 
     public IManagementClient CreateMockClientWithUrl(string expectedUrl)
@@ -81,7 +87,7 @@ public sealed class FileSystemFixture : IDisposable
         var mockedHttpClient = Substitute.For<IManagementHttpClient>();
         mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
          .Returns(responses.First(), responses.Skip(1).ToArray());
-        return CreateMockClient(mockedHttpClient);
+        return BuildClient(mockedHttpClient, responses);
     }
 
     public IManagementClient CreateMockClientWithoutResponse()
