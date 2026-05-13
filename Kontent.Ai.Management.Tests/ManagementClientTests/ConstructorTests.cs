@@ -1,39 +1,29 @@
 using FluentAssertions;
 using Kontent.Ai.Management.Configuration;
 using System;
-using System.Net.Http;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class ConstructorTests
 {
-    private static ManagementClient CreateClient(ManagementOptions options, bool useHttpClient)
-        => useHttpClient
-            ? new ManagementClient(options, new HttpClient())
-            : new ManagementClient(options);
-
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void Ctor_ValidOptions_DoesNotThrow(bool useHttpClient)
+    [Fact]
+    public void Ctor_ValidOptions_DoesNotThrow()
     {
         var options = new ManagementOptions
         {
             EnvironmentId = Guid.NewGuid().ToString(),
-            ApiKey = "valid-key"
+            ApiKey = "valid-key",
         };
 
-        Action act = () => CreateClient(options, useHttpClient);
+        Action act = () => new ManagementClient(options);
         act.Should().NotThrow();
     }
 
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void Ctor_NullOptions_ThrowsArgumentNull(bool useHttpClient)
+    [Fact]
+    public void Ctor_NullOptions_ThrowsArgumentNull()
     {
-        Action act = () => CreateClient(null!, useHttpClient);
+        Action act = () => new ManagementClient(null!);
 
         act.Should().Throw<ArgumentNullException>();
     }
@@ -50,10 +40,10 @@ public class ConstructorTests
         var options = new ManagementOptions
         {
             EnvironmentId = envId,
-            ApiKey = apiKey
+            ApiKey = apiKey,
         };
 
-        Action act = () => CreateClient(options, false);
+        Action act = () => new ManagementClient(options);
 
         act.Should()
             .Throw<ArgumentException>()

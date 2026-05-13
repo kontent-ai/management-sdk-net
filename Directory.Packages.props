@@ -20,11 +20,9 @@
     <!-- Core dependencies -->
     <!-- M.E.* pinned to the 9.0.x servicing band: Refit.HttpClientFactory 10.x pulls in Microsoft.Extensions.Http 9.x transitively. -->
     <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.15" />
-    <!-- Legacy runtime dependencies, slated for removal during the rewrite -->
+    <!-- Legacy runtime dependencies, slated for removal once `dynamic` usage and Newtonsoft annotations go away. -->
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageVersion Include="Polly" Version="7.2.3" />
-    <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
 
     <!-- Test dependencies -->
     <!-- xunit core and FluentAssertions stay at the versions the legacy suite was written against: xunit 2.5+ overload

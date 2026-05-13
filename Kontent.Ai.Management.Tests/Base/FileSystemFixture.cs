@@ -1,18 +1,12 @@
-using FluentAssertions;
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management.Modules.HttpClient;
-using Kontent.Ai.Management.Modules.UrlBuilder;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management.Tests.Base;
 
@@ -24,88 +18,48 @@ public sealed class FileSystemFixture : IDisposable
 
     private string _folder = "";
     private readonly ManagementOptions _managementOptions;
-    private readonly EndpointUrlBuilder _urlBuilder;
-    private readonly MessageCreator _messageCreator;
 
     public FileSystemFixture()
     {
-        _managementOptions = new ManagementOptions()
+        _managementOptions = new ManagementOptions
         {
             ApiKey = "Dummy_API_key",
             EnvironmentId = ENVIRONMENT_ID,
-            SubscriptionId = SUBCRIPTION_ID
+            SubscriptionId = SUBCRIPTION_ID,
         };
-        _urlBuilder = new EndpointUrlBuilder(_managementOptions);
-        _messageCreator = new MessageCreator(_managementOptions.ApiKey);
     }
 
     public void SetSubFolder(string folder) => _folder = folder;
 
-    public IManagementClient CreateMockClient(IManagementHttpClient httpClient)
-        => BuildClient(httpClient, Array.Empty<HttpResponseMessage>());
+    public IManagementClient CreateMockClient() => BuildClient(Array.Empty<HttpResponseMessage>());
 
-    private IManagementClient BuildClient(IManagementHttpClient httpClient, IReadOnlyList<HttpResponseMessage> refitResponses)
-    {
-        var actionInvoker = new ActionInvoker(httpClient, _messageCreator);
-        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitMockHandler(refitResponses));
-        var subscriptionApi = ManagementApiFactory.CreateSubscription(_managementOptions, new RefitMockHandler(refitResponses));
-        return new ManagementClient(_urlBuilder, actionInvoker, managementApi, subscriptionApi);
-    }
-
-    public IManagementClient CreateMockClientWithUrl(string expectedUrl)
-    {
-        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-         .Returns(x =>
-         {
-             var url = x.ArgAt<string>(1);
-             url.Should().BeEquivalentTo(expectedUrl, "because url does not match");
-
-             var result = new HttpResponseMessage();
-
-             return Task.FromResult(result);
-         });
-        return CreateMockClient(mockedHttpClient);
-    }
+    public IManagementClient CreateMockClientWithoutResponse() => BuildClient(Array.Empty<HttpResponseMessage>());
 
     public IManagementClient CreateMockClientWithResponse(params string[] responseFileNames)
     {
-        List<HttpResponseMessage> responses = new();
+        var responses = new List<HttpResponseMessage>();
         foreach (var responseFileName in responseFileNames)
         {
-            var dataPath = Path.Combine(Environment.CurrentDirectory, "Data", _folder);
-
-            var responsePath = Path.Combine(dataPath, responseFileName);
-            var result = new HttpResponseMessage
+            var responsePath = Path.Combine(Environment.CurrentDirectory, "Data", _folder, responseFileName);
+            responses.Add(new HttpResponseMessage
             {
-                Content = new StringContent(File.ReadAllText(responsePath))
-            };
-
-            responses.Add(result);
+                Content = new StringContent(File.ReadAllText(responsePath)),
+            });
         }
 
-        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-         .Returns(responses.First(), responses.Skip(1).ToArray());
-        return BuildClient(mockedHttpClient, responses);
+        return BuildClient(responses);
     }
 
-    public IManagementClient CreateMockClientWithoutResponse()
+    private IManagementClient BuildClient(IReadOnlyList<HttpResponseMessage> refitResponses)
     {
-        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-        mockedHttpClient.SendAsync(Arg.Any<IMessageCreator>(), Arg.Any<string>(), Arg.Any<HttpMethod>(), Arg.Any<HttpContent>(), Arg.Any<Dictionary<string, string>>())
-         .Returns(x =>
-         {
-             var result = new HttpResponseMessage();
-
-             return Task.FromResult(result);
-         });
-        return CreateMockClient(mockedHttpClient);
+        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitMockHandler(refitResponses));
+        var subscriptionApi = ManagementApiFactory.CreateSubscription(_managementOptions, new RefitMockHandler(refitResponses));
+        return new ManagementClient(managementApi, subscriptionApi);
     }
 
     public IList<T> GetItemsOfExpectedListingResponse<T>(params string[] responseFileNames)
     {
-        List<T> result = new();
+        var result = new List<T>();
 
         foreach (var responseFileName in responseFileNames)
         {

@@ -29,10 +29,8 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 using Kontent.Ai.Management.Models.Workflow;
-using Kontent.Ai.Management.Modules.HttpClient;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,7 +77,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteAsset()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var identifier = Reference.ByExternalId("which-brewing-fits-you");
@@ -93,7 +91,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteItem()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var identifier = Reference.ByCodename("my_article");
@@ -107,7 +105,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
         // var identifier = Reference.ByCodename("metadata");
@@ -121,7 +119,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("personas");
@@ -135,7 +133,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteType()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = Reference.ById(Guid.Parse("269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0"));
         // var identifier = Reference.ByCodename("hosted_video");
@@ -149,7 +147,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -166,7 +164,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = Reference.ById(Guid.Parse("d53360f7-79e1-42f4-a524-1b53a417d03e"));
 
@@ -178,7 +176,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         var identifier = Reference.ById(Guid.Parse("8bfdb62d-7aa1-473b-9d80-311ef93db108"));
         // var identifier = Reference.ByCodename("my_workflow");
@@ -191,7 +189,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = _fileSystemFixture.CreateMockClient();
 
         await client.DeleteEnvironmentAsync();
     }

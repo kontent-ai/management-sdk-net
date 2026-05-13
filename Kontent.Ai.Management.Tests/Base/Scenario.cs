@@ -1,11 +1,6 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management.Modules.HttpClient;
-using Kontent.Ai.Management.Modules.UrlBuilder;
 using Newtonsoft.Json;
-using NSubstitute;
-using NSubstitute.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,8 +16,6 @@ internal class Scenario
     public static string SUBSCRIPTION_ID => "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
     private readonly ManagementOptions _managementOptions;
-    private readonly EndpointUrlBuilder _urlBuilder;
-    private readonly MessageCreator _messageCreator;
     private readonly string _folder;
 
     private HttpClientMockData _clientData;
@@ -37,13 +30,16 @@ internal class Scenario
             EnvironmentId = ENVIRONMENT_ID,
             SubscriptionId = SUBSCRIPTION_ID
         };
-        _urlBuilder = new EndpointUrlBuilder(_managementOptions);
-        _messageCreator = new MessageCreator(_managementOptions.ApiKey);
         _responsesMessages = new();
         _folder = Path.Combine(Environment.CurrentDirectory, "Data", folder);
     }
 
-    public IManagementClient CreateManagementClient() => CreateMockClient(_urlBuilder, _messageCreator);
+    public IManagementClient CreateManagementClient()
+    {
+        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
+        var subscriptionApi = ManagementApiFactory.CreateSubscription(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
+        return new ManagementClient(managementApi, subscriptionApi);
+    }
 
     public Expectations CreateExpectations() => new(_clientData, _filePaths);
 
@@ -83,56 +79,9 @@ internal class Scenario
         return JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
     }
 
-    private IManagementClient CreateMockClient(EndpointUrlBuilder urlBuilder, MessageCreator messageCreator)
-    {
-        var mockedHttpClient = Substitute.For<IManagementHttpClient>();
-
-        mockedHttpClient.SendAsync(
-        Arg.Any<IMessageCreator>(),
-        Arg.Any<string>(),
-        Arg.Any<HttpMethod>(),
-        Arg.Any<HttpContent>(),
-        Arg.Any<Dictionary<string, string>>())
-        .Returns(callInfo =>
-        {
-            var payload = callInfo.ArgAt<HttpContent>(3);
-
-            _clientData = new(
-                Url: callInfo.ArgAt<string>(1),
-                HttpMethod: callInfo.ArgAt<HttpMethod>(2),
-                Payload: payload?.ReadAsStringAsync().Result,
-                Headers: callInfo.ArgAt<Dictionary<string, string>>(4));
-
-            if (!_responsesMessages.Any())
-            {
-                return new HttpResponseMessage();
-            }
-
-            return _responsesMessages.First();
-
-        }, GetRestOfResponses());
-
-
-        var actionInvoker = new ActionInvoker(mockedHttpClient, messageCreator);
-        var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
-        var subscriptionApi = ManagementApiFactory.CreateSubscription(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
-        return new ManagementClient(urlBuilder, actionInvoker, managementApi, subscriptionApi);
-    }
-
     private void RecordRefitRequest(HttpRequestMessage request, string? payload) => _clientData = new HttpClientMockData(
         Url: request.RequestUri!.AbsoluteUri,
         HttpMethod: request.Method,
         Payload: payload,
         Headers: null);
-
-    private Func<CallInfo, HttpResponseMessage>[] GetRestOfResponses()
-    {
-        if (_responsesMessages.Count > 1)
-        {
-            return _responsesMessages.Skip(1)
-                .Select<HttpResponseMessage, Func<CallInfo, HttpResponseMessage>>(response => callInfo => response).ToArray();
-        }
-
-        return Array.Empty<Func<CallInfo, HttpResponseMessage>>();
-    }
 }

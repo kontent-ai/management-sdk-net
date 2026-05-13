@@ -13,8 +13,6 @@
 		<PackageReference Include="Refit.Newtonsoft.Json" />
 		<PackageReference Include="Microsoft.CSharp" />
 		<PackageReference Include="Newtonsoft.Json" />
-		<PackageReference Include="Polly" />
-		<PackageReference Include="Polly.Extensions.Http" />
 	</ItemGroup>
 
 </Project>

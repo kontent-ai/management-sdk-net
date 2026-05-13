@@ -6,8 +6,8 @@ namespace Kontent.Ai.Management.Api;
 /// Builds the Refit clients for the Kontent.ai Management API v2 — <see cref="IManagementApi"/> for the environment-scoped
 /// endpoints (<c>{endpoint}/projects/{environmentId}</c>) and <see cref="ISubscriptionApi"/> for the subscription-scoped
 /// ones (<c>{endpoint}/subscriptions/{subscriptionId}</c>). Each gets bearer auth + SDK tracking headers and the
-/// transitional Newtonsoft content serializer. Resilience is not wired here yet — it stays on the legacy
-/// <c>ManagementHttpClient</c> path until the dedicated resilience step.
+/// transitional Newtonsoft content serializer. Resilience is not wired here yet — that arrives with the
+/// <c>Microsoft.Extensions.Http.Resilience</c> step.
 /// </summary>
 internal static class ManagementApiFactory
 {

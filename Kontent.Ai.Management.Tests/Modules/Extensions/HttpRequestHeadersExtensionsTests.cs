@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Modules.Extensions;
-using Kontent.Ai.Management.Modules.HttpClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -12,7 +11,7 @@ public class HttpRequestHeadersExtensionsTests
     [Fact]
     public void AddSdkTrackingHeader_CorrectSdkVersionHeaderAdded()
     {
-        var assembly = typeof(ManagementHttpClient).Assembly;
+        var assembly = typeof(ManagementClient).Assembly;
         var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
         var sdkVersion = fileVersionInfo.ProductVersion;
         var sdkPackageId = assembly.GetName().Name;
