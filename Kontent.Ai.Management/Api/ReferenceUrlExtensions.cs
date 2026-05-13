@@ -1,3 +1,5 @@
+using Kontent.Ai.Management.Models.AssetRenditions;
+using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management.Api;
@@ -36,5 +38,27 @@ internal static class ReferenceUrlExtensions
                 throw new InvalidOperationException("The provided identifier kind is not supported for this endpoint."),
             _ => throw new ArgumentException("Reference must have an id, codename, or external id set.", nameof(reference)),
         };
+    }
+
+    /// <summary>
+    /// Renders a language variant identifier as <c>{item}/variants/{language}</c>. The language part supports id or
+    /// codename only.
+    /// </summary>
+    public static string ToUrlSegment(this LanguageVariantIdentifier identifier)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        return $"{identifier.ItemIdentifier.ToUrlSegment()}/variants/{identifier.LanguageIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)}";
+    }
+
+    /// <summary>
+    /// Renders an asset rendition identifier as <c>{asset}/renditions/{rendition}</c>. The rendition part supports id
+    /// or external id only.
+    /// </summary>
+    public static string ToUrlSegment(this AssetRenditionIdentifier identifier)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        return $"{identifier.AssetIdentifier.ToUrlSegment()}/renditions/{identifier.RenditionIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.ExternalId)}";
     }
 }

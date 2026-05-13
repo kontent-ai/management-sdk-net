@@ -113,7 +113,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        return EnsureSuccess(await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -125,7 +125,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetPublishedLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        return EnsureSuccess(await _managementApi.GetPublishedLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -138,7 +138,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(languageVariantUpsertModel);
 
-        return EnsureSuccess(await _managementApi.UpsertLanguageVariantInternalAsync(BuildVariantPath(identifier), languageVariantUpsertModel));
+        return EnsureSuccess(await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), languageVariantUpsertModel));
     }
 
     /// <inheritdoc />
@@ -166,10 +166,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.DeleteLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        EnsureSuccess(await _managementApi.DeleteLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
-
-    // A variant is addressed as `{item}/variants/{language}`; the language part supports id or codename only.
-    private static string BuildVariantPath(LanguageVariantIdentifier identifier) =>
-        $"{identifier.ItemIdentifier.ToUrlSegment()}/variants/{identifier.LanguageIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)}";
 }

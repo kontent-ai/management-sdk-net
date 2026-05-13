@@ -29,7 +29,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetAssetRenditionInternalAsync(BuildRenditionPath(identifier)));
+        return EnsureSuccess(await _managementApi.GetAssetRenditionInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -38,7 +38,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(updateModel);
 
-        return EnsureSuccess(await _managementApi.UpdateAssetRenditionInternalAsync(BuildRenditionPath(identifier), updateModel));
+        return EnsureSuccess(await _managementApi.UpdateAssetRenditionInternalAsync(identifier.ToUrlSegment(), updateModel));
     }
 
     /// <inheritdoc />
@@ -49,8 +49,4 @@ public partial class ManagementClient
 
         return EnsureSuccess(await _managementApi.CreateAssetRenditionInternalAsync(assetIdentifier.ToUrlSegment(), createModel));
     }
-
-    // Asset renditions are addressed by `{asset}/renditions/{rendition}`; the rendition part supports id or external id only.
-    private static string BuildRenditionPath(AssetRenditionIdentifier identifier) =>
-        $"{identifier.AssetIdentifier.ToUrlSegment()}/renditions/{identifier.RenditionIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.ExternalId)}";
 }

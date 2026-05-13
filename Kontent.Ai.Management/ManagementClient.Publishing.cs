@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 
@@ -11,7 +12,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changeModel);
 
-        EnsureSuccess(await _managementApi.ChangeLanguageVariantWorkflowInternalAsync(BuildVariantPath(identifier), changeModel));
+        EnsureSuccess(await _managementApi.ChangeLanguageVariantWorkflowInternalAsync(identifier.ToUrlSegment(), changeModel));
     }
 
     /// <inheritdoc />
@@ -19,7 +20,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.PublishLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        EnsureSuccess(await _managementApi.PublishLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -28,7 +29,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        EnsureSuccess(await _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier), scheduleModel));
+        EnsureSuccess(await _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel));
     }
 
     /// <inheritdoc />
@@ -37,7 +38,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(schedule);
 
-        EnsureSuccess(await _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier), schedule));
+        EnsureSuccess(await _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule));
     }
 
     /// <inheritdoc />
@@ -45,7 +46,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.CancelPublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        EnsureSuccess(await _managementApi.CancelPublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -53,7 +54,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.UnpublishLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        EnsureSuccess(await _managementApi.UnpublishLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -61,7 +62,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        EnsureSuccess(await _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
 
     /// <inheritdoc />
@@ -70,7 +71,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        EnsureSuccess(await _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(BuildVariantPath(identifier), scheduleModel));
+        EnsureSuccess(await _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel));
     }
 
     /// <inheritdoc />
@@ -78,6 +79,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(BuildVariantPath(identifier)));
+        EnsureSuccess(await _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(identifier.ToUrlSegment()));
     }
 }
