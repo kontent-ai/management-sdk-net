@@ -39,7 +39,10 @@ using System.Threading.Tasks;
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// Represents set of Content Management API requests.
+/// Represents set of Content Management API requests. The concrete <see cref="ManagementClient"/> implements
+/// <see cref="IDisposable"/> / <see cref="IAsyncDisposable"/> for non-DI lifetime management; DI consumers
+/// receive an <see cref="IManagementClient"/> reference and rely on the host container to dispose the underlying
+/// instance.
 /// </summary>
 public interface IManagementClient
 {

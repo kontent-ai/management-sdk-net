@@ -1,19 +1,16 @@
-using System.Net.Http.Headers;
 using Kontent.Ai.Management.Modules.Extensions;
 
-namespace Kontent.Ai.Management.Api;
+namespace Kontent.Ai.Management.Handlers;
 
 /// <summary>
-/// Attaches the Management API bearer token and the SDK / source tracking headers to every outgoing request.
-/// Mirrors the headers the legacy <c>MessageCreator</c> adds.
+/// Adds the SDK and source tracking headers (<c>X-KC-SDKID</c> and optional <c>X-KC-SOURCE</c>) to every outgoing request.
 /// </summary>
-internal sealed class ManagementApiAuthorizationHandler(string apiKey) : DelegatingHandler
+internal sealed class TrackingHandler : DelegatingHandler
 {
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
         request.Headers.AddSdkTrackingHeader();
         request.Headers.AddSourceTrackingHeader();
 

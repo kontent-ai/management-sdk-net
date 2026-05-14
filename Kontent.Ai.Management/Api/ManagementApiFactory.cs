@@ -1,13 +1,12 @@
 using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Handlers;
 
 namespace Kontent.Ai.Management.Api;
 
 /// <summary>
-/// Builds the Refit clients for the Kontent.ai Management API v2 — <see cref="IManagementApi"/> for the environment-scoped
-/// endpoints (<c>{endpoint}/projects/{environmentId}</c>) and <see cref="ISubscriptionApi"/> for the subscription-scoped
-/// ones (<c>{endpoint}/subscriptions/{subscriptionId}</c>). Each gets bearer auth + SDK tracking headers and the
-/// transitional Newtonsoft content serializer. Resilience is not wired here yet — that arrives with the
-/// <c>Microsoft.Extensions.Http.Resilience</c> step.
+/// Builds Refit clients for the Management API without the DI / resilience pipeline. Used by the test infrastructure,
+/// which injects an <see cref="HttpMessageHandler"/> directly to short-circuit the network. Production callers go
+/// through <c>AddManagementClient</c> or <see cref="ManagementClientBuilder"/> instead, which add resilience.
 /// </summary>
 internal static class ManagementApiFactory
 {
@@ -25,12 +24,18 @@ internal static class ManagementApiFactory
 
     private static T CreateClient<T>(ManagementOptions options, HttpMessageHandler? innerHandler, string scopePath)
     {
-        var pipeline = new ManagementApiAuthorizationHandler(options.ApiKey)
+        // Pipeline order matches the DI registration: tracking → auth → resilience (absent here) → inner.
+        var optionsAccessor = new SnapshotManagementOptionsAccessor(options);
+        var auth = new ManagementAuthenticationHandler(optionsAccessor)
         {
             InnerHandler = innerHandler ?? new HttpClientHandler(),
         };
+        var tracking = new TrackingHandler
+        {
+            InnerHandler = auth,
+        };
 
-        var httpClient = new HttpClient(pipeline)
+        var httpClient = new HttpClient(tracking)
         {
             BaseAddress = new Uri(string.Format(options.EndpointV2, scopePath), UriKind.Absolute),
         };

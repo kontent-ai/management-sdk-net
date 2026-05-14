@@ -19,7 +19,12 @@
 
     <!-- Core dependencies -->
     <!-- M.E.* pinned to the 9.0.x servicing band: Refit.HttpClientFactory 10.x pulls in Microsoft.Extensions.Http 9.x transitively. -->
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.15" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.6.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.15" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.15" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.15" />
     <!-- Legacy runtime dependencies, slated for removal once `dynamic` usage and Newtonsoft annotations go away. -->
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />

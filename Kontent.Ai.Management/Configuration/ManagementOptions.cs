@@ -1,49 +1,67 @@
-﻿using Kontent.Ai.Management.Modules.ModelBuilders;
+using System.ComponentModel.DataAnnotations;
+using Kontent.Ai.Management.Modules.ModelBuilders;
 
 namespace Kontent.Ai.Management.Configuration;
 
 /// <summary>
-/// Keeps settings which are provided by customer or have default values, used in <see cref="ManagementClient"/>.
+/// Configuration for <see cref="ManagementClient"/>. Bind from <c>IConfiguration</c> or construct directly.
 /// </summary>
-public class ManagementOptions
+public sealed class ManagementOptions : IValidatableObject
 {
     /// <summary>
     /// Gets or sets the Production endpoint address. Optional, defaults to "https://manage.kontent.ai/{0}".
     /// </summary>
+    [Url]
     public string Endpoint { get; set; } = "https://manage.kontent.ai/{0}";
 
     /// <summary>
     /// Gets or sets the Production endpoint address for V2 management API. Optional, defaults to "https://manage.kontent.ai/v2/{0}".
     /// </summary>
+    [Url]
     public string EndpointV2 { get; set; } = "https://manage.kontent.ai/v2/{0}";
 
     /// <summary>
-    /// Gets or sets the Environment identifier.
+    /// Gets or sets the environment identifier (GUID).
     /// </summary>
+    [Required]
     public string EnvironmentId { get; set; }
 
     /// <summary>
-    /// Gets or sets the Subscription identifier.
+    /// Gets or sets the subscription identifier. Required only for subscription-scoped endpoints.
     /// </summary>
     public string SubscriptionId { get; set; }
 
     /// <summary>
-    /// Gets or sets the Preview API key.
+    /// Gets or sets the Management API key.
     /// </summary>
+    [Required]
     public string ApiKey { get; set; }
 
     /// <summary>
-    /// Gets or sets the Model provider for strongly typed models
+    /// Gets or sets the model provider used by strongly-typed variant APIs.
     /// </summary>
     public IModelProvider ModelProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets whether HTTP requests will use a retry logic.
+    /// Gets or sets whether the default resilience pipeline is active. Defaults to <c>true</c>. Set to <c>false</c>
+    /// to bypass all retry/backoff behaviour without uninstalling the handler.
     /// </summary>
-    public bool EnableResilienceLogic { get; set; } = true;
+    public bool EnableResilience { get; set; } = true;
 
-    /// <summary>
-    /// Gets or sets the maximum retry attempts.
-    /// </summary>
-    public int MaxRetryAttempts { get; set; } = 5;
+    /// <inheritdoc />
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Guid.TryParse(EnvironmentId, out var environmentGuid))
+        {
+            yield return new ValidationResult(
+                $"Provided string is not a valid environment identifier ({EnvironmentId}). Haven't you accidentally passed the API key instead of the environment identifier?",
+                [nameof(EnvironmentId)]);
+        }
+        else if (environmentGuid == Guid.Empty)
+        {
+            yield return new ValidationResult(
+                "EnvironmentId cannot be an empty GUID.",
+                [nameof(EnvironmentId)]);
+        }
+    }
 }
