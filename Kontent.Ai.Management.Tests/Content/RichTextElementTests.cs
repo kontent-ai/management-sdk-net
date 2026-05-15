@@ -1,6 +1,7 @@
 using System.Text.Json;
 using FluentAssertions;
 using Kontent.Ai.Management.Models.Content;
+using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Content;
@@ -21,22 +22,6 @@ public class RichTextElementTests
     }
 
     [Fact]
-    public void RichText_Deserialize_WithComponents()
-    {
-        var json = $$"""
-            {
-              "value": "<p>hello</p>",
-              "components": [ { "id": "{{SampleComponentId}}" } ]
-            }
-            """;
-
-        var element = JsonSerializer.Deserialize<RichTextElement>(json);
-
-        element!.Value.Should().Be("<p>hello</p>");
-        element.Components.Should().ContainSingle().Which.Id.Should().Be(SampleComponentId);
-    }
-
-    [Fact]
     public void RichText_Deserialize_MissingValue_Throws()
     {
         // The `required` keyword on RichTextElement.Value is honored by STJ at deserialize time —
@@ -51,18 +36,14 @@ public class RichTextElementTests
     [Fact]
     public void RichText_RoundTrip_PreservesValue()
     {
-        var original = new RichTextElement
-        {
-            Value = "<p>hello</p>",
-            Components = [new Component { Id = SampleComponentId }],
-        };
+        // Round-trip without components — direct STJ doesn't round-trip Component.Content (it's [JsonIgnore]
+        // by design; the phase-4 envelope converter owns the components-with-content story).
+        var original = new RichTextElement { Value = "<p>hello</p>" };
 
         var json = JsonSerializer.Serialize(original);
         var roundtripped = JsonSerializer.Deserialize<RichTextElement>(json);
 
-        // BeEquivalentTo rather than Be — synthesized record equality compares IReadOnlyList<T> by reference,
-        // and the deserialized List<T> is a different instance from the original collection literal.
-        roundtripped.Should().BeEquivalentTo(original);
+        roundtripped.Should().Be(original);
     }
 
     [Fact]
@@ -76,33 +57,25 @@ public class RichTextElementTests
     }
 
     [Fact]
-    public void Component_Deserialize_Id()
+    public void Component_CarriesIdAndContent()
     {
-        var json = $$"""{ "id": "{{SampleComponentId}}" }""";
+        var embedded = new Page();
+        var component = new Component { Id = SampleComponentId, Content = embedded };
 
-        var component = JsonSerializer.Deserialize<Component>(json);
-
-        component!.Id.Should().Be(SampleComponentId);
+        component.Id.Should().Be(SampleComponentId);
+        component.Content.Should().BeSameAs(embedded);
     }
 
     [Fact]
-    public void Component_Deserialize_MissingId_Throws()
+    public void Component_SerializesIdOnly_ContentIsJsonIgnored()
     {
-        var json = "{}";
+        // [JsonIgnore] on Content is deliberate: IContentItem is polymorphic and the wire envelope shape
+        // (id + type + elements) is the envelope converter's responsibility, not direct STJ's.
+        var component = new Component { Id = SampleComponentId, Content = new Page() };
 
-        Action act = () => JsonSerializer.Deserialize<Component>(json);
+        var json = JsonSerializer.Serialize(component);
 
-        act.Should().Throw<JsonException>();
-    }
-
-    [Fact]
-    public void Component_RoundTrip_PreservesValue()
-    {
-        var original = new Component { Id = SampleComponentId };
-
-        var json = JsonSerializer.Serialize(original);
-        var roundtripped = JsonSerializer.Deserialize<Component>(json);
-
-        roundtripped.Should().Be(original);
+        json.Should().Contain("\"id\":");
+        json.Should().NotContain("content");
     }
 }
