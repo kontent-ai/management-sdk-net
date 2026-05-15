@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Annotations;
 /// is the canonical key used in API write requests; <see cref="Id"/> is optional and primarily aids debugging.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class KontentContentTypeAttribute(string codename, string? id = null) : Attribute
+public sealed class KontentTypeAttribute(string codename, string? id = null) : Attribute
 {
     /// <summary>Content type codename.</summary>
     public string Codename { get; } = codename ?? throw new ArgumentNullException(nameof(codename));

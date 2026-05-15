@@ -130,7 +130,7 @@ public class ContentItemValidatorTests
         first.Errors.Count.Should().Be(second.Errors.Count);
     }
 
-    [KontentContentType("unannotated_property_owner")]
+    [KontentType("unannotated_property_owner")]
     private sealed record UnannotatedPropertyOwner : IContentItem
     {
         // No [KontentElement] — must be ignored even with constraint attrs.

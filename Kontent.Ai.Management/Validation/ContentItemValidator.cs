@@ -161,7 +161,7 @@ public static class ContentItemValidator
                         continue;
                     }
 
-                    var entryType = entry.GetType().GetCustomAttribute<KontentContentTypeAttribute>();
+                    var entryType = entry.GetType().GetCustomAttribute<KontentTypeAttribute>();
                     if (entryType is null || !allowed.Contains(entryType.Codename))
                     {
                         var label = entryType?.Codename ?? entry.GetType().Name;

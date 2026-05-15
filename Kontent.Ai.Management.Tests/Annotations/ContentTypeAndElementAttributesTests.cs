@@ -10,8 +10,8 @@ public class ContentTypeAndElementAttributesTests
     [Fact]
     public void KontentContentType_StoresCodenameAndOptionalId()
     {
-        var withId = new KontentContentTypeAttribute("article", "11111111-1111-1111-1111-111111111111");
-        var withoutId = new KontentContentTypeAttribute("article");
+        var withId = new KontentTypeAttribute("article", "11111111-1111-1111-1111-111111111111");
+        var withoutId = new KontentTypeAttribute("article");
 
         withId.Codename.Should().Be("article");
         withId.Id.Should().Be("11111111-1111-1111-1111-111111111111");
@@ -23,14 +23,14 @@ public class ContentTypeAndElementAttributesTests
     [Fact]
     public void KontentContentType_NullCodename_Throws()
     {
-        Action act = () => _ = new KontentContentTypeAttribute(null!);
+        Action act = () => _ = new KontentTypeAttribute(null!);
         act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("codename");
     }
 
     [Fact]
     public void KontentContentType_UsageTargetsClassOnly()
     {
-        var usage = typeof(KontentContentTypeAttribute).GetCustomAttributes(typeof(AttributeUsageAttribute), false)
+        var usage = typeof(KontentTypeAttribute).GetCustomAttributes(typeof(AttributeUsageAttribute), false)
             .Cast<AttributeUsageAttribute>().Single();
 
         usage.ValidOn.Should().Be(AttributeTargets.Class);
@@ -95,7 +95,7 @@ public class ContentTypeAndElementAttributesTests
     }
 
     // End-to-end: applying the attributes to a stub generated record reads back the same values via reflection.
-    [KontentContentType("article", "44444444-4444-4444-4444-444444444444")]
+    [KontentType("article", "44444444-4444-4444-4444-444444444444")]
     private sealed class StubArticle
     {
         [KontentElement("title", "55555555-5555-5555-5555-555555555555")]
@@ -110,7 +110,7 @@ public class ContentTypeAndElementAttributesTests
     [Fact]
     public void Attributes_RoundTripThroughReflection()
     {
-        var type = typeof(StubArticle).GetCustomAttribute<KontentContentTypeAttribute>()!;
+        var type = typeof(StubArticle).GetCustomAttribute<KontentTypeAttribute>()!;
         type.Codename.Should().Be("article");
 
         var prop = typeof(StubArticle).GetProperty(nameof(StubArticle.Title))!

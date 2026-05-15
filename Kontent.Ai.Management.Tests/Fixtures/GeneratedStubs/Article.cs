@@ -14,7 +14,7 @@ namespace Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
 //   - [ExactElements]       on Category
 //   - [AllowedTypes]        on Related
 //   - phase-3 no-op attrs   on HeroAssets and Taxonomy (verifying the validator accepts but doesn't enforce)
-[KontentContentType("article", "11111111-1111-1111-1111-111111111111")]
+[KontentType("article", "11111111-1111-1111-1111-111111111111")]
 internal sealed record Article : IContentItem
 {
     [KontentElement("title", "22222222-2222-2222-2222-222222222222")]
