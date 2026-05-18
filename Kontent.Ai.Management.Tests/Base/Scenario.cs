@@ -1,10 +1,12 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Conversion;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 
 namespace Kontent.Ai.Management.Tests.Base;
@@ -34,11 +36,13 @@ internal class Scenario
         _folder = Path.Combine(Environment.CurrentDirectory, "Data", folder);
     }
 
-    public IManagementClient CreateManagementClient()
+    // contentConverter: pass a pre-registered converter for strongly-typed paths so the test-assembly codename
+    // collision isn't tripped by the client's owned-converter auto-scan. Null keeps the production-path behaviour.
+    public IManagementClient CreateManagementClient(ContentItemEnvelopeConverter contentConverter = null)
     {
         var managementApi = ManagementApiFactory.Create(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
         var subscriptionApi = ManagementApiFactory.CreateSubscription(_managementOptions, new RefitMockHandler(_responsesMessages, RecordRefitRequest));
-        return new ManagementClient(managementApi, subscriptionApi);
+        return new ManagementClient(managementApi, subscriptionApi, contentConverter: contentConverter);
     }
 
     public Expectations CreateExpectations() => new(_clientData, _filePaths);
@@ -62,6 +66,15 @@ internal class Scenario
             _responsesMessages.Add(result);
         }
 
+        return this;
+    }
+
+    // Single non-success (or arbitrary-status) response, body verbatim. For the result-pattern error path,
+    // where WithResponses' implicit 200 OK won't do.
+    public Scenario WithResponse(HttpStatusCode statusCode, string body = "")
+    {
+        _responsesMessages = new() { new HttpResponseMessage(statusCode) { Content = new StringContent(body) } };
+        _filePaths = new();
         return this;
     }
 
