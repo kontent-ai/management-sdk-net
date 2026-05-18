@@ -85,26 +85,6 @@ public class Readme : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void RetrieveAndUpsertStronglyTypedModel()
-    {
-        // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantResponse.json");
-
-        var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-        var response = await client.GetLanguageVariantAsync<ArticleModel>(identifier);
-
-        response.Elements.Title = new TextElement() { Value = "On Roasts - changed" };
-        response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4), DisplayTimeZone = "Europe/Prague" };
-
-        // Remove next line in codesample
-        client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
-        var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
-    }
-
-    [Fact]
     public async void UpsertDynamicLanguageVariant()
     {
         // Remove next line in codesample
@@ -179,28 +159,6 @@ public class Readme : IClassFixture<FileSystemFixture>
 
 
     [Fact]
-    public async void UpsertStronglyTypedLanguageVariant()
-    {
-        // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
-
-        // Defines the content elements to update
-        var stronglyTypedElements = new ArticleModel
-        {
-            Title = new TextElement() { Value = "On Roasts - changed" },
-            PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4), DisplayTimeZone = "Europe/London" },
-        };
-
-        // Specifies the content item and the language variant
-        var itemIdentifier = Reference.ByCodename("on_roasts");
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-        // Upserts a language variant of a content item
-        var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
-    }
-
-    [Fact]
     public async void QuickStartCreateContentItem()
     {
         // Remove next line in codesample
@@ -214,67 +172,6 @@ public class Readme : IClassFixture<FileSystemFixture>
         };
 
         var responseItem = await client.CreateContentItemAsync(item);
-    }
-
-    [Fact]
-    public async void QuickStartAddLanguageVariant()
-    {
-        // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantResponse.json");
-
-        var componentId = "04bc8d32-97ab-431a-abaa-83102fc4c198";
-        var contentTypeCodename = "article";
-        var relatedArticle1Guid = Guid.Parse("b4e7bfaa-593c-4ae4-a231-5136b10757b8");
-        var relatedArticle2Guid = Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea");
-        var taxonomyTermGuid1 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
-        var taxonomyTermGuid2 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
-
-        // Defines the content elements to update
-        var stronglyTypedElements = new ArticleModel
-        {
-            Title = new TextElement() { Value = "On Roasts" },
-            PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
-            BodyCopy = new RichTextElement
-            {
-                Value = $"<p>Rich Text</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{componentId}\"></object>",
-                Components = new ComponentModel[]
-                {
-                    new ComponentModel
-                    {
-                        Id = Guid.Parse(componentId),
-                        Type = Reference.ByCodename(contentTypeCodename),
-                        Elements = new dynamic[]
-                        {
-                            new
-                            {
-                                element = new
-                                {
-                                    id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
-                                },
-                                value = "Article component title",
-                            }
-                        }
-                    }
-                }
-            },
-            RelatedArticles = new LinkedItemsElement
-            {
-                Value = new[] { relatedArticle1Guid, relatedArticle2Guid }.Select(Reference.ById)
-            },
-            Personas = new TaxonomyElement
-            {
-                Value = new[] { taxonomyTermGuid1, taxonomyTermGuid2 }.Select(Reference.ById)
-            },
-            UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
-        };
-
-        // Specifies the content item and the language variant
-        var itemIdentifier = Reference.ByCodename("on_roasts");
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-        // Upserts a language variant of your content item
-        var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
     }
 
     [Fact]

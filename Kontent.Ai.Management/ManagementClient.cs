@@ -23,6 +23,10 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
     private readonly ISubscriptionApi _subscriptionApi;
     private readonly IModelProvider _modelProvider;
     private readonly IDisposable _ownedResources;
+    private readonly Conversion.ContentItemEnvelopeConverter _contentConverter;
+    // When we built the converter ourselves, auto-scan the consumer's generated-models assembly on first use so
+    // rich-text component types resolve. When one was injected (tests / advanced callers), trust its registry as-is.
+    private readonly bool _autoScanContentTypes;
     private int _disposed;
 
     /// <summary>
@@ -39,18 +43,23 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
         _subscriptionApi = subscriptionApi;
         _modelProvider = modelProvider ?? new ModelProvider();
         _ownedResources = ownedResources;
+        _contentConverter = new Conversion.ContentItemEnvelopeConverter();
+        _autoScanContentTypes = true;
     }
 
     internal ManagementClient(
         IManagementApi managementApi,
         ISubscriptionApi subscriptionApi,
         IModelProvider modelProvider = null,
-        IDisposable ownedResources = null)
+        IDisposable ownedResources = null,
+        Conversion.ContentItemEnvelopeConverter contentConverter = null)
     {
         _managementApi = managementApi;
         _subscriptionApi = subscriptionApi;
         _modelProvider = modelProvider ?? new ModelProvider();
         _ownedResources = ownedResources;
+        _contentConverter = contentConverter ?? new Conversion.ContentItemEnvelopeConverter();
+        _autoScanContentTypes = contentConverter is null;
     }
 
     /// <inheritdoc />

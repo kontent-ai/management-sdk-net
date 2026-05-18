@@ -1,8 +1,12 @@
 using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Conversion;
+using Kontent.Ai.Management.Exceptions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Workflow;
+using Kontent.Ai.Management.Validation;
+using Newtonsoft.Json.Linq;
 
 namespace Kontent.Ai.Management;
 
@@ -117,8 +121,19 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
-        => _modelProvider.GetLanguageVariantModel<T>(await GetLanguageVariantAsync(identifier));
+    public async Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IContentItem, new()
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        var response = await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        if (!response.IsSuccessStatusCode)
+        {
+            return ManagementResult<T>.Failure(ParseErrors(response), response.StatusCode);
+        }
+
+        return ManagementResult<T>.Success(ProjectElements<T>(response.Content!.Elements), response.StatusCode);
+    }
 
     /// <inheritdoc />
     public async Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier)
@@ -151,14 +166,35 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements, WorkflowStepIdentifier workflow = null) where T : new()
+    public async Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(
+        LanguageVariantIdentifier identifier,
+        T variant,
+        WorkflowStepIdentifier? workflow = null,
+        CancellationToken cancellationToken = default)
+        where T : IContentItem, new()
     {
         ArgumentNullException.ThrowIfNull(identifier);
-        ArgumentNullException.ThrowIfNull(variantElements);
+        ArgumentNullException.ThrowIfNull(variant);
 
-        var variantUpsertModel = _modelProvider.GetLanguageVariantUpsertModel(variantElements, workflow);
+        var validation = ContentItemValidator.Validate(variant);
+        if (!validation.IsSuccess)
+        {
+            return validation;
+        }
 
-        return _modelProvider.GetLanguageVariantModel<T>(await UpsertLanguageVariantAsync(identifier, variantUpsertModel));
+        var upsertModel = new LanguageVariantUpsertModel
+        {
+            Elements = LanguageVariantElementsBridge.JsonToElements(_contentConverter.WriteEnvelopes(variant)),
+            Workflow = workflow,
+        };
+
+        var response = await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), upsertModel, cancellationToken);
+        if (!response.IsSuccessStatusCode)
+        {
+            return ManagementResult<T>.Failure(ParseErrors(response), response.StatusCode);
+        }
+
+        return ManagementResult<T>.Success(ProjectElements<T>(response.Content!.Elements), response.StatusCode);
     }
 
     /// <inheritdoc />
@@ -167,5 +203,60 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
 
         EnsureSuccess(await _managementApi.DeleteLanguageVariantInternalAsync(identifier.ToUrlSegment()));
+    }
+
+    // --- strongly-typed (generated-record) variant helpers ---
+
+    private T ProjectElements<T>(IEnumerable<dynamic> elements) where T : IContentItem, new()
+    {
+        if (_autoScanContentTypes)
+        {
+            _contentConverter.Registry.Scan(typeof(T).Assembly);
+        }
+
+        var json = LanguageVariantElementsBridge.ElementsToJson(elements ?? []);
+        return _contentConverter.ReadEnvelopes<T>(json);
+    }
+
+    // Best-effort projection of a MAPI error body into result errors. Mirrors the parse ManagementException does,
+    // but surfaces failures through IManagementResult instead of throwing (phase-4 decision §9).
+    private static IReadOnlyList<ManagementError> ParseErrors(IApiResponse response)
+    {
+        var error = response.Error;
+        var body = error?.Content;
+
+        if (!string.IsNullOrWhiteSpace(body))
+        {
+            try
+            {
+                var model = JObject.Parse(body).ToObject<ErrorResponseModel>();
+                if (model is not null)
+                {
+                    var errors = new List<ManagementError>();
+                    if (!string.IsNullOrEmpty(model.Message))
+                    {
+                        errors.Add(new ManagementError(model.Message));
+                    }
+                    if (model.ValidationErrors is not null)
+                    {
+                        errors.AddRange(model.ValidationErrors
+                            .Where(e => !string.IsNullOrEmpty(e.Message))
+                            .Select(e => new ManagementError(e.Message)));
+                    }
+                    if (errors.Count > 0)
+                    {
+                        return errors;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // Body wasn't the expected error envelope — fall through to the generic message.
+            }
+        }
+
+        var status = error?.StatusCode ?? response.StatusCode;
+        var reason = error?.ReasonPhrase ?? response.ReasonPhrase;
+        return [new ManagementError($"CM API returned {(int)status} {reason}.")];
     }
 }

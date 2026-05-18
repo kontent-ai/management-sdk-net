@@ -34,6 +34,7 @@ using Kontent.Ai.Management.Models.WebSpotlight;
 using Kontent.Ai.Management.Models.Workflow;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
@@ -317,12 +318,16 @@ public interface IManagementClient
     Task<LanguageVariantModel> GetLanguageVariantAsync(LanguageVariantIdentifier identifier);
 
     /// <summary>
-    /// Returns strongly typed language variant with strongly typed elements.
+    /// Retrieves a language variant and projects its elements onto the generated content-type record
+    /// <typeparamref name="T"/>. Failures (HTTP 4xx/5xx) are surfaced through the returned result rather than thrown;
+    /// network-level and serialization failures still propagate as exceptions.
     /// </summary>
-    /// <typeparam name="T">Type of the content item elements</typeparam>
+    /// <typeparam name="T">The generated content-type record (implements <see cref="IContentItem"/>).</typeparam>
     /// <param name="identifier">The identifier of the language variant.</param>
-    /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents language variant.</returns>
-    Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the populated <typeparamref name="T"/> on success, or the API errors on failure.</returns>
+    Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IContentItem, new();
 
     /// <summary>
     /// Returns strongly typed currently published language variant.
@@ -610,14 +615,24 @@ public interface IManagementClient
     Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant);
 
     /// <summary>
-    /// Inserts or updates the given language variant.
+    /// Inserts or updates a language variant from the generated content-type record <typeparamref name="T"/>.
+    /// The record is validated locally first (<see cref="Validation.ContentItemValidator"/>); a validation failure
+    /// short-circuits with no HTTP call. <c>null</c> properties are omitted from the payload (partial update).
+    /// Failures (validation, HTTP 4xx/5xx) are surfaced through the returned result rather than thrown;
+    /// network-level and serialization failures still propagate as exceptions.
     /// </summary>
-    /// <typeparam name="T">Type of the content item elements</typeparam>
+    /// <typeparam name="T">The generated content-type record (implements <see cref="IContentItem"/>).</typeparam>
     /// <param name="identifier">The identifier of the language variant.</param>
-    /// <param name="variantElements">Represents inserted or updated strongly typed language variant elements.</param>
-    /// <param name="workflow">Workflow step definition to set the inserted or updated language variant.</param>
-    /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents inserted or updated language variant.</returns>
-    Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements, WorkflowStepIdentifier workflow = null) where T : new();
+    /// <param name="variant">The content-type record carrying the elements to set.</param>
+    /// <param name="workflow">Optional workflow step to set on the variant.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the upserted variant projected onto <typeparamref name="T"/>, or the errors on failure.</returns>
+    Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(
+        LanguageVariantIdentifier identifier,
+        T variant,
+        WorkflowStepIdentifier? workflow = null,
+        CancellationToken cancellationToken = default)
+        where T : IContentItem, new();
 
     /// <summary>
     /// Validates the environment.

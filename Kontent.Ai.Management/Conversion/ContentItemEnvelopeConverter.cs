@@ -40,6 +40,9 @@ internal sealed class ContentItemEnvelopeConverter
         _scalarOptions = scalarOptions ?? CreateDefaultScalarOptions();
     }
 
+    /// <summary>The codename↔type registry this converter dispatches rich-text components through.</summary>
+    public ContentTypeRegistry Registry => _registry;
+
     // ---- Primary API ----
 
     /// <summary>Writes <paramref name="item"/>'s <c>[KontentElement]</c> properties as a JSON array of envelopes onto <paramref name="writer"/>.</summary>

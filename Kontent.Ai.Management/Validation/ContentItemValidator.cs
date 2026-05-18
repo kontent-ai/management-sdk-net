@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Kontent.Ai.Management.Annotations;
+using Kontent.Ai.Management.Models.Content;
 
 namespace Kontent.Ai.Management.Validation;
 
@@ -146,29 +147,27 @@ public static class ContentItemValidator
             var allowed = new HashSet<string>(allowedTypes.Codenames, StringComparer.Ordinal);
             checks.Add((value, errors) =>
             {
-                if (value is not IEnumerable enumerable)
+                switch (value)
                 {
-                    return;
-                }
+                    // Rich-text element: every embedded component's content type must be in the allow-list.
+                    case RichTextElement { Components: { } components }:
+                        foreach (var component in components)
+                        {
+                            CheckAllowedType(component.Content, allowed, codename, errors);
+                        }
+                        break;
 
-                foreach (var entry in enumerable)
-                {
-                    // Defensive: only IContentItem entries participate in the type check.
-                    // Property is conventionally typed IReadOnlyList<IContentItem>? but the validator is robust
-                    // against misapplication of the attribute on non-IContentItem collections.
-                    if (entry is not IContentItem)
-                    {
-                        continue;
-                    }
-
-                    var entryType = entry.GetType().GetCustomAttribute<KontentTypeAttribute>();
-                    if (entryType is null || !allowed.Contains(entryType.Codename))
-                    {
-                        var label = entryType?.Codename ?? entry.GetType().Name;
-                        errors.Add(new ManagementError(
-                            $"Content type '{label}' is not allowed; permitted: {string.Join(", ", allowed)}.",
-                            codename));
-                    }
+                    // Linked-items / subpages style collection. Conventionally IReadOnlyList<IContentItem>?,
+                    // but stay robust if the attribute is misapplied to a non-IContentItem collection.
+                    case IEnumerable enumerable and not string:
+                        foreach (var entry in enumerable)
+                        {
+                            if (entry is IContentItem item)
+                            {
+                                CheckAllowedType(item, allowed, codename, errors);
+                            }
+                        }
+                        break;
                 }
             });
         }
@@ -177,6 +176,18 @@ public static class ContentItemValidator
         // produce no check in phase 3 — the data needed to enforce them isn't present on the in-memory record.
 
         return checks.ToArray();
+    }
+
+    private static void CheckAllowedType(IContentItem item, HashSet<string> allowed, string codename, List<ManagementError> errors)
+    {
+        var typeAttr = item.GetType().GetCustomAttribute<KontentTypeAttribute>();
+        if (typeAttr is null || !allowed.Contains(typeAttr.Codename))
+        {
+            var label = typeAttr?.Codename ?? item.GetType().Name;
+            errors.Add(new ManagementError(
+                $"Content type '{label}' is not allowed; permitted: {string.Join(", ", allowed)}.",
+                codename));
+        }
     }
 
     private static bool TryGetCount(object? value, out int count)

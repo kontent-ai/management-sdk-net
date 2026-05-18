@@ -271,33 +271,6 @@ public class LanguageVariantTests
 
     [Theory]
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
-    public async Task GetLanguageVariantAsync_StronglyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
-    {
-        var client = _scenario
-            .WithResponses("LanguageVariant.json")
-            .CreateManagementClient();
-
-        var response = await client.GetLanguageVariantAsync<ComplexTestModel>(identifier);
-
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, GetExpectedComplexTestModel())
-            .Url(expectedUrl)
-            .Validate();
-    }
-
-    [Fact]
-    public async Task GetLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.GetLanguageVariantAsync<ComplexTestModel>(null))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Theory]
-    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task GetLanguageVariantAsync_DynamicallyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var client = _scenario
@@ -376,45 +349,6 @@ public class LanguageVariantTests
         await client.Invoking(x => x.GetPublishedLanguageVariantAsync(null))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
-
-    [Theory]
-    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
-    public async Task UpsertLanguageVariantAsync_StronglyTyped_UpsertsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
-    {
-        var client = _scenario
-            .WithResponses("LanguageVariant.json")
-            .CreateManagementClient();
-
-        var response = await client.UpsertLanguageVariantAsync(identifier, GetExpectedComplexTestModel().Elements);
-
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(new LanguageVariantUpsertModel { Elements = GetExpectedLanguageVariantModel().Elements })
-            .Response(response, GetExpectedComplexTestModel())
-            .Url(expectedUrl)
-            .Validate();
-    }
-
-    [Fact]
-    public async Task UpsertLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(null, new ComplexTestModel()))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Theory]
-    [ClassData(typeof(CombinationOfIdentifiers))]
-    public async Task UpsertLanguageVariantAsync_StronglyTyped_LanguageVariantUpsertModelIsNull_Throws(LanguageVariantIdentifier identifier)
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (ComplexTestModel)null))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
 
     [Theory]
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]

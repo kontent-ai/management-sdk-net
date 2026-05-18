@@ -1760,9 +1760,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 DueDate = new DueDateModel
                 {
                     Value = DateTime.Parse("2092-01-07T06:04:00.7069564Z")
-                }
-            },
-            new WorkflowStepIdentifier(Reference.ByCodename("default"), Reference.ByCodename("review")));
+                },
+                Workflow = new WorkflowStepIdentifier(Reference.ByCodename("default"), Reference.ByCodename("review"))
+            });
 
         Assert.NotNull(response);
     }
