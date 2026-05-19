@@ -3,28 +3,22 @@ using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.VariantFilter;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RichardSzalay.MockHttp;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
+public class ItemWithVariantTests
 {
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ItemWithVariantTests(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("ItemWithVariant");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ItemWithVariant", name));
 
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithValidRequest_ReturnsFilterResults()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -47,6 +41,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
 
@@ -67,15 +62,17 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithNullRequest_ThrowsArgumentNullException()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, _) = MockClientFactory.Create();
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.FilterItemsWithVariantsAsync(null));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.FilterItemsWithVariantsAsync(null!));
     }
 
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithPagination_HasNextPage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -87,6 +84,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.HasNextPage().Should().BeTrue();
     }
@@ -94,7 +92,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_LastPage_HasNoNextPage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponseLastPage.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponseLastPage.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -106,6 +106,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.HasNextPage().Should().BeFalse();
     }
@@ -113,7 +114,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithComplexFilters_ReturnsResults()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -167,6 +170,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
         response.ToList().Should().HaveCount(2);
@@ -175,7 +179,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithSpacesFilter_ReturnsResults()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -192,6 +198,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
         response.ToList().Should().HaveCount(2);
@@ -200,7 +207,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithCollectionsFilter_ReturnsResults()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -217,6 +226,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
         response.ToList().Should().HaveCount(2);
@@ -225,7 +235,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithPublishingStatesFilter_ReturnsResults()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -242,6 +254,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
         response.ToList().Should().HaveCount(2);
@@ -250,7 +263,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithAllNewFilters_ReturnsResults()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -276,6 +291,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
         response.ToList().Should().HaveCount(2);
@@ -284,7 +300,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task FilterItemsWithVariantsAsync_WithComponentTypesFilter_ReturnsResults()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FilterResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -301,6 +319,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.FilterItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
         response.ToList().Should().HaveCount(2);
@@ -309,7 +328,9 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task BulkGetItemsWithVariantsAsync_WithValidRequest_ReturnsItemsWithVariants()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("BulkGetResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
+            .Respond("application/json", Fixture("BulkGetResponse.json"));
 
         var request = new ItemWithVariantBulkGetRequestModel
         {
@@ -330,6 +351,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.BulkGetItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ContentItemWithVariantModel>>();
 
@@ -352,15 +374,17 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
     [Fact]
     public async Task BulkGetItemsWithVariantsAsync_WithNullRequest_ThrowsArgumentNullException()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("BulkGetResponse.json");
+        var (client, _) = MockClientFactory.Create();
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.BulkGetItemsWithVariantsAsync(null));
+        await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.BulkGetItemsWithVariantsAsync(null!));
     }
 
     [Fact]
     public async Task BulkGetItemsWithVariantsAsync_WithCodenames_ReturnsItemsWithVariants()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("BulkGetResponse.json");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
+            .Respond("application/json", Fixture("BulkGetResponse.json"));
 
         var request = new ItemWithVariantBulkGetRequestModel
         {
@@ -381,6 +405,7 @@ public class ItemWithVariantTests : IClassFixture<FileSystemFixture>
 
         var response = await client.BulkGetItemsWithVariantsAsync(request);
 
+        mock.VerifyNoOutstandingExpectation();
         response.Should().NotBeNull();
         response.Should().BeAssignableTo<IListingResponseModel<ContentItemWithVariantModel>>();
 

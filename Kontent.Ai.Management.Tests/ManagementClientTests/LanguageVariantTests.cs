@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+using System.Collections;
+using FluentAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
@@ -7,88 +8,70 @@ using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
 using Kontent.Ai.Management.Tests.Data;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class LanguageVariantTests
 {
-    private readonly Scenario _scenario;
-
-    public LanguageVariantTests()
-    {
-        _scenario = new Scenario(folder: "LanguageVariant");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "LanguageVariant", name));
 
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_StronglyTyped_ListsVariants()
     {
-        var client = _scenario
-            .WithResponses("LanguageVariants.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/items/{identifier.Id}/variants")
+            .Respond("application/json", Fixture("LanguageVariants.json"));
+
         var response = await client.ListLanguageVariantsByItemAsync<ComplexTestModel>(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, GetExpectedComplexTestModels("00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000"))
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}/variants")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(GetExpectedComplexTestModels("00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000"));
     }
 
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_StronglyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListLanguageVariantsByItemAsync<ComplexTestModel>(null))
+        await client.Invoking(x => x.ListLanguageVariantsByItemAsync<ComplexTestModel>(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
-
 
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_DynamicallyTyped_ListsVariants()
     {
-        var client = _scenario
-            .WithResponses("LanguageVariants.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/items/{identifier.Id}/variants")
+            .Respond("application/json", Fixture("LanguageVariants.json"));
+
         var response = await client.ListLanguageVariantsByItemAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, GetExpectedLanguageVariantModels("00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000"))
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{identifier.Id}/variants")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(GetExpectedLanguageVariantModels("00000000-0000-0000-0000-000000000000", "10000000-0000-0000-0000-000000000000"));
     }
-
 
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListLanguageVariantsByItemAsync(null))
+        await client.Invoking(x => x.ListLanguageVariantsByItemAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
     public async Task ListLanguageVariantsByTypeAsync_StronglyTyped_ListsVariants()
     {
-        var client = _scenario
-            .WithResponses("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("LanguageVariantsPage1.json");
+        var page2 = Fixture("LanguageVariantsPage2.json");
+        var page3 = Fixture("LanguageVariantsPage3.json");
 
         var expected = new[]
         {
@@ -101,31 +84,33 @@ public class LanguageVariantTests
         }.Select(x => GetExpectedComplexTestModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
+        var url = $"{MockClientFactory.BaseUrl}/types/{identifier.Id}/variants";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
         var response = await client.ListLanguageVariantsByTypeAsync<ComplexTestModel>(identifier).GetAllAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, expected)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}/variants")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public async Task ListLanguageVariantsByTypeAsync_StronglyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListLanguageVariantsByTypeAsync<ComplexTestModel>(null))
+        await client.Invoking(x => x.ListLanguageVariantsByTypeAsync<ComplexTestModel>(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ListLanguageVariantsByTypeAsync_DynamicallyTyped_ListsVariants()
+    public async Task ListLanguageVariantsByTypeAsync_DynamicallyTyped_ListsVariants()
     {
-        var client = _scenario
-            .WithResponses("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("LanguageVariantsPage1.json");
+        var page2 = Fixture("LanguageVariantsPage2.json");
+        var page3 = Fixture("LanguageVariantsPage3.json");
 
         var expected = new[]
         {
@@ -138,31 +123,33 @@ public class LanguageVariantTests
         }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
+        var url = $"{MockClientFactory.BaseUrl}/types/{identifier.Id}/variants";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
         var response = await client.ListLanguageVariantsByTypeAsync(identifier).GetAllAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, expected)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}/variants")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public async Task ListLanguageVariantsByTypeAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListLanguageVariantsByTypeAsync(null))
+        await client.Invoking(x => x.ListLanguageVariantsByTypeAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
     public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_DynamicallyTyped_ListsVariants()
     {
-        var client = _scenario
-            .WithResponses("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("LanguageVariantsPage1.json");
+        var page2 = Fixture("LanguageVariantsPage2.json");
+        var page3 = Fixture("LanguageVariantsPage3.json");
 
         var expected = new[]
         {
@@ -175,31 +162,33 @@ public class LanguageVariantTests
         }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
+        var url = $"{MockClientFactory.BaseUrl}/types/{identifier.Id}/components";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
         var response = await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier).GetAllAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, expected)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/types/{identifier.Id}/components")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListLanguageVariantsOfContentTypeWithComponentsAsync(null))
+        await client.Invoking(x => x.ListLanguageVariantsOfContentTypeWithComponentsAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ListLanguageVariantsByCollectionAsync_DynamicallyTyped_ListsVariants()
+    public async Task ListLanguageVariantsByCollectionAsync_DynamicallyTyped_ListsVariants()
     {
-        var client = _scenario
-            .WithResponses("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("LanguageVariantsPage1.json");
+        var page2 = Fixture("LanguageVariantsPage2.json");
+        var page3 = Fixture("LanguageVariantsPage3.json");
 
         var expected = new[]
         {
@@ -212,32 +201,33 @@ public class LanguageVariantTests
         }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("17ff8a28-ebe6-5c9d-95ea-18fe1ff86d2d"));
+        var url = $"{MockClientFactory.BaseUrl}/collections/{identifier.Id}/variants";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
         var response = await client.ListLanguageVariantsByCollectionAsync(identifier).GetAllAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, expected)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/collections/{identifier.Id}/variants")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public async Task ListLanguageVariantsByCollectionAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListLanguageVariantsByCollectionAsync(null))
+        await client.Invoking(x => x.ListLanguageVariantsByCollectionAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
-
     [Fact]
-    public async void ListLanguageVariantsBySpaceAsync_DynamicallyTyped_ListsVariants()
+    public async Task ListLanguageVariantsBySpaceAsync_DynamicallyTyped_ListsVariants()
     {
-        var client = _scenario
-            .WithResponses("LanguageVariantsPage1.json", "LanguageVariantsPage2.json", "LanguageVariantsPage3.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("LanguageVariantsPage1.json");
+        var page2 = Fixture("LanguageVariantsPage2.json");
+        var page3 = Fixture("LanguageVariantsPage3.json");
 
         var expected = new[]
         {
@@ -250,22 +240,23 @@ public class LanguageVariantTests
         }.Select(x => GetExpectedLanguageVariantModel(x.languageId, x.itemId));
 
         var identifier = Reference.ById(Guid.Parse("f81647c8-778a-4b20-a47e-d09dc8541151"));
+        var url = $"{MockClientFactory.BaseUrl}/spaces/{identifier.Id}/variants";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
         var response = await client.ListLanguageVariantsBySpaceAsync(identifier).GetAllAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, expected)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/spaces/{identifier.Id}/variants")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public async Task ListLanguageVariantsBySpaceAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListLanguageVariantsBySpaceAsync(null))
+        await client.Invoking(x => x.ListLanguageVariantsBySpaceAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -273,26 +264,22 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task GetLanguageVariantAsync_DynamicallyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
-        var client = _scenario
-            .WithResponses("LanguageVariant.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, expectedUrl)
+            .Respond("application/json", Fixture("LanguageVariant.json"));
 
         var response = await client.GetLanguageVariantAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, GetExpectedLanguageVariantModel())
-            .Url(expectedUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(GetExpectedLanguageVariantModel());
     }
 
     [Fact]
     public async Task GetLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetLanguageVariantAsync(null))
+        await client.Invoking(x => x.GetLanguageVariantAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -300,26 +287,22 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task GetPublishedLanguageVariantAsync_StronglyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
-        var client = _scenario
-            .WithResponses("LanguageVariant.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, expectedUrl + "/published")
+            .Respond("application/json", Fixture("LanguageVariant.json"));
 
         var response = await client.GetPublishedLanguageVariantAsync<ComplexTestModel>(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, GetExpectedComplexTestModel())
-            .Url(expectedUrl + "/published")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(GetExpectedComplexTestModel());
     }
 
     [Fact]
     public async Task GetPublishedLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetPublishedLanguageVariantAsync<ComplexTestModel>(null))
+        await client.Invoking(x => x.GetPublishedLanguageVariantAsync<ComplexTestModel>(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -327,26 +310,22 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task GetPublishedLanguageVariantAsync_DynamicallyTyped_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
-        var client = _scenario
-            .WithResponses("LanguageVariant.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, expectedUrl + "/published")
+            .Respond("application/json", Fixture("LanguageVariant.json"));
 
         var response = await client.GetPublishedLanguageVariantAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response, GetExpectedLanguageVariantModel())
-            .Url(expectedUrl + "/published")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(GetExpectedLanguageVariantModel());
     }
 
     [Fact]
     public async Task GetPublishedLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetPublishedLanguageVariantAsync(null))
+        await client.Invoking(x => x.GetPublishedLanguageVariantAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -354,32 +333,34 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantUpsertModel_UpsertsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
-        var client = _scenario
-            .WithResponses("LanguageVariant.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var expected = GetExpectedLanguageVariantModel();
-
         var upsertModel = new LanguageVariantUpsertModel { Elements = expected.Elements };
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, expectedUrl)
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Fixture("LanguageVariant.json"));
 
         var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(upsertModel)
-            .Response(response, expected)
-            .Url(expectedUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(expected);
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<LanguageVariantUpsertModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageVariantUpsertModel>(JsonConvert.SerializeObject(upsertModel)));
     }
-
 
     [Fact]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(null, new LanguageVariantUpsertModel()))
+        await client.Invoking(x => x.UpsertLanguageVariantAsync(null!, new LanguageVariantUpsertModel()))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -387,9 +368,9 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiers))]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_LanguageVariantUpsertModelIsNull_Throws(LanguageVariantIdentifier identifier)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (LanguageVariantUpsertModel)null))
+        await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (LanguageVariantUpsertModel)null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -397,30 +378,34 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantModel_UpsertsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
-        var client = _scenario
-            .WithResponses("LanguageVariant.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var expected = GetExpectedLanguageVariantModel();
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, expectedUrl)
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Fixture("LanguageVariant.json"));
 
         var response = await client.UpsertLanguageVariantAsync(identifier, expected);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(new LanguageVariantUpsertModel(expected))
-            .Response(response, expected)
-            .Url(expectedUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(expected);
+        capturedBody.Should().NotBeNull();
+        var sentModel = new LanguageVariantUpsertModel(expected);
+        JsonConvert.DeserializeObject<LanguageVariantUpsertModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageVariantUpsertModel>(JsonConvert.SerializeObject(sentModel)));
     }
-
 
     [Fact]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantModel_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(null, new LanguageVariantModel()))
+        await client.Invoking(x => x.UpsertLanguageVariantAsync(null!, new LanguageVariantModel()))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -428,9 +413,9 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiers))]
     public async Task UpsertLanguageVariantAsync_DynamicallyTyped_ByLanguageVariantModel_LanguageVariantModelIsNull_Throws(LanguageVariantIdentifier identifier)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (LanguageVariantModel)null))
+        await client.Invoking(x => x.UpsertLanguageVariantAsync(identifier, (LanguageVariantModel)null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -438,19 +423,17 @@ public class LanguageVariantTests
     [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
     public async Task DeleteLanguageVariantAsync_DeletesVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Delete, expectedUrl)
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.DeleteLanguageVariantAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .Url(expectedUrl)
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     private static List<LanguageVariantModel> GetExpectedLanguageVariantModels(params string[] languageIds)
-    => languageIds.Select(x => GetExpectedLanguageVariantModel(x)).ToList();
+        => languageIds.Select(x => GetExpectedLanguageVariantModel(x)).ToList();
 
     private static LanguageVariantModel GetExpectedLanguageVariantModel(
         string languageId = "78dbefe8-831b-457e-9352-f4c4eacd5024",
@@ -497,11 +480,10 @@ public class LanguageVariantTests
         new() { Value = DateTimeOffset.Parse("2092-01-07T06:04:00.7069564Z").UtcDateTime };
 
     private static List<UserIdentifier> GetExpectedContributors() =>
-        new List<UserIdentifier>() { UserIdentifier.ById("4b628214-e4fe-4fe0-b1ff-955df33e1515") };
+        new() { UserIdentifier.ById("4b628214-e4fe-4fe0-b1ff-955df33e1515") };
 
     private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
     {
-
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public IEnumerator<object[]> GetEnumerator()
@@ -522,7 +504,7 @@ public class LanguageVariantTests
                 foreach (var language in languageIdentifiers)
                 {
                     var identifier = new LanguageVariantIdentifier(item.Identifier, language.Identifier);
-                    var url = $"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
+                    var url = $"{MockClientFactory.BaseUrl}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
                     yield return (identifier, url);
                 }
             }

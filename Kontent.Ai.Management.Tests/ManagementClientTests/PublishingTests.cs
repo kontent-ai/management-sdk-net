@@ -1,141 +1,138 @@
-﻿using FluentAssertions;
+using System.Collections;
+using FluentAssertions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Http;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class PublishingTests
 {
-    private readonly Scenario _scenario;
-
-    public PublishingTests()
-    {
-        _scenario = new Scenario(folder: "Workflow");
-    }
-
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void ChangeLanguageVariantWorkflowAsync_ChangesWorkflow(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task ChangeLanguageVariantWorkflowAsync_ChangesWorkflow(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var model = new ChangeLanguageVariantWorkflowModel
             (
                 workflowIdentifier: Reference.ById(Guid.NewGuid()),
                 stepIdentifier: Reference.ById(Guid.NewGuid())
             );
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/change-workflow")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.ChangeLanguageVariantWorkflowAsync(variantIdentifier, model);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(model)
-            .Url($"{expectedUrl}/change-workflow")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<ChangeLanguageVariantWorkflowModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ChangeLanguageVariantWorkflowModel>(JsonConvert.SerializeObject(model)));
     }
 
     [Fact]
-    public async void ChangeLanguageVariantWorkflowAsync_NoIdentifier_Throws()
+    public async Task ChangeLanguageVariantWorkflowAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, _) = MockClientFactory.Create();
         var model = new ChangeLanguageVariantWorkflowModel
             (
                 workflowIdentifier: Reference.ById(Guid.NewGuid()),
                 stepIdentifier: Reference.ById(Guid.NewGuid())
             );
 
-        await client.Invoking(x => x.ChangeLanguageVariantWorkflowAsync(null, model)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ChangeLanguageVariantWorkflowAsync(null!, model)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ChangeLanguageVariantWorkflowAsync_PayloadIsNull_Throws()
+    public async Task ChangeLanguageVariantWorkflowAsync_PayloadIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, _) = MockClientFactory.Create();
         var identifier = new LanguageVariantIdentifier
             (
                 itemIdentifier: Reference.ById(Guid.NewGuid()),
                 languageIdentifier: Reference.ById(Guid.NewGuid())
             );
 
-        await client.Invoking(x => x.ChangeLanguageVariantWorkflowAsync(identifier, null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ChangeLanguageVariantWorkflowAsync(identifier, null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void PublishLanguageVariantAsync_PublishesVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task PublishLanguageVariantAsync_PublishesVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/publish")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.PublishLanguageVariantAsync(variantIdentifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{expectedUrl}/publish")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void PublishLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task PublishLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.PublishLanguageVariantAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.PublishLanguageVariantAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void SchedulePublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task SchedulePublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
             ScheduleTo = DateTimeOffset.UtcNow
         };
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/publish")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.SchedulePublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(schedule)
-            .Url($"{expectedUrl}/publish")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<ScheduleModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ScheduleModel>(JsonConvert.SerializeObject(schedule)));
     }
 
     [Fact]
-    public async void SchedulePublishingOfLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task SchedulePublishingOfLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, _) = MockClientFactory.Create();
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
             ScheduleTo = DateTimeOffset.UtcNow
         };
 
-        await client.Invoking(x => x.SchedulePublishingOfLanguageVariantAsync(null, schedule)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.SchedulePublishingOfLanguageVariantAsync(null!, schedule)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void SchedulePublishingAndUnpublishingOfLanguageVariantAsync_SchedulesVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync_SchedulesVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var schedule = new SchedulePublishAndUnpublishModel()
         {
             PublishDisplayTimeZone = "prague",
@@ -143,22 +140,28 @@ public class PublishingTests
             UnpublishDisplayTimeZone = "prague",
             UnpublishScheduledTo = DateTimeOffset.UtcNow.AddDays(10)
         };
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/schedule-publish-and-unpublish")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.SchedulePublishingAndUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(schedule)
-            .Url($"{expectedUrl}/schedule-publish-and-unpublish")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<SchedulePublishAndUnpublishModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SchedulePublishAndUnpublishModel>(JsonConvert.SerializeObject(schedule)));
     }
 
     [Fact]
-    public async void SchedulePublishingAndUnpublishingOfLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, _) = MockClientFactory.Create();
         var schedule = new SchedulePublishAndUnpublishModel()
         {
             PublishDisplayTimeZone = "prague",
@@ -167,165 +170,158 @@ public class PublishingTests
             UnpublishScheduledTo = DateTimeOffset.UtcNow.AddDays(10)
         };
 
-        await client.Invoking(x => x.SchedulePublishingAndUnpublishingOfLanguageVariantAsync(null, schedule)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.SchedulePublishingAndUnpublishingOfLanguageVariantAsync(null!, schedule)).Should().ThrowAsync<ArgumentNullException>();
     }
-    
-    [Fact]
-    public async void SchedulePublishingOfLanguageVariantAsync_ScheduleModelIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
 
+    [Fact]
+    public async Task SchedulePublishingOfLanguageVariantAsync_ScheduleModelIsNull_Throws()
+    {
+        var (client, _) = MockClientFactory.Create();
         var identifier = new LanguageVariantIdentifier
             (
                 itemIdentifier: Reference.ById(Guid.NewGuid()),
                 languageIdentifier: Reference.ById(Guid.NewGuid())
             );
 
-        await client.Invoking(x => x.SchedulePublishingOfLanguageVariantAsync(identifier, null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.SchedulePublishingOfLanguageVariantAsync(identifier, null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void CancelPublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task CancelPublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/cancel-scheduled-publish")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.CancelPublishingOfLanguageVariantAsync(variantIdentifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{expectedUrl}/cancel-scheduled-publish")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void CancelPublishingOfLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task CancelPublishingOfLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-
-        await client.Invoking(x => x.CancelPublishingOfLanguageVariantAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CancelPublishingOfLanguageVariantAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void UnpublishLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task UnpublishLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/unpublish-and-archive")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.UnpublishLanguageVariantAsync(variantIdentifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{expectedUrl}/unpublish-and-archive")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void UnpublishLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task UnpublishLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UnpublishLanguageVariantAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.UnpublishLanguageVariantAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void CancelUnpublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task CancelUnpublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/cancel-scheduled-unpublish")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.CancelUnpublishingOfLanguageVariantAsync(variantIdentifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{expectedUrl}/cancel-scheduled-unpublish")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void CancelUnpublishingOfLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task CancelUnpublishingOfLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.CancelUnpublishingOfLanguageVariantAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CancelUnpublishingOfLanguageVariantAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void ScheduleUnpublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task ScheduleUnpublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
             ScheduleTo = DateTimeOffset.UtcNow
         };
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/unpublish-and-archive")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.ScheduleUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(schedule)
-            .Url($"{expectedUrl}/unpublish-and-archive")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<ScheduleModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ScheduleModel>(JsonConvert.SerializeObject(schedule)));
     }
 
     [Fact]
-    public async void ScheduleUnpublishingOfLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task ScheduleUnpublishingOfLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, _) = MockClientFactory.Create();
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
             ScheduleTo = DateTimeOffset.UtcNow
         };
 
-        await client.Invoking(x => x.ScheduleUnpublishingOfLanguageVariantAsync(null, schedule)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ScheduleUnpublishingOfLanguageVariantAsync(null!, schedule)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ScheduleUnpublishingOfLanguageVariantAsync_ScheduleModelIsNull_Throws()
+    public async Task ScheduleUnpublishingOfLanguageVariantAsync_ScheduleModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, _) = MockClientFactory.Create();
         var identifier = new LanguageVariantIdentifier
             (
                 itemIdentifier: Reference.ById(Guid.NewGuid()),
                 languageIdentifier: Reference.ById(Guid.NewGuid())
             );
 
-        await client.Invoking(x => x.ScheduleUnpublishingOfLanguageVariantAsync(identifier, null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ScheduleUnpublishingOfLanguageVariantAsync(identifier, null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async void CreateNewVersionOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task CreateNewVersionOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Put, $"{expectedUrl}/new-version")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.CreateNewVersionOfLanguageVariantAsync(variantIdentifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{expectedUrl}/new-version")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void CreateNewVersionOfLanguageVariantAsync_NoIdentifier_Throws()
+    public async Task CreateNewVersionOfLanguageVariantAsync_NoIdentifier_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-
-        await client.Invoking(x => x.CreateNewVersionOfLanguageVariantAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CreateNewVersionOfLanguageVariantAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     private class CombinationOfVariantIdentifiersAndUrl : IEnumerable<object[]>
@@ -350,7 +346,7 @@ public class PublishingTests
                 foreach (var language in languageIdentifiers)
                 {
                     var identifier = new LanguageVariantIdentifier(item.Identifier, language.Identifier);
-                    var url = $"{Endpoint}/projects/{ENVIRONMENT_ID}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
+                    var url = $"{MockClientFactory.BaseUrl}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
                     yield return (identifier, url);
                 }
             }
