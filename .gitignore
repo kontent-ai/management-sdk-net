@@ -262,3 +262,6 @@ __pycache__/
 
 # MacOS
 .DS_Store
+
+# Verify (snapshot testing) — received files are transient, regenerated on mismatch
+*.received.*

@@ -52,7 +52,7 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
         ISubscriptionApi subscriptionApi,
         IModelProvider modelProvider = null,
         IDisposable ownedResources = null,
-        Conversion.ContentItemEnvelopeConverter contentConverter = null)
+        Conversion.ContentItemEnvelopeConverter? contentConverter = null)
     {
         _managementApi = managementApi;
         _subscriptionApi = subscriptionApi;

@@ -1,248 +1,179 @@
-﻿using FluentAssertions;
+using System.Net;
+using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class WebhookTests : IClassFixture<FileSystemFixture>
+public class WebhookTests
 {
-    private readonly Scenario _scenario;
+    private static string Webhooks => Fixture("Webhooks.json");
+    private static string Webhook => Fixture("Webhook.json");
 
-    public WebhookTests()
-    {
-        _scenario = new Scenario(folder: "Webhook");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Webhook", name));
+
+    // ById is the only kind webhooks accept; the rest must throw before any HTTP call.
+    public static TheoryData<Reference?> InvalidIdentifiers =>
+    [
+        Reference.ByCodename("codename"),
+        Reference.ByExternalId("externalId"),
+        null,
+    ];
 
     [Fact]
-    public async void ListWebhooksAsync_ListsWebhooks()
+    public async Task ListWebhooksAsync_ListsWebhooks()
     {
-        var client = _scenario
-            .WithResponses("Webhooks.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/webhooks-vnext")
+            .Respond("application/json", Webhooks);
 
         var response = await client.ListWebhooksAsync();
-        
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext")
-            .Validate();
+
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<List<WebhookModel>>(Webhooks));
     }
 
     [Fact]
-    public async void GetWebhookAsync_ById_GetsWebhook()
+    public async Task GetWebhookAsync_ById_GetsWebhook()
     {
-        var client = _scenario
-            .WithResponses("Webhook.json")
-            .CreateManagementClient();
-        
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}")
+            .Respond("application/json", Webhook);
+
         var response = await client.GetWebhookAsync(identifier);
-        
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}")
-            .Validate();
+
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebhookModel>(Webhook));
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidIdentifiers))]
+    public async Task GetWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.GetWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void GetWebhookAsync_ByCodename_Throws()
+    public async Task CreateWebhookAsync_CreatesWebhook()
     {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.GetWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void GetWebhookAsync_ByExternalId_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.GetWebhookAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
-    }
-    
-    [Fact]
-    public async void GetWebhookAsync_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.GetWebhookAsync(null)).Should().ThrowAsync<Exception>();
-    }
-    
-    [Fact]
-    public async void CreateWebhookAsync_CreatesWebhook()
-    {
-        var client = _scenario
-            .WithResponses("Webhook.json")
-            .CreateManagementClient();
-
-        var request = new WebhookCreateModel {
+        var (client, mock) = MockClientFactory.Create();
+        var request = new WebhookCreateModel
+        {
             Enabled = true,
             Name = "name",
             Secret = "password",
-            Headers = new []
-            {
-                new CustomHeaderModel
-                {
-                    Key = "key1",
-                    Value = "value1"
-                }
-            },
+            Headers = [new CustomHeaderModel { Key = "key1", Value = "value1" }],
             Url = "url",
-            DeliveryTriggers = new DeliveryTriggersModel {
-                ContentType = new ContentTypeTriggerModel {
+            DeliveryTriggers = new DeliveryTriggersModel
+            {
+                ContentType = new ContentTypeTriggerModel
+                {
                     Enabled = true,
-                    Actions = new[] { new ContentTypeActionModel { Action = ContentTypeAction.Created } }
-                }
-            }
+                    Actions = [new ContentTypeActionModel { Action = ContentTypeAction.Created }],
+                },
+            },
         };
 
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/webhooks-vnext")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Webhook);
+
         var response = await client.CreateWebhookAsync(request);
-        
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .Response(response)
-            .RequestPayload(request)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext")
-            .Validate();
+
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebhookModel>(Webhook));
+        capturedBody.Should().NotBeNull();
+        // Object-graph compare (serializer-robust); both sides round-tripped through the current Newtonsoft transport.
+        JsonConvert.DeserializeObject<WebhookCreateModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebhookCreateModel>(JsonConvert.SerializeObject(request)));
     }
 
     [Fact]
-    public async void CreateWebhookAsync_CreateModelIsNull_Throws()
+    public async Task CreateWebhookAsync_CreateModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.CreateWebhookAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.CreateWebhookAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void DeleteWebhookAsync_ById_DeletesWebhook()
+    public async Task DeleteWebhookAsync_ById_DeletesWebhook()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}")
+            .Respond(HttpStatusCode.OK);
 
         await client.DeleteWebhookAsync(identifier);
-        
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Delete)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}")
-            .Validate();
+
+        mock.VerifyNoOutstandingExpectation();
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidIdentifiers))]
+    public async Task DeleteWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.DeleteWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void DeleteWebhookAsync_ByCodename_Throws()
+    public async Task EnableWebhookAsync_ById_EnablesWebhook()
     {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.DeleteWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void DeleteWebhookAsync_ByExternalId_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.DeleteWebhookAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void DeleteWebhookAsync_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.DeleteWebhookAsync(null)).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void EnableWebhookAsync_ById_EnablesWebhook()
-    {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}/enable")
+            .Respond(HttpStatusCode.OK);
 
         await client.EnableWebhookAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}/enable")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidIdentifiers))]
+    public async Task EnableWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.EnableWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void EnableWebhookAsync_ByCodename_Throws()
+    public async Task DisableWebhookAsync_ById_DisablesWebhook()
     {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.EnableWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void EnableWebhookAsync_ByExternalId_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.EnableWebhookAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void EnableWebhookAsync_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.EnableWebhookAsync(null)).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void DisableWebhookAsync_ById_DisablesWebhook()
-    {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}/disable")
+            .Respond(HttpStatusCode.OK);
 
         await client.DisableWebhookAsync(identifier);
-        
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/webhooks-vnext/{identifier.Id}/disable")
-            .Validate();
+
+        mock.VerifyNoOutstandingExpectation();
     }
 
-    [Fact]
-    public async void DisableWebhookAsync_ByCodename_Throws()
+    [Theory]
+    [MemberData(nameof(InvalidIdentifiers))]
+    public async Task DisableWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
     {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.DisableWebhookAsync(Reference.ByCodename("codename"))).Should().ThrowAsync<Exception>();
-    }
+        var (client, _) = MockClientFactory.Create();
 
-    [Fact]
-    public async void DisableWebhookAsync_ByExternalId_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.DisableWebhookAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void DisableWebhookAsync_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-        
-        await client.Invoking(x => x.DisableWebhookAsync(null)).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.DisableWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
     }
 }
