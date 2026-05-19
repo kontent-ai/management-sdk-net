@@ -874,28 +874,43 @@ public class VariantIdentifierModel
     Reference Language { get; set; }
 
 // Kontent.Ai.Management.Models.Languages
-public class LanguageCreateModel
-    String Codename { get; set; }
-    String ExternalId { get; set; }
-    Reference FallbackLanguage { get; set; }
-    Boolean IsActive { get; set; }
-    String Name { get; set; }
+public sealed class LanguageCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Reference FallbackLanguage { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    String Name { get; set; init; }
+    LanguageCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Languages
-public class LanguageModel
-    String Codename { get; set; }
-    String ExternalId { get; set; }
-    Reference FallbackLanguage { get; set; }
-    Guid Id { get; set; }
-    Boolean IsActive { get; set; }
-    Boolean IsDefault { get; set; }
-    String Name { get; set; }
+public sealed class LanguageModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Reference FallbackLanguage { get; set; init; }
+    Guid Id { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    Boolean IsDefault { get; set; init; }
+    String Name { get; set; init; }
+    LanguageModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Languages
-public class LanguagePatchModel
+public sealed class LanguagePatchModel : IEquatable`1
     String Op { get; }
-    LanguagePropertyName PropertyName { get; set; }
-    Object Value { get; set; }
+    LanguagePropertyName PropertyName { get; set; init; }
+    Object Value { get; set; init; }
+    LanguagePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguagePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Languages
 public enum LanguagePropertyName : Enum

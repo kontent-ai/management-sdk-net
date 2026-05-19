@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Kontent.Ai.Management.Models.Languages;
 
 [JsonObject]
-internal class LanguagesListingResponseServerModel : IListingResponse<LanguageModel>
+internal sealed class LanguagesListingResponseServerModel : IListingResponse<LanguageModel>
 {
     [JsonProperty("languages")]
     public IEnumerable<LanguageModel> Languages { get; set; }
