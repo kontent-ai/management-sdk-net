@@ -3,110 +3,99 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class LanguageTests : IClassFixture<FileSystemFixture>
+public class LanguageTests
 {
-    private readonly Scenario _scenario;
+    private static string SingleLanguage => Fixture("SingleLanguageResponse.json");
+    private static string CreateLanguage => Fixture("CreateLanguage_CreatesLanguage.json");
+    private static string ModifyLanguages => Fixture("ModifyLanguages_Replace_ModifiesLanguages.json");
 
-    public LanguageTests()
-    {
-        _scenario = new Scenario(folder: "Language");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Language", name));
+
+    private static List<T> ConcatPages<T>(params string[] pages)
+        => pages
+            .SelectMany(p => JsonConvert.DeserializeObject<List<T>>(JObject.Parse(p).Properties().First().Value.ToString())!)
+            .ToList();
 
     [Fact]
-    public async void ListLanguagesAsync_ListsLanguages()
+    public async Task ListLanguagesAsync_ListsLanguages()
     {
-        var client = _scenario
-            .WithResponses("LanguagesPage1.json", "LanguagesPage2.json", "LanguagesPage3.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("LanguagesPage1.json");
+        var page2 = Fixture("LanguagesPage2.json");
+        var page3 = Fixture("LanguagesPage3.json");
+        var url = $"{MockClientFactory.BaseUrl}/languages";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
         var response = await client.ListLanguagesAsync().GetAllAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(ConcatPages<LanguageModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async void GetLanguageAsync_ById_GetsLanguage()
+    public async Task GetLanguageAsync_ById_GetsLanguage()
     {
-        var client = _scenario
-        .WithResponses("SingleLanguageResponse.json")
-        .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/languages/{identifier.Id}")
+            .Respond("application/json", SingleLanguage);
+
         var response = await client.GetLanguageAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/{identifier.Id}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(SingleLanguage));
     }
 
     [Fact]
-    public async void GetLanguageAsync_ByCodename_GetsLanguage()
+    public async Task GetLanguageAsync_ByCodename_GetsLanguage()
     {
-        var client = _scenario
-        .WithResponses("SingleLanguageResponse.json")
-        .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("mycodename");
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/languages/codename/{identifier.Codename}")
+            .Respond("application/json", SingleLanguage);
+
         var response = await client.GetLanguageAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/codename/{identifier.Codename}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(SingleLanguage));
     }
 
     [Fact]
-    public async void GetLanguageAsync_ByExternalId_GetsLanguage()
+    public async Task GetLanguageAsync_ByExternalId_GetsLanguage()
     {
-        var client = _scenario
-        .WithResponses("SingleLanguageResponse.json")
-        .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByExternalId("externalId");
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/languages/external-id/{identifier.ExternalId}")
+            .Respond("application/json", SingleLanguage);
+
         var response = await client.GetLanguageAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/external-id/{identifier.ExternalId}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(SingleLanguage));
     }
 
     [Fact]
-    public async void GetLanguageAsync_IdentifierIsNull_Throws()
+    public async Task GetLanguageAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetLanguageAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.GetLanguageAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void CreateLanguageAsync_CreatesLanguage()
+    public async Task CreateLanguageAsync_CreatesLanguage()
     {
-        var client = _scenario
-            .WithResponses("CreateLanguage_CreatesLanguage.json")
-            .CreateManagementClient();
-
-        var expected = _scenario.GetExpectedResponse<LanguageModel>();
-
+        var (client, mock) = MockClientFactory.Create();
         var createModel = new LanguageCreateModel
         {
             Name = "German (Germany)",
@@ -116,91 +105,113 @@ public class LanguageTests : IClassFixture<FileSystemFixture>
             FallbackLanguage = Reference.ById(Guid.Parse("00000000-0000-0000-0000-000000000000"))
         };
 
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/languages")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", CreateLanguage);
+
         var response = await client.CreateLanguageAsync(createModel);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(createModel)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(CreateLanguage));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<LanguageCreateModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageCreateModel>(JsonConvert.SerializeObject(createModel)));
     }
 
     [Fact]
-    public async void CreateLanguageAsync_CreateModelIsNull_Throws()
+    public async Task CreateLanguageAsync_CreateModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.CreateLanguageAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CreateLanguageAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ModifyLanguagesAsync_ById_ModifiesLanguages()
+    public async Task ModifyLanguagesAsync_ById_ModifiesLanguages()
     {
-        var client = _scenario
-            .WithResponses("ModifyLanguages_Replace_ModifiesLanguages.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
-
         var identifier = Reference.ById(Guid.NewGuid());
+
+        string? capturedBody = null;
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/languages/{identifier.Id}")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ModifyLanguages);
+
         var response = await client.ModifyLanguageAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/{identifier.Id}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(ModifyLanguages));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<LanguagePatchModel[]>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguagePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
     }
 
     [Fact]
-    public async void ModifyLanguagesAsync_ByCodename_ModifiesLanguages()
+    public async Task ModifyLanguagesAsync_ByCodename_ModifiesLanguages()
     {
-        var client = _scenario
-            .WithResponses("ModifyLanguages_Replace_ModifiesLanguages.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
-
         var identifier = Reference.ByCodename("code");
+
+        string? capturedBody = null;
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/languages/codename/{identifier.Codename}")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ModifyLanguages);
+
         var response = await client.ModifyLanguageAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/codename/{identifier.Codename}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(ModifyLanguages));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<LanguagePatchModel[]>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguagePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
     }
 
     [Fact]
-    public async void ModifyLanguagesAsync_ByExternalId_ModifiesLanguages()
+    public async Task ModifyLanguagesAsync_ByExternalId_ModifiesLanguages()
     {
-        var client = _scenario
-            .WithResponses("ModifyLanguages_Replace_ModifiesLanguages.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
-
         var identifier = Reference.ByExternalId("externalId");
+
+        string? capturedBody = null;
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/languages/external-id/{identifier.ExternalId}")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ModifyLanguages);
+
         var response = await client.ModifyLanguageAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/languages/external-id/{identifier.ExternalId}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(ModifyLanguages));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<LanguagePatchModel[]>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguagePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
     }
 
     [Fact]
-    public async void ModifyLanguages_IdentifierIsNull_Throws()
+    public async Task ModifyLanguages_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyLanguageAsync(null, GetChanges())).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyLanguageAsync(null!, GetChanges())).Should().ThrowAsync<ArgumentNullException>();
     }
 
     private static LanguagePatchModel[] GetChanges() => new[]

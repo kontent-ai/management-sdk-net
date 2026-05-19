@@ -1,179 +1,174 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class WorkflowTests
 {
-    private readonly Scenario _scenario;
+    private static string Workflow => Fixture("Workflow.json");
+    private static string Workflows => Fixture("Workflows.json");
 
-    public WorkflowTests()
-    {
-        _scenario = new Scenario(folder: "Workflow");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Workflow", name));
+
+    // ByExternalId is unsupported for these operations; combined with the null identifier they all fail
+    // before any HTTP call, so the loose throw assertion covers both.
+    public static TheoryData<Reference?> InvalidIdentifiers =>
+    [
+        Reference.ByExternalId("externalId"),
+        null,
+    ];
 
     [Fact]
-    public async void ListWorkflowsAsync_ListsAllWorkflows()
+    public async Task ListWorkflowsAsync_ListsAllWorkflows()
     {
-        var client = _scenario
-            .WithResponses("Workflows.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/workflows")
+            .Respond("application/json", Workflows);
 
         var response = await client.ListWorkflowsAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<IEnumerable<WorkflowModel>>(Workflows));
     }
 
     [Fact]
-    public async void CreateWorkflowAsync_CreatesWorkflow()
+    public async Task CreateWorkflowAsync_CreatesWorkflow()
     {
-        var client = _scenario
-            .WithResponses("Workflow.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var newWorkflow = GetNewWorkflow();
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/workflows")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Workflow);
 
         var response = await client.CreateWorkflowAsync(newWorkflow);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(newWorkflow)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowModel>(Workflow));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<WorkflowUpsertModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowUpsertModel>(JsonConvert.SerializeObject(newWorkflow)));
     }
 
     [Fact]
-    public async void CreateWorkflowAsync_IdentifierIsNull_Throws()
+    public async Task CreateWorkflowAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.CreateWorkflowAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CreateWorkflowAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void UpdateWorkflowAsync_ById_UpdatesWorkflow()
+    public async Task UpdateWorkflowAsync_ById_UpdatesWorkflow()
     {
-        var client = _scenario
-            .WithResponses("Workflow.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var newWorkflow = GetNewWorkflow();
-
         var identifier = Reference.ById(Guid.NewGuid());
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/workflows/{identifier.Id}")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Workflow);
+
         var response = await client.UpdateWorkflowAsync(identifier, newWorkflow);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(newWorkflow)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/{identifier.Id}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowModel>(Workflow));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<WorkflowUpsertModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowUpsertModel>(JsonConvert.SerializeObject(newWorkflow)));
     }
 
     [Fact]
-    public async void UpdateWorkflowAsync_ByCodename_UpdatesWorkflow()
+    public async Task UpdateWorkflowAsync_ByCodename_UpdatesWorkflow()
     {
-        var client = _scenario
-            .WithResponses("Workflow.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var newWorkflow = GetNewWorkflow();
-
         var identifier = Reference.ByCodename("codename");
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/workflows/codename/{identifier.Codename}")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Workflow);
+
         var response = await client.UpdateWorkflowAsync(identifier, newWorkflow);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(newWorkflow)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/codename/{identifier.Codename}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowModel>(Workflow));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<WorkflowUpsertModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowUpsertModel>(JsonConvert.SerializeObject(newWorkflow)));
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidIdentifiers))]
+    public async Task UpdateWorkflowAsync_InvalidIdentifier_Throws(Reference? identifier)
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.UpdateWorkflowAsync(identifier!, GetNewWorkflow())).Should().ThrowAsync<Exception>();
     }
 
     [Fact]
-    public async void UpdateWorkflowAsync_ByExternalId_Throws()
+    public async Task UpdateWorkflowAsync_UpsertModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpdateWorkflowAsync(Reference.ByExternalId("externalId"), GetNewWorkflow())).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.UpdateWorkflowAsync(Reference.ByCodename("codename"), null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void UpdateWorkflowAsync_IdentifierIsNull_Throws()
+    public async Task DeleteWorkflowAsync_ById_DeletesWorkflow()
     {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.UpdateWorkflowAsync(null, GetNewWorkflow())).Should().ThrowAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async void UpdateWorkflowAsync_UpsertModelIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.UpdateWorkflowAsync(Reference.ByCodename("codename"), null)).Should().ThrowAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async void DeleteWorkflowAsync_ById_DeletesWorkflow()
-    {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/workflows/{identifier.Id}")
+            .Respond(System.Net.HttpStatusCode.OK);
+
         await client.DeleteWorkflowAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/{identifier.Id}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void DeleteWorkflowAsync_ByCodename_DeletesWorkflow()
+    public async Task DeleteWorkflowAsync_ByCodename_DeletesWorkflow()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("codename");
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/workflows/codename/{identifier.Codename}")
+            .Respond(System.Net.HttpStatusCode.OK);
+
         await client.DeleteWorkflowAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/workflows/codename/{identifier.Codename}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
-    [Fact]
-    public async void DeleteWorkflowAsync_ByExternalId_DeletesWorkflow()
+    [Theory]
+    [MemberData(nameof(InvalidIdentifiers))]
+    public async Task DeleteWorkflowAsync_InvalidIdentifier_Throws(Reference? identifier)
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeleteWorkflowAsync(Reference.ByExternalId("externalId"))).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async void DeleteWorkflowAsync_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.DeleteWorkflowAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.DeleteWorkflowAsync(identifier!)).Should().ThrowAsync<Exception>();
     }
 
     private static WorkflowUpsertModel GetNewWorkflow() => new()
