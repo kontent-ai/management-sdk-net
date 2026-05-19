@@ -6,11 +6,11 @@ namespace Kontent.Ai.Management.Models.LanguageVariants;
 /// <summary>
 /// Represents due date model.
 /// </summary>
-public class DueDateModel
+public sealed record DueDateModel
 {
     /// <summary>
-    /// Gets or sets ISO-8601 formatted date-time for due date.
+    /// Gets ISO-8601 formatted date-time for due date.
     /// </summary>
     [JsonProperty("value")]
-    public DateTime? Value { get; set; }
+    public DateTime? Value { get; init; }
 }

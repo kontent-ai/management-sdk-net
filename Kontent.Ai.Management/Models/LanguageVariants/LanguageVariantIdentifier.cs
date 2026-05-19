@@ -5,17 +5,17 @@ namespace Kontent.Ai.Management.Models.LanguageVariants;
 /// <summary>
 /// Represents the identifier of the language variant.
 /// </summary>
-public sealed class LanguageVariantIdentifier
+public sealed record LanguageVariantIdentifier
 {
     /// <summary>
     /// Represents the identifier of the language variant.
     /// </summary>
-    public Reference ItemIdentifier { get; private set; }
+    public Reference ItemIdentifier { get; init; }
 
     /// <summary>
     /// Represents the identifier of the language.
     /// </summary>
-    public Reference LanguageIdentifier { get; private set; }
+    public Reference LanguageIdentifier { get; init; }
 
     /// <summary>
     /// Creates an instance of language variant identifier.

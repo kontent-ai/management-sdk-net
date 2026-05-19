@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.ItemWithVariant;
 /// <summary>
 /// Represents the request model for filtering items with variants.
 /// </summary>
-public class ItemWithVariantFilterRequestModel
+public sealed record ItemWithVariantFilterRequestModel
 {
     /// <summary>
-    /// Gets or sets the filters.
+    /// Gets the filters.
     /// </summary>
     [JsonProperty("filters")]
-    public VariantFilterFiltersModel Filters { get; set; }
+    public VariantFilterFiltersModel Filters { get; init; }
 
     /// <summary>
-    /// Gets or sets the order.
+    /// Gets the order.
     /// </summary>
     [JsonProperty("order")]
-    public VariantFilterOrderModel Order { get; set; }
+    public VariantFilterOrderModel Order { get; init; }
 }

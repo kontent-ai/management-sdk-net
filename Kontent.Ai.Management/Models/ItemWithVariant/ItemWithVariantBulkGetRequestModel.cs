@@ -6,11 +6,11 @@ namespace Kontent.Ai.Management.Models.ItemWithVariant;
 /// <summary>
 /// Represents the request model for bulk-getting items with variants.
 /// </summary>
-public class ItemWithVariantBulkGetRequestModel
+public sealed record ItemWithVariantBulkGetRequestModel
 {
     /// <summary>
-    /// Gets or sets the variant identifiers (item + language pairs).
+    /// Gets the variant identifiers (item + language pairs).
     /// </summary>
     [JsonProperty("variants")]
-    public IEnumerable<VariantIdentifierModel> Variants { get; set; }
+    public IEnumerable<VariantIdentifierModel> Variants { get; init; }
 }

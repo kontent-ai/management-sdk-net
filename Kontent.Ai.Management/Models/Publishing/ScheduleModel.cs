@@ -6,18 +6,18 @@ namespace Kontent.Ai.Management.Models.Publishing;
 /// <summary>
 /// Represents the schedule model.
 /// </summary>
-public class ScheduleModel
+public sealed record ScheduleModel
 {
     /// <summary>
-    /// Gets or sets ISO-8601 formatted date-time for scheduled (un)publishing.
+    /// Gets ISO-8601 formatted date-time for scheduled (un)publishing.
     /// If you do not provide this property, the specified language variant is (un)published immediately.
     /// </summary>
     [JsonProperty("scheduled_to")]
-    public DateTimeOffset ScheduleTo { get; set; }
+    public DateTimeOffset ScheduleTo { get; init; }
 
     /// <summary>
     /// IANA time zone name used to display time offset of the scheduled publish date in the UI.
     /// </summary>
     [JsonProperty("display_timezone")]
-    public string DisplayTimeZone { get; set; }
+    public string DisplayTimeZone { get; init; }
 }

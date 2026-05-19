@@ -7,37 +7,37 @@ namespace Kontent.Ai.Management.Models.LanguageVariants;
 /// <summary>
 /// Represents a change language variant workflow model.
 /// </summary>
-public sealed class ChangeLanguageVariantWorkflowModel
+public sealed record ChangeLanguageVariantWorkflowModel
 {
     /// <summary>
     /// Represents the identifier of the workflow.
     /// </summary>
     [JsonProperty("workflow_identifier")]
-    public Reference Workflow { get; set; }
+    public Reference Workflow { get; init; }
 
     /// <summary>
     /// Represents the identifier of the step in the workflow.
     /// </summary>
     [JsonProperty("step_identifier")]
-    public Reference Step { get; set; }
+    public Reference Step { get; init; }
 
     /// <summary>
-    /// Gets or sets due date.
+    /// Gets due date.
     /// </summary>
     [JsonProperty("due_date")]
-    public DueDateModel DueDate { get; set; }
+    public DueDateModel DueDate { get; init; }
 
     /// <summary>
-    /// Gets or sets a note.
+    /// Gets a note.
     /// </summary>
     [JsonProperty("note")]
-    public string Note { get; set; }
+    public string Note { get; init; }
 
     /// <summary>
-    /// Gets or sets the contributors.
+    /// Gets the contributors.
     /// </summary>
     [JsonProperty("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; set; }
+    public IEnumerable<UserIdentifier> Contributors { get; init; }
 
     /// <summary>
     /// Creates an instance of the change language variant workflow model.

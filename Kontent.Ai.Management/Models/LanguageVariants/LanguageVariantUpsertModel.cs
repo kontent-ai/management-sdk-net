@@ -8,37 +8,37 @@ namespace Kontent.Ai.Management.Models.LanguageVariants;
 /// <summary>
 /// Represents language variant upsert model.
 /// </summary>
-public sealed class LanguageVariantUpsertModel
+public sealed record LanguageVariantUpsertModel
 {
     /// <summary>
-    /// Gets or sets elements of the variant.
+    /// Gets elements of the variant.
     /// </summary>
     [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<dynamic> Elements { get; set; }
+    public IEnumerable<dynamic> Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets workflow step identifier to update.
+    /// Gets workflow step identifier to update.
     /// </summary>
     [JsonProperty("workflow")]
-    public WorkflowStepIdentifier Workflow { get; set; }
+    public WorkflowStepIdentifier Workflow { get; init; }
 
     /// <summary>
-    /// Gets or sets due date to update.
+    /// Gets due date to update.
     /// </summary>
     [JsonProperty("due_date")]
-    public DueDateModel DueDate { get; set; }
+    public DueDateModel DueDate { get; init; }
 
     /// <summary>
-    /// Gets or sets a note.
+    /// Gets a note.
     /// </summary>
     [JsonProperty("note")]
-    public string Note { get; set; }
+    public string Note { get; init; }
 
     /// <summary>
-    /// Gets or sets the contributors.
+    /// Gets the contributors.
     /// </summary>
     [JsonProperty("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; set; }
+    public IEnumerable<UserIdentifier> Contributors { get; init; }
 
     /// <summary>
     /// Creates an instance of the language variant upsert model.

@@ -7,17 +7,17 @@ namespace Kontent.Ai.Management.Models.VariantFilter;
 /// <summary>
 /// Represents the variant filter workflow steps model.
 /// </summary>
-public class VariantFilterWorkflowStepsModel
+public sealed record VariantFilterWorkflowStepsModel
 {
     /// <summary>
-    /// Gets or sets the workflow reference.
+    /// Gets the workflow reference.
     /// </summary>
     [JsonProperty("workflow_identifier")]
-    public Reference WorkflowReference { get; set; }
+    public Reference WorkflowReference { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step references.
+    /// Gets the workflow step references.
     /// </summary>
     [JsonProperty("step_identifiers")]
-    public IEnumerable<Reference> WorkflowStepReferences { get; set; }
+    public IEnumerable<Reference> WorkflowStepReferences { get; init; }
 }

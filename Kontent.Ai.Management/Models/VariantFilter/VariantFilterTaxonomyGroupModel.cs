@@ -7,23 +7,23 @@ namespace Kontent.Ai.Management.Models.VariantFilter;
 /// <summary>
 /// Represents the variant filter taxonomy group model.
 /// </summary>
-public class VariantFilterTaxonomyGroupModel
+public sealed record VariantFilterTaxonomyGroupModel
 {
     /// <summary>
-    /// Gets or sets the taxonomy reference.
+    /// Gets the taxonomy reference.
     /// </summary>
     [JsonProperty("taxonomy_identifier")]
-    public Reference TaxonomyReference { get; set; }
+    public Reference TaxonomyReference { get; init; }
 
     /// <summary>
-    /// Gets or sets the term references.
+    /// Gets the term references.
     /// </summary>
     [JsonProperty("term_identifiers")]
-    public IEnumerable<Reference> TermReferences { get; set; }
+    public IEnumerable<Reference> TermReferences { get; init; }
 
     /// <summary>
-    /// Gets or sets whether to include uncategorized items.
+    /// Gets whether to include uncategorized items.
     /// </summary>
     [JsonProperty("include_uncategorized")]
-    public bool IncludeUncategorized { get; set; }
+    public bool IncludeUncategorized { get; init; }
 }

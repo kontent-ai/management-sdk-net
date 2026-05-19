@@ -8,23 +8,23 @@ namespace Kontent.Ai.Management.Models.LanguageVariants;
 /// <summary>
 /// Represents a rich text component model.
 /// </summary>
-public class ComponentModel
+public sealed record ComponentModel
 {
     /// <summary>
-    /// Gets or sets the id of the content component.
+    /// Gets the id of the content component.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the type of the component.
+    /// Gets the type of the component.
     /// </summary>
     [JsonProperty("type", Required = Required.Always)]
-    public Reference Type { get; set; }
+    public Reference Type { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the component.
+    /// Gets elements of the component.
     /// </summary>
     [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<dynamic> Elements { get; set; }
+    public IEnumerable<dynamic> Elements { get; init; }
 }

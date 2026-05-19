@@ -6,35 +6,35 @@ namespace Kontent.Ai.Management.Models.Items;
 /// <summary>
 /// Represents the content item create model.
 /// </summary>
-public sealed class ContentItemCreateModel
+public sealed record ContentItemCreateModel
 {
     /// <summary>
-    /// Gets or sets the name of the content item.
+    /// Gets the name of the content item.
     /// </summary>
     [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the content item.
+    /// Gets the codename of the content item.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the type of the content item.
+    /// Gets the type of the content item.
     /// </summary>
     [JsonProperty("type", Required = Required.Always)]
-    public Reference Type { get; set; }
+    public Reference Type { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content item.
+    /// Gets the external identifier of the content item.
     /// </summary>
     [JsonProperty("external_id")]
-    public string ExternalId { get; set; }
+    public string ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets the collection of the content item.
+    /// Gets the collection of the content item.
     /// </summary>
     [JsonProperty("collection")]
-    public Reference Collection { get; set; }
+    public Reference Collection { get; init; }
 }

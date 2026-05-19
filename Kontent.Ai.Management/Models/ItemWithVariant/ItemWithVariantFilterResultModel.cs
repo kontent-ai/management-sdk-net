@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.ItemWithVariant;
 /// <summary>
 /// Represents a single result from the items with variant filter endpoint.
 /// </summary>
-public class ItemWithVariantFilterResultModel
+public sealed record ItemWithVariantFilterResultModel
 {
     /// <summary>
-    /// Gets or sets the item reference.
+    /// Gets the item reference.
     /// </summary>
     [JsonProperty("item")]
-    public Reference Item { get; set; }
+    public Reference Item { get; init; }
 
     /// <summary>
-    /// Gets or sets the language reference.
+    /// Gets the language reference.
     /// </summary>
     [JsonProperty("language")]
-    public Reference Language { get; set; }
+    public Reference Language { get; init; }
 }

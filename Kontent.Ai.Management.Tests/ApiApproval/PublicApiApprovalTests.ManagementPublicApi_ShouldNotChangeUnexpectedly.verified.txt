@@ -1090,57 +1090,97 @@ public sealed class Metadata : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Items
-public sealed class ContentItemCreateModel
-    String Codename { get; set; }
-    Reference Collection { get; set; }
-    String ExternalId { get; set; }
-    String Name { get; set; }
-    Reference Type { get; set; }
+public sealed class ContentItemCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    Reference Collection { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    Reference Type { get; set; init; }
+    ContentItemCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Items
-public sealed class ContentItemModel
-    String Codename { get; set; }
-    Reference Collection { get; set; }
-    String ExternalId { get; set; }
-    Guid Id { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
-    String Name { get; set; }
-    IEnumerable<Reference> SitemapLocations { get; set; }
-    IReadOnlyCollection<Reference> Spaces { get; set; }
-    Reference Type { get; set; }
+public sealed class ContentItemModel : IEquatable`1
+    String Codename { get; set; init; }
+    Reference Collection { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    String Name { get; set; init; }
+    IEnumerable<Reference> SitemapLocations { get; set; init; }
+    IReadOnlyCollection<Reference> Spaces { get; set; init; }
+    Reference Type { get; set; init; }
+    ContentItemModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Items
-public sealed class ContentItemUpsertModel
-    String Codename { get; set; }
-    Reference Collection { get; set; }
-    String ExternalId { get; set; }
-    String Name { get; set; }
-    IEnumerable<Reference> SitemapLocations { get; set; }
-    Reference Type { get; set; }
+public sealed class ContentItemUpsertModel : IEquatable`1
+    String Codename { get; set; init; }
+    Reference Collection { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    IEnumerable<Reference> SitemapLocations { get; set; init; }
+    Reference Type { get; set; init; }
+    ContentItemUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.ItemWithVariant
-public class ContentItemWithVariantModel
-    ContentItemModel Item { get; set; }
-    LanguageVariantModel Variant { get; set; }
+public sealed class ContentItemWithVariantModel : IEquatable`1
+    ContentItemModel Item { get; set; init; }
+    LanguageVariantModel Variant { get; set; init; }
+    ContentItemWithVariantModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemWithVariantModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.ItemWithVariant
-public class ItemWithVariantBulkGetRequestModel
-    IEnumerable<VariantIdentifierModel> Variants { get; set; }
+public sealed class ItemWithVariantBulkGetRequestModel : IEquatable`1
+    IEnumerable<VariantIdentifierModel> Variants { get; set; init; }
+    ItemWithVariantBulkGetRequestModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ItemWithVariantBulkGetRequestModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.ItemWithVariant
-public class ItemWithVariantFilterRequestModel
-    VariantFilterFiltersModel Filters { get; set; }
-    VariantFilterOrderModel Order { get; set; }
+public sealed class ItemWithVariantFilterRequestModel : IEquatable`1
+    VariantFilterFiltersModel Filters { get; set; init; }
+    VariantFilterOrderModel Order { get; set; init; }
+    ItemWithVariantFilterRequestModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ItemWithVariantFilterRequestModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.ItemWithVariant
-public class ItemWithVariantFilterResultModel
-    Reference Item { get; set; }
-    Reference Language { get; set; }
+public sealed class ItemWithVariantFilterResultModel : IEquatable`1
+    Reference Item { get; set; init; }
+    Reference Language { get; set; init; }
+    ItemWithVariantFilterResultModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ItemWithVariantFilterResultModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.ItemWithVariant
-public class VariantIdentifierModel
-    Reference Item { get; set; }
-    Reference Language { get; set; }
+public sealed class VariantIdentifierModel : IEquatable`1
+    Reference Item { get; set; init; }
+    Reference Language { get; set; init; }
+    VariantIdentifierModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantIdentifierModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Languages
 public sealed class LanguageCreateModel : IEquatable`1
@@ -1189,47 +1229,77 @@ public enum LanguagePropertyName : Enum
     Name
 
 // Kontent.Ai.Management.Models.LanguageVariants
-public sealed class ChangeLanguageVariantWorkflowModel
-    IEnumerable<UserIdentifier> Contributors { get; set; }
-    DueDateModel DueDate { get; set; }
-    String Note { get; set; }
-    Reference Step { get; set; }
-    Reference Workflow { get; set; }
+public sealed class ChangeLanguageVariantWorkflowModel : IEquatable`1
+    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    DueDateModel DueDate { get; set; init; }
+    String Note { get; set; init; }
+    Reference Step { get; set; init; }
+    Reference Workflow { get; set; init; }
+    ChangeLanguageVariantWorkflowModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ChangeLanguageVariantWorkflowModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.LanguageVariants
-public class ComponentModel
-    IEnumerable<Object> Elements { get; set; }
-    Guid Id { get; set; }
-    Reference Type { get; set; }
+public sealed class ComponentModel : IEquatable`1
+    IEnumerable<Object> Elements { get; set; init; }
+    Guid Id { get; set; init; }
+    Reference Type { get; set; init; }
+    ComponentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ComponentModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.LanguageVariants
-public class DueDateModel
-    Nullable<DateTime> Value { get; set; }
+public sealed class DueDateModel : IEquatable`1
+    Nullable<DateTime> Value { get; set; init; }
+    DueDateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(DueDateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.LanguageVariants
-public sealed class LanguageVariantIdentifier
-    Reference ItemIdentifier { get; }
-    Reference LanguageIdentifier { get; }
+public sealed class LanguageVariantIdentifier : IEquatable`1
+    Reference ItemIdentifier { get; set; init; }
+    Reference LanguageIdentifier { get; set; init; }
+    LanguageVariantIdentifier <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantIdentifier other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.LanguageVariants
-public sealed class LanguageVariantModel
-    IEnumerable<UserIdentifier> Contributors { get; set; }
-    DueDateModel DueDate { get; set; }
-    IEnumerable<Object> Elements { get; set; }
-    Reference Item { get; set; }
-    Reference Language { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
-    String Note { get; set; }
-    ScheduleResponseModel Schedule { get; set; }
-    WorkflowStepIdentifier Workflow { get; set; }
+public sealed class LanguageVariantModel : IEquatable`1
+    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    DueDateModel DueDate { get; set; init; }
+    IEnumerable<Object> Elements { get; set; init; }
+    Reference Item { get; set; init; }
+    Reference Language { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    String Note { get; set; init; }
+    ScheduleResponseModel Schedule { get; set; init; }
+    WorkflowStepIdentifier Workflow { get; set; init; }
+    LanguageVariantModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.LanguageVariants
-public sealed class LanguageVariantUpsertModel
-    IEnumerable<UserIdentifier> Contributors { get; set; }
-    DueDateModel DueDate { get; set; }
-    IEnumerable<Object> Elements { get; set; }
-    String Note { get; set; }
-    WorkflowStepIdentifier Workflow { get; set; }
+public sealed class LanguageVariantUpsertModel : IEquatable`1
+    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    DueDateModel DueDate { get; set; init; }
+    IEnumerable<Object> Elements { get; set; init; }
+    String Note { get; set; init; }
+    WorkflowStepIdentifier Workflow { get; set; init; }
+    LanguageVariantUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public class AssetElement : BaseElement
@@ -1338,23 +1408,38 @@ public sealed class TypePreviewUrlPatternModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Publishing
-public class ScheduleModel
-    String DisplayTimeZone { get; set; }
-    DateTimeOffset ScheduleTo { get; set; }
+public sealed class ScheduleModel : IEquatable`1
+    String DisplayTimeZone { get; set; init; }
+    DateTimeOffset ScheduleTo { get; set; init; }
+    ScheduleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ScheduleModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Publishing
-public class SchedulePublishAndUnpublishModel
-    String PublishDisplayTimeZone { get; set; }
-    Nullable<DateTimeOffset> PublishScheduledTo { get; set; }
-    String UnpublishDisplayTimeZone { get; set; }
-    Nullable<DateTimeOffset> UnpublishScheduledTo { get; set; }
+public sealed class SchedulePublishAndUnpublishModel : IEquatable`1
+    String PublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> PublishScheduledTo { get; set; init; }
+    String UnpublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> UnpublishScheduledTo { get; set; init; }
+    SchedulePublishAndUnpublishModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SchedulePublishAndUnpublishModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Publishing
-public class ScheduleResponseModel
-    String PublishDisplayTimeZone { get; set; }
-    Nullable<DateTime> PublishTime { get; set; }
-    String UnpublishDisplayTimeZone { get; set; }
-    Nullable<DateTime> UnpublishTime { get; set; }
+public sealed class ScheduleResponseModel : IEquatable`1
+    String PublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTime> PublishTime { get; set; init; }
+    String UnpublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTime> UnpublishTime { get; set; init; }
+    ScheduleResponseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ScheduleResponseModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Roles
 public sealed class EnvironmentRoleModel : IEquatable`1
@@ -1468,23 +1553,28 @@ public sealed class AssetCreateModel`1<T>
     String Title { get; set; }
 
 // Kontent.Ai.Management.Models.StronglyTyped
-public sealed class AssetModel`1<T>
-    String Codename { get; set; }
-    AssetCollectionReference Collection { get; set; }
-    IEnumerable<AssetDescription> Descriptions { get; set; }
-    T Elements { get; set; }
-    String ExternalId { get; set; }
-    String FileName { get; set; }
-    FileReference FileReference { get; set; }
-    AssetFolder Folder { get; set; }
-    Guid Id { get; set; }
-    Nullable<Int32> ImageHeight { get; set; }
-    Nullable<Int32> ImageWidth { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
-    Int64 Size { get; set; }
-    String Title { get; set; }
-    String Type { get; set; }
-    String Url { get; set; }
+public sealed class AssetModel`1<T> : IEquatable`1
+    String Codename { get; set; init; }
+    AssetCollectionReference Collection { get; set; init; }
+    IEnumerable<AssetDescription> Descriptions { get; set; init; }
+    T Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    String FileName { get; set; init; }
+    FileReference FileReference { get; set; init; }
+    AssetFolder Folder { get; set; init; }
+    Guid Id { get; set; init; }
+    Nullable<Int32> ImageHeight { get; set; init; }
+    Nullable<Int32> ImageWidth { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    Int64 Size { get; set; init; }
+    String Title { get; set; init; }
+    String Type { get; set; init; }
+    String Url { get; set; init; }
+    AssetModel<T> <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetModel<T> other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.StronglyTyped
 public sealed class AssetUpsertModel`1<T>
@@ -1497,16 +1587,21 @@ public sealed class AssetUpsertModel`1<T>
     String Title { get; set; }
 
 // Kontent.Ai.Management.Models.StronglyTyped
-public sealed class LanguageVariantModel`1<T>
-    IEnumerable<UserIdentifier> Contributors { get; set; }
-    DueDateModel DueDate { get; set; }
-    T Elements { get; set; }
-    Reference Item { get; set; }
-    Reference Language { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
-    String Note { get; set; }
-    ScheduleResponseModel Schedule { get; set; }
-    WorkflowStepIdentifier Workflow { get; set; }
+public sealed class LanguageVariantModel`1<T> : IEquatable`1
+    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    DueDateModel DueDate { get; set; init; }
+    T Elements { get; set; init; }
+    Reference Item { get; set; init; }
+    Reference Language { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    String Note { get; set; init; }
+    ScheduleResponseModel Schedule { get; set; init; }
+    WorkflowStepIdentifier Workflow { get; set; init; }
+    LanguageVariantModel<T> <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantModel<T> other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
 public sealed class SubscriptionColletionGroupModel : IEquatable`1
@@ -2382,19 +2477,24 @@ public enum VariantFilterCompletionStatus : Enum
     Unfinished
 
 // Kontent.Ai.Management.Models.VariantFilter
-public class VariantFilterFiltersModel
-    IEnumerable<Reference> Collections { get; set; }
-    IEnumerable<VariantFilterCompletionStatus> CompletionStatuses { get; set; }
-    IEnumerable<Reference> ComponentTypes { get; set; }
-    IEnumerable<Reference> ContentTypes { get; set; }
-    IEnumerable<UserIdentifier> Contributors { get; set; }
-    Nullable<Boolean> HasNoContributors { get; set; }
-    Reference Language { get; set; }
-    IEnumerable<VariantFilterPublishingState> PublishingStates { get; set; }
-    String SearchPhrase { get; set; }
-    IEnumerable<Reference> Spaces { get; set; }
-    IEnumerable<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; set; }
-    IEnumerable<VariantFilterWorkflowStepsModel> WorkflowSteps { get; set; }
+public sealed class VariantFilterFiltersModel : IEquatable`1
+    IEnumerable<Reference> Collections { get; set; init; }
+    IEnumerable<VariantFilterCompletionStatus> CompletionStatuses { get; set; init; }
+    IEnumerable<Reference> ComponentTypes { get; set; init; }
+    IEnumerable<Reference> ContentTypes { get; set; init; }
+    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    Nullable<Boolean> HasNoContributors { get; set; init; }
+    Reference Language { get; set; init; }
+    IEnumerable<VariantFilterPublishingState> PublishingStates { get; set; init; }
+    String SearchPhrase { get; set; init; }
+    IEnumerable<Reference> Spaces { get; set; init; }
+    IEnumerable<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; set; init; }
+    IEnumerable<VariantFilterWorkflowStepsModel> WorkflowSteps { get; set; init; }
+    VariantFilterFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.VariantFilter
 public enum VariantFilterOrderDirection : Enum
@@ -2402,9 +2502,14 @@ public enum VariantFilterOrderDirection : Enum
     Descending
 
 // Kontent.Ai.Management.Models.VariantFilter
-public class VariantFilterOrderModel
-    String By { get; set; }
-    VariantFilterOrderDirection Direction { get; set; }
+public sealed class VariantFilterOrderModel : IEquatable`1
+    String By { get; set; init; }
+    VariantFilterOrderDirection Direction { get; set; init; }
+    VariantFilterOrderModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterOrderModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.VariantFilter
 public enum VariantFilterPublishingState : Enum
@@ -2413,15 +2518,25 @@ public enum VariantFilterPublishingState : Enum
     Unpublished
 
 // Kontent.Ai.Management.Models.VariantFilter
-public class VariantFilterTaxonomyGroupModel
-    Boolean IncludeUncategorized { get; set; }
-    Reference TaxonomyReference { get; set; }
-    IEnumerable<Reference> TermReferences { get; set; }
+public sealed class VariantFilterTaxonomyGroupModel : IEquatable`1
+    Boolean IncludeUncategorized { get; set; init; }
+    Reference TaxonomyReference { get; set; init; }
+    IEnumerable<Reference> TermReferences { get; set; init; }
+    VariantFilterTaxonomyGroupModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterTaxonomyGroupModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.VariantFilter
-public class VariantFilterWorkflowStepsModel
-    Reference WorkflowReference { get; set; }
-    IEnumerable<Reference> WorkflowStepReferences { get; set; }
+public sealed class VariantFilterWorkflowStepsModel : IEquatable`1
+    Reference WorkflowReference { get; set; init; }
+    IEnumerable<Reference> WorkflowStepReferences { get; set; init; }
+    VariantFilterWorkflowStepsModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterWorkflowStepsModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks
 public class CustomHeaderModel

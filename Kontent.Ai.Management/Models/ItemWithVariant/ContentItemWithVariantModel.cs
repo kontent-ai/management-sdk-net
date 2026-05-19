@@ -7,17 +7,17 @@ namespace Kontent.Ai.Management.Models.ItemWithVariant;
 /// <summary>
 /// Represents a content item together with its language variant.
 /// </summary>
-public class ContentItemWithVariantModel
+public sealed record ContentItemWithVariantModel
 {
     /// <summary>
-    /// Gets or sets the content item.
+    /// Gets the content item.
     /// </summary>
     [JsonProperty("item")]
-    public ContentItemModel Item { get; set; }
+    public ContentItemModel Item { get; init; }
 
     /// <summary>
-    /// Gets or sets the language variant.
+    /// Gets the language variant.
     /// </summary>
     [JsonProperty("variant", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public LanguageVariantModel Variant { get; set; }
+    public LanguageVariantModel Variant { get; init; }
 }

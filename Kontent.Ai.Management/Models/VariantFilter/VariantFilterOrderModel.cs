@@ -5,17 +5,17 @@ namespace Kontent.Ai.Management.Models.VariantFilter;
 /// <summary>
 /// Represents the variant filter order model.
 /// </summary>
-public class VariantFilterOrderModel
+public sealed record VariantFilterOrderModel
 {
     /// <summary>
-    /// Gets or sets the order by column.
+    /// Gets the order by column.
     /// </summary>
     [JsonProperty("by")]
-    public string By { get; set; }
+    public string By { get; init; }
 
     /// <summary>
-    /// Gets or sets the order direction.
+    /// Gets the order direction.
     /// </summary>
     [JsonProperty("direction")]
-    public VariantFilterOrderDirection Direction { get; set; }
+    public VariantFilterOrderDirection Direction { get; init; }
 }

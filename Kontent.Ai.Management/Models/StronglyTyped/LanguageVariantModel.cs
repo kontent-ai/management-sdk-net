@@ -11,59 +11,59 @@ namespace Kontent.Ai.Management.Models.StronglyTyped;
 /// <summary>
 /// Represents strongly typed language variant model.
 /// </summary>
-public sealed class LanguageVariantModel<T> where T : new()
+public sealed record LanguageVariantModel<T> where T : new()
 {
     /// <summary>
-    /// Gets or sets item of the variant.
+    /// Gets item of the variant.
     /// </summary>
     [JsonProperty("item")]
-    public Reference Item { get; set; }
+    public Reference Item { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the language variant.
+    /// Gets elements of the language variant.
     /// </summary>
     [JsonProperty("elements")]
-    public T Elements { get; set; }
+    public T Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets the language of the variant.
+    /// Gets the language of the variant.
     /// </summary>
     [JsonProperty("language")]
-    public Reference Language { get; set; }
+    public Reference Language { get; init; }
 
     /// <summary>
-    /// Gets or sets the last modified timestamp of the language variants.
+    /// Gets the last modified timestamp of the language variants.
     /// </summary>
     [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    public DateTime? LastModified { get; init; }
 
     /// <summary>
-    /// Gets or sets the publishing and unpublishing schedule of the language variant.
+    /// Gets the publishing and unpublishing schedule of the language variant.
     /// </summary>
     [JsonProperty("schedule")]
-    public ScheduleResponseModel Schedule { get; set; }
+    public ScheduleResponseModel Schedule { get; init; }
 
     /// <summary>
-    /// Gets or sets workflow step identifier.
+    /// Gets workflow step identifier.
     /// </summary>
     [JsonProperty("workflow")]
-    public WorkflowStepIdentifier Workflow { get; set; }
+    public WorkflowStepIdentifier Workflow { get; init; }
 
     /// <summary>
-    /// Gets or sets due date.
+    /// Gets due date.
     /// </summary>
     [JsonProperty("due_date")]
-    public DueDateModel DueDate { get; set; }
+    public DueDateModel DueDate { get; init; }
 
     /// <summary>
-    /// Gets or sets a note.
+    /// Gets a note.
     /// </summary>
     [JsonProperty("note")]
-    public string Note { get; set; }
+    public string Note { get; init; }
 
     /// <summary>
-    /// Gets or sets the contributors.
+    /// Gets the contributors.
     /// </summary>
     [JsonProperty("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; set; }
+    public IEnumerable<UserIdentifier> Contributors { get; init; }
 }
