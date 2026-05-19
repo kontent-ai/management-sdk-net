@@ -8,17 +8,17 @@ namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 /// Async validation task issue.
 /// </summary>
 [JsonConverter(typeof(AsyncValidationTaskIssueConverter))]
-public abstract class AsyncValidationTaskIssueModel
+public abstract record AsyncValidationTaskIssueModel
 {
     /// <summary>
-    /// Gets or sets the type of the async validation task issue.
+    /// Gets the type of the async validation task issue.
     /// </summary>
     [JsonProperty("issue_type")]
-    public AsyncValidationTaskIssueType IssueType { get; set; }
+    public AsyncValidationTaskIssueType IssueType { get; init; }
 
     /// <summary>
-    /// Gets or sets information about issues found in specific elements.
+    /// Gets information about issues found in specific elements.
     /// </summary>
     [JsonProperty("issues")]
-    public List<ElementIssue> Issues { get; set; }
+    public List<ElementIssue> Issues { get; init; }
 }

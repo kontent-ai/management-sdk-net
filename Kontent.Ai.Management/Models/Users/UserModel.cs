@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.Users;
 /// <summary>
 /// Represents the project user model.
 /// </summary>
-public class UserModel
+public sealed record UserModel
 {
     /// <summary>
-    /// Gets or sets the user's ID.
+    /// Gets the user's ID.
     /// </summary>
     [JsonProperty("user_id")]
-    public string Id { get; set; }
+    public string Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the language's display name.
+    /// Gets the language's display name.
     /// </summary>
     [JsonProperty("collection_groups")]
-    public IEnumerable<UserCollectionGroup> CollectionGroup { get; set; }
+    public IEnumerable<UserCollectionGroup> CollectionGroup { get; init; }
 }

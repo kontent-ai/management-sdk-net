@@ -535,52 +535,96 @@ public enum FileReferenceTypeEnum : Enum
     Internal
 
 // Kontent.Ai.Management.Models.Collections
-public class CollectionCreateModel
-    String Codename { get; set; }
-    String ExternalId { get; set; }
-    String Name { get; set; }
+public sealed class CollectionCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    CollectionCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections
-public class CollectionModel
-    String Codename { get; set; }
-    String ExternalId { get; set; }
-    Guid Id { get; set; }
-    String Name { get; set; }
+public sealed class CollectionModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    CollectionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections
-public class CollectionsModel
-    IEnumerable<CollectionModel> Collections { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
+public sealed class CollectionsModel : IEquatable`1
+    IEnumerable<CollectionModel> Collections { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    CollectionsModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionsModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections.Patch
-public sealed class CollectionAddIntoPatchModel : CollectionOperationBaseModel
-    Reference After { get; set; }
-    Reference Before { get; set; }
+public sealed class CollectionAddIntoPatchModel : CollectionOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
     String Op { get; }
-    CollectionCreateModel Value { get; set; }
+    CollectionCreateModel Value { get; set; init; }
+    CollectionAddIntoPatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionAddIntoPatchModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections.Patch
-public sealed class CollectionMovePatchModel : CollectionOperationBaseModel
-    Reference After { get; set; }
-    Reference Before { get; set; }
+public sealed class CollectionMovePatchModel : CollectionOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
     String Op { get; }
-    Reference Reference { get; set; }
+    Reference Reference { get; set; init; }
+    CollectionMovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionMovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections.Patch
-public class CollectionOperationBaseModel
+public class CollectionOperationBaseModel : IEquatable`1
     String Op { get; }
+    CollectionOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections.Patch
-public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel
-    Reference CollectionIdentifier { get; set; }
+public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel, IEquatable`1
+    Reference CollectionIdentifier { get; set; init; }
     String Op { get; }
+    CollectionRemovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionRemovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections.Patch
-public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel
+public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel, IEquatable`1
     String Op { get; }
-    PropertyName PropertyName { get; set; }
-    Reference Reference { get; set; }
-    String Value { get; set; }
+    PropertyName PropertyName { get; set; init; }
+    Reference Reference { get; set; init; }
+    String Value { get; set; init; }
+    CollectionReplacePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionReplacePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Collections.Patch
 public enum PropertyName : Enum
@@ -692,38 +736,68 @@ public enum PropertyName : Enum
     SourceUrl
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class ElementIssue
-    Metadata Element { get; set; }
-    List<String> Messages { get; set; }
+public sealed class ElementIssue : IEquatable`1
+    Metadata Element { get; set; init; }
+    List<String> Messages { get; set; init; }
+    ElementIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementIssue other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class Environment
-    String EnvironmentName { get; set; }
-    String Id { get; set; }
-    String ProjectName { get; set; }
+public sealed class Environment : IEquatable`1
+    String EnvironmentName { get; set; init; }
+    String Id { get; set; init; }
+    String ProjectName { get; set; init; }
+    Environment <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(Environment other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class EnvironmentReportModel
-    Environment Environment { get; set; }
-    List<TypeIssue> TypeIssues { get; set; }
-    List<VariantIssue> VariantIssues { get; set; }
+public sealed class EnvironmentReportModel : IEquatable`1
+    Environment Environment { get; set; init; }
+    List<TypeIssue> TypeIssues { get; set; init; }
+    List<VariantIssue> VariantIssues { get; set; init; }
+    EnvironmentReportModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentReportModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class Metadata
-    String Codename { get; set; }
-    Guid Id { get; set; }
-    String Name { get; set; }
+public sealed class Metadata : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    Metadata <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(Metadata other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public class TypeIssue
-    IEnumerable<ElementIssue> Issues { get; set; }
-    Metadata Type { get; set; }
+public sealed class TypeIssue : IEquatable`1
+    IEnumerable<ElementIssue> Issues { get; set; init; }
+    Metadata Type { get; set; init; }
+    TypeIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TypeIssue other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class VariantIssue
-    List<ElementIssue> Issues { get; set; }
-    Metadata Item { get; set; }
-    Metadata Language { get; set; }
+public sealed class VariantIssue : IEquatable`1
+    List<ElementIssue> Issues { get; set; init; }
+    Metadata Item { get; set; init; }
+    Metadata Language { get; set; init; }
+    VariantIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantIssue other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments
 public enum CloningState : Enum
@@ -732,50 +806,96 @@ public enum CloningState : Enum
     InProgress
 
 // Kontent.Ai.Management.Models.Environments
-public class CopyDataOptions
-    Boolean ContentItemsAssets { get; set; }
-    Boolean ContentItemVersionHistory { get; set; }
+public sealed class CopyDataOptions : IEquatable`1
+    Boolean ContentItemsAssets { get; set; init; }
+    Boolean ContentItemVersionHistory { get; set; init; }
+    CopyDataOptions <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CopyDataOptions other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments
-public class EnvironmentClonedModel
-    String DeliveryPreviewApiKey { get; set; }
-    Guid Id { get; set; }
-    String ManagementApiKey { get; set; }
-    String SecuredDeliveryApiKey { get; set; }
+public sealed class EnvironmentClonedModel : IEquatable`1
+    String DeliveryPreviewApiKey { get; set; init; }
+    Guid Id { get; set; init; }
+    String ManagementApiKey { get; set; init; }
+    String SecuredDeliveryApiKey { get; set; init; }
+    EnvironmentClonedModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentClonedModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments
-public class EnvironmentCloneModel
-    CopyDataOptions CopyDataOptions { get; set; }
-    String Name { get; set; }
-    ICollection<Guid> RolesToActivate { get; set; }
+public sealed class EnvironmentCloneModel : IEquatable`1
+    CopyDataOptions CopyDataOptions { get; set; init; }
+    String Name { get; set; init; }
+    ICollection<Guid> RolesToActivate { get; set; init; }
+    EnvironmentCloneModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentCloneModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments
-public class EnvironmentCloningStateModel
-    CloningState CloningState { get; set; }
+public sealed class EnvironmentCloningStateModel : IEquatable`1
+    CloningState CloningState { get; set; init; }
+    EnvironmentCloningStateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentCloningStateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments
-public class EnvironmentModel
-    Guid Id { get; set; }
-    Boolean IsProduction { get; set; }
-    String Name { get; set; }
+public sealed class EnvironmentModel : IEquatable`1
+    Guid Id { get; set; init; }
+    Boolean IsProduction { get; set; init; }
+    String Name { get; set; init; }
+    EnvironmentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments
-public class MarkAsProductionModel
-    Boolean EnableWebhooks { get; set; }
+public sealed class MarkAsProductionModel : IEquatable`1
+    Boolean EnableWebhooks { get; set; init; }
+    MarkAsProductionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(MarkAsProductionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments.Patch
-public class EnvironmentOperationBaseModel
+public class EnvironmentOperationBaseModel : IEquatable`1
     String Op { get; }
+    EnvironmentOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Environments.Patch
-public sealed class EnvironmentRenamePatchModel : EnvironmentOperationBaseModel
+public sealed class EnvironmentRenamePatchModel : EnvironmentOperationBaseModel, IEquatable`1
     String Op { get; }
-    String Value { get; set; }
+    String Value { get; set; init; }
+    EnvironmentRenamePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentOperationBaseModel other)
+    Boolean Equals(EnvironmentRenamePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
-public class AsyncValidationTaskIssueModel
-    List<ElementIssue> Issues { get; set; }
-    AsyncValidationTaskIssueType IssueType { get; set; }
+public class AsyncValidationTaskIssueModel : IEquatable`1
+    List<ElementIssue> Issues { get; set; init; }
+    AsyncValidationTaskIssueType IssueType { get; set; init; }
+    AsyncValidationTaskIssueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskIssueModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
 public enum AsyncValidationTaskIssueType : Enum
@@ -783,10 +903,15 @@ public enum AsyncValidationTaskIssueType : Enum
     VariantIssue
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
-public sealed class AsyncValidationTaskModel
-    Guid Id { get; set; }
-    AsyncValidationTaskStatus Status { get; set; }
-    AsyncValidationTaskResult ValidationResult { get; set; }
+public sealed class AsyncValidationTaskModel : IEquatable`1
+    Guid Id { get; set; init; }
+    AsyncValidationTaskStatus Status { get; set; init; }
+    AsyncValidationTaskResult ValidationResult { get; set; init; }
+    AsyncValidationTaskModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
 public enum AsyncValidationTaskResult : Enum
@@ -801,24 +926,46 @@ public enum AsyncValidationTaskStatus : Enum
     Queued
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
-public sealed class AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel
-    Metadata Type { get; set; }
+public sealed class AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel, IEquatable`1
+    Metadata Type { get; set; init; }
+    AsyncValidationTaskTypeIssueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskIssueModel other)
+    Boolean Equals(AsyncValidationTaskTypeIssueModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
-public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel
-    Metadata Item { get; set; }
-    Metadata Language { get; set; }
+public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel, IEquatable`1
+    Metadata Item { get; set; init; }
+    Metadata Language { get; set; init; }
+    AsyncValidationTaskVariantIssueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskIssueModel other)
+    Boolean Equals(AsyncValidationTaskVariantIssueModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
-public sealed class ElementIssue
-    Metadata Element { get; set; }
-    List<String> Messages { get; set; }
+public sealed class ElementIssue : IEquatable`1
+    Metadata Element { get; set; init; }
+    List<String> Messages { get; set; init; }
+    ElementIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementIssue other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
-public sealed class Metadata
-    String Codename { get; set; }
-    Guid Id { get; set; }
-    String Name { get; set; }
+public sealed class Metadata : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    Metadata <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(Metadata other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Items
 public sealed class ContentItemCreateModel
@@ -1029,24 +1176,44 @@ public class UrlSlugElement : BaseElement
     Object ToDynamic()
 
 // Kontent.Ai.Management.Models.PreviewConfiguration
-public class PreviewConfigurationModel
-    IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; }
-    IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; set; }
+public sealed class PreviewConfigurationModel : IEquatable`1
+    IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
+    IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; set; init; }
+    PreviewConfigurationModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(PreviewConfigurationModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.PreviewConfiguration
-public class PreviewUrlPatternModel
-    Reference Space { get; set; }
-    String UrlPattern { get; set; }
+public sealed class PreviewUrlPatternModel : IEquatable`1
+    Reference Space { get; set; init; }
+    String UrlPattern { get; set; init; }
+    PreviewUrlPatternModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(PreviewUrlPatternModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.PreviewConfiguration
-public class SpaceDomainModel
-    String Domain { get; set; }
-    Reference Space { get; set; }
+public sealed class SpaceDomainModel : IEquatable`1
+    String Domain { get; set; init; }
+    Reference Space { get; set; init; }
+    SpaceDomainModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceDomainModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.PreviewConfiguration
-public class TypePreviewUrlPatternModel
-    Reference ContentType { get; set; }
-    IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; set; }
+public sealed class TypePreviewUrlPatternModel : IEquatable`1
+    Reference ContentType { get; set; init; }
+    IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; set; init; }
+    TypePreviewUrlPatternModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TypePreviewUrlPatternModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Publishing
 public class ScheduleModel
@@ -1068,14 +1235,24 @@ public class ScheduleResponseModel
     Nullable<DateTime> UnpublishTime { get; set; }
 
 // Kontent.Ai.Management.Models.Roles
-public class EnvironmentRoleModel
-    String Codename { get; set; }
-    Guid Id { get; set; }
-    String Name { get; set; }
+public sealed class EnvironmentRoleModel : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    EnvironmentRoleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentRoleModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Roles
-public class EnvironmentRolesModel
-    IEnumerable<EnvironmentRoleModel> Roles { get; set; }
+public sealed class EnvironmentRolesModel : IEquatable`1
+    IEnumerable<EnvironmentRoleModel> Roles { get; set; init; }
+    EnvironmentRolesModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentRolesModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Shared
 public sealed class AssetFolder
@@ -1115,19 +1292,29 @@ public sealed class UserIdentifier
     static UserIdentifier ById(String id)
 
 // Kontent.Ai.Management.Models.Spaces
-public class SpaceCreateModel
-    String Codename { get; set; }
-    IEnumerable<Reference> Collections { get; set; }
-    String Name { get; set; }
-    Reference WebSpotlightRootItem { get; set; }
+public sealed class SpaceCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    IEnumerable<Reference> Collections { get; set; init; }
+    String Name { get; set; init; }
+    Reference WebSpotlightRootItem { get; set; init; }
+    SpaceCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Spaces
-public class SpaceModel
-    String Codename { get; set; }
-    IEnumerable<Reference> Collections { get; set; }
-    Guid Id { get; set; }
-    String Name { get; set; }
-    Reference WebSpotlightRootItem { get; set; }
+public sealed class SpaceModel : IEquatable`1
+    String Codename { get; set; init; }
+    IEnumerable<Reference> Collections { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    Reference WebSpotlightRootItem { get; set; init; }
+    SpaceModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Spaces.Patch
 public enum PropertyName : Enum
@@ -1137,10 +1324,15 @@ public enum PropertyName : Enum
     WebSpotlightRootItem
 
 // Kontent.Ai.Management.Models.Spaces.Patch
-public class SpaceOperationReplaceModel
+public sealed class SpaceOperationReplaceModel : IEquatable`1
     String Op { get; }
-    PropertyName PropertyName { get; set; }
-    Object Value { get; set; }
+    PropertyName PropertyName { get; set; init; }
+    Object Value { get; set; init; }
+    SpaceOperationReplaceModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceOperationReplaceModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.StronglyTyped
 public sealed class AssetCreateModel`1<T>
@@ -1195,59 +1387,99 @@ public sealed class LanguageVariantModel`1<T>
     WorkflowStepIdentifier Workflow { get; set; }
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionColletionGroupModel
-    IEnumerable<Reference> Collections { get; set; }
-    IEnumerable<SubscriptionUserRoleModel> Roles { get; set; }
+public sealed class SubscriptionColletionGroupModel : IEquatable`1
+    IEnumerable<Reference> Collections { get; set; init; }
+    IEnumerable<SubscriptionUserRoleModel> Roles { get; set; init; }
+    SubscriptionColletionGroupModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionColletionGroupModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionProjectEnvironmentModel
-    Guid Id { get; set; }
-    String Name { get; set; }
+public sealed class SubscriptionProjectEnvironmentModel : IEquatable`1
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionProjectEnvironmentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionProjectEnvironmentModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionProjectModel
-    IEnumerable<SubscriptionProjectEnvironmentModel> Environments { get; set; }
-    Guid Id { get; set; }
-    Boolean IsActive { get; set; }
-    String Name { get; set; }
+public sealed class SubscriptionProjectModel : IEquatable`1
+    IEnumerable<SubscriptionProjectEnvironmentModel> Environments { get; set; init; }
+    Guid Id { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionProjectModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionProjectModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionUserModel
-    String Email { get; set; }
-    String FirstName { get; set; }
-    Boolean HasPendingInvitation { get; set; }
-    String Id { get; set; }
-    String LastName { get; set; }
-    IEnumerable<SubscriptionUserProjectModel> Projects { get; set; }
+public sealed class SubscriptionUserModel : IEquatable`1
+    String Email { get; set; init; }
+    String FirstName { get; set; init; }
+    Boolean HasPendingInvitation { get; set; init; }
+    String Id { get; set; init; }
+    String LastName { get; set; init; }
+    IEnumerable<SubscriptionUserProjectModel> Projects { get; set; init; }
+    SubscriptionUserModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionUserProjectEnvironmentModel
-    IEnumerable<SubscriptionColletionGroupModel> CollectionGroups { get; set; }
-    Guid Id { get; set; }
-    Boolean IsUserActive { get; set; }
-    DateTime LastActivityAt { get; set; }
-    String Name { get; set; }
+public sealed class SubscriptionUserProjectEnvironmentModel : IEquatable`1
+    IEnumerable<SubscriptionColletionGroupModel> CollectionGroups { get; set; init; }
+    Guid Id { get; set; init; }
+    Boolean IsUserActive { get; set; init; }
+    DateTime LastActivityAt { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserProjectEnvironmentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserProjectEnvironmentModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionUserProjectModel
-    IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; set; }
-    Guid Id { get; set; }
-    String Name { get; set; }
+public sealed class SubscriptionUserProjectModel : IEquatable`1
+    IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserProjectModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserProjectModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionUserRoleLangaugeModel
-    String Codename { get; set; }
-    String ExternalId { get; set; }
-    Guid Id { get; set; }
-    String IsActive { get; set; }
-    String Name { get; set; }
+public sealed class SubscriptionUserRoleLangaugeModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    String IsActive { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserRoleLangaugeModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserRoleLangaugeModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionUserRoleModel
-    String Codename { get; set; }
-    Guid Id { get; set; }
-    IEnumerable<SubscriptionUserRoleLangaugeModel> Languages { get; set; }
-    String Name { get; set; }
+public sealed class SubscriptionUserRoleModel : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    IEnumerable<SubscriptionUserRoleLangaugeModel> Languages { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserRoleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserRoleModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.TaxonomyGroups
 public class TaxonomyBaseModel
@@ -1680,24 +1912,44 @@ public class ContentTypeSnippetPatchReplaceModel : ContentTypeSnippetOperationBa
     Object Value { get; set; }
 
 // Kontent.Ai.Management.Models.Users
-public class RoleModel
-    Guid Id { get; set; }
-    IEnumerable<Reference> Languages { get; set; }
+public sealed class RoleModel : IEquatable`1
+    Guid Id { get; set; init; }
+    IEnumerable<Reference> Languages { get; set; init; }
+    RoleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(RoleModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Users
-public class UserCollectionGroup
-    IEnumerable<Reference> Collections { get; set; }
-    IEnumerable<RoleModel> Roles { get; set; }
+public sealed class UserCollectionGroup : IEquatable`1
+    IEnumerable<Reference> Collections { get; set; init; }
+    IEnumerable<RoleModel> Roles { get; set; init; }
+    UserCollectionGroup <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserCollectionGroup other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Users
-public class UserInviteModel
-    IEnumerable<UserCollectionGroup> CollectionGroup { get; set; }
-    String Email { get; set; }
+public sealed class UserInviteModel : IEquatable`1
+    IEnumerable<UserCollectionGroup> CollectionGroup { get; set; init; }
+    String Email { get; set; init; }
+    UserInviteModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserInviteModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Users
-public class UserModel
-    IEnumerable<UserCollectionGroup> CollectionGroup { get; set; }
-    String Id { get; set; }
+public sealed class UserModel : IEquatable`1
+    IEnumerable<UserCollectionGroup> CollectionGroup { get; set; init; }
+    String Id { get; set; init; }
+    UserModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.VariantFilter
 public enum VariantFilterCompletionStatus : Enum
@@ -1914,13 +2166,23 @@ public class TaxonomyTriggerModel
     TaxonomyFiltersModel Filters { get; set; }
 
 // Kontent.Ai.Management.Models.WebSpotlight
-public class WebSpotlightActivateModel
-    Reference RootType { get; set; }
+public sealed class WebSpotlightActivateModel : IEquatable`1
+    Reference RootType { get; set; init; }
+    WebSpotlightActivateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WebSpotlightActivateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.WebSpotlight
-public class WebSpotlightModel
-    Boolean Enabled { get; set; }
-    Nullable<Guid> RootTypeId { get; set; }
+public sealed class WebSpotlightModel : IEquatable`1
+    Boolean Enabled { get; set; init; }
+    Nullable<Guid> RootTypeId { get; set; init; }
+    WebSpotlightModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WebSpotlightModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Workflow
 public class WorkflowArchivedStepModel

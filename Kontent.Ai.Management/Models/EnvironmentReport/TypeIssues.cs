@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.EnvironmentReport;
 /// <summary>
 /// Represents the report of the problems found in the environment's content types.
 /// </summary>
-public class TypeIssue
+public sealed record TypeIssue
 {
     /// <summary>
-    /// Gets or sets information about content type
+    /// Gets information about content type
     /// </summary>
     [JsonProperty("type")]
-    public Metadata Type { get; set; }
+    public Metadata Type { get; init; }
 
     /// <summary>
-    /// Gets or sets information about environment language
+    /// Gets information about environment language
     /// </summary>
     [JsonProperty("issues")]
-    public IEnumerable<ElementIssue> Issues { get; set; }
+    public IEnumerable<ElementIssue> Issues { get; init; }
 }

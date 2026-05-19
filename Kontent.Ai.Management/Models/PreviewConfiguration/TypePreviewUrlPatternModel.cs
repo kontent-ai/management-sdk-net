@@ -7,17 +7,17 @@ namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 /// <summary>
 /// Represents content type preview URL patterns model.
 /// </summary>
-public class TypePreviewUrlPatternModel
+public sealed record TypePreviewUrlPatternModel
 {
     /// <summary>
-    /// Gets or sets the content type reference.
+    /// Gets the content type reference.
     /// </summary>
     [JsonProperty("content_type")]
-    public Reference ContentType { get; set; }
+    public Reference ContentType { get; init; }
 
     /// <summary>
-    /// Gets or sets content type's url patterns.
+    /// Gets content type's url patterns.
     /// </summary>
     [JsonProperty("url_patterns")]
-    public IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; set; }
+    public IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; init; }
 }

@@ -7,23 +7,23 @@ namespace Kontent.Ai.Management.Models.Environments;
 /// <summary>
 /// Represents environment clone settings.
 /// </summary>
-public class EnvironmentCloneModel
+public sealed record EnvironmentCloneModel
 {
     /// <summary>
-    /// Gets or sets the name of the new environment.
+    /// Gets the name of the new environment.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a collection of RoleIds. All users assigned to these roles will be activated in the cloned environment.
+    /// Gets a collection of RoleIds. All users assigned to these roles will be activated in the cloned environment.
     /// </summary>
     [JsonProperty("roles_to_activate")]
-    public ICollection<Guid> RolesToActivate { get; set; }
-    
+    public ICollection<Guid> RolesToActivate { get; init; }
+
     /// <sumary>
-    /// Gets or sets <see cref="Kontent.Ai.Management.Models.Environments.CopyDataOptions"/> for copying entities.
+    /// Gets <see cref="Kontent.Ai.Management.Models.Environments.CopyDataOptions"/> for copying entities.
     /// </sumary>
     [JsonProperty("copy_data_options")]
-    public CopyDataOptions CopyDataOptions { get; set; }
+    public CopyDataOptions CopyDataOptions { get; init; }
 }

@@ -7,23 +7,23 @@ namespace Kontent.Ai.Management.Models.Subscription;
 /// <summary>
 /// Represents the projects to which the user has been invited.
 /// </summary>
-public sealed class SubscriptionUserProjectModel
+public sealed record SubscriptionUserProjectModel
 {
     /// <summary>
-    /// Gets or sets the project's internal ID.
+    /// Gets the project's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the project's name.
+    /// Gets the project's name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the project's environments.
+    /// Gets the project's environments.
     /// </summary>
     [JsonProperty("environments")]
-    public IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; set; }
+    public IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; init; }
 }

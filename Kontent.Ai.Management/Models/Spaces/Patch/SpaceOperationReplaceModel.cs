@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Models.Spaces.Patch;
 /// <summary>
 /// Represents the replace operation.
 /// </summary>
-public class SpaceOperationReplaceModel
+public sealed record SpaceOperationReplaceModel
 {
     /// <summary>
     /// Represents the replace operation.
@@ -14,14 +14,14 @@ public class SpaceOperationReplaceModel
     public static string Op => "replace";
 
     /// <summary>
-    /// Gets or sets the name of the property to modify.
+    /// Gets the name of the property to modify.
     /// </summary>
     [JsonProperty("property_name", Required = Required.Always)]
-    public PropertyName PropertyName { get; set; }
-    
+    public required PropertyName PropertyName { get; init; }
+
     /// <summary>
-    /// Gets or sets the value to insert in the specified property.
+    /// Gets the value to insert in the specified property.
     /// </summary>
     [JsonProperty("value", Required = Required.Always)]
-    public dynamic Value { get; set; }
+    public required dynamic Value { get; init; }
 }

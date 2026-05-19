@@ -6,11 +6,11 @@ namespace Kontent.Ai.Management.Models.Roles;
 /// <summary>
 /// Represents environment's roles
 /// </summary>
-public class EnvironmentRolesModel
+public sealed record EnvironmentRolesModel
 {
     /// <summary>
-    /// Gets or sets the list of environment roles
+    /// Gets the list of environment roles
     /// </summary>
     [JsonProperty("roles")]
-    public IEnumerable<EnvironmentRoleModel> Roles { get; set; }
+    public IEnumerable<EnvironmentRoleModel> Roles { get; init; }
 }

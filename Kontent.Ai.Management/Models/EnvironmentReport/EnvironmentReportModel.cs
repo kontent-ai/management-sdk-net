@@ -6,24 +6,24 @@ namespace Kontent.Ai.Management.Models.EnvironmentReport;
 /// <summary>
 /// Represents environment report model
 /// </summary>
-public sealed class EnvironmentReportModel
+public sealed record EnvironmentReportModel
 {
     /// <summary>
-    /// Gets or sets information about the specified environment
+    /// Gets information about the specified environment
     /// </summary>
     [JsonProperty("project")]
-    public Environment Environment { get; set; }
+    public Environment Environment { get; init; }
 
     /// <summary>
-    /// Gets or sets reports of the problems found in the environment's content
+    /// Gets reports of the problems found in the environment's content
     /// </summary>
     [JsonProperty("variant_issues")]
-    public List<VariantIssue> VariantIssues { get; set; }
+    public List<VariantIssue> VariantIssues { get; init; }
 
     /// <summary>
-    /// Gets or sets reports of the problems found in the environment's content types
+    /// Gets reports of the problems found in the environment's content types
     /// </summary>
     [JsonProperty("type_issues")]
-    public List<TypeIssue> TypeIssues { get; set; }
+    public List<TypeIssue> TypeIssues { get; init; }
 }
 

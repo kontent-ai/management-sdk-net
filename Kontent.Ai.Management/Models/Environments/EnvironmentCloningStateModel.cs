@@ -5,11 +5,11 @@ namespace Kontent.Ai.Management.Models.Environments;
 /// <summary>
 /// Represents state of environment cloning.
 /// </summary>
-public class EnvironmentCloningStateModel
+public sealed record EnvironmentCloningStateModel
 {
     /// <summary>
-    /// Gets or sets the state of the environment cloning.
+    /// Gets the state of the environment cloning.
     /// </summary>
     [JsonProperty("cloning_state")]
-    public CloningState CloningState { get; set; }
+    public CloningState CloningState { get; init; }
 }

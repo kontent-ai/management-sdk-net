@@ -8,17 +8,17 @@ namespace Kontent.Ai.Management.Models.Users;
 /// <summary>
 /// Represents user's role.
 /// </summary>
-public class RoleModel
+public sealed record RoleModel
 {
     /// <summary>
-    /// Gets or sets id of user's role.
+    /// Gets id of user's role.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets reference to languages.
+    /// Gets reference to languages.
     /// </summary>
     [JsonProperty("languages")]
-    public IEnumerable<Reference> Languages { get; set; }
+    public IEnumerable<Reference> Languages { get; init; }
 }

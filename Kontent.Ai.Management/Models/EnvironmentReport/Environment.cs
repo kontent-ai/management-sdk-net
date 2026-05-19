@@ -5,23 +5,23 @@ namespace Kontent.Ai.Management.Models.EnvironmentReport;
 /// <summary>
 /// Represents information about the specified environment
 /// </summary>
-public sealed class Environment
+public sealed record Environment
 {
     /// <summary>
-    /// Gets or sets the id of the environment
+    /// Gets the id of the environment
     /// </summary>
     [JsonProperty("id")]
-    public string Id { get; set; }
+    public string Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the project
+    /// Gets the name of the project
     /// </summary>
     [JsonProperty("name")]
-    public string ProjectName { get; set; }
+    public string ProjectName { get; init; }
 
     /// <summary>
-    /// Gets or sets the environment name
+    /// Gets the environment name
     /// </summary>
     [JsonProperty("environment")]
-    public string EnvironmentName { get; set; }
+    public string EnvironmentName { get; init; }
 }

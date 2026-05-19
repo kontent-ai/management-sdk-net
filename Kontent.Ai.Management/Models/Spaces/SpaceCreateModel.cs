@@ -7,29 +7,29 @@ namespace Kontent.Ai.Management.Models.Spaces;
 /// <summary>
 /// Represents the space create model.
 /// </summary>
-public class SpaceCreateModel
+public sealed record SpaceCreateModel
 {
     /// <summary>
-    /// Gets or sets the space's name.
+    /// Gets the space's name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the space's codename.
-    /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the space's root item.
-    /// </summary>
-    [JsonProperty("web_spotlight_root_item")]
-    public Reference WebSpotlightRootItem { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the space's collections
+    /// Gets the space's codename.
+    /// </summary>
+    [JsonProperty("codename")]
+    public string Codename { get; init; }
+
+    /// <summary>
+    /// Gets the space's root item.
+    /// </summary>
+    [JsonProperty("web_spotlight_root_item")]
+    public Reference WebSpotlightRootItem { get; init; }
+
+    /// <summary>
+    /// Gets the space's collections
     /// </summary>
     [JsonProperty("collections")]
-    public IEnumerable<Reference> Collections { get; set; }
+    public IEnumerable<Reference> Collections { get; init; }
 }

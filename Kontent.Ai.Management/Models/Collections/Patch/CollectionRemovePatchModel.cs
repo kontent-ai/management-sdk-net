@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Models.Collections.Patch;
 /// Represents the remove operation.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
 /// </summary>
-public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel
+public sealed record CollectionRemovePatchModel : CollectionOperationBaseModel
 {
     /// <summary>
     /// Represents the remove operation.
@@ -18,5 +18,5 @@ public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel
     /// Represents the reference of the collection which should be removed.
     /// </summary>
     [JsonProperty("reference")]
-    public Reference CollectionIdentifier { get; set; }
+    public Reference CollectionIdentifier { get; init; }
 }

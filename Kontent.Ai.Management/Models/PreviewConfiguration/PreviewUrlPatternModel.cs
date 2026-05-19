@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 /// <summary>
 /// Represents preview URL pattern model.
 /// </summary>
-public class PreviewUrlPatternModel
+public sealed record PreviewUrlPatternModel
 {
     /// <summary>
-    /// Gets or sets the space reference.
+    /// Gets the space reference.
     /// </summary>
     [JsonProperty("space")]
-    public Reference Space { get; set; }
+    public Reference Space { get; init; }
 
     /// <summary>
-    /// Gets or sets the content type URL pattern.
+    /// Gets the content type URL pattern.
     /// </summary>
     [JsonProperty("url_pattern")]
-    public string UrlPattern { get; set; }
+    public string UrlPattern { get; init; }
 }

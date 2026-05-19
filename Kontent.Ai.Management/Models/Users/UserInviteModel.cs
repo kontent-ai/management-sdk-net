@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.Users;
 /// <summary>
 /// Represents user's invitation model.
 /// </summary>
-public class UserInviteModel
+public sealed record UserInviteModel
 {
     /// <summary>
-    /// Gets or sets the email of user that is to be invited.
+    /// Gets the email of user that is to be invited.
     /// </summary>
     [JsonProperty("email")]
-    public string Email { get; set; }
+    public string Email { get; init; }
 
     /// <summary>
-    /// Gets or sets the language's display name.
+    /// Gets the language's display name.
     /// </summary>
     [JsonProperty("collection_groups")]
-    public IEnumerable<UserCollectionGroup> CollectionGroup { get; set; }
+    public IEnumerable<UserCollectionGroup> CollectionGroup { get; init; }
 }

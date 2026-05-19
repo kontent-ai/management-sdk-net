@@ -7,29 +7,29 @@ namespace Kontent.Ai.Management.Models.Subscription;
 /// <summary>
 /// Represents Set of roles the user is assigned to within the collection.
 /// </summary>
-public sealed class SubscriptionUserRoleModel
+public sealed record SubscriptionUserRoleModel
 {
     /// <summary>
-    /// Gets or sets id of user's role.
+    /// Gets id of user's role.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets name of user's role.
+    /// Gets name of user's role.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets codename of user's role.
+    /// Gets codename of user's role.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets reference to languages.
+    /// Gets reference to languages.
     /// </summary>
     [JsonProperty("languages")]
-    public IEnumerable<SubscriptionUserRoleLangaugeModel> Languages { get; set; }
+    public IEnumerable<SubscriptionUserRoleLangaugeModel> Languages { get; init; }
 }

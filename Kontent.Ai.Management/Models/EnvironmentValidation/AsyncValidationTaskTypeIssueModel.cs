@@ -5,11 +5,11 @@ namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 /// <summary>
 /// Async validation task type issue.
 /// </summary>
-public sealed class AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel
+public sealed record AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel
 {
     /// <summary>
-    /// Gets or sets item reference.
+    /// Gets item reference.
     /// </summary>
     [JsonProperty("type")]
-    public Metadata Type { get; set; }
+    public Metadata Type { get; init; }
 }

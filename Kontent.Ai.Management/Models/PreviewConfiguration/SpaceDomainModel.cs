@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 /// <summary>
 /// Represents space domain model.
 /// </summary>
-public class SpaceDomainModel
+public sealed record SpaceDomainModel
 {
     /// <summary>
-    /// Gets or sets the space reference.
+    /// Gets the space reference.
     /// </summary>
     [JsonProperty("space")]
-    public Reference Space { get; set; }
+    public Reference Space { get; init; }
 
     /// <summary>
-    /// Gets or sets the space domain.
+    /// Gets the space domain.
     /// </summary>
     [JsonProperty("domain")]
-    public string Domain { get; set; }
+    public string Domain { get; init; }
 }

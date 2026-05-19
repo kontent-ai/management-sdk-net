@@ -6,18 +6,18 @@ namespace Kontent.Ai.Management.Models.EnvironmentReport;
 /// <summary>
 /// Represents element issue with messages and element metadata
 /// </summary>
-public sealed class ElementIssue
+public sealed record ElementIssue
 {
     /// <summary>
-    /// Gets or sets information about the content element
+    /// Gets information about the content element
     /// </summary>
     [JsonProperty("element")]
-    public Metadata Element { get; set; }
+    public Metadata Element { get; init; }
 
     /// <summary>
-    /// Gets or sets validation messages 
+    /// Gets validation messages
     /// for the content element
     /// </summary>
     [JsonProperty("messages")]
-    public List<string> Messages { get; set; }
+    public List<string> Messages { get; init; }
 }

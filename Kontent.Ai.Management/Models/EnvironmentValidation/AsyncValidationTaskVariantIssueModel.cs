@@ -5,17 +5,17 @@ namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 /// <summary>
 /// Async validation task variant issue.
 /// </summary>
-public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel
+public sealed record AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel
 {
     /// <summary>
-    /// Gets or sets item reference.
+    /// Gets item reference.
     /// </summary>
     [JsonProperty("item")]
-    public Metadata Item { get; set; }
+    public Metadata Item { get; init; }
 
     /// <summary>
-    /// Gets or sets language reference.
+    /// Gets language reference.
     /// </summary>
     [JsonProperty("language")]
-    public Metadata Language { get; set; }
+    public Metadata Language { get; init; }
 }

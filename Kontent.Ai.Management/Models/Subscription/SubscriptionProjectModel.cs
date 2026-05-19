@@ -7,29 +7,29 @@ namespace Kontent.Ai.Management.Models.Subscription;
 /// <summary>
 /// Represents the subscription project object.
 /// </summary>
-public sealed class SubscriptionProjectModel
+public sealed record SubscriptionProjectModel
 {
     /// <summary>
-    /// Gets or sets the id of the project.
+    /// Gets the id of the project.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the project's name.
+    /// Gets the project's name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the project is active.
+    /// Gets a flag determining whether the project is active.
     /// </summary>
     [JsonProperty("is_active")]
-    public bool IsActive { get; set; }
+    public bool IsActive { get; init; }
 
     /// <summary>
-    /// Gets or sets the project's environments.
+    /// Gets the project's environments.
     /// </summary>
     [JsonProperty("environments")]
-    public IEnumerable<SubscriptionProjectEnvironmentModel> Environments { get; set; }
+    public IEnumerable<SubscriptionProjectEnvironmentModel> Environments { get; init; }
 }

@@ -7,24 +7,24 @@ namespace Kontent.Ai.Management.Models.EnvironmentReport;
 /// Represents information necessary to identify 
 /// the language variant and lists the content elements
 /// </summary>
-public sealed class VariantIssue
+public sealed record VariantIssue
 {
     /// <summary>
-    /// Gets or sets information about the content item
+    /// Gets information about the content item
     /// </summary>
     [JsonProperty("item")]
-    public Metadata Item { get; set; }
+    public Metadata Item { get; init; }
 
     /// <summary>
-    /// Gets or sets information about environment language
+    /// Gets information about environment language
     /// </summary>
     [JsonProperty("language")]
-    public Metadata Language { get; set; }
+    public Metadata Language { get; init; }
 
     /// <summary>
-    /// Gets or sets information about issues
+    /// Gets information about issues
     /// found in specific content elements
     /// </summary>
     [JsonProperty("issues")]
-    public List<ElementIssue> Issues { get; set; }
+    public List<ElementIssue> Issues { get; init; }
 }

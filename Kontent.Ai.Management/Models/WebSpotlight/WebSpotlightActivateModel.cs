@@ -6,11 +6,11 @@ namespace Kontent.Ai.Management.Models.WebSpotlight;
 /// <summary>
 /// Represents the web spotlight activation model.
 /// </summary>
-public class WebSpotlightActivateModel
+public sealed record WebSpotlightActivateModel
 {
     /// <summary>
-    /// Gets or sets the web spotlight's Root Type ID.
+    /// Gets the web spotlight's Root Type ID.
     /// </summary>
     [JsonProperty("root_type")]
-    public Reference RootType { get; set; }
+    public Reference RootType { get; init; }
 }

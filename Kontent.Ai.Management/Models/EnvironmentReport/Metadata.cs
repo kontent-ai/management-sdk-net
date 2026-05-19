@@ -6,23 +6,23 @@ namespace Kontent.Ai.Management.Models.EnvironmentReport;
 /// <summary>
 /// Represents the Metadata object.
 /// </summary>
-public sealed class Metadata
+public sealed record Metadata
 {
     /// <summary>
-    /// Gets or sets the id of the metadata object.
+    /// Gets the id of the metadata object.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the metadata object.
+    /// Gets the name of the metadata object.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the metadata object.
+    /// Gets the codename of the metadata object.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 }

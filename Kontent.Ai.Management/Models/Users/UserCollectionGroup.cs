@@ -7,17 +7,17 @@ namespace Kontent.Ai.Management.Models.Users;
 /// <summary>
 /// Represents user's colection group.
 /// </summary>
-public class UserCollectionGroup
+public sealed record UserCollectionGroup
 {
     /// <summary>
-    /// Gets or sets user's collection.
+    /// Gets user's collection.
     /// </summary>
     [JsonProperty("collections")]
-    public IEnumerable<Reference> Collections { get; set; }
+    public IEnumerable<Reference> Collections { get; init; }
 
     /// <summary>
-    /// Gets or sets user's roles.
+    /// Gets user's roles.
     /// </summary>
     [JsonProperty("roles")]
-    public IEnumerable<RoleModel> Roles { get; set; }
+    public IEnumerable<RoleModel> Roles { get; init; }
 }

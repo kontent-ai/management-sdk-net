@@ -5,23 +5,23 @@ namespace Kontent.Ai.Management.Models.Collections;
 /// <summary>
 /// Represents collection the create model.
 /// </summary>
-public class CollectionCreateModel
+public sealed record CollectionCreateModel
 {
     /// <summary>
-    /// Gets or sets the name of the content collection.
+    /// Gets the name of the content collection.
     /// </summary>
     [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; set; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the collection.
+    /// Gets the codename of the collection.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content collection.
+    /// Gets the external identifier of the content collection.
     /// </summary>
     [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    public string ExternalId { get; init; }
 }
