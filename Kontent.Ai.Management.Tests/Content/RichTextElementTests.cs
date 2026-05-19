@@ -1,5 +1,5 @@
 using System.Text.Json;
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
 using Xunit;

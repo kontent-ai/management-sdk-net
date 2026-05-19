@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using FluentAssertions.Execution;
+﻿using AwesomeAssertions;
+using AwesomeAssertions.Execution;
 using Kontent.Ai.Management.Tests.Base.Converters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

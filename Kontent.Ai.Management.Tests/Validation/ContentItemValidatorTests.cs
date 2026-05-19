@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;

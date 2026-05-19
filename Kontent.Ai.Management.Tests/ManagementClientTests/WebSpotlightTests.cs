@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.WebSpotlight;
 using Kontent.Ai.Management.Tests.Base;

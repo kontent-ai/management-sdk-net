@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Tests.Base;

@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;

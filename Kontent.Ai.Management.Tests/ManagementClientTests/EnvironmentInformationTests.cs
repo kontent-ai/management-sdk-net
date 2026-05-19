@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Tests.Base;
 using Newtonsoft.Json;
 using RichardSzalay.MockHttp;

@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.VariantFilter;

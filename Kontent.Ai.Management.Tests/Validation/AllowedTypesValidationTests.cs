@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management;
 using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
 using Kontent.Ai.Management.Validation;

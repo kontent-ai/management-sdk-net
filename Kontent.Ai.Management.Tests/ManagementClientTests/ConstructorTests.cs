@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Configuration;
 using Xunit;
 

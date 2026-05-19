@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Content;
 using MyProject.Models;
 using Xunit;

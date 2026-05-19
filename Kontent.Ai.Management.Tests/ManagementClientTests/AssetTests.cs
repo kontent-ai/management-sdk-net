@@ -1,5 +1,5 @@
 using System.Text;
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Shared;

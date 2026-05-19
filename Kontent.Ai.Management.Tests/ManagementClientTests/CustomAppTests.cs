@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.CustomApps;
 using Kontent.Ai.Management.Models.CustomApps.Patch;

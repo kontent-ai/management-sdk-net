@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
 using Kontent.Ai.Management.Models.Shared;

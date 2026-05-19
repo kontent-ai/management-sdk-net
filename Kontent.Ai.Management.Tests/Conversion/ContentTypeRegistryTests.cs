@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Conversion;
 using Xunit;
 using ModelsArticle = MyProject.Models.Article;

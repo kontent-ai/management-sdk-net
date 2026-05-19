@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using System;
@@ -15,7 +15,7 @@ public class ElementReferenceTests
         var id = Guid.NewGuid();
         dynamic source = new ExpandoObject();
         source.id = id;
-        var idReference = Reference.FromDynamic(source);
+        Reference idReference = Reference.FromDynamic(source);
 
         Assert.Equal(null, idReference.ExternalId);
         Assert.Equal(id, idReference.Id);
@@ -28,7 +28,7 @@ public class ElementReferenceTests
         var id = Guid.NewGuid();
         dynamic source = new ExpandoObject();
         source.id = id.ToString();
-        var idReference = Reference.FromDynamic(source);
+        Reference idReference = Reference.FromDynamic(source);
 
         Assert.Equal(null, idReference.ExternalId);
         Assert.Equal(id, idReference.Id);
@@ -41,7 +41,7 @@ public class ElementReferenceTests
         var codename = "test";
         dynamic source = new ExpandoObject();
         source.codename = codename;
-        var codenameReference = Reference.FromDynamic(source);
+        Reference codenameReference = Reference.FromDynamic(source);
 
         Assert.Equal(null, codenameReference.ExternalId);
         Assert.Equal(null, codenameReference.Id);
@@ -54,7 +54,7 @@ public class ElementReferenceTests
         var externalId = "external";
         dynamic source = new ExpandoObject();
         source.external_id = externalId;
-        var externalIdReference = Reference.FromDynamic(source);
+        Reference externalIdReference = Reference.FromDynamic(source);
 
         Assert.Equal(externalId, externalIdReference.ExternalId);
         Assert.Equal(null, externalIdReference.Id);
