@@ -23,12 +23,12 @@ public sealed partial record WebsiteRoot : IContentItem
     [KontentElement("content", "03fda1d5-fd18-4145-b15f-c8610a40dc33")]
     [AllowedTypes("visual_container", "content_chunk")]
     public IReadOnlyList<Reference>? Content { get; init; }
-    [KontentElement("metadata__metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
-    public string? MetadataMetadataDescription { get; init; }
-    [KontentElement("metadata__metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
-    public string? MetadataMetadataKeywords { get; init; }
-    [KontentElement("metadata__metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
-    public string? MetadataMetadataTitle { get; init; }
+    [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
+    public string? MetadataDescription { get; init; }
+    [KontentElement("metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
+    public string? MetadataKeywords { get; init; }
+    [KontentElement("metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
+    public string? MetadataTitle { get; init; }
     [KontentElement("navigation", "49a9000d-8d82-5527-baca-d3fb97bebea0")]
     [AllowedTypes("navigation_item")]
     [ExactElements(1)]

@@ -32,12 +32,12 @@ public sealed partial record Article : IContentItem
     [KontentElement("hero_image", "ed868ae7-0b90-5752-a53b-aa4cfa2ca56e")]
     [ExactElements(1)]
     public IReadOnlyList<AssetReference>? HeroImage { get; init; }
-    [KontentElement("metadata__metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
-    public string? MetadataMetadataDescription { get; init; }
-    [KontentElement("metadata__metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
-    public string? MetadataMetadataKeywords { get; init; }
-    [KontentElement("metadata__metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
-    public string? MetadataMetadataTitle { get; init; }
+    [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
+    public string? MetadataDescription { get; init; }
+    [KontentElement("metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
+    public string? MetadataKeywords { get; init; }
+    [KontentElement("metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
+    public string? MetadataTitle { get; init; }
     [KontentElement("publishing_date", "dba8efd9-052c-557a-9dfd-3f43f966eab8")]
     public DateTimeOffset? PublishingDate { get; init; }
     [KontentElement("slug", "7b9f3bb2-2efb-5285-8988-bfb66e45cf77")]

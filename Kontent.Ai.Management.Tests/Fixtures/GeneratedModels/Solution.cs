@@ -24,19 +24,19 @@ public sealed partial record Solution : IContentItem
     [AllowedTaxonomyGroup("5cf829cd-e8fe-56c2-89be-369de0a0b8ff")]
     [ExactElements(1)]
     public IReadOnlyList<Reference>? ImagingTechnology { get; init; }
-    [KontentElement("metadata__metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
-    public string? MetadataMetadataDescription { get; init; }
-    [KontentElement("metadata__metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
-    public string? MetadataMetadataKeywords { get; init; }
-    [KontentElement("metadata__metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
-    public string? MetadataMetadataTitle { get; init; }
-    [KontentElement("product_base__product_base__description", "30f6b775-071e-5a5a-9394-8251d2081b0e")]
-    public string? ProductBaseProductBaseDescription { get; init; }
-    [KontentElement("product_base__product_base__main_image", "333cb56d-09c7-58a9-b759-97a0931ce8e6")]
+    [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
+    public string? MetadataDescription { get; init; }
+    [KontentElement("metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
+    public string? MetadataKeywords { get; init; }
+    [KontentElement("metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
+    public string? MetadataTitle { get; init; }
+    [KontentElement("product_base__description", "30f6b775-071e-5a5a-9394-8251d2081b0e")]
+    public string? ProductBaseDescription { get; init; }
+    [KontentElement("product_base__main_image", "333cb56d-09c7-58a9-b759-97a0931ce8e6")]
     [AllowedAssetFileTypes(AssetFileType.Adjustable)]
-    public IReadOnlyList<AssetReference>? ProductBaseProductBaseMainImage { get; init; }
-    [KontentElement("product_base__product_base__name", "9647f1cc-3870-5b67-874b-d56fc2abd7ad")]
-    public string? ProductBaseProductBaseName { get; init; }
+    public IReadOnlyList<AssetReference>? ProductBaseMainImage { get; init; }
+    [KontentElement("product_base__name", "9647f1cc-3870-5b67-874b-d56fc2abd7ad")]
+    public string? ProductBaseName { get; init; }
     [KontentElement("showcase", "42b24153-7274-550d-8fc1-5f5daea12e89")]
     [AllowedTypes("callout", "fact", "action")]
     public RichTextElement? Showcase { get; init; }

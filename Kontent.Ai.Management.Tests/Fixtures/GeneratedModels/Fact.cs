@@ -31,17 +31,17 @@ public sealed partial record Fact : IContentItem
     public IReadOnlyList<AssetReference>? Image { get; init; }
     [KontentElement("message", "db8a7f6b-afd5-5170-bd6f-e450a96c8053")]
     public string? Message { get; init; }
-    [KontentElement("reference__reference__caption", "75684270-5e43-5d21-b93a-700f85e50853")]
-    public string? ReferenceReferenceCaption { get; init; }
-    [KontentElement("reference__reference__content__item_link", "ed9d88d5-2375-57c3-9916-615eaae7d5da")]
+    [KontentElement("reference__caption", "75684270-5e43-5d21-b93a-700f85e50853")]
+    public string? ReferenceCaption { get; init; }
+    [KontentElement("reference__content__item_link", "ed9d88d5-2375-57c3-9916-615eaae7d5da")]
     [AllowedTypes("website_root", "page", "article", "product", "solution")]
     [MaxElements(1)]
-    public IReadOnlyList<Reference>? ReferenceReferenceContentItemLink { get; init; }
-    [KontentElement("reference__reference__external_uri", "580e3f46-f033-50d4-9f34-4ed91384f4e4")]
+    public IReadOnlyList<Reference>? ReferenceContentItemLink { get; init; }
+    [KontentElement("reference__external_uri", "580e3f46-f033-50d4-9f34-4ed91384f4e4")]
     [RegularExpression("^(https?:\\/\\/(?:www\\.|(?!www)))?[a-z0-9]{1,63}([\\-\\.]{1}[a-z0-9]{1,63})*\\.[a-z]{2,63}(:[0-9]{1,5})?(\\/\\S*)?$")]
-    public string? ReferenceReferenceExternalUri { get; init; }
-    [KontentElement("reference__reference__label", "15ee4053-00fd-5d5e-a2d7-4437079251ce")]
-    public string? ReferenceReferenceLabel { get; init; }
+    public string? ReferenceExternalUri { get; init; }
+    [KontentElement("reference__label", "15ee4053-00fd-5d5e-a2d7-4437079251ce")]
+    public string? ReferenceLabel { get; init; }
     [KontentElement("title", "75c5ed43-3eb7-5902-bf8b-4ddf8f830c8b")]
     public string? Title { get; init; }
 }
