@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Models.TypeSnippets.Patch;
 /// Represents the replace operation.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
 /// </summary>
-public class ContentTypeSnippetPatchReplaceModel : ContentTypeSnippetOperationBaseModel
+public sealed record ContentTypeSnippetPatchReplaceModel : ContentTypeSnippetOperationBaseModel
 {
     /// <summary>
     /// Represents the replace operation.
@@ -14,9 +14,9 @@ public class ContentTypeSnippetPatchReplaceModel : ContentTypeSnippetOperationBa
     public override string Op => "replace";
 
     /// <summary>
-    /// Gets or sets the value to insert into the property specified in the path where the format depends on the specific property.
+    /// Gets the value to insert into the property specified in the path where the format depends on the specific property.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
     /// </summary>
     [JsonProperty("value")]
-    public dynamic Value { get; set; }
+    public dynamic Value { get; init; }
 }

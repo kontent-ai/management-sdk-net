@@ -7,35 +7,35 @@ namespace Kontent.Ai.Management.Models.Types;
 /// <summary>
 /// Represents the content type create model.
 /// </summary>
-public class ContentTypeCreateModel
+public sealed record ContentTypeCreateModel
 {
     /// <summary>
-    /// Gets or sets the codename of the content type.
+    /// Gets the codename of the content type.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the content type.
+    /// Gets the name of the content type.
     /// </summary>
     [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the content type.
+    /// Gets elements of the content type.
     /// </summary>
     [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<ElementMetadataBase> Elements { get; set; }
+    public IEnumerable<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content type.
+    /// Gets the external identifier of the content type.
     /// </summary>
     [JsonProperty("external_id")]
-    public string ExternalId { get; set; }
+    public string ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets content groups of the content type.
+    /// Gets content groups of the content type.
     /// </summary>
     [JsonProperty("content_groups")]
-    public IEnumerable<ContentGroupModel> ContentGroups { get; set; }
+    public IEnumerable<ContentGroupModel> ContentGroups { get; init; }
 }

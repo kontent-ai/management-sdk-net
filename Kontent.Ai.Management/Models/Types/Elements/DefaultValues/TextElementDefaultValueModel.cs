@@ -3,4 +3,4 @@
 /// <summary>
 /// The default value model for the text element
 /// </summary>
-public class TextElementDefaultValueModel : ElementDefaultValue<TypeValue<string>, string> { }
+public sealed record TextElementDefaultValueModel : ElementDefaultValue<TypeValue<string>, string> { }

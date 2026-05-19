@@ -7,11 +7,11 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the Archived workflow step upsert model.
 /// </summary>
-public class WorkflowArchivedStepUpsertModel
+public sealed record WorkflowArchivedStepUpsertModel
 {
     /// <summary>
-    /// Gets or sets the roles which can work with an item in this step.
+    /// Gets the roles which can work with an item in this step.
     /// </summary>
     [JsonProperty("role_ids")]
-    public IReadOnlyCollection<Guid> RoleIds { get; set; }
+    public IReadOnlyCollection<Guid> RoleIds { get; init; }
 }

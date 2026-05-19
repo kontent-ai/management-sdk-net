@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 /// Represents the replace operation.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
 /// </summary>
-public class TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseModel
+public sealed record TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseModel
 {
     /// <summary>
     /// Represents the replace operation.
@@ -17,12 +17,12 @@ public class TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseModel
     /// Specifies the property of the taxonomy group or term that you want to replace.
     /// </summary>
     [JsonProperty("property_name")]
-    public PropertyName PropertyName { get; set; }
+    public PropertyName PropertyName { get; init; }
 
     /// <summary>
-    /// Gets or sets the new value. Based on the value of PropertyName, the value can be either string or an array of taxonomy terms.
+    /// Gets the new value. Based on the value of PropertyName, the value can be either string or an array of taxonomy terms.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
     /// </summary>
     [JsonProperty("value")]
-    public dynamic Value { get; set; }
+    public dynamic Value { get; init; }
 }

@@ -7,17 +7,17 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the Published workflow step upsert model.
 /// </summary>
-public class WorkflowPublishedStepUpsertModel
+public sealed record WorkflowPublishedStepUpsertModel
 {
     /// <summary>
-    /// Gets or sets the roles which can create new version from published variant.
+    /// Gets the roles which can create new version from published variant.
     /// </summary>
     [JsonProperty("create_new_version_role_ids")]
-    public IReadOnlyCollection<Guid> RoleCreateNewVersionIds { get; set; }
+    public IReadOnlyCollection<Guid> RoleCreateNewVersionIds { get; init; }
 
     /// <summary>
-    /// Gets or sets the roles which can unpublish the item's variant.
+    /// Gets the roles which can unpublish the item's variant.
     /// </summary>
     [JsonProperty("unpublish_role_ids")]
-    public IReadOnlyCollection<Guid> RolesUnpublishArchivedCancelSchedulingIds { get; set; }
+    public IReadOnlyCollection<Guid> RolesUnpublishArchivedCancelSchedulingIds { get; init; }
 }

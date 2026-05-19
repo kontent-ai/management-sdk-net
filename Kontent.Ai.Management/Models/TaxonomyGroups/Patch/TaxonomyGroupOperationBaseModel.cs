@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 /// Represents the operation on the taxonomy group.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
 /// </summary>
-public abstract class TaxonomyGroupOperationBaseModel
+public abstract record TaxonomyGroupOperationBaseModel
 {
     /// <summary>
     /// Gets specification of the operation to perform.
@@ -17,9 +17,9 @@ public abstract class TaxonomyGroupOperationBaseModel
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets or sets the reference to existing taxonomy terms you want to modify.
+    /// Gets the reference to existing taxonomy terms you want to modify.
     /// </summary>
     [JsonProperty("reference")]
-    public Reference Reference { get; set; }
+    public Reference Reference { get; init; }
 
 }

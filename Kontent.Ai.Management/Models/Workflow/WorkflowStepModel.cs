@@ -7,41 +7,41 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the custom workflow step response model.
 /// </summary>
-public class WorkflowStepModel
+public sealed record WorkflowStepModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Gets the workflow step's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's name.
+    /// Gets the workflow step's name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's codename.
+    /// Gets the workflow step's codename.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's color.
+    /// Gets the workflow step's color.
     /// </summary>
     [JsonProperty("color")]
-    public WorkflowStepColorModel Color { get; set; }
+    public WorkflowStepColorModel Color { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow steps that this step can transition to.
+    /// Gets the workflow steps that this step can transition to.
     /// </summary>
     [JsonProperty("transitions_to")]
-    public IReadOnlyList<WorkflowStepTransitionToModel> TransitionsTo { get; set; }
+    public IReadOnlyList<WorkflowStepTransitionToModel> TransitionsTo { get; init; }
 
     /// <summary>
-    /// Gets or sets the roles which can work with an item in this step.
+    /// Gets the roles which can work with an item in this step.
     /// </summary>
     [JsonProperty("role_ids")]
-    public IReadOnlyCollection<Guid> RoleIds { get; set; }
+    public IReadOnlyCollection<Guid> RoleIds { get; init; }
 }

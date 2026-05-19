@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the workflow step identifier.
 /// </summary>
-public class WorkflowIdentifier
+public sealed record WorkflowIdentifier
 {
     /// <summary>
     /// Represents the identifier of the content item variant.

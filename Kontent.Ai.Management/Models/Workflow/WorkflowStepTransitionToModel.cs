@@ -6,11 +6,11 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the workflow step's 'transition to' response model.
 /// </summary>
-public class WorkflowStepTransitionToModel
+public sealed record WorkflowStepTransitionToModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Gets the workflow step's internal ID.
     /// </summary>
     [JsonProperty("step")]
-    public Reference Step { get; set; }
+    public Reference Step { get; init; }
 }

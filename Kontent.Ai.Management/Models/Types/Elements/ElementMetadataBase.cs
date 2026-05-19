@@ -9,7 +9,7 @@ namespace Kontent.Ai.Management.Models.Types.Elements;
 /// Represents the base class for elements in types.
 /// </summary>
 [JsonConverter(typeof(ElementMetadataConverter))]
-public abstract class ElementMetadataBase
+public abstract record ElementMetadataBase
 {
     /// <summary>
     /// Represents the type of the content type element.
@@ -18,27 +18,27 @@ public abstract class ElementMetadataBase
     public abstract ElementMetadataType Type { get; }
 
     /// <summary>
-    /// Gets or sets the element's display name.
+    /// Gets the element's display name.
     /// </summary>
     [JsonProperty("external_id")]
-    public string ExternalId { get; set; }
+    public string ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets the element's internal ID.
+    /// Gets the element's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; private set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the element's codename.
+    /// Gets the element's codename.
     /// Unless specified, initially generated from the element's name.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the content group where the element is used in.
+    /// Gets the content group where the element is used in.
     /// </summary>
     [JsonProperty("content_group", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Reference ContentGroup { get; set; }
+    public Reference ContentGroup { get; init; }
 }

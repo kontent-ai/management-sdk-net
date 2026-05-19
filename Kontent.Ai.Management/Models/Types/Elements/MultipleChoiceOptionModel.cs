@@ -6,29 +6,29 @@ namespace Kontent.Ai.Management.Models.Types.Elements;
 /// <summary>
 /// Represents the element's multiple-choice options.
 /// </summary>
-public class MultipleChoiceOptionModel
+public sealed record MultipleChoiceOptionModel
 {
     /// <summary>
-    /// Gets or sets the multiple-choice option's internal ID.
+    /// Gets the multiple-choice option's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the multiple-choice option's codename.
+    /// Gets the multiple-choice option's codename.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the multiple-choice option's display name.
+    /// Gets the multiple-choice option's display name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the multiple-choice option's external ID.
+    /// Gets the multiple-choice option's external ID.
     /// </summary>
     [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    public string ExternalId { get; init; }
 }

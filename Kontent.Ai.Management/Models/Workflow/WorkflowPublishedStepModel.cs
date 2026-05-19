@@ -11,35 +11,35 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <remarks>
 /// All <c>Id</c>, <c>Name</c>, and <c>Codename</c> properties are predefined by the system and cannot be changed.
 /// </remarks>
-public class WorkflowPublishedStepModel
+public sealed record WorkflowPublishedStepModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Gets the workflow step's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's name.
+    /// Gets the workflow step's name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's codename.
+    /// Gets the workflow step's codename.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the roles which can unpublish the item's variant.
+    /// Gets the roles which can unpublish the item's variant.
     /// </summary>
     [JsonProperty("unpublish_role_ids")]
-    public IReadOnlyCollection<Guid> UnpublishRoleIds { get; set; }
+    public IReadOnlyCollection<Guid> UnpublishRoleIds { get; init; }
 
     /// <summary>
-    /// Gets or sets the roles which can create new version from published variant.
+    /// Gets the roles which can create new version from published variant.
     /// </summary>
     [JsonProperty("create_new_version_role_ids")]
-    public IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; set; }
+    public IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; init; }
 }

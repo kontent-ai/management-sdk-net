@@ -6,4 +6,4 @@ namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 /// <summary>
 /// The default value model for the asset element
 /// </summary>
-public class AssetDefaultValueModel : ElementDefaultValue<TypeValue<IEnumerable<AssetWithRenditionsReference>>, IEnumerable<AssetWithRenditionsReference>> { }
+public sealed record AssetDefaultValueModel : ElementDefaultValue<TypeValue<IEnumerable<AssetWithRenditionsReference>>, IEnumerable<AssetWithRenditionsReference>> { }

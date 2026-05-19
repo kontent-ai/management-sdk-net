@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Models.Types.Patch;
 /// Represents the operation on the content type.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
 /// </summary>
-public abstract class ContentTypeOperationBaseModel
+public abstract record ContentTypeOperationBaseModel
 {
     /// <summary>
     /// Gets specification of the operation to perform.
@@ -16,9 +16,9 @@ public abstract class ContentTypeOperationBaseModel
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets or sets a string identifying where the new object or property should be added/replaced/removed.
+    /// Gets a string identifying where the new object or property should be added/replaced/removed.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
     /// </summary>
     [JsonProperty("path")]
-    public string Path { get; set; }
+    public string Path { get; init; }
 }

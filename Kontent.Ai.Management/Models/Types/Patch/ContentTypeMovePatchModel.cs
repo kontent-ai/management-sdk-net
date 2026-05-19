@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Models.Types.Patch;
 /// Represents the move operation.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
 /// </summary>
-public class ContentTypeMovePatchModel : ContentTypeOperationBaseModel
+public sealed record ContentTypeMovePatchModel : ContentTypeOperationBaseModel
 {
     /// <summary>
     /// Represents the move operation.
@@ -15,16 +15,16 @@ public class ContentTypeMovePatchModel : ContentTypeOperationBaseModel
     public override string Op => "move";
 
     /// <summary>
-    /// Gets or sets reference of the existing object before which you want to move the specified object.
+    /// Gets reference of the existing object before which you want to move the specified object.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("before")]
-    public Reference Before { get; set; }
+    public Reference Before { get; init; }
 
     /// <summary>
-    /// Gets or sets reference of the existing object after which you want to move the specified object.
+    /// Gets reference of the existing object after which you want to move the specified object.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("after")]
-    public Reference After { get; set; }
+    public Reference After { get; init; }
 }

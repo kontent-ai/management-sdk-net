@@ -8,49 +8,49 @@ namespace Kontent.Ai.Management.Models.Types.Elements;
 /// <summary>
 /// Represents a linked items element in content types.
 /// </summary>
-public class LinkedItemsElementMetadataModel : ElementMetadataBase
+public sealed record LinkedItemsElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's display name.
+    /// Gets the element's display name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the element must be filled in.
+    /// Gets a flag determining whether the element must be filled in.
     /// </summary>
     [JsonProperty("is_required")]
-    public bool IsRequired { get; set; }
+    public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Gets or sets element is non-localizable
+    /// Gets element is non-localizable
     /// </summary>
     [JsonProperty("is_non_localizable")]
-    public bool IsNonLocalizable { get; set; }
+    public bool IsNonLocalizable { get; init; }
 
     /// <summary>
-    /// Gets or sets the element's guidelines, providing instructions on what to fill in.
+    /// Gets the element's guidelines, providing instructions on what to fill in.
     /// </summary>
     [JsonProperty("guidelines")]
-    public string Guidelines { get; set; }
+    public string Guidelines { get; init; }
 
     /// <summary>
     /// Specifies the limitation for the number of items allowed within the element.
     /// </summary>
     [JsonProperty("item_count_limit")]
-    public LimitModel ItemCountLimit { get; set; }
+    public LimitModel ItemCountLimit { get; init; }
 
     /// <summary>
     /// Specifies allowed file types as an array of references to the content types.
     /// </summary>
     [JsonProperty("allowed_content_types")]
-    public IEnumerable<Reference> AllowedTypes { get; set; }
+    public IEnumerable<Reference> AllowedTypes { get; init; }
 
     /// <summary>
     /// Specifies the default value for the element value.
     /// </summary>
     [JsonProperty("default")]
-    public LinkedItemsDefaultValueModel DefaultValue { get; set; }
+    public LinkedItemsDefaultValueModel DefaultValue { get; init; }
 
     /// <summary>
     /// Represents the type of the content type element.

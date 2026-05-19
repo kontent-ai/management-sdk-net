@@ -6,29 +6,29 @@ namespace Kontent.Ai.Management.Models.Types;
 /// <summary>
 /// Content group.
 /// </summary>
-public class ContentGroupModel
+public sealed record ContentGroupModel
 {
     /// <summary>
-    /// Gets or sets the id of the content group.
+    /// Gets the id of the content group.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the content group.
+    /// Gets the name of the content group.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the content group.
+    /// Gets the codename of the content group.
     /// </summary>
     [JsonProperty("codename")]
-    public string CodeName { get; set; }
+    public string CodeName { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content group.
+    /// Gets the external identifier of the content group.
     /// </summary>
     [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    public string ExternalId { get; init; }
 }

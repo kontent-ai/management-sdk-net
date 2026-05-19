@@ -6,19 +6,19 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the workflow step identifier.
 /// </summary>
-public class WorkflowStepIdentifier
+public sealed record WorkflowStepIdentifier
 {
     /// <summary>
     /// Represents the identifier of the workflow.
     /// </summary>
     [JsonProperty("workflow_identifier")]
-    public Reference Workflow { get; private set; }
+    public Reference Workflow { get; init; }
 
     /// <summary>
     /// Represents the identifier of the step in the workflow.
     /// </summary>
     [JsonProperty("step_identifier")]
-    public Reference Step { get; private set; }
+    public Reference Step { get; init; }
 
     /// <summary>
     /// Creates an instance of the workflow step identifier.

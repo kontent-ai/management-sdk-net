@@ -10,23 +10,23 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <remarks>
 /// All its properties are predefined by the system and cannot be changed.
 /// </remarks>
-public class WorkflowScheduledStepModel
+public sealed record WorkflowScheduledStepModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Gets the workflow step's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's name.
+    /// Gets the workflow step's name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's codename.
+    /// Gets the workflow step's codename.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 }

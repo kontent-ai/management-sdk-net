@@ -7,53 +7,53 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the workflow response model.
 /// </summary>
-public class WorkflowModel
+public sealed record WorkflowModel
 {
     /// <summary>
-    /// Gets or sets the workflow's internal ID.
+    /// Gets the workflow's internal ID.
     /// </summary>
     [JsonProperty("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's name.
+    /// Gets the workflow's name.
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's codename.
+    /// Gets the workflow's codename.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's scopes.
+    /// Gets the workflow's scopes.
     /// </summary>
     [JsonProperty("scopes")]
-    public IReadOnlyList<WorkflowScopeModel> Scopes { get; set; }
+    public IReadOnlyList<WorkflowScopeModel> Scopes { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's steps.
+    /// Gets the workflow's steps.
     /// </summary>
     [JsonProperty("steps")]
-    public IReadOnlyList<WorkflowStepModel> Steps { get; set; }
+    public IReadOnlyList<WorkflowStepModel> Steps { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Published step.
+    /// Gets the workflow's Published step.
     /// </summary>
     [JsonProperty("published_step")]
-    public WorkflowPublishedStepModel PublishedStep { get; set; }
+    public WorkflowPublishedStepModel PublishedStep { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Scheduled step.
+    /// Gets the workflow's Scheduled step.
     /// </summary>
     [JsonProperty("scheduled_step")]
-    public WorkflowScheduledStepModel ScheduledStep { get; set; }
+    public WorkflowScheduledStepModel ScheduledStep { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Archived step.
+    /// Gets the workflow's Archived step.
     /// </summary>
     [JsonProperty("archived_step")]
-    public WorkflowArchivedStepModel ArchivedStep { get; set; }
+    public WorkflowArchivedStepModel ArchivedStep { get; init; }
 }

@@ -6,11 +6,11 @@ namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 /// <summary>
 /// Represents the taxonomy term create model.
 /// </summary>
-public class TaxonomyTermCreateModel : TaxonomyBaseModel
+public sealed record TaxonomyTermCreateModel : TaxonomyBaseModel
 {
     /// <summary>
-    /// Gets or sets terms in the taxonomy group.
+    /// Gets terms in the taxonomy group.
     /// </summary>
     [JsonProperty("terms", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IEnumerable<TaxonomyTermCreateModel> Terms { get; set; }
+    public IEnumerable<TaxonomyTermCreateModel> Terms { get; init; }
 }

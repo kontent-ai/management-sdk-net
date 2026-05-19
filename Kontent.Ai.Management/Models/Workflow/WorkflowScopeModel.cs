@@ -7,17 +7,17 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the workflow scope response model.
 /// </summary>
-public class WorkflowScopeModel
+public sealed record WorkflowScopeModel
 {
     /// <summary>
-    /// Gets or sets the workflow scope's collections.
+    /// Gets the workflow scope's collections.
     /// </summary>
     [JsonProperty("collections")]
-    public IReadOnlyList<Reference> Collections { get; set; }
-    
+    public IReadOnlyList<Reference> Collections { get; init; }
+
     /// <summary>
-    /// Gets or sets the workflow scope's content types.
+    /// Gets the workflow scope's content types.
     /// </summary>
     [JsonProperty("content_types")]
-    public IReadOnlyList<Reference> ContentTypes { get; set; }
+    public IReadOnlyList<Reference> ContentTypes { get; init; }
 }

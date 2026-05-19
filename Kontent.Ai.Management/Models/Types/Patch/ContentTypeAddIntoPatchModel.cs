@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Models.Types.Patch;
 /// Represents the addInto operation.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
 /// </summary>
-public class ContentTypeAddIntoPatchModel : ContentTypeOperationBaseModel
+public sealed record ContentTypeAddIntoPatchModel : ContentTypeOperationBaseModel
 {
     /// <summary>
     /// Represents the addInto operation.
@@ -15,23 +15,23 @@ public class ContentTypeAddIntoPatchModel : ContentTypeOperationBaseModel
     public override string Op => "addInto";
 
     /// <summary>
-    /// Gets or sets the object to be added. The value depends on the selected path.
+    /// Gets the object to be added. The value depends on the selected path.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
     /// </summary>
     [JsonProperty("value")]
-    public dynamic Value { get; set; }
+    public dynamic Value { get; init; }
 
     /// <summary>
-    /// Gets or sets reference of the existing object before which you want to add the new object.
+    /// Gets reference of the existing object before which you want to add the new object.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("before")]
-    public Reference Before { get; set; }
+    public Reference Before { get; init; }
 
     /// <summary>
-    /// Gets or sets reference of the existing object after which you want to add the new object.
+    /// Gets reference of the existing object after which you want to add the new object.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("after")]
-    public Reference After { get; set; }
+    public Reference After { get; init; }
 }

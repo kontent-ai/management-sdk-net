@@ -6,41 +6,41 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Represents the workflow upsert model.
 /// </summary>
-public class WorkflowUpsertModel
+public sealed record WorkflowUpsertModel
 {
     /// <summary>
-    /// Gets or sets the workflow's name.
+    /// Gets the workflow's name.
     /// </summary>
     [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's codename.
+    /// Gets the workflow's codename.
     /// </summary>
     [JsonProperty("codename")]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's scopes.
+    /// Gets the workflow's scopes.
     /// </summary>
     [JsonProperty("scopes", Required = Required.Always)]
-    public IReadOnlyList<WorkflowScopeUpsertModel> Scopes { get; set; }
+    public IReadOnlyList<WorkflowScopeUpsertModel> Scopes { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's steps.
+    /// Gets the workflow's steps.
     /// </summary>
     [JsonProperty("steps", Required = Required.Always)]
-    public IReadOnlyList<WorkflowStepUpsertModel> Steps { get; set; }
+    public IReadOnlyList<WorkflowStepUpsertModel> Steps { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Published step.
+    /// Gets the workflow's Published step.
     /// </summary>
     [JsonProperty("published_step", Required = Required.Always)]
-    public WorkflowPublishedStepUpsertModel PublishedStep { get; set; }
+    public WorkflowPublishedStepUpsertModel PublishedStep { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Archived step.
+    /// Gets the workflow's Archived step.
     /// </summary>
     [JsonProperty("archived_step", Required = Required.Always)]
-    public WorkflowArchivedStepUpsertModel ArchivedStep { get; set; }
+    public WorkflowArchivedStepUpsertModel ArchivedStep { get; init; }
 }
