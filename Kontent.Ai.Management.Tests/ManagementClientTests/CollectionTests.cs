@@ -113,6 +113,6 @@ public class CollectionTests
         response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CollectionsModel>(Collections));
         capturedBody.Should().NotBeNull();
         JsonConvert.DeserializeObject<T[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<T[]>(JsonConvert.SerializeObject(changes)));
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<T[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
     }
 }

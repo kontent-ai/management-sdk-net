@@ -139,7 +139,7 @@ public class SpaceTests
         response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(ModifySpaceReplace));
         capturedBody.Should().NotBeNull();
         JsonConvert.DeserializeObject<SpaceOperationReplaceModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceOperationReplaceModel[]>(JsonConvert.SerializeObject(changes)));
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceOperationReplaceModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
     }
 
     [Fact]

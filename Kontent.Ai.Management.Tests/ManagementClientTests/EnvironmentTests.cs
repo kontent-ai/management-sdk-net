@@ -135,7 +135,7 @@ public class EnvironmentTests
         mock.VerifyNoOutstandingExpectation();
         capturedBody.Should().NotBeNull();
         JsonConvert.DeserializeObject<EnvironmentRenamePatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentRenamePatchModel[]>(JsonConvert.SerializeObject(changes)));
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentRenamePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
     }
 
     [Fact]
