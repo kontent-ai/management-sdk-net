@@ -1,35 +1,28 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
+public class EnvironmentUserTests
 {
-    private readonly Scenario _scenario;
+    private static string ProjectUser => Fixture("ProjectUser.json");
 
-    public EnvironmentUserTests()
-    {
-        _scenario = new Scenario(folder: "ProjectUser");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ProjectUser", name));
 
     [Fact]
     public async Task InviteUserIntoProjectAsync_InvitesUser()
     {
-        var client = _scenario
-            .WithResponses("ProjectUser.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var invitation = new UserInviteModel
         {
             Email = "test@kontent.ai",
-            CollectionGroup = new[] { 
+            CollectionGroup = new[] {
                 new UserCollectionGroup
                 {
                     Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
@@ -44,34 +37,36 @@ public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
             }
         };
 
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/users")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ProjectUser);
+
         var response = await client.InviteUserIntoEnvironmentAsync(invitation);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(invitation)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserModel>(ProjectUser));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<UserInviteModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserInviteModel>(JsonConvert.SerializeObject(invitation)));
     }
 
-    
     [Fact]
     public async Task InviteUserIntoProjectAsync_UserInvitationModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.InviteUserIntoEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.InviteUserIntoEnvironmentAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
-    
     [Fact]
     public async Task ModifyUsersRolesAsync_ByEmail_ModifiesUserRoles()
     {
-        var client = _scenario
-            .WithResponses("ProjectUser.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var user = new UserModel
         {
             CollectionGroup = new[] {
@@ -91,23 +86,19 @@ public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
         };
 
         var identifier = UserIdentifier.ByEmail("test@kontent.ai");
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/email/{Uri.EscapeDataString(identifier.Email)}/roles")
+            .Respond("application/json", ProjectUser);
+
         var response = await client.ModifyUsersRolesAsync(identifier, user);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/email/{Uri.EscapeDataString(identifier.Email)}/roles")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserModel>(ProjectUser));
     }
 
     [Fact]
     public async Task ModifyUsersRolesAsync_ById_ModifiesUserRoles()
     {
-        var client = _scenario
-        .WithResponses("ProjectUser.json")
-        .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var user = new UserModel
         {
             CollectionGroup = new[] {
@@ -127,29 +118,28 @@ public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
         };
 
         var identifier = UserIdentifier.ById("userId");
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/{identifier.Id}/roles")
+            .Respond("application/json", ProjectUser);
+
         var response = await client.ModifyUsersRolesAsync(identifier, user);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/{identifier.Id}/roles")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserModel>(ProjectUser));
     }
 
     [Fact]
     public async Task ModifyUsersRolesAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyUsersRolesAsync(null, new UserModel())).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyUsersRolesAsync(null!, new UserModel())).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
     public async Task ModifyUsersRolesAsync_UserModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyUsersRolesAsync(UserIdentifier.ById("userId"), null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyUsersRolesAsync(UserIdentifier.ById("userId"), null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }

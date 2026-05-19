@@ -1,143 +1,148 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class EnvironmentTests : IClassFixture<FileSystemFixture>
+public class EnvironmentTests
 {
-    private readonly Scenario _scenario;
+    private static string ClonedEnvironment => Fixture("ClonedEnvironment.json");
 
-    public EnvironmentTests()
-    {
-        _scenario = new Scenario(folder: "Environment");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Environment", name));
 
     [Fact]
-    public async void CloneEnvironmentAsync_ReturnsNewEnvironment()
+    public async Task CloneEnvironmentAsync_ReturnsNewEnvironment()
     {
-        var client = _scenario
-            .WithResponses("ClonedEnvironment.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var clone = new EnvironmentCloneModel
         {
-            Name= "name",
+            Name = "name",
             RolesToActivate = new[] { Guid.NewGuid() }
         };
 
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/clone-environment")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ClonedEnvironment);
+
         var response = await client.CloneEnvironmentAsync(clone);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(clone)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/clone-environment")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentClonedModel>(ClonedEnvironment));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<EnvironmentCloneModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentCloneModel>(JsonConvert.SerializeObject(clone)));
     }
 
     [Fact]
-    public async void CloneEnvironmentAsync_RequestModelIsNull_ThrowsException()
+    public async Task CloneEnvironmentAsync_RequestModelIsNull_ThrowsException()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.CloneEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CloneEnvironmentAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
-
     [Fact]
-    public async void GetEnvironmentCloningStateAsync_ReturnsCloningState()
+    public async Task GetEnvironmentCloningStateAsync_ReturnsCloningState()
     {
-        var client = _scenario
-            .WithResponses("ClonedEnvironment.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/environment-cloning-state")
+            .Respond("application/json", ClonedEnvironment);
 
         var response = await client.GetEnvironmentCloningStateAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/environment-cloning-state")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentCloningStateModel>(ClonedEnvironment));
     }
 
-    [Fact] 
-    public async void MarkEnvironmentAsProduction_MarkEnvironmentAsProduction()
+    [Fact]
+    public async Task MarkEnvironmentAsProduction_MarkEnvironmentAsProduction()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var markAsProduction = new MarkAsProductionModel
         {
             EnableWebhooks = true
         };
 
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/mark-environment-as-production")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond(System.Net.HttpStatusCode.OK);
+
         await client.MarkEnvironmentAsProductionAsync(markAsProduction);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(markAsProduction)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/mark-environment-as-production")
-            .Validate();
-    }
-
-
-    [Fact]
-    public async void MarkEnvironmentAsProductionAsync_RequestModelIsNull_ThrowsException()
-    {
-        var client = _scenario.CreateManagementClient();
-
-        await client.Invoking(x => x.MarkEnvironmentAsProductionAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<MarkAsProductionModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<MarkAsProductionModel>(JsonConvert.SerializeObject(markAsProduction)));
     }
 
     [Fact]
-    public async void DeleteEnvironmentAsync_DeletesEnvironment()
+    public async Task MarkEnvironmentAsProductionAsync_RequestModelIsNull_ThrowsException()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.MarkEnvironmentAsProductionAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async Task DeleteEnvironmentAsync_DeletesEnvironment()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.DeleteEnvironmentAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Delete)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void ModifyEnvironmentAsync_Rename_RenamesEnvironment()
+    public async Task ModifyEnvironmentAsync_Rename_RenamesEnvironment()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = new[] {
             new EnvironmentRenamePatchModel
             {
-                Value= "newName"
+                Value = "newName"
             }
         };
 
+        string? capturedBody = null;
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond(System.Net.HttpStatusCode.OK);
+
         await client.ModifyEnvironmentAsync(changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<EnvironmentRenamePatchModel[]>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentRenamePatchModel[]>(JsonConvert.SerializeObject(changes)));
     }
 
     [Fact]
-    public async void ModifyEnvironmentAsync_RequestModelIsNull_ThrowsException()
+    public async Task ModifyEnvironmentAsync_RequestModelIsNull_ThrowsException()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyEnvironmentAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }

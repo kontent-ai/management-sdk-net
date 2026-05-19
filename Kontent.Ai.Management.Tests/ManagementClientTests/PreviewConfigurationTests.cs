@@ -1,49 +1,40 @@
-﻿using System.Collections.Generic;
-using Kontent.Ai.Management.Models.Shared;
+using FluentAssertions;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using System.Net.Http;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class PreviewConfigurationTests
 {
-    private readonly Scenario _scenario;
+    private static string PreviewConfiguration => Fixture("PreviewConfiguration.json");
 
-    public PreviewConfigurationTests()
-    {
-        _scenario = new Scenario(folder: "PreviewConfiguration");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "PreviewConfiguration", name));
 
     [Fact]
-    public async void GetPreviewConfigurations_GetsPreviewConfiguration()
+    public async Task GetPreviewConfigurations_GetsPreviewConfiguration()
     {
-        var client = _scenario
-            .WithResponses("PreviewConfiguration.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/preview-configuration")
+            .Respond("application/json", PreviewConfiguration);
 
         var response = await client.GetPreviewConfigurationAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/preview-configuration")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<PreviewConfigurationModel>(PreviewConfiguration));
     }
 
     [Fact]
-    public async void ModifyPreviewConfiguration_ModifiesPreviewConfiguration()
+    public async Task ModifyPreviewConfiguration_ModifiesPreviewConfiguration()
     {
-        var client = _scenario
-            .WithResponses("PreviewConfiguration.json")
-            .CreateManagementClient();
-
-        var newPreviewConfiguration = new PreviewConfigurationModel
+        var (client, mock) = MockClientFactory.Create();
+        var request = new PreviewConfigurationModel
         {
-            SpaceDomains = new List<SpaceDomainModel> 
+            SpaceDomains = new List<SpaceDomainModel>
             {
                 new()
                 {
@@ -51,12 +42,12 @@ public class PreviewConfigurationTests
                     Space = Reference.ByCodename("my_space")
                 }
             },
-            PreviewUrlPatterns = new List<TypePreviewUrlPatternModel> 
+            PreviewUrlPatterns = new List<TypePreviewUrlPatternModel>
             {
-                new() 
+                new()
                 {
                     ContentType = Reference.ByCodename("article"),
-                    UrlPatterns = new List<PreviewUrlPatternModel> 
+                    UrlPatterns = new List<PreviewUrlPatternModel>
                     {
                         new()
                         {
@@ -73,15 +64,21 @@ public class PreviewConfigurationTests
            }
         };
 
-        var response = await client.ModifyPreviewConfigurationAsync(newPreviewConfiguration);
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/preview-configuration")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", PreviewConfiguration);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(newPreviewConfiguration)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/preview-configuration")
-            .Validate();
+        var response = await client.ModifyPreviewConfigurationAsync(request);
+
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<PreviewConfigurationModel>(PreviewConfiguration));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<PreviewConfigurationModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<PreviewConfigurationModel>(JsonConvert.SerializeObject(request)));
     }
-
 }

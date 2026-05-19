@@ -1,88 +1,76 @@
-﻿using Kontent.Ai.Management.Extensions;
+using FluentAssertions;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.EnvironmentReport;
+using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class EnvironmentValidationTests : IClassFixture<FileSystemFixture>
+public class EnvironmentValidationTests
 {
-    private readonly Scenario _scenario;
+    private static string ProjectValidation => Fixture("ProjectValidation.json");
+    private static string AsyncValidationTask => Fixture("AsyncValidationTask.json");
+    private static string AsyncValidationTaskIssues => Fixture("AsyncValidationTaskIssues.json");
 
-    public EnvironmentValidationTests()
-    {
-        _scenario = new Scenario(folder: "ProjectValidation");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(System.Environment.CurrentDirectory, "Data", "ProjectValidation", name));
 
     [Fact]
-    public async void ValidateEnvironment_ReturnsEnvironmentReportModel()
+    public async Task ValidateEnvironment_ReturnsEnvironmentReportModel()
     {
-        var client = _scenario
-            .WithResponses("ProjectValidation.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/validate")
+            .Respond("application/json", ProjectValidation);
 
         var response = await client.ValidateEnvironmentAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentReportModel>(ProjectValidation));
     }
 
     [Fact]
-    public async void InitiateEnvironmentAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
+    public async Task InitiateEnvironmentAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
     {
-        var client = _scenario
-            .WithResponses("AsyncValidationTask.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/validate-async")
+            .Respond("application/json", AsyncValidationTask);
 
         var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AsyncValidationTaskModel>(AsyncValidationTask));
     }
- 
-    [Fact]
-    public async void GetAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
-    {
-        var client = _scenario
-            .WithResponses("AsyncValidationTask.json")
-            .CreateManagementClient();
 
+    [Fact]
+    public async Task GetAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
+    {
+        var (client, mock) = MockClientFactory.Create();
         var taskIdentifier = Guid.Empty;
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}")
+            .Respond("application/json", AsyncValidationTask);
+
         var response = await client.GetAsyncValidationTaskAsync(taskIdentifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskIdentifier}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AsyncValidationTaskModel>(AsyncValidationTask));
     }
- 
-    [Fact]
-    public async void GetAsyncValidationTaskIssuesAsync_ReturnsAsyncValidationTask()
-    {
-        var client = _scenario
-            .WithResponses("AsyncValidationTaskIssues.json")
-            .CreateManagementClient();
 
+    [Fact]
+    public async Task GetAsyncValidationTaskIssuesAsync_ReturnsAsyncValidationTask()
+    {
+        var (client, mock) = MockClientFactory.Create();
         var taskIdentifier = Guid.Empty;
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}/issues")
+            .Respond("application/json", AsyncValidationTaskIssues);
+
         var response = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier).GetAllAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskIdentifier}/issues")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        var items = JObject.Parse(AsyncValidationTaskIssues).Properties().First().Value.ToString();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<List<AsyncValidationTaskIssueModel>>(items));
     }
 }

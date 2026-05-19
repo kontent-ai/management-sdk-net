@@ -1,34 +1,28 @@
-﻿using Kontent.Ai.Management.Tests.Base;
-using System.Net.Http;
-using System.Threading.Tasks;
+using FluentAssertions;
+using Kontent.Ai.Management.Tests.Base;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class EnvironmentInformationTests
 {
-    private readonly Scenario _scenario;
+    private static string Project => Fixture("Project.json");
 
-    public EnvironmentInformationTests()
-    {
-        _scenario = new Scenario(folder: "ProjectInformation");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ProjectInformation", name));
 
     [Fact]
     public async Task GetEnvironmentInformationAsync_GetsEnvironmentInformationAsync()
     {
-        var client = _scenario
-            .WithResponses("Project.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}")
+            .Respond("application/json", Project);
 
         var response = await client.GetEnvironmentInformationAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<Models.EnvironmentReport.Environment>(Project));
     }
 }

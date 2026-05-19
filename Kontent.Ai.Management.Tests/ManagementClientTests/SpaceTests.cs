@@ -3,104 +3,115 @@ using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class SpaceTests : IClassFixture<FileSystemFixture>
+public class SpaceTests
 {
-    private static readonly string SpacesBaseUrl = $"{Endpoint}/projects/{ENVIRONMENT_ID}/spaces";
-    private readonly Scenario _scenario = new("Space");
+    private static string SpacesUrl => $"{MockClientFactory.BaseUrl}/spaces";
+
+    private static string Space => Fixture("Space.json");
+    private static string Spaces => Fixture("Spaces.json");
+    private static string ModifySpaceReplace => Fixture("ModifySpace_Replace_ModifiesSpace.json");
+
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Space", name));
 
     [Fact]
-    public async void CreateSpace_CreatesSpace()
+    public async Task CreateSpace_CreatesSpace()
     {
-        var client = _scenario.WithResponses("Space.json").CreateManagementClient();
-        var expected = _scenario.GetExpectedResponse<SpaceModel>();
-        var createModel = new SpaceCreateModel {
+        var (client, mock) = MockClientFactory.Create();
+        var expected = JsonConvert.DeserializeObject<SpaceModel>(Space)!;
+        var createModel = new SpaceCreateModel
+        {
             Codename = expected.Codename,
             Name = expected.Name,
             WebSpotlightRootItem = expected.WebSpotlightRootItem,
             Collections = expected.Collections
         };
 
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Post, SpacesUrl)
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Space);
+
         var response = await client.CreateSpaceAsync(createModel);
 
-        _scenario.CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(createModel)
-            .Response(response)
-            .Url(SpacesBaseUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(Space));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<SpaceCreateModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceCreateModel>(JsonConvert.SerializeObject(createModel)));
     }
 
     [Fact]
-    public async void CreateSpace_ModelIsNull_Throws()
+    public async Task CreateSpace_ModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.CreateSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CreateSpaceAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ListSpaces_ListsSpaces()
+    public async Task ListSpaces_ListsSpaces()
     {
-        var client = _scenario.WithResponses("Spaces.json").CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, SpacesUrl)
+            .Respond("application/json", Spaces);
 
         var response = await client.ListSpacesAsync();
 
-        _scenario.CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url(SpacesBaseUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<IEnumerable<SpaceModel>>(Spaces));
     }
 
     [Fact]
-    public async void GetSpace_ById_GetsSpace()
+    public async Task GetSpace_ById_GetsSpace()
     {
-        var client = _scenario.WithResponses("Space.json").CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Get, $"{SpacesUrl}/{identifier.Id}")
+            .Respond("application/json", Space);
 
         var response = await client.GetSpaceAsync(identifier);
 
-        _scenario.CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url(SpacesBaseUrl + $"/{identifier.Id}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(Space));
     }
 
     [Fact]
-    public async void GetSpace_ByCodename_GetsSpace()
+    public async Task GetSpace_ByCodename_GetsSpace()
     {
-        var client = _scenario.WithResponses("Space.json").CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("space_1");
+        mock.Expect(HttpMethod.Get, $"{SpacesUrl}/codename/{identifier.Codename}")
+            .Respond("application/json", Space);
 
         var response = await client.GetSpaceAsync(identifier);
 
-        _scenario.CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url(SpacesBaseUrl + $"/codename/{identifier.Codename}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(Space));
     }
 
     [Fact]
-    public async void GetSpace_IdentifierIsNull_Throws()
+    public async Task GetSpace_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.GetSpaceAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ModifySpace_Replace_ModifiesSpace()
+    public async Task ModifySpace_Replace_ModifiesSpace()
     {
-        var client = _scenario.WithResponses("ModifySpace_Replace_ModifiesSpace.json").CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
         var changes = new SpaceOperationReplaceModel[]
         {
@@ -113,72 +124,76 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
             }
         };
 
-        var response =  await client.ModifySpaceAsync(identifier, changes);
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Patch, $"{SpacesUrl}/{identifier.Id}")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ModifySpaceReplace);
 
-        _scenario.CreateExpectations()
-            .HttpMethod(HttpMethod.Patch)
-            .RequestPayload(changes)
-            .Response(response)
-            .Url(SpacesBaseUrl + $"/{identifier.Id}")
-            .Validate();
+        var response = await client.ModifySpaceAsync(identifier, changes);
+
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(ModifySpaceReplace));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<SpaceOperationReplaceModel[]>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceOperationReplaceModel[]>(JsonConvert.SerializeObject(changes)));
     }
 
     [Fact]
-    public async void ModifySpace_IdentifierIsNull_Throws()
+    public async Task ModifySpace_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
         var changes = new SpaceOperationReplaceModel[]
         {
             new() { PropertyName = PropertyName.Name, Value = "New space name" }
         };
 
-        await client.Invoking(x => x.ModifySpaceAsync(null, changes)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifySpaceAsync(null!, changes)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ModifySpace_ChangesAreNull_Throws()
+    public async Task ModifySpace_ChangesAreNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
 
-        await client.Invoking(x => x.ModifySpaceAsync(identifier, null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifySpaceAsync(identifier, null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void DeleteSpace_ById_DeletesSpace()
+    public async Task DeleteSpace_ById_DeletesSpace()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Delete, $"{SpacesUrl}/{identifier.Id}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.DeleteSpaceAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .Url(SpacesBaseUrl + $"/{identifier.Id}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void DeleteSpace_ByCodename_DeletesSpace()
+    public async Task DeleteSpace_ByCodename_DeletesSpace()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("space_1");
+        mock.Expect(HttpMethod.Delete, $"{SpacesUrl}/codename/{identifier.Codename}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
         await client.DeleteSpaceAsync(identifier);
 
-        _scenario.CreateExpectations()
-            .Url(SpacesBaseUrl + $"/codename/{identifier.Codename}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
     }
 
     [Fact]
-    public async void DeleteSpace_IdentifierIsNull_Throws()
+    public async Task DeleteSpace_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeleteSpaceAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.DeleteSpaceAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 }
-    

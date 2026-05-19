@@ -9,7 +9,7 @@ namespace Kontent.Ai.Management.Tests.Base;
 /// Builds an <see cref="IManagementClient"/> whose Refit transport is backed by a
 /// <see cref="MockHttpMessageHandler"/>, wired in as the inner handler through <see cref="ManagementApiFactory"/>,
 /// so tests arrange responses and assert outgoing requests via MockHttp's fluent API. Supply a pre-registered
-/// <paramref name="converter"/> for strongly-typed variant paths: the client's own converter would otherwise
+/// <c>converter</c> for strongly-typed variant paths: the client's own converter would otherwise
 /// auto-scan the whole test assembly and trip the intentional codename collision among the test fixtures.
 /// </summary>
 internal static class MockClientFactory
@@ -20,6 +20,9 @@ internal static class MockClientFactory
     // Refit composes "{BaseAddress}{relative path}", so the base must carry no trailing slash or every path
     // doubles the separator. EndpointV2 defaults to "https://manage.kontent.ai/v2/{0}", scoped to the project here.
     public static string BaseUrl => $"https://manage.kontent.ai/v2/projects/{EnvironmentId}";
+
+    // Subscription-scoped endpoints resolve against the subscription scope instead of the project.
+    public static string SubscriptionBaseUrl => $"https://manage.kontent.ai/v2/subscriptions/{SubscriptionId}";
 
     public static (IManagementClient Client, MockHttpMessageHandler Mock) Create(ContentItemEnvelopeConverter? converter = null)
     {

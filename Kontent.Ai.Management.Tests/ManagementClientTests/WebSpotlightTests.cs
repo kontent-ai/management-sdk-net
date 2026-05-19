@@ -1,113 +1,109 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using FluentAssertions;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.WebSpotlight;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
+using Newtonsoft.Json;
+using RichardSzalay.MockHttp;
 using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class WebSpotlightTests : IClassFixture<FileSystemFixture>
+public class WebSpotlightTests
 {
-    private static readonly string WebSpotlightBaseUrl = $"{Endpoint}/projects/{ENVIRONMENT_ID}/web-spotlight";
-    private readonly Scenario _scenario = new(folder: "WebSpotlight");
+    private static string WebSpotlightUrl => $"{MockClientFactory.BaseUrl}/web-spotlight";
+
+    private static string ActivationWebSpotlightResponse => Fixture("ActivationWebSpotlightResponse.json");
+    private static string ActivationWebSpotlightWithProvidedRootTypeIdResponse => Fixture("ActivationWebSpotlightWithProvidedRootTypeIdResponse.json");
+    private static string DeactivationWebSpotlightResponse => Fixture("DeactivationWebSpotlightResponse.json");
+    private static string GetStatusWebSpotlightResponse => Fixture("GetStatusWebSpotlightResponse.json");
+
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "WebSpotlight", name));
 
     [Fact]
-    public async void ActivateWebSpotlight_Returns_EnabledStatusAndRootTypeId()
+    public async Task ActivateWebSpotlight_Returns_EnabledStatusAndRootTypeId()
     {
-        var client = _scenario
-            .WithResponses("ActivationWebSpotlightResponse.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var webSpotlightActivateModel = new WebSpotlightActivateModel { RootType = null };
+        mock.Expect(HttpMethod.Put, WebSpotlightUrl)
+            .Respond("application/json", ActivationWebSpotlightResponse);
 
-        var response = await client
-            .ActivateWebSpotlightAsync(webSpotlightActivateModel);
+        var response = await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Response(response)
-            .Url(WebSpotlightBaseUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebSpotlightModel>(ActivationWebSpotlightResponse));
     }
 
     [Fact]
-    public async void ActivateWebSpotlight_WithProvidedValidRootTypeById_Returns_EnabledStatusAndRootTypeId()
+    public async Task ActivateWebSpotlight_WithProvidedValidRootTypeById_Returns_EnabledStatusAndRootTypeId()
     {
-        var client = _scenario
-            .WithResponses("ActivationWebSpotlightWithProvidedRootTypeIdResponse.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var rootTypeId = Guid.Parse("3660e894-bae8-4dcd-9d3e-5fc9205c2ece");
-        var reference = Reference.ById(rootTypeId);
-        var webSpotlightActivateModel = new WebSpotlightActivateModel { RootType = reference };
+        var webSpotlightActivateModel = new WebSpotlightActivateModel { RootType = Reference.ById(rootTypeId) };
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, WebSpotlightUrl)
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ActivationWebSpotlightWithProvidedRootTypeIdResponse);
 
         await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(webSpotlightActivateModel)
-            .Url(WebSpotlightBaseUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<WebSpotlightActivateModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebSpotlightActivateModel>(JsonConvert.SerializeObject(webSpotlightActivateModel)));
     }
-    
-    [Fact]
-    public async void ActivateWebSpotlight_WithProvidedValidRootTypeByCodename_Returns_EnabledStatusAndRootTypeId()
-    {
-        var client = _scenario
-            .WithResponses("ActivationWebSpotlightWithProvidedRootTypeIdResponse.json")
-            .CreateManagementClient();
 
-        var rootTypeCodename = "root_type_codename";
-        var reference = Reference.ByCodename(rootTypeCodename);
-        var webSpotlightActivateModel = new WebSpotlightActivateModel { RootType = reference };
+    [Fact]
+    public async Task ActivateWebSpotlight_WithProvidedValidRootTypeByCodename_Returns_EnabledStatusAndRootTypeId()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var webSpotlightActivateModel = new WebSpotlightActivateModel { RootType = Reference.ByCodename("root_type_codename") };
+
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Put, WebSpotlightUrl)
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", ActivationWebSpotlightWithProvidedRootTypeIdResponse);
 
         await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .RequestPayload(webSpotlightActivateModel)
-            .Url(WebSpotlightBaseUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<WebSpotlightActivateModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebSpotlightActivateModel>(JsonConvert.SerializeObject(webSpotlightActivateModel)));
     }
 
     [Fact]
-    public async void DeactivateWebSpotlight_Returns_DisabledStatusAndRootTypeId()
+    public async Task DeactivateWebSpotlight_Returns_DisabledStatusAndRootTypeId()
     {
-        var client = _scenario
-            .WithResponses("DeactivationWebSpotlightResponse.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Put, WebSpotlightUrl)
+            .Respond("application/json", DeactivationWebSpotlightResponse);
 
-        var response = await client
-            .DeactivateWebSpotlightAsync();
+        var response = await client.DeactivateWebSpotlightAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Response(response)
-            .Url(WebSpotlightBaseUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebSpotlightModel>(DeactivationWebSpotlightResponse));
     }
 
     [Fact]
-    public async void GetWebSpotlightStatus_Returns_StatusAndRootTypeId()
+    public async Task GetWebSpotlightStatus_Returns_StatusAndRootTypeId()
     {
-        var client = _scenario
-            .WithResponses("GetStatusWebSpotlightResponse.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, WebSpotlightUrl)
+            .Respond("application/json", GetStatusWebSpotlightResponse);
 
-        var response = await client
-            .GetWebSpotlightStatusAsync();
+        var response = await client.GetWebSpotlightStatusAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url(WebSpotlightBaseUrl)
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebSpotlightModel>(GetStatusWebSpotlightResponse));
     }
 }
