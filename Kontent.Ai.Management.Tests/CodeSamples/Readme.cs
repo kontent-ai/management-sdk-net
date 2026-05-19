@@ -54,16 +54,10 @@ internal class AssetMetadataModel
 /// <summary>
 /// Source for Code examples being store in README.md
 /// </summary>
-public class Readme : IClassFixture<FileSystemFixture>
+public class Readme
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE README OF THIS REPO
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public Readme(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples/Readme");
-    }
+    private const string SampleFolder = "CodeSamples/Readme";
 
     [Fact]
     public void CreateManagementClient()
@@ -88,7 +82,7 @@ public class Readme : IClassFixture<FileSystemFixture>
     public async void UpsertDynamicLanguageVariant()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleLanguageVariantUpdatedResponse.json");
 
         var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
         var languageIdentifier = Reference.ByCodename("en-US");
@@ -127,7 +121,7 @@ public class Readme : IClassFixture<FileSystemFixture>
     public async void UpsertLanguageVariantWithElementBuilder()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleLanguageVariantUpdatedResponse.json");
 
         var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
         var languageIdentifier = Reference.ByCodename("en-US");
@@ -162,7 +156,7 @@ public class Readme : IClassFixture<FileSystemFixture>
     public async void QuickStartCreateContentItem()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleContentItemResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleContentItemResponse.json");
 
         var item = new ContentItemCreateModel
         {
@@ -178,7 +172,7 @@ public class Readme : IClassFixture<FileSystemFixture>
     public async void CreateStronglyTypedAsset()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FileReferenceResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "FileReferenceResponse.json");
 
         var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
         var fileName = "Hello.txt";
@@ -204,7 +198,7 @@ public class Readme : IClassFixture<FileSystemFixture>
         };
 
         // Remove next line in codesample
-        client = _fileSystemFixture.CreateMockClientWithResponse("AssetResponse.json");
+        client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");
         // Creates an asset
         var response = await client.CreateAssetAsync(asset);
     }
@@ -213,7 +207,7 @@ public class Readme : IClassFixture<FileSystemFixture>
     public async void UpdateAssetWithElementBuilder()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");
 
         // Elements to update
         var taxonomyElements = ElementBuilder.GetElementsAsDynamic(

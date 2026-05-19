@@ -42,7 +42,7 @@ namespace Kontent.Ai.Management.Tests.CodeSamples;
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/management-api-v2
 /// </summary>
-public class CmApiV2 : IClassFixture<FileSystemFixture>
+public class CmApiV2
 {
 
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
@@ -64,20 +64,14 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // await client.DeleteAssetAsync(identifier);
     // EndDocSection
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public CmApiV2(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: cm_api_v2_delete_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
     public async void DeleteAsset()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var identifier = Reference.ByExternalId("which-brewing-fits-you");
@@ -91,7 +85,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteItem()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var identifier = Reference.ByCodename("my_article");
@@ -105,7 +99,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
         // var identifier = Reference.ByCodename("metadata");
@@ -119,7 +113,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("personas");
@@ -133,7 +127,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteType()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0"));
         // var identifier = Reference.ByCodename("hosted_video");
@@ -147,7 +141,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -164,7 +158,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("d53360f7-79e1-42f4-a524-1b53a417d03e"));
 
@@ -176,7 +170,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("8bfdb62d-7aa1-473b-9d80-311ef93db108"));
         // var identifier = Reference.ByCodename("my_workflow");
@@ -189,7 +183,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void DeleteEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClient();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         await client.DeleteEnvironmentAsync();
     }
@@ -199,7 +193,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Asset.json");
 
         var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var identifier = Reference.ByCodename("which-brewing-fits-you");
@@ -214,7 +208,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetAssets()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Assets.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Assets.json");
 
         var response = await client.ListAssetsAsync();
 
@@ -226,7 +220,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetRendition()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
         var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
@@ -245,7 +239,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetRenditions()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRenditions.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRenditions.json");
 
         var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
@@ -261,7 +255,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetComponentsOfType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItemsWithComponents.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItemsWithComponents.json");
 
         var identifier = Reference.ById(Guid.Parse("6434e475-5a29-4866-9fd1-6d1ca873f5be"));
         // var identifier = Reference.ByCodename("article");
@@ -277,7 +271,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetContentCollections()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
         var response = await client.ListCollectionsAsync();
 
@@ -289,7 +283,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetFolders()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetFolders.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetFolders.json");
 
         var response = await client.GetAssetFoldersAsync();
 
@@ -302,7 +296,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItem.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItem.json");
 
         var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var identifier = Reference.ByCodename("my_article");
@@ -319,7 +313,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetItems()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItems.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItems.json");
 
         var response = await client.ListContentItemsAsync();
 
@@ -331,7 +325,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetLanguage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Language.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Language.json");
 
         var identifier = Reference.ById(Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d"));
         // var identifier = Reference.ByCodename("de-DE");
@@ -347,7 +341,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetLanguages()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Languages.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Languages.json");
 
         var response = await client.ListLanguagesAsync();
 
@@ -359,7 +353,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetProjectInformation()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Project.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Project.json");
 
         var response = await client.GetEnvironmentInformationAsync();
 
@@ -371,7 +365,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Snippet.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Snippet.json");
 
         var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
         // var identifier = Reference.ByCodename("metadata");
@@ -387,7 +381,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetSnippets()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Snippets.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Snippets.json");
 
         var response = await client.ListContentTypeSnippetsAsync();
 
@@ -399,7 +393,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroup.json");
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("personas");
@@ -415,7 +409,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetTaxonomyGroups()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroups.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroups.json");
 
 
         var response = await client.ListTaxonomyGroupsAsync();
@@ -428,7 +422,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetContentType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentType.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentType.json");
 
         var identifier = Reference.ById(Guid.Parse("269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0"));
         // var identifier = Reference.ByCodename("new_article");
@@ -444,7 +438,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetContentTypes()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentTypes.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentTypes.json");
 
 
         var response = await client.ListContentTypesAsync();
@@ -457,7 +451,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -476,7 +470,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetPublishedLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -495,7 +489,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetLanguageVariants()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariants.json");
 
         var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var identifier = Reference.ByCodename("on_roasts");
@@ -511,7 +505,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetLanguageVariantsByType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsOfType.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariantsOfType.json");
 
         var identifier = Reference.ById(Guid.Parse("b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89"));
         // var identifier = Reference.ByCodename("article");
@@ -527,7 +521,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetVariantsWithComponentsOfType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsOfType.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariantsOfType.json");
 
         var identifier = Reference.ById(Guid.Parse("6434e475-5a29-4866-9fd1-6d1ca873f5be"));
         // var identifier = Reference.ByCodename("article");
@@ -543,7 +537,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Webhook.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Webhook.json");
 
         var identifier = Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"));
 
@@ -557,7 +551,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetWebhooks()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Webhooks.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Webhooks.json");
 
         var response = await client.ListWebhooksAsync();
 
@@ -569,7 +563,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetWorkflows()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflows.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Workflows.json");
 
         var response = await client.ListWorkflowsAsync();
 
@@ -582,7 +576,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetRole()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectRole.json");
 
         var identifier = Reference.ById(Guid.Parse("a23d3727-3b16-4d94-9eb0-85225d29cfef"));
         //var identifier = Reference.ByCodename("project-manager");
@@ -597,7 +591,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetRoles()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRoles.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectRoles.json");
 
         var response = await client.ListEnvironmentRolesAsync();
 
@@ -609,7 +603,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetSubscriptionUser()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUser.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUser.json");
 
         var identifier = UserIdentifier.ByEmail("Joe.Joe@kontent.ai");
         //var identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
@@ -624,7 +618,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetSubscriptionUsers()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUsers.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUsers.json");
 
         var response = await client.ListSubscriptionUsersAsync();
 
@@ -636,7 +630,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetSubscriptionProjects()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionProjects.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionProjects.json");
 
         var response = await client.ListSubscriptionProjectsAsync();
 
@@ -648,7 +642,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetEnvironmentCloningState()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("EnvironmentCloningState.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "EnvironmentCloningState.json");
 
         var response = await client.GetEnvironmentCloningStateAsync();
 
@@ -660,7 +654,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetValidationTask()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTask.json");
 
         var response = await client.GetAsyncValidationTaskAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
 
@@ -672,7 +666,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void GetValidationIssues()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTaskIssues.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTaskIssues.json");
 
         var response = await client.ListAsyncValidationTaskIssuesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
 
@@ -684,7 +678,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PatchAssetFolders()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchAssetsFolderResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchAssetsFolderResponse.json");
 
         var response = await client.ModifyAssetFoldersAsync(new AssetFolderOperationBaseModel[]
         {
@@ -720,7 +714,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PatchContentCollections()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
         var response = await client.ModifyCollectionAsync(new CollectionOperationBaseModel[]
         {
@@ -759,7 +753,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PatchLanguage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchLanguageResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchLanguageResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d"));
         // var identifier = Reference.ByCodename("de-DE");
@@ -788,7 +782,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PatchSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchSnippetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchSnippetResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
         // var identifier = Reference.ByCodename("my_metadata_snippet");
@@ -844,7 +838,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PatchTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchTaxonomyGroupResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchTaxonomyGroupResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("personas");
@@ -911,7 +905,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PatchContentType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchContentTypeResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchContentTypeResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("my_article");
@@ -972,7 +966,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PatchEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Environment.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Environment.json");
 
         var response = await client.ModifyEnvironmentAsync(new[]
         {
@@ -990,7 +984,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostAssetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostAssetResponse.json");
 
         var response = await client.CreateAssetAsync(new AssetCreateModel
         {
@@ -1035,7 +1029,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostAssetFolders()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostAssetFoldersResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostAssetFoldersResponse.json");
 
         var response = await client.CreateAssetFoldersAsync(new AssetFolderCreateModel
         {
@@ -1066,7 +1060,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostAssetRendition()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
         var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
@@ -1093,7 +1087,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostFile()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostFileResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostFileResponse.json");
 
         var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "which-brewing-fits-you-1080px.jpg");
         var contentType = "image/jpeg";
@@ -1109,7 +1103,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostItemResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostItemResponse.json");
 
         var response = await client.CreateContentItemAsync(new ContentItemCreateModel
         {
@@ -1129,7 +1123,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostLanguage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostLanguageResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostLanguageResponse.json");
 
         var response = await client.CreateLanguageAsync(new LanguageCreateModel
         {
@@ -1148,7 +1142,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostSnippetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostSnippetResponse.json");
 
         var response = await client.CreateContentTypeSnippetAsync(new ContentTypeSnippetCreateModel
         {
@@ -1182,7 +1176,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostTaxonomyGroupResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostTaxonomyGroupResponse.json");
 
         var response = await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
         {
@@ -1246,7 +1240,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostTypeResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostTypeResponse.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
@@ -1307,7 +1301,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostValidate()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostValidateResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostValidateResponse.json");
 
         var response = await client.ValidateEnvironmentAsync();
 
@@ -1319,7 +1313,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostWebhookResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostWebhookResponse.json");
 
         var response = await client.CreateWebhookAsync(new WebhookCreateModel
         {
@@ -1433,7 +1427,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflow.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Workflow.json");
 
         var response = await client.CreateWorkflowAsync(new WorkflowUpsertModel
         {
@@ -1496,7 +1490,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostUser()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectUser.json");
 
         var response = await client.InviteUserIntoEnvironmentAsync(new UserInviteModel
         {
@@ -1529,7 +1523,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostCloneEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ClonedEnvironment.json");
 
         var response = await client.CloneEnvironmentAsync(new EnvironmentCloneModel
         {
@@ -1553,7 +1547,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PostValidateEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTask.json");
 
         var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
@@ -1565,7 +1559,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PutAssetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PutAssetResponse.json");
 
         var identifier = Reference.ByExternalId("which-brewing-fits-you");
         // var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
@@ -1644,7 +1638,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutAssetRendition()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
         var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
@@ -1674,7 +1668,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PutItemResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PutItemResponse.json");
 
         var identifier = Reference.ByExternalId("59713");
         // var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
@@ -1697,7 +1691,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PutLanguageVariantResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PutLanguageVariantResponse.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1772,7 +1766,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutLanguageVariantCancelSchedule()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1791,7 +1785,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutCancelUnpublishingOfLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1810,7 +1804,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutLanguageVariantNewVersion()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1828,7 +1822,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutPublishLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1856,7 +1850,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutUnpublishLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
         // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
@@ -1884,7 +1878,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutVariantWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var itemIdentifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var itemIdentifier = Reference.ByCodename("my_article");
@@ -1916,7 +1910,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutDisableWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var exception = await Record.ExceptionAsync(async () =>
             await client.DisableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
@@ -1928,7 +1922,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutEnableWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var exception = await Record.ExceptionAsync(async () =>
             await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
@@ -1940,7 +1934,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflow.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Workflow.json");
 
         var identifier = Reference.ByCodename("my_workflow");
         // var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
@@ -2006,7 +2000,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutUser()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectUser.json");
 
         var identifier = UserIdentifier.ByEmail("user@kontentai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
@@ -2043,7 +2037,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutSubscriptionUserActivate()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
@@ -2059,7 +2053,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutSubscriptionUserDeactivate()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
@@ -2075,7 +2069,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     [Fact]
     public async void PutMarkEnvironmentAsProduction()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var exception = await Record.ExceptionAsync(
             async () => await client.MarkEnvironmentAsProductionAsync(new MarkAsProductionModel

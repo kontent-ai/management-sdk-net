@@ -13,24 +13,18 @@ namespace Kontent.Ai.Management.Tests.CodeSamples;
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-assets
 /// </summary>
-public class ImportAssets : IClassFixture<FileSystemFixture>
+public class ImportAssets
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportAssets(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: importing_assets_create_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
     public async void CreateAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         // Uses the file reference object obtained in step 1
         var createdAssetResponse = await client.UpsertAssetAsync(Reference.ByExternalId("which-brewing-fits-you"), new AssetUpsertModel
@@ -64,7 +58,7 @@ public class ImportAssets : IClassFixture<FileSystemFixture>
     [Fact]
     public async void UploadingFiles()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "brno-cafe-1080px.jpg");
         var contentType = "image/jpg";
@@ -78,7 +72,7 @@ public class ImportAssets : IClassFixture<FileSystemFixture>
     [Fact]
     public async void UseAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("ext-cafe-brno"), Reference.ByCodename("en-US"));
 
@@ -103,7 +97,7 @@ public class ImportAssets : IClassFixture<FileSystemFixture>
     [Fact]
     public async void UseAssetRichText()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("new-cafes"), Reference.ByCodename("en-US"));
 

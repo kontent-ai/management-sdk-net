@@ -14,24 +14,18 @@ namespace Kontent.Ai.Management.Tests.CodeSamples;
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-rich-text
 /// </summary>
-public class ImportRichText : IClassFixture<FileSystemFixture>
+public class ImportRichText
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportRichText(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: import_rich_create_button_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
     public async void CreateButtonType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
@@ -58,7 +52,7 @@ public class ImportRichText : IClassFixture<FileSystemFixture>
     [Fact]
     public async void CreateItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         await client.UpsertContentItemAsync(Reference.ByExternalId("simple-example"), new ContentItemUpsertModel
         {
@@ -72,7 +66,7 @@ public class ImportRichText : IClassFixture<FileSystemFixture>
     [Fact]
     public async void CreateCreateSimpleType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
@@ -94,7 +88,7 @@ public class ImportRichText : IClassFixture<FileSystemFixture>
     [Fact]
     public async void UpsertVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("123"), Reference.ByCodename("en-US"));
 

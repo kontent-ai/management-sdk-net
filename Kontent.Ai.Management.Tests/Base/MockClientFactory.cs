@@ -2,6 +2,7 @@ using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Conversion;
 using RichardSzalay.MockHttp;
+using System.Net;
 
 namespace Kontent.Ai.Management.Tests.Base;
 
@@ -39,4 +40,36 @@ internal static class MockClientFactory
         var client = new ManagementClient(managementApi, subscriptionApi, contentConverter: converter);
         return (client, mock);
     }
+
+    // Doc-sample helpers. Samples don't assert the outgoing request — they just need the call to return a canned
+    // (or empty) response so the snippet runs. A catch-all responder, FIFO-clamped over the given fixtures (the
+    // last one repeats; none → empty 200 OK), reproduces the old FileSystemFixture/RefitMockHandler behaviour.
+    public static IManagementClient CreateForSample(string folder, params string[] fixtureFiles)
+    {
+        var bodies = fixtureFiles.Select(f => File.ReadAllText(SamplePath(folder, f))).ToArray();
+        var mock = new MockHttpMessageHandler();
+        var index = 0;
+        mock.Fallback.Respond(request =>
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.OK) { RequestMessage = request };
+            if (bodies.Length > 0)
+            {
+                response.Content = new StringContent(bodies[Math.Min(index++, bodies.Length - 1)]);
+            }
+            return response;
+        });
+
+        var options = new ManagementOptions
+        {
+            ApiKey = "Dummy_API_key",
+            EnvironmentId = EnvironmentId,
+            SubscriptionId = SubscriptionId,
+        };
+        return new ManagementClient(
+            ManagementApiFactory.Create(options, mock),
+            ManagementApiFactory.CreateSubscription(options, mock));
+    }
+
+    private static string SamplePath(string folder, string file)
+        => Path.Combine(Environment.CurrentDirectory, "Data", folder, file);
 }

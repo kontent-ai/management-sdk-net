@@ -13,24 +13,18 @@ namespace Kontent.Ai.Management.Tests.CodeSamples;
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-content-model
 /// </summary>
-public class ImportContentModel : IClassFixture<FileSystemFixture>
+public class ImportContentModel
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportContentModel(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: import_model_create_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
     public async void CreateSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeSnippetAsync(new ContentTypeSnippetCreateModel
         {
@@ -62,7 +56,7 @@ public class ImportContentModel : IClassFixture<FileSystemFixture>
     [Fact]
     public async void CreateTaxonomy()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
         {
@@ -131,7 +125,7 @@ public class ImportContentModel : IClassFixture<FileSystemFixture>
     [Fact]
     public async void CreateType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {

@@ -13,24 +13,18 @@ namespace Kontent.Ai.Management.Tests.CodeSamples;
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-content-items
 /// </summary>
-public class ImportContentItems : IClassFixture<FileSystemFixture>
+public class ImportContentItems
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportContentItems(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: importing_create_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
     public async void CreateContentItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         await client.UpsertContentItemAsync(
             Reference.ByExternalId("ext-cafe-brno"),
@@ -42,7 +36,7 @@ public class ImportContentItems : IClassFixture<FileSystemFixture>
     [Fact]
     public async void CreateContentType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
@@ -110,7 +104,7 @@ public class ImportContentItems : IClassFixture<FileSystemFixture>
     [Fact]
     public async void UpsertLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("ext-cafe-brno"), Reference.ByCodename("en-US"));
 
