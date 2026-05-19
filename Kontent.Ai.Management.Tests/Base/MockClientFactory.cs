@@ -42,8 +42,8 @@ internal static class MockClientFactory
     }
 
     // Doc-sample helpers. Samples don't assert the outgoing request — they just need the call to return a canned
-    // (or empty) response so the snippet runs. A catch-all responder, FIFO-clamped over the given fixtures (the
-    // last one repeats; none → empty 200 OK), reproduces the old FileSystemFixture/RefitMockHandler behaviour.
+    // (or empty) response so the snippet runs. The catch-all responder is FIFO-clamped over the given fixtures:
+    // each call returns the next fixture, the last one repeats, and with none the response is an empty 200 OK.
     public static IManagementClient CreateForSample(string folder, params string[] fixtureFiles)
     {
         var bodies = fixtureFiles.Select(f => File.ReadAllText(SamplePath(folder, f))).ToArray();
