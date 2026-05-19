@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -11,36 +11,36 @@ public sealed record WorkflowUpsertModel
     /// <summary>
     /// Gets the workflow's name.
     /// </summary>
-    [JsonProperty("name", Required = Required.Always)]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the workflow's codename.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the workflow's scopes.
     /// </summary>
-    [JsonProperty("scopes", Required = Required.Always)]
+    [JsonPropertyName("scopes")]
     public IReadOnlyList<WorkflowScopeUpsertModel> Scopes { get; init; }
 
     /// <summary>
     /// Gets the workflow's steps.
     /// </summary>
-    [JsonProperty("steps", Required = Required.Always)]
+    [JsonPropertyName("steps")]
     public IReadOnlyList<WorkflowStepUpsertModel> Steps { get; init; }
 
     /// <summary>
     /// Gets the workflow's Published step.
     /// </summary>
-    [JsonProperty("published_step", Required = Required.Always)]
+    [JsonPropertyName("published_step")]
     public WorkflowPublishedStepUpsertModel PublishedStep { get; init; }
 
     /// <summary>
     /// Gets the workflow's Archived step.
     /// </summary>
-    [JsonProperty("archived_step", Required = Required.Always)]
+    [JsonPropertyName("archived_step")]
     public WorkflowArchivedStepUpsertModel ArchivedStep { get; init; }
 }

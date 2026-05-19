@@ -1,8 +1,8 @@
-using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Exceptions;
 
@@ -43,7 +43,7 @@ public sealed class ManagementException : Exception
 
         try
         {
-            var errorModel = JObject.Parse(exceptionMessage).ToObject<ErrorResponseModel>();
+            var errorModel = JsonSerializer.Deserialize<ErrorResponseModel>(exceptionMessage, Configuration.RefitSettingsProvider.CreateDefaultJsonSerializerOptions());
             var message = errorModel.Message;
 
             if (errorModel.ValidationErrors != null)

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
@@ -11,6 +11,6 @@ public sealed record DueDateModel
     /// <summary>
     /// Gets ISO-8601 formatted date-time for due date.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public DateTime? Value { get; init; }
 }

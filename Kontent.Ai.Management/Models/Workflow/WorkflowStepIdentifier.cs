@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -11,13 +11,13 @@ public sealed record WorkflowStepIdentifier
     /// <summary>
     /// Represents the identifier of the workflow.
     /// </summary>
-    [JsonProperty("workflow_identifier")]
+    [JsonPropertyName("workflow_identifier")]
     public Reference Workflow { get; init; }
 
     /// <summary>
     /// Represents the identifier of the step in the workflow.
     /// </summary>
-    [JsonProperty("step_identifier")]
+    [JsonPropertyName("step_identifier")]
     public Reference Step { get; init; }
 
     /// <summary>

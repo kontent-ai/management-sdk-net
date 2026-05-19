@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
@@ -10,18 +10,18 @@ public record TaxonomyBaseModel
     /// <summary>
     /// Gets the taxonomy group's display name.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the taxonomy group's codename.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the taxonomy group's external ID.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; init; }
 }

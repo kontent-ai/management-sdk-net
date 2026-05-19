@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Environments;
 
@@ -11,18 +11,18 @@ public sealed record EnvironmentModel
     /// <summary>
     /// Gets the id of the environment
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the name of the environment
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets a flag determining whether the environment is production
     /// </summary>
-    [JsonProperty("is_production")]
+    [JsonPropertyName("is_production")]
     public bool IsProduction { get; init; }
 }

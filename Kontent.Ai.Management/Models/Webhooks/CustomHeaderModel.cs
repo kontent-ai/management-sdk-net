@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks;
 
@@ -11,13 +11,13 @@ public class CustomHeaderModel
     /// The custom header key defines the name of the HTTP header.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("key")]
+    [JsonPropertyName("key")]
     public string Key { get; set; }
     
     /// <summary>
     /// The custom header value.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; set; }
 }

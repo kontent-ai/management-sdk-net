@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
@@ -12,18 +12,18 @@ public sealed record TaxonomyGroupModel : TaxonomyBaseModel
     /// <summary>
     /// Gets the taxonomy group's internal ID.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets ISO-8601 formatted date/time of the last change to the taxonomy group or its terms.
     /// </summary>
-    [JsonProperty("last_modified")]
+    [JsonPropertyName("last_modified")]
     public DateTime? LastModified { get; init; }
 
     /// <summary>
     /// Gets terms in the taxonomy group.
     /// </summary>
-    [JsonProperty("terms")]
+    [JsonPropertyName("terms")]
     public IEnumerable<TaxonomyTermModel> Terms { get; init; }
 }

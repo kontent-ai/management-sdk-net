@@ -4,10 +4,10 @@ using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -20,7 +20,7 @@ public class TaxonomyGroupTests
 
     private static List<T> ConcatPages<T>(params string[] pages)
         => pages
-            .SelectMany(p => JsonConvert.DeserializeObject<List<T>>(JObject.Parse(p).Properties().First().Value.ToString())!)
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
             .ToList();
 
     [Fact]
@@ -50,7 +50,7 @@ public class TaxonomyGroupTests
         var response = await client.GetTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupModel>(TaxonomyGroup));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class TaxonomyGroupTests
         var response = await client.GetTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupModel>(TaxonomyGroup));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class TaxonomyGroupTests
         var response = await client.GetTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupModel>(TaxonomyGroup));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -121,10 +121,10 @@ public class TaxonomyGroupTests
         var response = await client.CreateTaxonomyGroupAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupModel>(TaxonomyGroup));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<TaxonomyGroupCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupCreateModel>(JsonConvert.SerializeObject(createModel)));
+        JsonSerializer.Deserialize<TaxonomyGroupCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -201,13 +201,13 @@ public class TaxonomyGroupTests
         var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupModel>(TaxonomyGroup));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
         // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
         // operation kinds (PATCH order matters), via each element's stable "op" discriminator.
-        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
-        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }
 
@@ -230,10 +230,10 @@ public class TaxonomyGroupTests
         var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupModel>(TaxonomyGroup));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
-        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }
 
@@ -256,10 +256,10 @@ public class TaxonomyGroupTests
         var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<TaxonomyGroupModel>(TaxonomyGroup));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
-        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }
 

@@ -1,16 +1,16 @@
 using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Newtonsoft.Json;
+using Kontent.Ai.Management.Serialization.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
 /// Represents identifier of asset with renditions.
 /// </summary>
-[JsonConverter(typeof(AssetWithRenditionsReferenceConverter))]
+[JsonConverter(typeof(AssetWithRenditionsReferenceJsonConverter))]
 public sealed class AssetWithRenditionsReference
 {
     private readonly IList<Reference> _renditions;
@@ -20,25 +20,25 @@ public sealed class AssetWithRenditionsReference
     /// <summary>
     /// Gets the id of the asset identifier.
     /// </summary>
-    [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("id")]
     public Guid? Id => _assetReference.Id;
 
     /// <summary>
     /// Gets the codename of the asset identifier.
     /// </summary>
-    [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("codename")]
     public string Codename => _assetReference.Codename;
 
     /// <summary>
     /// Gets the external id of the asset identifier.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("external_id")]
     public string ExternalId => _assetReference.ExternalId;
 
     /// <summary>
     /// Gets identifiers of linked renditions.
     /// </summary>
-    [JsonProperty("renditions", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("renditions")]
     public IEnumerable<Reference> Renditions => _renditions;
 
     /// <summary>

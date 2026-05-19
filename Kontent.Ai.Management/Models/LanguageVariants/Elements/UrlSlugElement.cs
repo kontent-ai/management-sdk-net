@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -10,13 +10,13 @@ public class UrlSlugElement : BaseElement
     /// <summary>
     /// Gets or sets the mode of the url slug.
     /// </summary>
-    [JsonProperty("mode")]
+    [JsonPropertyName("mode")]
     public string Mode { get; set; }
 
     /// <summary>
     /// Gets or sets the value of the url slug.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; set; }
 
     /// <summary>

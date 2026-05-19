@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -12,48 +12,48 @@ public sealed record WorkflowModel
     /// <summary>
     /// Gets the workflow's internal ID.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the workflow's name.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the workflow's codename.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the workflow's scopes.
     /// </summary>
-    [JsonProperty("scopes")]
+    [JsonPropertyName("scopes")]
     public IReadOnlyList<WorkflowScopeModel> Scopes { get; init; }
 
     /// <summary>
     /// Gets the workflow's steps.
     /// </summary>
-    [JsonProperty("steps")]
+    [JsonPropertyName("steps")]
     public IReadOnlyList<WorkflowStepModel> Steps { get; init; }
 
     /// <summary>
     /// Gets the workflow's Published step.
     /// </summary>
-    [JsonProperty("published_step")]
+    [JsonPropertyName("published_step")]
     public WorkflowPublishedStepModel PublishedStep { get; init; }
 
     /// <summary>
     /// Gets the workflow's Scheduled step.
     /// </summary>
-    [JsonProperty("scheduled_step")]
+    [JsonPropertyName("scheduled_step")]
     public WorkflowScheduledStepModel ScheduledStep { get; init; }
 
     /// <summary>
     /// Gets the workflow's Archived step.
     /// </summary>
-    [JsonProperty("archived_step")]
+    [JsonPropertyName("archived_step")]
     public WorkflowArchivedStepModel ArchivedStep { get; init; }
 }

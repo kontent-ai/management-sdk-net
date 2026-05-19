@@ -4,11 +4,13 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
+using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using Kontent.Ai.Management.Tests.Data;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -17,8 +19,63 @@ public class AssetTests
     private static string Asset => Fixture("Asset.json");
     private static string File_ => Fixture("File.json");
 
+    private static readonly IElementModelProvider _elementModelProvider = new ElementModelProvider();
+
     private static string Fixture(string name)
         => System.IO.File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Asset", name));
+
+    private static List<T> ConcatPages<T>(params string[] pages)
+        => pages
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
+            .ToList();
+
+    private static AssetModel<T> DeserializeStronglyTyped<T>(string json) where T : new()
+    {
+        var dynamicAsset = JsonSerializer.Deserialize<AssetModel>(json, SharedTestJsonOptions.Default)!;
+        return new AssetModel<T>
+        {
+            Id = dynamicAsset.Id,
+            FileName = dynamicAsset.FileName,
+            Size = dynamicAsset.Size,
+            Type = dynamicAsset.Type,
+            Url = dynamicAsset.Url,
+            FileReference = dynamicAsset.FileReference,
+            Descriptions = dynamicAsset.Descriptions,
+            Title = dynamicAsset.Title,
+            Codename = dynamicAsset.Codename,
+            ExternalId = dynamicAsset.ExternalId,
+            LastModified = dynamicAsset.LastModified,
+            ImageHeight = dynamicAsset.ImageHeight,
+            ImageWidth = dynamicAsset.ImageWidth,
+            Folder = dynamicAsset.Folder,
+            Collection = dynamicAsset.Collection,
+            Elements = _elementModelProvider.GetStronglyTypedElements<T>(dynamicAsset.Elements),
+        };
+    }
+
+    private static List<AssetModel<T>> ConcatStronglyTypedPages<T>(params string[] pages) where T : new()
+        => pages
+            .SelectMany(p => JsonSerializer.Deserialize<List<AssetModel>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
+            .Select(a => new AssetModel<T>
+            {
+                Id = a.Id,
+                FileName = a.FileName,
+                Size = a.Size,
+                Type = a.Type,
+                Url = a.Url,
+                FileReference = a.FileReference,
+                Descriptions = a.Descriptions,
+                Title = a.Title,
+                Codename = a.Codename,
+                ExternalId = a.ExternalId,
+                LastModified = a.LastModified,
+                ImageHeight = a.ImageHeight,
+                ImageWidth = a.ImageWidth,
+                Folder = a.Folder,
+                Collection = a.Collection,
+                Elements = _elementModelProvider.GetStronglyTypedElements<T>(a.Elements),
+            })
+            .ToList();
 
     [Fact]
     public async Task ListAssetsAsync_DynamicallyTyped_WithMorePages_ListsAssets()
@@ -32,16 +89,12 @@ public class AssetTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var expected = new[] {
-            "00000000-0000-0000-0000-000000000000",
-            "10000000-0000-0000-0000-000000000000",
-            "20000000-0000-0000-0000-000000000000"
-        }.Select(GetExpectedDynamicAssetModel);
+        var expected = ConcatPages<AssetModel>(page1, page2, page3);
 
         var response = await client.ListAssetsAsync().GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -56,58 +109,54 @@ public class AssetTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var expected = new[] {
-            "00000000-0000-0000-0000-000000000000",
-            "10000000-0000-0000-0000-000000000000",
-            "20000000-0000-0000-0000-000000000000"
-        }.Select(GetExpectedStronglyTypedAssetModel);
+        var expected = ConcatStronglyTypedPages<ComplexTestModel>(page1, page2, page3);
 
         var response = await client.ListAssetsAsync<ComplexTestModel>().GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task GetAssetAsync_StronglyTyped_ById_GetsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
             .Respond("application/json", Asset);
 
         var response = await client.GetAssetAsync<ComplexTestModel>(Reference.ById(expected.Id));
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task GetAssetAsync_StronglyTyped_ByCodename_GetsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/codename/{expected.Codename}")
             .Respond("application/json", Asset);
 
         var response = await client.GetAssetAsync<ComplexTestModel>(Reference.ByCodename(expected.Codename));
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task GetAssetAsync_StronglyTyped_ByExternalId_GetsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/external-id/{expected.ExternalId}")
             .Respond("application/json", Asset);
 
         var response = await client.GetAssetAsync<ComplexTestModel>(Reference.ByExternalId(expected.ExternalId));
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -123,42 +172,42 @@ public class AssetTests
     public async Task GetAssetAsync_DynamicallyTyped_ById_GetsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
             .Respond("application/json", Asset);
 
         var response = await client.GetAssetAsync(Reference.ById(expected.Id));
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task GetAssetAsync_DynamicallyTyped_ByCodename_GetsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/codename/{expected.Codename}")
             .Respond("application/json", Asset);
 
         var response = await client.GetAssetAsync(Reference.ByCodename(expected.Codename));
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task GetAssetAsync_DynamicallyTyped_ByExternalId_GetsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/external-id/{expected.ExternalId}")
             .Respond("application/json", Asset);
 
         var response = await client.GetAssetAsync(Reference.ByExternalId(expected.ExternalId));
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -174,7 +223,7 @@ public class AssetTests
     public async Task CreateAssetAsync_StronglyTyped_CreatesAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
 
         var createModel = new AssetCreateModel<ComplexTestModel>
         {
@@ -189,7 +238,7 @@ public class AssetTests
         var response = await client.CreateAssetAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -205,7 +254,7 @@ public class AssetTests
     public async Task CreateAssetAsync_DynamicallyTyped_CreatesAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
 
         var createModel = new AssetCreateModel
         {
@@ -220,7 +269,7 @@ public class AssetTests
         var response = await client.CreateAssetAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -236,7 +285,7 @@ public class AssetTests
     public async Task CreateAssetAsync_StronglyTyped_WithFileContent_CreatesAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
 
         var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
         var fileName = "Hello.txt";
@@ -258,7 +307,7 @@ public class AssetTests
         var response = await client.CreateAssetAsync(content, updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -290,7 +339,7 @@ public class AssetTests
     public async Task CreateAssetAsync_DynamicallyTyped_WithFileContent_CreatesAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
 
         var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
         var fileName = "Hello.txt";
@@ -312,7 +361,7 @@ public class AssetTests
         var response = await client.CreateAssetAsync(content, updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -344,7 +393,7 @@ public class AssetTests
     public async Task UpsertAssetAsync_StronglyTyped_ById_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
 
         var updateModel = new AssetUpsertModel<ComplexTestModel>
         {
@@ -358,14 +407,14 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task UpsertAssetAsync_StronglyTyped_ByCodename_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
 
         var updateModel = new AssetUpsertModel<ComplexTestModel>
         {
@@ -379,14 +428,14 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task UpsertAssetAsync_StronglyTyped_ByExternalId_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
 
         var updateModel = new AssetUpsertModel<ComplexTestModel>
         {
@@ -400,7 +449,7 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ByExternalId(expected.ExternalId), updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -430,7 +479,7 @@ public class AssetTests
     public async Task UpsertAssetAsync_DynamicallyTyped_ById_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
 
         var updateModel = new AssetUpsertModel
         {
@@ -444,14 +493,14 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task UpsertAssetAsync_DynamicallyTyped_ByCodename_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
 
         var updateModel = new AssetUpsertModel
         {
@@ -465,14 +514,14 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
     public async Task UpsertAssetAsync_DynamicallyTyped_ByExternalId_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
 
         var updateModel = new AssetUpsertModel
         {
@@ -486,7 +535,7 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ByExternalId(expected.ExternalId), updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -516,7 +565,7 @@ public class AssetTests
     public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var expected = DeserializeStronglyTyped<ComplexTestModel>(Asset);
 
         var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
         var fileName = "Hello.txt";
@@ -538,7 +587,7 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -586,7 +635,7 @@ public class AssetTests
     public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_UpsertsAsset()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = GetExpectedDynamicAssetModel();
+        var expected = JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
 
         var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
         var fileName = "Hello.txt";
@@ -608,7 +657,7 @@ public class AssetTests
         var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, updateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(expected);
+        response.ShouldEqualAsJson(expected);
     }
 
     [Fact]
@@ -706,7 +755,7 @@ public class AssetTests
     {
         var (client, mock) = MockClientFactory.Create();
 
-        var expected = JsonConvert.DeserializeObject<FileReference>(File_);
+        var expected = JsonSerializer.Deserialize<FileReference>(File_, SharedTestJsonOptions.Default);
 
         var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
         var fileName = "Hello.txt";
@@ -731,64 +780,4 @@ public class AssetTests
         await client.Invoking(c => c.UploadFileAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
-    private static AssetModel GetExpectedDynamicAssetModel(string assetId = "01647205-c8c4-4b41-b524-1a98a7b12750")
-    {
-        var stronglyTyped = GetExpectedStronglyTypedAssetModel(assetId);
-
-        return new AssetModel
-        {
-            Id = stronglyTyped.Id,
-            Codename = stronglyTyped.Codename,
-            ExternalId = stronglyTyped.ExternalId,
-            FileName = stronglyTyped.FileName,
-            Title = stronglyTyped.Title,
-            Size = stronglyTyped.Size,
-            Type = stronglyTyped.Type,
-            Url = stronglyTyped.Url,
-            ImageWidth = stronglyTyped.ImageWidth,
-            ImageHeight = stronglyTyped.ImageHeight,
-            FileReference = stronglyTyped.FileReference,
-            LastModified = stronglyTyped.LastModified,
-            Descriptions = stronglyTyped.Descriptions,
-            Collection = stronglyTyped.Collection,
-            Elements = ElementsData.GetExpectedDynamicElements(),
-        };
-    }
-
-    private static AssetModel<ComplexTestModel> GetExpectedStronglyTypedAssetModel(string assetId = "01647205-c8c4-4b41-b524-1a98a7b12750") => new()
-    {
-        Id = Guid.Parse(assetId),
-        Codename = "my_super_asset",
-        ExternalId = "asset-1",
-        FileName = "our-story.jpg",
-        Title = "My super asset",
-        Size = 69518,
-        Type = "image/jpeg",
-        Url = "https://assets-eu-01.kc-usercontent.com/a9931a80-9af4-010b-0590-ecb1273cf1b8/36f361fa-7f65-446f-b16e-170455766f3e/our-story.jpg",
-        ImageWidth = 2160,
-        ImageHeight = 1000,
-        FileReference = new FileReference
-        {
-            Id = "36f361fa-7f65-446f-b16e-170455766f3e",
-            Type = FileReferenceTypeEnum.Internal,
-        },
-        LastModified = DateTimeOffset.Parse("2021-11-06T13:57:51.3425375Z").UtcDateTime,
-        Descriptions = new[]
-        {
-            new AssetDescription
-            {
-                Language = Reference.ById(Guid.Empty),
-                Description = "Dancing Goat Café - Los Angeles"
-            },
-            new AssetDescription
-            {
-                Language = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024")),
-                Description = "Bolso de cafe en grano"
-            }
-        },
-        Collection = new AssetCollectionReference {
-            Reference = Reference.ById(Guid.Empty)
-        },
-        Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
-    };
 }

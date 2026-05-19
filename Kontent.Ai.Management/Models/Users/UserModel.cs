@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Users;
 
@@ -11,12 +11,12 @@ public sealed record UserModel
     /// <summary>
     /// Gets the user's ID.
     /// </summary>
-    [JsonProperty("user_id")]
+    [JsonPropertyName("user_id")]
     public string Id { get; init; }
 
     /// <summary>
     /// Gets the language's display name.
     /// </summary>
-    [JsonProperty("collection_groups")]
+    [JsonPropertyName("collection_groups")]
     public IEnumerable<UserCollectionGroup> CollectionGroup { get; init; }
 }

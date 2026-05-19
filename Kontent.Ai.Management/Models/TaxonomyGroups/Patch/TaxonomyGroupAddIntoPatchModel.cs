@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 
@@ -17,20 +17,20 @@ public sealed record TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBase
     /// <summary>
     /// Gets taxonomy term object you want to add.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public TaxonomyTermCreateModel Value { get; init; }
 
     /// <summary>
     /// Gets reference of the existing taxonomy term before which you want to add the new taxonomy term.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
-    [JsonProperty("before")]
+    [JsonPropertyName("before")]
     public Reference Before { get; init; }
 
     /// <summary>
     /// Gets reference of the existing taxonomy term after which you want to add the new taxonomy term.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
-    [JsonProperty("after")]
+    [JsonPropertyName("after")]
     public Reference After { get; init; }
 }

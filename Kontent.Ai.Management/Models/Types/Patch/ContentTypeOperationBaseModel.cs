@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Patch;
 
@@ -12,13 +12,13 @@ public abstract record ContentTypeOperationBaseModel
     /// Gets specification of the operation to perform.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 
     /// <summary>
     /// Gets a string identifying where the new object or property should be added/replaced/removed.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
     /// </summary>
-    [JsonProperty("path")]
+    [JsonPropertyName("path")]
     public string Path { get; init; }
 }

@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Exceptions;
 
 internal class ErrorResponseModel
 {
-    [JsonProperty("message")]
+    [JsonPropertyName("message")]
     public string Message { get; set; }
 
-    [JsonProperty("validation_errors")]
+    [JsonPropertyName("validation_errors")]
     public IEnumerable<ValidationErrorModel> ValidationErrors { get; set; }
 }

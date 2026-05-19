@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetFolders.Patch;
 
@@ -15,6 +15,6 @@ public sealed record AssetFolderRenameModel : AssetFolderOperationBaseModel
     /// <summary>
     /// Gets the reference to the folder to be renamed.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; init; }
 }

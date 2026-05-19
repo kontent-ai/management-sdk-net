@@ -4,10 +4,10 @@ using Kontent.Ai.Management.Models.CustomApps;
 using Kontent.Ai.Management.Models.CustomApps.Patch;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -25,7 +25,7 @@ public class CustomAppTests
 
     private static List<T> ConcatPages<T>(params string[] pages)
         => pages
-            .SelectMany(p => JsonConvert.DeserializeObject<List<T>>(JObject.Parse(p).Properties().First().Value.ToString())!)
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
             .ToList();
 
     [Fact]
@@ -57,7 +57,7 @@ public class CustomAppTests
     public async Task CrateCustomApp_CreatesCustomApp()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<CustomAppModel>(CustomApp)!;
+        var expected = JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default)!;
         var createModel = new CustomAppCreateModel
         {
             Name = expected.Name,
@@ -79,10 +79,10 @@ public class CustomAppTests
         var response = await client.CreateCustomAppAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppModel>(CustomApp));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<CustomAppCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppCreateModel>(JsonConvert.SerializeObject(createModel)));
+        JsonSerializer.Deserialize<CustomAppCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -104,7 +104,7 @@ public class CustomAppTests
         var response = await client.GetCustomAppAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppModel>(CustomApp));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class CustomAppTests
         var response = await client.GetCustomAppAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppModel>(CustomApp));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -150,10 +150,10 @@ public class CustomAppTests
         var response = await client.ModifyCustomAppAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppModel>(ModifyAddInto));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyAddInto, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<CustomAppAddIntoPatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppAddIntoPatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<CustomAppAddIntoPatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppAddIntoPatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]
@@ -185,10 +185,10 @@ public class CustomAppTests
         var response = await client.ModifyCustomAppAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppModel>(ModifyRemove));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyRemove, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<CustomAppRemovePatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppRemovePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<CustomAppRemovePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppRemovePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]
@@ -225,10 +225,10 @@ public class CustomAppTests
         var response = await client.ModifyCustomAppAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppModel>(ModifyReplace));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyReplace, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<CustomAppReplacePatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<CustomAppReplacePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<CustomAppReplacePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppReplacePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]

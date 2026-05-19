@@ -1,7 +1,7 @@
 using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
@@ -13,18 +13,18 @@ public sealed record ComponentModel
     /// <summary>
     /// Gets the id of the content component.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the type of the component.
     /// </summary>
-    [JsonProperty("type", Required = Required.Always)]
+    [JsonPropertyName("type")]
     public Reference Type { get; init; }
 
     /// <summary>
     /// Gets elements of the component.
     /// </summary>
-    [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<dynamic> Elements { get; init; }
+    [JsonPropertyName("elements")]
+    public IEnumerable<object> Elements { get; init; }
 }

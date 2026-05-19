@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 
@@ -13,13 +13,13 @@ public abstract record TaxonomyGroupOperationBaseModel
     /// Gets specification of the operation to perform.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 
     /// <summary>
     /// Gets the reference to existing taxonomy terms you want to modify.
     /// </summary>
-    [JsonProperty("reference")]
+    [JsonPropertyName("reference")]
     public Reference Reference { get; init; }
 
 }

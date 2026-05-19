@@ -2,9 +2,9 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -49,10 +49,10 @@ public class EnvironmentUserTests
         var response = await client.InviteUserIntoEnvironmentAsync(invitation);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserModel>(ProjectUser));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<UserInviteModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserInviteModel>(JsonConvert.SerializeObject(invitation)));
+        JsonSerializer.Deserialize<UserInviteModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<UserInviteModel>(JsonSerializer.Serialize(invitation, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class EnvironmentUserTests
         var response = await client.ModifyUsersRolesAsync(identifier, user);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserModel>(ProjectUser));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class EnvironmentUserTests
         var response = await client.ModifyUsersRolesAsync(identifier, user);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<UserModel>(ProjectUser));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
     }
 
     [Fact]

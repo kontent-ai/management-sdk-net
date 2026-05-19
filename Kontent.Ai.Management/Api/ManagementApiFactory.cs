@@ -40,9 +40,6 @@ internal static class ManagementApiFactory
             BaseAddress = new Uri(string.Format(options.EndpointV2, scopePath), UriKind.Absolute),
         };
 
-        return RestService.For<T>(httpClient, new RefitSettings
-        {
-            ContentSerializer = new ManagementApiContentSerializer(),
-        });
+        return RestService.For<T>(httpClient, RefitSettingsProvider.CreateRefitSettings());
     }
 }

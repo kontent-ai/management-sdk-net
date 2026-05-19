@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Users;
 
@@ -12,12 +12,12 @@ public sealed record UserCollectionGroup
     /// <summary>
     /// Gets user's collection.
     /// </summary>
-    [JsonProperty("collections")]
+    [JsonPropertyName("collections")]
     public IEnumerable<Reference> Collections { get; init; }
 
     /// <summary>
     /// Gets user's roles.
     /// </summary>
-    [JsonProperty("roles")]
+    [JsonPropertyName("roles")]
     public IEnumerable<RoleModel> Roles { get; init; }
 }

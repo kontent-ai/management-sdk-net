@@ -2,9 +2,9 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -37,10 +37,10 @@ public class EnvironmentTests
         var response = await client.CloneEnvironmentAsync(clone);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentClonedModel>(ClonedEnvironment));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentClonedModel>(ClonedEnvironment, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<EnvironmentCloneModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentCloneModel>(JsonConvert.SerializeObject(clone)));
+        JsonSerializer.Deserialize<EnvironmentCloneModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentCloneModel>(JsonSerializer.Serialize(clone, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class EnvironmentTests
         var response = await client.GetEnvironmentCloningStateAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentCloningStateModel>(ClonedEnvironment));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentCloningStateModel>(ClonedEnvironment, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -86,8 +86,8 @@ public class EnvironmentTests
 
         mock.VerifyNoOutstandingExpectation();
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<MarkAsProductionModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<MarkAsProductionModel>(JsonConvert.SerializeObject(markAsProduction)));
+        JsonSerializer.Deserialize<MarkAsProductionModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<MarkAsProductionModel>(JsonSerializer.Serialize(markAsProduction, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -134,8 +134,8 @@ public class EnvironmentTests
 
         mock.VerifyNoOutstandingExpectation();
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<EnvironmentRenamePatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentRenamePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<EnvironmentRenamePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRenamePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default), opt => opt.WithStrictOrdering());
     }
 
     [Fact]

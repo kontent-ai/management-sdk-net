@@ -3,10 +3,10 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.EnvironmentReport;
 using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -29,7 +29,7 @@ public class EnvironmentValidationTests
         var response = await client.ValidateEnvironmentAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentReportModel>(ProjectValidation));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentReportModel>(ProjectValidation, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class EnvironmentValidationTests
         var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AsyncValidationTaskModel>(AsyncValidationTask));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class EnvironmentValidationTests
         var response = await client.GetAsyncValidationTaskAsync(taskIdentifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AsyncValidationTaskModel>(AsyncValidationTask));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public class EnvironmentValidationTests
         var response = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier).GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        var items = JObject.Parse(AsyncValidationTaskIssues).Properties().First().Value.ToString();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<List<AsyncValidationTaskIssueModel>>(items));
+        var items = JsonNode.Parse(AsyncValidationTaskIssues)!.AsObject().First().Value!.ToString();
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<AsyncValidationTaskIssueModel>>(items, SharedTestJsonOptions.Default));
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -13,7 +13,7 @@ public class SubpagesElement : BaseElement
     /// <summary>
     /// Gets or sets the value of the subpages element.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public IEnumerable<Reference> Value { get; set; }
 
     /// <summary>

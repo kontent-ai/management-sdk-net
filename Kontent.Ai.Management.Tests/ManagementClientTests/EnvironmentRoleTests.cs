@@ -2,9 +2,9 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -32,7 +32,7 @@ public class EnvironmentRoleTests
         var response = await client.ListEnvironmentRolesAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentRolesModel>(ProjectRoles));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRolesModel>(ProjectRoles, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class EnvironmentRoleTests
         var response = await client.GetEnvironmentRoleAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentRoleModel>(ProjectRole));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class EnvironmentRoleTests
         var response = await client.GetEnvironmentRoleAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<EnvironmentRoleModel>(ProjectRole));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
     }
 
     [Theory]

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
@@ -10,7 +10,7 @@ public record ElementDefaultValue<TContainer, TValue> where TContainer : TypeVal
     /// <summary>
     /// Non-language specific default value
     /// </summary>
-    [JsonProperty("global")]
+    [JsonPropertyName("global")]
     public TContainer Global { get; init; } = new();
 }
 
@@ -23,6 +23,6 @@ public record TypeValue<TValue>
     /// <summary>
     /// Default value
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public TValue Value { get; init; }
 }

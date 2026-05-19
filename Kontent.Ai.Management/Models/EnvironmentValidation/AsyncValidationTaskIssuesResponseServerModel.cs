@@ -1,17 +1,15 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
-
-[JsonObject]
 internal class AsyncValidationTaskIssuesResponseServerModel : IListingResponse<AsyncValidationTaskIssueModel>
 {
-    [JsonProperty("issues")]
+    [JsonPropertyName("issues")]
     public IEnumerable<AsyncValidationTaskIssueModel> Issues { get; set; }
 
-    [JsonProperty("pagination")]
+    [JsonPropertyName("pagination")]
     public PaginationResponseModel Pagination { get; set; }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

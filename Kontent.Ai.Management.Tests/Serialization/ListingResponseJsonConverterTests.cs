@@ -86,14 +86,11 @@ public class ListingResponseJsonConverterTests
     [Fact]
     public void Registered_InRefitSettingsProviderOptions_RoundTripsObjectShape()
     {
-        // RefitSettingsProvider's options have no PropertyNamingPolicy; this test only proves the
-        // factory is registered and the object-shape dispatch works through it. Wire-name fidelity
-        // for the inner models is the wave-4 [JsonPropertyName] swap's concern.
         var options = RefitSettingsProvider.CreateDefaultJsonSerializerOptions();
 
         var listing = new LanguagesListingResponseServerModel { Languages = System.Array.Empty<LanguageModel>() };
         var written = JsonSerializer.Serialize(listing, options);
 
-        written.Should().StartWith("{").And.Contain("Languages"); // post-flip → "languages" via [JsonPropertyName]
+        written.Should().StartWith("{").And.Contain("languages"); // via the model's [JsonPropertyName]
     }
 }

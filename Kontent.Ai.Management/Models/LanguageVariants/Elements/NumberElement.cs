@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -10,7 +10,7 @@ public class NumberElement : BaseElement
     /// <summary>
     /// Gets or sets the value of the number element.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public decimal? Value { get; set; }
 
     /// <summary>

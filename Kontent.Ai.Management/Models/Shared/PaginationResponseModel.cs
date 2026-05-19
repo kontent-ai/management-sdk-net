@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Shared;
 
 internal sealed class PaginationResponseModel
 {
-    [JsonProperty("continuation_token")]
+    [JsonPropertyName("continuation_token")]
     public string Token { get; set; }
 
-    [JsonProperty("next_page")]
+    [JsonPropertyName("next_page")]
     public string NextPage { get; set; }
 }

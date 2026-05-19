@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Subscription;
 
@@ -13,12 +13,12 @@ public sealed record SubscriptionColletionGroupModel
     /// Gets references to internal identifiers of collections that the user is assigned to.
     /// If the array is empty, the user can access any collection.
     /// </summary>
-    [JsonProperty("collections")]
+    [JsonPropertyName("collections")]
     public IEnumerable<Reference> Collections { get; init; }
 
     /// <summary>
     /// Gets roles the user is assigned to within the collection.
     /// </summary>
-    [JsonProperty("roles")]
+    [JsonPropertyName("roles")]
     public IEnumerable<SubscriptionUserRoleModel> Roles { get; init; }
 }

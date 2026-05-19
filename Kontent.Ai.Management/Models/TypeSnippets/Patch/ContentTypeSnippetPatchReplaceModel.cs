@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TypeSnippets.Patch;
 
@@ -17,6 +17,6 @@ public sealed record ContentTypeSnippetPatchReplaceModel : ContentTypeSnippetOpe
     /// Gets the value to insert into the property specified in the path where the format depends on the specific property.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
     /// </summary>
-    [JsonProperty("value")]
-    public dynamic Value { get; init; }
+    [JsonPropertyName("value")]
+    public object Value { get; init; }
 }

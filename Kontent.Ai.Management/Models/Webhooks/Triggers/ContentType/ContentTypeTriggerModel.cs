@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 
@@ -12,20 +12,20 @@ public class ContentTypeTriggerModel
     /// Determines if content type trigger is enabled.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("enabled")]
+    [JsonPropertyName("enabled")]
     public bool? Enabled { get; set; }
     
     /// <summary>
     /// Represents content type actions.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("actions")]
+    [JsonPropertyName("actions")]
     public IEnumerable<ContentTypeActionModel> Actions { get; set; }
 
     /// <summary>
     /// Represents content type filters.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("filters")]
+    [JsonPropertyName("filters")]
     public ContentTypeFiltersModel Filters { get; set; }
 }

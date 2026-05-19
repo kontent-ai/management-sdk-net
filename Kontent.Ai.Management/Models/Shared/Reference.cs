@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Extensions;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Shared;
 
@@ -14,19 +14,19 @@ public sealed class Reference
     /// <summary>
     /// Gets the id of the identifier.
     /// </summary>
-    [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("id")]
     public Guid? Id { get; private set; }
 
     /// <summary>
     /// Gets the codename of the identifier.
     /// </summary>
-    [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("codename")]
     public string Codename { get; private set; }
 
     /// <summary>
     /// Gets the external id of the identifier.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; private set; }
 
     /// <summary>

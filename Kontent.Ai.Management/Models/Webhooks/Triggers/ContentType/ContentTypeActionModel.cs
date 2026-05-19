@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 
@@ -10,6 +10,6 @@ public class ContentTypeActionModel
     /// <summary>
     /// Content type action.
     /// </summary>
-    [JsonProperty("action")]
+    [JsonPropertyName("action")]
     public ContentTypeAction Action { get; set; }
 }

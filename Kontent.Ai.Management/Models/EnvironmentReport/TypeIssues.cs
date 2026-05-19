@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
@@ -11,12 +11,12 @@ public sealed record TypeIssue
     /// <summary>
     /// Gets information about content type
     /// </summary>
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public Metadata Type { get; init; }
 
     /// <summary>
     /// Gets information about environment language
     /// </summary>
-    [JsonProperty("issues")]
+    [JsonPropertyName("issues")]
     public IEnumerable<ElementIssue> Issues { get; init; }
 }

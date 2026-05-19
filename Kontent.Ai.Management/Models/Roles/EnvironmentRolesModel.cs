@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Roles;
 
@@ -11,6 +11,6 @@ public sealed record EnvironmentRolesModel
     /// <summary>
     /// Gets the list of environment roles
     /// </summary>
-    [JsonProperty("roles")]
+    [JsonPropertyName("roles")]
     public IEnumerable<EnvironmentRoleModel> Roles { get; init; }
 }

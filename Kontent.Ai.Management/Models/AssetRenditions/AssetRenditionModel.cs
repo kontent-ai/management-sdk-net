@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 
@@ -11,19 +11,19 @@ public sealed record AssetRenditionModel
     /// <summary>
     /// Gets the rendition's ID.
     /// </summary>
-    [JsonProperty("rendition_id")]
+    [JsonPropertyName("rendition_id")]
     public Guid RenditionId { get; init; }
 
     /// <summary>
     /// Gets the id of the asset this rendition belongs to.
     /// </summary>
-    [JsonProperty("asset_id")]
+    [JsonPropertyName("asset_id")]
     public Guid AssetId { get; init; }
 
     /// <summary>
     /// Gets the rendition's external ID.
     /// </summary>
-    [JsonProperty("external_id")]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; init; }
 
     /// <summary>
@@ -38,12 +38,12 @@ public sealed record AssetRenditionModel
     /// The whole area must be within the borders of the original image.
     /// Upscaling, that is setting the custom_width and custom_height greater than width and height, is not allowed.
     /// </summary>
-    [JsonProperty("transformation")]
+    [JsonPropertyName("transformation")]
     public ImageTransformation Transformation { get; init; }
 
     /// <summary>
     /// Gets the ISO-8601 formatted date/time of the last change to the rendition.
     /// </summary>
-    [JsonProperty("last_modified")]
+    [JsonPropertyName("last_modified")]
     public DateTime? LastModified { get; init; }
 }

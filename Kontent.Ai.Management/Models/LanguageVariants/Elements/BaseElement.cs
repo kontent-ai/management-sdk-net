@@ -1,10 +1,10 @@
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types.Elements;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -16,7 +16,7 @@ public abstract class BaseElement
     /// <summary>
     /// Gets or sets the value of the element.
     /// </summary>
-    [JsonProperty("element", Required = Required.Always)]
+    [JsonPropertyName("element")]
     public Reference Element { get; set; }
 
     /// <summary>

@@ -1,7 +1,7 @@
 using Kontent.Ai.Management.Modules.ModelBuilders;
-using Newtonsoft.Json;
 using System;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 
 namespace Kontent.Ai.Management.Modules.Extensions;
@@ -28,10 +28,10 @@ public static class PropertyInfoExtensions
     /// </summary>
     public static string GetKontentElementCodename(this PropertyInfo property)
     {
-        var attribute = property.GetCustomAttribute<JsonPropertyAttribute>();
+        var attribute = property.GetCustomAttribute<JsonPropertyNameAttribute>();
 
         return attribute == null
-            ? throw new InvalidOperationException($"Cannot get Kontent.ai element codename as there is no attribute of type {nameof(JsonPropertyAttribute)}")
-            : attribute.PropertyName;
+            ? throw new InvalidOperationException($"Cannot get Kontent.ai element codename as there is no attribute of type {nameof(JsonPropertyNameAttribute)}")
+            : attribute.Name;
     }
 }

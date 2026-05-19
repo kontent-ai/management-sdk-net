@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -10,7 +10,7 @@ public class TextElement : BaseElement
     /// <summary>
     /// Gets or sets the value of the text element.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; set; }
 
     /// <summary>

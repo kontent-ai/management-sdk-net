@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
@@ -10,7 +10,7 @@ public sealed record ValidationRegexModel
     /// <summary>
     /// Gets the enabled state of the validation
     /// </summary>
-    [JsonProperty("is_active")]
+    [JsonPropertyName("is_active")]
     public bool IsActive { get; init; }
 
     /// <summary>
@@ -26,6 +26,6 @@ public sealed record ValidationRegexModel
     /// <summary>
     ///  Specifies the custom message that is used when input does not match the regex pattern.
     /// </summary>
-    [JsonProperty("validation_message")]
+    [JsonPropertyName("validation_message")]
     public string ValidationMessage { get; init; }
 }

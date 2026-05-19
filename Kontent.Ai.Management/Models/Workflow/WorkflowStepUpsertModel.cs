@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -16,36 +16,36 @@ public sealed record WorkflowStepUpsertModel
     /// Not applicable for creating a new workflow because the property is used
     /// to identify already existing steps within the edited workflow
     /// </remarks>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid? Id { get; init; }
 
     /// <summary>
     /// Gets the workflow step's name.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the workflow step's codename.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the workflow step's color.
     /// </summary>
-    [JsonProperty("color")]
+    [JsonPropertyName("color")]
     public WorkflowStepColorModel Color { get; init; }
 
     /// <summary>
     /// Gets the workflow steps that this step can transition to.
     /// </summary>
-    [JsonProperty("transitions_to")]
+    [JsonPropertyName("transitions_to")]
     public IReadOnlyList<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; init; }
 
     /// <summary>
     /// Gets the roles which can work with an item in this step.
     /// </summary>
-    [JsonProperty("role_ids")]
+    [JsonPropertyName("role_ids")]
     public IReadOnlyCollection<Guid> RoleIds { get; init; }
 }

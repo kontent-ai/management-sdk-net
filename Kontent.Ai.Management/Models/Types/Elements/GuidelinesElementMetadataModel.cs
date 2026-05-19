@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
@@ -10,11 +10,12 @@ public sealed record GuidelinesElementMetadataModel : ElementMetadataBase
     /// <summary>
     /// Gets the element's guidelines, providing instructions on what to fill in.
     /// </summary>
-    [JsonProperty("guidelines", Required = Required.Always)]
+    [JsonPropertyName("guidelines")]
     public string Guidelines { get; init; }
 
     /// <summary>
     /// Represents the type of the content type element.
     /// </summary>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Guidelines;
 }

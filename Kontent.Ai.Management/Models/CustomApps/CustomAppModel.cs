@@ -1,7 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.CustomApps;
 
@@ -13,42 +13,42 @@ public sealed record CustomAppModel
     /// <summary>
     /// Gets the custom app's internal ID.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the custom app's name.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the custom app's codename.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the custom app's source url.
     /// </summary>
-    [JsonProperty("source_url")]
+    [JsonPropertyName("source_url")]
     public string SourceUrl { get; init; }
 
     /// <summary>
     /// Gets the custom app's config.
     /// </summary>
-    [JsonProperty("config")]
+    [JsonPropertyName("config")]
     public string Config { get; init; }
 
     /// <summary>
     /// Gets the custom app's allowed roles.
     /// </summary>
-    [JsonProperty("allowed_roles")]
+    [JsonPropertyName("allowed_roles")]
     public IReadOnlyCollection<Reference> AllowedRoles { get; init; }
 
     /// <summary>
     /// Gets the custom app's display mode.
     /// </summary>
-    [JsonProperty("display_mode")]
+    [JsonPropertyName("display_mode")]
     public CustomAppDisplayMode DisplayMode { get; init; }
 }

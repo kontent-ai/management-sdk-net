@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Environments;
 
@@ -10,6 +10,6 @@ public sealed record MarkAsProductionModel
     /// <summary>
     /// Gets a flag determining whether webhooks on the new production environment should be enabled.
     /// </summary>
-    [JsonProperty("enable_webhooks")]
+    [JsonPropertyName("enable_webhooks")]
     public bool EnableWebhooks { get; init; }
 }

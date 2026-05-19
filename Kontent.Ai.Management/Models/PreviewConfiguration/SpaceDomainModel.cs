@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
@@ -11,12 +11,12 @@ public sealed record SpaceDomainModel
     /// <summary>
     /// Gets the space reference.
     /// </summary>
-    [JsonProperty("space")]
+    [JsonPropertyName("space")]
     public Reference Space { get; init; }
 
     /// <summary>
     /// Gets the space domain.
     /// </summary>
-    [JsonProperty("domain")]
+    [JsonPropertyName("domain")]
     public string Domain { get; init; }
 }

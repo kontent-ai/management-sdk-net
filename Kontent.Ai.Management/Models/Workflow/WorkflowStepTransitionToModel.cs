@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -11,6 +11,6 @@ public sealed record WorkflowStepTransitionToModel
     /// <summary>
     /// Gets the workflow step's internal ID.
     /// </summary>
-    [JsonProperty("step")]
+    [JsonPropertyName("step")]
     public Reference Step { get; init; }
 }

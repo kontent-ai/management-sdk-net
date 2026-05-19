@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Subscription;
 
@@ -12,24 +12,24 @@ public sealed record SubscriptionUserRoleModel
     /// <summary>
     /// Gets id of user's role.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets name of user's role.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets codename of user's role.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets reference to languages.
     /// </summary>
-    [JsonProperty("languages")]
+    [JsonPropertyName("languages")]
     public IEnumerable<SubscriptionUserRoleLangaugeModel> Languages { get; init; }
 }

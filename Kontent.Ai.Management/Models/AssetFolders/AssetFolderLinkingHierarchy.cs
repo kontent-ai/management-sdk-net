@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Extensions;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetFolders;
 
@@ -13,31 +13,31 @@ public sealed class AssetFolderLinkingHierarchy
     /// <summary>
     /// The referenced folder's ID. Not present if the asset is not in a folder. "00000000-0000-0000-0000-000000000000" means outside of any folder.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public string Id { get; set; }
 
     /// <summary>
     /// Gets external id of the identifier. The folder's external ID. Only present if specified when adding folders or modifying the folders collection to add new folders.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; set; }
     
     /// <summary>
     /// Gets or sets the folder's codename.
     /// </summary>
-    [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("codename")]
     public string Codename { get; set; }
 
     /// <summary>
     /// Name of the folder
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
     /// Nested folders
     /// </summary>
-    [JsonProperty("folders")]
+    [JsonPropertyName("folders")]
     public IEnumerable<AssetFolderLinkingHierarchy> Folders { get; set; }
 
     /// <summary>

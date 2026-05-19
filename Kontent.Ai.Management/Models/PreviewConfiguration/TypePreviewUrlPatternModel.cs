@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
@@ -12,12 +12,12 @@ public sealed record TypePreviewUrlPatternModel
     /// <summary>
     /// Gets the content type reference.
     /// </summary>
-    [JsonProperty("content_type")]
+    [JsonPropertyName("content_type")]
     public Reference ContentType { get; init; }
 
     /// <summary>
     /// Gets content type's url patterns.
     /// </summary>
-    [JsonProperty("url_patterns")]
+    [JsonPropertyName("url_patterns")]
     public IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; init; }
 }

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetFolders;
 
@@ -11,6 +11,6 @@ public sealed record AssetFolderCreateModel
     /// <summary>
     /// Folder listing (recursive)
     /// </summary>
-    [JsonProperty("folders")]
+    [JsonPropertyName("folders")]
     public IEnumerable<AssetFolderHierarchy> Folders { get; init; }
 }

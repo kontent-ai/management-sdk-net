@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetFolders;
 
@@ -12,12 +12,12 @@ public sealed record AssetFoldersModel
     /// <summary>
     /// Folder listing (recursive)
     /// </summary>
-    [JsonProperty("folders")]
+    [JsonPropertyName("folders")]
     public IEnumerable<AssetFolderHierarchy> Folders { get; init; }
 
     /// <summary>
     /// Gets the last modified timestamp of the asset.
     /// </summary>
-    [JsonProperty("last_modified")]
+    [JsonPropertyName("last_modified")]
     public DateTime? LastModified { get; init; }
 }

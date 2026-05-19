@@ -11,7 +11,11 @@ namespace Kontent.Ai.Management.Serialization.Converters;
 internal sealed class DecimalJsonConverter : JsonConverter<decimal>
 {
     public override decimal Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        => reader.GetDecimal();
+        // Mirror Newtonsoft + the global `NumberHandling.AllowReadingFromString` policy: tolerate
+        // string-encoded decimals (e.g. MAPI's element default `"value": "10"` for a number element).
+        => reader.TokenType == JsonTokenType.String
+            ? decimal.Parse(reader.GetString()!, System.Globalization.CultureInfo.InvariantCulture)
+            : reader.GetDecimal();
 
     public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options)
     {

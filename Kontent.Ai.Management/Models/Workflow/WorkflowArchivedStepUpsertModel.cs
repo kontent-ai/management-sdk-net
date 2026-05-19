@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -12,6 +12,6 @@ public sealed record WorkflowArchivedStepUpsertModel
     /// <summary>
     /// Gets the roles which can work with an item in this step.
     /// </summary>
-    [JsonProperty("role_ids")]
+    [JsonPropertyName("role_ids")]
     public IReadOnlyCollection<Guid> RoleIds { get; init; }
 }

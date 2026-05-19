@@ -14,7 +14,7 @@ public class ManagementExceptionTests
         var statusCode = HttpStatusCode.BadRequest;
 
         var response = new HttpResponseMessage(statusCode);
-        var responseStr = "{ message: \"Some error\" }";
+        var responseStr = "{ \"message\": \"Some error\" }";
 
         var error = new ManagementException(response, responseStr);
 
@@ -29,7 +29,7 @@ public class ManagementExceptionTests
         var statusCode = HttpStatusCode.BadRequest;
 
         var response = new HttpResponseMessage(statusCode);
-        var responseStr = "{ message: \"Some error\", validation_errors: [ { message: \"First validation error\" }, { message: \"Second validation error\" } ] }";
+        var responseStr = "{ \"message\": \"Some error\", \"validation_errors\": [ { \"message\": \"First validation error\" }, { \"message\": \"Second validation error\" } ] }";
 
         var error = new ManagementException(response, responseStr);
 

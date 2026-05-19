@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Assets;
 
@@ -10,12 +10,12 @@ public sealed record FileReference
     /// <summary>
     /// Gets the id of the binary file.
     /// </summary>
-    [JsonProperty("id", Required = Required.Always)]
+    [JsonPropertyName("id")]
     public string Id { get; init; }
 
     /// <summary>
     /// Gets file reference type.
     /// </summary>
-    [JsonProperty("type", Required = Required.Always)]
+    [JsonPropertyName("type")]
     public FileReferenceTypeEnum Type { get; init; }
 }

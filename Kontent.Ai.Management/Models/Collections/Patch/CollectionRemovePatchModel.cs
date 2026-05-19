@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Collections.Patch;
 
@@ -17,6 +17,6 @@ public sealed record CollectionRemovePatchModel : CollectionOperationBaseModel
     /// <summary>
     /// Represents the reference of the collection which should be removed.
     /// </summary>
-    [JsonProperty("reference")]
+    [JsonPropertyName("reference")]
     public Reference CollectionIdentifier { get; init; }
 }

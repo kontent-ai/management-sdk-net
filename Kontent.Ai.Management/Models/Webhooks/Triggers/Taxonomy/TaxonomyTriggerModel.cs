@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
@@ -12,20 +12,20 @@ public class TaxonomyTriggerModel
     /// Determines if taxonomy trigger is enabled.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("enabled")]
+    [JsonPropertyName("enabled")]
     public bool? Enabled { get; set; }
     
     /// <summary>
     /// Represents taxonomy actions.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("actions")]
+    [JsonPropertyName("actions")]
     public IEnumerable<TaxonomyActionModel> Actions { get; set; }
 
     /// <summary>
     /// Represents taxonomy filters.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("filters")]
+    [JsonPropertyName("filters")]
     public TaxonomyFiltersModel Filters { get; set; }
 }

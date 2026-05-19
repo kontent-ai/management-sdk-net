@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Environments.Patch;
 
@@ -15,6 +15,6 @@ public sealed record EnvironmentRenamePatchModel : EnvironmentOperationBaseModel
     /// <summary>
     /// Gets the environment name.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; init; }
 }

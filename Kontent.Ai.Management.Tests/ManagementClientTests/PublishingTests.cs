@@ -4,9 +4,9 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -19,8 +19,8 @@ public class PublishingTests
         var (client, mock) = MockClientFactory.Create();
         var model = new ChangeLanguageVariantWorkflowModel
             (
-                workflowIdentifier: Reference.ById(Guid.NewGuid()),
-                stepIdentifier: Reference.ById(Guid.NewGuid())
+                workflow: Reference.ById(Guid.NewGuid()),
+                step: Reference.ById(Guid.NewGuid())
             );
 
         string? capturedBody = null;
@@ -36,8 +36,8 @@ public class PublishingTests
 
         mock.VerifyNoOutstandingExpectation();
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ChangeLanguageVariantWorkflowModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ChangeLanguageVariantWorkflowModel>(JsonConvert.SerializeObject(model)));
+        JsonSerializer.Deserialize<ChangeLanguageVariantWorkflowModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ChangeLanguageVariantWorkflowModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -46,8 +46,8 @@ public class PublishingTests
         var (client, _) = MockClientFactory.Create();
         var model = new ChangeLanguageVariantWorkflowModel
             (
-                workflowIdentifier: Reference.ById(Guid.NewGuid()),
-                stepIdentifier: Reference.ById(Guid.NewGuid())
+                workflow: Reference.ById(Guid.NewGuid()),
+                step: Reference.ById(Guid.NewGuid())
             );
 
         await client.Invoking(x => x.ChangeLanguageVariantWorkflowAsync(null!, model)).Should().ThrowAsync<ArgumentNullException>();
@@ -111,8 +111,8 @@ public class PublishingTests
 
         mock.VerifyNoOutstandingExpectation();
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ScheduleModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ScheduleModel>(JsonConvert.SerializeObject(schedule)));
+        JsonSerializer.Deserialize<ScheduleModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ScheduleModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -154,8 +154,8 @@ public class PublishingTests
 
         mock.VerifyNoOutstandingExpectation();
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<SchedulePublishAndUnpublishModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SchedulePublishAndUnpublishModel>(JsonConvert.SerializeObject(schedule)));
+        JsonSerializer.Deserialize<SchedulePublishAndUnpublishModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<SchedulePublishAndUnpublishModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -273,8 +273,8 @@ public class PublishingTests
 
         mock.VerifyNoOutstandingExpectation();
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ScheduleModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ScheduleModel>(JsonConvert.SerializeObject(schedule)));
+        JsonSerializer.Deserialize<ScheduleModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ScheduleModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]

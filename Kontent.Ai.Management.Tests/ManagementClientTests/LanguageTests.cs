@@ -3,10 +3,10 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -21,7 +21,7 @@ public class LanguageTests
 
     private static List<T> ConcatPages<T>(params string[] pages)
         => pages
-            .SelectMany(p => JsonConvert.DeserializeObject<List<T>>(JObject.Parse(p).Properties().First().Value.ToString())!)
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
             .ToList();
 
     [Fact]
@@ -53,7 +53,7 @@ public class LanguageTests
         var response = await client.GetLanguageAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(SingleLanguage));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageModel>(SingleLanguage, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class LanguageTests
         var response = await client.GetLanguageAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(SingleLanguage));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageModel>(SingleLanguage, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class LanguageTests
         var response = await client.GetLanguageAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(SingleLanguage));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageModel>(SingleLanguage, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -117,10 +117,10 @@ public class LanguageTests
         var response = await client.CreateLanguageAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(CreateLanguage));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageModel>(CreateLanguage, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<LanguageCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageCreateModel>(JsonConvert.SerializeObject(createModel)));
+        JsonSerializer.Deserialize<LanguageCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -150,10 +150,10 @@ public class LanguageTests
         var response = await client.ModifyLanguageAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(ModifyLanguages));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageModel>(ModifyLanguages, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<LanguagePatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguagePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<LanguagePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguagePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]
@@ -175,10 +175,10 @@ public class LanguageTests
         var response = await client.ModifyLanguageAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(ModifyLanguages));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageModel>(ModifyLanguages, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<LanguagePatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguagePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<LanguagePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguagePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]
@@ -200,10 +200,10 @@ public class LanguageTests
         var response = await client.ModifyLanguageAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguageModel>(ModifyLanguages));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<LanguageModel>(ModifyLanguages, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<LanguagePatchModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<LanguagePatchModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<LanguagePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguagePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]

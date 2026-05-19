@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
@@ -12,6 +12,6 @@ public class TaxonomyFiltersModel
     /// <summary>
     /// References to taxonomies
     /// </summary>
-    [JsonProperty("taxonomies")]
+    [JsonPropertyName("taxonomies")]
     public IEnumerable<Reference> Taxonomies { get; set; }
 }

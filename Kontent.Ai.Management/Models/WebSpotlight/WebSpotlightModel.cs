@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.WebSpotlight;
 
@@ -11,12 +11,12 @@ public sealed record WebSpotlightModel
     /// <summary>
     /// Gets the web spotlight's Enabled.
     /// </summary>
-    [JsonProperty("enabled")]
+    [JsonPropertyName("enabled")]
     public bool Enabled { get; init; }
 
     /// <summary>
     /// Gets the web spotlight's Root Type ID.
     /// </summary>
-    [JsonProperty("root_type")]
+    [JsonPropertyName("root_type")]
     public Guid? RootTypeId { get; init; }
 }

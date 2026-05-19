@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
@@ -10,6 +10,6 @@ public sealed record AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssu
     /// <summary>
     /// Gets item reference.
     /// </summary>
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public Metadata Type { get; init; }
 }

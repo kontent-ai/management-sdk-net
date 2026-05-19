@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
@@ -10,12 +10,12 @@ public sealed record VariantFilterOrderModel
     /// <summary>
     /// Gets the order by column.
     /// </summary>
-    [JsonProperty("by")]
+    [JsonPropertyName("by")]
     public string By { get; init; }
 
     /// <summary>
     /// Gets the order direction.
     /// </summary>
-    [JsonProperty("direction")]
+    [JsonPropertyName("direction")]
     public VariantFilterOrderDirection Direction { get; init; }
 }

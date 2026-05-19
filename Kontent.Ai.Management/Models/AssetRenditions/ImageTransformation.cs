@@ -1,12 +1,12 @@
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Newtonsoft.Json;
+using Kontent.Ai.Management.Serialization.Converters;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 
 /// <summary>
 /// Represents image transformation.
 /// </summary>
-[JsonConverter(typeof(ImageTransformationConverter))]
+[JsonConverter(typeof(ImageTransformationJsonConverter))]
 public abstract record ImageTransformation
 {
     /// <summary>
@@ -15,6 +15,6 @@ public abstract record ImageTransformation
     /// Only the rect mode is allowed.
     /// The rect mode selects a sub-region of the original image to use for processing.
     /// </summary>
-    [JsonProperty("mode", Required = Required.Always)]
+    [JsonPropertyName("mode")]
     public abstract ImageTransformationMode Mode { get; }
 }

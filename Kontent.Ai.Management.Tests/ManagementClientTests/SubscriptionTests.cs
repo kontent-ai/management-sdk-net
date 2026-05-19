@@ -3,10 +3,10 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Subscription;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -17,7 +17,7 @@ public class SubscriptionTests
 
     private static List<T> ConcatPages<T>(params string[] pages)
         => pages
-            .SelectMany(p => JsonConvert.DeserializeObject<List<T>>(JObject.Parse(p).Properties().First().Value.ToString())!)
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
             .ToList();
 
     [Fact]
@@ -68,7 +68,7 @@ public class SubscriptionTests
         var response = await client.GetSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SubscriptionUserModel>(user));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class SubscriptionTests
         var response = await client.GetSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SubscriptionUserModel>(user));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
     }
 
     [Fact]

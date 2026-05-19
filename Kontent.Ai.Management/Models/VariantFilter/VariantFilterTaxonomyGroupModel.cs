@@ -1,6 +1,6 @@
 using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
@@ -12,18 +12,18 @@ public sealed record VariantFilterTaxonomyGroupModel
     /// <summary>
     /// Gets the taxonomy reference.
     /// </summary>
-    [JsonProperty("taxonomy_identifier")]
+    [JsonPropertyName("taxonomy_identifier")]
     public Reference TaxonomyReference { get; init; }
 
     /// <summary>
     /// Gets the term references.
     /// </summary>
-    [JsonProperty("term_identifiers")]
+    [JsonPropertyName("term_identifiers")]
     public IEnumerable<Reference> TermReferences { get; init; }
 
     /// <summary>
     /// Gets whether to include uncategorized items.
     /// </summary>
-    [JsonProperty("include_uncategorized")]
+    [JsonPropertyName("include_uncategorized")]
     public bool IncludeUncategorized { get; init; }
 }

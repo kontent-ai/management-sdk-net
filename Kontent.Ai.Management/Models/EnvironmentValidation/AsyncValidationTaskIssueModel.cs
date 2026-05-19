@@ -1,24 +1,24 @@
-﻿using Kontent.Ai.Management.Modules.ActionInvoker;
-using Newtonsoft.Json;
+﻿using Kontent.Ai.Management.Serialization.Converters;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
 /// Async validation task issue.
 /// </summary>
-[JsonConverter(typeof(AsyncValidationTaskIssueConverter))]
+[JsonConverter(typeof(AsyncValidationTaskIssueJsonConverter))]
 public abstract record AsyncValidationTaskIssueModel
 {
     /// <summary>
     /// Gets the type of the async validation task issue.
     /// </summary>
-    [JsonProperty("issue_type")]
+    [JsonPropertyName("issue_type")]
     public AsyncValidationTaskIssueType IssueType { get; init; }
 
     /// <summary>
     /// Gets information about issues found in specific elements.
     /// </summary>
-    [JsonProperty("issues")]
+    [JsonPropertyName("issues")]
     public List<ElementIssue> Issues { get; init; }
 }

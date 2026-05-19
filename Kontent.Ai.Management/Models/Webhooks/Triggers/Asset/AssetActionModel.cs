@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
 
@@ -10,6 +10,6 @@ public class AssetActionModel
     /// <summary>
     /// Asset action.
     /// </summary>
-    [JsonProperty("action")]
+    [JsonPropertyName("action")]
     public AssetAction Action { get; set; }
 }

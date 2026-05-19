@@ -99,7 +99,7 @@ public class IManagementApiSmokeTests
             new[] { new SpaceOperationReplaceModel { PropertyName = PropertyName.Name, Value = "Marketing 2" } });
         handler.LastRequest!.Method.Should().Be(HttpMethod.Patch);
         handler.LastRequest!.RequestUri!.AbsolutePath.Should().Be($"{EnvPrefix}/spaces/codename/marketing");
-        // the transitional Newtonsoft serializer must keep the legacy converter behaviour (string enums via [EnumMember])
+        // string enums via [EnumMember]
         handler.LastRequestBody.Should().Contain("\"op\":\"replace\"").And.Contain("\"property_name\":\"name\"");
     }
 

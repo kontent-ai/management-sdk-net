@@ -3,9 +3,9 @@ using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -33,7 +33,7 @@ public class CollectionTests
         var response = await client.ListCollectionsAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CollectionsModel>(Collections));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CollectionsModel>(Collections, SharedTestJsonOptions.Default));
     }
 
     [Theory]
@@ -110,9 +110,9 @@ public class CollectionTests
         var response = await client.ModifyCollectionAsync(changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<CollectionsModel>(Collections));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CollectionsModel>(Collections, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<T[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<T[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<T[]>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<T[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default), opt => opt.WithStrictOrdering());
     }
 }

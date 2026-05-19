@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Subscription;
 
@@ -12,30 +12,30 @@ public sealed record SubscriptionUserRoleLangaugeModel
     /// <summary>
     /// Gets the id of the language.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the externalId of the language.
     /// </summary>
-    [JsonProperty("external_id")]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; init; }
 
     /// <summary>
     /// Gets the codename of the language.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the name of the language.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets a flag determining whether the language is active.
     /// </summary>
-    [JsonProperty("is_active")]
+    [JsonPropertyName("is_active")]
     public string IsActive { get; init; }
 }

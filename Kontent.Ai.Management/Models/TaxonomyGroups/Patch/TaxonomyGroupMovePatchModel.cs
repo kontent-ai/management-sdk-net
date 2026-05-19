@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 
@@ -18,20 +18,20 @@ public sealed record TaxonomyGroupMovePatchModel : TaxonomyGroupOperationBaseMod
     /// Gets reference of the existing taxonomy term before which you want to move the specified taxonomy term.
     /// Note: The before, after and under properties are mutually exclusive.
     /// </summary>
-    [JsonProperty("before")]
+    [JsonPropertyName("before")]
     public Reference Before { get; init; }
 
     /// <summary>
     /// Gets reference of the existing taxonomy term after which you want to move the specified taxonomy term.
     /// Note: The before, after and under properties are mutually exclusive.
     /// </summary>
-    [JsonProperty("after")]
+    [JsonPropertyName("after")]
     public Reference After { get; init; }
 
     /// <summary>
     /// Gets reference of the existing taxonomy term under which you want to move the specified taxonomy term.
     /// Note: The before, after and under properties are mutually exclusive.
     /// </summary>
-    [JsonProperty("under")]
+    [JsonPropertyName("under")]
     public Reference Under { get; init; }
 }

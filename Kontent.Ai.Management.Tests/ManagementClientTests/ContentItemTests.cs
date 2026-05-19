@@ -3,10 +3,10 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -19,7 +19,7 @@ public class ContentItemTests
 
     private static List<T> ConcatPages<T>(params string[] pages)
         => pages
-            .SelectMany(p => JsonConvert.DeserializeObject<List<T>>(JObject.Parse(p).Properties().First().Value.ToString())!)
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
             .ToList();
 
     [Fact]
@@ -51,7 +51,7 @@ public class ContentItemTests
         var response = await client.GetContentItemAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class ContentItemTests
         var response = await client.GetContentItemAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -79,7 +79,7 @@ public class ContentItemTests
         var response = await client.GetContentItemAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -94,7 +94,7 @@ public class ContentItemTests
     public async Task CreateContentItemAsync_CreatesContentItem()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentItemModel>(ContentItem)!;
+        var expected = JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default)!;
 
         var createModel = new ContentItemCreateModel
         {
@@ -117,10 +117,10 @@ public class ContentItemTests
         var response = await client.CreateContentItemAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentItemCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemCreateModel>(JsonConvert.SerializeObject(createModel)));
+        JsonSerializer.Deserialize<ContentItemCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -135,7 +135,7 @@ public class ContentItemTests
     public async Task UpsertContentItemAsync_ById_UpsertModel_UpsertsContentItem()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentItemModel>(ContentItem)!;
+        var expected = JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default)!;
 
         var upsertModel = new ContentItemUpsertModel
         {
@@ -161,17 +161,17 @@ public class ContentItemTests
         var response = await client.UpsertContentItemAsync(identifier, upsertModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentItemUpsertModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemUpsertModel>(JsonConvert.SerializeObject(upsertModel)));
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
     public async Task UpsertContentItemAsync_ByCodename_UpsertModel_UpsertsContentItem()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentItemModel>(ContentItem)!;
+        var expected = JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default)!;
 
         var upsertModel = new ContentItemUpsertModel
         {
@@ -197,17 +197,17 @@ public class ContentItemTests
         var response = await client.UpsertContentItemAsync(identifier, upsertModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentItemUpsertModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemUpsertModel>(JsonConvert.SerializeObject(upsertModel)));
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
     public async Task UpsertContentItemAsync_ByExternalId_UpsertModel_UpsertsContentItem()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentItemModel>(ContentItem)!;
+        var expected = JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default)!;
 
         var upsertModel = new ContentItemUpsertModel
         {
@@ -233,10 +233,10 @@ public class ContentItemTests
         var response = await client.UpsertContentItemAsync(identifier, upsertModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentItemUpsertModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemUpsertModel>(JsonConvert.SerializeObject(upsertModel)));
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -262,7 +262,7 @@ public class ContentItemTests
     public async Task UpsertContentItemAsync_ById_ItemModel_UpsertsContentItem()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentItemModel>(ContentItem)!;
+        var expected = JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default)!;
 
         var model = new ContentItemModel
         {
@@ -288,17 +288,17 @@ public class ContentItemTests
         var response = await client.UpsertContentItemAsync(identifier, model);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentItemModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(JsonConvert.SerializeObject(model)));
+        JsonSerializer.Deserialize<ContentItemModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
     public async Task UpsertContentItemAsync_ByCodename_ItemModel_UpsertsContentItem()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentItemModel>(ContentItem)!;
+        var expected = JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default)!;
 
         var model = new ContentItemModel
         {
@@ -324,17 +324,17 @@ public class ContentItemTests
         var response = await client.UpsertContentItemAsync(identifier, model);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentItemModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(JsonConvert.SerializeObject(model)));
+        JsonSerializer.Deserialize<ContentItemModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
     public async Task UpsertContentItemAsync_ByExternalId_ItemModel_UpsertsContentItem()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentItemModel>(ContentItem)!;
+        var expected = JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default)!;
 
         var model = new ContentItemModel
         {
@@ -360,10 +360,10 @@ public class ContentItemTests
         var response = await client.UpsertContentItemAsync(identifier, model);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(ContentItem));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentItemModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentItemModel>(JsonConvert.SerializeObject(model)));
+        JsonSerializer.Deserialize<ContentItemModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]

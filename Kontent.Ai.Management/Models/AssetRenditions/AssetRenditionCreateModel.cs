@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 
@@ -10,7 +10,7 @@ public sealed record AssetRenditionCreateModel
     /// <summary>
     /// Gets the rendition's ID.
     /// </summary>
-    [JsonProperty("external_id", Required = Required.Always)]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; init; }
 
     /// <summary>
@@ -25,6 +25,6 @@ public sealed record AssetRenditionCreateModel
     /// The whole area must be within the borders of the original image.
     /// Upscaling, that is setting the custom_width and custom_height greater than width and height, is not allowed.
     /// </summary>
-    [JsonProperty("transformation", Required = Required.Always)]
+    [JsonPropertyName("transformation")]
     public ImageTransformation Transformation { get; init; }
 }

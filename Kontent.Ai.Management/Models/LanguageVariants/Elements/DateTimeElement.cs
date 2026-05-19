@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -11,13 +11,13 @@ public class DateTimeElement : BaseElement
     /// <summary>
     /// Gets or sets the value of the datetime element.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public DateTime Value { get; set; }
 
     /// <summary>
     /// IANA time zone name used to display time offset of datetime element in the UI.
     /// </summary>
-    [JsonProperty("display_timezone")]
+    [JsonPropertyName("display_timezone")]
     public string DisplayTimeZone { get; set; }
 
     /// <summary>

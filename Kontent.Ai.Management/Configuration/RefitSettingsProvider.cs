@@ -31,11 +31,19 @@ internal static class RefitSettingsProvider
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNameCaseInsensitive = true,
             MaxDepth = 124,
+            // Newtonsoft accepted string-encoded numbers on read (e.g. element default values `"value": "10"`
+            // bound to decimal). System.Text.Json is strict by default; this restores the lenient parity.
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            // Newtonsoft also tolerated trailing commas in JSON (some hand-authored fixtures rely on it).
+            AllowTrailingCommas = true,
         };
 
         options.Converters.Add(new ElementMetadataJsonConverter());
         options.Converters.Add(new ImageTransformationJsonConverter());
         options.Converters.Add(new AsyncValidationTaskIssueJsonConverter());
+        options.Converters.Add(new ReferenceJsonConverter());
+        options.Converters.Add(new UserIdentifierJsonConverter());
+        options.Converters.Add(new WorkflowStepIdentifierJsonConverter());
         options.Converters.Add(new AssetWithRenditionsReferenceJsonConverter());
         options.Converters.Add(new PatchOperationJsonConverterFactory());
         options.Converters.Add(new DecimalJsonConverter());

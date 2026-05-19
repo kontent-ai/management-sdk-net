@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -16,30 +16,30 @@ public sealed record WorkflowPublishedStepModel
     /// <summary>
     /// Gets the workflow step's internal ID.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the workflow step's name.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the workflow step's codename.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the roles which can unpublish the item's variant.
     /// </summary>
-    [JsonProperty("unpublish_role_ids")]
+    [JsonPropertyName("unpublish_role_ids")]
     public IReadOnlyCollection<Guid> UnpublishRoleIds { get; init; }
 
     /// <summary>
     /// Gets the roles which can create new version from published variant.
     /// </summary>
-    [JsonProperty("create_new_version_role_ids")]
+    [JsonPropertyName("create_new_version_role_ids")]
     public IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; init; }
 }

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 
@@ -10,7 +10,7 @@ public sealed record RectangleResizeTransformation : ImageTransformation
     /// <summary>
     /// The rect mode selects a sub-region of the original image to use for processing.
     /// </summary>
-    [JsonProperty("mode", Required = Required.Always)]
+    [JsonPropertyName("mode")]
     public override ImageTransformationMode Mode => ImageTransformationMode.Rect;
 
     /// <summary>
@@ -19,7 +19,7 @@ public sealed record RectangleResizeTransformation : ImageTransformation
     /// The fit parameter controls how the output image is constrained within the provided width and height boundaries after resizing.
     /// Only the clip resize fit mode is allowed.
     /// </summary>
-    [JsonProperty("fit", Required = Required.Always)]
+    [JsonPropertyName("fit")]
     public ImageTransformationFit Fit { get; init; }
 
     /// <summary>
@@ -28,7 +28,7 @@ public sealed record RectangleResizeTransformation : ImageTransformation
     /// Use custom_width if you want to resize the rectangle region selected via x, y, width, and height.
     /// That is to keep the contents of the selected rectangle region but make the output image smaller.
     /// </summary>
-    [JsonProperty("custom_width", Required = Required.Always)]
+    [JsonPropertyName("custom_width")]
     public int CustomWidth { get; init; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public sealed record RectangleResizeTransformation : ImageTransformation
     /// Use custom_height if you want to resize the rectangle region selected via x, y, width, and height.
     /// That is to keep the contents of the selected rectangle region but make the output image smaller.
     /// </summary>
-    [JsonProperty("custom_height", Required = Required.Always)]
+    [JsonPropertyName("custom_height")]
     public int CustomHeight { get; init; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public sealed record RectangleResizeTransformation : ImageTransformation
     ///
     /// The x's maximum value depends on the width parameter. The whole rectangle must fit within the borders of the original image.
     /// </summary>
-    [JsonProperty("x", Required = Required.Always)]
+    [JsonPropertyName("x")]
     public int X { get; init; }
 
     /// <summary>
@@ -59,20 +59,20 @@ public sealed record RectangleResizeTransformation : ImageTransformation
     ///
     /// The y's maximum value depends on the height parameter. The whole rectangle must fit within the borders of the original image.
     /// </summary>
-    [JsonProperty("y", Required = Required.Always)]
+    [JsonPropertyName("y")]
     public int Y { get; init; }
 
     /// <summary>
     /// Gets the width of the rectangle area.
     /// The rectangle starts at the coordinates defined by x and y.
     /// </summary>
-    [JsonProperty("width", Required = Required.Always)]
+    [JsonPropertyName("width")]
     public int Width { get; init; }
 
     /// <summary>
     /// Gets the height of the rectangle area.
     /// The rectangle starts at the coordinates defined by x and y.
     /// </summary>
-    [JsonProperty("height", Required = Required.Always)]
+    [JsonPropertyName("height")]
     public int Height { get; init; }
 }

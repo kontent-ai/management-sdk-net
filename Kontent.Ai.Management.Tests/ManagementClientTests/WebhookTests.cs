@@ -5,9 +5,9 @@ using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -37,7 +37,7 @@ public class WebhookTests
         var response = await client.ListWebhooksAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<List<WebhookModel>>(Webhooks));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<WebhookModel>>(Webhooks, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class WebhookTests
         var response = await client.GetWebhookAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebhookModel>(Webhook));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebhookModel>(Webhook, SharedTestJsonOptions.Default));
     }
 
     [Theory]
@@ -96,11 +96,10 @@ public class WebhookTests
         var response = await client.CreateWebhookAsync(request);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebhookModel>(Webhook));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebhookModel>(Webhook, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        // Object-graph compare (serializer-robust); both sides round-tripped through the current Newtonsoft transport.
-        JsonConvert.DeserializeObject<WebhookCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WebhookCreateModel>(JsonConvert.SerializeObject(request)));
+        JsonSerializer.Deserialize<WebhookCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WebhookCreateModel>(JsonSerializer.Serialize(request, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]

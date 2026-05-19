@@ -1,7 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Users;
 
@@ -13,12 +13,12 @@ public sealed record RoleModel
     /// <summary>
     /// Gets id of user's role.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets reference to languages.
     /// </summary>
-    [JsonProperty("languages")]
+    [JsonPropertyName("languages")]
     public IEnumerable<Reference> Languages { get; init; }
 }

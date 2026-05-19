@@ -5,8 +5,9 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Workflow;
+using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Validation;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management;
 
@@ -184,7 +185,7 @@ public partial class ManagementClient
 
         var upsertModel = new LanguageVariantUpsertModel
         {
-            Elements = LanguageVariantElementsBridge.JsonToElements(_contentConverter.WriteEnvelopes(variant)),
+            Elements = JsonSerializer.Deserialize<List<object>>(_contentConverter.WriteEnvelopes(variant))!,
             Workflow = workflow,
         };
 
@@ -214,7 +215,7 @@ public partial class ManagementClient
             _contentConverter.Registry.Scan(typeof(T).Assembly);
         }
 
-        var json = LanguageVariantElementsBridge.ElementsToJson(elements ?? []);
+        var json = JsonSerializer.Serialize(elements ?? []);
         return _contentConverter.ReadEnvelopes<T>(json);
     }
 
@@ -229,7 +230,7 @@ public partial class ManagementClient
         {
             try
             {
-                var model = JObject.Parse(body).ToObject<ErrorResponseModel>();
+                var model = JsonSerializer.Deserialize<ErrorResponseModel>(body, RefitSettingsProvider.CreateDefaultJsonSerializerOptions());
                 if (model is not null)
                 {
                     var errors = new List<ManagementError>();

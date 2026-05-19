@@ -2,9 +2,9 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -34,7 +34,7 @@ public class WorkflowTests
         var response = await client.ListWorkflowsAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<IEnumerable<WorkflowModel>>(Workflows));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<WorkflowModel>>(Workflows, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -55,10 +55,10 @@ public class WorkflowTests
         var response = await client.CreateWorkflowAsync(newWorkflow);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowModel>(Workflow));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<WorkflowUpsertModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowUpsertModel>(JsonConvert.SerializeObject(newWorkflow)));
+        JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -88,10 +88,10 @@ public class WorkflowTests
         var response = await client.UpdateWorkflowAsync(identifier, newWorkflow);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowModel>(Workflow));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<WorkflowUpsertModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowUpsertModel>(JsonConvert.SerializeObject(newWorkflow)));
+        JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -113,10 +113,10 @@ public class WorkflowTests
         var response = await client.UpdateWorkflowAsync(identifier, newWorkflow);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowModel>(Workflow));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<WorkflowUpsertModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<WorkflowUpsertModel>(JsonConvert.SerializeObject(newWorkflow)));
+        JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Theory]

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Collections;
 
@@ -11,24 +11,24 @@ public sealed record CollectionModel
     /// <summary>
     /// Gets the id of the content collection.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the name of the content collection.
     /// </summary>
-    [JsonProperty("name", Required = Required.Always)]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the codename of the collection.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the external identifier of the content collection.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; init; }
 }

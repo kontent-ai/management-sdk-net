@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
@@ -13,12 +13,12 @@ public sealed record UrlSlugDependency
     /// Gets the content type snippet, specified as a reference, that contains the dependent text element.
     /// Note: The snippet property is not present if the text element is in the same content type.
     /// </summary>
-    [JsonProperty("snippet", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("snippet")]
     public Reference SnippetIdentifier { get; init; }
 
     /// <summary>
     /// Gets the dependent text element specified as a reference.
     /// </summary>
-    [JsonProperty("element")]
+    [JsonPropertyName("element")]
     public Reference Element { get; init; }
 }

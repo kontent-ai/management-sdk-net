@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Collections.Patch;
 
@@ -12,6 +12,6 @@ public abstract record CollectionOperationBaseModel
     /// Gets specification of the operation to perform.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 }

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
@@ -12,19 +12,19 @@ public sealed record VariantIssue
     /// <summary>
     /// Gets information about the content item
     /// </summary>
-    [JsonProperty("item")]
+    [JsonPropertyName("item")]
     public Metadata Item { get; init; }
 
     /// <summary>
     /// Gets information about environment language
     /// </summary>
-    [JsonProperty("language")]
+    [JsonPropertyName("language")]
     public Metadata Language { get; init; }
 
     /// <summary>
     /// Gets information about issues
     /// found in specific content elements
     /// </summary>
-    [JsonProperty("issues")]
+    [JsonPropertyName("issues")]
     public List<ElementIssue> Issues { get; init; }
 }

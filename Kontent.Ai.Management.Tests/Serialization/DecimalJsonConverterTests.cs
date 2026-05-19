@@ -13,7 +13,7 @@ public class DecimalJsonConverterTests
     public void StjDefault_PreservesDecimalScale()
     {
         // Documents why the converter is not dead code: System.Text.Json keeps a scaled zero's
-        // scale, so 0.0m would otherwise reach the wire as "0.0" where Newtonsoft emitted "0".
+        // scale, so 0.0m would otherwise reach the wire as "0.0".
         JsonSerializer.Serialize(0.0m).Should().Be("0.0");
         JsonSerializer.Serialize(0m).Should().Be("0");
     }

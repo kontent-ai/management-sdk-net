@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Environments.Patch;
 
@@ -10,6 +10,6 @@ public abstract record EnvironmentOperationBaseModel
     /// <summary>
     /// Gets specification of the operation to perform.
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 }

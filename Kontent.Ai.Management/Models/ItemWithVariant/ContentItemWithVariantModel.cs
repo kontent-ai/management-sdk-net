@@ -1,6 +1,6 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
@@ -12,12 +12,12 @@ public sealed record ContentItemWithVariantModel
     /// <summary>
     /// Gets the content item.
     /// </summary>
-    [JsonProperty("item")]
+    [JsonPropertyName("item")]
     public ContentItemModel Item { get; init; }
 
     /// <summary>
     /// Gets the language variant.
     /// </summary>
-    [JsonProperty("variant", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("variant")]
     public LanguageVariantModel Variant { get; init; }
 }

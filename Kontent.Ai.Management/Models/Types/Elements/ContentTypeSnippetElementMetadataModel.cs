@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
@@ -11,11 +11,12 @@ public sealed record ContentTypeSnippetElementMetadataModel : ElementMetadataBas
     /// <summary>
     /// Gets the element's reference to a specific content type snippet.
     /// </summary>
-    [JsonProperty("snippet")]
+    [JsonPropertyName("snippet")]
     public Reference SnippetIdentifier { get; init; }
 
     /// <summary>
     /// Represents the type of the content element.
     /// </summary>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.ContentTypeSnippet;
 }

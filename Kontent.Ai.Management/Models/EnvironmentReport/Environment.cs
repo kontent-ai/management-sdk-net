@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
@@ -10,18 +10,18 @@ public sealed record Environment
     /// <summary>
     /// Gets the id of the environment
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public string Id { get; init; }
 
     /// <summary>
     /// Gets the name of the project
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string ProjectName { get; init; }
 
     /// <summary>
     /// Gets the environment name
     /// </summary>
-    [JsonProperty("environment")]
+    [JsonPropertyName("environment")]
     public string EnvironmentName { get; init; }
 }

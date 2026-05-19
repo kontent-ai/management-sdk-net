@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Modules.Extensions;
 using Kontent.Ai.Management.Modules.ModelBuilders;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using Xunit;
 
@@ -14,7 +14,7 @@ public class PropertyInfoExtensionsTests
     {
         public string Property1 { get; set; }
 
-        [JsonProperty(ELEMENT_CODENAME_STRING)]
+        [JsonPropertyName(ELEMENT_CODENAME_STRING)]
         [KontentElementId(ELEMENT_ID_GUID)]
         public string Property2 { get; set; }
     }

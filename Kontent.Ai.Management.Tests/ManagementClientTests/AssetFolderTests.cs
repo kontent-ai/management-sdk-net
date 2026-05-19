@@ -3,10 +3,10 @@ using Kontent.Ai.Management.Models.AssetFolders;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -27,7 +27,7 @@ public class AssetFolderTests
         var response = await client.GetAssetFoldersAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFoldersModel>(Folder));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -59,10 +59,10 @@ public class AssetFolderTests
         var response = await client.CreateAssetFoldersAsync(folderModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFoldersModel>(Folder));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<AssetFolderCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFolderCreateModel>(JsonConvert.SerializeObject(folderModel)));
+        JsonSerializer.Deserialize<AssetFolderCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFolderCreateModel>(JsonSerializer.Serialize(folderModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -91,13 +91,13 @@ public class AssetFolderTests
         var response = await client.ModifyAssetFoldersAsync(changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFoldersModel>(Folder));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
         // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
         // operation kinds (PATCH order matters), via each element's stable "op" discriminator.
-        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
-        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }
 

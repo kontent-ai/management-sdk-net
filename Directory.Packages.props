@@ -11,11 +11,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
 
-    <!-- HTTP transport (Refit-backed, target architecture) -->
+    <!-- HTTP transport (Refit-backed, System.Text.Json content serializer in Refit core). -->
     <PackageVersion Include="Refit" Version="10.1.6" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="10.1.6" />
-    <!-- Transitional: lets Refit serialize the existing Newtonsoft-annotated models; removed once models move to System.Text.Json. -->
-    <PackageVersion Include="Refit.Newtonsoft.Json" Version="10.1.6" />
 
     <!-- Core dependencies -->
     <!-- M.E.* pinned to the 9.0.x servicing band: Refit.HttpClientFactory 10.x pulls in Microsoft.Extensions.Http 9.x transitively. -->
@@ -25,8 +23,10 @@
     <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.15" />
-    <!-- Legacy runtime dependencies, slated for removal once `dynamic` usage and Newtonsoft annotations go away. -->
+    <!-- Microsoft.CSharp is retained for `dynamic` operator support (BaseElement hierarchy + Reference/AssetWithRenditionsReference helper-method interop). -->
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
+    <!-- Newtonsoft.Json retained for the test project only (MockHttp assertion plumbing via JsonConvert);
+         main project is Newtonsoft-free. Test-side cleanup is a separate concern. -->
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
 
     <!-- Test dependencies. AwesomeAssertions is the community Apache-2.0 successor to FluentAssertions (which went

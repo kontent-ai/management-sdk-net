@@ -1,7 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Items;
 
@@ -13,54 +13,54 @@ public sealed record ContentItemModel
     /// <summary>
     /// Gets the id of the content item.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets the name of the content item.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the codename of the content item.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the type of the content item.
     /// </summary>
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public Reference Type { get; init; }
 
     /// <summary>
     /// Gets the collection of the content item.
     /// </summary>
-    [JsonProperty("collection")]
+    [JsonPropertyName("collection")]
     public Reference Collection { get; init; }
 
     /// <summary>
     /// Gets the spaces of the content item
     /// </summary>
-    [JsonProperty("spaces")]
+    [JsonPropertyName("spaces")]
     public IReadOnlyCollection<Reference> Spaces { get; init; }
 
     /// <summary>
     /// Gets sitemap locations of the content item.
     /// </summary>
-    [JsonProperty("sitemap_locations")]
+    [JsonPropertyName("sitemap_locations")]
     public IEnumerable<Reference> SitemapLocations { get; init; }
 
     /// <summary>
     /// Gets the external identifier of the content item.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; init; }
 
     /// <summary>
     /// Gets the last modified timestamp of the content item.
     /// </summary>
-    [JsonProperty("last_modified")]
+    [JsonPropertyName("last_modified")]
     public DateTime? LastModified { get; init; }
 }

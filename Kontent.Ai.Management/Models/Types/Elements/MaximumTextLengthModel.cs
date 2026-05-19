@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
@@ -10,12 +10,12 @@ public sealed record MaximumTextLengthModel
     /// <summary>
     /// Gets the maximum number of characters or words.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public int Value { get; init; }
 
     /// <summary>
     /// Determines whether the value applies to characters or words.
     /// </summary>
-    [JsonProperty("applies_to")]
+    [JsonPropertyName("applies_to")]
     public TextLengthLimitType AppliesTo { get; init; }
 }

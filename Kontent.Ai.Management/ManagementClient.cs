@@ -101,7 +101,7 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
 
         var optionsAccessor = new SnapshotManagementOptionsAccessor(options);
         var pipeline = BuildResiliencePipeline(options);
-        var refitSettings = new RefitSettings { ContentSerializer = new ManagementApiContentSerializer() };
+        var refitSettings = Configuration.RefitSettingsProvider.CreateRefitSettings();
 
         var managementHttp = BuildHttpClient(options, $"projects/{options.EnvironmentId}", pipeline, optionsAccessor);
         var subscriptionHttp = BuildHttpClient(options, $"subscriptions/{options.SubscriptionId}", pipeline, optionsAccessor);

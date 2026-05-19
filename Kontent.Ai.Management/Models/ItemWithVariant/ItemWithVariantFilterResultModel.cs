@@ -1,5 +1,5 @@
 using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
@@ -11,12 +11,12 @@ public sealed record ItemWithVariantFilterResultModel
     /// <summary>
     /// Gets the item reference.
     /// </summary>
-    [JsonProperty("item")]
+    [JsonPropertyName("item")]
     public Reference Item { get; init; }
 
     /// <summary>
     /// Gets the language reference.
     /// </summary>
-    [JsonProperty("language")]
+    [JsonPropertyName("language")]
     public Reference Language { get; init; }
 }

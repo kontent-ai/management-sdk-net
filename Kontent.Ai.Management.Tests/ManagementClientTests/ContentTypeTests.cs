@@ -5,10 +5,10 @@ using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -21,7 +21,7 @@ public class ContentTypeTests
 
     private static List<T> ConcatPages<T>(params string[] pages)
         => pages
-            .SelectMany(p => JsonConvert.DeserializeObject<List<T>>(JObject.Parse(p).Properties().First().Value.ToString())!)
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
             .ToList();
 
     [Fact]
@@ -53,7 +53,7 @@ public class ContentTypeTests
         var response = await client.GetContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeModel>(ContentType));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class ContentTypeTests
         var response = await client.GetContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeModel>(ContentType));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class ContentTypeTests
         var response = await client.GetContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeModel>(ContentType));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class ContentTypeTests
     public async Task CreateContentTypeAsync_CreatesContentType()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<ContentTypeModel>(ContentType)!;
+        var expected = JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default)!;
 
         var createModel = new ContentTypeCreateModel
         {
@@ -119,10 +119,10 @@ public class ContentTypeTests
         var response = await client.CreateContentTypeAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeModel>(ContentType));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<ContentTypeCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeCreateModel>(JsonConvert.SerializeObject(createModel)));
+        JsonSerializer.Deserialize<ContentTypeCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -199,13 +199,13 @@ public class ContentTypeTests
         var response = await client.ModifyContentTypeAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeModel>(ContentType));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
         // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
         // operation kinds (PATCH order matters), via each element's stable "op" discriminator.
-        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
-        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }
 
@@ -228,10 +228,10 @@ public class ContentTypeTests
         var response = await client.ModifyContentTypeAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeModel>(ContentType));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
-        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }
 
@@ -254,10 +254,10 @@ public class ContentTypeTests
         var response = await client.ModifyContentTypeAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<ContentTypeModel>(ContentType));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
-        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }
 

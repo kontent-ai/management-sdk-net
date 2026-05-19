@@ -15,9 +15,7 @@
 		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" />
 		<PackageReference Include="Refit" />
 		<PackageReference Include="Refit.HttpClientFactory" />
-		<PackageReference Include="Refit.Newtonsoft.Json" />
 		<PackageReference Include="Microsoft.CSharp" />
-		<PackageReference Include="Newtonsoft.Json" />
 	</ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
 
@@ -12,13 +12,13 @@ public class AssetTriggerModel
     /// Determines if asset trigger is enabled.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("enabled")]
+    [JsonPropertyName("enabled")]
     public bool? Enabled { get; set; }
     
     /// <summary>
     /// Represents asset actions.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
-    [JsonProperty("actions")]
+    [JsonPropertyName("actions")]
     public IEnumerable<AssetActionModel> Actions { get; set; }
 }

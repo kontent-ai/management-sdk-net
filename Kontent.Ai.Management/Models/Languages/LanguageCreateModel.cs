@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Languages;
 
@@ -11,30 +11,30 @@ public sealed record LanguageCreateModel
     /// <summary>
     /// Gets the language's display name.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; init; }
 
     /// <summary>
     /// Gets the language's codename.
     /// </summary>
-    [JsonProperty("codename")]
+    [JsonPropertyName("codename")]
     public string Codename { get; init; }
 
     /// <summary>
     /// Gets the language's external id.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("external_id")]
     public string ExternalId { get; init; }
 
     /// <summary>
     /// Gets a flag determining whether the language is active.
     /// </summary>
-    [JsonProperty("is_active")]
+    [JsonPropertyName("is_active")]
     public bool IsActive { get; init; }
 
     /// <summary>
     /// Gets the language to use when the current language contains no content. With multiple languages you can create fallback chains.
     /// </summary>
-    [JsonProperty("fallback_language")]
+    [JsonPropertyName("fallback_language")]
     public Reference FallbackLanguage { get; init; }
 }

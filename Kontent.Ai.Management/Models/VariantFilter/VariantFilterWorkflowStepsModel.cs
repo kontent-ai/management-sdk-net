@@ -1,6 +1,6 @@
 using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
@@ -12,12 +12,12 @@ public sealed record VariantFilterWorkflowStepsModel
     /// <summary>
     /// Gets the workflow reference.
     /// </summary>
-    [JsonProperty("workflow_identifier")]
+    [JsonPropertyName("workflow_identifier")]
     public Reference WorkflowReference { get; init; }
 
     /// <summary>
     /// Gets the workflow step references.
     /// </summary>
-    [JsonProperty("step_identifiers")]
+    [JsonPropertyName("step_identifiers")]
     public IEnumerable<Reference> WorkflowStepReferences { get; init; }
 }

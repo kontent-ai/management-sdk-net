@@ -1,6 +1,6 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Workflow;
 
@@ -12,12 +12,12 @@ public sealed record WorkflowScopeUpsertModel
     /// <summary>
     /// Gets the workflow scope's collections.
     /// </summary>
-    [JsonProperty("collections")]
+    [JsonPropertyName("collections")]
     public IReadOnlyList<Reference> Collections { get; init; }
 
     /// <summary>
     /// Gets the workflow scope's content types.
     /// </summary>
-    [JsonProperty("content_types")]
+    [JsonPropertyName("content_types")]
     public IReadOnlyList<Reference> ContentTypes { get; init; }
 }

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
@@ -11,12 +11,12 @@ public sealed record PreviewConfigurationModel
     /// <summary>
     /// Gets space domains.
     /// </summary>
-    [JsonProperty("space_domains")]
+    [JsonPropertyName("space_domains")]
     public IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; init; }
 
     /// <summary>
     /// Gets preview URL patterns.
     /// </summary>
-    [JsonProperty("preview_url_patterns")]
+    [JsonPropertyName("preview_url_patterns")]
     public IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; init; }
 }

@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
@@ -11,6 +11,6 @@ public sealed record ItemWithVariantBulkGetRequestModel
     /// <summary>
     /// Gets the variant identifiers (item + language pairs).
     /// </summary>
-    [JsonProperty("variants")]
+    [JsonPropertyName("variants")]
     public IEnumerable<VariantIdentifierModel> Variants { get; init; }
 }

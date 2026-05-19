@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -10,13 +10,13 @@ public class CustomElement : BaseElement
     /// <summary>
     /// Gets or sets the value of the custom element.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; set; }
 
     /// <summary>
     /// Gets or sets the searchable value of the custom element.
     /// </summary>
-    [JsonProperty("searchable_value")]
+    [JsonPropertyName("searchable_value")]
     public string SearchableValue { get; set; }
 
     /// <summary>

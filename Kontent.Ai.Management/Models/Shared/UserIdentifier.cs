@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Shared;
 
@@ -12,13 +12,13 @@ public sealed class UserIdentifier
     /// <summary>
     /// Gets the id of the identifier.
     /// </summary>
-    [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("id")]
     public string Id { get; private set; }
 
     /// <summary>
     /// Gets the email of the identifier.
     /// </summary>
-    [JsonProperty("email", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("email")]
     public string Email { get; private set; }
 
     /// <summary>

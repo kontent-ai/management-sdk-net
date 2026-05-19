@@ -1,17 +1,15 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Subscription;
-
-[JsonObject]
 internal class SubscriptionUserListingResponseServerModel : IListingResponse<SubscriptionUserModel>
 {
-    [JsonProperty("users")]
+    [JsonPropertyName("users")]
     public IEnumerable<SubscriptionUserModel> Users { get; set; }
 
-    [JsonProperty("pagination")]
+    [JsonPropertyName("pagination")]
     public PaginationResponseModel Pagination { get; set; }
 
     public IEnumerator<SubscriptionUserModel> GetEnumerator() => Users.GetEnumerator();

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 
@@ -10,6 +10,6 @@ public class LanguageActionModel
     /// <summary>
     /// Language action.
     /// </summary>
-    [JsonProperty("action")]
+    [JsonPropertyName("action")]
     public LanguageAction Action { get; set; }
 }

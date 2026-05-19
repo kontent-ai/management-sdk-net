@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
@@ -11,13 +11,13 @@ public class RichTextElement : BaseElement
     /// <summary>
     /// Gets or sets the value of rich text element components.
     /// </summary>
-    [JsonProperty("components")]
+    [JsonPropertyName("components")]
     public IEnumerable<ComponentModel> Components { get; set; }
 
     /// <summary>
     /// Gets or sets the value of the rich text element.
     /// </summary>
-    [JsonProperty("value")]
+    [JsonPropertyName("value")]
     public string Value { get; set; }
 
     /// <summary>

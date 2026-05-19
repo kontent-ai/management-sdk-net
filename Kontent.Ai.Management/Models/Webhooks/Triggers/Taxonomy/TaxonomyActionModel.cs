@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
@@ -10,6 +10,6 @@ public class TaxonomyActionModel
     /// <summary>
     /// Taxonomy action.
     /// </summary>
-    [JsonProperty("action")]
+    [JsonPropertyName("action")]
     public TaxonomyAction Action { get; set; }
 }

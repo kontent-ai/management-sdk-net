@@ -8,7 +8,7 @@ using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Modules.Extensions;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.IO;
 using System.Linq;
@@ -19,34 +19,34 @@ namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 internal class ArticleModel
 {
-    [JsonProperty("title")]
+    [JsonPropertyName("title")]
     [KontentElementId("35a9faae-e502-4e26-a824-26b90b9b2ecd")]
     public TextElement Title { get; set; }
 
-    [JsonProperty("post_date")]
+    [JsonPropertyName("post_date")]
     [KontentElementId("abe785d6-9146-4cab-8096-cba555d3840f")]
     public DateTimeElement PostDate { get; set; }
 
-    [JsonProperty("body_copy")]
+    [JsonPropertyName("body_copy")]
     [KontentElementId("bc872953-8507-4c98-9bb7-e9e2a546edb9")]
     public RichTextElement BodyCopy { get; set; }
 
-    [JsonProperty("related_articles")]
+    [JsonPropertyName("related_articles")]
     [KontentElementId("3ba9d793-c544-4336-925d-69c3dc485445")]
     public LinkedItemsElement RelatedArticles { get; set; }
 
-    [JsonProperty("personas")]
+    [JsonPropertyName("personas")]
     [KontentElementId("9ec81a7d-c93a-4d62-adbb-c28fd8a9f3c8")]
     public TaxonomyElement Personas { get; set; }
 
-    [JsonProperty("url_pattern")]
+    [JsonPropertyName("url_pattern")]
     [KontentElementId("b76e39e8-d3b4-4ed4-87d8-56fb90e0e342")]
     public UrlSlugElement UrlPattern { get; set; }
 }
 
 internal class AssetMetadataModel
 {
-    [JsonProperty("taxonomy_categories")]
+    [JsonPropertyName("taxonomy_categories")]
     [KontentElementId("c76e39e8-d3b4-4ed4-87d8-56fb90e0e342")]
     public TaxonomyElement TaxonomyCategories { get; set; }
 }

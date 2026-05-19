@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
@@ -11,6 +11,6 @@ public sealed record TaxonomyTermCreateModel : TaxonomyBaseModel
     /// <summary>
     /// Gets terms in the taxonomy group.
     /// </summary>
-    [JsonProperty("terms", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("terms")]
     public IEnumerable<TaxonomyTermCreateModel> Terms { get; init; }
 }

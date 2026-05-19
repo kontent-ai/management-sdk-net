@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
@@ -11,12 +11,12 @@ public sealed record PreviewUrlPatternModel
     /// <summary>
     /// Gets the space reference.
     /// </summary>
-    [JsonProperty("space")]
+    [JsonPropertyName("space")]
     public Reference Space { get; init; }
 
     /// <summary>
     /// Gets the content type URL pattern.
     /// </summary>
-    [JsonProperty("url_pattern")]
+    [JsonPropertyName("url_pattern")]
     public string UrlPattern { get; init; }
 }

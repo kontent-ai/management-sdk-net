@@ -1,11 +1,11 @@
+using System.Text.Json;
+using Kontent.Ai.Management.Tests.Base;
 ﻿using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Modules.ActionInvoker;
 using Kontent.Ai.Management.Modules.Extensions;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Data;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -224,11 +224,8 @@ public class ElementModelProviderTests
             },
         };
 
-        var serialized = JsonConvert.SerializeObject(elements, new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore
-        });
-        return JsonConvert.DeserializeObject<IEnumerable<dynamic>>(serialized, new JsonSerializerSettings { Converters = new JsonConverter[] { new DynamicObjectJsonConverter() } });
+        var serialized = JsonSerializer.Serialize(elements, SharedTestJsonOptions.Default);
+        return JsonSerializer.Deserialize<IEnumerable<dynamic>>(serialized, SharedTestJsonOptions.Default);
     }
 
     private static void AssertIdentifiers(IEnumerable<Guid> expected, IEnumerable<Guid> actual)

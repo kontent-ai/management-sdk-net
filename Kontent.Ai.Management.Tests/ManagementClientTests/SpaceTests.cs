@@ -3,9 +3,9 @@ using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -24,7 +24,7 @@ public class SpaceTests
     public async Task CreateSpace_CreatesSpace()
     {
         var (client, mock) = MockClientFactory.Create();
-        var expected = JsonConvert.DeserializeObject<SpaceModel>(Space)!;
+        var expected = JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default)!;
         var createModel = new SpaceCreateModel
         {
             Codename = expected.Codename,
@@ -45,10 +45,10 @@ public class SpaceTests
         var response = await client.CreateSpaceAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(Space));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<SpaceCreateModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceCreateModel>(JsonConvert.SerializeObject(createModel)));
+        JsonSerializer.Deserialize<SpaceCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class SpaceTests
         var response = await client.ListSpacesAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<IEnumerable<SpaceModel>>(Spaces));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<SpaceModel>>(Spaces, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class SpaceTests
         var response = await client.GetSpaceAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(Space));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class SpaceTests
         var response = await client.GetSpaceAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(Space));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -136,10 +136,10 @@ public class SpaceTests
         var response = await client.ModifySpaceAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceModel>(ModifySpaceReplace));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(ModifySpaceReplace, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<SpaceOperationReplaceModel[]>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<SpaceOperationReplaceModel[]>(JsonConvert.SerializeObject(changes)), opt => opt.WithStrictOrdering());
+        JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]

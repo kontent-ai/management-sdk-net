@@ -1,5 +1,5 @@
 using Kontent.Ai.Management.Models.VariantFilter;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
@@ -11,12 +11,12 @@ public sealed record ItemWithVariantFilterRequestModel
     /// <summary>
     /// Gets the filters.
     /// </summary>
-    [JsonProperty("filters")]
+    [JsonPropertyName("filters")]
     public VariantFilterFiltersModel Filters { get; init; }
 
     /// <summary>
     /// Gets the order.
     /// </summary>
-    [JsonProperty("order")]
+    [JsonPropertyName("order")]
     public VariantFilterOrderModel Order { get; init; }
 }

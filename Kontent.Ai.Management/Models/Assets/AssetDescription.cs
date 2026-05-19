@@ -1,5 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Assets;
 
@@ -11,12 +11,12 @@ public sealed record AssetDescription
     /// <summary>
     /// Gets the identifier of the language.
     /// </summary>
-    [JsonProperty("language", Required = Required.Always)]
+    [JsonPropertyName("language")]
     public Reference Language { get; init; }
 
     /// <summary>
     /// Gets the description of the asset.
     /// </summary>
-    [JsonProperty("description", Required = Required.AllowNull)]
+    [JsonPropertyName("description")]
     public string Description { get; init; }
 }

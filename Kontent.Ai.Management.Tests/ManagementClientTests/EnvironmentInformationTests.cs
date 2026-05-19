@@ -1,8 +1,8 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -23,6 +23,6 @@ public class EnvironmentInformationTests
         var response = await client.GetEnvironmentInformationAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<Models.EnvironmentReport.Environment>(Project));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<Models.EnvironmentReport.Environment>(Project, SharedTestJsonOptions.Default));
     }
 }

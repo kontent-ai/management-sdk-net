@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
@@ -12,12 +12,12 @@ public sealed record TaxonomyTermModel : TaxonomyBaseModel
     /// <summary>
     /// Gets the taxonomy group's internal ID.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public Guid Id { get; init; }
 
     /// <summary>
     /// Gets terms in the taxonomy group.
     /// </summary>
-    [JsonProperty("terms")]
+    [JsonPropertyName("terms")]
     public IEnumerable<TaxonomyTermModel> Terms { get; init; }
 }

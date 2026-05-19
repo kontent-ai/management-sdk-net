@@ -32,7 +32,7 @@ public class EnumMemberJsonConverterTests
     }
 
     [Fact]
-    public void Read_ToleratesInteger_LikeNewtonsoftAllowIntegerValues()
+    public void Read_ToleratesInteger()
         => JsonSerializer.Deserialize<ElementMetadataType>("7", Options()).Should().Be(ElementMetadataType.LinkedItems);
 
     [Fact]

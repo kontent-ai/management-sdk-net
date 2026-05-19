@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.CustomApps.Patch;
 
@@ -12,19 +12,19 @@ public abstract record CustomAppOperationBaseModel
     /// Gets specification of the operation to perform.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 
     /// <summary>
     /// Gets the name of the property to modify.
     /// </summary>
-    [JsonProperty("property_name", Required = Required.Always)]
+    [JsonPropertyName("property_name")]
     public PropertyName PropertyName { get; init; }
 
     /// <summary>
     /// Gets the value to replace into the property specified in the path where the format depends on the specific property.
     /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
     /// </summary>
-    [JsonProperty("value")]
-    public dynamic Value { get; init; }
+    [JsonPropertyName("value")]
+    public object Value { get; init; }
 }

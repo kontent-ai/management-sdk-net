@@ -1,7 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
@@ -13,31 +13,31 @@ public sealed record LanguageVariantUpsertModel
     /// <summary>
     /// Gets elements of the variant.
     /// </summary>
-    [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<dynamic> Elements { get; init; }
+    [JsonPropertyName("elements")]
+    public IEnumerable<object> Elements { get; init; }
 
     /// <summary>
     /// Gets workflow step identifier to update.
     /// </summary>
-    [JsonProperty("workflow")]
+    [JsonPropertyName("workflow")]
     public WorkflowStepIdentifier Workflow { get; init; }
 
     /// <summary>
     /// Gets due date to update.
     /// </summary>
-    [JsonProperty("due_date")]
+    [JsonPropertyName("due_date")]
     public DueDateModel DueDate { get; init; }
 
     /// <summary>
     /// Gets a note.
     /// </summary>
-    [JsonProperty("note")]
+    [JsonPropertyName("note")]
     public string Note { get; init; }
 
     /// <summary>
     /// Gets the contributors.
     /// </summary>
-    [JsonProperty("contributors")]
+    [JsonPropertyName("contributors")]
     public IEnumerable<UserIdentifier> Contributors { get; init; }
 
     /// <summary>

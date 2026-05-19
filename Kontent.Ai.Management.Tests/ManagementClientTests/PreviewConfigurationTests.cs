@@ -2,9 +2,9 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Xunit;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -25,7 +25,7 @@ public class PreviewConfigurationTests
         var response = await client.GetPreviewConfigurationAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<PreviewConfigurationModel>(PreviewConfiguration));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(PreviewConfiguration, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -76,9 +76,9 @@ public class PreviewConfigurationTests
         var response = await client.ModifyPreviewConfigurationAsync(request);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<PreviewConfigurationModel>(PreviewConfiguration));
+        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(PreviewConfiguration, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonConvert.DeserializeObject<PreviewConfigurationModel>(capturedBody!)
-            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<PreviewConfigurationModel>(JsonConvert.SerializeObject(request)));
+        JsonSerializer.Deserialize<PreviewConfigurationModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(JsonSerializer.Serialize(request, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 }

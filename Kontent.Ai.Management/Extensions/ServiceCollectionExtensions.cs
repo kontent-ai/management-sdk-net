@@ -253,14 +253,7 @@ public static class ServiceCollectionExtensions
     }
 
     private static RefitSettings CreateRefitSettings(Action<RefitSettings>? configureRefit)
-    {
-        var refitSettings = new RefitSettings
-        {
-            ContentSerializer = new ManagementApiContentSerializer(),
-        };
-        configureRefit?.Invoke(refitSettings);
-        return refitSettings;
-    }
+        => RefitSettingsProvider.CreateRefitSettings(configureRefit);
 
     private static void ConfigureResilienceHandler(
         IHttpClientBuilder httpClientBuilder,
