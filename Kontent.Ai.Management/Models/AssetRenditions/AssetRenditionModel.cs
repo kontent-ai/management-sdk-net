@@ -6,28 +6,28 @@ namespace Kontent.Ai.Management.Models.AssetRenditions;
 /// <summary>
 /// Represents asset rendition model.
 /// </summary>
-public class AssetRenditionModel
+public sealed record AssetRenditionModel
 {
     /// <summary>
-    /// Gets or sets the rendition's ID.
+    /// Gets the rendition's ID.
     /// </summary>
     [JsonProperty("rendition_id")]
-    public Guid RenditionId { get; set; }
+    public Guid RenditionId { get; init; }
 
     /// <summary>
-    /// Gets or sets the id of the asset this rendition belongs to.
+    /// Gets the id of the asset this rendition belongs to.
     /// </summary>
     [JsonProperty("asset_id")]
-    public Guid AssetId { get; set; }
+    public Guid AssetId { get; init; }
 
     /// <summary>
-    /// Gets or sets the rendition's external ID. 
+    /// Gets the rendition's external ID.
     /// </summary>
     [JsonProperty("external_id")]
-    public string ExternalId { get; set; }
+    public string ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets the image transformation.
+    /// Gets the image transformation.
     /// The transformation specifies how to transform the original image asset.
     /// 
     /// The image area to use for the transformation is determined by the x, y, width, and height properties.
@@ -39,11 +39,11 @@ public class AssetRenditionModel
     /// Upscaling, that is setting the custom_width and custom_height greater than width and height, is not allowed.
     /// </summary>
     [JsonProperty("transformation")]
-    public ImageTransformation Transformation { get; set; }
+    public ImageTransformation Transformation { get; init; }
 
     /// <summary>
-    /// Gets or sets the ISO-8601 formatted date/time of the last change to the rendition.
+    /// Gets the ISO-8601 formatted date/time of the last change to the rendition.
     /// </summary>
     [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    public DateTime? LastModified { get; init; }
 }

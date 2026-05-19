@@ -5,17 +5,17 @@ namespace Kontent.Ai.Management.Models.AssetRenditions;
 /// <summary>
 /// Represents the identifier of the asset rendition.
 /// </summary>
-public sealed class AssetRenditionIdentifier
+public sealed record AssetRenditionIdentifier
 {
     /// <summary>
     /// Represents the identifier of the asset rendition.
     /// </summary>
-    public Reference AssetIdentifier { get; private set; }
+    public Reference AssetIdentifier { get; init; }
 
     /// <summary>
     /// Represents the identifier of the language.
     /// </summary>
-    public Reference RenditionIdentifier { get; private set; }
+    public Reference RenditionIdentifier { get; init; }
 
     /// <summary>
     /// Creates an instance of asset rendition identifier.

@@ -6,35 +6,35 @@ namespace Kontent.Ai.Management.Models.AssetFolders;
 /// <summary>
 /// Represents the Asset Folder Hierarchy (recursive)
 /// </summary>
-public sealed class AssetFolderHierarchy
+public sealed record AssetFolderHierarchy
 {
     /// <summary>
     /// The referenced folder's ID. Not present if the asset is not in a folder. "00000000-0000-0000-0000-000000000000" means outside of any folder.
     /// </summary>
     [JsonProperty("id")]
-    public string Id { get; private set; }
+    public string Id { get; init; }
 
     /// <summary>
     /// Gets external id of the identifier. The folder's external ID. Only present if specified when adding folders or modifying the folders collection to add new folders.
     /// </summary>
     [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
-    
+    public string ExternalId { get; init; }
+
     /// <summary>
-    /// Gets or sets the codename of the folder.
+    /// Gets the codename of the folder.
     /// </summary>
     [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string Codename { get; set; }
+    public string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the folder
+    /// Gets the name of the folder
     /// </summary>
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets nested folders
+    /// Gets nested folders
     /// </summary>
     [JsonProperty("folders", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+    public IEnumerable<AssetFolderHierarchy> Folders { get; init; }
 }

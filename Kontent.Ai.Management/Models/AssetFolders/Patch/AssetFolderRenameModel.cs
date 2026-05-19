@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Models.AssetFolders.Patch;
 /// <summary>
 /// Represents rename operation to perform on the folder.
 /// </summary>
-public class AssetFolderRenameModel : AssetFolderOperationBaseModel
+public sealed record AssetFolderRenameModel : AssetFolderOperationBaseModel
 {
     /// <summary>
     /// Represents the rename operation.
@@ -13,8 +13,8 @@ public class AssetFolderRenameModel : AssetFolderOperationBaseModel
     public override string Op => "rename";
 
     /// <summary>
-    /// Gets or sets the reference to the folder to be renamed.
+    /// Gets the reference to the folder to be renamed.
     /// </summary>
     [JsonProperty("value")]
-    public string Value { get; set; }
+    public string Value { get; init; }
 }

@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Models.AssetFolders.Patch;
 /// <summary>
 /// Represents addInto operation to perform on the folder.
 /// </summary>
-public class AssetFolderAddIntoModel : AssetFolderOperationBaseModel
+public sealed record AssetFolderAddIntoModel : AssetFolderOperationBaseModel
 {
     /// <summary>
     /// Represents addInto operation.
@@ -14,22 +14,22 @@ public class AssetFolderAddIntoModel : AssetFolderOperationBaseModel
     public override string Op => "addInto";
 
     /// <summary>
-    /// Gets or sets the folder object you want to add.
+    /// Gets the folder object you want to add.
     /// </summary>
     [JsonProperty("value")]
-    public AssetFolderHierarchy Value { get; set; }
+    public AssetFolderHierarchy Value { get; init; }
 
     /// <summary>
-    /// Gets or sets reference of the existing folder after which you want to add the new folder.
+    /// Gets reference of the existing folder after which you want to add the new folder.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("before")]
-    public Reference Before { get; set; }
+    public Reference Before { get; init; }
 
     /// <summary>
-    /// Gets or sets reference of the existing folder after which you want to add the new folder.
+    /// Gets reference of the existing folder after which you want to add the new folder.
     /// Note: The before and after properties are mutually exclusive.
     /// </summary>
     [JsonProperty("after")]
-    public Reference After { get; set; }
+    public Reference After { get; init; }
 }

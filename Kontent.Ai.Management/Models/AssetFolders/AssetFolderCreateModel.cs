@@ -6,11 +6,11 @@ namespace Kontent.Ai.Management.Models.AssetFolders;
 /// <summary>
 /// Represents the asset folder list.
 /// </summary>
-public class AssetFolderCreateModel
+public sealed record AssetFolderCreateModel
 {
     /// <summary>
     /// Folder listing (recursive)
     /// </summary>
     [JsonProperty("folders")]
-    public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+    public IEnumerable<AssetFolderHierarchy> Folders { get; init; }
 }

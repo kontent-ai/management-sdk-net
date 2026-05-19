@@ -17,11 +17,11 @@ public sealed record SpaceOperationReplaceModel
     /// Gets the name of the property to modify.
     /// </summary>
     [JsonProperty("property_name", Required = Required.Always)]
-    public required PropertyName PropertyName { get; init; }
+    public PropertyName PropertyName { get; init; }
 
     /// <summary>
     /// Gets the value to insert in the specified property.
     /// </summary>
     [JsonProperty("value", Required = Required.Always)]
-    public required dynamic Value { get; init; }
+    public dynamic Value { get; init; }
 }

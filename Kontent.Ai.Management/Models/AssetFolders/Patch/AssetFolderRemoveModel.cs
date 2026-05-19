@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents remove operation to perform on the folder.
 /// </summary>
-public class AssetFolderRemoveModel : AssetFolderOperationBaseModel
+public sealed record AssetFolderRemoveModel : AssetFolderOperationBaseModel
 {
     /// <summary>
     /// Represents remove operation.

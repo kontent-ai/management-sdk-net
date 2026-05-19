@@ -6,17 +6,17 @@ namespace Kontent.Ai.Management.Models.Assets;
 /// <summary>
 /// Represents the language specific description for the asset.
 /// </summary>
-public sealed class AssetDescription
+public sealed record AssetDescription
 {
     /// <summary>
-    /// Gets or sets the identifier of the language.
+    /// Gets the identifier of the language.
     /// </summary>
     [JsonProperty("language", Required = Required.Always)]
-    public Reference Language { get; set; }
+    public Reference Language { get; init; }
 
     /// <summary>
-    /// Gets or sets the description of the asset.
+    /// Gets the description of the asset.
     /// </summary>
     [JsonProperty("description", Required = Required.AllowNull)]
-    public string Description { get; set; }
+    public string Description { get; init; }
 }

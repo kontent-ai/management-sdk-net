@@ -5,17 +5,17 @@ namespace Kontent.Ai.Management.Models.Assets;
 /// <summary>
 /// Represents binary file reference which can be used in an Asset to point it to a specific binary file.
 /// </summary>
-public sealed class FileReference
+public sealed record FileReference
 {
     /// <summary>
-    /// Gets or sets the id of the binary file.
+    /// Gets the id of the binary file.
     /// </summary>
     [JsonProperty("id", Required = Required.Always)]
-    public string Id { get; set; }
+    public string Id { get; init; }
 
     /// <summary>
-    /// Gets or sets file reference type.
+    /// Gets file reference type.
     /// </summary>
     [JsonProperty("type", Required = Required.Always)]
-    public FileReferenceTypeEnum Type { get; set; }
+    public FileReferenceTypeEnum Type { get; init; }
 }

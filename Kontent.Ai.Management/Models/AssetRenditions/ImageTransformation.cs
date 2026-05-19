@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Models.AssetRenditions;
 /// Represents image transformation.
 /// </summary>
 [JsonConverter(typeof(ImageTransformationConverter))]
-public abstract class ImageTransformation
+public abstract record ImageTransformation
 {
     /// <summary>
     /// Gets the transformation's mode.

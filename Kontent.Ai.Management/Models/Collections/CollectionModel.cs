@@ -18,7 +18,7 @@ public sealed record CollectionModel
     /// Gets the name of the content collection.
     /// </summary>
     [JsonProperty("name", Required = Required.Always)]
-    public required string Name { get; init; }
+    public string Name { get; init; }
 
     /// <summary>
     /// Gets the codename of the collection.

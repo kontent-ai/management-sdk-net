@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Models.AssetFolders.Patch;
 /// <summary>
 /// Represents the operation on folders.
 /// </summary>
-public abstract class AssetFolderOperationBaseModel
+public abstract record AssetFolderOperationBaseModel
 {
     /// <summary>
     /// Gets specification of the operation to perform.
@@ -15,9 +15,9 @@ public abstract class AssetFolderOperationBaseModel
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets or sets the reference to the existing folder on which the operation will be performed.
+    /// Gets the reference to the existing folder on which the operation will be performed.
     /// </summary>
     [JsonProperty("reference")]
-    public Reference Reference { get; set; }
+    public Reference Reference { get; init; }
 
 }

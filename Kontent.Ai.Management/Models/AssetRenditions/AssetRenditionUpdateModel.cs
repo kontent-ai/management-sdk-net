@@ -5,10 +5,10 @@ namespace Kontent.Ai.Management.Models.AssetRenditions;
 /// <summary>
 /// Represents an asset rendition update model.
 /// </summary>
-public class AssetRenditionUpdateModel
+public sealed record AssetRenditionUpdateModel
 {
     /// <summary>
-    /// Gets or sets the image transformation.
+    /// Gets the image transformation.
     /// The transformation specifies how to transform the original image asset.
     /// 
     /// The image area to use for the transformation is determined by the x, y, width, and height properties.
@@ -20,5 +20,5 @@ public class AssetRenditionUpdateModel
     /// Upscaling, that is setting the custom_width and custom_height greater than width and height, is not allowed.
     /// </summary>
     [JsonProperty("transformation", Required = Required.Always)]
-    public ImageTransformation Transformation { get; set; }
+    public ImageTransformation Transformation { get; init; }
 }

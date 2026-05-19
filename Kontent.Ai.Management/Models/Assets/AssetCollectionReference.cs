@@ -5,10 +5,10 @@ namespace Kontent.Ai.Management.Models.Assets;
 /// <summary>
 /// Contains the reference to the asset's collection.
 /// </summary>
-public class AssetCollectionReference
+public sealed record AssetCollectionReference
 {
     /// <summary>
-    /// Gets or sets the reference.
+    /// Gets the reference.
     /// </summary>
-    public Reference Reference { get; set; }
+    public Reference Reference { get; init; }
 }

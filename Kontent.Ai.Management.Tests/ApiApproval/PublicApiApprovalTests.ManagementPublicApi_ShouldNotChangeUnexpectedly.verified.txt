@@ -379,16 +379,26 @@ public sealed class ServiceCollectionExtensions
     static IServiceCollection AddManagementClient(IServiceCollection services, String name, Action<ManagementOptions> configureOptions, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience, Action<RefitSettings> configureRefit)
 
 // Kontent.Ai.Management.Models.AssetFolders
-public class AssetFolderCreateModel
-    IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+public sealed class AssetFolderCreateModel : IEquatable`1
+    IEnumerable<AssetFolderHierarchy> Folders { get; set; init; }
+    AssetFolderCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders
-public sealed class AssetFolderHierarchy
-    String Codename { get; set; }
-    String ExternalId { get; set; }
-    IEnumerable<AssetFolderHierarchy> Folders { get; set; }
-    String Id { get; }
-    String Name { get; set; }
+public sealed class AssetFolderHierarchy : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    IEnumerable<AssetFolderHierarchy> Folders { get; set; init; }
+    String Id { get; set; init; }
+    String Name { get; set; init; }
+    AssetFolderHierarchy <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderHierarchy other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders
 public sealed class AssetFolderLinkingHierarchy
@@ -400,56 +410,109 @@ public sealed class AssetFolderLinkingHierarchy
     AssetFolderLinkingHierarchy Parent { get; set; }
 
 // Kontent.Ai.Management.Models.AssetFolders
-public sealed class AssetFoldersModel
-    IEnumerable<AssetFolderHierarchy> Folders { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
+public sealed class AssetFoldersModel : IEquatable`1
+    IEnumerable<AssetFolderHierarchy> Folders { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    AssetFoldersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFoldersModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders.Patch
-public class AssetFolderAddIntoModel : AssetFolderOperationBaseModel
-    Reference After { get; set; }
-    Reference Before { get; set; }
+public sealed class AssetFolderAddIntoModel : AssetFolderOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
     String Op { get; }
-    AssetFolderHierarchy Value { get; set; }
+    AssetFolderHierarchy Value { get; set; init; }
+    AssetFolderAddIntoModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Boolean Equals(AssetFolderAddIntoModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders.Patch
-public class AssetFolderOperationBaseModel
+public class AssetFolderOperationBaseModel : IEquatable`1
     String Op { get; }
-    Reference Reference { get; set; }
+    Reference Reference { get; set; init; }
+    AssetFolderOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders.Patch
-public class AssetFolderRemoveModel : AssetFolderOperationBaseModel
+public sealed class AssetFolderRemoveModel : AssetFolderOperationBaseModel, IEquatable`1
     String Op { get; }
+    AssetFolderRemoveModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Boolean Equals(AssetFolderRemoveModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders.Patch
-public class AssetFolderRenameModel : AssetFolderOperationBaseModel
+public sealed class AssetFolderRenameModel : AssetFolderOperationBaseModel, IEquatable`1
     String Op { get; }
-    String Value { get; set; }
+    String Value { get; set; init; }
+    AssetFolderRenameModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Boolean Equals(AssetFolderRenameModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetRenditions
-public class AssetRenditionCreateModel
-    String ExternalId { get; set; }
-    ImageTransformation Transformation { get; set; }
+public sealed class AssetRenditionCreateModel : IEquatable`1
+    String ExternalId { get; set; init; }
+    ImageTransformation Transformation { get; set; init; }
+    AssetRenditionCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetRenditions
-public sealed class AssetRenditionIdentifier
-    Reference AssetIdentifier { get; }
-    Reference RenditionIdentifier { get; }
+public sealed class AssetRenditionIdentifier : IEquatable`1
+    Reference AssetIdentifier { get; set; init; }
+    Reference RenditionIdentifier { get; set; init; }
+    AssetRenditionIdentifier <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionIdentifier other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetRenditions
-public class AssetRenditionModel
-    Guid AssetId { get; set; }
-    String ExternalId { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
-    Guid RenditionId { get; set; }
-    ImageTransformation Transformation { get; set; }
+public sealed class AssetRenditionModel : IEquatable`1
+    Guid AssetId { get; set; init; }
+    String ExternalId { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    Guid RenditionId { get; set; init; }
+    ImageTransformation Transformation { get; set; init; }
+    AssetRenditionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetRenditions
-public class AssetRenditionUpdateModel
-    ImageTransformation Transformation { get; set; }
+public sealed class AssetRenditionUpdateModel : IEquatable`1
+    ImageTransformation Transformation { get; set; init; }
+    AssetRenditionUpdateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionUpdateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetRenditions
-public class ImageTransformation
+public class ImageTransformation : IEquatable`1
     ImageTransformationMode Mode { get; }
+    ImageTransformation <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ImageTransformation other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.AssetRenditions
 public enum ImageTransformationFit : Enum
@@ -460,19 +523,30 @@ public enum ImageTransformationMode : Enum
     Rect
 
 // Kontent.Ai.Management.Models.AssetRenditions
-public class RectangleResizeTransformation : ImageTransformation
-    Int32 CustomHeight { get; set; }
-    Int32 CustomWidth { get; set; }
-    ImageTransformationFit Fit { get; set; }
-    Int32 Height { get; set; }
+public sealed class RectangleResizeTransformation : ImageTransformation, IEquatable`1
+    Int32 CustomHeight { get; set; init; }
+    Int32 CustomWidth { get; set; init; }
+    ImageTransformationFit Fit { get; set; init; }
+    Int32 Height { get; set; init; }
     ImageTransformationMode Mode { get; }
-    Int32 Width { get; set; }
-    Int32 X { get; set; }
-    Int32 Y { get; set; }
+    Int32 Width { get; set; init; }
+    Int32 X { get; set; init; }
+    Int32 Y { get; set; init; }
+    RectangleResizeTransformation <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ImageTransformation other)
+    Boolean Equals(RectangleResizeTransformation other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Assets
-public class AssetCollectionReference
-    Reference Reference { get; set; }
+public sealed class AssetCollectionReference : IEquatable`1
+    Reference Reference { get; set; init; }
+    AssetCollectionReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetCollectionReference other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Assets
 public sealed class AssetCreateModel
@@ -486,28 +560,38 @@ public sealed class AssetCreateModel
     String Title { get; set; }
 
 // Kontent.Ai.Management.Models.Assets
-public sealed class AssetDescription
-    String Description { get; set; }
-    Reference Language { get; set; }
+public sealed class AssetDescription : IEquatable`1
+    String Description { get; set; init; }
+    Reference Language { get; set; init; }
+    AssetDescription <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetDescription other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Assets
-public sealed class AssetModel
-    String Codename { get; set; }
-    AssetCollectionReference Collection { get; set; }
-    IEnumerable<AssetDescription> Descriptions { get; set; }
-    IEnumerable<Object> Elements { get; set; }
-    String ExternalId { get; set; }
-    String FileName { get; set; }
-    FileReference FileReference { get; set; }
-    AssetFolder Folder { get; set; }
-    Guid Id { get; set; }
-    Nullable<Int32> ImageHeight { get; set; }
-    Nullable<Int32> ImageWidth { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
-    Int64 Size { get; set; }
-    String Title { get; set; }
-    String Type { get; set; }
-    String Url { get; set; }
+public sealed class AssetModel : IEquatable`1
+    String Codename { get; set; init; }
+    AssetCollectionReference Collection { get; set; init; }
+    IEnumerable<AssetDescription> Descriptions { get; set; init; }
+    IEnumerable<Object> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    String FileName { get; set; init; }
+    FileReference FileReference { get; set; init; }
+    AssetFolder Folder { get; set; init; }
+    Guid Id { get; set; init; }
+    Nullable<Int32> ImageHeight { get; set; init; }
+    Nullable<Int32> ImageWidth { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    Int64 Size { get; set; init; }
+    String Title { get; set; init; }
+    String Type { get; set; init; }
+    String Url { get; set; init; }
+    AssetModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Assets
 public sealed class AssetUpsertModel
@@ -526,9 +610,14 @@ public class FileContentSource
     Stream OpenReadStream()
 
 // Kontent.Ai.Management.Models.Assets
-public sealed class FileReference
-    String Id { get; set; }
-    FileReferenceTypeEnum Type { get; set; }
+public sealed class FileReference : IEquatable`1
+    String Id { get; set; init; }
+    FileReferenceTypeEnum Type { get; set; init; }
+    FileReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(FileReference other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Assets
 public enum FileReferenceTypeEnum : Enum
