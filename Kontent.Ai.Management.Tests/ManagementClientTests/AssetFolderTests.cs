@@ -1,51 +1,39 @@
-﻿using System.Threading.Tasks;
-using Xunit;
-using Kontent.Ai.Management.Tests.Base;
-using System.Net.Http;
-using System.Collections.Generic;
-using Kontent.Ai.Management.Models.AssetFolders;
 using FluentAssertions;
-using System;
-using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.AssetFolders;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
+using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Tests.Base;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RichardSzalay.MockHttp;
+using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class AssetFolderTests
 {
-    private readonly Scenario _scenario;
+    private static string Folder => Fixture("Folder.json");
 
-    public AssetFolderTests()
-    {
-        _scenario = new Scenario(folder: "AssetFolder");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "AssetFolder", name));
 
     [Fact]
     public async Task GetAssetFoldersAsync_GetsFolder()
     {
-        var client = _scenario
-            .WithResponses("Folder.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/folders")
+            .Respond("application/json", Folder);
 
         var response = await client.GetAssetFoldersAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/folders")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFoldersModel>(Folder));
     }
 
     [Fact]
     public async Task CreateAssetFoldersAsync_CreatesFolder()
     {
-        var client = _scenario
-            .WithResponses("Folder.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var folderModel = new AssetFolderCreateModel
         {
             Folders = new List<AssetFolderHierarchy>
@@ -59,50 +47,66 @@ public class AssetFolderTests
             }
         };
 
+        string? capturedBody = null;
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/folders")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Folder);
+
         var response = await client.CreateAssetFoldersAsync(folderModel);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(folderModel)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/folders")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFoldersModel>(Folder));
+        capturedBody.Should().NotBeNull();
+        JsonConvert.DeserializeObject<AssetFolderCreateModel>(capturedBody!)
+            .Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFolderCreateModel>(JsonConvert.SerializeObject(folderModel)));
     }
 
     [Fact]
     public async Task CreateAssetFoldersAsync_FolderModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.CreateAssetFoldersAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(c => c.CreateAssetFoldersAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ModifyAssetFoldersAsync_ModifiesFolder()
+    public async Task ModifyAssetFoldersAsync_ModifiesFolder()
     {
-        var client = _scenario
-            .WithResponses("Folder.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
+
+        string? capturedBody = null;
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/folders")
+            .With(r =>
+            {
+                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Folder);
+
         var response = await client.ModifyAssetFoldersAsync(changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/folders")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        response.Should().BeEquivalentTo(JsonConvert.DeserializeObject<AssetFoldersModel>(Folder));
+        capturedBody.Should().NotBeNull();
+        // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
+        // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
+        // operation kinds (PATCH order matters), via each element's stable "op" discriminator.
+        var sentOps = JArray.Parse(capturedBody!).Select(t => (string?)t["op"]);
+        var expectedOps = JArray.Parse(JsonConvert.SerializeObject(changes)).Select(t => (string?)t["op"]);
+        sentOps.Should().Equal(expectedOps);
     }
 
     [Fact]
     public async Task ModifyAssetFoldersAsync_ChangesAreNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.ModifyAssetFoldersAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(c => c.ModifyAssetFoldersAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     private static List<AssetFolderOperationBaseModel> GetChanges() => new()
