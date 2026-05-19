@@ -9,7 +9,7 @@ namespace Kontent.Ai.Management.Models.Content;
 /// </summary>
 /// <remarks>
 /// Distinct from the legacy <c>Kontent.Ai.Management.Models.LanguageVariants.Elements.RichTextElement</c>, which
-/// is bound to the Newtonsoft dynamic-elements write path. The two coexist by namespace until phase 5.
+/// is bound to the Newtonsoft dynamic-elements write path. The two coexist by namespace.
 /// </remarks>
 public sealed record RichTextElement
 {

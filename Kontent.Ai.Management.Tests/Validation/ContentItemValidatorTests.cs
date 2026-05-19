@@ -76,14 +76,14 @@ public class ContentItemValidatorTests
     }
 
     [Fact]
-    public void NoOpAttributes_DoNotFireInPhase3()
+    public void NoOpAttributes_DoNotFire()
     {
         // [MaxAssetSize], [AllowedAssetFileTypes], [AllowedTaxonomyGroup] are recorded on the property but
         // not enforced — the data needed to check them isn't present in an in-memory record. The validator
         // accepts plausibly-out-of-bounds values for these attributes without complaint.
         var result = ContentItemValidator.Validate(new Article
         {
-            // A "huge" hero asset reference — phase 3 has no asset metadata, so [MaxAssetSize] can't fire.
+            // A "huge" hero asset reference — there's no asset metadata in-memory, so [MaxAssetSize] can't fire.
             HeroAssets = [new AssetReference { Codename = "very-large-asset" }],
             // A taxonomy term that may or may not belong to the [AllowedTaxonomyGroup] — can't be checked locally.
             Taxonomy = [Reference.ByCodename("unknown-term")],
@@ -107,7 +107,7 @@ public class ContentItemValidatorTests
     public void StatusCode_IsAlwaysNull_FromValidator()
     {
         // The validator never makes an HTTP call, so StatusCode is null on both success and failure paths.
-        // (Phase 4's strongly-typed client methods will populate it when the failure originates from an API response.)
+        // (It is populated only when a failure originates from an API response.)
         var success = ContentItemValidator.Validate(new Article());
         var failure = ContentItemValidator.Validate(new Article { Title = new string('x', 100) });
 

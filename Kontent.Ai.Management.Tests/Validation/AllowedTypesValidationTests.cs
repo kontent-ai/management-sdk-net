@@ -47,7 +47,7 @@ public class AllowedTypesValidationTests
     [Fact]
     public void MultipleDisallowedItems_ProduceMultipleErrors()
     {
-        // Phase 3 emits one error per disallowed entry; consumers can dedupe in their UI if needed.
+        // The validator emits one error per disallowed entry; consumers can dedupe in their UI if needed.
         var result = ContentItemValidator.Validate(new Article
         {
             Related = [new Banner(), new Article(), new Banner()],

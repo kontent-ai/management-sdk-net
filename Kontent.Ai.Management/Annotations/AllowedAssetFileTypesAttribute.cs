@@ -1,9 +1,8 @@
 namespace Kontent.Ai.Management.Annotations;
 
 /// <summary>
-/// Mirrors the MAPI's <c>allowed_file_types</c> enum on an asset element. The validator surfaces this constraint
-/// on outbound writes when upload context is available (phase 4 onward); phase 3's validator records but does
-/// not enforce it.
+/// Mirrors the MAPI's <c>allowed_file_types</c> enum on an asset element. The validator records this constraint
+/// but enforces it only when upload context (the asset's MIME type) is available.
 /// </summary>
 public enum AssetFileType
 {

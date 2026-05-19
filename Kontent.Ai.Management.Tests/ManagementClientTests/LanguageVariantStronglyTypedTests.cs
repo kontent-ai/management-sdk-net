@@ -64,7 +64,7 @@ public class LanguageVariantStronglyTypedTests
     public async Task UpsertLanguageVariantAsync_StronglyTyped_ValidationFailure_ShortCircuitsWithoutHttp()
     {
         // [ExactElements(1)] on Article.Author — an empty collection violates it, so the validator fails the
-        // precheck and the method returns before any HTTP call (phase-4 decision §9): no status, element-scoped error.
+        // precheck and the method returns before any HTTP call: no status, element-scoped error.
         var client = _scenario.CreateManagementClient();
 
         var result = await client.UpsertLanguageVariantAsync(Identifier(), new Article { Author = [] });

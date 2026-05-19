@@ -3,9 +3,9 @@ using System.Net;
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// Result of a Management SDK operation that surfaces failures without throwing — currently produced by the
-/// content-item validator, and (from phase 4 onward) by strongly-typed <c>IManagementClient</c> methods that
-/// accept or return generated content-type records.
+/// Result of a Management SDK operation that surfaces failures without throwing — produced by the content-item
+/// validator and by strongly-typed <c>IManagementClient</c> methods that accept or return generated
+/// content-type records.
 /// </summary>
 /// <typeparam name="T">The value type carried on success.</typeparam>
 public interface IManagementResult<out T>

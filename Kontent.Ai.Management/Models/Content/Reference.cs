@@ -9,7 +9,7 @@ namespace Kontent.Ai.Management.Models.Content;
 /// </summary>
 /// <remarks>
 /// STJ-formatted counterpart to the legacy <c>Kontent.Ai.Management.Models.Shared.Reference</c>; the two coexist
-/// by namespace until phase 5 sunsets the legacy type. Use the <see cref="ById"/> / <see cref="ByCodename"/> /
+/// by namespace, the legacy type staying on the Newtonsoft path. Use the <see cref="ById"/> / <see cref="ByCodename"/> /
 /// <see cref="ByExternalId"/> factories for ergonomic construction.
 /// </remarks>
 public sealed record Reference

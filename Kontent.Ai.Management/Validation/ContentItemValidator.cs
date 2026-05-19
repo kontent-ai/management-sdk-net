@@ -13,7 +13,7 @@ namespace Kontent.Ai.Management.Validation;
 /// <see cref="Kontent.Ai.Management.Annotations"/> attributes and selected <see cref="System.ComponentModel.DataAnnotations"/>
 /// attributes. Best-effort precheck — the MAPI remains the source of truth for what's accepted. Constraints that
 /// need server-side context (<c>[MaxAssetSize]</c>, <c>[AllowedAssetFileTypes]</c>, <c>[AllowedTaxonomyGroup]</c>,
-/// <c>[AllowedItemLinkTypes]</c>) are recorded on the property but not enforced in phase 3.
+/// <c>[AllowedItemLinkTypes]</c>) are recorded on the property but not enforced.
 /// </summary>
 /// <remarks>
 /// Rule construction is cached per <see cref="Type"/> so repeated validations of the same content-type record only
@@ -173,7 +173,7 @@ public static class ContentItemValidator
         }
 
         // [MaxAssetSize], [AllowedAssetFileTypes], [AllowedTaxonomyGroup], [AllowedItemLinkTypes] intentionally
-        // produce no check in phase 3 — the data needed to enforce them isn't present on the in-memory record.
+        // produce no check — the data needed to enforce them isn't present on the in-memory record.
 
         return checks.ToArray();
     }

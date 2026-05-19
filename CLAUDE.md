@@ -63,6 +63,7 @@ If a sibling's convention and your instinct disagree, defer to the sibling unles
 - **Only comment the non-obvious.** A hidden API constraint, a subtle invariant, a workaround for a specific server-side quirk, a decision whose rationale would surprise a future reader. If removing the comment would not confuse anyone, do not write it.
 - **Do not annotate corrections.** When the user corrects your approach, fix the code and move on. Do not leave comments like `// changed from X because Y` or `// previously used Z` — that history belongs in the commit message at most, usually nowhere.
 - **Do not add defensive code for impossible scenarios.** Trust framework and internal guarantees. Validate only at external boundaries (public API entry points, deserialized payloads from the network).
+- **No referencing of development markdown files in the comments.** There will be many markdown files with plans, notes and other meta information for development purposes. Those are not going to be commited and must not be referenced by any code comments.
 - **No dead code, no `// TODO` drifting across PRs, no commented-out blocks.**
 - **Prefer pattern matching.** See above.
 

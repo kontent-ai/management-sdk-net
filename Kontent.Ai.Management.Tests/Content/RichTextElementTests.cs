@@ -37,7 +37,7 @@ public class RichTextElementTests
     public void RichText_RoundTrip_PreservesValue()
     {
         // Round-trip without components — direct STJ doesn't round-trip Component.Content (it's [JsonIgnore]
-        // by design; the phase-4 envelope converter owns the components-with-content story).
+        // by design; the envelope converter owns the components-with-content story).
         var original = new RichTextElement { Value = "<p>hello</p>" };
 
         var json = JsonSerializer.Serialize(original);

@@ -219,7 +219,7 @@ public partial class ManagementClient
     }
 
     // Best-effort projection of a MAPI error body into result errors. Mirrors the parse ManagementException does,
-    // but surfaces failures through IManagementResult instead of throwing (phase-4 decision §9).
+    // but surfaces failures through IManagementResult instead of throwing.
     private static IReadOnlyList<ManagementError> ParseErrors(IApiResponse response)
     {
         var error = response.Error;

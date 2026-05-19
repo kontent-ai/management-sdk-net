@@ -13,7 +13,7 @@ namespace Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
 //   - [MinElements]+[MaxElements] on Tags
 //   - [ExactElements]       on Category
 //   - [AllowedTypes]        on Related
-//   - phase-3 no-op attrs   on HeroAssets and Taxonomy (verifying the validator accepts but doesn't enforce)
+//   - no-op attrs           on HeroAssets and Taxonomy (validator accepts but doesn't enforce)
 [KontentType("article", "11111111-1111-1111-1111-111111111111")]
 internal sealed record Article : IContentItem
 {
@@ -42,8 +42,8 @@ internal sealed record Article : IContentItem
 
     [KontentElement("hero_assets", "88888888-8888-8888-8888-888888888888")]
     [MaxElements(3)]
-    [MaxAssetSize(10_485_760)]                  // no-op in phase 3
-    [AllowedAssetFileTypes(AssetFileType.Image)] // no-op in phase 3
+    [MaxAssetSize(10_485_760)]                  // not enforced by the validator
+    [AllowedAssetFileTypes(AssetFileType.Image)] // not enforced by the validator
     public IReadOnlyList<AssetReference>? HeroAssets { get; init; }
 
     [KontentElement("related", "99999999-9999-9999-9999-999999999999")]
@@ -51,7 +51,7 @@ internal sealed record Article : IContentItem
     public IReadOnlyList<IContentItem>? Related { get; init; }
 
     [KontentElement("taxonomy", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")]
-    [AllowedTaxonomyGroup("categories")]        // no-op in phase 3
+    [AllowedTaxonomyGroup("categories")]        // not enforced by the validator
     [MinElements(1)]
     public IReadOnlyList<Reference>? Taxonomy { get; init; }
 }
