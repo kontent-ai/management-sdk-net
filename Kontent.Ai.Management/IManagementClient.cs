@@ -168,15 +168,17 @@ public interface IManagementClient
     /// Creates content type.
     /// </summary>
     /// <param name="contentType">Represents content type that will be created.</param>
-    /// <returns>The <see cref="ContentTypeModel"/> instance that represents created content type.</returns>
-    Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="ContentTypeModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates content type snippet.
     /// </summary>
     /// <param name="contentTypeSnippet">Represents content type snippet which will be created.</param>
-    /// <returns>The <see cref="ContentTypeSnippetModel"/> instance that represents created content type snippet.</returns>
-    Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="ContentTypeSnippetModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentTypeSnippetModel>> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the language.
@@ -218,13 +220,17 @@ public interface IManagementClient
     /// Deletes the given content type.
     /// </summary>
     /// <param name="identifier">The identifier of the content type.</param>
-    Task DeleteContentTypeAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given content type snippet.
     /// </summary>
     /// <param name="identifier">The identifier of the content type snippet.</param>
-    Task DeleteContentTypeSnippetAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given language variant.
@@ -279,18 +285,20 @@ public interface IManagementClient
     Task<ContentItemModel> GetContentItemAsync(Reference identifier);
 
     /// <summary>
-    /// Returns strongly typed content type.
+    /// Returns content type.
     /// </summary>
     /// <param name="identifier">The identifier of the content type.</param>
-    /// <returns>The <see cref="ContentTypeModel"/> instance that represents requested content type.</returns>
-    Task<ContentTypeModel> GetContentTypeAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="ContentTypeModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns content type snippet.
     /// </summary>
     /// <param name="identifier">The identifier of the content type snippet.</param>
-    /// <returns>The <see cref="ContentTypeSnippetModel"/> instance that represents requested content type snippet.</returns>
-    Task<ContentTypeSnippetModel> GetContentTypeSnippetAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="ContentTypeSnippetModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the language.
@@ -374,22 +382,20 @@ public interface IManagementClient
     Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync();
 
     /// <summary>
-    /// Returns listing of content types.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// Enumerates the environment's content types, one continuation-token page at a time.
     /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{ContentTypeModel}"/> instance that represents the listing of content types.</returns>
-    Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync();
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's content types on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeModel>>> EnumerateContentTypePagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns listing of content type snippets.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// Enumerates the environment's content type snippets, one continuation-token page at a time.
     /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{ContentTypeSnippetModel}"/> instance that represents the listing of content type snippets.</returns>
-    Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync();
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's content type snippets on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> EnumerateContentTypeSnippetPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enumerates the languages, one continuation-token page at a time.
@@ -532,15 +538,19 @@ public interface IManagementClient
     /// Modifies content type.
     /// </summary>
     /// <param name="identifier">The identifier of the content type.</param>
-    /// /// <param name="changes">Represents changes that will be applied to the content type.</param>
-    Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes);
+    /// <param name="changes">Represents changes that will be applied to the content type.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="ContentTypeModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies content type snippet.
     /// </summary>
     /// <param name="identifier">The identifier of the content type snippet.</param>
     /// <param name="changes">Represents changes that will be applied to the content type snippet.</param>
-    Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="ContentTypeSnippetModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the language.

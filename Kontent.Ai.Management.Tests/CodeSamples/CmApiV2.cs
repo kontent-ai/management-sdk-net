@@ -395,7 +395,11 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Snippets.json");
 
-        var response = await client.ListContentTypeSnippetsAsync();
+        var response = new List<ContentTypeSnippetModel>();
+        await foreach (var page in client.EnumerateContentTypeSnippetPagesAsync())
+        {
+            response.AddRange(page.Value);
+        }
 
         Assert.Single(response);
     }
@@ -456,7 +460,11 @@ public class CmApiV2
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentTypes.json");
 
 
-        var response = await client.ListContentTypesAsync();
+        var response = new List<ContentTypeModel>();
+        await foreach (var page in client.EnumerateContentTypePagesAsync())
+        {
+            response.AddRange(page.Value);
+        }
 
         Assert.Single(response);
     }

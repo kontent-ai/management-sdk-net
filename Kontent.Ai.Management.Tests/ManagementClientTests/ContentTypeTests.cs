@@ -1,5 +1,4 @@
 using AwesomeAssertions;
-using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
@@ -25,7 +24,7 @@ public class ContentTypeTests
             .ToList();
 
     [Fact]
-    public async Task ListContentTypesAsync_WithContinuation_ListsContentTypes()
+    public async Task EnumerateContentTypePagesAsync_PagesThroughAllContentTypes()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("ContentTypesPage1.json");
@@ -36,10 +35,15 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var response = await client.ListContentTypesAsync().GetAllAsync();
+        var contentTypes = new List<ContentTypeModel>();
+        await foreach (var page in client.EnumerateContentTypePagesAsync())
+        {
+            page.IsSuccess.Should().BeTrue();
+            contentTypes.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<ContentTypeModel>(page1, page2, page3));
+        contentTypes.Should().BeEquivalentTo(ConcatPages<ContentTypeModel>(page1, page2, page3));
     }
 
     [Fact]
@@ -50,10 +54,11 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/types/{identifier.Id}")
             .Respond("application/json", ContentType);
 
-        var response = await client.GetContentTypeAsync(identifier);
+        var result = await client.GetContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -64,10 +69,11 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/types/codename/{identifier.Codename}")
             .Respond("application/json", ContentType);
 
-        var response = await client.GetContentTypeAsync(identifier);
+        var result = await client.GetContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -78,10 +84,11 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/types/external-id/{identifier.ExternalId}")
             .Respond("application/json", ContentType);
 
-        var response = await client.GetContentTypeAsync(identifier);
+        var result = await client.GetContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -116,10 +123,11 @@ public class ContentTypeTests
             })
             .Respond("application/json", ContentType);
 
-        var response = await client.CreateContentTypeAsync(createModel);
+        var result = await client.CreateContentTypeAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<ContentTypeCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -141,9 +149,10 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/types/{identifier.Id}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteContentTypeAsync(identifier);
+        var result = await client.DeleteContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -154,9 +163,10 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/types/codename/{identifier.Codename}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteContentTypeAsync(identifier);
+        var result = await client.DeleteContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -167,9 +177,10 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/types/external-id/{identifier.ExternalId}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteContentTypeAsync(identifier);
+        var result = await client.DeleteContentTypeAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -196,14 +207,14 @@ public class ContentTypeTests
             })
             .Respond("application/json", ContentType);
 
-        var response = await client.ModifyContentTypeAsync(identifier, changes);
+        var result = await client.ModifyContentTypeAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
-        // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
-        // operation kinds (PATCH order matters), via each element's stable "op" discriminator.
+        // Heterogeneous polymorphic operation list: assert the converter-free, behaviourally meaningful part — the
+        // ordered sequence of operation kinds (PATCH order matters), via each element's stable "op" discriminator.
         var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
         var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
@@ -225,10 +236,11 @@ public class ContentTypeTests
             })
             .Respond("application/json", ContentType);
 
-        var response = await client.ModifyContentTypeAsync(identifier, changes);
+        var result = await client.ModifyContentTypeAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
         var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
@@ -251,10 +263,11 @@ public class ContentTypeTests
             })
             .Respond("application/json", ContentType);
 
-        var response = await client.ModifyContentTypeAsync(identifier, changes);
+        var result = await client.ModifyContentTypeAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeModel>(ContentType, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
         var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
@@ -266,9 +279,7 @@ public class ContentTypeTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        List<ContentTypeOperationBaseModel> changes = new();
-
-        await client.Invoking(x => x.ModifyContentTypeAsync(null!, changes)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyContentTypeAsync(null!, GetChanges())).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -276,16 +287,7 @@ public class ContentTypeTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyContentTypeAsync(Reference.ByCodename("tweet"), null!)).Should().ThrowAsync<ArgumentException>();
-    }
-
-    [Fact]
-    public async Task ModifyContentTypeAsync_NoChanges_Throws()
-    {
-        var (client, _) = MockClientFactory.Create();
-
-        await client.Invoking(x => x.ModifyContentTypeAsync(Reference.ByCodename("tweet"), new List<ContentTypeOperationBaseModel> { }))
-            .Should().ThrowAsync<ArgumentException>();
+        await client.Invoking(x => x.ModifyContentTypeAsync(Reference.ByCodename("tweet"), null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     private static List<ContentTypeOperationBaseModel> GetChanges() => new()

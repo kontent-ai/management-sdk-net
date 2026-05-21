@@ -1,4 +1,5 @@
 using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Models.TypeSnippets.Patch;
@@ -8,54 +9,47 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync()
-    {
-        var response = EnsureSuccess(await _managementApi.ListContentTypeSnippetsInternalAsync());
-
-        return new ListingResponseModel<ContentTypeSnippetModel>(
-            (continuationToken, _) => GetNextContentTypeSnippetsPageAsync(continuationToken),
-            response.Pagination?.Token,
-            url: string.Empty,
-            response.Snippets);
-    }
-
-    private async Task<IListingResponse<ContentTypeSnippetModel>> GetNextContentTypeSnippetsPageAsync(string continuationToken)
-        => EnsureSuccess(await _managementApi.ListContentTypeSnippetsInternalAsync(continuationToken));
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> EnumerateContentTypeSnippetPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<SnippetListingResponseServerModel, ContentTypeSnippetModel>(
+            _managementApi.ListContentTypeSnippetsInternalAsync,
+            page => page.Snippets,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<ContentTypeSnippetModel> GetContentTypeSnippetAsync(Reference identifier)
+    public async Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetContentTypeSnippetInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.GetContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet)
+    public async Task<IManagementResult<ContentTypeSnippetModel>> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(contentTypeSnippet);
 
-        return EnsureSuccess(await _managementApi.CreateContentTypeSnippetInternalAsync(contentTypeSnippet));
+        var response = await _managementApi.CreateContentTypeSnippetInternalAsync(contentTypeSnippet, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteContentTypeSnippetAsync(Reference identifier)
+    public async Task<IManagementResult> DeleteContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.DeleteContentTypeSnippetInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.DeleteContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
+    public async Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
-        if (changes == null || !changes.Any())
-        {
-            throw new ArgumentException("Please provide at least one operation.", nameof(changes));
-        }
-
-        return EnsureSuccess(await _managementApi.ModifyContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), changes));
+        var response = await _managementApi.ModifyContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 }
