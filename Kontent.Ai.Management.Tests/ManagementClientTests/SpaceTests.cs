@@ -42,10 +42,11 @@ public class SpaceTests
             })
             .Respond("application/json", Space);
 
-        var response = await client.CreateSpaceAsync(createModel);
+        var result = await client.CreateSpaceAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<SpaceCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -66,10 +67,11 @@ public class SpaceTests
         mock.Expect(HttpMethod.Get, SpacesUrl)
             .Respond("application/json", Spaces);
 
-        var response = await client.ListSpacesAsync();
+        var result = await client.ListSpacesAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<SpaceModel>>(Spaces, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<SpaceModel>>(Spaces, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -80,10 +82,11 @@ public class SpaceTests
         mock.Expect(HttpMethod.Get, $"{SpacesUrl}/{identifier.Id}")
             .Respond("application/json", Space);
 
-        var response = await client.GetSpaceAsync(identifier);
+        var result = await client.GetSpaceAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -94,10 +97,11 @@ public class SpaceTests
         mock.Expect(HttpMethod.Get, $"{SpacesUrl}/codename/{identifier.Codename}")
             .Respond("application/json", Space);
 
-        var response = await client.GetSpaceAsync(identifier);
+        var result = await client.GetSpaceAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -133,10 +137,11 @@ public class SpaceTests
             })
             .Respond("application/json", ModifySpaceReplace);
 
-        var response = await client.ModifySpaceAsync(identifier, changes);
+        var result = await client.ModifySpaceAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(ModifySpaceReplace, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(ModifySpaceReplace, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
@@ -171,9 +176,10 @@ public class SpaceTests
         mock.Expect(HttpMethod.Delete, $"{SpacesUrl}/{identifier.Id}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteSpaceAsync(identifier);
+        var result = await client.DeleteSpaceAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -184,9 +190,10 @@ public class SpaceTests
         mock.Expect(HttpMethod.Delete, $"{SpacesUrl}/codename/{identifier.Codename}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteSpaceAsync(identifier);
+        var result = await client.DeleteSpaceAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]

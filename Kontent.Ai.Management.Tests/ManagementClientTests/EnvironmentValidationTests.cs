@@ -26,10 +26,11 @@ public class EnvironmentValidationTests
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/validate")
             .Respond("application/json", ProjectValidation);
 
-        var response = await client.ValidateEnvironmentAsync();
+        var result = await client.ValidateEnvironmentAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentReportModel>(ProjectValidation, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentReportModel>(ProjectValidation, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -39,10 +40,11 @@ public class EnvironmentValidationTests
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/validate-async")
             .Respond("application/json", AsyncValidationTask);
 
-        var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
+        var result = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -53,10 +55,11 @@ public class EnvironmentValidationTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}")
             .Respond("application/json", AsyncValidationTask);
 
-        var response = await client.GetAsyncValidationTaskAsync(taskIdentifier);
+        var result = await client.GetAsyncValidationTaskAsync(taskIdentifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -67,10 +70,11 @@ public class EnvironmentValidationTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}/issues")
             .Respond("application/json", AsyncValidationTaskIssues);
 
-        var response = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier).GetAllAsync();
+        var result = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier).GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
         var items = JsonNode.Parse(AsyncValidationTaskIssues)!.AsObject().First().Value!.ToString();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<AsyncValidationTaskIssueModel>>(items, SharedTestJsonOptions.Default));
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<AsyncValidationTaskIssueModel>>(items, SharedTestJsonOptions.Default));
     }
 }

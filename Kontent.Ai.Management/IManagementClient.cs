@@ -1,4 +1,4 @@
-﻿using Kontent.Ai.Management.Models.AssetFolders;
+using Kontent.Ai.Management.Models.AssetFolders;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Assets;
@@ -205,8 +205,9 @@ public interface IManagementClient
     /// Creates the language.
     /// </summary>
     /// <param name="language">The language to be created.</param>
-    /// <returns>The <see cref="LanguageModel"/> instance that represents created language.</returns>
-    Task<LanguageModel> CreateLanguageAsync(LanguageCreateModel language);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="LanguageModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageModel>> CreateLanguageAsync(LanguageCreateModel language, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the new version of the language variant.
@@ -218,8 +219,9 @@ public interface IManagementClient
     /// Creates taxonomy group.
     /// </summary>
     /// <param name="taxonomyGroup">Represents the taxonomy group which will be created.</param>
-    /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents created taxonomy group.</returns>
-    Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="TaxonomyGroupModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the webhook.
@@ -257,7 +259,9 @@ public interface IManagementClient
     /// Deletes the given taxonomy group.
     /// </summary>
     /// <param name="identifier">The identifier of the taxonomy group.</param>
-    Task DeleteTaxonomyGroupAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the webhook.
@@ -314,8 +318,9 @@ public interface IManagementClient
     /// Returns the language.
     /// </summary>
     /// <param name="identifier">The identifier of the language.</param>
-    /// <returns>The <see cref="LanguageModel"/> instance that represents requested language.</returns>
-    Task<LanguageModel> GetLanguageAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="LanguageModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed language variant.
@@ -354,15 +359,17 @@ public interface IManagementClient
     /// <summary>
     /// Returns environment information
     /// </summary>
-    /// <returns>The <see cref="Environment"/> instance that represents the environment information.</returns>
-    Task<Models.EnvironmentReport.Environment> GetEnvironmentInformationAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="Environment"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<Models.EnvironmentReport.Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns taxonomy group.
     /// </summary>
     /// <param name="identifier">The identifier of the taxonomy group.</param>
-    /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents requested taxonomy group.</returns>
-    Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="TaxonomyGroupModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the webhook.
@@ -375,11 +382,12 @@ public interface IManagementClient
     /// <summary>
     /// Returns listing of collection.
     /// </summary>
-    /// <returns>The <see cref="CollectionsModel"/> instance that represents the listing of collection.</returns>
-    Task<CollectionsModel> ListCollectionsAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="CollectionsModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns strongly typed listing of content items. 
+    /// Returns strongly typed listing of content items.
     /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
     /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
     /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
@@ -411,8 +419,9 @@ public interface IManagementClient
     /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
     /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
     /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{LanguageModel}"/> instance that represents the listing of languages.</returns>
-    Task<IListingResponseModel<LanguageModel>> ListLanguagesAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="LanguageModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IListingResponseModel<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed listing of language variants for specified collection.
@@ -486,8 +495,9 @@ public interface IManagementClient
     /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
     /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
     /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{TaxonomyGroupModel}"/> instance that represents the listing of taxonomy groups.</returns>
-    Task<IListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="TaxonomyGroupModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IListingResponseModel<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns listing of webhooks.
@@ -499,29 +509,34 @@ public interface IManagementClient
     /// <summary>
     /// Returns listing of workflows.
     /// </summary>
-    /// <returns>The <see cref="IEnumerable{WorkflowResponseModel}"/> instance that represents the listing of workflow steps.</returns>
-    Task<IEnumerable<WorkflowModel>> ListWorkflowsAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="WorkflowModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IEnumerable<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given workflow.
     /// </summary>
     /// <param name="identifier">The identifier of the workflow.</param>
-    Task DeleteWorkflowAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteWorkflowAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new workflow.
     /// </summary>
     /// <param name="workflow">Represents workflow that will be created.</param>
-    /// <returns>The <see cref="WorkflowModel"/> instance that represents the created workflow.</returns>
-    Task<WorkflowModel> CreateWorkflowAsync(WorkflowUpsertModel workflow);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="WorkflowModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update the specified workflow.
     /// </summary>
     /// <param name="identifier">The identifier of the workflow to update.</param>
     /// <param name="workflow">Represents the changed workflow to update.</param>
-    /// <returns>The <see cref="WorkflowModel"/> instance that represents the updated workflow.</returns>
-    Task<WorkflowModel> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the updated <see cref="WorkflowModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the asset folder.
@@ -534,7 +549,9 @@ public interface IManagementClient
     /// Modifies collection.
     /// </summary>
     /// <param name="changes">Represents changes that will be applied to the collection.</param>
-    Task<CollectionsModel> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="CollectionsModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies content type.
@@ -555,16 +572,18 @@ public interface IManagementClient
     /// </summary>
     /// <param name="identifier">The language to be modified.</param>
     /// <param name="changes">Represents changes that will be applied to the language.</param>
-    /// <returns>The <see cref="LanguageModel"/> instance that represents modified language.</returns>
-    Task<LanguageModel> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="LanguageModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies given taxonomy group.
     /// </summary>
     /// <param name="identifier">The identifier of the taxonomy group.</param>
     /// <param name="changes">Represents changes that will be applied to the taxonomy group.</param>
-    /// <returns>The <see cref="TaxonomyGroupModel"/> instance that represents the created taxonomy group.</returns>
-    Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="TaxonomyGroupModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Publishes the language variant.
@@ -646,54 +665,64 @@ public interface IManagementClient
     /// <summary>
     /// Validates the environment.
     /// </summary>
-    /// <returns><see cref="EnvironmentReportModel"/></returns>
-    Task<EnvironmentReportModel> ValidateEnvironmentAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="EnvironmentReportModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates asynchronous environment validation.
     /// </summary>
-    /// <returns><see cref="AsyncValidationTaskModel"/></returns>
-    Task<AsyncValidationTaskModel> InitiateEnvironmentAsyncValidationTaskAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="AsyncValidationTaskModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets async validation task.
     /// </summary>
-    /// <returns><see cref="AsyncValidationTaskModel"/></returns>
-    Task<AsyncValidationTaskModel> GetAsyncValidationTaskAsync(Guid taskId);
+    /// <param name="taskId">The identifier of the validation task.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="AsyncValidationTaskModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists async validation task issues.
     /// </summary>
-    /// <returns><see cref="IListingResponseModel{AsyncValidationTaskIssue}"/></returns>
-    Task<IListingResponseModel<AsyncValidationTaskIssueModel>> ListAsyncValidationTaskIssuesAsync(Guid taskId);
+    /// <param name="taskId">The identifier of the validation task.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="AsyncValidationTaskIssueModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IListingResponseModel<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all roles in an environment.
     /// </summary>
-    /// <returns>The <see cref="EnvironmentRolesModel"/> instance that represents the listing of roles in an environment.</returns>
-    Task<EnvironmentRolesModel> ListEnvironmentRolesAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="EnvironmentRolesModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<EnvironmentRolesModel>> ListEnvironmentRolesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns environment role.
     /// </summary>
     /// <param name="identifier">The identifier of the environment role.</param>
-    /// <returns>The <see cref="EnvironmentRoleModel"/> instance that represents requested environment role.</returns>
-    Task<EnvironmentRoleModel> GetEnvironmentRoleAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="EnvironmentRoleModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Invites a new user to an environment.
     /// </summary>
     /// <param name="invitation">Represents an user that is to be invited.</param>
-    /// <returns>Returns the newly invited user.</returns>
-    Task<UserModel> InviteUserIntoEnvironmentAsync(UserInviteModel invitation);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the newly invited <see cref="UserModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies user's roles.
     /// </summary>
     /// <param name="identifier">The identifier of the environment user.</param>
     /// <param name="user">Represents an user that is to be modified.</param>
-    /// <returns>Returns the modified user.</returns>
-    Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="UserModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed listing of projects.
@@ -701,8 +730,9 @@ public interface IManagementClient
     /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
     /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
     /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{SubscriptionProjectModel}"/> instance that represents the listing of projects.</returns>
-    Task<IListingResponseModel<SubscriptionProjectModel>> ListSubscriptionProjectsAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="SubscriptionProjectModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IListingResponseModel<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed listing of users under your subscription including
@@ -711,8 +741,9 @@ public interface IManagementClient
     /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
     /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
     /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{SubscriptionUserModel}"/> instance that represents the listing of subscription users.</returns>
-    Task<IListingResponseModel<SubscriptionUserModel>> ListSubscriptionUsersAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="SubscriptionUserModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IListingResponseModel<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a user metadata from under the specified subscription.
@@ -720,147 +751,180 @@ public interface IManagementClient
     /// and content in specific collections, roles, and languages.
     /// </summary>
     /// <param name="identifier">The identifier of the subscription user.</param>
-    /// <returns>The <see cref="SubscriptionProjectModel"/> instance that represents the project.</returns>
-    Task<SubscriptionUserModel> GetSubscriptionUserAsync(UserIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="SubscriptionUserModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Activates the specified user in all projects under the specified subscription.
     /// </summary>
     /// <param name="identifier">The identifier of the subscription user.</param>
-    /// <returns></returns>
-    Task ActivateSubscriptionUserAsync(UserIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates the specified user in all projects under the specified subscription.
     /// </summary>
     /// <param name="identifier">The identifier of the subscription user.</param>
-    /// <returns></returns>
-    Task DeactivateSubscriptionUserAsync(UserIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Clones environment.
     /// </summary>
     /// <param name="cloneEnvironmentModel">Cloning settings.</param>
-    /// <returns>The <see cref="EnvironmentClonedModel"/> instance that represents the result of the cloning.</returns>
-    Task<EnvironmentClonedModel> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="EnvironmentClonedModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the state of the environment cloning.
     /// </summary>
-    /// <returns>The <see cref="EnvironmentCloningStateModel"/> instance that represents the current state of the cloning.</returns>
-    Task<EnvironmentCloningStateModel> GetEnvironmentCloningStateAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="EnvironmentCloningStateModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes current environment.
     /// </summary>
-    Task DeleteEnvironmentAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Marks current environment as production.
-    /// <param name="markAsProductionModel">Represents settings that will be used to mark the environment as production.</param>
     /// </summary>
-    Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel);
+    /// <param name="markAsProductionModel">Represents settings that will be used to mark the environment as production.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies current environment.
     /// </summary>
     /// <param name="changes">Represents changes that will be applied to the environment.</param>
-    /// <returns>The <see cref="EnvironmentModel"/> instance that represents the modified environment.</returns>
-    Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="EnvironmentModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the space.
     /// </summary>
     /// <param name="space">The space to be created.</param>
-    /// <returns>The <see cref="SpaceModel"/> instance that represents the created space.</returns>
-    Task<SpaceModel> CreateSpaceAsync(SpaceCreateModel space);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="SpaceModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<SpaceModel>> CreateSpaceAsync(SpaceCreateModel space, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the space.
     /// </summary>
-    /// <returns>The <see cref="SpaceModel"/> instance that represents the space.</returns>
-    Task<SpaceModel> GetSpaceAsync(Reference identifier);
+    /// <param name="identifier">The identifier of the space.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="SpaceModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all spaces.
     /// </summary>
-    /// <returns>The <see cref="IEnumerable{SpaceModel}"/> instance that represents the listing of spaces.</returns>
-    Task<IEnumerable<SpaceModel>> ListSpacesAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="SpaceModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IEnumerable<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the space.
     /// </summary>
     /// <param name="identifier">The identifier of the space.</param>
     /// <param name="changes">The changes that will be applied to the space.</param>
-    /// <returns>The <see cref="SpaceModel"/> instance that represents the modified space.</returns>
-    Task<SpaceModel> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="SpaceModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the space.
     /// </summary>
     /// <param name="identifier">The identifier of the space.</param>
-    Task DeleteSpaceAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteSpaceAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the preview configuration.
     /// </summary>
-    /// <returns>The <see cref="PreviewConfigurationModel"/> instance that represents the preview configuration.</returns>
-    Task<PreviewConfigurationModel> GetPreviewConfigurationAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="PreviewConfigurationModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify the preview configuration.
     /// </summary>
     /// <param name="previewConfiguration">Represents configuration that will be used for project.</param>
-    /// <returns>The <see cref="PreviewConfigurationModel"/> instance that represents the preview configuration.</returns>
-    Task<PreviewConfigurationModel> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="PreviewConfigurationModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Activates the web spotlight, allowing you to specify an existing Root Type ID.
     /// </summary>
     /// <param name="webSpotlightActivateModel">Represents configuration that will be used for web spotlight activation.</param>
-    /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
-    Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="WebSpotlightModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<WebSpotlightModel>> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deactivates the web spotlight.
     /// </summary>
-    /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
-    Task<WebSpotlightModel> DeactivateWebSpotlightAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="WebSpotlightModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the web spotlight status.
     /// </summary>
-    /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
-    Task<WebSpotlightModel> GetWebSpotlightStatusAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="WebSpotlightModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns list of custom apps.
     /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{CustomAppModel}"/> instance that represents the listing of custom apps.</returns>
-    Task<IListingResponseModel<CustomAppModel>> ListCustomAppsAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="CustomAppModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IListingResponseModel<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the custom app.
     /// </summary>
-    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
-    Task<CustomAppModel> GetCustomAppAsync(Reference identifier);
+    /// <param name="identifier">The identifier of the custom app.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="CustomAppModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the custom apps.
     /// </summary>
-    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
-    Task<CustomAppModel> CreateCustomAppAsync(CustomAppCreateModel customApp);
+    /// <param name="customApp">Represents the custom app that will be created.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="CustomAppModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<CustomAppModel>> CreateCustomAppAsync(CustomAppCreateModel customApp, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the custom apps.
     /// </summary>
-    Task DeleteCustomAppAsync(Reference identifier);
+    /// <param name="identifier">The identifier of the custom app.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteCustomAppAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the custom apps.
     /// </summary>
-    /// <returns>The <see cref="CustomAppModel"/> instance that represents the custom app.</returns>
-    Task<CustomAppModel> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes);
+    /// <param name="identifier">The identifier of the custom app.</param>
+    /// <param name="changes">Represents changes that will be applied to the custom app.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="CustomAppModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns listing of filtered item variant references.

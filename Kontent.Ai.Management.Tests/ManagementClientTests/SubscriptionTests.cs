@@ -32,10 +32,11 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var response = await client.ListSubscriptionProjectsAsync().GetAllAsync();
+        var result = await client.ListSubscriptionProjectsAsync().GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<SubscriptionProjectModel>(page1, page2, page3));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(ConcatPages<SubscriptionProjectModel>(page1, page2, page3));
     }
 
     [Fact]
@@ -50,10 +51,11 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var response = await client.ListSubscriptionUsersAsync().GetAllAsync();
+        var result = await client.ListSubscriptionUsersAsync().GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<SubscriptionUserModel>(page1, page2, page3));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(ConcatPages<SubscriptionUserModel>(page1, page2, page3));
     }
 
     [Fact]
@@ -65,10 +67,11 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.SubscriptionBaseUrl}/users/{identifier.Id}")
             .Respond("application/json", user);
 
-        var response = await client.GetSubscriptionUserAsync(identifier);
+        var result = await client.GetSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -80,10 +83,11 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.SubscriptionBaseUrl}/users/email/{identifier.Email}")
             .Respond("application/json", user);
 
-        var response = await client.GetSubscriptionUserAsync(identifier);
+        var result = await client.GetSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -102,9 +106,10 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/{identifier.Id}/activate")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.ActivateSubscriptionUserAsync(identifier);
+        var result = await client.ActivateSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -115,9 +120,10 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/email/{identifier.Email}/activate")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.ActivateSubscriptionUserAsync(identifier);
+        var result = await client.ActivateSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -136,9 +142,10 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/{identifier.Id}/deactivate")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeactivateSubscriptionUserAsync(identifier);
+        var result = await client.DeactivateSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -149,9 +156,10 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/email/{identifier.Email}/deactivate")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeactivateSubscriptionUserAsync(identifier);
+        var result = await client.DeactivateSubscriptionUserAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]

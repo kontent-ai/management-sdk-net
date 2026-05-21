@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 
@@ -6,34 +7,43 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<EnvironmentClonedModel> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel)
+    public async Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(cloneEnvironmentModel);
 
-        return EnsureSuccess(await _managementApi.CloneEnvironmentInternalAsync(cloneEnvironmentModel));
+        var response = await _managementApi.CloneEnvironmentInternalAsync(cloneEnvironmentModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<EnvironmentCloningStateModel> GetEnvironmentCloningStateAsync()
-        => EnsureSuccess(await _managementApi.GetEnvironmentCloningStateInternalAsync());
+    public async Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _managementApi.GetEnvironmentCloningStateInternalAsync(cancellationToken);
+        return await response.ToManagementResultAsync();
+    }
 
     /// <inheritdoc />
-    public async Task DeleteEnvironmentAsync()
-        => EnsureSuccess(await _managementApi.DeleteEnvironmentInternalAsync());
+    public async Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _managementApi.DeleteEnvironmentInternalAsync(cancellationToken);
+        return await response.ToManagementResultAsync();
+    }
 
     /// <inheritdoc />
-    public async Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel)
+    public async Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(markAsProductionModel);
 
-        EnsureSuccess(await _managementApi.MarkEnvironmentAsProductionInternalAsync(markAsProductionModel));
+        var response = await _managementApi.MarkEnvironmentAsProductionInternalAsync(markAsProductionModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes)
+    public async Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        return EnsureSuccess(await _managementApi.ModifyEnvironmentInternalAsync(changes));
+        var response = await _managementApi.ModifyEnvironmentInternalAsync(changes, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 }

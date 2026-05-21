@@ -33,10 +33,11 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
 
-        var response = await client.ListTaxonomyGroupsAsync().GetAllAsync();
+        var result = await client.ListTaxonomyGroupsAsync().GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<TaxonomyGroupModel>(page1, page2));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(ConcatPages<TaxonomyGroupModel>(page1, page2));
     }
 
     [Fact]
@@ -47,10 +48,11 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/taxonomies/{identifier.Id}")
             .Respond("application/json", TaxonomyGroup);
 
-        var response = await client.GetTaxonomyGroupAsync(identifier);
+        var result = await client.GetTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -61,10 +63,11 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/taxonomies/codename/{identifier.Codename}")
             .Respond("application/json", TaxonomyGroup);
 
-        var response = await client.GetTaxonomyGroupAsync(identifier);
+        var result = await client.GetTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -75,10 +78,11 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/taxonomies/external-id/{identifier.ExternalId}")
             .Respond("application/json", TaxonomyGroup);
 
-        var response = await client.GetTaxonomyGroupAsync(identifier);
+        var result = await client.GetTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -118,10 +122,11 @@ public class TaxonomyGroupTests
             })
             .Respond("application/json", TaxonomyGroup);
 
-        var response = await client.CreateTaxonomyGroupAsync(createModel);
+        var result = await client.CreateTaxonomyGroupAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<TaxonomyGroupCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -143,9 +148,10 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/taxonomies/codename/{identifier.Codename}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteTaxonomyGroupAsync(identifier);
+        var result = await client.DeleteTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -156,9 +162,10 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/taxonomies/{identifier.Id}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteTaxonomyGroupAsync(identifier);
+        var result = await client.DeleteTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -169,9 +176,10 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/taxonomies/external-id/{identifier.ExternalId}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteTaxonomyGroupAsync(identifier);
+        var result = await client.DeleteTaxonomyGroupAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -198,10 +206,11 @@ public class TaxonomyGroupTests
             })
             .Respond("application/json", TaxonomyGroup);
 
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+        var result = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
         // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
@@ -227,10 +236,11 @@ public class TaxonomyGroupTests
             })
             .Respond("application/json", TaxonomyGroup);
 
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+        var result = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
         var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
@@ -253,10 +263,11 @@ public class TaxonomyGroupTests
             })
             .Respond("application/json", TaxonomyGroup);
 
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+        var result = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
         var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);

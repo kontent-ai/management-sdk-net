@@ -46,10 +46,11 @@ public class EnvironmentUserTests
             })
             .Respond("application/json", ProjectUser);
 
-        var response = await client.InviteUserIntoEnvironmentAsync(invitation);
+        var result = await client.InviteUserIntoEnvironmentAsync(invitation);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<UserInviteModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<UserInviteModel>(JsonSerializer.Serialize(invitation, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -89,10 +90,11 @@ public class EnvironmentUserTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/email/{Uri.EscapeDataString(identifier.Email)}/roles")
             .Respond("application/json", ProjectUser);
 
-        var response = await client.ModifyUsersRolesAsync(identifier, user);
+        var result = await client.ModifyUsersRolesAsync(identifier, user);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -121,10 +123,11 @@ public class EnvironmentUserTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/{identifier.Id}/roles")
             .Respond("application/json", ProjectUser);
 
-        var response = await client.ModifyUsersRolesAsync(identifier, user);
+        var result = await client.ModifyUsersRolesAsync(identifier, user);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
     }
 
     [Fact]

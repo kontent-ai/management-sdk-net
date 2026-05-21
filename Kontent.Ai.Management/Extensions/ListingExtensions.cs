@@ -37,4 +37,37 @@ public static class ListingExtensions
 
         return result;
     }
+
+    /// <summary>
+    /// This is extension method for result-returning listing methods from <see cref="IManagementClient"/>.
+    /// It goes page by page until it gets all items for given entity.
+    /// </summary>
+    /// <typeparam name="T">Entity model e.g <see cref="LanguageModel"/>, <see cref="TaxonomyGroupModel"/> and etc.</typeparam>
+    /// <param name="method">A listing method whose result wraps an <see cref="IListingResponseModel{T}"/>.</param>
+    /// <returns>A result wrapping every item across all pages on success, or the listing failure detail.</returns>
+    public async static Task<IManagementResult<IReadOnlyList<T>>> GetAllAsync<T>(this Task<IManagementResult<IListingResponseModel<T>>> method)
+    {
+        var result = await method;
+        if (!result.IsSuccess)
+        {
+            return ManagementResult<IReadOnlyList<T>>.Failure(result.Error!, result.StatusCode, result.RequestUrl, result.ResponseHeaders);
+        }
+
+        var all = new List<T>();
+        var page = result.Value;
+
+        while (true)
+        {
+            all.AddRange(page);
+
+            if (!page.HasNextPage())
+            {
+                break;
+            }
+
+            page = await page.GetNextPage();
+        }
+
+        return ManagementResult<IReadOnlyList<T>>.Success(all, result.StatusCode, result.RequestUrl, result.ResponseHeaders);
+    }
 }

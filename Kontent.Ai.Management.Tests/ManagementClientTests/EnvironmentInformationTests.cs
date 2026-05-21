@@ -20,9 +20,10 @@ public class EnvironmentInformationTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}")
             .Respond("application/json", Project);
 
-        var response = await client.GetEnvironmentInformationAsync();
+        var result = await client.GetEnvironmentInformationAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<Models.EnvironmentReport.Environment>(Project, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<Models.EnvironmentReport.Environment>(Project, SharedTestJsonOptions.Default));
     }
 }

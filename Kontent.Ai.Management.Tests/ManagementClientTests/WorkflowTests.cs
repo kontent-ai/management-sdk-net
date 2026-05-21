@@ -31,10 +31,11 @@ public class WorkflowTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/workflows")
             .Respond("application/json", Workflows);
 
-        var response = await client.ListWorkflowsAsync();
+        var result = await client.ListWorkflowsAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<WorkflowModel>>(Workflows, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<WorkflowModel>>(Workflows, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -52,10 +53,11 @@ public class WorkflowTests
             })
             .Respond("application/json", Workflow);
 
-        var response = await client.CreateWorkflowAsync(newWorkflow);
+        var result = await client.CreateWorkflowAsync(newWorkflow);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -85,10 +87,11 @@ public class WorkflowTests
             })
             .Respond("application/json", Workflow);
 
-        var response = await client.UpdateWorkflowAsync(identifier, newWorkflow);
+        var result = await client.UpdateWorkflowAsync(identifier, newWorkflow);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -110,10 +113,11 @@ public class WorkflowTests
             })
             .Respond("application/json", Workflow);
 
-        var response = await client.UpdateWorkflowAsync(identifier, newWorkflow);
+        var result = await client.UpdateWorkflowAsync(identifier, newWorkflow);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -144,9 +148,10 @@ public class WorkflowTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/workflows/{identifier.Id}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteWorkflowAsync(identifier);
+        var result = await client.DeleteWorkflowAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -157,9 +162,10 @@ public class WorkflowTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/workflows/codename/{identifier.Codename}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteWorkflowAsync(identifier);
+        var result = await client.DeleteWorkflowAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Theory]

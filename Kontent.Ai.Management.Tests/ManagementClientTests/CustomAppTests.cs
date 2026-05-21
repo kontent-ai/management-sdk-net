@@ -39,10 +39,11 @@ public class CustomAppTests
         mock.Expect(HttpMethod.Get, CustomAppBaseUrl).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, CustomAppBaseUrl).Respond("application/json", page3);
 
-        var response = await client.ListCustomAppsAsync().GetAllAsync();
+        var result = await client.ListCustomAppsAsync().GetAllAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<CustomAppModel>(page1, page2, page3));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(ConcatPages<CustomAppModel>(page1, page2, page3));
     }
 
     [Fact]
@@ -76,10 +77,11 @@ public class CustomAppTests
             })
             .Respond("application/json", CustomApp);
 
-        var response = await client.CreateCustomAppAsync(createModel);
+        var result = await client.CreateCustomAppAsync(createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<CustomAppCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -101,10 +103,11 @@ public class CustomAppTests
         mock.Expect(HttpMethod.Get, CustomAppBaseUrl + $"/{identifier.Id}")
             .Respond("application/json", CustomApp);
 
-        var response = await client.GetCustomAppAsync(identifier);
+        var result = await client.GetCustomAppAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -115,10 +118,11 @@ public class CustomAppTests
         mock.Expect(HttpMethod.Get, CustomAppBaseUrl + $"/codename/{identifier.Codename}")
             .Respond("application/json", CustomApp);
 
-        var response = await client.GetCustomAppAsync(identifier);
+        var result = await client.GetCustomAppAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -147,10 +151,11 @@ public class CustomAppTests
             })
             .Respond("application/json", ModifyAddInto);
 
-        var response = await client.ModifyCustomAppAsync(identifier, changes);
+        var result = await client.ModifyCustomAppAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyAddInto, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyAddInto, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<CustomAppAddIntoPatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppAddIntoPatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
@@ -182,10 +187,11 @@ public class CustomAppTests
             })
             .Respond("application/json", ModifyRemove);
 
-        var response = await client.ModifyCustomAppAsync(identifier, changes);
+        var result = await client.ModifyCustomAppAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyRemove, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyRemove, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<CustomAppRemovePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppRemovePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
@@ -222,10 +228,11 @@ public class CustomAppTests
             })
             .Respond("application/json", ModifyReplace);
 
-        var response = await client.ModifyCustomAppAsync(identifier, changes);
+        var result = await client.ModifyCustomAppAsync(identifier, changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyReplace, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyReplace, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<CustomAppReplacePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppReplacePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
@@ -261,9 +268,10 @@ public class CustomAppTests
         mock.Expect(HttpMethod.Delete, CustomAppBaseUrl + $"/{identifier.Id}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteCustomAppAsync(identifier);
+        var result = await client.DeleteCustomAppAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -274,9 +282,10 @@ public class CustomAppTests
         mock.Expect(HttpMethod.Delete, CustomAppBaseUrl + $"/codename/{identifier.Codename}")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeleteCustomAppAsync(identifier);
+        var result = await client.DeleteCustomAppAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]

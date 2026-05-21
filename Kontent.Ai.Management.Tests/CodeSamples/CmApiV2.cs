@@ -275,7 +275,7 @@ public class CmApiV2
 
         var response = await client.ListCollectionsAsync();
 
-        Assert.Equal(2, response.Collections.Count());
+        Assert.Equal(2, response.Value.Collections.Count());
     }
 
     // DocSection: cm_api_v2_get_asset_folders
@@ -345,7 +345,7 @@ public class CmApiV2
 
         var response = await client.ListLanguagesAsync();
 
-        Assert.Single(response);
+        Assert.Single(response.Value);
     }
 
     // DocSection: cm_api_v2_get_project_information
@@ -414,7 +414,7 @@ public class CmApiV2
 
         var response = await client.ListTaxonomyGroupsAsync();
 
-        Assert.Single(response);
+        Assert.Single(response.Value);
     }
 
     // DocSection: cm_api_v2_get_type
@@ -567,7 +567,7 @@ public class CmApiV2
 
         var response = await client.ListWorkflowsAsync();
 
-        Assert.Equal(2, response.Count());
+        Assert.Equal(2, response.Value.Count());
     }
 
 
@@ -595,7 +595,7 @@ public class CmApiV2
 
         var response = await client.ListEnvironmentRolesAsync();
 
-        Assert.Equal(2, response.Roles.Count());
+        Assert.Equal(2, response.Value.Roles.Count());
     }
 
     // DocSection: cm_api_v2_get_subscription_user
@@ -622,7 +622,7 @@ public class CmApiV2
 
         var response = await client.ListSubscriptionUsersAsync();
 
-        Assert.Equal(2, response.Count());
+        Assert.Equal(2, response.Value.Count());
     }
 
     // DocSection: cm_api_v2_get_subscription_projects
@@ -634,7 +634,7 @@ public class CmApiV2
 
         var response = await client.ListSubscriptionProjectsAsync();
 
-        Assert.Equal(2, response.Count());
+        Assert.Equal(2, response.Value.Count());
     }
 
     // DocSection: cm_api_v2_get_environment_status
@@ -745,7 +745,7 @@ public class CmApiV2
             }
         });
 
-        Assert.Equal(2, response.Collections.Count());
+        Assert.Equal(2, response.Value.Collections.Count());
     }
 
     // DocSection: cm_api_v2_patch_language

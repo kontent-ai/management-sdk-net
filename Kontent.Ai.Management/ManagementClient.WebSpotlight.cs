@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.WebSpotlight;
 
 namespace Kontent.Ai.Management;
@@ -5,18 +6,25 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel)
+    public async Task<IManagementResult<WebSpotlightModel>> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(webSpotlightActivateModel);
 
-        return EnsureSuccess(await _managementApi.ActivateWebSpotlightInternalAsync(webSpotlightActivateModel));
+        var response = await _managementApi.ActivateWebSpotlightInternalAsync(webSpotlightActivateModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<WebSpotlightModel> DeactivateWebSpotlightAsync()
-        => EnsureSuccess(await _managementApi.DeactivateWebSpotlightInternalAsync());
+    public async Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _managementApi.DeactivateWebSpotlightInternalAsync(cancellationToken);
+        return await response.ToManagementResultAsync();
+    }
 
     /// <inheritdoc />
-    public async Task<WebSpotlightModel> GetWebSpotlightStatusAsync()
-        => EnsureSuccess(await _managementApi.GetWebSpotlightStatusInternalAsync());
+    public async Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken = default)
+    {
+        var response = await _managementApi.GetWebSpotlightStatusInternalAsync(cancellationToken);
+        return await response.ToManagementResultAsync();
+    }
 }

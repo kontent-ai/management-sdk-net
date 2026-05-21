@@ -28,10 +28,11 @@ public class WebSpotlightTests
         mock.Expect(HttpMethod.Put, WebSpotlightUrl)
             .Respond("application/json", ActivationWebSpotlightResponse);
 
-        var response = await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
+        var result = await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightModel>(ActivationWebSpotlightResponse, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightModel>(ActivationWebSpotlightResponse, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -50,9 +51,10 @@ public class WebSpotlightTests
             })
             .Respond("application/json", ActivationWebSpotlightWithProvidedRootTypeIdResponse);
 
-        await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
+        var result = await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<WebSpotlightActivateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightActivateModel>(JsonSerializer.Serialize(webSpotlightActivateModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -73,9 +75,10 @@ public class WebSpotlightTests
             })
             .Respond("application/json", ActivationWebSpotlightWithProvidedRootTypeIdResponse);
 
-        await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
+        var result = await client.ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<WebSpotlightActivateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightActivateModel>(JsonSerializer.Serialize(webSpotlightActivateModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -88,10 +91,11 @@ public class WebSpotlightTests
         mock.Expect(HttpMethod.Put, WebSpotlightUrl)
             .Respond("application/json", DeactivationWebSpotlightResponse);
 
-        var response = await client.DeactivateWebSpotlightAsync();
+        var result = await client.DeactivateWebSpotlightAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightModel>(DeactivationWebSpotlightResponse, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightModel>(DeactivationWebSpotlightResponse, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -101,9 +105,10 @@ public class WebSpotlightTests
         mock.Expect(HttpMethod.Get, WebSpotlightUrl)
             .Respond("application/json", GetStatusWebSpotlightResponse);
 
-        var response = await client.GetWebSpotlightStatusAsync();
+        var result = await client.GetWebSpotlightStatusAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightModel>(GetStatusWebSpotlightResponse, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebSpotlightModel>(GetStatusWebSpotlightResponse, SharedTestJsonOptions.Default));
     }
 }

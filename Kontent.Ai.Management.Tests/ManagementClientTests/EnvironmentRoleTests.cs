@@ -29,10 +29,11 @@ public class EnvironmentRoleTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/roles")
             .Respond("application/json", ProjectRoles);
 
-        var response = await client.ListEnvironmentRolesAsync();
+        var result = await client.ListEnvironmentRolesAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRolesModel>(ProjectRoles, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRolesModel>(ProjectRoles, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -43,10 +44,11 @@ public class EnvironmentRoleTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/roles/{identifier.Id}")
             .Respond("application/json", ProjectRole);
 
-        var response = await client.GetEnvironmentRoleAsync(identifier);
+        var result = await client.GetEnvironmentRoleAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -57,10 +59,11 @@ public class EnvironmentRoleTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/roles/codename/{identifier.Codename}")
             .Respond("application/json", ProjectRole);
 
-        var response = await client.GetEnvironmentRoleAsync(identifier);
+        var result = await client.GetEnvironmentRoleAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
     }
 
     [Theory]

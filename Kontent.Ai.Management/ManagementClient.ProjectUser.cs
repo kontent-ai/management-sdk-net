@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Users;
 
@@ -6,20 +7,22 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<UserModel> InviteUserIntoEnvironmentAsync(UserInviteModel invitation)
+    public async Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(invitation);
 
-        return EnsureSuccess(await _managementApi.InviteUserIntoEnvironmentInternalAsync(invitation));
+        var response = await _managementApi.InviteUserIntoEnvironmentInternalAsync(invitation, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<UserModel> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user)
+    public async Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(user);
 
-        return EnsureSuccess(await _managementApi.ModifyUsersRolesInternalAsync(UserSegment(identifier), user));
+        var response = await _managementApi.ModifyUsersRolesInternalAsync(UserSegment(identifier), user, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     // A user is addressed by id or email — `{id}` or `email/{email}` (matches the legacy UserTemplate; Refit url-encodes the value).

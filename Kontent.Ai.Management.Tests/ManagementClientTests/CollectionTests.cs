@@ -30,10 +30,11 @@ public class CollectionTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/collections")
             .Respond("application/json", Collections);
 
-        var response = await client.ListCollectionsAsync();
+        var result = await client.ListCollectionsAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CollectionsModel>(Collections, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CollectionsModel>(Collections, SharedTestJsonOptions.Default));
     }
 
     [Theory]
@@ -107,10 +108,11 @@ public class CollectionTests
             })
             .Respond("application/json", Collections);
 
-        var response = await client.ModifyCollectionAsync(changes);
+        var result = await client.ModifyCollectionAsync(changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<CollectionsModel>(Collections, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CollectionsModel>(Collections, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<T[]>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<T[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default), opt => opt.WithStrictOrdering());

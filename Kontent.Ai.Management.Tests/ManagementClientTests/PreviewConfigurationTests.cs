@@ -22,10 +22,11 @@ public class PreviewConfigurationTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/preview-configuration")
             .Respond("application/json", PreviewConfiguration);
 
-        var response = await client.GetPreviewConfigurationAsync();
+        var result = await client.GetPreviewConfigurationAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(PreviewConfiguration, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(PreviewConfiguration, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -73,10 +74,11 @@ public class PreviewConfigurationTests
             })
             .Respond("application/json", PreviewConfiguration);
 
-        var response = await client.ModifyPreviewConfigurationAsync(request);
+        var result = await client.ModifyPreviewConfigurationAsync(request);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(PreviewConfiguration, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(PreviewConfiguration, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<PreviewConfigurationModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(JsonSerializer.Serialize(request, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
