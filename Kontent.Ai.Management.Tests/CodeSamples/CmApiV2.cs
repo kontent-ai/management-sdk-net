@@ -343,9 +343,13 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Languages.json");
 
-        var response = await client.ListLanguagesAsync();
+        var count = 0;
+        await foreach (var page in client.EnumerateLanguagePagesAsync())
+        {
+            count += page.Value.Count;
+        }
 
-        Assert.Single(response.Value);
+        Assert.Equal(1, count);
     }
 
     // DocSection: cm_api_v2_get_project_information
@@ -411,10 +415,13 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroups.json");
 
+        var count = 0;
+        await foreach (var page in client.EnumerateTaxonomyGroupPagesAsync())
+        {
+            count += page.Value.Count;
+        }
 
-        var response = await client.ListTaxonomyGroupsAsync();
-
-        Assert.Single(response.Value);
+        Assert.Equal(1, count);
     }
 
     // DocSection: cm_api_v2_get_type
@@ -620,9 +627,13 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUsers.json");
 
-        var response = await client.ListSubscriptionUsersAsync();
+        var count = 0;
+        await foreach (var page in client.EnumerateSubscriptionUserPagesAsync())
+        {
+            count += page.Value.Count;
+        }
 
-        Assert.Equal(2, response.Value.Count());
+        Assert.Equal(2, count);
     }
 
     // DocSection: cm_api_v2_get_subscription_projects
@@ -632,9 +643,13 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionProjects.json");
 
-        var response = await client.ListSubscriptionProjectsAsync();
+        var count = 0;
+        await foreach (var page in client.EnumerateSubscriptionProjectPagesAsync())
+        {
+            count += page.Value.Count;
+        }
 
-        Assert.Equal(2, response.Value.Count());
+        Assert.Equal(2, count);
     }
 
     // DocSection: cm_api_v2_get_environment_status
@@ -668,9 +683,10 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTaskIssues.json");
 
-        var response = await client.ListAsyncValidationTaskIssuesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
-
-        Assert.NotNull(response);
+        await foreach (var page in client.EnumerateAsyncValidationTaskIssuePagesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0")))
+        {
+            Assert.True(page.IsSuccess);
+        }
     }
 
     // DocSection: cm_api_v2_patch_asset_folders

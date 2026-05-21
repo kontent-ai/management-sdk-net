@@ -9,21 +9,12 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<IListingResponseModel<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken = default)
-    {
-        var response = await _managementApi.ListTaxonomyGroupsInternalAsync(cancellationToken: cancellationToken);
-        return await response.ToManagementResultAsync(BuildTaxonomyGroupsPage);
-    }
-
-    private IListingResponseModel<TaxonomyGroupModel> BuildTaxonomyGroupsPage(TaxonomyGroupListingResponseServerModel payload)
-        => new ListingResponseModel<TaxonomyGroupModel>(
-            (continuationToken, _) => GetNextTaxonomyGroupsPageAsync(continuationToken),
-            payload.Pagination?.Token,
-            url: string.Empty,
-            payload.Taxonomies);
-
-    private async Task<IListingResponse<TaxonomyGroupModel>> GetNextTaxonomyGroupsPageAsync(string continuationToken)
-        => EnsureSuccess(await _managementApi.ListTaxonomyGroupsInternalAsync(continuationToken));
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>(
+            _managementApi.ListTaxonomyGroupsInternalAsync,
+            page => page.Taxonomies,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
     public async Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default)

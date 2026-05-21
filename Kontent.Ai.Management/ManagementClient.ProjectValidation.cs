@@ -1,9 +1,7 @@
 using System;
-using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.EnvironmentReport;
 using Kontent.Ai.Management.Models.EnvironmentValidation;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management;
 
@@ -31,19 +29,10 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<IListingResponseModel<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken = default)
-    {
-        var response = await _managementApi.ListAsyncValidationTaskIssuesInternalAsync(taskId, cancellationToken: cancellationToken);
-        return await response.ToManagementResultAsync(payload => BuildAsyncValidationTaskIssuesPage(taskId, payload));
-    }
-
-    private IListingResponseModel<AsyncValidationTaskIssueModel> BuildAsyncValidationTaskIssuesPage(Guid taskId, AsyncValidationTaskIssuesResponseServerModel payload)
-        => new ListingResponseModel<AsyncValidationTaskIssueModel>(
-            (continuationToken, _) => GetNextAsyncValidationTaskIssuesPageAsync(taskId, continuationToken),
-            payload.Pagination?.Token,
-            url: string.Empty,
-            payload.Issues);
-
-    private async Task<IListingResponse<AsyncValidationTaskIssueModel>> GetNextAsyncValidationTaskIssuesPageAsync(Guid taskId, string continuationToken)
-        => EnsureSuccess(await _managementApi.ListAsyncValidationTaskIssuesInternalAsync(taskId, continuationToken));
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<AsyncValidationTaskIssuesResponseServerModel, AsyncValidationTaskIssueModel>(
+            (token, ct) => _managementApi.ListAsyncValidationTaskIssuesInternalAsync(taskId, token, ct),
+            page => page.Issues,
+            page => page.Pagination?.Token,
+            cancellationToken);
 }

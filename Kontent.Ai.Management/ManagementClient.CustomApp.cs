@@ -9,21 +9,12 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<IListingResponseModel<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken = default)
-    {
-        var response = await _managementApi.ListCustomAppsInternalAsync(cancellationToken: cancellationToken);
-        return await response.ToManagementResultAsync(BuildCustomAppsPage);
-    }
-
-    private IListingResponseModel<CustomAppModel> BuildCustomAppsPage(CustomAppListingResponseServerModel payload)
-        => new ListingResponseModel<CustomAppModel>(
-            (continuationToken, _) => GetNextCustomAppsPageAsync(continuationToken),
-            payload.Pagination?.Token,
-            url: string.Empty,
-            payload.CustomApps);
-
-    private async Task<IListingResponse<CustomAppModel>> GetNextCustomAppsPageAsync(string continuationToken)
-        => EnsureSuccess(await _managementApi.ListCustomAppsInternalAsync(continuationToken));
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<CustomAppModel>>> EnumerateCustomAppPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<CustomAppListingResponseServerModel, CustomAppModel>(
+            _managementApi.ListCustomAppsInternalAsync,
+            page => page.CustomApps,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
     public async Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken = default)

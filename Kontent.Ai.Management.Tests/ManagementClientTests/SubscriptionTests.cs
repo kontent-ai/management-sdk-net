@@ -21,7 +21,7 @@ public class SubscriptionTests
             .ToList();
 
     [Fact]
-    public async Task ListSubscriptionProjectsAsync_WithContinuation_ListsSubscriptionProjects()
+    public async Task EnumerateSubscriptionProjectPagesAsync_PagesThroughAllProjects()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("ProjectsPage1.json");
@@ -32,15 +32,19 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var result = await client.ListSubscriptionProjectsAsync().GetAllAsync();
+        var projects = new List<SubscriptionProjectModel>();
+        await foreach (var page in client.EnumerateSubscriptionProjectPagesAsync())
+        {
+            page.IsSuccess.Should().BeTrue();
+            projects.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(ConcatPages<SubscriptionProjectModel>(page1, page2, page3));
+        projects.Should().BeEquivalentTo(ConcatPages<SubscriptionProjectModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async Task ListSubscriptionUsersAsync_WithContinuation_ListsSubscriptionUsers()
+    public async Task EnumerateSubscriptionUserPagesAsync_PagesThroughAllUsers()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("UsersPage1.json");
@@ -51,11 +55,15 @@ public class SubscriptionTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var result = await client.ListSubscriptionUsersAsync().GetAllAsync();
+        var users = new List<SubscriptionUserModel>();
+        await foreach (var page in client.EnumerateSubscriptionUserPagesAsync())
+        {
+            page.IsSuccess.Should().BeTrue();
+            users.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(ConcatPages<SubscriptionUserModel>(page1, page2, page3));
+        users.Should().BeEquivalentTo(ConcatPages<SubscriptionUserModel>(page1, page2, page3));
     }
 
     [Fact]

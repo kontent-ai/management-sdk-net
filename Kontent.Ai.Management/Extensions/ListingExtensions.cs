@@ -1,18 +1,17 @@
-﻿using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Kontent.Ai.Management.Extensions;
 
 /// <summary>
-/// Extensions methods related to listing endpoints
+/// Extension methods related to listing endpoints.
 /// </summary>
 public static class ListingExtensions
 {
     /// <summary>
-    /// This is extension method for listing methods from <see cref="IManagementClient"/>. 
+    /// This is extension method for listing methods from <see cref="IManagementClient"/>.
     /// It goes page by page until it gets all items for given entity.
     /// </summary>
     /// <typeparam name="T">Entity model e.g <see cref="LanguageModel"/>, <see cref="TaxonomyGroupModel"/> and etc.</typeparam>
@@ -39,35 +38,41 @@ public static class ListingExtensions
     }
 
     /// <summary>
-    /// This is extension method for result-returning listing methods from <see cref="IManagementClient"/>.
-    /// It goes page by page until it gets all items for given entity.
+    /// Flattens a page stream from an <c>EnumerateXPagesAsync</c> method into a flat stream of items.
     /// </summary>
-    /// <typeparam name="T">Entity model e.g <see cref="LanguageModel"/>, <see cref="TaxonomyGroupModel"/> and etc.</typeparam>
-    /// <param name="method">A listing method whose result wraps an <see cref="IListingResponseModel{T}"/>.</param>
-    /// <returns>A result wrapping every item across all pages on success, or the listing failure detail.</returns>
-    public async static Task<IManagementResult<IReadOnlyList<T>>> GetAllAsync<T>(this Task<IManagementResult<IListingResponseModel<T>>> method)
+    /// <remarks>
+    /// The caller opts out of the per-page result channel by using this extension, so a failed page has nowhere to
+    /// surface as data: it is thrown as a <see cref="ManagementResultException"/>. Consume the page stream directly
+    /// when a mid-enumeration failure must be handled without an exception.
+    /// </remarks>
+    /// <typeparam name="T">The item type, e.g. <see cref="LanguageModel"/> or <see cref="TaxonomyGroupModel"/>.</typeparam>
+    /// <param name="pages">A page stream produced by an <c>EnumerateXPagesAsync</c> method.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of every item across all pages.</returns>
+    /// <exception cref="ManagementResultException">A page failed to load.</exception>
+    public static IAsyncEnumerable<T> Items<T>(
+        this IAsyncEnumerable<IManagementResult<IReadOnlyList<T>>> pages,
+        CancellationToken cancellationToken = default)
     {
-        var result = await method;
-        if (!result.IsSuccess)
+        ArgumentNullException.ThrowIfNull(pages);
+        return Iterator(pages, cancellationToken);
+
+        static async IAsyncEnumerable<T> Iterator(
+            IAsyncEnumerable<IManagementResult<IReadOnlyList<T>>> pages,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            return ManagementResult<IReadOnlyList<T>>.Failure(result.Error!, result.StatusCode, result.RequestUrl, result.ResponseHeaders);
-        }
-
-        var all = new List<T>();
-        var page = result.Value;
-
-        while (true)
-        {
-            all.AddRange(page);
-
-            if (!page.HasNextPage())
+            await foreach (var page in pages.WithCancellation(cancellationToken).ConfigureAwait(false))
             {
-                break;
+                if (!page.IsSuccess)
+                {
+                    throw new ManagementResultException(page.Error!, page.StatusCode);
+                }
+
+                foreach (var item in page.Value)
+                {
+                    yield return item;
+                }
             }
-
-            page = await page.GetNextPage();
         }
-
-        return ManagementResult<IReadOnlyList<T>>.Success(all, result.StatusCode, result.RequestUrl, result.ResponseHeaders);
     }
 }

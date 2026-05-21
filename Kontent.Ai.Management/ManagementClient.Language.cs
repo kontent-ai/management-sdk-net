@@ -8,21 +8,12 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<IListingResponseModel<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken = default)
-    {
-        var response = await _managementApi.ListLanguagesInternalAsync(cancellationToken: cancellationToken);
-        return await response.ToManagementResultAsync(BuildLanguagesPage);
-    }
-
-    private IListingResponseModel<LanguageModel> BuildLanguagesPage(LanguagesListingResponseServerModel payload)
-        => new ListingResponseModel<LanguageModel>(
-            (continuationToken, _) => GetNextLanguagesPageAsync(continuationToken),
-            payload.Pagination?.Token,
-            url: string.Empty,
-            payload.Languages);
-
-    private async Task<IListingResponse<LanguageModel>> GetNextLanguagesPageAsync(string continuationToken)
-        => EnsureSuccess(await _managementApi.ListLanguagesInternalAsync(continuationToken));
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<LanguagesListingResponseServerModel, LanguageModel>(
+            _managementApi.ListLanguagesInternalAsync,
+            page => page.Languages,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
     public async Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken = default)

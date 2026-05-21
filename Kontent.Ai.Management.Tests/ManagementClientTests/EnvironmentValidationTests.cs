@@ -63,18 +63,22 @@ public class EnvironmentValidationTests
     }
 
     [Fact]
-    public async Task GetAsyncValidationTaskIssuesAsync_ReturnsAsyncValidationTask()
+    public async Task EnumerateAsyncValidationTaskIssuePagesAsync_PagesThroughAllIssues()
     {
         var (client, mock) = MockClientFactory.Create();
         var taskIdentifier = Guid.Empty;
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}/issues")
             .Respond("application/json", AsyncValidationTaskIssues);
 
-        var result = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier).GetAllAsync();
+        var issues = new List<AsyncValidationTaskIssueModel>();
+        await foreach (var page in client.EnumerateAsyncValidationTaskIssuePagesAsync(taskIdentifier))
+        {
+            page.IsSuccess.Should().BeTrue();
+            issues.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        result.IsSuccess.Should().BeTrue();
-        var items = JsonNode.Parse(AsyncValidationTaskIssues)!.AsObject().First().Value!.ToString();
-        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<AsyncValidationTaskIssueModel>>(items, SharedTestJsonOptions.Default));
+        var expected = JsonNode.Parse(AsyncValidationTaskIssues)!.AsObject().First().Value!.ToString();
+        issues.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<AsyncValidationTaskIssueModel>>(expected, SharedTestJsonOptions.Default));
     }
 }

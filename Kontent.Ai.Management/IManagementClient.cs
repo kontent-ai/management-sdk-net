@@ -414,14 +414,12 @@ public interface IManagementClient
     Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync();
 
     /// <summary>
-    /// Returns listing of languages.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// Enumerates the languages, one continuation-token page at a time.
     /// </summary>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the listing of <see cref="LanguageModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IListingResponseModel<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken = default);
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's languages on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed listing of language variants for specified collection.
@@ -490,14 +488,12 @@ public interface IManagementClient
     Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier);
 
     /// <summary>
-    /// Returns listing of taxonomy groups.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// Enumerates the taxonomy groups, one continuation-token page at a time.
     /// </summary>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the listing of <see cref="TaxonomyGroupModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IListingResponseModel<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken = default);
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's taxonomy groups on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns listing of webhooks.
@@ -685,12 +681,13 @@ public interface IManagementClient
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists async validation task issues.
+    /// Enumerates the issues of an async validation task, one continuation-token page at a time.
     /// </summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="taskId">The identifier of the validation task.</param>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the listing of <see cref="AsyncValidationTaskIssueModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IListingResponseModel<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's issues on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all roles in an environment.
@@ -725,25 +722,21 @@ public interface IManagementClient
     Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns strongly typed listing of projects.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// Enumerates the projects under your subscription, one continuation-token page at a time.
     /// </summary>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the listing of <see cref="SubscriptionProjectModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IListingResponseModel<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken = default);
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's projects on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> EnumerateSubscriptionProjectPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns strongly typed listing of users under your subscription including
-    /// their assignment to projects, environments, collections, roles, and languages.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// Enumerates the users under your subscription — including their assignment to projects, environments,
+    /// collections, roles, and languages — one continuation-token page at a time.
     /// </summary>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the listing of <see cref="SubscriptionUserModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IListingResponseModel<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken = default);
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's users on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> EnumerateSubscriptionUserPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a user metadata from under the specified subscription.
@@ -887,11 +880,12 @@ public interface IManagementClient
     Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns list of custom apps.
+    /// Enumerates the custom apps, one continuation-token page at a time.
     /// </summary>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the listing of <see cref="CustomAppModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IListingResponseModel<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken = default);
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's custom apps on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<CustomAppModel>>> EnumerateCustomAppPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the custom app.
