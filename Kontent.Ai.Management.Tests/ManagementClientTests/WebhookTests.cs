@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Webhooks;
@@ -7,7 +8,6 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using Xunit;
-using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -34,10 +34,19 @@ public class WebhookTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/webhooks-vnext")
             .Respond("application/json", Webhooks);
 
-        var response = await client.ListWebhooksAsync();
+        var result = await client.ListWebhooksAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<WebhookModel>>(Webhooks, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var webhooks = result.Value.ToList();
+        webhooks.Should().HaveCount(2);
+        webhooks[0].Id.Should().Be(Guid.Parse("3e18029a-ed40-406f-a49a-1a8856200e11"));
+        webhooks[0].Name.Should().Be("webhooks_all_triggers");
+        webhooks[1].Id.Should().Be(Guid.Parse("78d634ed-445f-4b2e-aefc-8914c9bef201"));
+        webhooks[1].Name.Should().Be("second_webhook");
+        webhooks[1].Headers.Should().BeEmpty();
     }
 
     [Fact]
@@ -48,10 +57,12 @@ public class WebhookTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}")
             .Respond("application/json", Webhook);
 
-        var response = await client.GetWebhookAsync(identifier);
+        var result = await client.GetWebhookAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebhookModel>(Webhook, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertIsAllTriggersWebhook(result.Value);
     }
 
     [Theory]
@@ -61,6 +72,29 @@ public class WebhookTests
         var (client, _) = MockClientFactory.Create();
 
         await client.Invoking(x => x.GetWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
+    }
+
+    [Fact]
+    public async Task GetWebhookAsync_ApiError_ReturnsFailureResult()
+    {
+        const string errorBody = """
+            { "message": "The requested webhook was not found.", "request_id": "req-42", "error_code": 124 }
+            """;
+        var (client, mock) = MockClientFactory.Create();
+        var identifier = Reference.ById(Guid.NewGuid());
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}")
+            .Respond(HttpStatusCode.NotFound, "application/json", errorBody);
+
+        var result = await client.GetWebhookAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeFalse();
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        result.Value.Should().BeNull();
+        result.Error.Should().NotBeNull();
+        result.Error!.Message.Should().Be("The requested webhook was not found.");
+        result.Error.RequestId.Should().Be("req-42");
+        result.Error.ErrorCode.Should().Be(124);
     }
 
     [Fact]
@@ -84,22 +118,25 @@ public class WebhookTests
             },
         };
 
-        string? capturedBody = null;
+        WebhookCreateModel? sentBody = null;
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/webhooks-vnext")
             .With(r =>
             {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                var body = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                sentBody = JsonSerializer.Deserialize<WebhookCreateModel>(body, SharedTestJsonOptions.Default);
                 return true;
             })
             .Respond("application/json", Webhook);
 
-        var response = await client.CreateWebhookAsync(request);
+        var result = await client.CreateWebhookAsync(request);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<WebhookModel>(Webhook, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<WebhookCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WebhookCreateModel>(JsonSerializer.Serialize(request, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        AssertIsAllTriggersWebhook(result.Value);
+
+        // The body the SDK sent round-trips back to the model the caller passed.
+        sentBody.Should().BeEquivalentTo(request);
     }
 
     [Fact]
@@ -118,9 +155,11 @@ public class WebhookTests
         mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}")
             .Respond(HttpStatusCode.OK);
 
-        await client.DeleteWebhookAsync(identifier);
+        var result = await client.DeleteWebhookAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Theory]
@@ -140,9 +179,11 @@ public class WebhookTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}/enable")
             .Respond(HttpStatusCode.OK);
 
-        await client.EnableWebhookAsync(identifier);
+        var result = await client.EnableWebhookAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Theory]
@@ -162,9 +203,11 @@ public class WebhookTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/webhooks-vnext/{identifier.Id}/disable")
             .Respond(HttpStatusCode.OK);
 
-        await client.DisableWebhookAsync(identifier);
+        var result = await client.DisableWebhookAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Theory]
@@ -174,5 +217,19 @@ public class WebhookTests
         var (client, _) = MockClientFactory.Create();
 
         await client.Invoking(x => x.DisableWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
+    }
+
+    // Webhook.json — asserted with literal expected values rather than a fixture round-trip.
+    private static void AssertIsAllTriggersWebhook(WebhookModel webhook)
+    {
+        webhook.Id.Should().Be(Guid.Parse("3e18029a-ed40-406f-a49a-1a8856200e11"));
+        webhook.Name.Should().Be("Webhook_all_triggers");
+        webhook.Url.Should().Be("http://test");
+        webhook.Secret.Should().Be("AQA1jsNDjLBUcRRD69GQtuzBBqxGPdz+0XhTKhICv4o=");
+        webhook.Enabled.Should().BeTrue();
+        webhook.Headers.Should().ContainSingle()
+            .Which.Should().BeEquivalentTo(new CustomHeaderModel { Key = "key1", Value = "value1" });
+        webhook.DeliveryTriggers.Should().NotBeNull();
+        webhook.DeliveryTriggers.ContentType.Enabled.Should().BeTrue();
     }
 }

@@ -555,7 +555,7 @@ public class CmApiV2
 
         var response = await client.ListWebhooksAsync();
 
-        Assert.Single(response);
+        Assert.Single(response.Value);
     }
 
     // DocSection: cm_api_v2_get_workflows

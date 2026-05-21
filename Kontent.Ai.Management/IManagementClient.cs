@@ -225,8 +225,9 @@ public interface IManagementClient
     /// Creates the webhook.
     /// </summary>
     /// <param name="webhook">The webhook to be created.</param>
-    /// <returns>The <see cref="WebhookModel"/> instance that represents created webhook.</returns>
-    Task<WebhookModel> CreateWebhookAsync(WebhookCreateModel webhook);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="WebhookModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given content item.
@@ -262,19 +263,25 @@ public interface IManagementClient
     /// Deletes the webhook.
     /// </summary>
     /// <param name="identifier">The identifier of the webhook.</param>
-    Task DeleteWebhookAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteWebhookAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables the webhook.
     /// </summary>
     /// <param name="identifier">The identifier of the webhook.</param>
-    Task DisableWebhookAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DisableWebhookAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables the webhook.
     /// </summary>
     /// <param name="identifier">The identifier of the webhook.</param>
-    Task EnableWebhookAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the Asset Folders
@@ -361,8 +368,9 @@ public interface IManagementClient
     /// Returns the webhook.
     /// </summary>
     /// <param name="identifier">The identifier of the webhook.</param>
-    /// <returns>The <see cref="WebhookModel"/> instance that represents requested webhook.</returns>
-    Task<WebhookModel> GetWebhookAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="WebhookModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns listing of collection.
@@ -484,8 +492,9 @@ public interface IManagementClient
     /// <summary>
     /// Returns listing of webhooks.
     /// </summary>
-    /// <returns>The <see cref="IEnumerable{WebhookModel}"/> instance that represents the listing of webhooks.</returns>
-    Task<IEnumerable<WebhookModel>> ListWebhooksAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="WebhookModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IEnumerable<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns listing of workflows.
