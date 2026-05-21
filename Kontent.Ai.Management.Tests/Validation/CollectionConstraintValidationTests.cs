@@ -15,8 +15,8 @@ public class CollectionConstraintValidationTests
         // A null collection bypasses every count check — required-ness is a separate (publish-time) concern.
         var result = ContentItemValidator.Validate(new Article { Tags = null, Category = null });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "tags");
-        result.Errors.Should().NotContain(e => e.ElementCodename == "category");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "tags");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "category");
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class CollectionConstraintValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Tags = [ArticleCategory.News] });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "tags");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "tags");
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class CollectionConstraintValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Tags = [] });
 
-        var error = result.Errors.Single(e => e.ElementCodename == "tags");
+        var error = result.ValidationErrors().Single(e => e.Path == "tags");
         error.Message.Should().Contain("at least 1").And.Contain("got 0");
     }
 
@@ -43,7 +43,7 @@ public class CollectionConstraintValidationTests
 
         var result = ContentItemValidator.Validate(new Article { Tags = tags });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "tags");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "tags");
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class CollectionConstraintValidationTests
 
         var result = ContentItemValidator.Validate(new Article { Tags = tags });
 
-        result.Errors.Single(e => e.ElementCodename == "tags")
+        result.ValidationErrors().Single(e => e.Path == "tags")
             .Message.Should().Contain("at most 5").And.Contain("got 6");
     }
 
@@ -62,7 +62,7 @@ public class CollectionConstraintValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Category = [ArticleCategory.News] });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "category");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "category");
     }
 
     [Theory]
@@ -75,7 +75,7 @@ public class CollectionConstraintValidationTests
 
         var result = ContentItemValidator.Validate(new Article { Category = category });
 
-        result.Errors.Single(e => e.ElementCodename == "category")
+        result.ValidationErrors().Single(e => e.Path == "category")
             .Message.Should().Contain("exactly 1").And.Contain($"got {count}");
     }
 }

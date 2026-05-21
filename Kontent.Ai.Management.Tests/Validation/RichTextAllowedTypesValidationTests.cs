@@ -17,7 +17,7 @@ public class RichTextAllowedTypesValidationTests
     {
         var result = ContentItemValidator.Validate(new RichTextHost { Body = null });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "body");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "body");
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class RichTextAllowedTypesValidationTests
             Body = new RichTextElement { Value = "<p>plain</p>" },
         });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "body");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "body");
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class RichTextAllowedTypesValidationTests
             },
         });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "body");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "body");
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class RichTextAllowedTypesValidationTests
             },
         });
 
-        result.Errors.Single(e => e.ElementCodename == "body")
+        result.ValidationErrors().Single(e => e.Path == "body")
             .Message.Should().Contain("'banner'").And.Contain("page").And.Contain("article");
     }
 
@@ -75,6 +75,6 @@ public class RichTextAllowedTypesValidationTests
             },
         });
 
-        result.Errors.Count(e => e.ElementCodename == "body").Should().Be(2);
+        result.ValidationErrors().Count(e => e.Path == "body").Should().Be(2);
     }
 }

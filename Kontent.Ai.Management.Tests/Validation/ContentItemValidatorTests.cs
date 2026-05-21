@@ -29,7 +29,7 @@ public class ContentItemValidatorTests
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
-        result.Errors.Should().BeEmpty();
+        result.ValidationErrors().Should().BeEmpty();
         result.StatusCode.Should().BeNull();
     }
 
@@ -48,7 +48,7 @@ public class ContentItemValidatorTests
         });
 
         result.IsSuccess.Should().BeTrue();
-        result.Errors.Should().BeEmpty();
+        result.ValidationErrors().Should().BeEmpty();
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class ContentItemValidatorTests
         result.Value.Should().BeNull();
         result.StatusCode.Should().BeNull();
 
-        var codenames = result.Errors.Select(e => e.ElementCodename).ToList();
+        var codenames = result.ValidationErrors().Select(e => e.Path).ToList();
         codenames.Should().Contain("title");
         codenames.Should().Contain("slug");
         codenames.Should().Contain("tags");
@@ -89,8 +89,8 @@ public class ContentItemValidatorTests
             Taxonomy = [Reference.ByCodename("unknown-term")],
         });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "hero_assets");
-        result.Errors.Should().NotContain(e => e.ElementCodename == "taxonomy");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "hero_assets");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "taxonomy");
     }
 
     [Fact]
@@ -127,7 +127,7 @@ public class ContentItemValidatorTests
 
         first.IsSuccess.Should().BeFalse();
         second.IsSuccess.Should().BeFalse();
-        first.Errors.Count.Should().Be(second.Errors.Count);
+        first.ValidationErrors().Count.Should().Be(second.ValidationErrors().Count);
     }
 
     [KontentType("unannotated_property_owner")]

@@ -13,7 +13,7 @@ public class AllowedTypesValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Related = null });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "related");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "related");
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class AllowedTypesValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Related = [] });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "related");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "related");
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class AllowedTypesValidationTests
             Related = [new Article(), new Page(), new Article()],
         });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "related");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "related");
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class AllowedTypesValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Related = [new Banner()] });
 
-        result.Errors.Single(e => e.ElementCodename == "related")
+        result.ValidationErrors().Single(e => e.Path == "related")
             .Message.Should().Contain("'banner'").And.Contain("article").And.Contain("page");
     }
 
@@ -53,6 +53,6 @@ public class AllowedTypesValidationTests
             Related = [new Banner(), new Article(), new Banner()],
         });
 
-        result.Errors.Count(e => e.ElementCodename == "related").Should().Be(2);
+        result.ValidationErrors().Count(e => e.Path == "related").Should().Be(2);
     }
 }

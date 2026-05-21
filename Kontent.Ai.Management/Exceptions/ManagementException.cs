@@ -43,10 +43,10 @@ public sealed class ManagementException : Exception
 
         try
         {
-            var errorModel = JsonSerializer.Deserialize<ErrorResponseModel>(exceptionMessage, Configuration.RefitSettingsProvider.CreateDefaultJsonSerializerOptions());
+            var errorModel = JsonSerializer.Deserialize<Error>(exceptionMessage, Configuration.RefitSettingsProvider.CreateDefaultJsonSerializerOptions());
             var message = errorModel.Message;
 
-            if (errorModel.ValidationErrors != null)
+            if (errorModel.ValidationErrors.Count > 0)
             {
                 var errors = string.Join(Environment.NewLine, errorModel.ValidationErrors.Select(error => error.Message));
 

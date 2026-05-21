@@ -77,7 +77,7 @@ public class LanguageVariantStronglyTypedTests
 
         result.IsSuccess.Should().BeFalse();
         result.StatusCode.Should().BeNull();
-        result.Errors.Should().Contain(e => e.ElementCodename == "author");
+        result.ValidationErrors().Should().Contain(e => e.Path == "author");
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class LanguageVariantStronglyTypedTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
-        result.Errors.Should().BeEmpty();
+        result.Error.Should().BeNull();
 
         var callout = result.Value;
         callout.Type.Should().Equal(CalloutType.Warning);
@@ -144,7 +144,7 @@ public class LanguageVariantStronglyTypedTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeFalse();
         result.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        result.Errors.Should().Contain(e => e.Message.Contains("not found"))
-            .And.Contain(e => e.Message.Contains("does not exist"));
+        result.Error!.Message.Should().Contain("not found");
+        result.Error.ValidationErrors.Should().Contain(e => e.Message.Contains("does not exist"));
     }
 }

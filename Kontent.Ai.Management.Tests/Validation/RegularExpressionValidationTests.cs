@@ -13,7 +13,7 @@ public class RegularExpressionValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Slug = null });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "slug");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "slug");
     }
 
     [Theory]
@@ -24,7 +24,7 @@ public class RegularExpressionValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Slug = slug });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "slug");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "slug");
     }
 
     [Theory]
@@ -36,7 +36,7 @@ public class RegularExpressionValidationTests
         var result = ContentItemValidator.Validate(new Article { Slug = slug });
 
         result.IsSuccess.Should().BeFalse();
-        result.Errors.Single(e => e.ElementCodename == "slug")
+        result.ValidationErrors().Single(e => e.Path == "slug")
             .Message.Should().Contain("^[a-z0-9-]+$");
     }
 }

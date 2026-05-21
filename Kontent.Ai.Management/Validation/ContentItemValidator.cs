@@ -25,14 +25,14 @@ public static class ContentItemValidator
 
     /// <summary>
     /// Validates <paramref name="item"/>. Returns a success result wrapping the same instance on a clean walk,
-    /// or a failure result whose <see cref="IManagementResult{T}.Errors"/> collection names each violation.
+    /// or a failure result whose <see cref="IError.ValidationErrors"/> name each violation.
     /// </summary>
     public static IManagementResult<T> Validate<T>(T item) where T : IContentItem
     {
         ArgumentNullException.ThrowIfNull(item);
 
         var rules = RuleCache.GetOrAdd(item.GetType(), BuildRules);
-        var errors = new List<ManagementError>();
+        var errors = new List<ValidationError>();
 
         foreach (var rule in rules)
         {
@@ -41,7 +41,11 @@ public static class ContentItemValidator
 
         return errors.Count == 0
             ? ManagementResult<T>.Success(item)
-            : ManagementResult<T>.Failure(errors);
+            : ManagementResult<T>.Failure(new Error
+            {
+                Message = "Content item validation failed.",
+                ValidationErrors = errors,
+            });
     }
 
     private static IReadOnlyList<PropertyRule> BuildRules(Type type)
@@ -77,9 +81,11 @@ public static class ContentItemValidator
             {
                 if (value is string s && s.Length > max)
                 {
-                    errors.Add(new ManagementError(
-                        $"Value length {s.Length} exceeds the maximum of {max} characters.",
-                        codename));
+                    errors.Add(new ValidationError
+                    {
+                        Message = $"Value length {s.Length} exceeds the maximum of {max} characters.",
+                        Path = codename,
+                    });
                 }
             });
         }
@@ -93,9 +99,11 @@ public static class ContentItemValidator
             {
                 if (value is string s && !regex.IsMatch(s))
                 {
-                    errors.Add(new ManagementError(
-                        $"Value does not match the required pattern '{pattern}'.",
-                        codename));
+                    errors.Add(new ValidationError
+                    {
+                        Message = $"Value does not match the required pattern '{pattern}'.",
+                        Path = codename,
+                    });
                 }
             });
         }
@@ -107,9 +115,11 @@ public static class ContentItemValidator
             {
                 if (TryGetCount(value, out var count) && count < min)
                 {
-                    errors.Add(new ManagementError(
-                        $"Collection must contain at least {min} item(s); got {count}.",
-                        codename));
+                    errors.Add(new ValidationError
+                    {
+                        Message = $"Collection must contain at least {min} item(s); got {count}.",
+                        Path = codename,
+                    });
                 }
             });
         }
@@ -121,9 +131,11 @@ public static class ContentItemValidator
             {
                 if (TryGetCount(value, out var count) && count > max)
                 {
-                    errors.Add(new ManagementError(
-                        $"Collection must contain at most {max} item(s); got {count}.",
-                        codename));
+                    errors.Add(new ValidationError
+                    {
+                        Message = $"Collection must contain at most {max} item(s); got {count}.",
+                        Path = codename,
+                    });
                 }
             });
         }
@@ -135,9 +147,11 @@ public static class ContentItemValidator
             {
                 if (TryGetCount(value, out var count) && count != n)
                 {
-                    errors.Add(new ManagementError(
-                        $"Collection must contain exactly {n} item(s); got {count}.",
-                        codename));
+                    errors.Add(new ValidationError
+                    {
+                        Message = $"Collection must contain exactly {n} item(s); got {count}.",
+                        Path = codename,
+                    });
                 }
             });
         }
@@ -178,15 +192,17 @@ public static class ContentItemValidator
         return checks.ToArray();
     }
 
-    private static void CheckAllowedType(IContentItem item, HashSet<string> allowed, string codename, List<ManagementError> errors)
+    private static void CheckAllowedType(IContentItem item, HashSet<string> allowed, string codename, List<ValidationError> errors)
     {
         var typeAttr = item.GetType().GetCustomAttribute<KontentTypeAttribute>();
         if (typeAttr is null || !allowed.Contains(typeAttr.Codename))
         {
             var label = typeAttr?.Codename ?? item.GetType().Name;
-            errors.Add(new ManagementError(
-                $"Content type '{label}' is not allowed; permitted: {string.Join(", ", allowed)}.",
-                codename));
+            errors.Add(new ValidationError
+            {
+                Message = $"Content type '{label}' is not allowed; permitted: {string.Join(", ", allowed)}.",
+                Path = codename,
+            });
         }
     }
 
@@ -214,11 +230,11 @@ public static class ContentItemValidator
         }
     }
 
-    private delegate void Check(object? value, List<ManagementError> errors);
+    private delegate void Check(object? value, List<ValidationError> errors);
 
     private sealed class PropertyRule(PropertyInfo property, Check[] checks)
     {
-        public void Check(object instance, List<ManagementError> errors)
+        public void Check(object instance, List<ValidationError> errors)
         {
             var value = property.GetValue(instance);
             foreach (var check in checks)

@@ -6,84 +6,80 @@ namespace Kontent.Ai.Management.Tests;
 
 public class ManagementResultTests
 {
+    private static Error SampleError() => new()
+    {
+        Message = "Content item validation failed.",
+        ValidationErrors = [new ValidationError { Message = "title is too long", Path = "title" }],
+    };
+
     [Fact]
-    public void Success_ExposesValueAndEmptyErrors()
+    public void Success_ExposesValueAndNoError()
     {
         var result = ManagementResult<string>.Success("ok");
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().Be("ok");
-        result.Errors.Should().BeEmpty();
+        result.Error.Should().BeNull();
         result.StatusCode.Should().BeNull();
     }
 
     [Fact]
-    public void Success_StatusCodePassedThrough()
+    public void Success_PassesThroughStatusAndRequestUrl()
     {
-        var result = ManagementResult<string>.Success("ok", HttpStatusCode.OK);
+        var result = ManagementResult<string>.Success("ok", HttpStatusCode.OK, "https://example.org/x");
 
         result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.RequestUrl.Should().Be("https://example.org/x");
     }
 
     [Fact]
-    public void Failure_ExposesErrorsAndDefaultValue()
+    public void Failure_ExposesErrorAndDefaultValue()
     {
-        var errors = new[]
-        {
-            new ManagementError("title is too long", "title"),
-            new ManagementError("assets must contain at least 1 item", "assets"),
-        };
+        var error = SampleError();
 
-        var result = ManagementResult<string>.Failure(errors);
+        var result = ManagementResult<string>.Failure(error, HttpStatusCode.BadRequest);
 
         result.IsSuccess.Should().BeFalse();
         result.Value.Should().BeNull();
-        result.Errors.Should().Equal(errors);
-        result.StatusCode.Should().BeNull();
-    }
-
-    [Fact]
-    public void Failure_StatusCodePassedThrough()
-    {
-        var errors = new[] { new ManagementError("bad request") };
-
-        var result = ManagementResult<string>.Failure(errors, HttpStatusCode.BadRequest);
-
+        result.Error.Should().BeSameAs(error);
         result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]
-    public void Failure_NullErrors_Throws()
+    public void Failure_NullError_Throws()
     {
         Action act = () => _ = ManagementResult<string>.Failure(null!);
-        act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("errors");
+
+        act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("error");
     }
 
     [Fact]
-    public void Failure_EmptyErrors_Throws()
+    public void NonGeneric_Success_ExposesNoError()
     {
-        Action act = () => _ = ManagementResult<string>.Failure(Array.Empty<ManagementError>());
-        act.Should().Throw<ArgumentException>().And.ParamName.Should().Be("errors");
+        var result = ManagementResult.Success(HttpStatusCode.NoContent);
+
+        result.IsSuccess.Should().BeTrue();
+        result.Error.Should().BeNull();
+        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     [Fact]
-    public void ManagementError_OptionalFields_DefaultToNull()
+    public void NonGeneric_Failure_ExposesError()
     {
-        var error = new ManagementError("something failed");
+        var error = SampleError();
 
-        error.Message.Should().Be("something failed");
-        error.ElementCodename.Should().BeNull();
-        error.Code.Should().BeNull();
+        var result = ManagementResult.Failure(error, HttpStatusCode.BadRequest);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().BeSameAs(error);
     }
 
     [Fact]
-    public void ManagementError_RecordEqualityHoldsByValue()
+    public void NonGeneric_Failure_NullError_Throws()
     {
-        var a = new ManagementError("msg", "title", "TOO_LONG");
-        var b = new ManagementError("msg", "title", "TOO_LONG");
+        Action act = () => _ = ManagementResult.Failure(null!);
 
-        a.Should().Be(b);
-        a.GetHashCode().Should().Be(b.GetHashCode());
+        act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("error");
     }
 
     [Fact]
@@ -94,5 +90,13 @@ public class ManagementResultTests
         IManagementResult<object> widened = success;
 
         widened.Value.Should().Be("ok");
+    }
+
+    [Fact]
+    public void GenericResult_IsAlsoNonGenericResult()
+    {
+        IManagementResult result = ManagementResult<string>.Success("ok");
+
+        result.IsSuccess.Should().BeTrue();
     }
 }

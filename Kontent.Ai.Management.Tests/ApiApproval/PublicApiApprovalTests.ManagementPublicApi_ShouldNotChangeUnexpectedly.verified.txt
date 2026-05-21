@@ -2,6 +2,14 @@
 public interface IContentItem
 
 // Kontent.Ai.Management
+public interface IError
+    Nullable<Int32> ErrorCode { get; }
+    Exception Exception { get; }
+    String Message { get; }
+    String RequestId { get; }
+    IReadOnlyList<ValidationError> ValidationErrors { get; }
+
+// Kontent.Ai.Management
 public interface IManagementClient
     Task ActivateSubscriptionUserAsync(UserIdentifier identifier)
     Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel)
@@ -123,10 +131,15 @@ public interface IManagementClientFactory
     IManagementClient Get(String name)
 
 // Kontent.Ai.Management
-public interface IManagementResult`1<T>
-    IReadOnlyList<ManagementError> Errors { get; }
+public interface IManagementResult
+    IError Error { get; }
     Boolean IsSuccess { get; }
+    String RequestUrl { get; }
+    HttpResponseHeaders ResponseHeaders { get; }
     Nullable<HttpStatusCode> StatusCode { get; }
+
+// Kontent.Ai.Management
+public interface IManagementResult`1<T> : IManagementResult
     T Value { get; }
 
 // Kontent.Ai.Management
@@ -248,14 +261,14 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<EnvironmentReportModel> ValidateEnvironmentAsync()
 
 // Kontent.Ai.Management
-public sealed class ManagementError : IEquatable`1
-    String Code { get; set; init; }
-    String ElementCodename { get; set; init; }
+public sealed class ValidationError : IEquatable`1
+    Nullable<Int32> Line { get; set; init; }
     String Message { get; set; init; }
-    ManagementError <Clone>$()
-    Void Deconstruct(String& Message, String& ElementCodename, String& Code)
+    String Path { get; set; init; }
+    Nullable<Int32> Position { get; set; init; }
+    ValidationError <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ManagementError other)
+    Boolean Equals(ValidationError other)
     Int32 GetHashCode()
     String ToString()
 

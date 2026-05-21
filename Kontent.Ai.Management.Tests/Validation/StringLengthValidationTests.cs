@@ -13,7 +13,7 @@ public class StringLengthValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Title = null });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "title");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "title");
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class StringLengthValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Title = "" });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "title");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "title");
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class StringLengthValidationTests
     {
         var result = ContentItemValidator.Validate(new Article { Title = new string('x', 50) });
 
-        result.Errors.Should().NotContain(e => e.ElementCodename == "title");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "title");
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class StringLengthValidationTests
         var result = ContentItemValidator.Validate(new Article { Title = new string('x', 51) });
 
         result.IsSuccess.Should().BeFalse();
-        var error = result.Errors.Single(e => e.ElementCodename == "title");
+        var error = result.ValidationErrors().Single(e => e.Path == "title");
         error.Message.Should().Contain("51").And.Contain("50");
     }
 }

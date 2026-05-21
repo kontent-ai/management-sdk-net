@@ -1,11 +1,10 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Conversion;
-using Kontent.Ai.Management.Exceptions;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Workflow;
-using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Validation;
 using System.Text.Json;
 
@@ -128,12 +127,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
 
         var response = await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        if (!response.IsSuccessStatusCode)
-        {
-            return ManagementResult<T>.Failure(ParseErrors(response), response.StatusCode);
-        }
-
-        return ManagementResult<T>.Success(ProjectElements<T>(response.Content!.Elements), response.StatusCode);
+        return await response.ToManagementResultAsync(content => ProjectElements<T>(content.Elements));
     }
 
     /// <inheritdoc />
@@ -190,12 +184,7 @@ public partial class ManagementClient
         };
 
         var response = await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), upsertModel, cancellationToken);
-        if (!response.IsSuccessStatusCode)
-        {
-            return ManagementResult<T>.Failure(ParseErrors(response), response.StatusCode);
-        }
-
-        return ManagementResult<T>.Success(ProjectElements<T>(response.Content!.Elements), response.StatusCode);
+        return await response.ToManagementResultAsync(content => ProjectElements<T>(content.Elements));
     }
 
     /// <inheritdoc />
@@ -217,47 +206,5 @@ public partial class ManagementClient
 
         var json = JsonSerializer.Serialize(elements ?? []);
         return _contentConverter.ReadEnvelopes<T>(json);
-    }
-
-    // Best-effort projection of a MAPI error body into result errors. Mirrors the parse ManagementException does,
-    // but surfaces failures through IManagementResult instead of throwing.
-    private static IReadOnlyList<ManagementError> ParseErrors(IApiResponse response)
-    {
-        var error = response.Error;
-        var body = error?.Content;
-
-        if (!string.IsNullOrWhiteSpace(body))
-        {
-            try
-            {
-                var model = JsonSerializer.Deserialize<ErrorResponseModel>(body, RefitSettingsProvider.CreateDefaultJsonSerializerOptions());
-                if (model is not null)
-                {
-                    var errors = new List<ManagementError>();
-                    if (!string.IsNullOrEmpty(model.Message))
-                    {
-                        errors.Add(new ManagementError(model.Message));
-                    }
-                    if (model.ValidationErrors is not null)
-                    {
-                        errors.AddRange(model.ValidationErrors
-                            .Where(e => !string.IsNullOrEmpty(e.Message))
-                            .Select(e => new ManagementError(e.Message)));
-                    }
-                    if (errors.Count > 0)
-                    {
-                        return errors;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // Body wasn't the expected error envelope — fall through to the generic message.
-            }
-        }
-
-        var status = error?.StatusCode ?? response.StatusCode;
-        var reason = error?.ReasonPhrase ?? response.ReasonPhrase;
-        return [new ManagementError($"CM API returned {(int)status} {reason}.")];
     }
 }

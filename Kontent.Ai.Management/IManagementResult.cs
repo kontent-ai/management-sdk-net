@@ -1,50 +1,49 @@
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// Result of a Management SDK operation that surfaces failures without throwing — produced by the content-item
-/// validator and by strongly-typed <c>IManagementClient</c> methods that accept or return generated
-/// content-type records.
+/// The outcome of a Management SDK operation. Surfaces failures without throwing — inspect <see cref="IsSuccess"/>
+/// rather than catching exceptions.
 /// </summary>
-/// <typeparam name="T">The value type carried on success.</typeparam>
-public interface IManagementResult<out T>
+public interface IManagementResult
 {
     /// <summary>
-    /// Whether the operation succeeded. When <c>true</c>, <see cref="Value"/> is populated and <see cref="Errors"/>
-    /// is empty; when <c>false</c>, <see cref="Errors"/> describes the failures and <see cref="Value"/> is
-    /// <c>default(T)</c>.
+    /// Whether the operation succeeded. When <c>false</c>, <see cref="Error"/> describes the failure.
     /// </summary>
     bool IsSuccess { get; }
 
     /// <summary>
-    /// The result value when <see cref="IsSuccess"/> is <c>true</c>. May be <c>default(T)</c> on failure.
+    /// The failure detail when <see cref="IsSuccess"/> is <c>false</c>; <c>null</c> on success.
     /// </summary>
-    T Value { get; }
+    IError? Error { get; }
 
     /// <summary>
-    /// Errors collected during the operation. Empty when <see cref="IsSuccess"/> is <c>true</c>.
-    /// </summary>
-    IReadOnlyList<ManagementError> Errors { get; }
-
-    /// <summary>
-    /// HTTP status code when the failure originated from a Management API response.
-    /// <c>null</c> when the failure originated before an HTTP call (e.g., from local validation).
+    /// The HTTP status code of the Management API response. <c>null</c> when the operation failed before or without
+    /// an HTTP response — local content-item validation, or a transport-level error.
     /// </summary>
     HttpStatusCode? StatusCode { get; }
+
+    /// <summary>
+    /// The request URL, for diagnostics. <c>null</c> when no request was sent.
+    /// </summary>
+    string? RequestUrl { get; }
+
+    /// <summary>
+    /// The Management API response headers. <c>null</c> when no response was received.
+    /// </summary>
+    HttpResponseHeaders? ResponseHeaders { get; }
 }
 
 /// <summary>
-/// A single error within an <see cref="IManagementResult{T}"/>. Carries a human-readable message and, when
-/// applicable, the codename of the offending element and a machine-readable code.
+/// The outcome of a Management SDK operation that yields a value on success.
 /// </summary>
-/// <param name="Message">Human-readable description of the failure.</param>
-/// <param name="ElementCodename">
-/// Codename of the element the error pertains to. <c>null</c> when the error is not element-scoped
-/// (e.g., top-level authorization or rate-limit failures).
-/// </param>
-/// <param name="Code">Machine-readable error code, when the API or validator supplies one.</param>
-public sealed record ManagementError(
-    string Message,
-    string? ElementCodename = null,
-    string? Code = null);
+/// <typeparam name="T">The value type carried on success.</typeparam>
+public interface IManagementResult<out T> : IManagementResult
+{
+    /// <summary>
+    /// The result value when <see cref="IManagementResult.IsSuccess"/> is <c>true</c>; <c>default</c> on failure.
+    /// </summary>
+    T Value { get; }
+}
