@@ -80,7 +80,7 @@ public class ImportAssets
         {
             Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
             {
-                new AssetElement
+                new Models.LanguageVariants.Elements.AssetElement
                 {
                     Element = Reference.ByCodename("photo"),
                     Value = new[]

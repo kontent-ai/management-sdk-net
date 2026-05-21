@@ -1,96 +1,60 @@
 using System.Net.Http.Headers;
 using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.StronglyTyped;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
-    {
-        var response = EnsureSuccess(await _managementApi.ListAssetsInternalAsync());
-
-        return new ListingResponseModel<AssetModel>(
-            (continuationToken, _) => GetNextAssetsPageAsync(continuationToken),
-            response.Pagination?.Token,
-            url: string.Empty,
-            response.Assets);
-    }
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<AssetListingResponseServerModel, AssetModel>(
+            _managementApi.ListAssetsInternalAsync,
+            page => page.Assets,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new()
-    {
-        var response = EnsureSuccess(await _managementApi.ListAssetsInternalAsync());
-
-        return new ListingResponseMappedModel<AssetModel, AssetModel<T>>(
-            (continuationToken, _) => GetNextAssetsPageAsync(continuationToken),
-            response.Pagination?.Token,
-            url: string.Empty,
-            response.Assets,
-            _modelProvider.GetAssetModel<T>);
-    }
-
-    private async Task<IListingResponse<AssetModel>> GetNextAssetsPageAsync(string continuationToken)
-        => EnsureSuccess(await _managementApi.ListAssetsInternalAsync(continuationToken));
-
-    /// <inheritdoc />
-    public async Task<AssetModel> GetAssetAsync(Reference identifier)
+    public async Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new()
-        => _modelProvider.GetAssetModel<T>(await GetAssetAsync(identifier));
-
-    /// <inheritdoc />
-    public async Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset)
+    public async Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(asset);
 
-        return EnsureSuccess(await _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset));
+        var response = await _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset) where T : new()
+    public async Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(asset);
 
-        return _modelProvider.GetAssetModel<T>(await UpsertAssetAsync(identifier, _modelProvider.GetAssetUpsertModel(asset)));
+        var response = await _managementApi.CreateAssetInternalAsync(asset, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
-    {
-        ArgumentNullException.ThrowIfNull(asset);
-
-        return EnsureSuccess(await _managementApi.CreateAssetInternalAsync(asset));
-    }
-
-    /// <inheritdoc />
-    public async Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new()
-    {
-        ArgumentNullException.ThrowIfNull(asset);
-
-        return _modelProvider.GetAssetModel<T>(await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset)));
-    }
-
-    /// <inheritdoc />
-    public async Task DeleteAssetAsync(Reference identifier)
+    public async Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
+    public async Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(fileContent);
 
@@ -99,14 +63,15 @@ public partial class ManagementClient
         {
             if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
             {
-                throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
+                throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(fileContent));
             }
 
             var content = new StreamContent(stream);
             content.Headers.ContentType = MediaTypeHeaderValue.Parse(fileContent.ContentType);
             content.Headers.ContentLength = stream.Length;
 
-            return EnsureSuccess(await _managementApi.UploadFileInternalAsync(fileContent.FileName, content));
+            var response = await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken);
+            return await response.ToManagementResultAsync();
         }
         finally
         {

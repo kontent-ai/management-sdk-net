@@ -48,112 +48,88 @@ namespace Kontent.Ai.Management;
 public interface IManagementClient
 {
     /// <summary>
-    /// Returns asset.
+    /// Returns the asset.
     /// </summary>
     /// <param name="identifier">The identifier of the asset.</param>
-    /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
-    Task<AssetModel> GetAssetAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="AssetModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns asset with strongly typed elements.
+    /// Enumerates the assets, one continuation-token page at a time.
     /// </summary>
-    /// <param name="identifier">The identifier of the asset.</param>
-    /// <returns>The <see cref="AssetModel"/> instance that represents requested asset.</returns>
-    Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new();
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's assets on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns listing of assets.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
-    Task<IListingResponseModel<AssetModel>> ListAssetsAsync();
-
-    /// <summary>
-    /// Returns listing of assets with strongly typed elements.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{AssetModel}"/> instance that represents the listing of assets.</returns>
-    Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new();
-
-    /// <summary>
-    /// Creates asset.
+    /// Creates an asset.
     /// </summary>
     /// <param name="asset">Represents the asset that will be created.</param>
-    /// <returns>The <see cref="AssetModel"/> instance that represents created asset.</returns>
-    Task<AssetModel> CreateAssetAsync(AssetCreateModel asset);
-
-    /// <summary>
-    /// Creates asset with strongly typed elements.
-    /// </summary>
-    /// <param name="asset">Represents the asset that will be created.</param>
-    /// <returns>The <see cref="AssetModel"/> instance that represents created asset with strongly typed elements.</returns>
-    Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="AssetModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the given asset.
     /// </summary>
     /// <param name="identifier">The identifier of the asset.</param>
     /// <param name="asset">Represents the updated asset.</param>
-    /// <returns>The <see cref="AssetModel"/> instance that represents updated asset.</returns>
-    Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset);
-
-    /// <summary>
-    /// Updates the given asset with strongly typed elements.
-    /// </summary>
-    /// <param name="identifier">The identifier of the asset.</param>
-    /// <param name="asset">Represents the updated asset with strongly typed elements.</param>
-    /// <returns>The <see cref="AssetModel"/> instance that represents updated asset with strongly typed elements.</returns>
-    Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset) where T : new();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the updated <see cref="AssetModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given asset.
     /// </summary>
     /// <param name="identifier">The identifier of the asset.</param>
-    Task DeleteAssetAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads the given file.
     /// </summary>
-    /// <param name="fileContent">Represents the content of the file</param>
-    /// <returns>The <see cref="FileReference"/> instance that represents reference to the created file.</returns>
-    Task<FileReference> UploadFileAsync(FileContentSource fileContent);
+    /// <param name="fileContent">Represents the content of the file.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the <see cref="FileReference"/> to the uploaded file on success, or the failure detail.</returns>
+    Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a rendition of the specified asset.
     /// </summary>
     /// <param name="identifier">The identifier of the asset rendition.</param>
-    /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the asset rendition.</returns>
-    Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="AssetRenditionModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns a paginated list of all renditions of the specified asset.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
+    /// Enumerates the renditions of the specified asset, one continuation-token page at a time.
     /// </summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="assetIdentifier">The identifier of the asset.</param>
-    /// <returns>The <see cref="IListingResponseModel{AssetRenditionModel}"/> instance that represents the listing of asset renditions.</returns>
-    Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier);
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's renditions on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new rendition of the specified asset.
     /// </summary>
     /// <param name="assetIdentifier">The identifier of the asset.</param>
     /// <param name="createModel">Represents the asset rendition that will be created.</param>
-    /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the created asset rendition.</returns>
-    Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="AssetRenditionModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify a rendition of the asset.
     /// </summary>
     /// <param name="identifier">The identifier of the asset rendition.</param>
     /// <param name="updateModel">Represents the updated asset rendition.</param>
-    /// <returns>The <see cref="AssetRenditionModel"/> instance that represents the updated asset rendition.</returns>
-    Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the updated <see cref="AssetRenditionModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken = default);
     /// <summary>
     /// Cancels publishing of the language variant.
     /// </summary>
@@ -177,8 +153,9 @@ public interface IManagementClient
     /// Creates the asset folder.
     /// </summary>
     /// <param name="folder">The asset folder that will be created.</param>
-    /// <returns>The <see cref="LanguageModel"/> instance that represents created asset folder.</returns>
-    Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="AssetFoldersModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates content item.
@@ -290,8 +267,9 @@ public interface IManagementClient
     /// <summary>
     /// Get the Asset Folders
     /// </summary>
-    /// <returns>Returns the hierarchy of asset folders beginning with the root level</returns>
-    Task<AssetFoldersModel> GetAssetFoldersAsync();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the asset-folder hierarchy on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed content item.
@@ -537,9 +515,10 @@ public interface IManagementClient
     /// <summary>
     /// Modifies the asset folder.
     /// </summary>
-    /// /// <param name="changes">Represents changes that will be applied to the asset folder.</param>
-    /// <returns>The <see cref="LanguageModel"/> instance that represents modified asset folder.</returns>
-    Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes);
+    /// <param name="changes">Represents changes that will be applied to the asset folder.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the modified <see cref="AssetFoldersModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies collection.

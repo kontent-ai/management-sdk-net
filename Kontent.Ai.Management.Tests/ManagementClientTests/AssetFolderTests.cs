@@ -24,10 +24,11 @@ public class AssetFolderTests
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/folders")
             .Respond("application/json", Folder);
 
-        var response = await client.GetAssetFoldersAsync();
+        var result = await client.GetAssetFoldersAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -41,7 +42,7 @@ public class AssetFolderTests
                 new AssetFolderHierarchy
                 {
                     ExternalId = "external-id",
-                    Name= "name",
+                    Name = "name",
                     Codename = "codename"
                 }
             }
@@ -56,10 +57,11 @@ public class AssetFolderTests
             })
             .Respond("application/json", Folder);
 
-        var response = await client.CreateAssetFoldersAsync(folderModel);
+        var result = await client.CreateAssetFoldersAsync(folderModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<AssetFolderCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFolderCreateModel>(JsonSerializer.Serialize(folderModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -88,14 +90,14 @@ public class AssetFolderTests
             })
             .Respond("application/json", Folder);
 
-        var response = await client.ModifyAssetFoldersAsync(changes);
+        var result = await client.ModifyAssetFoldersAsync(changes);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
-        // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
-        // operation kinds (PATCH order matters), via each element's stable "op" discriminator.
+        // Heterogeneous polymorphic operation list: assert the converter-free, behaviourally meaningful part — the
+        // ordered sequence of operation kinds (PATCH order matters), via each element's stable "op" discriminator.
         var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
         var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
@@ -110,22 +112,22 @@ public class AssetFolderTests
     }
 
     private static List<AssetFolderOperationBaseModel> GetChanges() => new()
+    {
+        new AssetFolderAddIntoModel
         {
-            new AssetFolderAddIntoModel
+            Value = new AssetFolderHierarchy
             {
-                Value = new AssetFolderHierarchy
-                {
-                    ExternalId = "external-id",
-                    Name= "name",
-                    Codename = "codename"
-                },
-                Before = Reference.ByCodename("codename"),
-                After = Reference.ById(Guid.NewGuid())
+                ExternalId = "external-id",
+                Name = "name",
+                Codename = "codename"
             },
-            new AssetFolderRenameModel
-            {
-                Value = "new folder name",
-            },
-            new AssetFolderRemoveModel()
-        };
+            Before = Reference.ByCodename("codename"),
+            After = Reference.ById(Guid.NewGuid())
+        },
+        new AssetFolderRenameModel
+        {
+            Value = "new folder name",
+        },
+        new AssetFolderRemoveModel()
+    };
 }

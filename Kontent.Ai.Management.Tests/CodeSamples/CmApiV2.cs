@@ -210,9 +210,13 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Assets.json");
 
-        var response = await client.ListAssetsAsync();
+        var assets = new List<AssetModel>();
+        await foreach (var page in client.EnumerateAssetPagesAsync())
+        {
+            assets.AddRange(page.Value);
+        }
 
-        Assert.Single(response);
+        Assert.Single(assets);
     }
 
     // DocSection: cm_api_v2_get_rendition
@@ -245,9 +249,13 @@ public class CmApiV2
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
 
         // Gets the first page of results
-        var response = await client.ListAssetRenditionsAsync(assetReference);
+        var renditions = new List<AssetRenditionModel>();
+        await foreach (var page in client.EnumerateAssetRenditionPagesAsync(assetReference))
+        {
+            renditions.AddRange(page.Value);
+        }
 
-        Assert.Single(response);
+        Assert.Single(renditions);
     }
 
     // DocSection: cm_api_v2_get_components_of_type
@@ -287,8 +295,8 @@ public class CmApiV2
 
         var response = await client.GetAssetFoldersAsync();
 
-        Assert.Equal(2, response.Folders.Count());
-        Assert.Single(response.Folders.First().Folders);
+        Assert.Equal(2, response.Value.Folders.Count());
+        Assert.Single(response.Value.Folders.First().Folders);
     }
 
     // DocSection: cm_api_v2_get_item
@@ -721,8 +729,8 @@ public class CmApiV2
         });
 
         Assert.NotNull(response);
-        Assert.Equal(3, response.Folders.Count());
-        Assert.Single(response.Folders.Skip(1).First().Folders);
+        Assert.Equal(3, response.Value.Folders.Count());
+        Assert.Single(response.Value.Folders.Skip(1).First().Folders);
     }
 
     // DocSection: cm_api_v2_patch_content_collections
@@ -1025,8 +1033,9 @@ public class CmApiV2
                     Description = "Técnicas para hacer café"
                 }
             },
-            Elements = ElementBuilder.GetElementsAsDynamic(
-                new TaxonomyElement
+            Elements = new[]
+            {
+                new Models.Assets.AssetElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
                     Value = new[]
@@ -1034,7 +1043,8 @@ public class CmApiV2
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
                     }
-                })
+                }
+            }
         });
 
         Assert.NotNull(response);
@@ -1597,8 +1607,9 @@ public class CmApiV2
                     Language = Reference.ByCodename("es-ES")
                 }
             },
-            Elements = ElementBuilder.GetElementsAsDynamic(
-                new TaxonomyElement
+            Elements = new[]
+            {
+                new Models.Assets.AssetElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
                     Value = new[]
@@ -1606,7 +1617,8 @@ public class CmApiV2
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
                     }
-                })
+                }
+            }
         });
 
         // Used when creating a new asset or updating an existing one
@@ -1633,8 +1645,9 @@ public class CmApiV2
                     Language = Reference.ByCodename("es-ES")
                 }
             },
-            Elements = ElementBuilder.GetElementsAsDynamic(
-                new TaxonomyElement
+            Elements = new[]
+            {
+                new Models.Assets.AssetElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
                     Value = new[]
@@ -1642,7 +1655,8 @@ public class CmApiV2
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
                     }
-                })
+                }
+            }
         });
 
         Assert.NotNull(createdAssetResponse);

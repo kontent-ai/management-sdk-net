@@ -1,6 +1,5 @@
 using System.Collections;
 using AwesomeAssertions;
-using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
@@ -36,7 +35,7 @@ public class AssetRenditionTests
     ];
 
     [Fact]
-    public async Task ListAssetRenditionsAsync_ById_ReturnsRenditions()
+    public async Task EnumerateAssetRenditionPagesAsync_PagesThroughAllRenditions()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("AssetRenditionPage1.json");
@@ -48,56 +47,23 @@ public class AssetRenditionTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var response = await client.ListAssetRenditionsAsync(identifier).GetAllAsync();
+        var renditions = new List<AssetRenditionModel>();
+        await foreach (var page in client.EnumerateAssetRenditionPagesAsync(identifier))
+        {
+            page.IsSuccess.Should().BeTrue();
+            renditions.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<AssetRenditionModel>(page1, page2, page3));
+        renditions.Should().BeEquivalentTo(ConcatPages<AssetRenditionModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async Task ListAssetRenditionsAsync_ByCodename_ReturnsRenditions()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        var page1 = Fixture("AssetRenditionPage1.json");
-        var page2 = Fixture("AssetRenditionPage2.json");
-        var page3 = Fixture("AssetRenditionPage3.json");
-        var identifier = Reference.ByCodename("codename");
-        var url = $"{MockClientFactory.BaseUrl}/assets/codename/{identifier.Codename}/renditions";
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
-
-        var response = await client.ListAssetRenditionsAsync(identifier).GetAllAsync();
-
-        mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<AssetRenditionModel>(page1, page2, page3));
-    }
-
-    [Fact]
-    public async Task ListAssetRenditionsAsync_ByExternalId_ReturnsRenditions()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        var page1 = Fixture("AssetRenditionPage1.json");
-        var page2 = Fixture("AssetRenditionPage2.json");
-        var page3 = Fixture("AssetRenditionPage3.json");
-        var identifier = Reference.ByExternalId("externalId");
-        var url = $"{MockClientFactory.BaseUrl}/assets/external-id/{identifier.ExternalId}/renditions";
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
-
-        var response = await client.ListAssetRenditionsAsync(identifier).GetAllAsync();
-
-        mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(ConcatPages<AssetRenditionModel>(page1, page2, page3));
-    }
-
-    [Fact]
-    public async Task ListRenditionsAsync_IdentifierIsNull_Throws()
+    public void EnumerateAssetRenditionPagesAsync_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ListAssetRenditionsAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        client.Invoking(x => x.EnumerateAssetRenditionPagesAsync(null!)).Should().ThrowExactly<ArgumentNullException>();
     }
 
     [Theory]
@@ -108,10 +74,11 @@ public class AssetRenditionTests
         mock.Expect(HttpMethod.Get, expectedUrl)
             .Respond("application/json", AssetRendition);
 
-        var response = await client.GetAssetRenditionAsync(identifier);
+        var result = await client.GetAssetRenditionAsync(identifier);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
     }
 
     [Theory]
@@ -152,10 +119,11 @@ public class AssetRenditionTests
             })
             .Respond("application/json", AssetRendition);
 
-        var response = await client.CreateAssetRenditionAsync(identifier, createModel);
+        var result = await client.CreateAssetRenditionAsync(identifier, createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<AssetRenditionCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -190,10 +158,11 @@ public class AssetRenditionTests
             })
             .Respond("application/json", AssetRendition);
 
-        var response = await client.CreateAssetRenditionAsync(identifier, createModel);
+        var result = await client.CreateAssetRenditionAsync(identifier, createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<AssetRenditionCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -228,10 +197,11 @@ public class AssetRenditionTests
             })
             .Respond("application/json", AssetRendition);
 
-        var response = await client.CreateAssetRenditionAsync(identifier, createModel);
+        var result = await client.CreateAssetRenditionAsync(identifier, createModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<AssetRenditionCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -282,10 +252,11 @@ public class AssetRenditionTests
             })
             .Respond("application/json", AssetRendition);
 
-        var response = await client.UpdateAssetRenditionAsync(identifier, updateRenditionModel);
+        var result = await client.UpdateAssetRenditionAsync(identifier, updateRenditionModel);
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionModel>(AssetRendition, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<AssetRenditionUpdateModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetRenditionUpdateModel>(JsonSerializer.Serialize(updateRenditionModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));

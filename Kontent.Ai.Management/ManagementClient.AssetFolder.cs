@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.AssetFolders;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
 
@@ -6,22 +7,27 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<AssetFoldersModel> GetAssetFoldersAsync()
-        => EnsureSuccess(await _managementApi.GetAssetFoldersInternalAsync());
-
-    /// <inheritdoc />
-    public async Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
+    public async Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(folder);
-
-        return EnsureSuccess(await _managementApi.CreateAssetFoldersInternalAsync(folder));
+        var response = await _managementApi.GetAssetFoldersInternalAsync(cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
+    public async Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(folder);
+
+        var response = await _managementApi.CreateAssetFoldersInternalAsync(folder, cancellationToken);
+        return await response.ToManagementResultAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        return EnsureSuccess(await _managementApi.ModifyAssetFoldersInternalAsync(changes));
+        var response = await _managementApi.ModifyAssetFoldersInternalAsync(changes, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 }

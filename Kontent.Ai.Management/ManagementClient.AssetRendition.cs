@@ -1,4 +1,5 @@
 using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Shared;
 
@@ -7,46 +8,44 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier)
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(assetIdentifier);
 
         var assetSegment = assetIdentifier.ToUrlSegment();
-        var response = EnsureSuccess(await _managementApi.ListAssetRenditionsInternalAsync(assetSegment));
-
-        return new ListingResponseModel<AssetRenditionModel>(
-            (continuationToken, _) => GetNextAssetRenditionsPageAsync(assetSegment, continuationToken),
-            response.Pagination?.Token,
-            url: string.Empty,
-            response.AssetRenditions);
+        return PageEnumerator.EnumerateAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>(
+            (token, ct) => _managementApi.ListAssetRenditionsInternalAsync(assetSegment, token, ct),
+            page => page.AssetRenditions,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
-    private async Task<IListingResponse<AssetRenditionModel>> GetNextAssetRenditionsPageAsync(string assetSegment, string continuationToken)
-        => EnsureSuccess(await _managementApi.ListAssetRenditionsInternalAsync(assetSegment, continuationToken));
-
     /// <inheritdoc />
-    public async Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier)
+    public async Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetAssetRenditionInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.GetAssetRenditionInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel)
+    public async Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(updateModel);
 
-        return EnsureSuccess(await _managementApi.UpdateAssetRenditionInternalAsync(identifier.ToUrlSegment(), updateModel));
+        var response = await _managementApi.UpdateAssetRenditionInternalAsync(identifier.ToUrlSegment(), updateModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel)
+    public async Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(assetIdentifier);
         ArgumentNullException.ThrowIfNull(createModel);
 
-        return EnsureSuccess(await _managementApi.CreateAssetRenditionInternalAsync(assetIdentifier.ToUrlSegment(), createModel));
+        var response = await _managementApi.CreateAssetRenditionInternalAsync(assetIdentifier.ToUrlSegment(), createModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 }

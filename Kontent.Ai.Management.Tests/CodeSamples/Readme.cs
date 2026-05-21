@@ -182,19 +182,20 @@ public class Readme
         var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
 
         // Defines the content elements to create
-        var stronglyTypedTaxonomyElements = new AssetMetadataModel
+        var taxonomyElements = new[]
         {
-            TaxonomyCategories = new TaxonomyElement()
+            new Models.Assets.AssetElement
             {
+                Element = Reference.ByCodename("taxonomy-categories"),
                 Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
-            },
+            }
         };
 
         // Defines the asset to create
-        var asset = new AssetCreateModel<AssetMetadataModel>
+        var asset = new AssetCreateModel
         {
-            FileReference = fileResult,
-            Elements = stronglyTypedTaxonomyElements
+            FileReference = fileResult.Value,
+            Elements = taxonomyElements
         };
 
         // Remove next line in codesample
@@ -210,8 +211,9 @@ public class Readme
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");
 
         // Elements to update
-        var taxonomyElements = ElementBuilder.GetElementsAsDynamic(
-            new TaxonomyElement
+        var taxonomyElements = new[]
+        {
+            new Models.Assets.AssetElement
             {
                 Element = Reference.ByCodename("taxonomy-categories"),
                 Value = new[]
@@ -219,7 +221,8 @@ public class Readme
                     Reference.ByCodename("hello"),
                     Reference.ByCodename("SDK"),
                 }
-            });
+            }
+        };
 
         // Defines the asset to update
         var asset = new AssetUpsertModel

@@ -18,10 +18,9 @@ public interface IManagementClient
     Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
     Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
     Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
-    Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
-    Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset)
-    Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
-    Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel)
+    Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
     Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
     Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType)
     Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet)
@@ -34,7 +33,7 @@ public interface IManagementClient
     Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken)
-    Task DeleteAssetAsync(Reference identifier)
+    Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task DeleteContentItemAsync(Reference identifier)
     Task DeleteContentTypeAsync(Reference identifier)
     Task DeleteContentTypeSnippetAsync(Reference identifier)
@@ -47,6 +46,8 @@ public interface IManagementClient
     Task<IManagementResult> DeleteWorkflowAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DisableWebhookAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<CustomAppModel>>> EnumerateCustomAppPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken)
@@ -54,10 +55,9 @@ public interface IManagementClient
     IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> EnumerateSubscriptionUserPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken)
     Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest)
-    Task<AssetModel> GetAssetAsync(Reference identifier)
-    Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier)
-    Task<AssetFoldersModel> GetAssetFoldersAsync()
-    Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier)
+    Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
     Task<ContentItemModel> GetContentItemAsync(Reference identifier)
     Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
@@ -79,9 +79,6 @@ public interface IManagementClient
     Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
-    Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier)
-    Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
-    Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>()
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
     Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
     Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
@@ -98,7 +95,7 @@ public interface IManagementClient
     Task<IManagementResult<IEnumerable<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
     Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
-    Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
+    Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
     Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
@@ -114,11 +111,10 @@ public interface IManagementClient
     Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel)
+    Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
-    Task<FileReference> UploadFileAsync(FileContentSource fileContent)
-    Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset)
-    Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset)
+    Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
     Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
     Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
     Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant)
@@ -151,10 +147,9 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
     Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
     Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
-    Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
-    Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset)
-    Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
-    Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel)
+    Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
     Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
     Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType)
     Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet)
@@ -167,7 +162,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken)
-    Task DeleteAssetAsync(Reference identifier)
+    Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task DeleteContentItemAsync(Reference identifier)
     Task DeleteContentTypeAsync(Reference identifier)
     Task DeleteContentTypeSnippetAsync(Reference identifier)
@@ -182,6 +177,8 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Void Dispose()
     ValueTask DisposeAsync()
     Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<CustomAppModel>>> EnumerateCustomAppPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken)
@@ -189,10 +186,9 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> EnumerateSubscriptionUserPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken)
     Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest)
-    Task<AssetModel> GetAssetAsync(Reference identifier)
-    Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier)
-    Task<AssetFoldersModel> GetAssetFoldersAsync()
-    Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier)
+    Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
     Task<ContentItemModel> GetContentItemAsync(Reference identifier)
     Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
@@ -214,9 +210,6 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
-    Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier)
-    Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
-    Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>()
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
     Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
     Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
@@ -233,7 +226,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<IEnumerable<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
     Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
-    Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
+    Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
     Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
@@ -249,11 +242,10 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
     Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel)
+    Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
-    Task<FileReference> UploadFileAsync(FileContentSource fileContent)
-    Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset)
-    Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset)
+    Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
     Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
     Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
     Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant)
@@ -381,10 +373,8 @@ public sealed class ListingExtensions
 
 // Kontent.Ai.Management.Extensions
 public sealed class ManagementClientExtensions
-    static Task<AssetModel> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel)
-    static Task<AssetModel<T>> CreateAssetAsync<T>(IManagementClient client, FileContentSource fileContent, AssetCreateModel<T> assetCreateModel)
-    static Task<AssetModel> UpsertAssetAsync(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel)
-    static Task<AssetModel<T>> UpsertAssetAsync<T>(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel<T> upsertModel)
+    static Task<IManagementResult<AssetModel>> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel, CancellationToken cancellationToken)
+    static Task<IManagementResult<AssetModel>> UpsertAssetAsync(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken)
     static Task<ContentItemModel> UpsertContentItemAsync(IManagementClient client, Reference identifier, ContentItemModel contentItem)
 
 // Kontent.Ai.Management.Extensions
@@ -568,15 +558,20 @@ public sealed class AssetCollectionReference : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Assets
-public sealed class AssetCreateModel
-    String Codename { get; set; }
-    AssetCollectionReference Collection { get; set; }
-    IEnumerable<AssetDescription> Descriptions { get; set; }
-    IEnumerable<Object> Elements { get; set; }
-    String ExternalId { get; set; }
-    FileReference FileReference { get; set; }
-    Reference Folder { get; set; }
-    String Title { get; set; }
+public sealed class AssetCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    AssetCollectionReference Collection { get; set; init; }
+    IEnumerable<AssetDescription> Descriptions { get; set; init; }
+    IEnumerable<AssetElement> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    FileReference FileReference { get; set; init; }
+    Reference Folder { get; set; init; }
+    String Title { get; set; init; }
+    AssetCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Assets
 public sealed class AssetDescription : IEquatable`1
@@ -589,11 +584,21 @@ public sealed class AssetDescription : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Assets
+public sealed class AssetElement : IEquatable`1
+    Reference Element { get; set; init; }
+    IEnumerable<Reference> Value { get; set; init; }
+    AssetElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
 public sealed class AssetModel : IEquatable`1
     String Codename { get; set; init; }
     AssetCollectionReference Collection { get; set; init; }
     IEnumerable<AssetDescription> Descriptions { get; set; init; }
-    IEnumerable<Object> Elements { get; set; init; }
+    IEnumerable<AssetElement> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     String FileName { get; set; init; }
     FileReference FileReference { get; set; init; }
@@ -613,14 +618,19 @@ public sealed class AssetModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Assets
-public sealed class AssetUpsertModel
-    String Codename { get; set; }
-    AssetCollectionReference Collection { get; set; }
-    IEnumerable<AssetDescription> Descriptions { get; set; }
-    IEnumerable<Object> Elements { get; set; }
-    FileReference FileReference { get; set; }
-    Reference Folder { get; set; }
-    String Title { get; set; }
+public sealed class AssetUpsertModel : IEquatable`1
+    String Codename { get; set; init; }
+    AssetCollectionReference Collection { get; set; init; }
+    IEnumerable<AssetDescription> Descriptions { get; set; init; }
+    IEnumerable<AssetElement> Elements { get; set; init; }
+    FileReference FileReference { get; set; init; }
+    Reference Folder { get; set; init; }
+    String Title { get; set; init; }
+    AssetUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Assets
 public class FileContentSource
@@ -1559,51 +1569,6 @@ public sealed class SpaceOperationReplaceModel : IEquatable`1
     Boolean Equals(SpaceOperationReplaceModel other)
     Int32 GetHashCode()
     String ToString()
-
-// Kontent.Ai.Management.Models.StronglyTyped
-public sealed class AssetCreateModel`1<T>
-    String Codename { get; set; }
-    AssetCollectionReference Collection { get; set; }
-    IEnumerable<AssetDescription> Descriptions { get; set; }
-    T Elements { get; set; }
-    String ExternalId { get; set; }
-    FileReference FileReference { get; set; }
-    Reference Folder { get; set; }
-    String Title { get; set; }
-
-// Kontent.Ai.Management.Models.StronglyTyped
-public sealed class AssetModel`1<T> : IEquatable`1
-    String Codename { get; set; init; }
-    AssetCollectionReference Collection { get; set; init; }
-    IEnumerable<AssetDescription> Descriptions { get; set; init; }
-    T Elements { get; set; init; }
-    String ExternalId { get; set; init; }
-    String FileName { get; set; init; }
-    FileReference FileReference { get; set; init; }
-    AssetFolder Folder { get; set; init; }
-    Guid Id { get; set; init; }
-    Nullable<Int32> ImageHeight { get; set; init; }
-    Nullable<Int32> ImageWidth { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
-    Int64 Size { get; set; init; }
-    String Title { get; set; init; }
-    String Type { get; set; init; }
-    String Url { get; set; init; }
-    AssetModel<T> <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(AssetModel<T> other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.StronglyTyped
-public sealed class AssetUpsertModel`1<T>
-    String Codename { get; set; }
-    AssetCollectionReference Collection { get; set; }
-    IEnumerable<AssetDescription> Descriptions { get; set; }
-    T Elements { get; set; }
-    FileReference FileReference { get; set; }
-    Reference Folder { get; set; }
-    String Title { get; set; }
 
 // Kontent.Ai.Management.Models.StronglyTyped
 public sealed class LanguageVariantModel`1<T> : IEquatable`1
@@ -2957,9 +2922,6 @@ public interface IElementModelProvider
 
 // Kontent.Ai.Management.Modules.ModelBuilders
 public interface IModelProvider
-    AssetCreateModel GetAssetCreateModel<T>(AssetCreateModel<T> asset)
-    AssetModel<T> GetAssetModel<T>(AssetModel asset)
-    AssetUpsertModel GetAssetUpsertModel<T>(AssetUpsertModel<T> asset)
     LanguageVariantModel<T> GetLanguageVariantModel<T>(LanguageVariantModel variant)
     LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements, WorkflowStepIdentifier workflow)
 

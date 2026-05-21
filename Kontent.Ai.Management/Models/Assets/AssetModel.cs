@@ -101,8 +101,8 @@ public sealed record AssetModel
     public AssetCollectionReference Collection { get; init; }
 
     /// <summary>
-    /// Gets elements of the asset.
+    /// Gets the taxonomy elements of the asset.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<object> Elements { get; init; }
+    public IEnumerable<AssetElement> Elements { get; init; }
 }
