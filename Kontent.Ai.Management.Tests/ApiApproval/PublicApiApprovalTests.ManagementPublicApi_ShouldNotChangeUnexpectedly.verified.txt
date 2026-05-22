@@ -335,11 +335,6 @@ public sealed class ManagementOptions : IValidatableObject
     String SubscriptionId { get; set; }
     IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 
-// Kontent.Ai.Management.Exceptions
-public sealed class ManagementException : Exception
-    String Message { get; }
-    Nullable<HttpStatusCode> StatusCode { get; }
-
 // Kontent.Ai.Management.Extensions
 public sealed class AssetExtensions
     static AssetFolderHierarchy GetFolderHierarchyByCodename(IEnumerable<AssetFolderHierarchy> folders, String codename)

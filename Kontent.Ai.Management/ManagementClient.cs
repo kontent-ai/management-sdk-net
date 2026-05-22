@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Exceptions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Handlers;
 using Microsoft.Extensions.Http.Resilience;
@@ -134,30 +133,6 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
         {
             BaseAddress = new Uri(string.Format(options.EndpointV2, scopePath), UriKind.Absolute),
         };
-    }
-
-    // The response is not disposed here — the test harness reuses canned HttpResponseMessage instances across calls,
-    // and Refit has already fully read the body to populate `IApiResponse<T>.Content` by the time we get here.
-    private static T EnsureSuccess<T>(IApiResponse<T> response)
-    {
-        ThrowIfNotSuccess(response);
-        return response.Content!;
-    }
-
-    private static void EnsureSuccess(IApiResponse response) => ThrowIfNotSuccess(response);
-
-    private static void ThrowIfNotSuccess(IApiResponse response)
-    {
-        if (response.IsSuccessStatusCode)
-        {
-            return;
-        }
-
-        var error = response.Error;
-        throw new ManagementException(
-            error?.StatusCode ?? response.StatusCode,
-            error?.ReasonPhrase ?? response.ReasonPhrase,
-            error?.Content ?? "CM API returned server error.");
     }
 
     private sealed class CompositeDisposable(params IDisposable[] items) : IDisposable, IAsyncDisposable
