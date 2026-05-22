@@ -4,9 +4,11 @@ using System.Text.Json.Serialization;
 namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
-/// Represents general identifier of object.
+/// Represents general identifier of object. Construction is factory-only (<see cref="ById"/> / <see cref="ByCodename"/> /
+/// <see cref="ByExternalId"/>) so exactly one identifier is ever set — the invalid zero/multiple-identifier states the
+/// MAPI rejects are unrepresentable.
 /// </summary>
-public sealed class Reference
+public sealed record Reference
 {
     private Reference() { }
 
@@ -14,19 +16,19 @@ public sealed class Reference
     /// Gets the id of the identifier.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid? Id { get; private set; }
+    public Guid? Id { get; private init; }
 
     /// <summary>
-    /// Gets the codename of the identifier.
+    /// Gets the codename of the identifier; <c>null</c> unless this reference was created by codename.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; private set; }
+    public string? Codename { get; private init; }
 
     /// <summary>
-    /// Gets the external id of the identifier.
+    /// Gets the external id of the identifier; <c>null</c> unless this reference was created by external id.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; private set; }
+    public string? ExternalId { get; private init; }
 
     /// <summary>
     /// Creates the reference by id.

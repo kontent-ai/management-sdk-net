@@ -100,27 +100,6 @@ public class RichTextBuilderTests
         markup.Should().Contain("""data-external-id="ext-123" """.TrimEnd());
     }
 
-    [Fact]
-    public void LinkedItem_IdTakesPriorityOverCodenameAndExternalId()
-    {
-        var id = Guid.NewGuid();
-        var reference = new Reference { Id = id, Codename = "x", ExternalId = "y" };
-
-        var markup = new RichTextBuilder().LinkedItem(reference);
-
-        markup.Should().Contain($"data-id=\"{id}\"");
-        markup.Should().NotContain("data-codename");
-        markup.Should().NotContain("data-external-id");
-    }
-
-    [Fact]
-    public void LinkedItem_EmptyReference_Throws()
-    {
-        var act = () => new RichTextBuilder().LinkedItem(new Reference());
-
-        act.Should().Throw<ArgumentException>().WithMessage("*Id*Codename*ExternalId*");
-    }
-
     // --- ItemLink ---
 
     [Fact]
@@ -163,14 +142,6 @@ public class RichTextBuilderTests
     public void ItemLink_NullLinkText_Throws() =>
         new SystemAction(() => new RichTextBuilder().ItemLink(Reference.ByCodename("x"), null!))
             .Should().Throw<ArgumentNullException>();
-
-    [Fact]
-    public void ItemLink_EmptyReference_Throws()
-    {
-        var act = () => new RichTextBuilder().ItemLink(new Reference(), "text");
-
-        act.Should().Throw<ArgumentException>();
-    }
 
     // --- Asset ---
 

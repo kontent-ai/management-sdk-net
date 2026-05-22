@@ -754,20 +754,6 @@ public sealed class Component : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Content
-public sealed class Reference : IEquatable`1
-    String Codename { get; set; init; }
-    String ExternalId { get; set; init; }
-    Nullable<Guid> Id { get; set; init; }
-    Reference <Clone>$()
-    static Reference ByCodename(String codename)
-    static Reference ByExternalId(String externalId)
-    static Reference ById(Guid id)
-    Boolean Equals(Object obj)
-    Boolean Equals(Reference other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Content
 public sealed class RichTextBuilder
     String Asset(AssetReference asset)
     RichTextElement Build(String html)
@@ -1419,13 +1405,18 @@ public sealed class AssetWithRenditionsReference
     IEnumerable<Reference> Renditions { get; }
 
 // Kontent.Ai.Management.Models.Shared
-public sealed class Reference
-    String Codename { get; }
-    String ExternalId { get; }
-    Nullable<Guid> Id { get; }
+public sealed class Reference : IEquatable`1
+    String Codename { get; init; }
+    String ExternalId { get; init; }
+    Nullable<Guid> Id { get; init; }
+    Reference <Clone>$()
     static Reference ByCodename(String codename)
     static Reference ByExternalId(String externalId)
     static Reference ById(Guid id)
+    Boolean Equals(Object obj)
+    Boolean Equals(Reference other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Shared
 public sealed class UserIdentifier

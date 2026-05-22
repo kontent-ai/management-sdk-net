@@ -1,6 +1,7 @@
 using System.Text.Json;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Content;
+using Kontent.Ai.Management.Serialization.Converters;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Content;
@@ -9,6 +10,9 @@ public class AssetReferenceTests
 {
     private static readonly Guid SampleId = new("11111111-1111-1111-1111-111111111111");
     private static readonly Guid SampleRenditionId = new("22222222-2222-2222-2222-222222222222");
+
+    // Reference is factory-constructed, so it (de)serializes only through ReferenceJsonConverter.
+    private static readonly JsonSerializerOptions Options = new() { Converters = { new ReferenceJsonConverter() } };
 
     [Fact]
     public void AssetReference_Deserialize_AllFields()
@@ -24,7 +28,7 @@ public class AssetReferenceTests
             }
             """;
 
-        var asset = JsonSerializer.Deserialize<AssetReference>(json);
+        var asset = JsonSerializer.Deserialize<AssetReference>(json, Options);
 
         asset.Should().NotBeNull();
         asset!.Id.Should().Be(SampleId);
@@ -38,7 +42,7 @@ public class AssetReferenceTests
     {
         var json = $$"""{ "id": "{{SampleId}}" }""";
 
-        var asset = JsonSerializer.Deserialize<AssetReference>(json);
+        var asset = JsonSerializer.Deserialize<AssetReference>(json, Options);
 
         asset!.Id.Should().Be(SampleId);
         asset.Codename.Should().BeNull();
@@ -51,7 +55,7 @@ public class AssetReferenceTests
     [InlineData("""{ "external_id": "my-logo" }""", null, null, "my-logo")]
     public void AssetReference_Deserialize_AnyIdentifierShape(string json, string? id, string? codename, string? externalId)
     {
-        var asset = JsonSerializer.Deserialize<AssetReference>(json)!;
+        var asset = JsonSerializer.Deserialize<AssetReference>(json, Options)!;
 
         asset.Id?.ToString().Should().Be(id);
         asset.Codename.Should().Be(codename);
@@ -63,7 +67,7 @@ public class AssetReferenceTests
     {
         var asset = new AssetReference { ExternalId = "my-logo" };
 
-        var json = JsonSerializer.Serialize(asset);
+        var json = JsonSerializer.Serialize(asset, Options);
 
         json.Should().Contain("\"external_id\":\"my-logo\"");
     }
@@ -74,11 +78,11 @@ public class AssetReferenceTests
         var original = new AssetReference
         {
             Id = SampleId,
-            Renditions = [new Reference { Id = SampleRenditionId, Codename = "thumb" }],
+            Renditions = [Reference.ById(SampleRenditionId)],
         };
 
-        var json = JsonSerializer.Serialize(original);
-        var roundtripped = JsonSerializer.Deserialize<AssetReference>(json);
+        var json = JsonSerializer.Serialize(original, Options);
+        var roundtripped = JsonSerializer.Deserialize<AssetReference>(json, Options);
 
         // BeEquivalentTo rather than Be — synthesized record equality compares IReadOnlyList<T> by reference,
         // and the deserialized List<T> is a different instance from the original collection literal.

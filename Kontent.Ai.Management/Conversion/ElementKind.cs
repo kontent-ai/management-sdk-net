@@ -22,7 +22,7 @@ internal enum ElementKind
     Asset,
 
     /// <summary>
-    /// <see cref="System.Collections.Generic.IReadOnlyList{T}"/> of <see cref="Models.Content.Reference"/>; covers
+    /// <see cref="System.Collections.Generic.IReadOnlyList{T}"/> of <see cref="Models.Shared.Reference"/>; covers
     /// taxonomy, modular_content, subpages, and item-link snippet elements — all share the same identifier-array wire shape.
     /// </summary>
     Reference,

@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
+using Kontent.Ai.Management.Serialization.Converters;
 
 namespace Kontent.Ai.Management.Conversion;
 
@@ -304,8 +305,10 @@ internal sealed class ContentItemEnvelopeConverter
 
     private static JsonSerializerOptions CreateDefaultScalarOptions() => new(JsonSerializerDefaults.Web)
     {
-        // Reference / AssetReference carry all three identifier fields as nullable — only the populated one(s)
-        // should appear on the wire. WhenWritingNull preserves the MAPI's "any one of id / codename / external_id" contract.
+        // AssetReference carries its identifier fields as nullable — WhenWritingNull keeps only the populated one(s)
+        // on the wire, honouring the MAPI's "any one of id / codename / external_id" contract. Reference is factory-
+        // constructed, so it (de)serializes only through ReferenceJsonConverter, which also enforces that contract.
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Converters = { new ReferenceJsonConverter() },
     };
 }
