@@ -63,6 +63,18 @@ public class IManagementApiSmokeTests
     }
 
     [Fact]
+    public async Task Request_CarriesSourceTrackingHeaderFromConsumingAssembly()
+    {
+        // The test assembly carries [assembly: SourceTrackingHeader] via its .csproj — a request through the
+        // full handler pipeline must surface it as X-KC-SOURCE on the wire.
+        var (api, handler) = CreateApi("[]");
+        await api.ListSpacesInternalAsync();
+
+        handler.LastRequest!.Headers.GetValues("X-KC-SOURCE")
+            .Should().ContainSingle().Which.Should().StartWith("Kontent.Ai.Management.Tests;");
+    }
+
+    [Fact]
     public async Task GetSpace_ById_BuildsBareIdSegment()
     {
         var (api, handler) = CreateApi();

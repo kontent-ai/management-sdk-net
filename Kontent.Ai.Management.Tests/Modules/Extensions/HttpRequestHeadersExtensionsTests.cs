@@ -1,6 +1,5 @@
-﻿using Kontent.Ai.Management.Modules.Extensions;
-using System.Diagnostics;
-using System.Linq;
+using AwesomeAssertions;
+using Kontent.Ai.Management.Modules.Extensions;
 using System.Net.Http;
 using Xunit;
 
@@ -9,33 +8,29 @@ namespace Kontent.Ai.Management.Tests.Modules.Extensions;
 public class HttpRequestHeadersExtensionsTests
 {
     [Fact]
-    public void AddSdkTrackingHeader_CorrectSdkVersionHeaderAdded()
+    public void AddSdkTrackingHeader_AddsRepositoryPackageIdAndStrippedVersion()
     {
-        var assembly = typeof(ManagementClient).Assembly;
-        var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-        var sdkVersion = fileVersionInfo.ProductVersion;
-        var sdkPackageId = assembly.GetName().Name;
-        var httpRequestMessage = new HttpRequestMessage();
+        var sdkAssembly = typeof(ManagementClient).Assembly;
+        var request = new HttpRequestMessage();
 
-        httpRequestMessage.Headers.AddSdkTrackingHeader();
+        request.Headers.AddSdkTrackingHeader();
 
-        httpRequestMessage.Headers.TryGetValues("X-KC-SDKID", out var headerContent);
-
-        Assert.True(httpRequestMessage.Headers.Contains("X-KC-SDKID"));
-        Assert.Contains($"nuget.org;{sdkPackageId};{sdkVersion}", headerContent);
+        request.Headers.GetValues("X-KC-SDKID").Should()
+            .ContainSingle().Which.Should()
+            .Be($"nuget.org;{sdkAssembly.GetName().Name};{sdkAssembly.GetProductVersion()}");
     }
 
     [Fact]
-    public void SourceTrackingHeaderGeneratedFromAssembly()
+    public void AddSourceTrackingHeader_AddsValueFromConsumingAssemblyAttribute()
     {
-        var assembly = GetType().Assembly;
-        var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-        var sourceVersion = fileVersionInfo.ProductVersion;
-
+        // The test assembly carries [assembly: SourceTrackingHeader] (parameterless) via its .csproj.
+        var consumingAssembly = typeof(HttpRequestHeadersExtensionsTests).Assembly;
         var request = new HttpRequestMessage();
 
-        HttpRequestHeadersExtensions.AddSourceTrackingHeader(request.Headers);
+        request.Headers.AddSourceTrackingHeader();
 
-        Assert.Equal($"{assembly.GetName().Name};{sourceVersion}", request.Headers.GetValues("X-KC-SOURCE").First());
+        request.Headers.GetValues("X-KC-SOURCE").Should()
+            .ContainSingle().Which.Should()
+            .Be($"{consumingAssembly.GetName().Name};{consumingAssembly.GetProductVersion()}");
     }
 }

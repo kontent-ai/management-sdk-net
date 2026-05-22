@@ -1,8 +1,5 @@
-﻿using Kontent.Ai.Management.Attributes;
-using System;
+using Kontent.Ai.Management.Attributes;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -13,109 +10,90 @@ internal static class HttpRequestHeadersExtensions
 {
     private const string SdkTrackingHeaderName = "X-KC-SDKID";
     private const string SourceTrackingHeaderName = "X-KC-SOURCE";
-
     private const string PackageRepositoryHost = "nuget.org";
 
-    private static readonly Lazy<string> SdkVersion = new(GetSdkVersion);
-    private static readonly Lazy<string> SdkPackageId = new(GetSdkPackageId);
-    private static readonly Lazy<string> Source = new Lazy<string>(GetSource);
+    private static readonly Lazy<string> Sdk = new(GetSdk);
+    private static readonly Lazy<string?> Source = new(GetSource);
 
-
-    internal static void AddSdkTrackingHeader(this HttpRequestHeaders header) => header.Add(SdkTrackingHeaderName, GetSdkTrackingHeader());
+    internal static void AddSdkTrackingHeader(this HttpRequestHeaders headers) => headers.Add(SdkTrackingHeaderName, Sdk.Value);
 
     internal static void AddSourceTrackingHeader(this HttpRequestHeaders headers)
     {
         var source = Source.Value;
-        if (source != null)
+        if (source is not null)
         {
             headers.Add(SourceTrackingHeaderName, source);
         }
     }
 
-    private static string GetSdkTrackingHeader() => $"{PackageRepositoryHost};{SdkPackageId.Value};{SdkVersion.Value}";
-
-    private static string GetSdkVersion()
+    // Reads the SemVer informational version and drops the build-metadata suffix ('+...'), which deterministic /
+    // SourceLink builds append as the commit hash — it does not belong in a tracking header. Pre-release suffixes
+    // ('-rc.1') are kept. Falls back to "0.0.0" for unversioned (local / dev) builds.
+    internal static string GetProductVersion(this Assembly assembly)
     {
-        var assembly = typeof(ManagementClient).Assembly;
-        var sdkVersion = assembly
-            .GetCustomAttributes<AssemblyInformationalVersionAttribute>().FirstOrDefault()?.InformationalVersion;
+        var informationalVersion = assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion;
 
-        return sdkVersion;
+        return StripBuildMetadata(informationalVersion) ?? "0.0.0";
     }
 
-    private static string GetSdkPackageId()
+    private static string? StripBuildMetadata(string? version)
     {
-        var assembly = typeof(ManagementClient).Assembly;
-        var sdkPackageId = assembly.GetName().Name;
+        if (string.IsNullOrWhiteSpace(version))
+        {
+            return null;
+        }
 
-        return sdkPackageId;
+        var plusIndex = version.IndexOf('+', StringComparison.Ordinal);
+        return plusIndex < 0 ? version : version[..plusIndex];
     }
 
-    private static string GetSource()
+    private static string GetSdk()
     {
-        Assembly originatingAssembly = GetOriginatingAssembly();
+        var assembly = typeof(ManagementClient).Assembly;
+        return $"{PackageRepositoryHost};{assembly.GetName().Name};{assembly.GetProductVersion()}";
+    }
+
+    private static string? GetSource()
+    {
+        var originatingAssembly = GetOriginatingAssembly();
+        if (originatingAssembly is null)
+        {
+            return null;
+        }
 
         var attribute = originatingAssembly.GetCustomAttributes<SourceTrackingHeaderAttribute>().FirstOrDefault();
-        if (attribute != null)
-        {
-            return GenerateSourceTrackingHeaderValue(originatingAssembly, attribute);
-        }
-        return null;
-    }
-
-    private static string GetProductVersion(this Assembly assembly)
-    {
-        string sdkVersion;
-
-        if (string.IsNullOrEmpty(assembly.Location))
-        {
-            // Assembly.Location can be empty when publishing to a single file
-            // https://docs.microsoft.com/en-us/dotnet/core/deploying/single-file
-            sdkVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-        }
-        else
-        {
-            try
-            {
-                var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-                sdkVersion = fileVersionInfo.ProductVersion;
-            }
-            catch (FileNotFoundException)
-            {
-                sdkVersion = "0.0.0";
-            }
-        }
-        return sdkVersion ?? "0.0.0";
+        return attribute is null ? null : GenerateSourceTrackingHeaderValue(originatingAssembly, attribute);
     }
 
     private static string GenerateSourceTrackingHeaderValue(Assembly originatingAssembly, SourceTrackingHeaderAttribute attribute)
     {
-        string packageName;
-        string version;
         if (attribute.LoadFromAssembly)
         {
-            packageName = attribute.PackageName ?? originatingAssembly.GetName().Name;
-            version = originatingAssembly.GetProductVersion();
+            var packageName = attribute.PackageName ?? originatingAssembly.GetName().Name;
+            return $"{packageName};{originatingAssembly.GetProductVersion()}";
         }
-        else
-        {
-            packageName = attribute.PackageName;
-            string preRelease = attribute.PreReleaseLabel == null ? "" : $"-{attribute.PreReleaseLabel}";
-            version = $"{attribute.MajorVersion}.{attribute.MinorVersion}.{attribute.PatchVersion}{preRelease}";
-        }
-        return $"{packageName};{version}";
+
+        var preRelease = attribute.PreReleaseLabel is null ? "" : $"-{attribute.PreReleaseLabel}";
+        return $"{attribute.PackageName};{attribute.MajorVersion}.{attribute.MinorVersion}.{attribute.PatchVersion}{preRelease}";
     }
 
+    // Best-effort: walks the synchronous call stack for the outermost assembly that references this SDK, so a
+    // package built on the SDK can be attributed via its [assembly: SourceTrackingHeader]. Returns null when no
+    // such frame is present (e.g. first invoked from an async continuation) — the source header is then simply
+    // omitted. Never throws: the result is cached in a Lazy, and a thrown exception would be cached and rethrown
+    // on every subsequent request.
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static Assembly GetOriginatingAssembly()
+    private static Assembly? GetOriginatingAssembly()
     {
         var executingAssembly = typeof(ManagementClient).Assembly;
 
-        var callerAssemblies = new StackTrace().GetFrames()
-                    .Select(x => x.GetMethod().ReflectedType?.Assembly).Distinct().OfType<Assembly>()
-                    .Where(x => x.GetReferencedAssemblies().Any(y => y.FullName == executingAssembly.FullName));
-        var originatingAssembly = callerAssemblies.Last();
-
-        return originatingAssembly;
+        return new StackTrace().GetFrames()
+            .Select(frame => frame.GetMethod()?.ReflectedType?.Assembly)
+            .Distinct()
+            .OfType<Assembly>()
+            .Where(assembly => assembly.GetReferencedAssemblies().Any(referenced => referenced.FullName == executingAssembly.FullName))
+            .LastOrDefault();
     }
 }
