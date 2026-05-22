@@ -1,14 +1,12 @@
 using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Conversion;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.StronglyTyped;
-using Kontent.Ai.Management.Modules.Extensions;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using System.Text.Json.Serialization;
+using MyProject.Models;
+using RichardSzalay.MockHttp;
 using System;
 using System.IO;
 using System.Linq;
@@ -16,40 +14,6 @@ using System.Text;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
-
-internal class ArticleModel
-{
-    [JsonPropertyName("title")]
-    [KontentElementId("35a9faae-e502-4e26-a824-26b90b9b2ecd")]
-    public TextElement Title { get; set; }
-
-    [JsonPropertyName("post_date")]
-    [KontentElementId("abe785d6-9146-4cab-8096-cba555d3840f")]
-    public DateTimeElement PostDate { get; set; }
-
-    [JsonPropertyName("body_copy")]
-    [KontentElementId("bc872953-8507-4c98-9bb7-e9e2a546edb9")]
-    public RichTextElement BodyCopy { get; set; }
-
-    [JsonPropertyName("related_articles")]
-    [KontentElementId("3ba9d793-c544-4336-925d-69c3dc485445")]
-    public LinkedItemsElement RelatedArticles { get; set; }
-
-    [JsonPropertyName("personas")]
-    [KontentElementId("9ec81a7d-c93a-4d62-adbb-c28fd8a9f3c8")]
-    public TaxonomyElement Personas { get; set; }
-
-    [JsonPropertyName("url_pattern")]
-    [KontentElementId("b76e39e8-d3b4-4ed4-87d8-56fb90e0e342")]
-    public UrlSlugElement UrlPattern { get; set; }
-}
-
-internal class AssetMetadataModel
-{
-    [JsonPropertyName("taxonomy_categories")]
-    [KontentElementId("c76e39e8-d3b4-4ed4-87d8-56fb90e0e342")]
-    public TaxonomyElement TaxonomyCategories { get; set; }
-}
 
 /// <summary>
 /// Source for Code examples being store in README.md
@@ -88,25 +52,18 @@ public class Readme
         var languageIdentifier = Reference.ByCodename("en-US");
         var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-        // Elements to update
-        var elements = new dynamic[]
+        // Elements to update. Each element is identified by its codename;
+        // you can also identify it by `id` or `external_id`.
+        var elements = new object[]
         {
             new
             {
-                element = new
-                {
-                    // You can use `Reference.ById` if you don't have the model
-                    id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
-                },
+                element = new { codename = "title" },
                 value = "On Roasts - changed",
             },
             new
             {
-                element = new
-                {
-                    // You can use `Reference.ById` if you don't have the model
-                    id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()
-                },
+                element = new { codename = "post_date" },
                 value = new DateTime(2018, 7, 4),
             }
         };
@@ -118,37 +75,26 @@ public class Readme
     }
 
     [Fact]
-    public async void UpsertLanguageVariantWithElementBuilder()
+    public async void UpsertStronglyTypedLanguageVariant()
     {
         // Remove next line in codesample
-        var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleLanguageVariantUpdatedResponse.json");
+        var (client, mock) = MockClientFactory.Create(ArticleConverter());
+        // Remove next line in codesample
+        mock.Fallback.Respond("application/json", File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", SampleFolder, "ArticleLanguageVariantUpdatedResponse.json")));
 
         var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
         var languageIdentifier = Reference.ByCodename("en-US");
         var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
 
-        // Elements to update
-        var elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+        // Builds the variant from the generated content-type record
+        var variant = new Article
         {
-            new TextElement()
-            {
-                // You can use `Reference.ById` if you don't have the model
-                Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()),
-                Value = "On Roasts - changed"
-            },
-            new DateTimeElement()
-            {
-                // You can use `Reference.ById` if you don't have the model
-                Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()),
-                Value = new DateTime(2018, 7, 4),
-                DisplayTimeZone = "Europe/Prague"
-            },
-        });
-
-        var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
+            Title = "On Roasts - changed",
+            PublishingDate = new DateTime(2018, 7, 4),
+        };
 
         // Upserts a language variant of a content item
-        var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
+        var response = await client.UpsertLanguageVariantAsync(identifier, variant);
     }
 
 
@@ -234,5 +180,15 @@ public class Readme
 
         // Updates asset metadata
         var response = await client.UpsertAssetAsync(assetReference, asset);
+    }
+
+    // The test assembly carries deliberately colliding generated-model fixtures; scope the converter to the single
+    // record under test so its construction doesn't trip the codename collision. Real consumers don't need this —
+    // the client auto-scans the consumer's own models assembly.
+    private static ContentItemEnvelopeConverter ArticleConverter()
+    {
+        var registry = new ContentTypeRegistry();
+        registry.Register(typeof(Article));
+        return new ContentItemEnvelopeConverter(registry);
     }
 }

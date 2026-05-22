@@ -1,8 +1,6 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using Xunit;
 
@@ -52,22 +50,22 @@ public class ImportLinkedContent
 
         await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+            Elements = new object[]
             {
-                new TextElement
+                new
                 {
-                    Element = Reference.ByCodename("title"),
-                    Value = "Donate with us"
+                    element = new { codename = "title" },
+                    value = "Donate with us",
                 },
-                new LinkedItemsElement
+                new
                 {
-                    Element = Reference.ByCodename("related_articles"),
-                    Value = new []
+                    element = new { codename = "related_articles" },
+                    value = new[]
                     {
-                        Reference.ByExternalId("123"),
-                    }
-                }
-            })
+                        new { external_id = "123" },
+                    },
+                },
+            }
         });
     }
 
@@ -82,22 +80,22 @@ public class ImportLinkedContent
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+            Elements = new object[]
             {
-                new TextElement
+                new
                 {
-                    Element = Reference.ByCodename("title"),
-                    Value = "On Roasts"
+                    element = new { codename = "title" },
+                    value = "On Roasts",
                 },
-                new LinkedItemsElement
+                new
                 {
-                    Element = Reference.ByCodename("related_articles"),
-                    Value = new []
+                    element = new { codename = "related_articles" },
+                    value = new[]
                     {
-                        Reference.ByExternalId("456"),
-                    }
-                }
-            })
+                        new { external_id = "456" },
+                    },
+                },
+            }
         });
     }
 

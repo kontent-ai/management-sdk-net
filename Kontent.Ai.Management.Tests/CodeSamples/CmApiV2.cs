@@ -9,7 +9,6 @@ using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
@@ -29,7 +28,6 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 using Kontent.Ai.Management.Models.Workflow;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Collections.Generic;
@@ -269,7 +267,11 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+        var response = new List<LanguageVariantModel>();
+        await foreach (var page in client.EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(identifier))
+        {
+            response.AddRange(page.Value);
+        }
 
         Assert.NotNull(response);
     }
@@ -323,7 +325,11 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItems.json");
 
-        var response = await client.ListContentItemsAsync();
+        var response = new List<ContentItemModel>();
+        await foreach (var page in client.EnumerateContentItemPagesAsync())
+        {
+            response.AddRange(page.Value);
+        }
 
         Assert.Single(response);
     }
@@ -520,7 +526,7 @@ public class CmApiV2
 
         var response = await client.ListLanguageVariantsByItemAsync(identifier);
 
-        Assert.Single(response);
+        Assert.Single(response.Value);
     }
 
     // DocSection: cm_api_v2_get_variants_of_type
@@ -534,7 +540,11 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ListLanguageVariantsByTypeAsync(identifier);
+        var response = new List<LanguageVariantModel>();
+        await foreach (var page in client.EnumerateLanguageVariantsByTypePagesAsync(identifier))
+        {
+            response.AddRange(page.Value);
+        }
 
         Assert.Single(response);
     }
@@ -550,7 +560,11 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+        var response = new List<LanguageVariantModel>();
+        await foreach (var page in client.EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(identifier))
+        {
+            response.AddRange(page.Value);
+        }
 
         Assert.Single(response);
     }
@@ -1742,53 +1756,53 @@ public class CmApiV2
             identifier,
             new LanguageVariantUpsertModel
             {
-                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+                Elements = new object[]
                 {
-                    new TaxonomyElement
+                    new
                     {
-                        Element = Reference.ByCodename("personas"),
-                        Value = new []
+                        element = new { codename = "personas" },
+                        value = new[]
                         {
-                            Reference.ByCodename("barista"),
-                            Reference.ByCodename("coffee_blogger"),
-                        }
+                            new { codename = "barista" },
+                            new { codename = "coffee_blogger" },
+                        },
                     },
-                    new DateTimeElement
+                    new
                     {
-                        Element = Reference.ByCodename("post_date"),
-                        Value = DateTime.Parse("2014-11-07T00:00:00Z"),
-                        DisplayTimeZone = "Australia/Sydney"
+                        element = new { codename = "post_date" },
+                        value = DateTime.Parse("2014-11-07T00:00:00Z"),
+                        display_timezone = "Australia/Sydney",
                     },
-                    new TextElement
+                    new
                     {
-                        Element = Reference.ByCodename("summary"),
-                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ..."
+                        element = new { codename = "summary" },
+                        value = "Tostar granos de café puede tardar de 6 a 13 minutos. ...",
                     },
-                    new LinkedItemsElement
+                    new
                     {
-                        Element = Reference.ByCodename("related_articles"),
-                        Value = new []
+                        element = new { codename = "related_articles" },
+                        value = new[]
                         {
-                            Reference.ByCodename("coffee_processing_techniques"),
-                            Reference.ByCodename("origins_of_arabica_bourbon"),
-                        }
+                            new { codename = "coffee_processing_techniques" },
+                            new { codename = "origins_of_arabica_bourbon" },
+                        },
                     },
-                    new TextElement
+                    new
                     {
-                        Element = Reference.ByCodename("meta_keywords"),
-                        Value = "asados, café"
+                        element = new { codename = "meta_keywords" },
+                        value = "asados, café",
                     },
-                    new TextElement
+                    new
                     {
-                        Element = Reference.ByCodename("meta_description"),
-                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ..."
+                        element = new { codename = "meta_description" },
+                        value = "Tostar granos de café puede tardar de 6 a 13 minutos. ...",
                     },
-                    new UrlSlugElement
+                    new
                     {
-                        Element = Reference.ByCodename("url_pattern"),
-                        Mode = "autogenerated"
+                        element = new { codename = "url_pattern" },
+                        mode = "autogenerated",
                     },
-                }),
+                },
                 DueDate = new DueDateModel
                 {
                     Value = DateTime.Parse("2092-01-07T06:04:00.7069564Z")

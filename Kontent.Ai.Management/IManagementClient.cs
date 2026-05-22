@@ -20,7 +20,6 @@ using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
-using Kontent.Ai.Management.Models.StronglyTyped;
 using Kontent.Ai.Management.Models.Subscription;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
@@ -134,20 +133,26 @@ public interface IManagementClient
     /// Cancels publishing of the language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant identifier of which publishing should be canceled.</param>
-    Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels unpublishing of the language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant of which unpublishing should be canceled.</param>
-    Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Changes workflow.
     /// </summary>
     /// <param name="identifier">Identifier of the language variant to be changed.</param>
     /// <param name="changeModel">Change language variant workflow model.</param>
-    Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the asset folder.
@@ -161,8 +166,9 @@ public interface IManagementClient
     /// Creates content item.
     /// </summary>
     /// <param name="contentItem">Represents content item that will be created.</param>
-    /// <returns>The <see cref="ContentItemModel"/> instance that represents the created content item.</returns>
-    Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates content type.
@@ -192,7 +198,9 @@ public interface IManagementClient
     /// Creates the new version of the language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant for which the new version should be created.</param>
-    Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates taxonomy group.
@@ -214,7 +222,9 @@ public interface IManagementClient
     /// Deletes the given content item.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>
-    Task DeleteContentItemAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given content type.
@@ -236,7 +246,9 @@ public interface IManagementClient
     /// Deletes the given language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant.</param>
-    Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given taxonomy group.
@@ -281,8 +293,9 @@ public interface IManagementClient
     /// Returns strongly typed content item.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>
-    /// <returns>The <see cref="ContentItemModel"/> instance that represents requested content item.</returns>
-    Task<ContentItemModel> GetContentItemAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns content type.
@@ -312,8 +325,9 @@ public interface IManagementClient
     /// Returns strongly typed language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant.</param>
-    /// <returns>The <see cref="LanguageVariantModel"/> instance that represents language variant.</returns>
-    Task<LanguageVariantModel> GetLanguageVariantAsync(LanguageVariantIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a language variant and projects its elements onto the generated content-type record
@@ -331,16 +345,9 @@ public interface IManagementClient
     /// Returns strongly typed currently published language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant.</param>
-    /// <returns>The <see cref="LanguageVariantModel"/> instance that represents language variant.</returns>
-    Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier);
-
-    /// <summary>
-    /// Returns strongly typed currently published language variant with strongly typed elements.
-    /// </summary>
-    /// <typeparam name="T">Type of the content item elements</typeparam>
-    /// <param name="identifier">The identifier of the language variant.</param>
-    /// <returns>The <see cref="LanguageVariantModel{T}"/> instance that represents language variant.</returns>
-    Task<LanguageVariantModel<T>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new();
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the requested <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns environment information
@@ -372,14 +379,11 @@ public interface IManagementClient
     /// <returns>A result wrapping the <see cref="CollectionsModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Returns strongly typed listing of content items.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
-    /// <returns>The <see cref="IListingResponseModel{ContentItemModel}"/> instance that represents the listing of content items.</returns>
-    Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync();
+    /// <summary>Enumerates the environment's content items, one continuation-token page at a time.</summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's content items on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enumerates the environment's content types, one continuation-token page at a time.
@@ -405,71 +409,41 @@ public interface IManagementClient
     /// <returns>An async stream of pages; each yields one page's languages on success, or that page's failure detail.</returns>
     IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Returns strongly typed listing of language variants for specified collection.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
+    /// <summary>Enumerates the language variants for the specified collection, one continuation-token page at a time.</summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="identifier">The identifier of the collection.</param>
-    /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Returns strongly typed listing of language variants for specified space.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
-    /// <param name="identifier">The identifier of the collection.</param>
-    /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsBySpaceAsync(Reference identifier);
+    /// <summary>Enumerates the language variants for the specified space, one continuation-token page at a time.</summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <param name="identifier">The identifier of the space.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed listing of language variants for the specified content item.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>
-    /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-    Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the listing of <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Returns strongly typed listing of language variants with strongly typed elements for the specified content item.
-    /// </summary>
-    /// <typeparam name="T">Type of the content item elements</typeparam>
-    /// <param name="identifier">The identifier of the content item.</param>
-    /// <returns>A strongly-typed collection with language variants.</returns>
-    Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier) where T : new();
-
-    /// <summary>
-    /// Returns strongly typed listing of language variants for the specified content type.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
+    /// <summary>Enumerates the language variants for the specified content type, one continuation-token page at a time.</summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="identifier">The identifier of the content type.</param>
-    /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Returns strongly typed listing of language variants with strongly typed elements for the specified content type.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
-    /// <typeparam name="T">Type of the content item elements</typeparam>
+    /// <summary>Enumerates the language variants containing components for the specified content type, one continuation-token page at a time.</summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="identifier">The identifier of the content type.</param>
-    /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-    Task<IListingResponseModel<LanguageVariantModel<T>>> ListLanguageVariantsByTypeAsync<T>(Reference identifier) where T : new();
-
-    /// <summary>
-    /// Returns strongly typed listing of language variants containing components by type.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 100 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
-    /// <param name="identifier">The identifier of the content type.</param>
-    /// <returns>The <see cref="IEnumerable{LanguageVariantModel}"/> instance that represents the listing of language variants.</returns>
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier);
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enumerates the taxonomy groups, one continuation-token page at a time.
@@ -574,58 +548,71 @@ public interface IManagementClient
     /// Publishes the language variant.
     /// </summary>
     /// <param name="identifier">Identifier of the language variant to be published.</param>
-    Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules publishing of the language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant to be published.</param>
     /// <param name="scheduleModel">The time when the language variant will be published</param>
-    Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules unpublishing of the language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant that should be unpublished.</param>
     /// <param name="scheduleModel">The time when the language variant will be unpublished</param>
-    Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules publish and unpublish of language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant that should be scheduled.</param>
     /// <param name="schedule">The interval in which the variant should be published</param>
-    Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unpublishes the language variant.
     /// </summary>
     /// <param name="identifier">Identifier of the language variant to be unpublished.</param>
-    Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result indicating success, or the failure detail.</returns>
+    Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the given content item.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>
     /// <param name="contentItem">Represents the updated content item.</param>
-    /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-    Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inserts or updates given language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant.</param>
     /// <param name="languageVariantUpsertModel">Represents the inserted or updated language variant.</param>
-    /// <returns>The <see cref="LanguageVariantModel"/> instance that represents the inserted or updated language variant.</returns>
-    Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the inserted or updated <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates or updates the given content item variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant.</param>
     /// <param name="languageVariant">Represents the language variant which data will be used to create <see cref="LanguageVariantUpsertModel"/>.</param>
-    /// <returns>The <see cref="LanguageVariantModel"/> instance that represents created or updated content item variant.</returns>
-    Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created or updated <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inserts or updates a language variant from the generated content-type record <typeparamref name="T"/>.
@@ -909,24 +896,18 @@ public interface IManagementClient
     /// <returns>A result wrapping the modified <see cref="CustomAppModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Returns listing of filtered item variant references.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 50 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
+    /// <summary>Enumerates the filtered item variant references, one continuation-token page at a time.</summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="filterRequest">The filter request containing filters and ordering options.</param>
-    /// <returns>The <see cref="IListingResponseModel{ItemWithVariantFilterResultModel}"/> instance that represents the listing of filtered variant references.</returns>
-    Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest);
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's filtered variant references on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Returns listing of content items with their language variants.
-    /// The Content management API returns a dynamically paginated listing response limited to up to 50 objects.
-    /// To check if the next page is available use <see cref="IListingResponseModel{T}.HasNextPage"/>.
-    /// For getting next page use <see cref="IListingResponseModel{T}.GetNextPage"/>.
-    /// </summary>
+    /// <summary>Enumerates the content items with their language variants, one continuation-token page at a time.</summary>
+    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="bulkGetRequest">The bulk-get request containing variant identifiers.</param>
-    /// <returns>The <see cref="IListingResponseModel{ContentItemWithVariantModel}"/> instance that represents the listing of content items with variants.</returns>
-    Task<IListingResponseModel<ContentItemWithVariantModel>> BulkGetItemsWithVariantsAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest);
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's content items with variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken = default);
 
 }

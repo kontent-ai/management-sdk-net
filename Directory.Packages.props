@@ -23,8 +23,6 @@
     <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.15" />
-    <!-- Microsoft.CSharp is retained for `dynamic` operator support (BaseElement hierarchy + Reference/AssetWithRenditionsReference helper-method interop). -->
-    <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
     <!-- Newtonsoft.Json retained for the test project only (MockHttp assertion plumbing via JsonConvert);
          main project is Newtonsoft-free. Test-side cleanup is a separate concern. -->
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />

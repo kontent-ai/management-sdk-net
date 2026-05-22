@@ -15,8 +15,9 @@ public static class ManagementClientExtensions
     /// <param name="client">Content management client instance.</param>
     /// <param name="identifier">Identifies which content item will be updated.</param>
     /// <param name="contentItem">Specifies data for updated content item.</param>
-    /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-    public async static Task<ContentItemModel> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem)
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
+    public async static Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(contentItem);
@@ -31,7 +32,7 @@ public static class ManagementClientExtensions
             Type = contentItem.Type
         };
 
-        return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel);
+        return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel, cancellationToken);
     }
 
     /// <summary>

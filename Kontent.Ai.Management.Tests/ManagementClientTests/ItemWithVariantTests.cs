@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.Shared;
@@ -13,8 +15,13 @@ public class ItemWithVariantTests
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ItemWithVariant", name));
 
+    private static List<T> ConcatPages<T>(params string[] pages)
+        => pages
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
+            .ToList();
+
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithValidRequest_ReturnsFilterResults()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithValidRequest_ReturnsFilterResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -39,13 +46,14 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
-
-        var items = response.ToList();
         items.Should().HaveCount(2);
 
         items[0].Item.Should().NotBeNull();
@@ -60,19 +68,23 @@ public class ItemWithVariantTests
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithNullRequest_ThrowsArgumentNullException()
+    public void EnumerateItemsWithVariantsByFilterPagesAsync_WithNullRequest_ThrowsArgumentNullException()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.FilterItemsWithVariantsAsync(null!));
+        client.Invoking(x => x.EnumerateItemsWithVariantsByFilterPagesAsync(null!)).Should().ThrowExactly<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithPagination_HasNextPage()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithPagination_PagesThroughAllPages()
     {
         var (client, mock) = MockClientFactory.Create();
+        var firstPage = Fixture("FilterResponseFirstPage.json");
+        var lastPage = Fixture("FilterResponseLastPage.json");
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
-            .Respond("application/json", Fixture("FilterResponse.json"));
+            .Respond("application/json", firstPage);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", lastPage);
 
         var request = new ItemWithVariantFilterRequestModel
         {
@@ -82,15 +94,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.HasNextPage().Should().BeTrue();
+        items.Should().BeEquivalentTo(ConcatPages<ItemWithVariantFilterResultModel>(firstPage, lastPage));
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_LastPage_HasNoNextPage()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_LastPage_StopsAfterOnePage()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -104,15 +120,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.HasNextPage().Should().BeFalse();
+        items.Should().HaveCount(1);
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithComplexFilters_ReturnsResults()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithComplexFilters_ReturnsResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -168,16 +188,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
-        response.ToList().Should().HaveCount(2);
+        items.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithSpacesFilter_ReturnsResults()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithSpacesFilter_ReturnsResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -196,16 +219,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
-        response.ToList().Should().HaveCount(2);
+        items.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithCollectionsFilter_ReturnsResults()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithCollectionsFilter_ReturnsResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -224,16 +250,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
-        response.ToList().Should().HaveCount(2);
+        items.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithPublishingStatesFilter_ReturnsResults()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithPublishingStatesFilter_ReturnsResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -252,16 +281,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
-        response.ToList().Should().HaveCount(2);
+        items.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithAllNewFilters_ReturnsResults()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithAllNewFilters_ReturnsResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -289,16 +321,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
-        response.ToList().Should().HaveCount(2);
+        items.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task FilterItemsWithVariantsAsync_WithComponentTypesFilter_ReturnsResults()
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_WithComponentTypesFilter_ReturnsResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
@@ -317,16 +352,19 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.FilterItemsWithVariantsAsync(request);
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ItemWithVariantFilterResultModel>>();
-        response.ToList().Should().HaveCount(2);
+        items.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task BulkGetItemsWithVariantsAsync_WithValidRequest_ReturnsItemsWithVariants()
+    public async Task EnumerateItemsWithVariantsByBulkGetPagesAsync_WithValidRequest_ReturnsItemsWithVariants()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
@@ -349,13 +387,14 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.BulkGetItemsWithVariantsAsync(request);
+        var items = new List<ContentItemWithVariantModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByBulkGetPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ContentItemWithVariantModel>>();
-
-        var items = response.ToList();
         items.Should().HaveCount(2);
 
         items[0].Item.Should().NotBeNull();
@@ -372,15 +411,15 @@ public class ItemWithVariantTests
     }
 
     [Fact]
-    public async Task BulkGetItemsWithVariantsAsync_WithNullRequest_ThrowsArgumentNullException()
+    public void EnumerateItemsWithVariantsByBulkGetPagesAsync_WithNullRequest_ThrowsArgumentNullException()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await Assert.ThrowsAsync<ArgumentNullException>(async () => await client.BulkGetItemsWithVariantsAsync(null!));
+        client.Invoking(x => x.EnumerateItemsWithVariantsByBulkGetPagesAsync(null!)).Should().ThrowExactly<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task BulkGetItemsWithVariantsAsync_WithCodenames_ReturnsItemsWithVariants()
+    public async Task EnumerateItemsWithVariantsByBulkGetPagesAsync_WithCodenames_ReturnsItemsWithVariants()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
@@ -403,13 +442,14 @@ public class ItemWithVariantTests
             }
         };
 
-        var response = await client.BulkGetItemsWithVariantsAsync(request);
+        var items = new List<ContentItemWithVariantModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByBulkGetPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
 
         mock.VerifyNoOutstandingExpectation();
-        response.Should().NotBeNull();
-        response.Should().BeAssignableTo<IListingResponseModel<ContentItemWithVariantModel>>();
-
-        var items = response.ToList();
         items.Should().HaveCount(2);
         items[0].Item.Should().NotBeNull();
         items[0].Item.Name.Should().Be("Sample Article");

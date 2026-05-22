@@ -1,4 +1,5 @@
 using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 
@@ -7,78 +8,87 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
+    public async Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changeModel);
 
-        EnsureSuccess(await _managementApi.ChangeLanguageVariantWorkflowInternalAsync(identifier.ToUrlSegment(), changeModel));
+        var response = await _managementApi.ChangeLanguageVariantWorkflowInternalAsync(identifier.ToUrlSegment(), changeModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public async Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.PublishLanguageVariantInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.PublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+    public async Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        EnsureSuccess(await _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel));
+        var response = await _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule)
+    public async Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(schedule);
 
-        EnsureSuccess(await _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule));
+        var response = await _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public async Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.CancelPublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.CancelPublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public async Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.UnpublishLanguageVariantInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.UnpublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public async Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+    public async Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        EnsureSuccess(await _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel));
+        var response = await _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public async Task<IManagementResult> CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 }

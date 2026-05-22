@@ -1,8 +1,6 @@
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.IO;
@@ -78,17 +76,17 @@ public class ImportAssets
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+            Elements = new object[]
             {
-                new Models.LanguageVariants.Elements.AssetElement
+                new
                 {
-                    Element = Reference.ByCodename("photo"),
-                    Value = new[]
+                    element = new { codename = "photo" },
+                    value = new[]
                     {
-                        new AssetWithRenditionsReference(Reference.ByExternalId("brno-cafe-image"))
-                    }
-                }
-            })
+                        new AssetWithRenditionsReference(Reference.ByExternalId("brno-cafe-image")),
+                    },
+                },
+            }
         });
     }
 
@@ -103,14 +101,14 @@ public class ImportAssets
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+            Elements = new object[]
             {
-                new RichTextElement
+                new
                 {
-                    Element = Reference.ByCodename("body_copy"),
-                    Value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
-                }
-            })
+                    element = new { codename = "body_copy" },
+                    value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
+                },
+            }
         });
     }
 }

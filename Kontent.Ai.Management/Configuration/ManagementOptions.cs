@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 
 namespace Kontent.Ai.Management.Configuration;
 
@@ -36,11 +35,6 @@ public sealed class ManagementOptions : IValidatableObject
     /// </summary>
     [Required]
     public string ApiKey { get; set; }
-
-    /// <summary>
-    /// Gets or sets the model provider used by strongly-typed variant APIs.
-    /// </summary>
-    public IModelProvider ModelProvider { get; set; }
 
     /// <summary>
     /// Gets or sets whether the default resilience pipeline is active. Defaults to <c>true</c>. Set to <c>false</c>

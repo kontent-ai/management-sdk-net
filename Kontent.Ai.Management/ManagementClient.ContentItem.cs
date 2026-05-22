@@ -1,4 +1,5 @@
 using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Shared;
 
@@ -7,50 +8,47 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
-    {
-        var response = EnsureSuccess(await _managementApi.ListContentItemsInternalAsync());
-
-        return new ListingResponseModel<ContentItemModel>(
-            (continuationToken, _) => GetNextContentItemsPageAsync(continuationToken),
-            response.Pagination?.Token,
-            url: string.Empty,
-            response.Items);
-    }
-
-    private async Task<IListingResponse<ContentItemModel>> GetNextContentItemsPageAsync(string continuationToken)
-        => EnsureSuccess(await _managementApi.ListContentItemsInternalAsync(continuationToken));
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<ContentItemListingResponseServerModel, ContentItemModel>(
+            _managementApi.ListContentItemsInternalAsync,
+            page => page.Items,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<ContentItemModel> GetContentItemAsync(Reference identifier)
+    public async Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return EnsureSuccess(await _managementApi.GetContentItemInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.GetContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
+    public async Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        return EnsureSuccess(await _managementApi.CreateContentItemInternalAsync(contentItem));
+        var response = await _managementApi.CreateContentItemInternalAsync(contentItem, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
+    public async Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        return EnsureSuccess(await _managementApi.UpsertContentItemInternalAsync(identifier.ToUrlSegment(), contentItem));
+        var response = await _managementApi.UpsertContentItemInternalAsync(identifier.ToUrlSegment(), contentItem, cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteContentItemAsync(Reference identifier)
+    public async Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        EnsureSuccess(await _managementApi.DeleteContentItemInternalAsync(identifier.ToUrlSegment()));
+        var response = await _managementApi.DeleteContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken);
+        return await response.ToManagementResultAsync();
     }
 }

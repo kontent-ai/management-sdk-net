@@ -1,10 +1,8 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using Xunit;
@@ -94,35 +92,35 @@ public class ImportRichText
 
         await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+            Elements = new object[]
             {
-                new RichTextElement
+                new
                 {
-                    Element = Reference.ByExternalId("rich-text"),
-                    Value = "<h1>Lorem Ipsum</h1>\n<p>Lorem ipsum dolor sit amet, consectetur <a href=\"https://wikipedia.org\">adipiscing elit</a>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n<object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"a2ee7bac-15ff-4dce-a244-012b9f98dd7b\"></object>\n<p>Ut enim ad minim veniam, <a data-item-external-id=\"second-page\">quis nostrud</a> exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n<ul>\n  <li>Lorem ipsum dolor sit amet</li>\n  <li>Consectetur adipiscing elit</li>\n  <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>\n</ul><figure data-asset-external-id=\"rich-text-asset\"></figure>",
-                    Components = new ComponentModel[]
+                    element = new { external_id = "rich-text" },
+                    value = "<h1>Lorem Ipsum</h1>\n<p>Lorem ipsum dolor sit amet, consectetur <a href=\"https://wikipedia.org\">adipiscing elit</a>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n<object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"a2ee7bac-15ff-4dce-a244-012b9f98dd7b\"></object>\n<p>Ut enim ad minim veniam, <a data-item-external-id=\"second-page\">quis nostrud</a> exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n<ul>\n  <li>Lorem ipsum dolor sit amet</li>\n  <li>Consectetur adipiscing elit</li>\n  <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>\n</ul><figure data-asset-external-id=\"rich-text-asset\"></figure>",
+                    components = new[]
                     {
                         new ComponentModel
                         {
                             Id = Guid.Parse("a2ee7bac-15ff-4dce-a244-012b9f98dd7b"),
                             Type = Reference.ByExternalId("button"),
-                            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+                            Elements = new object[]
                             {
-                                new TextElement
+                                new
                                 {
-                                    Element = Reference.ByExternalId("button-text"),
-                                    Value = "Buy me",
+                                    element = new { external_id = "button-text" },
+                                    value = "Buy me",
                                 },
-                                new TextElement
+                                new
                                 {
-                                    Element = Reference.ByExternalId("button-link"),
-                                    Value = "https://kontent.a",
-                                }
-                            })
-                        }
-                    }
+                                    element = new { external_id = "button-link" },
+                                    value = "https://kontent.a",
+                                },
+                            },
+                        },
+                    },
                 },
-            }),
+            },
         });
     }
 }

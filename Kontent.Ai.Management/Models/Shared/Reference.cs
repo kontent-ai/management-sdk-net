@@ -1,4 +1,3 @@
-﻿using Kontent.Ai.Management.Extensions;
 using System;
 using System.Text.Json.Serialization;
 
@@ -46,67 +45,4 @@ public sealed class Reference
     /// </summary>
     /// <param name="externalId">The external id of the identifier.</param>
     public static Reference ByExternalId(string externalId) => new() { ExternalId = externalId };
-
-    /// <summary>
-    /// Transforms the dynamic object to the <see cref="Reference"/>
-    /// </summary>
-    public static Reference FromDynamic(dynamic source)
-    {
-        try
-        {
-            if (DynamicExtensions.HasProperty(source, "id"))
-            {
-                var id = source.id.GetType() == typeof(string) ? Guid.Parse(source.id) : source.id;
-
-                return ById(id);
-            }
-
-            if (DynamicExtensions.HasProperty(source, "codename"))
-            {
-                return ByCodename(source.codename);
-            }
-
-            if (DynamicExtensions.HasProperty(source, "external_id"))
-            {
-                return ByExternalId(source.external_id);
-            }
-        }
-        catch (Exception exception)
-        {
-            throw new DataMisalignedException(
-                "Object could not be converted to the strongly-typed reference. Please check if it has expected properties with expected type",
-                exception);
-        }
-
-        throw new DataMisalignedException("Dynamic element reference does not contain any identifier.");
-    }
-
-    /// <summary>
-    /// Transforms the <see cref="Reference"/> to the dynamic object.
-    /// </summary>
-    public dynamic ToDynamic()
-    {
-        if (Id != null)
-        {
-            return new {
-                id = Id,
-            };
-        }
-
-        if (Codename != null)
-        {
-            return new {
-                codename = Codename,
-            };
-        }
-
-        if (ExternalId != null)
-        {
-            return new {
-                external_id = ExternalId,
-            };
-        }
-
-        throw new DataMisalignedException("Element reference does not contain any identifier.");
-    }
 }

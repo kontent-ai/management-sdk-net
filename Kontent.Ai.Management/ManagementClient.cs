@@ -4,7 +4,6 @@ using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Exceptions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Handlers;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
 
@@ -21,7 +20,6 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
 
     private readonly IManagementApi _managementApi;
     private readonly ISubscriptionApi _subscriptionApi;
-    private readonly IModelProvider _modelProvider;
     private readonly IDisposable _ownedResources;
     private readonly Conversion.ContentItemEnvelopeConverter _contentConverter;
     // When we built the converter ourselves, auto-scan the consumer's generated-models assembly on first use so
@@ -37,11 +35,10 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
     /// </summary>
     public ManagementClient(ManagementOptions managementOptions)
     {
-        var (api, subscriptionApi, modelProvider, ownedResources) = BuildDependencies(managementOptions);
+        var (api, subscriptionApi, ownedResources) = BuildDependencies(managementOptions);
 
         _managementApi = api;
         _subscriptionApi = subscriptionApi;
-        _modelProvider = modelProvider ?? new ModelProvider();
         _ownedResources = ownedResources;
         _contentConverter = new Conversion.ContentItemEnvelopeConverter();
         _autoScanContentTypes = true;
@@ -50,13 +47,11 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
     internal ManagementClient(
         IManagementApi managementApi,
         ISubscriptionApi subscriptionApi,
-        IModelProvider modelProvider = null,
         IDisposable ownedResources = null,
         Conversion.ContentItemEnvelopeConverter? contentConverter = null)
     {
         _managementApi = managementApi;
         _subscriptionApi = subscriptionApi;
-        _modelProvider = modelProvider ?? new ModelProvider();
         _ownedResources = ownedResources;
         _contentConverter = contentConverter ?? new Conversion.ContentItemEnvelopeConverter();
         _autoScanContentTypes = contentConverter is null;
@@ -94,7 +89,7 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
     // Builds the env-scoped and subscription-scoped Refit clients plus the disposable bundle the ctor needs.
     // Validates options here so all standalone construction paths surface ValidationException uniformly (the DI
     // path uses ValidateOnStart, a separate mechanism with its own exception type — that's not something we control).
-    private static (IManagementApi Api, ISubscriptionApi SubscriptionApi, IModelProvider ModelProvider, IDisposable OwnedResources) BuildDependencies(ManagementOptions options)
+    private static (IManagementApi Api, ISubscriptionApi SubscriptionApi, IDisposable OwnedResources) BuildDependencies(ManagementOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
         Validator.ValidateObject(options, new ValidationContext(options), validateAllProperties: true);
@@ -109,7 +104,7 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
         var api = RestService.For<IManagementApi>(managementHttp, refitSettings);
         var subscriptionApi = RestService.For<ISubscriptionApi>(subscriptionHttp, refitSettings);
 
-        return (api, subscriptionApi, options.ModelProvider, new CompositeDisposable(managementHttp, subscriptionHttp));
+        return (api, subscriptionApi, new CompositeDisposable(managementHttp, subscriptionHttp));
     }
 
     private static ResiliencePipeline<HttpResponseMessage> BuildResiliencePipeline(ManagementOptions options)

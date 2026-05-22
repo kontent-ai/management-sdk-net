@@ -22,7 +22,7 @@ internal static class ReferenceUrlExtensions
     /// <summary>
     /// Renders a <see cref="Reference"/> as the path segment the Management API expects after a resource collection:
     /// the bare <c>id</c>, <c>codename/{codename}</c>, or <c>external-id/{externalId}</c>. When more than one is set,
-    /// the id wins, then the codename — matching <see cref="Reference.ToDynamic"/>. Throws if the reference uses a kind
+    /// the id wins, then the codename. Throws if the reference uses a kind
     /// the endpoint doesn't support (see <paramref name="allowed"/>).
     /// </summary>
     public static string ToUrlSegment(this Reference reference, ReferenceKinds allowed = ReferenceKinds.All)

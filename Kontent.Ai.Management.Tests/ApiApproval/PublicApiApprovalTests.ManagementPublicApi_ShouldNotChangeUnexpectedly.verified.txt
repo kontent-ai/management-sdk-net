@@ -13,20 +13,19 @@ public interface IError
 public interface IManagementClient
     Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebSpotlightModel>> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel, CancellationToken cancellationToken)
-    Task<IListingResponseModel<ContentItemWithVariantModel>> BulkGetItemsWithVariantsAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest)
-    Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
+    Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
-    Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
+    Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> CreateCustomAppAsync(CustomAppCreateModel customApp, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> CreateLanguageAsync(LanguageCreateModel language, CancellationToken cancellationToken)
-    Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult> CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> CreateSpaceAsync(SpaceCreateModel space, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken)
     Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken)
@@ -34,12 +33,12 @@ public interface IManagementClient
     Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken)
     Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
-    Task DeleteContentItemAsync(Reference identifier)
+    Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken)
-    Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult> DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteSpaceAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteWebhookAsync(Reference identifier, CancellationToken cancellationToken)
@@ -49,19 +48,25 @@ public interface IManagementClient
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeModel>>> EnumerateContentTypePagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> EnumerateContentTypeSnippetPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<CustomAppModel>>> EnumerateCustomAppPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> EnumerateSubscriptionProjectPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> EnumerateSubscriptionUserPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken)
-    Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest)
     Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
-    Task<ContentItemModel> GetContentItemAsync(Reference identifier)
+    Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
@@ -69,11 +74,10 @@ public interface IManagementClient
     Task<IManagementResult<Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
-    Task<LanguageVariantModel> GetLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken)
-    Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task<LanguageVariantModel<T>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier)
+    Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
@@ -82,15 +86,8 @@ public interface IManagementClient
     Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
-    Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
     Task<IManagementResult<EnvironmentRolesModel>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
-    Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier)
-    Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsBySpaceAsync(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel<T>>> ListLanguageVariantsByTypeAsync<T>(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
@@ -106,18 +103,18 @@ public interface IManagementClient
     Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
-    Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule)
-    Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
-    Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
-    Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
-    Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
-    Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
-    Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant)
+    Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken)
     Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken)
 
@@ -142,20 +139,19 @@ public interface IManagementResult`1<T> : IManagementResult
 public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDisposable
     Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebSpotlightModel>> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel, CancellationToken cancellationToken)
-    Task<IListingResponseModel<ContentItemWithVariantModel>> BulkGetItemsWithVariantsAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest)
-    Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
+    Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
-    Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
+    Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> CreateCustomAppAsync(CustomAppCreateModel customApp, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> CreateLanguageAsync(LanguageCreateModel language, CancellationToken cancellationToken)
-    Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult> CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> CreateSpaceAsync(SpaceCreateModel space, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken)
     Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken)
@@ -163,12 +159,12 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken)
     Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
-    Task DeleteContentItemAsync(Reference identifier)
+    Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken)
-    Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult> DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteSpaceAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteWebhookAsync(Reference identifier, CancellationToken cancellationToken)
@@ -180,19 +176,25 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeModel>>> EnumerateContentTypePagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> EnumerateContentTypeSnippetPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<CustomAppModel>>> EnumerateCustomAppPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> EnumerateSubscriptionProjectPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> EnumerateSubscriptionUserPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken)
-    Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest)
     Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
-    Task<ContentItemModel> GetContentItemAsync(Reference identifier)
+    Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
@@ -200,11 +202,10 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
-    Task<LanguageVariantModel> GetLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken)
-    Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task<LanguageVariantModel<T>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier)
+    Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
@@ -213,15 +214,8 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
-    Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
     Task<IManagementResult<EnvironmentRolesModel>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
-    Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier)
-    Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsBySpaceAsync(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel<T>>> ListLanguageVariantsByTypeAsync<T>(Reference identifier)
-    Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IEnumerable<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
@@ -237,18 +231,18 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
-    Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule)
-    Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
-    Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
-    Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
-    Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
-    Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
-    Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant)
+    Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken)
     Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken)
 
@@ -338,7 +332,6 @@ public sealed class ManagementOptions : IValidatableObject
     String Endpoint { get; set; }
     String EndpointV2 { get; set; }
     String EnvironmentId { get; set; }
-    IModelProvider ModelProvider { get; set; }
     String SubscriptionId { get; set; }
     IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
 
@@ -359,23 +352,18 @@ public sealed class AssetExtensions
     static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(IEnumerable<AssetFolderLinkingHierarchy> folders, String folderId)
 
 // Kontent.Ai.Management.Extensions
-public sealed class DynamicExtensions
-    static Boolean HasProperty(Object source, String propertyName)
-
-// Kontent.Ai.Management.Extensions
 public sealed class ElementMetadataExtension
     static T ToElement<T>(ElementMetadataBase source)
 
 // Kontent.Ai.Management.Extensions
 public sealed class ListingExtensions
-    static Task<List<T>> GetAllAsync<T>(Task<IListingResponseModel<T>> method)
     static IAsyncEnumerable<T> Items<T>(IAsyncEnumerable<IManagementResult<IReadOnlyList<T>>> pages, CancellationToken cancellationToken)
 
 // Kontent.Ai.Management.Extensions
 public sealed class ManagementClientExtensions
     static Task<IManagementResult<AssetModel>> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel, CancellationToken cancellationToken)
     static Task<IManagementResult<AssetModel>> UpsertAssetAsync(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken)
-    static Task<ContentItemModel> UpsertContentItemAsync(IManagementClient client, Reference identifier, ContentItemModel contentItem)
+    static Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken)
 
 // Kontent.Ai.Management.Extensions
 public sealed class ServiceCollectionExtensions
@@ -1330,72 +1318,6 @@ public sealed class LanguageVariantUpsertModel : IEquatable`1
     Int32 GetHashCode()
     String ToString()
 
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class AssetElement : BaseElement
-    IEnumerable<AssetWithRenditionsReference> Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class BaseElement
-    Reference Element { get; set; }
-    static BaseElement FromDynamic(Object source, ElementMetadataType elementType)
-    static BaseElement FromDynamic(Object source, Type type)
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class CustomElement : BaseElement
-    String SearchableValue { get; set; }
-    String Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class DateTimeElement : BaseElement
-    String DisplayTimeZone { get; set; }
-    DateTime Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class LinkedItemsElement : BaseElement
-    IEnumerable<Reference> Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class MultipleChoiceElement : BaseElement
-    IEnumerable<Reference> Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class NumberElement : BaseElement
-    Nullable<Decimal> Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class RichTextElement : BaseElement
-    IEnumerable<ComponentModel> Components { get; set; }
-    String Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class SubpagesElement : BaseElement
-    IEnumerable<Reference> Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class TaxonomyElement : BaseElement
-    IEnumerable<Reference> Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class TextElement : BaseElement
-    String Value { get; set; }
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.LanguageVariants.Elements
-public class UrlSlugElement : BaseElement
-    String Mode { get; set; }
-    String Value { get; set; }
-    Object ToDynamic()
-
 // Kontent.Ai.Management.Models.PreviewConfiguration
 public sealed class PreviewConfigurationModel : IEquatable`1
     IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
@@ -1500,14 +1422,6 @@ public sealed class AssetWithRenditionsReference
     String ExternalId { get; }
     Nullable<Guid> Id { get; }
     IEnumerable<Reference> Renditions { get; }
-    static AssetWithRenditionsReference FromDynamic(Object source)
-    Object ToDynamic()
-
-// Kontent.Ai.Management.Models.Shared
-public interface IListingResponseModel`1<T> : IEnumerable`1, IEnumerable
-    IEnumerator<T> GetEnumerator()
-    Task<IListingResponseModel<T>> GetNextPage()
-    Boolean HasNextPage()
 
 // Kontent.Ai.Management.Models.Shared
 public sealed class Reference
@@ -1517,8 +1431,6 @@ public sealed class Reference
     static Reference ByCodename(String codename)
     static Reference ByExternalId(String externalId)
     static Reference ById(Guid id)
-    static Reference FromDynamic(Object source)
-    Object ToDynamic()
 
 // Kontent.Ai.Management.Models.Shared
 public sealed class UserIdentifier
@@ -1567,23 +1479,6 @@ public sealed class SpaceOperationReplaceModel : IEquatable`1
     SpaceOperationReplaceModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(SpaceOperationReplaceModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.StronglyTyped
-public sealed class LanguageVariantModel`1<T> : IEquatable`1
-    IEnumerable<UserIdentifier> Contributors { get; set; init; }
-    DueDateModel DueDate { get; set; init; }
-    T Elements { get; set; init; }
-    Reference Item { get; set; init; }
-    Reference Language { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
-    String Note { get; set; init; }
-    ScheduleResponseModel Schedule { get; set; init; }
-    WorkflowStepIdentifier Workflow { get; set; init; }
-    LanguageVariantModel<T> <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(LanguageVariantModel<T> other)
     Int32 GetHashCode()
     String ToString()
 
@@ -2898,36 +2793,8 @@ public sealed class WorkflowUpsertModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Modules.Extensions
-public sealed class PropertyInfoExtensions
-    static String GetKontentElementCodename(PropertyInfo property)
-    static Guid GetKontentElementId(PropertyInfo property)
-
-// Kontent.Ai.Management.Modules.Extensions
 public sealed class ReferenceExtensions
     static Boolean DoesHaveSetOnlyOneIdentifier(Reference property)
-
-// Kontent.Ai.Management.Modules.ModelBuilders
-public sealed class ElementBuilder
-    static IEnumerable<Object> GetElementsAsDynamic(BaseElement[] elements)
-
-// Kontent.Ai.Management.Modules.ModelBuilders
-public class ElementModelProvider : IElementModelProvider
-    IEnumerable<Object> GetDynamicElements<T>(T stronglyTypedElements)
-    T GetStronglyTypedElements<T>(IEnumerable<Object> elements)
-
-// Kontent.Ai.Management.Modules.ModelBuilders
-public interface IElementModelProvider
-    IEnumerable<Object> GetDynamicElements<T>(T stronglyTypedElements)
-    T GetStronglyTypedElements<T>(IEnumerable<Object> elements)
-
-// Kontent.Ai.Management.Modules.ModelBuilders
-public interface IModelProvider
-    LanguageVariantModel<T> GetLanguageVariantModel<T>(LanguageVariantModel variant)
-    LanguageVariantUpsertModel GetLanguageVariantUpsertModel<T>(T variantElements, WorkflowStepIdentifier workflow)
-
-// Kontent.Ai.Management.Modules.ModelBuilders
-public class KontentElementIdAttribute : Attribute
-    String ElementId { get; }
 
 // Kontent.Ai.Management.Validation
 public sealed class ContentItemValidator

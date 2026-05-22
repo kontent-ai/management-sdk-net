@@ -32,9 +32,10 @@ public class PublishingTests
             })
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.ChangeLanguageVariantWorkflowAsync(variantIdentifier, model);
+        var result = await client.ChangeLanguageVariantWorkflowAsync(variantIdentifier, model);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<ChangeLanguageVariantWorkflowModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<ChangeLanguageVariantWorkflowModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -74,9 +75,10 @@ public class PublishingTests
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/publish")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.PublishLanguageVariantAsync(variantIdentifier);
+        var result = await client.PublishLanguageVariantAsync(variantIdentifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -107,9 +109,10 @@ public class PublishingTests
             })
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.SchedulePublishingOfLanguageVariantAsync(variantIdentifier, schedule);
+        var result = await client.SchedulePublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<ScheduleModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<ScheduleModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -150,9 +153,10 @@ public class PublishingTests
             })
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.SchedulePublishingAndUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
+        var result = await client.SchedulePublishingAndUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<SchedulePublishAndUnpublishModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<SchedulePublishAndUnpublishModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -194,9 +198,10 @@ public class PublishingTests
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/cancel-scheduled-publish")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.CancelPublishingOfLanguageVariantAsync(variantIdentifier);
+        var result = await client.CancelPublishingOfLanguageVariantAsync(variantIdentifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -215,9 +220,10 @@ public class PublishingTests
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/unpublish-and-archive")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.UnpublishLanguageVariantAsync(variantIdentifier);
+        var result = await client.UnpublishLanguageVariantAsync(variantIdentifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -236,9 +242,10 @@ public class PublishingTests
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/cancel-scheduled-unpublish")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.CancelUnpublishingOfLanguageVariantAsync(variantIdentifier);
+        var result = await client.CancelUnpublishingOfLanguageVariantAsync(variantIdentifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -269,9 +276,10 @@ public class PublishingTests
             })
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.ScheduleUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
+        var result = await client.ScheduleUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<ScheduleModel>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<ScheduleModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
@@ -311,9 +319,10 @@ public class PublishingTests
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/new-version")
             .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.CreateNewVersionOfLanguageVariantAsync(variantIdentifier);
+        var result = await client.CreateNewVersionOfLanguageVariantAsync(variantIdentifier);
 
         mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
