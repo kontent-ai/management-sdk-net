@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Refit;
 
 namespace Kontent.Ai.Management.Extensions;
 

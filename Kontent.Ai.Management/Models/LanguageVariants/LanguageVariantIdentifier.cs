@@ -1,5 +1,4 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-
+﻿
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>

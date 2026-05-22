@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 

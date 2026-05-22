@@ -1,7 +1,5 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Serialization.Converters;
+﻿using Kontent.Ai.Management.Serialization.Converters;
 using System;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 

@@ -1,6 +1,4 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Text.Json.Serialization;
+﻿using System;
 
 namespace Kontent.Ai.Management.Models.Languages;
 

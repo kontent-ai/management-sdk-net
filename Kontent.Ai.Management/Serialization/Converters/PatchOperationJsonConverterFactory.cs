@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
 using Kontent.Ai.Management.Models.Collections.Patch;
 using Kontent.Ai.Management.Models.CustomApps.Patch;

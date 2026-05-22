@@ -17,7 +17,6 @@ using Kontent.Ai.Management.Models.EnvironmentReport;
 using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Roles;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
 using Kontent.Ai.Management.Models.Subscription;

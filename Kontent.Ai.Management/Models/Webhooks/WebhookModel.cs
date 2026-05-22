@@ -1,7 +1,6 @@
 ﻿using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks;
 

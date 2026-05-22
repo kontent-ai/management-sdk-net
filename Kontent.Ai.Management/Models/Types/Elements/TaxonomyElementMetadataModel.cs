@@ -1,6 +1,4 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
-using System.Text.Json.Serialization;
+﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 

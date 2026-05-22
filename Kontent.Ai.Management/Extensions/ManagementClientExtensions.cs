@@ -1,6 +1,5 @@
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Items;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management.Extensions;
 

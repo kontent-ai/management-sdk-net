@@ -1,5 +1,4 @@
 using Kontent.Ai.Management.Models.VariantFilter;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 

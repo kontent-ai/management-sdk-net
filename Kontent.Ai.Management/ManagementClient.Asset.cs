@@ -2,7 +2,6 @@ using System.Net.Http.Headers;
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management;
 

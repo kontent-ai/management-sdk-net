@@ -1,5 +1,4 @@
 using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Subscription;
 
 namespace Kontent.Ai.Management;

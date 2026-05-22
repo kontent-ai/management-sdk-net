@@ -5,7 +5,6 @@ using System.Text.Json.Nodes;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using Xunit;

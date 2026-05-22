@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 
 namespace Kontent.Ai.Management.Models.Spaces.Patch;
 

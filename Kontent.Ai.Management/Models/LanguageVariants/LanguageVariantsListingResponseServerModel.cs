@@ -1,7 +1,5 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 internal class LanguageVariantsListingResponseServerModel : IListingResponse<LanguageVariantModel>

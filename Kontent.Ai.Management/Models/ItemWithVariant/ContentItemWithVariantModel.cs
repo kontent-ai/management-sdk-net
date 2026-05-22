@@ -1,6 +1,5 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 

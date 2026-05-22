@@ -1,6 +1,5 @@
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.ItemWithVariant;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management;
 

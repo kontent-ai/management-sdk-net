@@ -1,6 +1,4 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 

@@ -1,5 +1,4 @@
 using AwesomeAssertions;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
 using Kontent.Ai.Management.Tests.Base;

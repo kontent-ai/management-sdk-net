@@ -1,8 +1,6 @@
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management.Serialization.Converters;
 

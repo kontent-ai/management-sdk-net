@@ -1,5 +1,4 @@
 using System.Net;
-using Refit;
 
 namespace Kontent.Ai.Management.Extensions;
 

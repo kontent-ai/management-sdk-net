@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text.Json;
 using AwesomeAssertions;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;

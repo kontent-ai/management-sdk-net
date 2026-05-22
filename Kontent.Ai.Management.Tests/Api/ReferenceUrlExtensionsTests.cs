@@ -2,7 +2,6 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.Shared;
 using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Api;

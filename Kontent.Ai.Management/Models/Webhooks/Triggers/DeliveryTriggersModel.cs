@@ -3,7 +3,6 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers;
 

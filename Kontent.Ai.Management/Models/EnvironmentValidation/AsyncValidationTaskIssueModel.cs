@@ -1,6 +1,5 @@
 ﻿using Kontent.Ai.Management.Serialization.Converters;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 

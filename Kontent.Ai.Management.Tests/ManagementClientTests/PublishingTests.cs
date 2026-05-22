@@ -2,7 +2,6 @@ using System.Collections;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using Xunit;

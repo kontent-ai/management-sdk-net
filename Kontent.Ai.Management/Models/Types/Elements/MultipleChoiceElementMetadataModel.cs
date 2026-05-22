@@ -1,6 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 

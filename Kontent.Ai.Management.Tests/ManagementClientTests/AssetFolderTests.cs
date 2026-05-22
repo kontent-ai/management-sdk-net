@@ -1,7 +1,6 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.AssetFolders;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using Xunit;

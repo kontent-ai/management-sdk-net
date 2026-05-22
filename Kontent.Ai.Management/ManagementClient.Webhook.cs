@@ -1,6 +1,5 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Webhooks;
 
 namespace Kontent.Ai.Management;

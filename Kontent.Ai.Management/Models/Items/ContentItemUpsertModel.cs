@@ -1,7 +1,5 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.Items;
 

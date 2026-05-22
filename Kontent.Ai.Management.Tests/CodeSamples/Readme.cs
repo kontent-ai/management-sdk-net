@@ -3,7 +3,6 @@ using Kontent.Ai.Management.Conversion;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Tests.Base;
 using MyProject.Models;
 using RichardSzalay.MockHttp;

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Serialization.Converters;

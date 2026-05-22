@@ -1,6 +1,5 @@
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.Shared;
 
 namespace Kontent.Ai.Management.Api;
 

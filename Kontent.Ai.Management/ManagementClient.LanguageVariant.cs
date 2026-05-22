@@ -2,7 +2,6 @@ using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Conversion;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Validation;
 using System.Text.Json;

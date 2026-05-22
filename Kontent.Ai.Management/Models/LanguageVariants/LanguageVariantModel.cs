@@ -1,9 +1,7 @@
 ﻿using Kontent.Ai.Management.Models.Publishing;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Workflow;
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
