@@ -11,19 +11,19 @@ public enum AssetAction
     /// </summary>
     [EnumMember(Value = "created")]
     Created,
-    
+
     /// <summary>
     /// Asset changed action.
     /// </summary>
     [EnumMember(Value = "changed")]
     Changed,
-    
+
     /// <summary>
     /// Asset deleted action.
     /// </summary>
     [EnumMember(Value = "deleted")]
     Deleted,
-    
+
     /// <summary>
     /// Asset metadata changed action.
     /// </summary>

@@ -13,7 +13,7 @@ public class TaxonomyTriggerModel
     /// </summary>
     [JsonPropertyName("enabled")]
     public bool? Enabled { get; set; }
-    
+
     /// <summary>
     /// Represents taxonomy actions.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object

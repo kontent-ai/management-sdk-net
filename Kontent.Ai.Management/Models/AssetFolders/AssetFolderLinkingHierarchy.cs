@@ -20,7 +20,7 @@ public sealed class AssetFolderLinkingHierarchy
     /// </summary>
     [JsonPropertyName("external_id")]
     public string ExternalId { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the folder's codename.
     /// </summary>

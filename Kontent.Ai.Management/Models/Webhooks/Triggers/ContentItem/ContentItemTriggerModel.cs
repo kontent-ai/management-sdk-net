@@ -13,14 +13,14 @@ public class ContentItemTriggerModel
     /// </summary>
     [JsonPropertyName("enabled")]
     public bool? Enabled { get; set; }
-    
+
     /// <summary>
     /// Represents content item actions.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
     [JsonPropertyName("actions")]
     public IEnumerable<ContentItemActionModel> Actions { get; set; }
-    
+
     /// <summary>
     /// Represents content item filters.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object

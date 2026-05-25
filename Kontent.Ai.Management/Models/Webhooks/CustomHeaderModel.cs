@@ -12,7 +12,7 @@ public class CustomHeaderModel
     /// </summary>
     [JsonPropertyName("key")]
     public string Key { get; set; }
-    
+
     /// <summary>
     /// The custom header value.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object

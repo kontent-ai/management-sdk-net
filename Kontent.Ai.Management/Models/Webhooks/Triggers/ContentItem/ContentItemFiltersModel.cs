@@ -12,13 +12,13 @@ public class ContentItemFiltersModel
     /// </summary>
     [JsonPropertyName("collections")]
     public IEnumerable<Reference> Collections { get; set; }
-    
+
     /// <summary>
     /// References to content types
     /// </summary>
     [JsonPropertyName("content_types")]
     public IEnumerable<Reference> ContentTypes { get; set; }
-    
+
     /// <summary>
     /// References to languages
     /// </summary>

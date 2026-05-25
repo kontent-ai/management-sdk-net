@@ -11,7 +11,7 @@ public enum WebhookEvents
     /// </summary>
     [EnumMember(Value = "all")]
     All,
-    
+
     /// <summary>
     /// Only a specific subset of events triggers the webhook.
     /// </summary>

@@ -12,7 +12,7 @@ public class ContentItemActionModel
     /// </summary>
     [JsonPropertyName("action")]
     public ContentItemAction Action { get; set; }
-    
+
     /// <summary>
     /// Specifies a workflow and its workflow step. 
     /// </summary>

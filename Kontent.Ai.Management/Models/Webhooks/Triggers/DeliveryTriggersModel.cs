@@ -17,42 +17,42 @@ public class DeliveryTriggersModel
     /// </summary>
     [JsonPropertyName("content_type")]
     public ContentTypeTriggerModel ContentType { get; set; }
-    
+
     /// <summary>
     /// Gets or sets triggers for content items.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
     [JsonPropertyName("content_item")]
     public ContentItemTriggerModel ContentItem { get; set; }
-    
+
     /// <summary>
     /// Gets or sets triggers for taxonomies.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
     [JsonPropertyName("taxonomy")]
     public TaxonomyTriggerModel Taxonomy { get; set; }
-    
+
     /// <summary>
     /// Gets or sets triggers for assets.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
     [JsonPropertyName("asset")]
     public AssetTriggerModel Asset { get; set; }
-    
+
     /// <summary>
     /// Gets or sets triggers for languages.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
     [JsonPropertyName("language")]
     public LanguageTriggerModel Language { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the delivery slot.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
     /// </summary>
     [JsonPropertyName("slot")]
     public DeliverySlot? Slot { get; set; }
-    
+
     /// <summary>
     /// Gets or sets webhook events.
     /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object

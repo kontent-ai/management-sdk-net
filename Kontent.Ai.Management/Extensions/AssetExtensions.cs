@@ -71,7 +71,7 @@ public static class AssetExtensions
         }
         return null;
     }
-    
+
     /// <summary>
     /// Gets folder hierarchy for a given folder codename
     /// </summary>
@@ -177,7 +177,7 @@ public static class AssetExtensions
         }
         return null;
     }
-    
+
     /// <summary>
     /// Gets the folder hierarchy for a given folder identifier.
     /// To use this method first convert your <see cref="AssetFoldersModel.Folders"/> property retrieved from <see cref="IManagementClient.GetAssetFoldersAsync"/> to a <see cref="IEnumerable{AssetFolderLinkingHierarchy}">IEnumerable&lt;AssetFolderLinkingHierarchy&gt;</see> by using the <see cref="GetParentLinkedFolderHierarchy"/> method.

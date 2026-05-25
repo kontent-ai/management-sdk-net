@@ -11,7 +11,7 @@ public class ContentItemWorkflowTransition
     /// </summary>
     [JsonPropertyName("workflow_identifier")]
     public Reference WorkflowReference { get; set; }
-    
+
     /// <summary>
     /// Reference to the content item variant's workflow step.
     /// </summary>

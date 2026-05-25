@@ -11,13 +11,13 @@ public enum LanguageAction
     /// </summary>
     [EnumMember(Value = "created")]
     Created,
-    
+
     /// <summary>
     /// Language changed action.
     /// </summary>
     [EnumMember(Value = "changed")]
     Changed,
-    
+
     /// <summary>
     /// Language deleted action.
     /// </summary>

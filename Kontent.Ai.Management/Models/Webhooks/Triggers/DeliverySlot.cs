@@ -11,7 +11,7 @@ public enum DeliverySlot
     /// </summary>
     [EnumMember(Value = "published")]
     Published,
-    
+
     /// <summary>
     /// Preview data.
     /// </summary>

@@ -11,13 +11,13 @@ public enum ContentTypeAction
     /// </summary>
     [EnumMember(Value = "created")]
     Created,
-    
+
     /// <summary>
     /// Content type changed action.
     /// </summary>
     [EnumMember(Value = "changed")]
     Changed,
-    
+
     /// <summary>
     /// Content type deleted action.
     /// </summary>
