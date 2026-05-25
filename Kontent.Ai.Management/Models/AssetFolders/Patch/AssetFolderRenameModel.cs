@@ -12,8 +12,8 @@ public sealed record AssetFolderRenameModel : AssetFolderOperationBaseModel
     public override string Op => "rename";
 
     /// <summary>
-    /// Gets the reference to the folder to be renamed.
+    /// New folder name (1-250 chars).
     /// </summary>
     [JsonPropertyName("value")]
-    public string Value { get; init; }
+    public required string Value { get; init; }
 }

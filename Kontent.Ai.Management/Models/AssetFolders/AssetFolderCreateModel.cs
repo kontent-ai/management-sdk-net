@@ -11,5 +11,5 @@ public sealed record AssetFolderCreateModel
     /// Folder listing (recursive)
     /// </summary>
     [JsonPropertyName("folders")]
-    public IEnumerable<AssetFolderHierarchy> Folders { get; init; }
+    public required IEnumerable<AssetFolderHierarchy> Folders { get; init; }
 }

@@ -12,22 +12,20 @@ public sealed record AssetFolderAddIntoModel : AssetFolderOperationBaseModel
     public override string Op => "addInto";
 
     /// <summary>
-    /// Gets the folder object you want to add.
+    /// The folder to add. Required.
     /// </summary>
     [JsonPropertyName("value")]
-    public AssetFolderHierarchy Value { get; init; }
+    public required AssetFolderHierarchy Value { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing folder after which you want to add the new folder.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Reference to the existing sibling folder before which the new folder should be inserted. Mutually exclusive with <see cref="After"/>.
     /// </summary>
     [JsonPropertyName("before")]
-    public Reference Before { get; init; }
+    public Reference? Before { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing folder after which you want to add the new folder.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Reference to the existing sibling folder after which the new folder should be inserted. Mutually exclusive with <see cref="Before"/>.
     /// </summary>
     [JsonPropertyName("after")]
-    public Reference After { get; init; }
+    public Reference? After { get; init; }
 }

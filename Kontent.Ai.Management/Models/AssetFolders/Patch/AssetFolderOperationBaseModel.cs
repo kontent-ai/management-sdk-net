@@ -13,9 +13,9 @@ public abstract record AssetFolderOperationBaseModel
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets the reference to the existing folder on which the operation will be performed.
+    /// Reference to an existing folder. Required for <c>remove</c> and <c>rename</c>; optional for <c>addInto</c>, where it identifies the parent folder to add into.
     /// </summary>
     [JsonPropertyName("reference")]
-    public Reference Reference { get; init; }
+    public Reference? Reference { get; init; }
 
 }
