@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Items;
+﻿namespace Kontent.Ai.Management.Models.Items;
 
 /// <summary>
 /// Represents content item model.

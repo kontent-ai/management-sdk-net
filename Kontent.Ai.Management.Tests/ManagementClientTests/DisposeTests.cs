@@ -2,7 +2,6 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

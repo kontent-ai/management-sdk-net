@@ -1,7 +1,5 @@
 ﻿using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Workflow;
-using System;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 

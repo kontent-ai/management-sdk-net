@@ -5,7 +5,6 @@ using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.VariantFilter;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

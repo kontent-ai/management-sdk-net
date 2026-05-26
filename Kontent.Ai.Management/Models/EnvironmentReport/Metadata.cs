@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.EnvironmentReport;
+﻿namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
 /// Represents the Metadata object.

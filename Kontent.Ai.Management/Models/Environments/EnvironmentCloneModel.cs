@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Environments;
+﻿namespace Kontent.Ai.Management.Models.Environments;
 
 /// <summary>
 /// Represents environment clone settings.

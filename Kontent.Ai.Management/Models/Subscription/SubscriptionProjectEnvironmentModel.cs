@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Subscription;
+﻿namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
 /// Represents project's environment.

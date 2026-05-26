@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Subscription;
+﻿namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
 /// Represents set of collections user is assigned to with a set of roles.

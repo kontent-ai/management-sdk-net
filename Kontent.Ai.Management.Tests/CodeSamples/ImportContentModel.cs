@@ -4,8 +4,6 @@ using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Tests.Base;
-using System.Linq;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 

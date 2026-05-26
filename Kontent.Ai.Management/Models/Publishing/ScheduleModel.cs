@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Publishing;
+﻿namespace Kontent.Ai.Management.Models.Publishing;
 
 /// <summary>
 /// Represents the schedule model.

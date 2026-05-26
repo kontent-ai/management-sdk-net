@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Items;
 internal class ContentItemListingResponseServerModel : IListingResponse<ContentItemModel>

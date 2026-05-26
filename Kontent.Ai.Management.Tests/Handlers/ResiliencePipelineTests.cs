@@ -5,7 +5,6 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Polly;
 using Polly.Retry;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Handlers;
 

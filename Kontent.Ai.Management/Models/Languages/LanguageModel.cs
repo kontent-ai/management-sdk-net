@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Languages;
+﻿namespace Kontent.Ai.Management.Models.Languages;
 
 /// <summary>
 /// Represents the language model.

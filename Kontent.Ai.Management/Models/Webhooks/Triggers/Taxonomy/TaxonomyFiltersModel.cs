@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
+﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
 /// <summary>
 /// Represents the taxonomy filters model.

@@ -4,7 +4,6 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
-using Xunit;
 using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;

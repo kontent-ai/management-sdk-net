@@ -5,7 +5,6 @@ using Kontent.Ai.Management.Tests.Base;
 using MyProject.Models;
 using RichardSzalay.MockHttp;
 using System.Net;
-using Xunit;
 // Models.Content carries its own `Reference`; alias the two types we need so it doesn't collide with
 // Models.Shared.Reference used for the identifier.
 using RichTextBuilder = Kontent.Ai.Management.Models.Content.RichTextBuilder;

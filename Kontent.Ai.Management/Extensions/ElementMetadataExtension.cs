@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Models.Types.Elements;
-using System;
 
 namespace Kontent.Ai.Management.Extensions;
 

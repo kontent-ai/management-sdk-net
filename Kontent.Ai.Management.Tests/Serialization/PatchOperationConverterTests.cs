@@ -3,7 +3,6 @@ using System.Text.Json.Nodes;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
 using Kontent.Ai.Management.Serialization.Converters;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 

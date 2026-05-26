@@ -1,6 +1,5 @@
 ﻿using Kontent.Ai.Management.Helpers.Configuration;
 using Kontent.Ai.Management.Helpers.Models;
-using System;
 using Xunit;
 
 namespace Kontent.Ai.Management.Helpers.Tests;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Roles;
+﻿namespace Kontent.Ai.Management.Models.Roles;
 
 /// <summary>
 /// Represents the environment role model.

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Workflow;
+﻿namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
 /// Represents the Published workflow step response model. If a variant is in this step, it indicated that it has been

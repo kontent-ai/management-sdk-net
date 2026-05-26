@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.WebSpotlight;
+﻿namespace Kontent.Ai.Management.Models.WebSpotlight;
 
 /// <summary>
 /// Represents the web spotlight model.

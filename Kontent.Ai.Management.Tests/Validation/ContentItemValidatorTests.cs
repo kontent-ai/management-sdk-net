@@ -1,12 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using AwesomeAssertions;
-using Kontent.Ai.Management;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
 using Kontent.Ai.Management.Validation;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Validation;
 

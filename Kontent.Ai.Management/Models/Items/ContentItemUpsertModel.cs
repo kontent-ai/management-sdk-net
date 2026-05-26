@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Kontent.Ai.Management.Models.Items;
+﻿namespace Kontent.Ai.Management.Models.Items;
 
 /// <summary>
 /// Represents content item upsert model.

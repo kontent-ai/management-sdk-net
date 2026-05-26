@@ -3,7 +3,6 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Serialization.Converters;
 using Refit;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 

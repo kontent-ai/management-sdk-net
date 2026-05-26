@@ -1,10 +1,8 @@
 using AwesomeAssertions;
-using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
-using Xunit;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 

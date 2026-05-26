@@ -1,6 +1,5 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Conversion;
-using Xunit;
 using ModelsArticle = MyProject.Models.Article;
 using StubsArticle = Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs.Article;
 

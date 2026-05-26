@@ -1,4 +1,3 @@
-using Kontent.Ai.Management;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
 

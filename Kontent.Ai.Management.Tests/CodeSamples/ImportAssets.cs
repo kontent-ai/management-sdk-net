@@ -1,9 +1,6 @@
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.IO;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 

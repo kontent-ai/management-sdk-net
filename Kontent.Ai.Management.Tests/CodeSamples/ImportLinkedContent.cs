@@ -1,7 +1,6 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Tests.Base;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 

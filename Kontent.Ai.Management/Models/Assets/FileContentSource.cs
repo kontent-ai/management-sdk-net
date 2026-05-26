@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Kontent.Ai.Management.Models.Assets;
+﻿namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
 /// Wraps the information about file content source.

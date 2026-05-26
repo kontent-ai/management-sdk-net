@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Assets;
+﻿namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
 /// Represents a digital asset, such as a document or image.

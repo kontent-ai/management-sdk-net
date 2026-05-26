@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.LanguageVariants;
+﻿namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
 /// Represents due date model.

@@ -28,11 +28,6 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 

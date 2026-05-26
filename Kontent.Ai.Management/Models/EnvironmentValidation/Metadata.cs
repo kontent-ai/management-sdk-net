@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.EnvironmentValidation;
+﻿namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
 /// Represents the metadata object.

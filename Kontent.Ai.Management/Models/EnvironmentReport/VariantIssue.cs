@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.EnvironmentReport;
+﻿namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
 /// Represents information necessary to identify 

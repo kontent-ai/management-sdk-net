@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Serialization.Converters;
-using System;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 

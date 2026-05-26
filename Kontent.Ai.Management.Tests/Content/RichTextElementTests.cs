@@ -2,7 +2,6 @@ using System.Text.Json;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Content;
 

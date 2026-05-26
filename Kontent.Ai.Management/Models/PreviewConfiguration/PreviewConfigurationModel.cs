@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.PreviewConfiguration;
+﻿namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
 /// Represents the preview configuration model.

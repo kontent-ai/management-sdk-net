@@ -1,7 +1,6 @@
 using System.Text.Json;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Serialization.Converters;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 

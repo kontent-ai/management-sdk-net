@@ -1,7 +1,6 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Conversion;
 using MyProject.Models;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Conversion;
 

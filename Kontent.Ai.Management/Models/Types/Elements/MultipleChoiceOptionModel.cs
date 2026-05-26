@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Types.Elements;
+﻿namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
 /// Represents the element's multiple-choice options.

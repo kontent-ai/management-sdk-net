@@ -1,8 +1,6 @@
 ﻿using Kontent.Ai.Management.Helpers.Configuration;
 using Kontent.Ai.Management.Helpers.Models;
 using Microsoft.Extensions.Options;
-using System;
-using System.Linq;
 
 namespace Kontent.Ai.Management.Helpers;
 

@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Models.Types.Elements;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Types;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Collections;
+﻿namespace Kontent.Ai.Management.Models.Collections;
 
 /// <summary>
 /// Represents collection model.

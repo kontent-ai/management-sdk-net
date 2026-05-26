@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Users;
+﻿namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
 /// Represents user's role.

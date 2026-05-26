@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
+﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
 /// Represents the content item filters model.

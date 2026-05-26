@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.TypeSnippets;
 internal class SnippetListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>

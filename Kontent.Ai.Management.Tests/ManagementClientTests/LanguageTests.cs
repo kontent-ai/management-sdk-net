@@ -3,7 +3,6 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
-using Xunit;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Nodes;

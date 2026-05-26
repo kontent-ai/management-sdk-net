@@ -1,5 +1,3 @@
-using System;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>

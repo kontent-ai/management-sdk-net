@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Roles;
+﻿namespace Kontent.Ai.Management.Models.Roles;
 
 /// <summary>
 /// Represents environment's roles

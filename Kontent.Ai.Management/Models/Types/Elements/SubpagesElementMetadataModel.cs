@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Types.Elements;
+﻿namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
 /// Represents the subpages element.

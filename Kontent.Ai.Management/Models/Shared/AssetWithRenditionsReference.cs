@@ -1,7 +1,4 @@
 using Kontent.Ai.Management.Serialization.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Kontent.Ai.Management.Models.Shared;
 

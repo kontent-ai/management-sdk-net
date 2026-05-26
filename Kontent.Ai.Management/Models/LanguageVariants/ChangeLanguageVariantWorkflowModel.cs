@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.LanguageVariants;
+﻿namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
 /// Represents a change language variant workflow model.

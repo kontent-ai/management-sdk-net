@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.EnvironmentReport;
+﻿namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
 /// Represents the report of the problems found in the environment's content types.

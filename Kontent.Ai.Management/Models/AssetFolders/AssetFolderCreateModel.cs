@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.AssetFolders;
+﻿namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
 /// Represents the asset folder list.

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Environments;
+﻿namespace Kontent.Ai.Management.Models.Environments;
 
 /// <summary>
 /// Represents result of environment cloning.

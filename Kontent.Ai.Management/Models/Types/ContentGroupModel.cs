@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Models.Types;
+﻿namespace Kontent.Ai.Management.Models.Types;
 
 /// <summary>
 /// Content group.

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Languages;
 internal sealed class LanguagesListingResponseServerModel : IListingResponse<LanguageModel>

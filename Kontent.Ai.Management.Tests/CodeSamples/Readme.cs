@@ -6,11 +6,7 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Tests.Base;
 using MyProject.Models;
 using RichardSzalay.MockHttp;
-using System;
-using System.IO;
-using System.Linq;
 using System.Text;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 

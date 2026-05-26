@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.TaxonomyGroups;
+﻿namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
 /// <summary>
 /// Represents the taxonomy group create model.

@@ -1,6 +1,5 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Annotations;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Annotations;
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
+﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
 
 /// <summary>
 /// Represents the asset trigger model. 

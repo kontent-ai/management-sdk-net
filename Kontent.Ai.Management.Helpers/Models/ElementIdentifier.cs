@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Helpers.Models;
+﻿namespace Kontent.Ai.Management.Helpers.Models;
 
 /// <summary>
 /// Identifier of element of some item

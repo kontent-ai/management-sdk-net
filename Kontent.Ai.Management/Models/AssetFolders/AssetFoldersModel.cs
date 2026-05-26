@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.AssetFolders;
+﻿namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
 /// Response shape for retrieving or modifying the asset folder hierarchy of an environment.

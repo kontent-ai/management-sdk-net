@@ -3,7 +3,6 @@ using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
-using Xunit;
 using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;

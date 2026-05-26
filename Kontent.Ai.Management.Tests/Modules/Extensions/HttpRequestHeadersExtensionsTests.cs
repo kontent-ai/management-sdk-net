@@ -1,7 +1,5 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Modules.Extensions;
-using System.Net.Http;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Modules.Extensions;
 

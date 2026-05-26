@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Subscription;
+﻿namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
 /// Represents subscription user object.

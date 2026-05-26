@@ -7,7 +7,6 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

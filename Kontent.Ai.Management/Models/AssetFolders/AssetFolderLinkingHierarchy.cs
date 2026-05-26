@@ -1,5 +1,4 @@
 ﻿using Kontent.Ai.Management.Extensions;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.AssetFolders;
 

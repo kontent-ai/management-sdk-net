@@ -30,10 +30,6 @@ using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.WebSpotlight;
 using Kontent.Ai.Management.Models.Workflow;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 

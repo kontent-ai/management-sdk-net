@@ -4,7 +4,6 @@ using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Serialization.Converters;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 

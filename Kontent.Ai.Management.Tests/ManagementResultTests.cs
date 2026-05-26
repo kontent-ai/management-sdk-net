@@ -1,6 +1,5 @@
 using System.Net;
 using AwesomeAssertions;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests;
 

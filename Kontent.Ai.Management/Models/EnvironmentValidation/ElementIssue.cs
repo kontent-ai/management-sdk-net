@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.EnvironmentValidation;
+﻿namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
 /// Represents element issue with messages and element metadata.

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Subscription;
+﻿namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
 /// Represents the subscription project object.

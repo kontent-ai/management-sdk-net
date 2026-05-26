@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.CustomApps;
+﻿namespace Kontent.Ai.Management.Models.CustomApps;
 
 /// <summary>
 /// Represents the custom app model.

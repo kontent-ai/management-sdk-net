@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.AssetFolders;
+﻿namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
 /// A node in the recursive asset folder hierarchy. Used as both a request payload (when creating or modifying folders) and a response shape.
