@@ -132,6 +132,7 @@ public class AssetTests
 
         var createModel = new AssetCreateModel
         {
+            FileReference = new FileReference { Id = expected.FileReference.Id, Type = FileReferenceTypeEnum.Internal },
             Title = expected.Title,
             Elements = expected.Elements,
         };
@@ -165,7 +166,12 @@ public class AssetTests
             new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
             "Hello.txt",
             "text/plain");
-        var createModel = new AssetCreateModel { Title = expected.Title, Elements = expected.Elements };
+        var createModel = new AssetCreateModel
+        {
+            FileReference = new FileReference { Id = expected.FileReference.Id, Type = FileReferenceTypeEnum.Internal },
+            Title = expected.Title,
+            Elements = expected.Elements,
+        };
 
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/files/Hello.txt")
             .Respond("application/json", File_);
@@ -184,7 +190,11 @@ public class AssetTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.CreateAssetAsync(null!, new AssetCreateModel { Title = "x" }))
+        await client.Invoking(c => c.CreateAssetAsync(null!, new AssetCreateModel
+            {
+                FileReference = new FileReference { Id = "00000000-0000-0000-0000-000000000000", Type = FileReferenceTypeEnum.Internal },
+                Title = "x",
+            }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 

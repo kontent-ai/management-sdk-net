@@ -2,13 +2,13 @@
 namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
-/// Represents an asset folder
+/// Reference to an asset's containing folder, as returned by the Management API. Only the folder's ID is populated in responses.
 /// </summary>
 public sealed class AssetFolder
 {
     /// <summary>
-    /// The referenced folder's ID. Not present if the asset is not in a folder.
+    /// Folder ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public required string Id { get; set; }
 }

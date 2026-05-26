@@ -2,19 +2,19 @@
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
-/// Represents binary file reference which can be used in an Asset to point it to a specific binary file.
+/// Reference to a previously uploaded binary file, used to attach it to an asset.
 /// </summary>
 public sealed record FileReference
 {
     /// <summary>
-    /// Gets the id of the binary file.
+    /// Binary file ID returned by the upload endpoint.
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public required string Id { get; init; }
 
     /// <summary>
-    /// Gets file reference type.
+    /// Reference type. Always <see cref="FileReferenceTypeEnum.Internal"/>.
     /// </summary>
     [JsonPropertyName("type")]
-    public FileReferenceTypeEnum Type { get; init; }
+    public required FileReferenceTypeEnum Type { get; init; }
 }

@@ -1,55 +1,55 @@
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
-/// Represents an asset create model.
+/// Request payload for creating an asset (after the binary file has been uploaded).
 /// </summary>
 public sealed record AssetCreateModel
 {
     /// <summary>
-    /// Gets the file reference for the asset.
+    /// Reference to the previously uploaded binary file.
     /// </summary>
     [JsonPropertyName("file_reference")]
-    public FileReference FileReference { get; init; }
+    public required FileReference FileReference { get; init; }
 
     /// <summary>
-    /// Gets the descriptions for the asset.
+    /// Per-language alt-text descriptions.
     /// </summary>
     [JsonPropertyName("descriptions")]
-    public IEnumerable<AssetDescription> Descriptions { get; init; } = [];
+    public IEnumerable<AssetDescription>? Descriptions { get; init; }
 
     /// <summary>
-    /// Gets the title for the asset.
+    /// Display title.
     /// </summary>
     [JsonPropertyName("title")]
-    public string Title { get; init; }
+    public string? Title { get; init; }
 
     /// <summary>
-    /// Folder of the asset. If outside of all folders use "id" : "00000000-0000-0000-0000-000000000000".
+    /// Folder to place the asset in. Use <c>00000000-0000-0000-0000-000000000000</c> as the ID to place at the top level.
     /// </summary>
     [JsonPropertyName("folder")]
-    public Reference Folder { get; init; }
+    public Reference? Folder { get; init; }
 
     /// <summary>
-    /// Gets the Collection for the asset.
+    /// Asset collection to assign the asset to. Defaults server-side to the project's default collection when omitted.
     /// </summary>
     [JsonPropertyName("collection")]
-    public AssetCollectionReference Collection { get; init; }
+    public AssetCollectionReference? Collection { get; init; }
 
     /// <summary>
-    /// Gets the external identifier of the asset.
+    /// Caller-supplied external ID for the asset.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets the taxonomy elements of the asset.
+    /// Taxonomy assignments from the environment's asset type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<AssetElement> Elements { get; init; }
+    public IEnumerable<AssetElement>? Elements { get; init; }
 
     /// <summary>
-    /// Gets the codename of the asset.
+    /// Caller-supplied codename. When omitted, the CMS generates one from the title (or file name).
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public string? Codename { get; init; }
 }

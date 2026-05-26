@@ -11,11 +11,11 @@ public sealed record AssetElement
     /// Reference to the taxonomy group.
     /// </summary>
     [JsonPropertyName("element")]
-    public Reference Element { get; init; }
+    public required Reference Element { get; init; }
 
     /// <summary>
     /// References to the selected taxonomy terms; empty when none are assigned.
     /// </summary>
     [JsonPropertyName("value")]
-    public IEnumerable<Reference> Value { get; init; }
+    public required IEnumerable<Reference> Value { get; init; }
 }
