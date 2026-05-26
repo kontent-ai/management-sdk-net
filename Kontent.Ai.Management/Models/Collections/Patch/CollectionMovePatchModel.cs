@@ -2,8 +2,7 @@
 namespace Kontent.Ai.Management.Models.Collections.Patch;
 
 /// <summary>
-/// Represents move operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+/// Patch operation that changes a collection's position in the environment's ordered collection list.
 /// </summary>
 public sealed record CollectionMovePatchModel : CollectionOperationBaseModel
 {
@@ -13,22 +12,20 @@ public sealed record CollectionMovePatchModel : CollectionOperationBaseModel
     public override string Op => "move";
 
     /// <summary>
-    /// Gets the reference of the collection to move.
+    /// Reference to the collection being moved.
     /// </summary>
     [JsonPropertyName("reference")]
-    public Reference Reference { get; init; }
+    public required Reference Reference { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing collection before which you want to add the new collection.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Reference to the existing collection before which the moved collection should be placed. Mutually exclusive with <see cref="After"/>.
     /// </summary>
     [JsonPropertyName("before")]
-    public Reference Before { get; init; }
+    public Reference? Before { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing collection after which you want to add the new collection.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Reference to the existing collection after which the moved collection should be placed. Mutually exclusive with <see cref="Before"/>.
     /// </summary>
     [JsonPropertyName("after")]
-    public Reference After { get; init; }
+    public Reference? After { get; init; }
 }

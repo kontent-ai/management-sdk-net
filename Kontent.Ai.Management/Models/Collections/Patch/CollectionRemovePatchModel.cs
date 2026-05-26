@@ -2,8 +2,7 @@
 namespace Kontent.Ai.Management.Models.Collections.Patch;
 
 /// <summary>
-/// Represents the remove operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+/// Patch operation that deletes an existing collection. The collection must contain no items, and the default collection cannot be deleted.
 /// </summary>
 public sealed record CollectionRemovePatchModel : CollectionOperationBaseModel
 {
@@ -13,8 +12,8 @@ public sealed record CollectionRemovePatchModel : CollectionOperationBaseModel
     public override string Op => "remove";
 
     /// <summary>
-    /// Represents the reference of the collection which should be removed.
+    /// Reference to the collection to remove.
     /// </summary>
     [JsonPropertyName("reference")]
-    public Reference CollectionIdentifier { get; init; }
+    public required Reference Reference { get; init; }
 }

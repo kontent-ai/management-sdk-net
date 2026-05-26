@@ -2,8 +2,7 @@
 namespace Kontent.Ai.Management.Models.Collections.Patch;
 
 /// <summary>
-/// Represents the replace operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+/// Patch operation that updates a property on an existing collection (today, only the name).
 /// </summary>
 public sealed record CollectionReplacePatchModel : CollectionOperationBaseModel
 {
@@ -13,22 +12,20 @@ public sealed record CollectionReplacePatchModel : CollectionOperationBaseModel
     public override string Op => "replace";
 
     /// <summary>
-    /// Gets the reference of the collection which should be replaced.
+    /// Reference to the collection being updated.
     /// </summary>
     [JsonPropertyName("reference")]
-    public Reference Reference { get; init; }
+    public required Reference Reference { get; init; }
 
     /// <summary>
-    /// Gets the new value of the property specified in PropertyName.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+    /// New value for the property identified by <see cref="PropertyName"/> (1-250 chars).
     /// </summary>
     [JsonPropertyName("value")]
-    public string Value { get; init; }
+    public required string Value { get; init; }
 
     /// <summary>
-    /// Gets the property of the collection that you want to replace.
-    /// Use name to change the name of the collection. Changes of other properties are currently not supported.
+    /// The property to update. Today only <see cref="Patch.PropertyName.Name"/> is supported.
     /// </summary>
     [JsonPropertyName("property_name")]
-    public PropertyName PropertyName { get; init; }
+    public required PropertyName PropertyName { get; init; }
 }

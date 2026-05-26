@@ -775,7 +775,7 @@ public class CmApiV2
             },
             new CollectionRemovePatchModel
             {
-                CollectionIdentifier = Reference.ByCodename("extra_collection")
+                Reference = Reference.ByCodename("extra_collection")
             },
             new CollectionReplacePatchModel
             {

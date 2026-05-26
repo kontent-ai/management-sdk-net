@@ -39,7 +39,7 @@ public class CollectionTests
     [MemberData(nameof(Identifiers))]
     public async Task ModifyCollection_Remove_RemovesCollection(Reference identifier)
     {
-        var changes = new[] { new CollectionRemovePatchModel { CollectionIdentifier = identifier } };
+        var changes = new[] { new CollectionRemovePatchModel { Reference = identifier } };
         await AssertModifyCollection(changes);
     }
 

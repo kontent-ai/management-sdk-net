@@ -2,8 +2,7 @@
 namespace Kontent.Ai.Management.Models.Collections.Patch;
 
 /// <summary>
-/// Represents the addInto operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+/// Patch operation that adds a new collection to the environment.
 /// </summary>
 public sealed record CollectionAddIntoPatchModel : CollectionOperationBaseModel
 {
@@ -13,23 +12,20 @@ public sealed record CollectionAddIntoPatchModel : CollectionOperationBaseModel
     public override string Op => "addInto";
 
     /// <summary>
-    /// Gets the collection to be added.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+    /// The collection to add.
     /// </summary>
     [JsonPropertyName("value")]
-    public CollectionCreateModel Value { get; init; }
+    public required CollectionCreateModel Value { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing collection before which you want to add the new collection.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Reference to the existing collection before which the new collection should be inserted. Mutually exclusive with <see cref="After"/>. When both are omitted the new collection is appended at the end.
     /// </summary>
     [JsonPropertyName("before")]
-    public Reference Before { get; init; }
+    public Reference? Before { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing collection after which you want to add the new collection.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Reference to the existing collection after which the new collection should be inserted. Mutually exclusive with <see cref="Before"/>. When both are omitted the new collection is appended at the end.
     /// </summary>
     [JsonPropertyName("after")]
-    public Reference After { get; init; }
+    public Reference? After { get; init; }
 }

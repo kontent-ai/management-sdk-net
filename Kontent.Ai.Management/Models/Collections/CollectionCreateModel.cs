@@ -2,25 +2,25 @@
 namespace Kontent.Ai.Management.Models.Collections;
 
 /// <summary>
-/// Represents collection the create model.
+/// Payload for adding a new content collection (used as the <c>value</c> of an <c>addInto</c> patch operation).
 /// </summary>
 public sealed record CollectionCreateModel
 {
     /// <summary>
-    /// Gets the name of the content collection.
+    /// Collection name (1-200 chars).
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the codename of the collection.
+    /// Collection codename (1-210 chars). Auto-generated from the name when omitted.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public string? Codename { get; init; }
 
     /// <summary>
-    /// Gets the external identifier of the content collection.
+    /// Caller-supplied external ID.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 }

@@ -1,31 +1,31 @@
 ﻿namespace Kontent.Ai.Management.Models.Collections;
 
 /// <summary>
-/// Represents collection model.
+/// A single content collection within an environment.
 /// </summary>
 public sealed record CollectionModel
 {
     /// <summary>
-    /// Gets the id of the content collection.
+    /// Collection ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the name of the content collection.
+    /// Collection name (1-200 chars).
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the codename of the collection.
+    /// Collection codename (1-210 chars). Auto-generated from the name when not supplied on create.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the external identifier of the content collection.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 }
