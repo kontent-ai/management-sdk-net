@@ -76,7 +76,8 @@ public class PolymorphicConvertersTests
     public void ImageTransformation_Read_DispatchesToRectangle()
     {
         var result = JsonSerializer.Deserialize<ImageTransformation>(
-            """{"mode":"rect"}""", Options(new ImageTransformationJsonConverter()));
+            """{"mode":"rect","custom_width":1,"custom_height":1,"x":0,"y":0,"width":1,"height":1}""",
+            Options(new ImageTransformationJsonConverter()));
 
         result.Should().BeOfType<RectangleResizeTransformation>();
     }

@@ -210,7 +210,10 @@ public class AssetRenditionTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        var createRenditionModel = new AssetRenditionCreateModel();
+        var createRenditionModel = new AssetRenditionCreateModel
+        {
+            Transformation = new RectangleResizeTransformation { CustomWidth = 1, CustomHeight = 1, X = 0, Y = 0, Width = 1, Height = 1 },
+        };
 
         await client.Invoking(x => x.CreateAssetRenditionAsync(null!, createRenditionModel)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
@@ -266,7 +269,10 @@ public class AssetRenditionTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        var updateRenditionModel = new AssetRenditionUpdateModel();
+        var updateRenditionModel = new AssetRenditionUpdateModel
+        {
+            Transformation = new RectangleResizeTransformation { CustomWidth = 1, CustomHeight = 1, X = 0, Y = 0, Width = 1, Height = 1 },
+        };
 
         await client.Invoking(x => x.UpdateAssetRenditionAsync(identifier!, updateRenditionModel)).Should().ThrowAsync<Exception>();
     }

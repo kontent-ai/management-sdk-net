@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using AwesomeAssertions;
+using Kontent.Ai.Management.Models.AssetFolders;
 using Kontent.Ai.Management.Models.AssetFolders.Patch;
 using Kontent.Ai.Management.Serialization.Converters;
 
@@ -19,7 +20,7 @@ public class PatchOperationConverterTests
     {
         var operations = new List<AssetFolderOperationBaseModel>
         {
-            new AssetFolderAddIntoModel(),
+            new AssetFolderAddIntoModel { Value = new AssetFolderHierarchy { Name = "new-folder" } },
             new AssetFolderRemoveModel(),
             new AssetFolderRenameModel { Value = "renamed" },
         };
