@@ -4,10 +4,10 @@ namespace Kontent.Ai.Management.Models.AssetRenditions;
 internal class AssetRenditionsListingResponseServerModel : IListingResponse<AssetRenditionModel>
 {
     [JsonPropertyName("asset_renditions")]
-    public IEnumerable<AssetRenditionModel> AssetRenditions { get; set; }
+    public required IEnumerable<AssetRenditionModel> AssetRenditions { get; set; }
 
     [JsonPropertyName("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
+    public required PaginationResponseModel Pagination { get; set; }
 
     IEnumerator IEnumerable.GetEnumerator() =>
         GetEnumerator();

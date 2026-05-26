@@ -2,28 +2,19 @@
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 
 /// <summary>
-/// Represents an asset rendition create model.
+/// Request payload for adding a rendition to an asset.
 /// </summary>
 public sealed record AssetRenditionCreateModel
 {
     /// <summary>
-    /// Gets the rendition's ID.
+    /// Optional caller-supplied external ID for the rendition.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets the image transformation.
-    /// The transformation specifies how to transform the original image asset.
-    /// 
-    /// The image area to use for the transformation is determined by the x, y, width, and height properties.
-    /// The custom_width and custom_height properties set the dimensions of the output image.
-    /// 
-    /// The x and y coordinates define a point in the original image.
-    /// The point is specified as the distance from the top-left corner of the original image asset in pixels.
-    /// The whole area must be within the borders of the original image.
-    /// Upscaling, that is setting the custom_width and custom_height greater than width and height, is not allowed.
+    /// Specifies how the original image should be transformed to produce the rendition.
     /// </summary>
     [JsonPropertyName("transformation")]
-    public ImageTransformation Transformation { get; init; }
+    public required ImageTransformation Transformation { get; init; }
 }
