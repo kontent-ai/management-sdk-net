@@ -1,79 +1,79 @@
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
 /// <summary>
-/// Represents the variant filter filters model.
+/// Filter criteria for the items-with-variants filter endpoint. Any combination of fields can be supplied; omit a field to skip that filter.
 /// </summary>
 public sealed record VariantFilterFiltersModel
 {
     /// <summary>
-    /// Gets the search phrase.
+    /// Free-text search phrase matched against item content.
     /// </summary>
     [JsonPropertyName("search_phrase")]
-    public string SearchPhrase { get; init; }
+    public string? SearchPhrase { get; init; }
 
     /// <summary>
-    /// Gets the language.
+    /// Restrict results to a specific language.
     /// </summary>
     [JsonPropertyName("language")]
-    public Reference Language { get; init; }
+    public Reference? Language { get; init; }
 
     /// <summary>
-    /// Gets the content types.
+    /// Restrict results to items of these content types.
     /// </summary>
     [JsonPropertyName("content_types")]
-    public IEnumerable<Reference> ContentTypes { get; init; }
+    public IEnumerable<Reference>? ContentTypes { get; init; }
 
     /// <summary>
-    /// Gets the contributors.
+    /// Restrict results to variants with these contributors.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; init; }
+    public IEnumerable<UserIdentifier>? Contributors { get; init; }
 
     /// <summary>
-    /// Gets whether to filter items with no contributors.
+    /// When true, restricts to variants without any assigned contributor.
     /// </summary>
     [JsonPropertyName("has_no_contributors")]
     public bool? HasNoContributors { get; init; }
 
     /// <summary>
-    /// Gets the completion statuses.
+    /// Restrict to variants with these completion statuses.
     /// </summary>
     [JsonPropertyName("completion_statuses")]
-    public IEnumerable<VariantFilterCompletionStatus> CompletionStatuses { get; init; }
+    public IEnumerable<VariantFilterCompletionStatus>? CompletionStatuses { get; init; }
 
     /// <summary>
-    /// Gets the workflow steps.
+    /// Restrict to variants currently in these workflow steps.
     /// </summary>
     [JsonPropertyName("workflow_steps")]
-    public IEnumerable<VariantFilterWorkflowStepsModel> WorkflowSteps { get; init; }
+    public IEnumerable<VariantFilterWorkflowStepsModel>? WorkflowSteps { get; init; }
 
     /// <summary>
-    /// Gets the taxonomy groups.
+    /// Restrict to variants tagged with these taxonomy terms.
     /// </summary>
     [JsonPropertyName("taxonomy_groups")]
-    public IEnumerable<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; init; }
+    public IEnumerable<VariantFilterTaxonomyGroupModel>? TaxonomyGroups { get; init; }
 
     /// <summary>
-    /// Gets the spaces.
+    /// Restrict to items assigned to these spaces.
     /// </summary>
     [JsonPropertyName("spaces")]
-    public IEnumerable<Reference> Spaces { get; init; }
+    public IEnumerable<Reference>? Spaces { get; init; }
 
     /// <summary>
-    /// Gets the collections.
+    /// Restrict to items in these collections.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference> Collections { get; init; }
+    public IEnumerable<Reference>? Collections { get; init; }
 
     /// <summary>
-    /// Gets the publishing states.
+    /// Restrict to variants in these publishing states.
     /// </summary>
     [JsonPropertyName("publishing_states")]
-    public IEnumerable<VariantFilterPublishingState> PublishingStates { get; init; }
+    public IEnumerable<VariantFilterPublishingState>? PublishingStates { get; init; }
 
     /// <summary>
-    /// Gets the component types.
+    /// Restrict to variants containing components of these content types.
     /// </summary>
     [JsonPropertyName("component_types")]
-    public IEnumerable<Reference> ComponentTypes { get; init; }
+    public IEnumerable<Reference>? ComponentTypes { get; init; }
 }

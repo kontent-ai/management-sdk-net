@@ -2,19 +2,19 @@
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
 /// <summary>
-/// Represents the variant filter order model.
+/// Ordering specification for the items-with-variants filter endpoint.
 /// </summary>
 public sealed record VariantFilterOrderModel
 {
     /// <summary>
-    /// Gets the order by column.
+    /// Column to order by. Supported values: <c>name</c>, <c>due_date</c>, <c>last_modified</c>.
     /// </summary>
     [JsonPropertyName("by")]
-    public string By { get; init; }
+    public required string By { get; init; }
 
     /// <summary>
-    /// Gets the order direction.
+    /// Sort direction. Defaults to ascending.
     /// </summary>
     [JsonPropertyName("direction")]
-    public VariantFilterOrderDirection Direction { get; init; }
+    public VariantFilterOrderDirection Direction { get; init; } = VariantFilterOrderDirection.Ascending;
 }

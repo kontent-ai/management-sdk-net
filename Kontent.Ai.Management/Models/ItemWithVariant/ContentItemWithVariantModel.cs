@@ -4,19 +4,19 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents a content item together with its language variant.
+/// A content item paired with one of its language variants.
 /// </summary>
 public sealed record ContentItemWithVariantModel
 {
     /// <summary>
-    /// Gets the content item.
+    /// The content item.
     /// </summary>
     [JsonPropertyName("item")]
-    public ContentItemModel Item { get; init; }
+    public required ContentItemModel Item { get; init; }
 
     /// <summary>
-    /// Gets the language variant.
+    /// The language variant. May be absent in list responses when the item exists but has no variant in the targeted language.
     /// </summary>
     [JsonPropertyName("variant")]
-    public LanguageVariantModel Variant { get; init; }
+    public LanguageVariantModel? Variant { get; init; }
 }

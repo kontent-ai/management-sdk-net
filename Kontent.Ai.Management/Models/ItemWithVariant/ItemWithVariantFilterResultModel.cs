@@ -2,19 +2,19 @@
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents a single result from the items with variant filter endpoint.
+/// A single result from the items-with-variants filter endpoint: the (item, language) identifier of a matched variant.
 /// </summary>
 public sealed record ItemWithVariantFilterResultModel
 {
     /// <summary>
-    /// Gets the item reference.
+    /// Reference to the matched content item.
     /// </summary>
     [JsonPropertyName("item")]
-    public Reference Item { get; init; }
+    public required Reference Item { get; init; }
 
     /// <summary>
-    /// Gets the language reference.
+    /// Reference to the matched language.
     /// </summary>
     [JsonPropertyName("language")]
-    public Reference Language { get; init; }
+    public required Reference Language { get; init; }
 }

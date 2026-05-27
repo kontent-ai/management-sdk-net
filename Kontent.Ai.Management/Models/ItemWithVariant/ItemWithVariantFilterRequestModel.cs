@@ -3,19 +3,19 @@ using Kontent.Ai.Management.Models.VariantFilter;
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents the request model for filtering items with variants.
+/// Request payload for the items-with-variants filter endpoint.
 /// </summary>
 public sealed record ItemWithVariantFilterRequestModel
 {
     /// <summary>
-    /// Gets the filters.
+    /// Filter criteria. Omit to match all variants in the environment.
     /// </summary>
     [JsonPropertyName("filters")]
-    public VariantFilterFiltersModel Filters { get; init; }
+    public VariantFilterFiltersModel? Filters { get; init; }
 
     /// <summary>
-    /// Gets the order.
+    /// Result ordering. Omit for the server's default order.
     /// </summary>
     [JsonPropertyName("order")]
-    public VariantFilterOrderModel Order { get; init; }
+    public VariantFilterOrderModel? Order { get; init; }
 }

@@ -4,10 +4,10 @@ namespace Kontent.Ai.Management.Models.ItemWithVariant;
 internal class ContentItemsWithVariantsListingResponseServerModel : IListingResponse<ContentItemWithVariantModel>
 {
     [JsonPropertyName("data")]
-    public IEnumerable<ContentItemWithVariantModel> Data { get; set; }
+    public required IEnumerable<ContentItemWithVariantModel> Data { get; set; }
 
     [JsonPropertyName("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
+    public required PaginationResponseModel Pagination { get; set; }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

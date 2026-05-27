@@ -2,19 +2,19 @@
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents an item and language reference pair used to identify a specific variant.
+/// An (item, language) pair that uniquely identifies a content item variant.
 /// </summary>
 public sealed record VariantIdentifierModel
 {
     /// <summary>
-    /// Gets the item reference.
+    /// Reference to the content item.
     /// </summary>
     [JsonPropertyName("item")]
-    public Reference Item { get; init; }
+    public required Reference Item { get; init; }
 
     /// <summary>
-    /// Gets the language reference.
+    /// Reference to the language.
     /// </summary>
     [JsonPropertyName("language")]
-    public Reference Language { get; init; }
+    public required Reference Language { get; init; }
 }

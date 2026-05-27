@@ -1,19 +1,19 @@
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
 /// <summary>
-/// Represents the variant filter workflow steps model.
+/// Workflow-based filter: restrict results to variants currently in specific steps of a workflow.
 /// </summary>
 public sealed record VariantFilterWorkflowStepsModel
 {
     /// <summary>
-    /// Gets the workflow reference.
+    /// Reference to the workflow.
     /// </summary>
     [JsonPropertyName("workflow_identifier")]
-    public Reference WorkflowReference { get; init; }
+    public required Reference WorkflowReference { get; init; }
 
     /// <summary>
-    /// Gets the workflow step references.
+    /// Specific steps within the workflow to match. Omit to match any step.
     /// </summary>
     [JsonPropertyName("step_identifiers")]
-    public IEnumerable<Reference> WorkflowStepReferences { get; init; }
+    public IEnumerable<Reference>? WorkflowStepReferences { get; init; }
 }
