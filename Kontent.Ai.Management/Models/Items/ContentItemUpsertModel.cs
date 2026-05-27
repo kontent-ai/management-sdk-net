@@ -1,47 +1,37 @@
 ﻿namespace Kontent.Ai.Management.Models.Items;
 
 /// <summary>
-/// Represents content item upsert model.
+/// Request payload for upserting a content item via <c>PUT /items/{identifier}</c>. The item identifier is carried by the URL; only the upsert-by-external-id form can create a new item, in which case the URL's external_id is also assigned to the new item.
 /// </summary>
 public sealed record ContentItemUpsertModel
 {
     /// <summary>
-    /// Gets the name of the content item.
+    /// Display name (1-200 chars).
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the codename of the content item.
+    /// Codename (1-60 chars).
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public string? Codename { get; init; }
 
     /// <summary>
-    /// Gets the type of the content item.
-    /// Type is taken into account only when creating a new content item.
-    /// Type is ignored in case of update.
+    /// Reference to the content type. Used only when this upsert creates a new item (upsert-by-external-id, target not found); ignored when updating an existing item.
     /// </summary>
     [JsonPropertyName("type")]
-    public Reference Type { get; init; }
+    public Reference? Type { get; init; }
 
     /// <summary>
-    /// Gets sitemap locations of the content item.
+    /// Sitemap locations. Deprecated — sitemap is being phased out.
     /// </summary>
     [JsonPropertyName("sitemap_locations")]
-    public IEnumerable<Reference> SitemapLocations { get; init; } = Enumerable.Empty<Reference>();
+    public IEnumerable<Reference>? SitemapLocations { get; init; }
 
     /// <summary>
-    /// Gets the collection of the content item.
+    /// Reference to the collection the item should belong to.
     /// </summary>
     [JsonPropertyName("collection")]
-    public Reference Collection { get; init; }
-
-    /// <summary>
-    /// Gets the external identifier of the content item.
-    /// ExternalId is taken into account only when creating a new content item.
-    /// ExternalId is ignored in case of update.
-    /// </summary>
-    [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public Reference? Collection { get; init; }
 }

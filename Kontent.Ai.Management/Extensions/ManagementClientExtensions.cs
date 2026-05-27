@@ -26,7 +26,6 @@ public static class ManagementClientExtensions
             Name = contentItem.Name,
             Codename = contentItem.Codename,
             Collection = contentItem.Collection,
-            ExternalId = contentItem.ExternalId,
             SitemapLocations = contentItem.SitemapLocations,
             Type = contentItem.Type
         };

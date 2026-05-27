@@ -149,7 +149,6 @@ public class ContentItemTests
             Codename = expected.Codename,
             Collection = expected.Collection,
             Type = expected.Type,
-            ExternalId = expected.ExternalId,
             Name = expected.Name,
             SitemapLocations = expected.SitemapLocations
         };
@@ -186,7 +185,6 @@ public class ContentItemTests
             Codename = expected.Codename,
             Collection = expected.Collection,
             Type = expected.Type,
-            ExternalId = expected.ExternalId,
             Name = expected.Name,
             SitemapLocations = expected.SitemapLocations
         };
@@ -223,7 +221,6 @@ public class ContentItemTests
             Codename = expected.Codename,
             Collection = expected.Collection,
             Type = expected.Type,
-            ExternalId = expected.ExternalId,
             Name = expected.Name,
             SitemapLocations = expected.SitemapLocations
         };
@@ -254,7 +251,7 @@ public class ContentItemTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpsertContentItemAsync(null!, new ContentItemUpsertModel()))
+        await client.Invoking(x => x.UpsertContentItemAsync(null!, new ContentItemUpsertModel { Name = "x" }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -276,9 +273,12 @@ public class ContentItemTests
 
         var model = new ContentItemModel
         {
+            Id = expected.Id,
             Name = expected.Name,
             Codename = expected.Codename,
             Collection = expected.Collection,
+            Spaces = expected.Spaces,
+            LastModified = expected.LastModified,
             ExternalId = expected.ExternalId,
             SitemapLocations = expected.SitemapLocations,
             Type = expected.Type
@@ -301,8 +301,8 @@ public class ContentItemTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -313,9 +313,12 @@ public class ContentItemTests
 
         var model = new ContentItemModel
         {
+            Id = expected.Id,
             Name = expected.Name,
             Codename = expected.Codename,
             Collection = expected.Collection,
+            Spaces = expected.Spaces,
+            LastModified = expected.LastModified,
             ExternalId = expected.ExternalId,
             SitemapLocations = expected.SitemapLocations,
             Type = expected.Type
@@ -338,8 +341,8 @@ public class ContentItemTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -350,9 +353,12 @@ public class ContentItemTests
 
         var model = new ContentItemModel
         {
+            Id = expected.Id,
             Name = expected.Name,
             Codename = expected.Codename,
             Collection = expected.Collection,
+            Spaces = expected.Spaces,
+            LastModified = expected.LastModified,
             ExternalId = expected.ExternalId,
             SitemapLocations = expected.SitemapLocations,
             Type = expected.Type
@@ -375,8 +381,8 @@ public class ContentItemTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
     [Fact]
@@ -384,7 +390,7 @@ public class ContentItemTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpsertContentItemAsync(null!, new ContentItemModel()))
+        await client.Invoking(x => x.UpsertContentItemAsync(null!, new ContentItemModel { Id = Guid.Empty, Name = "x", Codename = "x", Type = Reference.ById(Guid.Empty), Collection = Reference.ById(Guid.Empty), Spaces = [], LastModified = default }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 

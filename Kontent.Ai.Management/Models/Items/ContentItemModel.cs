@@ -1,61 +1,61 @@
 ﻿namespace Kontent.Ai.Management.Models.Items;
 
 /// <summary>
-/// Represents content item model.
+/// A single content item, as returned by the Management API.
 /// </summary>
 public sealed record ContentItemModel
 {
     /// <summary>
-    /// Gets the id of the content item.
+    /// Content item ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the name of the content item.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the codename of the content item.
+    /// Codename. Auto-generated from the name when not supplied on create.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the type of the content item.
+    /// Reference to the content type the item belongs to.
     /// </summary>
     [JsonPropertyName("type")]
-    public Reference Type { get; init; }
+    public required Reference Type { get; init; }
 
     /// <summary>
-    /// Gets the collection of the content item.
+    /// Reference to the collection the item is assigned to. When the item has no explicit collection, this references the default collection (id <c>00000000-0000-0000-0000-000000000000</c>).
     /// </summary>
     [JsonPropertyName("collection")]
-    public Reference Collection { get; init; }
+    public required Reference Collection { get; init; }
 
     /// <summary>
-    /// Gets the spaces of the content item
+    /// Spaces the item is assigned to. Empty when none.
     /// </summary>
     [JsonPropertyName("spaces")]
-    public IReadOnlyCollection<Reference> Spaces { get; init; }
+    public required IReadOnlyCollection<Reference> Spaces { get; init; }
 
     /// <summary>
-    /// Gets sitemap locations of the content item.
+    /// Sitemap locations. Deprecated — sitemap is being phased out.
     /// </summary>
     [JsonPropertyName("sitemap_locations")]
-    public IEnumerable<Reference> SitemapLocations { get; init; }
+    public IEnumerable<Reference>? SitemapLocations { get; init; }
 
     /// <summary>
-    /// Gets the external identifier of the content item.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets the last modified timestamp of the content item.
+    /// ISO-8601 timestamp of the most recent change. Always populated, including on the response to the initial create.
     /// </summary>
     [JsonPropertyName("last_modified")]
-    public DateTime? LastModified { get; init; }
+    public required DateTime LastModified { get; init; }
 }
