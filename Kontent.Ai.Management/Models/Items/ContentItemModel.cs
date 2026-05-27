@@ -54,7 +54,7 @@ public sealed record ContentItemModel
     public string? ExternalId { get; init; }
 
     /// <summary>
-    /// ISO-8601 timestamp of the most recent change. Always populated, including on the response to the initial create.
+    /// ISO-8601 timestamp of the most recent change.
     /// </summary>
     [JsonPropertyName("last_modified")]
     public required DateTime LastModified { get; init; }

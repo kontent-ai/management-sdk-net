@@ -69,7 +69,7 @@ public sealed record AssetModel
     /// ISO-8601 timestamp of the most recent change.
     /// </summary>
     [JsonPropertyName("last_modified")]
-    public DateTime? LastModified { get; init; }
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
     /// Image height in pixels. Null when the underlying file is not an image.

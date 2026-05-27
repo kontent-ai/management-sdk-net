@@ -33,5 +33,5 @@ public sealed record AssetRenditionModel
     /// ISO-8601 timestamp of the last change to the rendition.
     /// </summary>
     [JsonPropertyName("last_modified")]
-    public DateTime? LastModified { get; init; }
+    public required DateTime LastModified { get; init; }
 }
