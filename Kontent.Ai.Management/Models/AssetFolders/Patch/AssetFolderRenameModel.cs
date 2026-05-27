@@ -12,7 +12,7 @@ public sealed record AssetFolderRenameModel : AssetFolderOperationBaseModel
     public override string Op => "rename";
 
     /// <summary>
-    /// New folder name (1-250 chars).
+    /// New folder name.
     /// </summary>
     [JsonPropertyName("value")]
     public required string Value { get; init; }

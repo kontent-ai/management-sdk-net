@@ -6,13 +6,13 @@
 public sealed record ContentItemUpsertModel
 {
     /// <summary>
-    /// Display name (1-200 chars).
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
     public required string Name { get; init; }
 
     /// <summary>
-    /// Codename (1-60 chars).
+    /// Codename.
     /// </summary>
     [JsonPropertyName("codename")]
     public string? Codename { get; init; }

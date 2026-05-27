@@ -18,7 +18,7 @@ public sealed record CollectionReplacePatchModel : CollectionOperationBaseModel
     public required Reference Reference { get; init; }
 
     /// <summary>
-    /// New value for the property identified by <see cref="PropertyName"/> (1-250 chars).
+    /// New value for the property identified by <see cref="PropertyName"/>.
     /// </summary>
     [JsonPropertyName("value")]
     public required string Value { get; init; }

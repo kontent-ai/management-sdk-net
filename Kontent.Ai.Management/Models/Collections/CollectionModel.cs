@@ -12,13 +12,13 @@ public sealed record CollectionModel
     public required Guid Id { get; init; }
 
     /// <summary>
-    /// Collection name (1-200 chars).
+    /// Collection name.
     /// </summary>
     [JsonPropertyName("name")]
     public required string Name { get; init; }
 
     /// <summary>
-    /// Collection codename (1-210 chars). Auto-generated from the name when not supplied on create.
+    /// Collection codename. Auto-generated from the name when not supplied on create.
     /// </summary>
     [JsonPropertyName("codename")]
     public required string Codename { get; init; }

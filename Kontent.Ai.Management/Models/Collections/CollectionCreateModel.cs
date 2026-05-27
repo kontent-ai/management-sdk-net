@@ -7,13 +7,13 @@ namespace Kontent.Ai.Management.Models.Collections;
 public sealed record CollectionCreateModel
 {
     /// <summary>
-    /// Collection name (1-200 chars).
+    /// Collection name.
     /// </summary>
     [JsonPropertyName("name")]
     public required string Name { get; init; }
 
     /// <summary>
-    /// Collection codename (1-210 chars). Auto-generated from the name when omitted.
+    /// Collection codename. Auto-generated from the name when omitted.
     /// </summary>
     [JsonPropertyName("codename")]
     public string? Codename { get; init; }
