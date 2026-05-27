@@ -1299,7 +1299,7 @@ public class CmApiV2
                 new ContentGroupModel
                 {
                     Name = "Author",
-                    CodeName = "author",
+                    Codename = "author",
                 }
             },
             Elements = new ElementMetadataBase[]

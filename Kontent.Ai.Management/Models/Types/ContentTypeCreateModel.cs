@@ -3,37 +3,37 @@
 namespace Kontent.Ai.Management.Models.Types;
 
 /// <summary>
-/// Represents the content type create model.
+/// Request payload for creating a new content type.
 /// </summary>
 public sealed record ContentTypeCreateModel
 {
     /// <summary>
-    /// Gets the codename of the content type.
+    /// Caller-supplied codename. When omitted, the CMS generates one from the name.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public string? Codename { get; init; }
 
     /// <summary>
-    /// Gets the name of the content type.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets elements of the content type.
+    /// Elements that make up this content type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<ElementMetadataBase> Elements { get; init; }
+    public required IEnumerable<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
-    /// Gets the external identifier of the content type.
+    /// Caller-supplied external ID.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets content groups of the content type.
+    /// Content groups to define on the type.
     /// </summary>
     [JsonPropertyName("content_groups")]
-    public IEnumerable<ContentGroupModel> ContentGroups { get; init; }
+    public IEnumerable<ContentGroupModel>? ContentGroups { get; init; }
 }

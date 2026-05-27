@@ -3,49 +3,49 @@
 namespace Kontent.Ai.Management.Models.Types;
 
 /// <summary>
-/// Content type.
+/// A content type definition.
 /// </summary>
 public sealed record ContentTypeModel
 {
     /// <summary>
-    /// Gets the id of the content type.
+    /// Content type ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the codename of the content type.
+    /// Codename. Auto-generated from the name when not supplied on create.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the last modified timestamp of the content type.
+    /// ISO-8601 timestamp of the most recent change.
     /// </summary>
     [JsonPropertyName("last_modified")]
-    public DateTime? LastModified { get; init; }
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
-    /// Gets the name of the content type.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets elements of the content type.
+    /// Elements that make up this content type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<ElementMetadataBase> Elements { get; init; }
+    public required IEnumerable<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
-    /// Gets the external identifier of the content type.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets content groups of the content type.
+    /// Content groups defined on this type. Empty when none.
     /// </summary>
     [JsonPropertyName("content_groups")]
-    public IEnumerable<ContentGroupModel> ContentGroups { get; init; }
+    public required IEnumerable<ContentGroupModel> ContentGroups { get; init; }
 }
