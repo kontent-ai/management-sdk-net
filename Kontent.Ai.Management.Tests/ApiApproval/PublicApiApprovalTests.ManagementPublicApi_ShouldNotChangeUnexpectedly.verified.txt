@@ -2074,73 +2074,73 @@ public sealed class ValidationRegexModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class AssetDefaultValueModel : ElementDefaultValue`2, IEquatable`1
+public sealed class AssetDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     AssetDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TypeValue<IEnumerable<AssetWithRenditionsReference>>, IEnumerable<AssetWithRenditionsReference>> other)
+    Boolean Equals(ElementDefaultValue<IEnumerable<AssetWithRenditionsReference>> other)
     Boolean Equals(AssetDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class DateElementDefaultValueModel : ElementDefaultValue`2, IEquatable`1
+public sealed class DateElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     DateElementDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TypeValue<DateTime>, DateTime> other)
+    Boolean Equals(ElementDefaultValue<DateTime> other)
     Boolean Equals(DateElementDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public class ElementDefaultValue`2<TContainer, TValue> : IEquatable`1
-    TContainer Global { get; set; init; }
-    ElementDefaultValue<TContainer, TValue> <Clone>$()
+public class ElementDefaultValue`1<TValue> : IEquatable`1
+    TypeValue<TValue> Global { get; set; init; }
+    ElementDefaultValue<TValue> <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TContainer, TValue> other)
+    Boolean Equals(ElementDefaultValue<TValue> other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class LinkedItemsDefaultValueModel : ElementDefaultValue`2, IEquatable`1
+public sealed class LinkedItemsDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     LinkedItemsDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TypeValue<IEnumerable<Reference>>, IEnumerable<Reference>> other)
+    Boolean Equals(ElementDefaultValue<IEnumerable<Reference>> other)
     Boolean Equals(LinkedItemsDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class MultipleChoiceDefaultValueModel : ElementDefaultValue`2, IEquatable`1
+public sealed class MultipleChoiceDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     MultipleChoiceDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TypeValue<List<Reference>>, List<Reference>> other)
+    Boolean Equals(ElementDefaultValue<List<Reference>> other)
     Boolean Equals(MultipleChoiceDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class NumberElementDefaultValueModel : ElementDefaultValue`2, IEquatable`1
+public sealed class NumberElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     NumberElementDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TypeValue<Decimal>, Decimal> other)
+    Boolean Equals(ElementDefaultValue<Decimal> other)
     Boolean Equals(NumberElementDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class TaxonomyElementDefaultValueModel : ElementDefaultValue`2, IEquatable`1
+public sealed class TaxonomyElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     TaxonomyElementDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TypeValue<List<Reference>>, List<Reference>> other)
+    Boolean Equals(ElementDefaultValue<List<Reference>> other)
     Boolean Equals(TaxonomyElementDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class TextElementDefaultValueModel : ElementDefaultValue`2, IEquatable`1
+public sealed class TextElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     TextElementDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<TypeValue<String>, String> other)
+    Boolean Equals(ElementDefaultValue<String> other)
     Boolean Equals(TextElementDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()

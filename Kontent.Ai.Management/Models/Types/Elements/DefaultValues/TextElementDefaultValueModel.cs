@@ -1,6 +1,6 @@
-﻿namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 /// <summary>
-/// The default value model for the text element
+/// Default value for the text element.
 /// </summary>
-public sealed record TextElementDefaultValueModel : ElementDefaultValue<TypeValue<string>, string> { }
+public sealed record TextElementDefaultValueModel : ElementDefaultValue<string> { }

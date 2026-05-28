@@ -1,27 +1,25 @@
-
 namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 /// <summary>
-/// Base class for the element's default value definition
+/// Base shape for an element's default value. Subclasses specialize <typeparamref name="TValue"/> for the element kind.
 /// </summary>
-public record ElementDefaultValue<TContainer, TValue> where TContainer : TypeValue<TValue>, new()
+public record ElementDefaultValue<TValue>
 {
     /// <summary>
-    /// Non-language specific default value
+    /// Non-language-specific default. Required when the caller configures any default on the element.
     /// </summary>
     [JsonPropertyName("global")]
-    public TContainer Global { get; init; } = new();
+    public required TypeValue<TValue> Global { get; init; }
 }
 
 /// <summary>
-/// Container for the element's default value
+/// Wraps a single default value. The wire format is <c>{ "value": ... }</c>.
 /// </summary>
-/// <typeparam name="TValue"></typeparam>
 public record TypeValue<TValue>
 {
     /// <summary>
-    /// Default value
+    /// The default value carried by this container. The API rejects null and empty-array values — leave the parent default-value object null to express "no default configured".
     /// </summary>
     [JsonPropertyName("value")]
-    public TValue Value { get; init; }
+    public required TValue Value { get; init; }
 }

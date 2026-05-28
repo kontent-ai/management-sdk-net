@@ -1,6 +1,6 @@
-﻿namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 /// <summary>
-/// The default value model for the multiple choice element
+/// Default value for the date &amp; time element.
 /// </summary>
-public sealed record DateElementDefaultValueModel : ElementDefaultValue<TypeValue<DateTime>, DateTime> { }
+public sealed record DateElementDefaultValueModel : ElementDefaultValue<DateTime> { }
