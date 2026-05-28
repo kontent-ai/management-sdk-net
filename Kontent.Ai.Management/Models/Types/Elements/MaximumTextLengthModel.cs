@@ -1,20 +1,19 @@
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Specifies the maximum text length.
+/// Maximum text length configuration for a text element.
 /// </summary>
 public sealed record MaximumTextLengthModel
 {
     /// <summary>
-    /// Gets the maximum number of characters or words.
+    /// Maximum number of characters or words.
     /// </summary>
     [JsonPropertyName("value")]
-    public int Value { get; init; }
+    public required int Value { get; init; }
 
     /// <summary>
-    /// Determines whether the value applies to characters or words.
+    /// Whether <see cref="Value"/> counts characters or words.
     /// </summary>
     [JsonPropertyName("applies_to")]
-    public TextLengthLimitType AppliesTo { get; init; }
+    public required TextLengthLimitType AppliesTo { get; init; }
 }

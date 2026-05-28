@@ -1,57 +1,55 @@
-﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a text element in content types.
+/// A text element on a content type.
 /// </summary>
 public sealed record TextElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets the element's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the element must be filled in.
+    /// Whether authors must fill in the element. Defaults to false.
     /// </summary>
     [JsonPropertyName("is_required")]
     public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Gets element is non-localizable
+    /// Whether the element is non-localizable (shared across all languages). Defaults to false.
     /// </summary>
     [JsonPropertyName("is_non_localizable")]
     public bool IsNonLocalizable { get; init; }
 
     /// <summary>
-    /// Gets the element's guidelines, providing instructions on what to fill in.
+    /// HTML guidelines shown to authors.
     /// </summary>
     [JsonPropertyName("guidelines")]
-    public string Guidelines { get; init; }
+    public string? Guidelines { get; init; }
 
     /// <summary>
-    /// Specifies the maximum text length.
+    /// Maximum length of the entered text, in characters or words.
     /// </summary>
     [JsonPropertyName("maximum_text_length")]
-    public MaximumTextLengthModel MaximumTextLength { get; init; }
+    public MaximumTextLengthModel? MaximumTextLength { get; init; }
 
     /// <summary>
-    /// Specifies a regular expression pattern used to validate the text element's value.
+    /// Regex used to validate entered text.
     /// </summary>
     [JsonPropertyName("validation_regex")]
-    public ValidationRegexModel ValidationRegex { get; init; }
+    public ValidationRegexModel? ValidationRegex { get; init; }
 
     /// <summary>
-    /// Specifies the default value for the element value.
+    /// Default value applied when authors create a new language variant.
     /// </summary>
     [JsonPropertyName("default")]
-    public TextElementDefaultValueModel DefaultValue { get; init; }
+    public TextElementDefaultValueModel? DefaultValue { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
     [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Text;
 }

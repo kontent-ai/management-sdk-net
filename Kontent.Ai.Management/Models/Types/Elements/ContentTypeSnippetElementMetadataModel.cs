@@ -1,20 +1,17 @@
-﻿
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a content type snippet element in content types.
+/// A content type snippet placeholder. Inlines a reusable group of elements into a content type.
 /// </summary>
 public sealed record ContentTypeSnippetElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets the element's reference to a specific content type snippet.
+    /// Reference to the snippet that supplies the inlined elements.
     /// </summary>
     [JsonPropertyName("snippet")]
-    public Reference SnippetIdentifier { get; init; }
+    public required Reference SnippetIdentifier { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content element.
-    /// </summary>
+    /// <inheritdoc/>
     [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.ContentTypeSnippet;
 }

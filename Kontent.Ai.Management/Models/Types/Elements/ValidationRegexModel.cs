@@ -1,30 +1,31 @@
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Specifies a regular expression pattern used to validate the text element's value.
+/// Regex-based validation configuration for a text-like element.
 /// </summary>
 public sealed record ValidationRegexModel
 {
     /// <summary>
-    /// Gets the enabled state of the validation
+    /// Whether the validation is enabled.
     /// </summary>
     [JsonPropertyName("is_active")]
-    public bool IsActive { get; init; }
+    public required bool IsActive { get; init; }
 
     /// <summary>
-    /// Gets the regular expression used for validation
+    /// Regular expression used for validation.
     /// </summary>
-    public string Regex { get; init; }
+    [JsonPropertyName("regex")]
+    public string? Regex { get; init; }
 
     /// <summary>
-    /// Specifies regular expression flags that affect the search. Supports only case-insensitive therefore only allowed flag is 'i'.
+    /// Regex flags. Only the case-insensitive flag ('i') is supported.
     /// </summary>
-    public string Flags { get; init; }
+    [JsonPropertyName("flags")]
+    public string? Flags { get; init; }
 
     /// <summary>
-    ///  Specifies the custom message that is used when input does not match the regex pattern.
+    /// Custom validation message shown when input does not match the regex.
     /// </summary>
     [JsonPropertyName("validation_message")]
-    public string ValidationMessage { get; init; }
+    public string? ValidationMessage { get; init; }
 }

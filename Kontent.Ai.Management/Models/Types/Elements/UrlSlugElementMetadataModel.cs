@@ -1,50 +1,47 @@
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a url slug element in content types.
+/// A URL slug element on a content type.
 /// </summary>
 public sealed record UrlSlugElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets the element's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the element must be filled in.
+    /// Whether authors must fill in the element. Defaults to false.
     /// </summary>
     [JsonPropertyName("is_required")]
     public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Gets element is non-localizable
+    /// Whether the element is non-localizable (shared across all languages). Defaults to false.
     /// </summary>
     [JsonPropertyName("is_non_localizable")]
     public bool IsNonLocalizable { get; init; }
 
     /// <summary>
-    /// Gets the element's guidelines, providing instructions on what to fill in.
+    /// HTML guidelines shown to authors.
     /// </summary>
     [JsonPropertyName("guidelines")]
-    public string Guidelines { get; init; }
+    public string? Guidelines { get; init; }
 
     /// <summary>
-    /// Specifies the text element that provides the default value to the URL slug element. The dependent text element can be part of a content type snippet.
+    /// Reference to the text element that feeds the slug's default value. The text element may live in a snippet.
     /// </summary>
     [JsonPropertyName("depends_on")]
-    public UrlSlugDependency DependsOn { get; init; }
+    public required UrlSlugDependency DependsOn { get; init; }
 
     /// <summary>
-    /// Specifies a regular expression pattern used to validate the text element's value.
+    /// Regex used to validate the generated slug.
     /// </summary>
     [JsonPropertyName("validation_regex")]
-    public ValidationRegexModel ValidationRegex { get; init; }
+    public ValidationRegexModel? ValidationRegex { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
     [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.UrlSlug;
 }

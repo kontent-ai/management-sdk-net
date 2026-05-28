@@ -479,7 +479,7 @@ public sealed class AssetRenditionIdentifier : IEquatable`1
 public sealed class AssetRenditionModel : IEquatable`1
     Guid AssetId { get; set; init; }
     String ExternalId { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
+    DateTime LastModified { get; set; init; }
     Guid RenditionId { get; set; init; }
     ImageTransformation Transformation { get; set; init; }
     AssetRenditionModel <Clone>$()
@@ -589,7 +589,7 @@ public sealed class AssetModel : IEquatable`1
     Guid Id { get; set; init; }
     Nullable<Int32> ImageHeight { get; set; init; }
     Nullable<Int32> ImageWidth { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
+    DateTime LastModified { get; set; init; }
     Int64 Size { get; set; init; }
     String Title { get; set; init; }
     String Type { get; set; init; }
@@ -705,8 +705,8 @@ public class CollectionOperationBaseModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Collections.Patch
 public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel, IEquatable`1
-    Reference CollectionIdentifier { get; set; init; }
     String Op { get; }
+    Reference Reference { get; set; init; }
     CollectionRemovePatchModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(CollectionOperationBaseModel other)
@@ -1106,7 +1106,7 @@ public sealed class ContentItemModel : IEquatable`1
     Reference Collection { get; set; init; }
     String ExternalId { get; set; init; }
     Guid Id { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
+    DateTime LastModified { get; set; init; }
     String Name { get; set; init; }
     IEnumerable<Reference> SitemapLocations { get; set; init; }
     IReadOnlyCollection<Reference> Spaces { get; set; init; }
@@ -1121,7 +1121,6 @@ public sealed class ContentItemModel : IEquatable`1
 public sealed class ContentItemUpsertModel : IEquatable`1
     String Codename { get; set; init; }
     Reference Collection { get; set; init; }
-    String ExternalId { get; set; init; }
     String Name { get; set; init; }
     IEnumerable<Reference> SitemapLocations { get; set; init; }
     Reference Type { get; set; init; }
@@ -1683,9 +1682,9 @@ public sealed class TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseM
 
 // Kontent.Ai.Management.Models.Types
 public sealed class ContentGroupModel : IEquatable`1
-    String CodeName { get; set; init; }
+    String Codename { get; set; init; }
     String ExternalId { get; set; init; }
-    Guid Id { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
     String Name { get; set; init; }
     ContentGroupModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1713,7 +1712,7 @@ public sealed class ContentTypeModel : IEquatable`1
     IEnumerable<ElementMetadataBase> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     Guid Id { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
+    DateTime LastModified { get; set; init; }
     String Name { get; set; init; }
     ContentTypeModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1805,7 +1804,7 @@ public class ElementMetadataBase : IEquatable`1
     String Codename { get; set; init; }
     Reference ContentGroup { get; set; init; }
     String ExternalId { get; set; init; }
-    Guid Id { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
     ElementMetadataType Type { get; }
     ElementMetadataBase <Clone>$()
     Boolean Equals(Object obj)

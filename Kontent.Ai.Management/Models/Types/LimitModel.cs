@@ -1,20 +1,19 @@
-
 namespace Kontent.Ai.Management.Models.Types;
 
 /// <summary>
-/// Represents the limitation for the number of items.
+/// Numeric limit configuration shared by elements that constrain item counts or asset sizes.
 /// </summary>
 public sealed record LimitModel
 {
     /// <summary>
-    /// Specifies the image size or how many times something can be used within the element.
+    /// The numeric threshold.
     /// </summary>
     [JsonPropertyName("value")]
-    public int Value { get; init; }
+    public required int Value { get; init; }
 
     /// <summary>
-    /// Specifies how to apply the <see cref="Value"/>.
+    /// How <see cref="Value"/> is compared (at most, at least, exactly).
     /// </summary>
     [JsonPropertyName("condition")]
-    public LimitType Condition { get; init; }
+    public required LimitType Condition { get; init; }
 }
