@@ -1,23 +1,19 @@
-
 namespace Kontent.Ai.Management.Models.TypeSnippets.Patch;
 
 /// <summary>
-/// Represents the operation on the content type snippet.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
+/// Base shape for a content type snippet PATCH operation. Concrete subtypes specialize the verb (<c>addInto</c>, <c>replace</c>, <c>move</c>, <c>remove</c>).
 /// </summary>
 public abstract record ContentTypeSnippetOperationBaseModel
 {
     /// <summary>
-    /// Gets specification of the operation to perform.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
+    /// Operation verb. Pinned by each concrete subtype.
     /// </summary>
     [JsonPropertyName("op")]
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets a string identifying where the new object or property should be added/replaced/removed.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
+    /// JSON-Pointer-style path to the target, with identifier selectors. Examples: <c>/elements</c>, <c>/elements/codename:my_element</c>, <c>/elements/id:abc-...</c>.
     /// </summary>
     [JsonPropertyName("path")]
-    public string Path { get; init; }
+    public required string Path { get; init; }
 }

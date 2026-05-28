@@ -4,10 +4,10 @@ namespace Kontent.Ai.Management.Models.TypeSnippets;
 internal class SnippetListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
 {
     [JsonPropertyName("snippets")]
-    public IEnumerable<ContentTypeSnippetModel> Snippets { get; set; }
+    public required IEnumerable<ContentTypeSnippetModel> Snippets { get; set; }
 
     [JsonPropertyName("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
+    public required PaginationResponseModel Pagination { get; set; }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

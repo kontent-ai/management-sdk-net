@@ -289,11 +289,11 @@ public class ContentTypeSnippetTests
 
     private static List<ContentTypeSnippetOperationBaseModel> GetChanges() => new()
     {
-        new ContentTypeSnippetPatchRemoveModel
+        new ContentTypeSnippetRemovePatchModel
         {
             Path = $"/elements/codename:none"
         },
-        new ContentTypeSnippetPatchReplaceModel
+        new ContentTypeSnippetReplacePatchModel
         {
             Value = "Provide all personas for which this article is relevant.",
             Path = $"/elements/codename:personas/guidelines"
@@ -312,7 +312,7 @@ public class ContentTypeSnippetTests
             After = Reference.ByCodename("personas"),
             Path = "/elements"
         },
-        new ContentTypeSnippetPatchMoveModel {
+        new ContentTypeSnippetMovePatchModel {
             Path = "/elements/codename:summary",
             After = Reference.ByCodename("personas")
         }

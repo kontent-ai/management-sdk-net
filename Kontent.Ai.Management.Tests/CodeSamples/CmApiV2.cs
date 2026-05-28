@@ -830,12 +830,12 @@ public class CmApiV2
 
         var response = await client.ModifyContentTypeSnippetAsync(identifier, new ContentTypeSnippetOperationBaseModel[]
         {
-            new ContentTypeSnippetPatchReplaceModel
+            new ContentTypeSnippetReplacePatchModel
             {
                 Path = "/name",
                 Value = "A new snippet name"
             },
-            new ContentTypeSnippetPatchReplaceModel
+            new ContentTypeSnippetReplacePatchModel
             {
                 Path = "/elements/codename:my_metadata__my_meta_description/guidelines",
                 Value = "Length: 70-150 characters."
@@ -850,20 +850,20 @@ public class CmApiV2
                     ExternalId = "my-meta-title-id"
                 },
             },
-            new ContentTypeSnippetPatchRemoveModel
+            new ContentTypeSnippetRemovePatchModel
             {
                 Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
             },
-            new ContentTypeSnippetPatchRemoveModel
+            new ContentTypeSnippetRemovePatchModel
             {
                 Path = "/elements/external_id:my-multiple-choice-id/options/codename:my_option"
             },
-            new ContentTypeSnippetPatchMoveModel
+            new ContentTypeSnippetMovePatchModel
             {
                 Path = "/elements/codename:my_metadata_snippet__my_meta_title",
                 After = Reference.ByCodename("my_metadata_snippet__my_meta_description")
             },
-            new ContentTypeSnippetPatchMoveModel
+            new ContentTypeSnippetMovePatchModel
             {
                 Path = "/elements/external_id:my-multiple-choice-id/options/id:8e6ec8b1-6510-4b9b-b4be-6c977f4bdfbc",
                 Before = Reference.ById(Guid.Parse("6bfe5a60-5cc2-4303-8f72-9cc53431046b"))

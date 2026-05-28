@@ -2228,7 +2228,7 @@ public sealed class ContentTypeSnippetModel : IEquatable`1
     IEnumerable<ElementMetadataBase> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     Guid Id { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
+    DateTime LastModified { get; set; init; }
     String Name { get; set; init; }
     ContentTypeSnippetModel <Clone>$()
     Boolean Equals(Object obj)
@@ -2250,6 +2250,18 @@ public sealed class ContentTypeSnippetAddIntoPatchModel : ContentTypeSnippetOper
     String ToString()
 
 // Kontent.Ai.Management.Models.TypeSnippets.Patch
+public sealed class ContentTypeSnippetMovePatchModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    ContentTypeSnippetMovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeSnippetOperationBaseModel other)
+    Boolean Equals(ContentTypeSnippetMovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TypeSnippets.Patch
 public class ContentTypeSnippetOperationBaseModel : IEquatable`1
     String Op { get; }
     String Path { get; set; init; }
@@ -2260,35 +2272,23 @@ public class ContentTypeSnippetOperationBaseModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.TypeSnippets.Patch
-public sealed class ContentTypeSnippetPatchMoveModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
-    Reference After { get; set; init; }
-    Reference Before { get; set; init; }
+public sealed class ContentTypeSnippetRemovePatchModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
     String Op { get; }
-    ContentTypeSnippetPatchMoveModel <Clone>$()
+    ContentTypeSnippetRemovePatchModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Boolean Equals(ContentTypeSnippetPatchMoveModel other)
+    Boolean Equals(ContentTypeSnippetRemovePatchModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.TypeSnippets.Patch
-public sealed class ContentTypeSnippetPatchRemoveModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
-    String Op { get; }
-    ContentTypeSnippetPatchRemoveModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Boolean Equals(ContentTypeSnippetPatchRemoveModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.TypeSnippets.Patch
-public sealed class ContentTypeSnippetPatchReplaceModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
+public sealed class ContentTypeSnippetReplacePatchModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
     String Op { get; }
     Object Value { get; set; init; }
-    ContentTypeSnippetPatchReplaceModel <Clone>$()
+    ContentTypeSnippetReplacePatchModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Boolean Equals(ContentTypeSnippetPatchReplaceModel other)
+    Boolean Equals(ContentTypeSnippetReplacePatchModel other)
     Int32 GetHashCode()
     String ToString()
 

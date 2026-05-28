@@ -1,45 +1,45 @@
-﻿using Kontent.Ai.Management.Models.Types.Elements;
+using Kontent.Ai.Management.Models.Types.Elements;
 
 namespace Kontent.Ai.Management.Models.TypeSnippets;
 
 /// <summary>
-/// Represents content snippet type model.
+/// A content type snippet (response shape). Snippets are reusable groups of elements that can be inlined into content types.
 /// </summary>
 public sealed record ContentTypeSnippetModel
 {
     /// <summary>
-    /// Gets the id of the content snippet type.
+    /// Server-generated snippet ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the codename of the content snippet type.
+    /// Codename.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the last modified timestamp of the content snippet type.
+    /// ISO-8601 timestamp of the last change to the snippet.
     /// </summary>
     [JsonPropertyName("last_modified")]
-    public DateTime? LastModified { get; init; }
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
-    /// Gets the name of the content snippet type.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets elements of the content snippet type.
+    /// Elements defined on the snippet. Snippets cannot contain <c>url_slug</c>, <c>subpages</c>, or <c>content_type_snippet</c> elements — those are rejected by the API.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<ElementMetadataBase> Elements { get; init; }
+    public required IEnumerable<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
-    /// Gets the external identifier of the content snippet type.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 }

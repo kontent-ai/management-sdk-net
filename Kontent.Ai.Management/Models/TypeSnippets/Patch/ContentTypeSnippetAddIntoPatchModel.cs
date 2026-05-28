@@ -1,35 +1,28 @@
-﻿
 namespace Kontent.Ai.Management.Models.TypeSnippets.Patch;
 
 /// <summary>
-/// Represents the addInto operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
+/// <c>addInto</c> operation. Inserts a new object into the collection at <see cref="ContentTypeSnippetOperationBaseModel.Path"/>.
 /// </summary>
 public sealed record ContentTypeSnippetAddIntoPatchModel : ContentTypeSnippetOperationBaseModel
 {
-    /// <summary>
-    /// Represents the addInto operation.
-    /// </summary>
+    /// <inheritdoc/>
     public override string Op => "addInto";
 
     /// <summary>
-    /// Gets the object to be added. The value depends on the selected path.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type-snippet
+    /// Object to insert. For <c>/elements</c>, this is an element metadata model (excluding <c>url_slug</c>, <c>subpages</c>, and <c>content_type_snippet</c>, which are not allowed in snippets).
     /// </summary>
     [JsonPropertyName("value")]
-    public object Value { get; init; }
+    public required object Value { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing object before which you want to add the new object.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Position the new object before this existing object. Mutually exclusive with <see cref="After"/>. When both are null the new object is appended at the end.
     /// </summary>
     [JsonPropertyName("before")]
-    public Reference Before { get; init; }
+    public Reference? Before { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing object after which you want to add the new object.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Position the new object after this existing object. Mutually exclusive with <see cref="Before"/>. When both are null the new object is appended at the end.
     /// </summary>
     [JsonPropertyName("after")]
-    public Reference After { get; init; }
+    public Reference? After { get; init; }
 }
