@@ -4,10 +4,10 @@ namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 internal class TaxonomyGroupListingResponseServerModel : IListingResponse<TaxonomyGroupModel>
 {
     [JsonPropertyName("taxonomies")]
-    public IEnumerable<TaxonomyGroupModel> Taxonomies { get; set; }
+    public required IEnumerable<TaxonomyGroupModel> Taxonomies { get; set; }
 
     [JsonPropertyName("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
+    public required PaginationResponseModel Pagination { get; set; }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

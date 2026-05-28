@@ -1,35 +1,28 @@
-﻿
 namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 
 /// <summary>
-/// Represents the move operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
+/// <c>move</c> operation. Moves the taxonomy term identified by <see cref="TaxonomyGroupOperationBaseModel.Reference"/> to a new position. The API requires exactly one of <see cref="Before"/>, <see cref="After"/>, or <see cref="Under"/>; sending none (or more than one) returns 400. <see cref="Under"/> re-parents the term to a new container.
 /// </summary>
 public sealed record TaxonomyGroupMovePatchModel : TaxonomyGroupOperationBaseModel
 {
-    /// <summary>
-    /// Represents the move operation.
-    /// </summary>
+    /// <inheritdoc/>
     public override string Op => "move";
 
     /// <summary>
-    /// Gets reference of the existing taxonomy term before which you want to move the specified taxonomy term.
-    /// Note: The before, after and under properties are mutually exclusive.
+    /// Position the moved term before this sibling. Mutually exclusive with <see cref="After"/> and <see cref="Under"/>.
     /// </summary>
     [JsonPropertyName("before")]
-    public Reference Before { get; init; }
+    public Reference? Before { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing taxonomy term after which you want to move the specified taxonomy term.
-    /// Note: The before, after and under properties are mutually exclusive.
+    /// Position the moved term after this sibling. Mutually exclusive with <see cref="Before"/> and <see cref="Under"/>.
     /// </summary>
     [JsonPropertyName("after")]
-    public Reference After { get; init; }
+    public Reference? After { get; init; }
 
     /// <summary>
-    /// Gets reference of the existing taxonomy term under which you want to move the specified taxonomy term.
-    /// Note: The before, after and under properties are mutually exclusive.
+    /// Re-parent the moved term as a child of this term. Mutually exclusive with <see cref="Before"/> and <see cref="After"/>.
     /// </summary>
     [JsonPropertyName("under")]
-    public Reference Under { get; init; }
+    public Reference? Under { get; init; }
 }

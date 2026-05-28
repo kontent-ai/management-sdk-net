@@ -1,13 +1,13 @@
-﻿namespace Kontent.Ai.Management.Models.TaxonomyGroups;
+namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
 /// <summary>
-/// Represents the taxonomy group create model.
+/// Payload for creating a taxonomy group.
 /// </summary>
 public sealed record TaxonomyGroupCreateModel : TaxonomyBaseModel
 {
     /// <summary>
-    /// Gets terms in the taxonomy group.
+    /// Initial root-level terms. Optional; omit to create an empty group.
     /// </summary>
     [JsonPropertyName("terms")]
-    public IEnumerable<TaxonomyTermCreateModel> Terms { get; init; }
+    public IEnumerable<TaxonomyTermCreateModel>? Terms { get; init; }
 }

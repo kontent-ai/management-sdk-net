@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.TaxonomyGroups;
+namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
 /// <summary>
-/// Represents the taxonomy term model.
+/// A taxonomy term (response shape). Recursive: a term may contain child terms.
 /// </summary>
 public sealed record TaxonomyTermModel : TaxonomyBaseModel
 {
     /// <summary>
-    /// Gets the taxonomy group's internal ID.
+    /// Server-generated term ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets terms in the taxonomy group.
+    /// Child terms. Always present; may be empty for leaf terms.
     /// </summary>
     [JsonPropertyName("terms")]
-    public IEnumerable<TaxonomyTermModel> Terms { get; init; }
+    public required IEnumerable<TaxonomyTermModel> Terms { get; init; }
 }

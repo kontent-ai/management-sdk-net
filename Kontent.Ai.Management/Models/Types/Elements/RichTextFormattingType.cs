@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Models.Types.Elements;
 public enum RichTextFormattingType
 {
     /// <summary>
-    /// Blod
+    /// Bold
     /// </summary>
     [EnumMember(Value = "bold")]
     Bold,

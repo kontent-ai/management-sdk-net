@@ -1,25 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.TaxonomyGroups;
+namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
 /// <summary>
-/// Represents the taxonomy group model.
+/// A taxonomy group (response shape). Contains the root-level terms of the group.
 /// </summary>
 public sealed record TaxonomyGroupModel : TaxonomyBaseModel
 {
     /// <summary>
-    /// Gets the taxonomy group's internal ID.
+    /// Server-generated taxonomy group ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets ISO-8601 formatted date/time of the last change to the taxonomy group or its terms.
+    /// ISO-8601 timestamp of the last change to the taxonomy group or any of its terms.
     /// </summary>
     [JsonPropertyName("last_modified")]
-    public DateTime? LastModified { get; init; }
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
-    /// Gets terms in the taxonomy group.
+    /// Root-level terms. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("terms")]
-    public IEnumerable<TaxonomyTermModel> Terms { get; init; }
+    public required IEnumerable<TaxonomyTermModel> Terms { get; init; }
 }

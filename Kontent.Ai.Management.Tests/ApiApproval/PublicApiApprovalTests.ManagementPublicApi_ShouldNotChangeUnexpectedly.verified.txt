@@ -1586,7 +1586,7 @@ public sealed class TaxonomyGroupCreateModel : TaxonomyBaseModel, IEquatable`1
 // Kontent.Ai.Management.Models.TaxonomyGroups
 public sealed class TaxonomyGroupModel : TaxonomyBaseModel, IEquatable`1
     Guid Id { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
+    DateTime LastModified { get; set; init; }
     IEnumerable<TaxonomyTermModel> Terms { get; set; init; }
     TaxonomyGroupModel <Clone>$()
     Boolean Equals(Object obj)
