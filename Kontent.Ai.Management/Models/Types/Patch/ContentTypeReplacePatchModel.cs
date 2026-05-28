@@ -1,21 +1,16 @@
-
 namespace Kontent.Ai.Management.Models.Types.Patch;
 
 /// <summary>
-/// Represents the replace operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
+/// <c>replace</c> operation. Replaces the value at <see cref="ContentTypeOperationBaseModel.Path"/>. A null <see cref="Value"/> clears the targeted property.
 /// </summary>
 public sealed record ContentTypeReplacePatchModel : ContentTypeOperationBaseModel
 {
-    /// <summary>
-    /// Represents the replace operation.
-    /// </summary>
+    /// <inheritdoc/>
     public override string Op => "replace";
 
     /// <summary>
-    /// Gets the value to replace into the property specified in the path where the format depends on the specific property.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-content-type
+    /// New value at the targeted path. Set to <c>null</c> to clear the property (e.g., remove a previously-configured default value or guidelines).
     /// </summary>
     [JsonPropertyName("value")]
-    public object Value { get; init; }
+    public required object? Value { get; init; }
 }
