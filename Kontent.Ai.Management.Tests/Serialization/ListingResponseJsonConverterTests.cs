@@ -18,7 +18,7 @@ public class ListingResponseJsonConverterTests
     {
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
         DefaultIgnoreCondition = nullHandling,
-        Converters = { new ListingResponseJsonConverterFactory() },
+        Converters = { new ListingResponseJsonConverterFactory(), new ReferenceJsonConverter() },
     };
 
     [Fact]
@@ -27,8 +27,8 @@ public class ListingResponseJsonConverterTests
         const string json = """
             {
               "languages": [
-                {"id":"00000000-0000-0000-0000-000000000000","name":"Default","codename":"default","is_active":true,"is_default":true},
-                {"id":"0080e2ba-5c66-4067-a80a-5a81658cbe64","name":"German","codename":"de-DE","is_active":true,"is_default":false}
+                {"id":"00000000-0000-0000-0000-000000000000","name":"Default","codename":"default","is_active":true,"is_default":true,"fallback_language":{"id":"00000000-0000-0000-0000-000000000000"}},
+                {"id":"0080e2ba-5c66-4067-a80a-5a81658cbe64","name":"German","codename":"de-DE","is_active":true,"is_default":false,"fallback_language":{"id":"00000000-0000-0000-0000-000000000000"}}
               ],
               "pagination": {"continuation_token":"t","next_page":"u"}
             }
@@ -46,7 +46,8 @@ public class ListingResponseJsonConverterTests
     {
         var listing = new LanguagesListingResponseServerModel
         {
-            Languages = new[] { new LanguageModel { Id = System.Guid.Empty, Name = "X", Codename = "x", IsActive = true, IsDefault = false } },
+            Languages = new[] { new LanguageModel { Id = System.Guid.Empty, Name = "X", Codename = "x", IsActive = true, IsDefault = false, FallbackLanguage = Models.Shared.Reference.ById(System.Guid.Empty) } },
+            Pagination = new(),
         };
 
         var written = JsonSerializer.Serialize(listing, SnakeCaseOptions(JsonIgnoreCondition.WhenWritingNull));
@@ -55,20 +56,6 @@ public class ListingResponseJsonConverterTests
         written.Should().StartWith("{"); // object, not array
         node["languages"]!.AsArray().Should().HaveCount(1);
         node["languages"]![0]!["codename"]!.GetValue<string>().Should().Be("x");
-    }
-
-    [Fact]
-    public void Write_PaginationNull_WithWhenWritingNull_OmitsPagination()
-    {
-        var listing = new LanguagesListingResponseServerModel
-        {
-            Languages = System.Array.Empty<LanguageModel>(),
-            Pagination = null,
-        };
-
-        var written = JsonSerializer.Serialize(listing, SnakeCaseOptions(JsonIgnoreCondition.WhenWritingNull));
-
-        JsonNode.Parse(written)!.AsObject().Should().NotContainKey("pagination");
     }
 
     [Fact]
@@ -86,7 +73,7 @@ public class ListingResponseJsonConverterTests
     {
         var options = RefitSettingsProvider.CreateDefaultJsonSerializerOptions();
 
-        var listing = new LanguagesListingResponseServerModel { Languages = System.Array.Empty<LanguageModel>() };
+        var listing = new LanguagesListingResponseServerModel { Languages = System.Array.Empty<LanguageModel>(), Pagination = new() };
         var written = JsonSerializer.Serialize(listing, options);
 
         written.Should().StartWith("{").And.Contain("languages"); // via the model's [JsonPropertyName]

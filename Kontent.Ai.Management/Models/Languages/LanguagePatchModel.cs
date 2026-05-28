@@ -1,29 +1,25 @@
-
 namespace Kontent.Ai.Management.Models.Languages;
 
 /// <summary>
-/// Represents the replace operation on languages.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-language
+/// A single <c>replace</c> operation in the modify-language patch payload. The endpoint takes an array of these.
 /// </summary>
 public sealed record LanguagePatchModel
 {
     /// <summary>
-    /// Represents the replace operation.
+    /// Operation verb. Always <c>replace</c> — the only verb supported on the languages patch endpoint.
     /// </summary>
     [JsonPropertyName("op")]
     public string Op => "replace";
 
     /// <summary>
-    /// Gets the name of the language property that you want to modify.
-    /// Enum: "name" "codename" "fallback_language" "is_active"
+    /// Property to replace. The <c>is_default</c> property is read-only and cannot be patched, so it is not part of <see cref="LanguagePropertyName"/>.
     /// </summary>
     [JsonPropertyName("property_name")]
-    public LanguagePropertyName PropertyName { get; init; }
+    public required LanguagePropertyName PropertyName { get; init; }
 
     /// <summary>
-    /// Gets the value or object to insert in the specified property. The format of the value property depends on the value of the property_name property.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-language
+    /// New value. Type depends on <see cref="PropertyName"/>: <c>string</c> for <c>name</c> / <c>codename</c>, <c>bool</c> for <c>is_active</c>, <c>Reference</c> for <c>fallback_language</c>.
     /// </summary>
     [JsonPropertyName("value")]
-    public object Value { get; init; }
+    public required object Value { get; init; }
 }

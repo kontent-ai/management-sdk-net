@@ -1,49 +1,49 @@
-﻿namespace Kontent.Ai.Management.Models.Languages;
+namespace Kontent.Ai.Management.Models.Languages;
 
 /// <summary>
-/// Represents the language model.
+/// A project language (response shape).
 /// </summary>
 public sealed record LanguageModel
 {
     /// <summary>
-    /// Gets the language's internal ID.
+    /// Server-generated language ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the language's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the language's codename.
+    /// Codename.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the language's external id.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId { get; init; }
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the language is active.
+    /// Whether the language is active.
     /// </summary>
     [JsonPropertyName("is_active")]
-    public bool IsActive { get; init; }
+    public required bool IsActive { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the language is the default language.
+    /// Whether this is the project's default language. Read-only — set by the platform, cannot be patched.
     /// </summary>
     [JsonPropertyName("is_default")]
-    public bool IsDefault { get; init; }
+    public required bool IsDefault { get; init; }
 
     /// <summary>
-    /// Gets the language to use when the current language contains no content. With multiple languages you can create fallback chains.
+    /// Language to use when this language has no content.
     /// </summary>
     [JsonPropertyName("fallback_language")]
-    public Reference FallbackLanguage { get; init; }
+    public required Reference FallbackLanguage { get; init; }
 }
