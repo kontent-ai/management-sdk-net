@@ -1,116 +1,107 @@
-﻿namespace Kontent.Ai.Management.Models.Types.Elements;
+namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a rich text element in content types.
+/// A rich text element on a content type.
 /// </summary>
 public sealed record RichTextElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets the element's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the element must be filled in.
+    /// Whether authors must fill in the element. Defaults to false.
     /// </summary>
     [JsonPropertyName("is_required")]
     public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Gets element is non-localizable
-    /// </summary>
-    [JsonPropertyName("is_non_localizable")]
-    public bool IsNonLocalizable { get; init; }
-
-    /// <summary>
-    /// Gets the element's guidelines, providing instructions on what to fill in.
+    /// HTML guidelines shown to authors.
     /// </summary>
     [JsonPropertyName("guidelines")]
-    public string Guidelines { get; init; }
+    public string? Guidelines { get; init; }
 
     /// <summary>
-    /// Specifies the maximum text length.
+    /// Maximum text length (characters or words).
     /// </summary>
     [JsonPropertyName("maximum_text_length")]
-    public MaximumTextLengthModel MaximumTextLength { get; init; }
+    public MaximumTextLengthModel? MaximumTextLength { get; init; }
 
     /// <summary>
-    /// Specifies the maximum image size in bytes.
+    /// Maximum image size in bytes for inline images.
     /// </summary>
     [JsonPropertyName("maximum_image_size")]
     public long? MaximumImageSize { get; init; }
 
     /// <summary>
-    /// Specifies a list of allowed content types as an array of references.
+    /// Content types allowed as inline components/items. Null or empty means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_content_types")]
-    public IEnumerable<Reference> AllowedTypes { get; init; }
+    public IEnumerable<Reference>? AllowedTypes { get; init; }
 
     /// <summary>
-    /// Specifies content types of items that are allowed to be used in links as an array of references.
+    /// Content types whose items can be linked from rich text. Null or empty means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_item_link_types")]
-    public IEnumerable<Reference> AllowedItemLinkTypes { get; init; }
+    public IEnumerable<Reference>? AllowedItemLinkTypes { get; init; }
 
     /// <summary>
-    /// Specifies the width limitation for images.
+    /// Image width limit. Null means no width restriction.
     /// </summary>
     [JsonPropertyName("image_width_limit")]
-    public LimitModel ImageWidth { get; init; }
+    public LimitModel? ImageWidthLimit { get; init; }
 
     /// <summary>
-    /// Specifies the height limitation for images.
+    /// Image height limit. Null means no height restriction.
     /// </summary>
     [JsonPropertyName("image_height_limit")]
-    public LimitModel ImageHeight { get; init; }
+    public LimitModel? ImageHeightLimit { get; init; }
 
     /// <summary>
-    /// Specifies which image types are allowed.
+    /// File-type restriction for inline images.
     /// </summary>
     [JsonPropertyName("allowed_image_types")]
-    public FileType AllowedImageTypes { get; init; }
+    public FileType? AllowedImageTypes { get; init; }
 
     /// <summary>
-    /// Specifies which blocks are allowed inside your rich text element. You can allow text, tables, images, and components and items. To allow all blocks, leave the array empty.
+    /// Block kinds allowed inside the rich text element (text, tables, images, components/items). Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_blocks")]
-    public ISet<RichTextBlockType> AllowedBlocks { get; init; }
+    public ISet<RichTextBlockType>? AllowedBlocks { get; init; }
 
     /// <summary>
-    /// Specifies which text formatting is allowed inside your rich text element. To allow all formatting, leave the array empty.
+    /// Text formatting allowed inside the rich text element. Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_formatting")]
-    public ISet<RichTextFormattingType> AllowedFormatting { get; init; }
+    public ISet<RichTextFormattingType>? AllowedFormatting { get; init; }
 
     /// <summary>
-    /// Specifies which text blocks are allowed inside your rich text element. You can allow paragraphs, headings, and lists. To allow all text blocks, leave the array empty.
+    /// Text-block kinds allowed inside the rich text element (paragraphs, headings, lists). Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_text_blocks")]
-    public ISet<RichTextTextBlockType> AllowedTextBlocks { get; init; }
+    public ISet<RichTextTextBlockType>? AllowedTextBlocks { get; init; }
 
     /// <summary>
-    /// Specifies which blocks are allowed inside tables in your rich text element. Either use <see cref="RichTextTableBlockType.Text"></see> to allow only text or leave the array empty to allow both text and images.
+    /// Block kinds allowed inside tables. Use <see cref="RichTextTableBlockType.Text"/> to allow only text, or leave null/empty to allow both text and images.
     /// </summary>
     [JsonPropertyName("allowed_table_blocks")]
-    public ISet<RichTextTableBlockType> AllowedTableBlocks { get; init; }
+    public ISet<RichTextTableBlockType>? AllowedTableBlocks { get; init; }
 
     /// <summary>
-    /// Specifies which text formatting is allowed inside tables in your rich text element.
-    /// To allow all formatting, leave the array empty. To allow only plaintext, use <see cref="RichTextFormattingType.Unstyled"></see>.
+    /// Text formatting allowed inside tables. Null or empty allows all; use <see cref="RichTextFormattingType.Unstyled"/> for plaintext only.
     /// </summary>
     [JsonPropertyName("allowed_table_formatting")]
-    public ISet<RichTextFormattingType> AllowedTableFormatting { get; init; }
+    public ISet<RichTextFormattingType>? AllowedTableFormatting { get; init; }
 
     /// <summary>
-    /// Specifies which text blocks are allowed inside tables in your rich text element. You can allow paragraphs, headings, and lists. To allow all text blocks, leave the array empty.
+    /// Text-block kinds allowed inside tables. Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_table_text_blocks")]
-    public ISet<RichTextTextBlockType> AllowedTableTextBlocks { get; init; }
+    public ISet<RichTextTextBlockType>? AllowedTableTextBlocks { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
     [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.RichText;
 }

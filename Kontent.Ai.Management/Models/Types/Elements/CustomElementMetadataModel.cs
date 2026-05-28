@@ -1,56 +1,53 @@
-﻿namespace Kontent.Ai.Management.Models.Types.Elements;
+namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a custom element in content types.
+/// A custom element on a content type. Hosts a third-party editing experience served from <see cref="SourceUrl"/>.
 /// </summary>
 public sealed record CustomElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets the element's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the element must be filled in.
+    /// Whether authors must fill in the element. Defaults to false.
     /// </summary>
     [JsonPropertyName("is_required")]
     public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Gets element is non-localizable
+    /// Whether the element is non-localizable (shared across all languages). Defaults to false.
     /// </summary>
     [JsonPropertyName("is_non_localizable")]
     public bool IsNonLocalizable { get; init; }
 
     /// <summary>
-    /// Gets the element's guidelines, providing instructions on what to fill in.
+    /// HTML guidelines shown to authors.
     /// </summary>
     [JsonPropertyName("guidelines")]
-    public string Guidelines { get; init; }
+    public string? Guidelines { get; init; }
 
     /// <summary>
-    /// Gets the absolute URL that hosts your custom element.
+    /// Absolute URL that hosts the custom element's UI.
     /// </summary>
     [JsonPropertyName("source_url")]
-    public string SourceUrl { get; init; }
+    public required string SourceUrl { get; init; }
 
     /// <summary>
-    /// Gets the optional parameters that allow you to use the element in different content types or provide a customizable layout.
-    /// The value must be a valid stringified JSON.
+    /// Stringified JSON passed to the custom element at runtime. Must be valid JSON when non-null.
     /// </summary>
     [JsonPropertyName("json_parameters")]
-    public string JsonParameters { get; init; }
+    public string? JsonParameters { get; init; }
 
     /// <summary>
-    /// Specifies the elements that this custom element can read from.
+    /// Sibling elements that the custom element can read. Null means no elements are exposed.
     /// </summary>
     [JsonPropertyName("allowed_elements")]
-    public IEnumerable<Reference> AllowedElements { get; init; }
+    public IEnumerable<Reference>? AllowedElements { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
     [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Custom;
 }

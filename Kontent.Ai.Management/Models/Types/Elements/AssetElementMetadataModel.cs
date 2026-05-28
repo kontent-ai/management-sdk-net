@@ -1,76 +1,73 @@
-﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents asset element in type.
+/// An asset element on a content type.
 /// </summary>
 public sealed record AssetElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets the element's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Determines whether the element must be filled in.
+    /// Whether authors must fill in the element. Defaults to false.
     /// </summary>
     [JsonPropertyName("is_required")]
     public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Gets element is non-localizable
+    /// Whether the element is non-localizable (shared across all languages). Defaults to false.
     /// </summary>
     [JsonPropertyName("is_non_localizable")]
     public bool IsNonLocalizable { get; init; }
 
     /// <summary>
-    /// Gets the element's guidelines.
-    /// Guidelines are used to providing instructions on what to fill in.
+    /// HTML guidelines shown to authors.
     /// </summary>
     [JsonPropertyName("guidelines")]
-    public string Guidelines { get; init; }
+    public string? Guidelines { get; init; }
 
     /// <summary>
-    /// Gets the specification of the limitation for the number of assets allowed within the element.
+    /// Limits the number of assets authors can attach. Null means no count restriction.
     /// </summary>
     [JsonPropertyName("asset_count_limit")]
-    public LimitModel AssetCountLimit { get; init; }
+    public LimitModel? AssetCountLimit { get; init; }
 
     /// <summary>
-    /// Gets the specification of the maximum file size in bytes.
+    /// Maximum allowed file size in bytes. Null means no size restriction.
     /// </summary>
     [JsonPropertyName("maximum_file_size")]
     public long? MaximumFileSize { get; init; }
 
     /// <summary>
-    /// Gets the specification of the allowed file types.
+    /// File-type restriction (all, images only, ...). Null means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_file_types")]
-    public FileType AllowedFileTypes { get; init; }
+    public FileType? AllowedFileTypes { get; init; }
 
     /// <summary>
-    /// Gets the specification of the width limitation for the asset.
+    /// Limits image width. Null means no width restriction.
     /// </summary>
     [JsonPropertyName("image_width_limit")]
-    public LimitModel ImageWidthLimit { get; init; }
+    public LimitModel? ImageWidthLimit { get; init; }
 
     /// <summary>
-    /// Gets the specification of the height limitation for the asset.
+    /// Limits image height. Null means no height restriction.
     /// </summary>
     [JsonPropertyName("image_height_limit")]
-    public LimitModel ImageHeightLimit { get; init; }
+    public LimitModel? ImageHeightLimit { get; init; }
 
     /// <summary>
-    /// Specifies the default value for the element value.
+    /// Default value applied when authors create a new language variant.
     /// </summary>
     [JsonPropertyName("default")]
-    public AssetDefaultValueModel DefaultValue { get; init; }
+    public AssetDefaultValueModel? DefaultValue { get; init; }
 
-    /// <summary>
-    /// Gets the element's type.
-    /// </summary>
+    /// <inheritdoc/>
     [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Asset;
 }

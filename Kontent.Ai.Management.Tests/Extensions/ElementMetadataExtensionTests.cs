@@ -74,7 +74,8 @@ public class ElementMetadataExtensionTests
             Name= "name",
             Codename = "codename",
             Guidelines = "guidelines",
-            JsonParameters = "das,adas"
+            JsonParameters = "das,adas",
+            SourceUrl = "https://example.com/custom-element",
         },
         new ContentTypeSnippetElementMetadataModel
         {

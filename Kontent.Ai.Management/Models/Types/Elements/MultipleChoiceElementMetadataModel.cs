@@ -1,57 +1,55 @@
-﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a multiple-choice element in content types.
+/// A multiple-choice element on a content type.
 /// </summary>
 public sealed record MultipleChoiceElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets the element's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the element must be filled in.
+    /// Whether authors must fill in the element. Defaults to false.
     /// </summary>
     [JsonPropertyName("is_required")]
     public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Gets element is non-localizable
+    /// Whether the element is non-localizable (shared across all languages). Defaults to false.
     /// </summary>
     [JsonPropertyName("is_non_localizable")]
     public bool IsNonLocalizable { get; init; }
 
     /// <summary>
-    /// Gets the element's guidelines, providing instructions on what to fill in.
+    /// HTML guidelines shown to authors.
     /// </summary>
     [JsonPropertyName("guidelines")]
-    public string Guidelines { get; init; }
+    public string? Guidelines { get; init; }
 
     /// <summary>
-    /// Defines whether the multiple-choice element acts as a single choice (shown as radio buttons in the UI) or multiple-choice (shown as checkboxes in the UI).
+    /// Single-choice (radio buttons) or multiple-choice (checkboxes). Required.
     /// </summary>
     [JsonPropertyName("mode")]
-    public MultipleChoiceMode Mode { get; init; }
+    public required MultipleChoiceMode Mode { get; init; }
 
     /// <summary>
-    /// Gets the element's multiple-choice options.
+    /// Options shown to authors. Must contain at least one option.
     /// </summary>
     [JsonPropertyName("options")]
-    public IEnumerable<MultipleChoiceOptionModel> Options { get; init; }
+    public required IEnumerable<MultipleChoiceOptionModel> Options { get; init; }
 
     /// <summary>
-    /// Specifies the default value for the element value.
+    /// Default value applied when authors create a new language variant.
     /// </summary>
     [JsonPropertyName("default")]
-    public MultipleChoiceDefaultValueModel DefaultValue { get; init; }
+    public MultipleChoiceDefaultValueModel? DefaultValue { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
     [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.MultipleChoice;
 }

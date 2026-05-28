@@ -1738,7 +1738,7 @@ public enum LimitType : Enum
 
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class AssetElementMetadataModel : ElementMetadataBase, IEquatable`1
-    FileType AllowedFileTypes { get; set; init; }
+    Nullable<FileType> AllowedFileTypes { get; set; init; }
     LimitModel AssetCountLimit { get; set; init; }
     AssetDefaultValueModel DefaultValue { get; set; init; }
     String Guidelines { get; set; init; }
@@ -1897,7 +1897,7 @@ public enum MultipleChoiceMode : Enum
 public sealed class MultipleChoiceOptionModel : IEquatable`1
     String Codename { get; set; init; }
     String ExternalId { get; set; init; }
-    Guid Id { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
     String Name { get; set; init; }
     MultipleChoiceOptionModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1931,7 +1931,7 @@ public enum RichTextBlockType : Enum
 public sealed class RichTextElementMetadataModel : ElementMetadataBase, IEquatable`1
     ISet<RichTextBlockType> AllowedBlocks { get; set; init; }
     ISet<RichTextFormattingType> AllowedFormatting { get; set; init; }
-    FileType AllowedImageTypes { get; set; init; }
+    Nullable<FileType> AllowedImageTypes { get; set; init; }
     IEnumerable<Reference> AllowedItemLinkTypes { get; set; init; }
     ISet<RichTextTableBlockType> AllowedTableBlocks { get; set; init; }
     ISet<RichTextFormattingType> AllowedTableFormatting { get; set; init; }
@@ -1939,9 +1939,8 @@ public sealed class RichTextElementMetadataModel : ElementMetadataBase, IEquatab
     ISet<RichTextTextBlockType> AllowedTextBlocks { get; set; init; }
     IEnumerable<Reference> AllowedTypes { get; set; init; }
     String Guidelines { get; set; init; }
-    LimitModel ImageHeight { get; set; init; }
-    LimitModel ImageWidth { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
+    LimitModel ImageHeightLimit { get; set; init; }
+    LimitModel ImageWidthLimit { get; set; init; }
     Boolean IsRequired { get; set; init; }
     Nullable<Int64> MaximumImageSize { get; set; init; }
     MaximumTextLengthModel MaximumTextLength { get; set; init; }
