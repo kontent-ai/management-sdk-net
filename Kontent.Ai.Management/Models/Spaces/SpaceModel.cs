@@ -30,7 +30,16 @@ public class SpaceModel
 
     /// <summary>
     /// Gets or sets the space's root item.
+    /// Both <see cref="RootItem"/> and <see cref="WebSpotlightRootItem"/> are returned and carry the same value.
     /// </summary>
+    [JsonProperty("root_item")]
+    public Reference RootItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets the space's root item.
+    /// Both <see cref="RootItem"/> and <see cref="WebSpotlightRootItem"/> are returned and carry the same value.
+    /// </summary>
+    [Obsolete("Use root_item instead.")]
     [JsonProperty("web_spotlight_root_item")]
     public Reference WebSpotlightRootItem { get; set; }
 

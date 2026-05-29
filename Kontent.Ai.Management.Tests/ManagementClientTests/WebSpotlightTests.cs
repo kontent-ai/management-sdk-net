@@ -1,10 +1,13 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using FluentAssertions;
+using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.WebSpotlight;
 using Kontent.Ai.Management.Tests.Base;
 using System;
 using System.Net.Http;
 using Xunit;
 using static Kontent.Ai.Management.Tests.Base.Scenario;
+
+#pragma warning disable CS0618 // Web Spotlight members are obsolete; these tests intentionally exercise them for backward compatibility.
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -14,7 +17,7 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
     private readonly Scenario _scenario = new(folder: "WebSpotlight");
 
     [Fact]
-    public async void ActivateWebSpotlight_Returns_EnabledStatusAndRootTypeId()
+    public async void ActivateWebSpotlight_Returns_DeprecatedStatus()
     {
         var client = _scenario
             .WithResponses("ActivationWebSpotlightResponse.json")
@@ -25,6 +28,9 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
         var response = await client
             .ActivateWebSpotlightAsync(webSpotlightActivateModel);
 
+        response.Enabled.Should().BeFalse();
+        response.RootTypeId.Should().BeNull();
+
         _scenario
             .CreateExpectations()
             .HttpMethod(HttpMethod.Put)
@@ -34,7 +40,7 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void ActivateWebSpotlight_WithProvidedValidRootTypeById_Returns_EnabledStatusAndRootTypeId()
+    public async void ActivateWebSpotlight_WithProvidedValidRootTypeById_SerializesRequest()
     {
         var client = _scenario
             .WithResponses("ActivationWebSpotlightWithProvidedRootTypeIdResponse.json")
@@ -53,9 +59,9 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
             .Url(WebSpotlightBaseUrl)
             .Validate();
     }
-    
+
     [Fact]
-    public async void ActivateWebSpotlight_WithProvidedValidRootTypeByCodename_Returns_EnabledStatusAndRootTypeId()
+    public async void ActivateWebSpotlight_WithProvidedValidRootTypeByCodename_SerializesRequest()
     {
         var client = _scenario
             .WithResponses("ActivationWebSpotlightWithProvidedRootTypeIdResponse.json")
@@ -76,7 +82,7 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void DeactivateWebSpotlight_Returns_DisabledStatusAndRootTypeId()
+    public async void DeactivateWebSpotlight_Returns_DeprecatedStatus()
     {
         var client = _scenario
             .WithResponses("DeactivationWebSpotlightResponse.json")
@@ -84,6 +90,9 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
 
         var response = await client
             .DeactivateWebSpotlightAsync();
+
+        response.Enabled.Should().BeFalse();
+        response.RootTypeId.Should().BeNull();
 
         _scenario
             .CreateExpectations()
@@ -94,7 +103,7 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void GetWebSpotlightStatus_Returns_StatusAndRootTypeId()
+    public async void GetWebSpotlightStatus_Returns_DeprecatedStatus()
     {
         var client = _scenario
             .WithResponses("GetStatusWebSpotlightResponse.json")
@@ -102,6 +111,9 @@ public class WebSpotlightTests : IClassFixture<FileSystemFixture>
 
         var response = await client
             .GetWebSpotlightStatusAsync();
+
+        response.Enabled.Should().BeFalse();
+        response.RootTypeId.Should().BeNull();
 
         _scenario
             .CreateExpectations()

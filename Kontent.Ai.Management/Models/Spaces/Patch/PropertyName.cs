@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Kontent.Ai.Management.Models.Spaces.Patch;
@@ -20,8 +21,15 @@ public enum PropertyName
     Name,
     
     /// <summary>
-    /// The web spotlight root item of the space.
+    /// The root item of the space. Both this and <see cref="WebSpotlightRootItem"/> target the same root item.
     /// </summary>
+    [EnumMember(Value = "root_item")]
+    RootItem,
+
+    /// <summary>
+    /// The web spotlight root item of the space. Both this and <see cref="RootItem"/> target the same root item.
+    /// </summary>
+    [Obsolete("Use root_item instead.")]
     [EnumMember(Value = "web_spotlight_root_item")]
     WebSpotlightRootItem,
 

@@ -9,13 +9,13 @@ namespace Kontent.Ai.Management.Models.WebSpotlight;
 public class WebSpotlightModel
 {
     /// <summary>
-    /// Gets or sets the web spotlight's Enabled.
+    /// Gets or sets the web spotlight's Enabled. Always false because Web Spotlight has been sunset.
     /// </summary>
     [JsonProperty("enabled")]
     public bool Enabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the web spotlight's Root Type ID.
+    /// Gets or sets the web spotlight's Root Type ID. Always null because Web Spotlight has been sunset.
     /// </summary>
     [JsonProperty("root_type")]
     public Guid? RootTypeId { get; set; }

@@ -8,6 +8,8 @@ using System.Net.Http;
 using Xunit;
 using static Kontent.Ai.Management.Tests.Base.Scenario;
 
+#pragma warning disable CS0618 // WebSpotlightRootItem is obsolete; these tests intentionally exercise it for backward compatibility.
+
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class SpaceTests : IClassFixture<FileSystemFixture>
@@ -23,6 +25,7 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
         var createModel = new SpaceCreateModel {
             Codename = expected.Codename,
             Name = expected.Name,
+            RootItem = expected.RootItem,
             WebSpotlightRootItem = expected.WebSpotlightRootItem,
             Collections = expected.Collections
         };
@@ -35,6 +38,38 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
             .Response(response)
             .Url(SpacesBaseUrl)
             .Validate();
+    }
+
+    [Fact]
+    public async void CreateSpace_WithRootItem_SerializesRootItem()
+    {
+        var client = _scenario.WithResponses("Space.json").CreateManagementClient();
+        var createModel = new SpaceCreateModel
+        {
+            Codename = "space_1",
+            Name = "Space 1",
+            RootItem = Reference.ById(Guid.Parse("1024356f-858f-421a-b804-07c6bfe10ce5"))
+        };
+
+        await client.CreateSpaceAsync(createModel);
+
+        _scenario.CreateExpectations()
+            .HttpMethod(HttpMethod.Post)
+            .RequestPayload(createModel)
+            .Url(SpacesBaseUrl)
+            .Validate();
+    }
+
+    [Fact]
+    public async void GetSpace_RootItemAndWebSpotlightRootItem_HaveSameValue()
+    {
+        var client = _scenario.WithResponses("Space.json").CreateManagementClient();
+        var identifier = Reference.ById(Guid.NewGuid());
+
+        var response = await client.GetSpaceAsync(identifier);
+
+        response.RootItem.Should().BeEquivalentTo(response.WebSpotlightRootItem);
+        response.RootItem.Id.Should().Be(Guid.Parse("1024356f-858f-421a-b804-07c6bfe10ce5"));
     }
 
     [Fact]
@@ -114,6 +149,26 @@ public class SpaceTests : IClassFixture<FileSystemFixture>
         };
 
         var response =  await client.ModifySpaceAsync(identifier, changes);
+
+        _scenario.CreateExpectations()
+            .HttpMethod(HttpMethod.Patch)
+            .RequestPayload(changes)
+            .Response(response)
+            .Url(SpacesBaseUrl + $"/{identifier.Id}")
+            .Validate();
+    }
+
+    [Fact]
+    public async void ModifySpace_Replace_RootItem_ModifiesSpace()
+    {
+        var client = _scenario.WithResponses("ModifySpace_Replace_ModifiesSpace.json").CreateManagementClient();
+        var identifier = Reference.ById(Guid.NewGuid());
+        var changes = new SpaceOperationReplaceModel[]
+        {
+            new() { PropertyName = PropertyName.RootItem, Value = Reference.ById(Guid.Parse("1024356f-858f-421a-b804-07c6bfe10ce5")) }
+        };
+
+        var response = await client.ModifySpaceAsync(identifier, changes);
 
         _scenario.CreateExpectations()
             .HttpMethod(HttpMethod.Patch)
