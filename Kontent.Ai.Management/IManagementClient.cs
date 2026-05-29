@@ -789,21 +789,27 @@ public interface IManagementClient
 
     /// <summary>
     /// Activates the web spotlight, allowing you to specify an existing Root Type ID.
+    /// Web Spotlight has been sunset and this endpoint is now a no-op that always returns a deprecated status. Use Live Preview instead: https://kontent.ai/learn/docs/preview.
     /// </summary>
     /// <param name="webSpotlightActivateModel">Represents configuration that will be used for web spotlight activation.</param>
     /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
+    [Obsolete("Web Spotlight has been sunset. Use Live Preview instead.")]
     Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel);
 
     /// <summary>
     /// Deactivates the web spotlight.
+    /// Web Spotlight has been sunset and this endpoint is now a no-op that always returns a deprecated status. Use Live Preview instead: https://kontent.ai/learn/docs/preview.
     /// </summary>
     /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
+    [Obsolete("Web Spotlight has been sunset. Use Live Preview instead.")]
     Task<WebSpotlightModel> DeactivateWebSpotlightAsync();
 
     /// <summary>
     /// Returns the web spotlight status.
+    /// Web Spotlight has been sunset and this endpoint is now a no-op that always returns a deprecated status. Use Live Preview instead: https://kontent.ai/learn/docs/preview.
     /// </summary>
     /// <returns>A <see cref="WebSpotlightModel"/> instance representing the web spotlight status.</returns>
+    [Obsolete("Web Spotlight has been sunset. Use Live Preview instead.")]
     Task<WebSpotlightModel> GetWebSpotlightStatusAsync();
 
     /// <summary>

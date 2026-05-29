@@ -11,6 +11,7 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
+    [Obsolete("Web Spotlight has been sunset. Use Live Preview instead.")]
     public async Task<WebSpotlightModel> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel)
     {
         ArgumentNullException.ThrowIfNull(webSpotlightActivateModel);
@@ -20,6 +21,7 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
+    [Obsolete("Web Spotlight has been sunset. Use Live Preview instead.")]
     public async Task<WebSpotlightModel> DeactivateWebSpotlightAsync()
     {
         var endpointUrl = _urlBuilder.BuildWebSpotlightUrl();
@@ -27,6 +29,7 @@ public partial class ManagementClient
     }
     
     /// <inheritdoc />
+    [Obsolete("Web Spotlight has been sunset. Use Live Preview instead.")]
     public async Task<WebSpotlightModel> GetWebSpotlightStatusAsync()
     {
         var endpointUrl = _urlBuilder.BuildWebSpotlightUrl();
