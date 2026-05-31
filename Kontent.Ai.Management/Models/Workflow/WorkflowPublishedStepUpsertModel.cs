@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Workflow;
+namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Published workflow step upsert model.
+/// Payload for the Published system step inside a workflow upsert.
 /// </summary>
 public sealed record WorkflowPublishedStepUpsertModel
 {
     /// <summary>
-    /// Gets the roles which can create new version from published variant.
+    /// Roles allowed to create a new version from a published variant. May be empty.
     /// </summary>
     [JsonPropertyName("create_new_version_role_ids")]
-    public IReadOnlyCollection<Guid> RoleCreateNewVersionIds { get; init; }
+    public required IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; init; }
 
     /// <summary>
-    /// Gets the roles which can unpublish the item's variant.
+    /// Roles allowed to unpublish variants in this step. May be empty.
     /// </summary>
     [JsonPropertyName("unpublish_role_ids")]
-    public IReadOnlyCollection<Guid> RolesUnpublishArchivedCancelSchedulingIds { get; init; }
+    public required IReadOnlyCollection<Guid> UnpublishRoleIds { get; init; }
 }

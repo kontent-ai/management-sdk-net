@@ -1515,8 +1515,8 @@ public class CmApiV2
             },
             PublishedStep = new WorkflowPublishedStepUpsertModel
             {
-                RoleCreateNewVersionIds = new List<Guid>(),
-                RolesUnpublishArchivedCancelSchedulingIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+                CreateNewVersionRoleIds = new List<Guid>(),
+                UnpublishRoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
             },
             ArchivedStep = new WorkflowArchivedStepUpsertModel
             {
@@ -2029,8 +2029,8 @@ public class CmApiV2
             },
             PublishedStep = new WorkflowPublishedStepUpsertModel
             {
-                RoleCreateNewVersionIds = new List<Guid>(),
-                RolesUnpublishArchivedCancelSchedulingIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+                CreateNewVersionRoleIds = new List<Guid>(),
+                UnpublishRoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
             },
             ArchivedStep = new WorkflowArchivedStepUpsertModel
             {

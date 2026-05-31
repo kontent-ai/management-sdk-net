@@ -2648,8 +2648,8 @@ public sealed class WorkflowPublishedStepModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowPublishedStepUpsertModel : IEquatable`1
-    IReadOnlyCollection<Guid> RoleCreateNewVersionIds { get; set; init; }
-    IReadOnlyCollection<Guid> RolesUnpublishArchivedCancelSchedulingIds { get; set; init; }
+    IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; set; init; }
+    IReadOnlyCollection<Guid> UnpublishRoleIds { get; set; init; }
     WorkflowPublishedStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowPublishedStepUpsertModel other)

@@ -1,28 +1,25 @@
-﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow step identifier.
+/// Wire shape identifying a workflow step on variant operations. Serializes as <c>{ workflow_identifier: ..., step_identifier: ... }</c>.
 /// </summary>
 public sealed record WorkflowStepIdentifier
 {
     /// <summary>
-    /// Represents the identifier of the workflow.
+    /// Reference to the workflow.
     /// </summary>
     [JsonPropertyName("workflow_identifier")]
-    public Reference Workflow { get; init; }
+    public required Reference Workflow { get; init; }
 
     /// <summary>
-    /// Represents the identifier of the step in the workflow.
+    /// Reference to the step within the workflow.
     /// </summary>
     [JsonPropertyName("step_identifier")]
-    public Reference Step { get; init; }
+    public required Reference Step { get; init; }
 
-    /// <summary>
-    /// Creates an instance of the workflow step identifier.
-    /// </summary>
-    /// <param name="workflowIdentifier">The identifier of the workflow.</param>
-    /// <param name="stepIdentifier">The identifier of the workflow step.</param>
+    [SetsRequiredMembers]
     public WorkflowStepIdentifier(Reference workflowIdentifier, Reference stepIdentifier)
     {
         Workflow = workflowIdentifier;

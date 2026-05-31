@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Workflow;
+namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow scope response model.
+/// A scope binding for a workflow (response shape). Always emits both <see cref="Collections"/> and <see cref="ContentTypes"/> as arrays — the server normalizes any missing side to an empty array.
 /// </summary>
 public sealed record WorkflowScopeModel
 {
     /// <summary>
-    /// Gets the workflow scope's collections.
+    /// Collections this scope applies to. May be empty.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IReadOnlyList<Reference> Collections { get; init; }
+    public required IReadOnlyList<Reference> Collections { get; init; }
 
     /// <summary>
-    /// Gets the workflow scope's content types.
+    /// Content types this scope applies to. May be empty.
     /// </summary>
     [JsonPropertyName("content_types")]
-    public IReadOnlyList<Reference> ContentTypes { get; init; }
+    public required IReadOnlyList<Reference> ContentTypes { get; init; }
 }

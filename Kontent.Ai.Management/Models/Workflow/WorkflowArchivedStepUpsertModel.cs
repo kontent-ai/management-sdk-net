@@ -1,13 +1,13 @@
-﻿namespace Kontent.Ai.Management.Models.Workflow;
+namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Archived workflow step upsert model.
+/// Payload for the Archived system step inside a workflow upsert.
 /// </summary>
 public sealed record WorkflowArchivedStepUpsertModel
 {
     /// <summary>
-    /// Gets the roles which can work with an item in this step.
+    /// Roles allowed to work with archived variants. May be empty.
     /// </summary>
     [JsonPropertyName("role_ids")]
-    public IReadOnlyCollection<Guid> RoleIds { get; init; }
+    public required IReadOnlyCollection<Guid> RoleIds { get; init; }
 }

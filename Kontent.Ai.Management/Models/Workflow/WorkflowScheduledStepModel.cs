@@ -1,29 +1,28 @@
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Scheduled workflow step response model. If a variant is in this step, it indicated that it has been
-/// scheduled for automated publishing some time in the future. Such variants are read-only.
+/// The Scheduled system step on a workflow (response only). Variants in this step are awaiting automated publishing at a future time and are read-only.
 /// </summary>
 /// <remarks>
-/// All its properties are predefined by the system and cannot be changed.
+/// All properties are platform-defined and cannot be changed. Not part of the workflow upsert payload.
 /// </remarks>
 public sealed record WorkflowScheduledStepModel
 {
     /// <summary>
-    /// Gets the workflow step's internal ID.
+    /// Server-generated step ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the workflow step's name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the workflow step's codename.
+    /// Codename.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 }

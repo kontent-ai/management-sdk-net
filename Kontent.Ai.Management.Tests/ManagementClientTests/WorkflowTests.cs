@@ -208,8 +208,8 @@ public class WorkflowTests
             },
         PublishedStep = new WorkflowPublishedStepUpsertModel
         {
-            RoleCreateNewVersionIds = new List<Guid> { Guid.Parse("b28a237e-e821-4d7d-a5bd-e69e158887d6") },
-            RolesUnpublishArchivedCancelSchedulingIds = new List<Guid> { Guid.Parse("b28a237e-e821-4d7d-a5bd-e69e158887d6") }
+            CreateNewVersionRoleIds = new List<Guid> { Guid.Parse("b28a237e-e821-4d7d-a5bd-e69e158887d6") },
+            UnpublishRoleIds = new List<Guid> { Guid.Parse("b28a237e-e821-4d7d-a5bd-e69e158887d6") }
         },
         ArchivedStep = new WorkflowArchivedStepUpsertModel
         {

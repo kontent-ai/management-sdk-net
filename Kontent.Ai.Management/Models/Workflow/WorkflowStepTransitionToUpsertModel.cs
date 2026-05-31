@@ -1,14 +1,13 @@
-﻿
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow step's 'transition to' upsert model.
+/// A single allowed transition from a workflow step (upsert shape).
 /// </summary>
 public sealed record WorkflowStepTransitionToUpsertModel
 {
     /// <summary>
-    /// Gets the workflow step's internal ID.
+    /// Reference to the destination step.
     /// </summary>
     [JsonPropertyName("step")]
-    public Reference Step { get; init; }
+    public required Reference Step { get; init; }
 }
