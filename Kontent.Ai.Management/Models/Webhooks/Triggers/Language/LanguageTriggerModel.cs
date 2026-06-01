@@ -1,28 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
+namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 
 /// <summary>
-/// Represents the language trigger model. 
+/// Language event trigger for a webhook.
 /// </summary>
-public class LanguageTriggerModel
+public sealed record LanguageTriggerModel
 {
     /// <summary>
-    /// Determines if language trigger is enabled.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether this trigger is enabled.
     /// </summary>
     [JsonPropertyName("enabled")]
-    public bool? Enabled { get; set; }
+    public bool? Enabled { get; init; }
 
     /// <summary>
-    /// Represents language actions.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Language actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<LanguageActionModel> Actions { get; set; }
+    public IEnumerable<LanguageActionModel>? Actions { get; init; }
 
     /// <summary>
-    /// Represents language filters.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Filters narrowing which languages fire the webhook.
     /// </summary>
     [JsonPropertyName("filters")]
-    public LanguageFiltersModel Filters { get; set; }
+    public LanguageFiltersModel? Filters { get; init; }
 }

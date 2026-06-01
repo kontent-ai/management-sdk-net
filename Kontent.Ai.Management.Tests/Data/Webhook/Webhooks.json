@@ -8,7 +8,7 @@
       {
         "key": "key1",
         "value": "value1"
-      }      
+      }
     ],
     "enabled": true,
     "last_modified": "2023-12-13T11:22:34.4079256Z",
@@ -114,7 +114,8 @@
       },
       "slot": "published",
       "events": "all"
-    }
+    },
+    "health_status": "working"
   },
   {
     "id": "78d634ed-445f-4b2e-aefc-8914c9bef201",
@@ -206,6 +207,7 @@
       },
       "slot": "preview",
       "events": "specific"
-    }
+    },
+    "health_status": "working"
   }
 ]

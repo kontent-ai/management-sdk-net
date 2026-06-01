@@ -1,28 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
+namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 
 /// <summary>
-/// Represents the content type trigger model. 
+/// Content type event trigger for a webhook.
 /// </summary>
-public class ContentTypeTriggerModel
+public sealed record ContentTypeTriggerModel
 {
     /// <summary>
-    /// Determines if content type trigger is enabled.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether this trigger is enabled.
     /// </summary>
     [JsonPropertyName("enabled")]
-    public bool? Enabled { get; set; }
+    public bool? Enabled { get; init; }
 
     /// <summary>
-    /// Represents content type actions.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Content type actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<ContentTypeActionModel> Actions { get; set; }
+    public IEnumerable<ContentTypeActionModel>? Actions { get; init; }
 
     /// <summary>
-    /// Represents content type filters.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Filters narrowing which content types fire the webhook.
     /// </summary>
     [JsonPropertyName("filters")]
-    public ContentTypeFiltersModel Filters { get; set; }
+    public ContentTypeFiltersModel? Filters { get; init; }
 }

@@ -1,20 +1,19 @@
-﻿
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
-/// Specifies a workflow and its workflow step.
+/// A workflow/step pair that fires a content-item workflow-step-changed webhook.
 /// </summary>
-public class ContentItemWorkflowTransition
+public sealed record ContentItemWorkflowTransition
 {
     /// <summary>
-    /// Reference to the content item variant's workflow.
+    /// Reference to the workflow.
     /// </summary>
     [JsonPropertyName("workflow_identifier")]
-    public Reference WorkflowReference { get; set; }
+    public required Reference WorkflowReference { get; init; }
 
     /// <summary>
-    /// Reference to the content item variant's workflow step.
+    /// Reference to the workflow step.
     /// </summary>
     [JsonPropertyName("step_identifier")]
-    public Reference WorkflowStepReference { get; set; }
+    public required Reference WorkflowStepReference { get; init; }
 }

@@ -116,5 +116,6 @@
     },
     "slot": "published",
     "events": "all"
-  }
+  },
+  "health_status": "working"
 }

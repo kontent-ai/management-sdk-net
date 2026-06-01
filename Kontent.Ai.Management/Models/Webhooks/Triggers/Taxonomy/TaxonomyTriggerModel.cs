@@ -1,28 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
+namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
 /// <summary>
-/// Represents the taxonomy trigger model. 
+/// Taxonomy event trigger for a webhook.
 /// </summary>
-public class TaxonomyTriggerModel
+public sealed record TaxonomyTriggerModel
 {
     /// <summary>
-    /// Determines if taxonomy trigger is enabled.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether this trigger is enabled.
     /// </summary>
     [JsonPropertyName("enabled")]
-    public bool? Enabled { get; set; }
+    public bool? Enabled { get; init; }
 
     /// <summary>
-    /// Represents taxonomy actions.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Taxonomy actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<TaxonomyActionModel> Actions { get; set; }
+    public IEnumerable<TaxonomyActionModel>? Actions { get; init; }
 
     /// <summary>
-    /// Represents taxonomy filters.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Filters narrowing which taxonomies fire the webhook.
     /// </summary>
     [JsonPropertyName("filters")]
-    public TaxonomyFiltersModel Filters { get; set; }
+    public TaxonomyFiltersModel? Filters { get; init; }
 }

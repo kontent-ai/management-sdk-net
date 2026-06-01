@@ -1,14 +1,13 @@
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
 /// <summary>
-/// Represents taxonomy action.
+/// A taxonomy action that fires the webhook.
 /// </summary>
-public class TaxonomyActionModel
+public sealed record TaxonomyActionModel
 {
     /// <summary>
-    /// Taxonomy action.
+    /// The action performed on the taxonomy.
     /// </summary>
     [JsonPropertyName("action")]
-    public TaxonomyAction Action { get; set; }
+    public required TaxonomyAction Action { get; init; }
 }

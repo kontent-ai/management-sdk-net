@@ -2402,18 +2402,28 @@ public sealed class VariantFilterWorkflowStepsModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks
-public class CustomHeaderModel
-    String Key { get; set; }
-    String Value { get; set; }
+public sealed class CustomHeaderModel : IEquatable`1
+    String Key { get; set; init; }
+    String Value { get; set; init; }
+    CustomHeaderModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomHeaderModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks
-public class WebhookCreateModel
-    DeliveryTriggersModel DeliveryTriggers { get; set; }
-    Boolean Enabled { get; set; }
-    IEnumerable<CustomHeaderModel> Headers { get; set; }
-    String Name { get; set; }
-    String Secret { get; set; }
-    String Url { get; set; }
+public sealed class WebhookCreateModel : IEquatable`1
+    DeliveryTriggersModel DeliveryTriggers { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    IEnumerable<CustomHeaderModel> Headers { get; set; init; }
+    String Name { get; set; init; }
+    String Secret { get; set; init; }
+    String Url { get; set; init; }
+    WebhookCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WebhookCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks
 public enum WebhookHealthStatus : Enum
@@ -2423,16 +2433,21 @@ public enum WebhookHealthStatus : Enum
     Working
 
 // Kontent.Ai.Management.Models.Webhooks
-public class WebhookModel
-    DeliveryTriggersModel DeliveryTriggers { get; set; }
-    Boolean Enabled { get; set; }
-    IEnumerable<CustomHeaderModel> Headers { get; set; }
-    WebhookHealthStatus HealthStatus { get; set; }
-    Guid Id { get; set; }
-    Nullable<DateTime> LastModified { get; set; }
-    String Name { get; set; }
-    String Secret { get; set; }
-    String Url { get; set; }
+public sealed class WebhookModel : IEquatable`1
+    DeliveryTriggersModel DeliveryTriggers { get; set; init; }
+    Boolean Enabled { get; set; init; }
+    IEnumerable<CustomHeaderModel> Headers { get; set; init; }
+    WebhookHealthStatus HealthStatus { get; set; init; }
+    Guid Id { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    String Name { get; set; init; }
+    String Secret { get; set; init; }
+    String Url { get; set; init; }
+    WebhookModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WebhookModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers
 public enum DeliverySlot : Enum
@@ -2440,14 +2455,19 @@ public enum DeliverySlot : Enum
     Published
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers
-public class DeliveryTriggersModel
-    AssetTriggerModel Asset { get; set; }
-    ContentItemTriggerModel ContentItem { get; set; }
-    ContentTypeTriggerModel ContentType { get; set; }
-    Nullable<WebhookEvents> Events { get; set; }
-    LanguageTriggerModel Language { get; set; }
-    Nullable<DeliverySlot> Slot { get; set; }
-    TaxonomyTriggerModel Taxonomy { get; set; }
+public sealed class DeliveryTriggersModel : IEquatable`1
+    AssetTriggerModel Asset { get; set; init; }
+    ContentItemTriggerModel ContentItem { get; set; init; }
+    ContentTypeTriggerModel ContentType { get; set; init; }
+    Nullable<WebhookEvents> Events { get; set; init; }
+    LanguageTriggerModel Language { get; set; init; }
+    Nullable<DeliverySlot> Slot { get; set; init; }
+    TaxonomyTriggerModel Taxonomy { get; set; init; }
+    DeliveryTriggersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(DeliveryTriggersModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers
 public enum WebhookEvents : Enum
@@ -2462,13 +2482,23 @@ public enum AssetAction : Enum
     MetadataChanged
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Asset
-public class AssetActionModel
-    AssetAction Action { get; set; }
+public sealed class AssetActionModel : IEquatable`1
+    AssetAction Action { get; set; init; }
+    AssetActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetActionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Asset
-public class AssetTriggerModel
-    IEnumerable<AssetActionModel> Actions { get; set; }
-    Nullable<Boolean> Enabled { get; set; }
+public sealed class AssetTriggerModel : IEquatable`1
+    IEnumerable<AssetActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    AssetTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
 public enum ContentItemAction : Enum
@@ -2481,26 +2511,46 @@ public enum ContentItemAction : Enum
     WorkflowStepChanged
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
-public class ContentItemActionModel
-    ContentItemAction Action { get; set; }
-    IEnumerable<ContentItemWorkflowTransition> TransitionTo { get; set; }
+public sealed class ContentItemActionModel : IEquatable`1
+    ContentItemAction Action { get; set; init; }
+    IEnumerable<ContentItemWorkflowTransition> TransitionTo { get; set; init; }
+    ContentItemActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemActionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
-public class ContentItemFiltersModel
-    IEnumerable<Reference> Collections { get; set; }
-    IEnumerable<Reference> ContentTypes { get; set; }
-    IEnumerable<Reference> Languages { get; set; }
+public sealed class ContentItemFiltersModel : IEquatable`1
+    IEnumerable<Reference> Collections { get; set; init; }
+    IEnumerable<Reference> ContentTypes { get; set; init; }
+    IEnumerable<Reference> Languages { get; set; init; }
+    ContentItemFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
-public class ContentItemTriggerModel
-    IEnumerable<ContentItemActionModel> Actions { get; set; }
-    Nullable<Boolean> Enabled { get; set; }
-    ContentItemFiltersModel Filters { get; set; }
+public sealed class ContentItemTriggerModel : IEquatable`1
+    IEnumerable<ContentItemActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    ContentItemFiltersModel Filters { get; set; init; }
+    ContentItemTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
-public class ContentItemWorkflowTransition
-    Reference WorkflowReference { get; set; }
-    Reference WorkflowStepReference { get; set; }
+public sealed class ContentItemWorkflowTransition : IEquatable`1
+    Reference WorkflowReference { get; set; init; }
+    Reference WorkflowStepReference { get; set; init; }
+    ContentItemWorkflowTransition <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemWorkflowTransition other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
 public enum ContentTypeAction : Enum
@@ -2509,18 +2559,33 @@ public enum ContentTypeAction : Enum
     Deleted
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
-public class ContentTypeActionModel
-    ContentTypeAction Action { get; set; }
+public sealed class ContentTypeActionModel : IEquatable`1
+    ContentTypeAction Action { get; set; init; }
+    ContentTypeActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeActionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
-public class ContentTypeFiltersModel
-    IEnumerable<Reference> ContentTypes { get; set; }
+public sealed class ContentTypeFiltersModel : IEquatable`1
+    IEnumerable<Reference> ContentTypes { get; set; init; }
+    ContentTypeFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
-public class ContentTypeTriggerModel
-    IEnumerable<ContentTypeActionModel> Actions { get; set; }
-    Nullable<Boolean> Enabled { get; set; }
-    ContentTypeFiltersModel Filters { get; set; }
+public sealed class ContentTypeTriggerModel : IEquatable`1
+    IEnumerable<ContentTypeActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    ContentTypeFiltersModel Filters { get; set; init; }
+    ContentTypeTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Language
 public enum LanguageAction : Enum
@@ -2529,18 +2594,33 @@ public enum LanguageAction : Enum
     Deleted
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Language
-public class LanguageActionModel
-    LanguageAction Action { get; set; }
+public sealed class LanguageActionModel : IEquatable`1
+    LanguageAction Action { get; set; init; }
+    LanguageActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageActionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Language
-public class LanguageFiltersModel
-    IEnumerable<Reference> Languages { get; set; }
+public sealed class LanguageFiltersModel : IEquatable`1
+    IEnumerable<Reference> Languages { get; set; init; }
+    LanguageFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Language
-public class LanguageTriggerModel
-    IEnumerable<LanguageActionModel> Actions { get; set; }
-    Nullable<Boolean> Enabled { get; set; }
-    LanguageFiltersModel Filters { get; set; }
+public sealed class LanguageTriggerModel : IEquatable`1
+    IEnumerable<LanguageActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    LanguageFiltersModel Filters { get; set; init; }
+    LanguageTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
 public enum TaxonomyAction : Enum
@@ -2553,18 +2633,33 @@ public enum TaxonomyAction : Enum
     TermsMoved
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
-public class TaxonomyActionModel
-    TaxonomyAction Action { get; set; }
+public sealed class TaxonomyActionModel : IEquatable`1
+    TaxonomyAction Action { get; set; init; }
+    TaxonomyActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyActionModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
-public class TaxonomyFiltersModel
-    IEnumerable<Reference> Taxonomies { get; set; }
+public sealed class TaxonomyFiltersModel : IEquatable`1
+    IEnumerable<Reference> Taxonomies { get; set; init; }
+    TaxonomyFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
-public class TaxonomyTriggerModel
-    IEnumerable<TaxonomyActionModel> Actions { get; set; }
-    Nullable<Boolean> Enabled { get; set; }
-    TaxonomyFiltersModel Filters { get; set; }
+public sealed class TaxonomyTriggerModel : IEquatable`1
+    IEnumerable<TaxonomyActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    TaxonomyFiltersModel Filters { get; set; init; }
+    TaxonomyTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.WebSpotlight
 public sealed class WebSpotlightActivateModel : IEquatable`1

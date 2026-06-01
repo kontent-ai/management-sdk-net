@@ -1,14 +1,13 @@
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 
 /// <summary>
-/// Represents content type action.
+/// A content type action that fires the webhook.
 /// </summary>
-public class ContentTypeActionModel
+public sealed record ContentTypeActionModel
 {
     /// <summary>
-    /// Content type action.
+    /// The action performed on the content type.
     /// </summary>
     [JsonPropertyName("action")]
-    public ContentTypeAction Action { get; set; }
+    public required ContentTypeAction Action { get; init; }
 }

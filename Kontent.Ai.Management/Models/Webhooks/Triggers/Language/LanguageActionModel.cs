@@ -1,14 +1,13 @@
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 
 /// <summary>
-/// Represents language action.
+/// A language action that fires the webhook.
 /// </summary>
-public class LanguageActionModel
+public sealed record LanguageActionModel
 {
     /// <summary>
-    /// Language action.
+    /// The action performed on the language.
     /// </summary>
     [JsonPropertyName("action")]
-    public LanguageAction Action { get; set; }
+    public required LanguageAction Action { get; init; }
 }

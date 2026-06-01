@@ -1,25 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
+namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
-/// Represents the content item filters model.
+/// Filters narrowing which content items fire a webhook. Each facet is optional.
 /// </summary>
-public class ContentItemFiltersModel
+public sealed record ContentItemFiltersModel
 {
     /// <summary>
-    /// References to collections
+    /// Restrict to these collections.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference> Collections { get; set; }
+    public IEnumerable<Reference>? Collections { get; init; }
 
     /// <summary>
-    /// References to content types
+    /// Restrict to these content types.
     /// </summary>
     [JsonPropertyName("content_types")]
-    public IEnumerable<Reference> ContentTypes { get; set; }
+    public IEnumerable<Reference>? ContentTypes { get; init; }
 
     /// <summary>
-    /// References to languages
+    /// Restrict to these languages.
     /// </summary>
     [JsonPropertyName("languages")]
-    public IEnumerable<Reference> Languages { get; set; }
+    public IEnumerable<Reference>? Languages { get; init; }
 }

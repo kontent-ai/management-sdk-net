@@ -1,13 +1,13 @@
-﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
+namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
 /// <summary>
-/// Represents the taxonomy filters model.
+/// Filters narrowing which taxonomies fire a webhook.
 /// </summary>
-public class TaxonomyFiltersModel
+public sealed record TaxonomyFiltersModel
 {
     /// <summary>
-    /// References to taxonomies
+    /// Restrict to these taxonomies.
     /// </summary>
     [JsonPropertyName("taxonomies")]
-    public IEnumerable<Reference> Taxonomies { get; set; }
+    public IEnumerable<Reference>? Taxonomies { get; init; }
 }

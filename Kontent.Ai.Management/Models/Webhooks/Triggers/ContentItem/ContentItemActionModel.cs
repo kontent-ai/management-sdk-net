@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
+namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
-/// Represents content item action.
+/// A content item action that fires the webhook.
 /// </summary>
-public class ContentItemActionModel
+public sealed record ContentItemActionModel
 {
     /// <summary>
-    /// The action performed on a content item.
+    /// The action performed on the content item.
     /// </summary>
     [JsonPropertyName("action")]
-    public ContentItemAction Action { get; set; }
+    public required ContentItemAction Action { get; init; }
 
     /// <summary>
-    /// Specifies a workflow and its workflow step. 
+    /// Workflow/step transitions that fire the webhook. Only relevant for the workflow-step-changed action.
     /// </summary>
     [JsonPropertyName("transition_to")]
-    public IEnumerable<ContentItemWorkflowTransition> TransitionTo { get; set; }
+    public IEnumerable<ContentItemWorkflowTransition>? TransitionTo { get; init; }
 }
