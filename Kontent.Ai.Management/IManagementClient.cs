@@ -28,7 +28,6 @@ using Kontent.Ai.Management.Models.TypeSnippets;
 using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
-using Kontent.Ai.Management.Models.WebSpotlight;
 using Kontent.Ai.Management.Models.Workflow;
 
 namespace Kontent.Ai.Management;
@@ -827,28 +826,6 @@ public interface IManagementClient
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the <see cref="PreviewConfigurationModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Activates the web spotlight, allowing you to specify an existing Root Type ID.
-    /// </summary>
-    /// <param name="webSpotlightActivateModel">Represents configuration that will be used for web spotlight activation.</param>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the <see cref="WebSpotlightModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<WebSpotlightModel>> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Deactivates the web spotlight.
-    /// </summary>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the <see cref="WebSpotlightModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Returns the web spotlight status.
-    /// </summary>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the <see cref="WebSpotlightModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enumerates the custom apps, one continuation-token page at a time.

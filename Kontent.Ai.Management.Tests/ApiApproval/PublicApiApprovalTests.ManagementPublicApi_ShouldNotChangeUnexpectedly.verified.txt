@@ -12,7 +12,6 @@ public interface IError
 // Kontent.Ai.Management
 public interface IManagementClient
     Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<WebSpotlightModel>> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel, CancellationToken cancellationToken)
     Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
@@ -31,7 +30,6 @@ public interface IManagementClient
     Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken)
     Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
@@ -82,7 +80,6 @@ public interface IManagementClient
     Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
@@ -138,7 +135,6 @@ public interface IManagementResult`1<T> : IManagementResult
 // Kontent.Ai.Management
 public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDisposable
     Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<WebSpotlightModel>> ActivateWebSpotlightAsync(WebSpotlightActivateModel webSpotlightActivateModel, CancellationToken cancellationToken)
     Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
@@ -157,7 +153,6 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<WebSpotlightModel>> DeactivateWebSpotlightAsync(CancellationToken cancellationToken)
     Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
@@ -210,7 +205,6 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<WebSpotlightModel>> GetWebSpotlightStatusAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
@@ -2658,25 +2652,6 @@ public sealed class TaxonomyTriggerModel : IEquatable`1
     TaxonomyTriggerModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TaxonomyTriggerModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.WebSpotlight
-public sealed class WebSpotlightActivateModel : IEquatable`1
-    Reference RootType { get; set; init; }
-    WebSpotlightActivateModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(WebSpotlightActivateModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.WebSpotlight
-public sealed class WebSpotlightModel : IEquatable`1
-    Boolean Enabled { get; set; init; }
-    Nullable<Guid> RootTypeId { get; set; init; }
-    WebSpotlightModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(WebSpotlightModel other)
     Int32 GetHashCode()
     String ToString()
 
