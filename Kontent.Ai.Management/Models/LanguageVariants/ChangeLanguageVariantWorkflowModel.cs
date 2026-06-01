@@ -1,45 +1,43 @@
-﻿namespace Kontent.Ai.Management.Models.LanguageVariants;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents a change language variant workflow model.
+/// Payload for the change-workflow operation on a language variant. The API applies <see cref="DueDate"/>, <see cref="Note"/>, and <see cref="Contributors"/> alongside the workflow change when supplied.
 /// </summary>
 public sealed record ChangeLanguageVariantWorkflowModel
 {
     /// <summary>
-    /// Represents the identifier of the workflow.
+    /// Reference to the target workflow.
     /// </summary>
     [JsonPropertyName("workflow_identifier")]
-    public Reference Workflow { get; init; }
+    public required Reference Workflow { get; init; }
 
     /// <summary>
-    /// Represents the identifier of the step in the workflow.
+    /// Reference to the target step within the workflow.
     /// </summary>
     [JsonPropertyName("step_identifier")]
-    public Reference Step { get; init; }
+    public required Reference Step { get; init; }
 
     /// <summary>
-    /// Gets due date.
+    /// Due date to set. Optional.
     /// </summary>
     [JsonPropertyName("due_date")]
-    public DueDateModel DueDate { get; init; }
+    public DueDateModel? DueDate { get; init; }
 
     /// <summary>
-    /// Gets a note.
+    /// Free-form note to set. Optional.
     /// </summary>
     [JsonPropertyName("note")]
-    public string Note { get; init; }
+    public string? Note { get; init; }
 
     /// <summary>
-    /// Gets the contributors.
+    /// Contributors to assign. Optional.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; init; }
+    public IEnumerable<UserIdentifier>? Contributors { get; init; }
 
-    /// <summary>
-    /// Creates an instance of the change language variant workflow model.
-    /// </summary>
-    /// <param name="workflow">The identifier of the workflow.</param>
-    /// <param name="step">The identifier of the workflow step.</param>
+    [SetsRequiredMembers]
     public ChangeLanguageVariantWorkflowModel(Reference workflow, Reference step)
     {
         Workflow = workflow;

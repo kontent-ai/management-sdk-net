@@ -1275,7 +1275,7 @@ public sealed class LanguageVariantModel : IEquatable`1
     IEnumerable<Object> Elements { get; set; init; }
     Reference Item { get; set; init; }
     Reference Language { get; set; init; }
-    Nullable<DateTime> LastModified { get; set; init; }
+    DateTime LastModified { get; set; init; }
     String Note { get; set; init; }
     ScheduleResponseModel Schedule { get; set; init; }
     WorkflowStepIdentifier Workflow { get; set; init; }

@@ -1,64 +1,64 @@
-﻿using Kontent.Ai.Management.Models.Publishing;
+using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Workflow;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents language variant model.
+/// A language variant of a content item (response shape).
 /// </summary>
 public sealed record LanguageVariantModel
 {
     /// <summary>
-    /// Gets item of the variant.
+    /// Reference to the content item this variant belongs to.
     /// </summary>
     [JsonPropertyName("item")]
-    public Reference Item { get; init; }
+    public required Reference Item { get; init; }
 
     /// <summary>
-    /// Gets elements of the variant.
+    /// Element values. Each entry is a polymorphic <c>{ element, value }</c> shape whose value type depends on the element kind.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<object> Elements { get; init; }
+    public required IEnumerable<object> Elements { get; init; }
 
     /// <summary>
-    /// Gets the language of the variant.
+    /// Reference to the language of this variant.
     /// </summary>
     [JsonPropertyName("language")]
-    public Reference Language { get; init; }
+    public required Reference Language { get; init; }
 
     /// <summary>
-    /// Gets the last modified timestamp of the language variant.
+    /// ISO-8601 timestamp of the last change to the variant.
     /// </summary>
     [JsonPropertyName("last_modified")]
-    public DateTime? LastModified { get; init; }
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
-    /// Gets the publishing and unpublishing schedule of the language variant.
+    /// Publishing and unpublishing schedule. The wrapper is always present; the individual timestamps may be null.
     /// </summary>
     [JsonPropertyName("schedule")]
-    public ScheduleResponseModel Schedule { get; init; }
+    public required ScheduleResponseModel Schedule { get; init; }
 
     /// <summary>
-    /// Gets workflow step identifier.
+    /// Workflow and step the variant currently sits in.
     /// </summary>
     [JsonPropertyName("workflow")]
-    public WorkflowStepIdentifier Workflow { get; init; }
+    public required WorkflowStepIdentifier Workflow { get; init; }
 
     /// <summary>
-    /// Gets due date.
+    /// Due date. The wrapper is always present; its value may be null when no due date is set.
     /// </summary>
     [JsonPropertyName("due_date")]
-    public DueDateModel DueDate { get; init; }
+    public required DueDateModel DueDate { get; init; }
 
     /// <summary>
-    /// Gets a note.
+    /// Free-form note attached to the variant.
     /// </summary>
     [JsonPropertyName("note")]
-    public string Note { get; init; }
+    public string? Note { get; init; }
 
     /// <summary>
-    /// Gets the contributors.
+    /// Users assigned as contributors. May be empty.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; init; }
+    public required IEnumerable<UserIdentifier> Contributors { get; init; }
 }

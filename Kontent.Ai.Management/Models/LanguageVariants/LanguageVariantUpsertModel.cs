@@ -1,49 +1,51 @@
-﻿using Kontent.Ai.Management.Models.Workflow;
+using System.Diagnostics.CodeAnalysis;
+using Kontent.Ai.Management.Models.Workflow;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents language variant upsert model.
+/// Payload for creating or replacing a language variant.
 /// </summary>
 public sealed record LanguageVariantUpsertModel
 {
     /// <summary>
-    /// Gets elements of the variant.
+    /// Element values to set. Each entry is a polymorphic <c>{ element, value }</c> shape whose value type depends on the element kind.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<object> Elements { get; init; }
+    public required IEnumerable<object> Elements { get; init; }
 
     /// <summary>
-    /// Gets workflow step identifier to update.
+    /// Workflow and step to move the variant into. Optional — omit to leave the workflow unchanged.
     /// </summary>
     [JsonPropertyName("workflow")]
-    public WorkflowStepIdentifier Workflow { get; init; }
+    public WorkflowStepIdentifier? Workflow { get; init; }
 
     /// <summary>
-    /// Gets due date to update.
+    /// Due date to set. Optional.
     /// </summary>
     [JsonPropertyName("due_date")]
-    public DueDateModel DueDate { get; init; }
+    public DueDateModel? DueDate { get; init; }
 
     /// <summary>
-    /// Gets a note.
+    /// Free-form note to set. Optional.
     /// </summary>
     [JsonPropertyName("note")]
-    public string Note { get; init; }
+    public string? Note { get; init; }
 
     /// <summary>
-    /// Gets the contributors.
+    /// Contributors to assign. Optional.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; init; }
+    public IEnumerable<UserIdentifier>? Contributors { get; init; }
 
     /// <summary>
-    /// Creates an instance of the language variant upsert model.
+    /// Creates an empty upsert model.
     /// </summary>
     public LanguageVariantUpsertModel()
     {
     }
 
+    [SetsRequiredMembers]
     internal LanguageVariantUpsertModel(LanguageVariantModel languageVariant)
     {
         Elements = languageVariant.Elements;

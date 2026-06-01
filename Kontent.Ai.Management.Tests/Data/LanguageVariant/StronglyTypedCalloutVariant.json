@@ -1,28 +1,71 @@
 {
   "elements": [
     {
-      "element": { "id": "15a9fc79-e85f-5bb1-8e81-d0362cd93b93" },
+      "element": {
+        "id": "15a9fc79-e85f-5bb1-8e81-d0362cd93b93"
+      },
       "value": "<p>outer</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"44444444-4444-4444-4444-444444444444\"></object>",
       "components": [
         {
           "id": "44444444-4444-4444-4444-444444444444",
-          "type": { "codename": "callout" },
+          "type": {
+            "codename": "callout"
+          },
           "elements": [
             {
-              "element": { "id": "15a9fc79-e85f-5bb1-8e81-d0362cd93b93" },
+              "element": {
+                "id": "15a9fc79-e85f-5bb1-8e81-d0362cd93b93"
+              },
               "value": "<p>inner</p>"
             },
             {
-              "element": { "id": "44dd9032-c950-53b8-91bd-c6c586233311" },
-              "value": [ { "codename": "info" } ]
+              "element": {
+                "id": "44dd9032-c950-53b8-91bd-c6c586233311"
+              },
+              "value": [
+                {
+                  "codename": "info"
+                }
+              ]
             }
           ]
         }
       ]
     },
     {
-      "element": { "id": "44dd9032-c950-53b8-91bd-c6c586233311" },
-      "value": [ { "codename": "warning" } ]
+      "element": {
+        "id": "44dd9032-c950-53b8-91bd-c6c586233311"
+      },
+      "value": [
+        {
+          "codename": "warning"
+        }
+      ]
     }
-  ]
+  ],
+  "workflow": {
+    "workflow_identifier": {
+      "id": "00000000-0000-0000-0000-000000000000"
+    },
+    "step_identifier": {
+      "id": "00000000-0000-0000-0000-000000000000"
+    }
+  },
+  "schedule": {
+    "publish_time": null,
+    "publish_display_timezone": null,
+    "unpublish_time": null,
+    "unpublish_display_timezone": null
+  },
+  "due_date": {
+    "value": null
+  },
+  "contributors": [],
+  "item": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  },
+  "language": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  },
+  "last_modified": "2024-01-01T00:00:00Z"
 }

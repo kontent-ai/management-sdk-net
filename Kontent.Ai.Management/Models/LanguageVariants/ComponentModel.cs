@@ -1,25 +1,25 @@
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents a rich text component model.
+/// An inline content component embedded in a rich text element.
 /// </summary>
 public sealed record ComponentModel
 {
     /// <summary>
-    /// Gets the id of the content component.
+    /// Component ID. Threads the component to its placeholder in the rich text via the matching <c>data-id</c> attribute.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the type of the component.
+    /// Reference to the content type the component is based on.
     /// </summary>
     [JsonPropertyName("type")]
-    public Reference Type { get; init; }
+    public required Reference Type { get; init; }
 
     /// <summary>
-    /// Gets elements of the component.
+    /// Element values of the component. Each entry is a polymorphic <c>{ element, value }</c> shape.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<object> Elements { get; init; }
+    public required IEnumerable<object> Elements { get; init; }
 }

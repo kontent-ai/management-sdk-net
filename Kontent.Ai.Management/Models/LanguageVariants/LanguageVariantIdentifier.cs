@@ -1,26 +1,23 @@
-﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents the identifier of the language variant.
+/// Identifies a language variant by its content item and language.
 /// </summary>
 public sealed record LanguageVariantIdentifier
 {
     /// <summary>
-    /// Represents the identifier of the language variant.
+    /// Reference to the content item.
     /// </summary>
-    public Reference ItemIdentifier { get; init; }
+    public required Reference ItemIdentifier { get; init; }
 
     /// <summary>
-    /// Represents the identifier of the language.
+    /// Reference to the language.
     /// </summary>
-    public Reference LanguageIdentifier { get; init; }
+    public required Reference LanguageIdentifier { get; init; }
 
-    /// <summary>
-    /// Creates an instance of language variant identifier.
-    /// </summary>
-    /// <param name="itemIdentifier">The identifier of the content item.</param>
-    /// <param name="languageIdentifier">The identifier of the language.</param>
+    [SetsRequiredMembers]
     public LanguageVariantIdentifier(Reference itemIdentifier, Reference languageIdentifier)
     {
         ItemIdentifier = itemIdentifier;

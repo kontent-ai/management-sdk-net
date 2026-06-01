@@ -268,7 +268,7 @@ public class LanguageVariantTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(null!, new LanguageVariantUpsertModel()))
+        await client.Invoking(x => x.UpsertLanguageVariantAsync(null!, new LanguageVariantUpsertModel { Elements = [] }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
@@ -314,8 +314,9 @@ public class LanguageVariantTests
     public async Task UpsertLanguageVariantAsync_ByLanguageVariantModel_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
+        var model = JsonSerializer.Deserialize<LanguageVariantModel>(Fixture("LanguageVariant.json"), SharedTestJsonOptions.Default)!;
 
-        await client.Invoking(x => x.UpsertLanguageVariantAsync(null!, new LanguageVariantModel()))
+        await client.Invoking(x => x.UpsertLanguageVariantAsync(null!, model))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 

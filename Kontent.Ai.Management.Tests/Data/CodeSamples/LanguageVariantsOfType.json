@@ -25,7 +25,25 @@
       "language": {
         "id": "00000000-0000-0000-0000-000000000000"
       },
-      "last_modified": "2020-02-27T19:08:25.404Z"
+      "last_modified": "2020-02-27T19:08:25.404Z",
+      "workflow": {
+        "workflow_identifier": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "step_identifier": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        }
+      },
+      "schedule": {
+        "publish_time": null,
+        "publish_display_timezone": null,
+        "unpublish_time": null,
+        "unpublish_display_timezone": null
+      },
+      "due_date": {
+        "value": null
+      },
+      "contributors": []
     }
   ],
   "pagination": {
