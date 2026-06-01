@@ -1,20 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Publishing;
+namespace Kontent.Ai.Management.Models.Publishing;
 
 /// <summary>
-/// Represents the schedule model.
+/// Payload for scheduling publishing or unpublishing of a language variant. Use the immediate publish/unpublish methods instead when no schedule is needed.
 /// </summary>
 public sealed record ScheduleModel
 {
     /// <summary>
-    /// Gets ISO-8601 formatted date-time for scheduled (un)publishing.
-    /// If you do not provide this property, the specified language variant is (un)published immediately.
+    /// ISO-8601 date-time at which the variant should be (un)published.
     /// </summary>
     [JsonPropertyName("scheduled_to")]
-    public DateTimeOffset ScheduleTo { get; init; }
+    public required DateTimeOffset ScheduleTo { get; init; }
 
     /// <summary>
-    /// IANA time zone name used to display time offset of the scheduled publish date in the UI.
+    /// IANA time zone name used to display the scheduled date's offset in the UI. Optional.
     /// </summary>
     [JsonPropertyName("display_timezone")]
-    public string DisplayTimeZone { get; init; }
+    public string? DisplayTimeZone { get; init; }
 }
