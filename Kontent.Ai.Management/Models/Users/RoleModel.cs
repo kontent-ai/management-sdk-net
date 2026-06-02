@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Users;
+namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
-/// Represents user's role.
+/// A role assignment within a user's collection group.
 /// </summary>
 public sealed record RoleModel
 {
     /// <summary>
-    /// Gets id of user's role.
+    /// Reference ID of the role.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets reference to languages.
+    /// Languages the role applies to. An empty array assigns the role to all languages.
     /// </summary>
     [JsonPropertyName("languages")]
-    public IEnumerable<Reference> Languages { get; init; }
+    public required IEnumerable<Reference> Languages { get; init; }
 }

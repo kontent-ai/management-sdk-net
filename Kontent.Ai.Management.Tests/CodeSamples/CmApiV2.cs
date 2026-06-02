@@ -1536,7 +1536,8 @@ public class CmApiV2
 
         var response = await client.InviteUserIntoEnvironmentAsync(new UserInviteModel
         {
-            CollectionGroup = new List<UserCollectionGroup>
+            Email = "user@example.com",
+            CollectionGroups = new List<UserCollectionGroup>
             {
                 new UserCollectionGroup
                 {
@@ -2055,7 +2056,8 @@ public class CmApiV2
             identifier,
             new UserModel
             {
-                CollectionGroup = new List<UserCollectionGroup>
+                Id = "usr_0vRMQhkfhH0A5azU753QPz",
+                CollectionGroups = new List<UserCollectionGroup>
                 {
                     new UserCollectionGroup
                     {

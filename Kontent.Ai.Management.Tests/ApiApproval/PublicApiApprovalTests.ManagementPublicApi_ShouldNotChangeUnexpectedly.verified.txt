@@ -2308,7 +2308,7 @@ public sealed class UserCollectionGroup : IEquatable`1
 
 // Kontent.Ai.Management.Models.Users
 public sealed class UserInviteModel : IEquatable`1
-    IEnumerable<UserCollectionGroup> CollectionGroup { get; set; init; }
+    IEnumerable<UserCollectionGroup> CollectionGroups { get; set; init; }
     String Email { get; set; init; }
     UserInviteModel <Clone>$()
     Boolean Equals(Object obj)
@@ -2318,7 +2318,7 @@ public sealed class UserInviteModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Users
 public sealed class UserModel : IEquatable`1
-    IEnumerable<UserCollectionGroup> CollectionGroup { get; set; init; }
+    IEnumerable<UserCollectionGroup> CollectionGroups { get; set; init; }
     String Id { get; set; init; }
     UserModel <Clone>$()
     Boolean Equals(Object obj)

@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Users;
+namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
-/// Represents user's colection group.
+/// Pairs a set of collections with the roles a user holds in them.
 /// </summary>
 public sealed record UserCollectionGroup
 {
     /// <summary>
-    /// Gets user's collection.
+    /// Collections this group applies to. An empty array assigns the user to all collections.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference> Collections { get; init; }
+    public required IEnumerable<Reference> Collections { get; init; }
 
     /// <summary>
-    /// Gets user's roles.
+    /// Roles the user holds in these collections.
     /// </summary>
     [JsonPropertyName("roles")]
-    public IEnumerable<RoleModel> Roles { get; init; }
+    public required IEnumerable<RoleModel> Roles { get; init; }
 }

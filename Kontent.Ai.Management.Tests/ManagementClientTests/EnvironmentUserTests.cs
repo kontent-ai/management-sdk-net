@@ -20,7 +20,7 @@ public class EnvironmentUserTests
         var invitation = new UserInviteModel
         {
             Email = "test@kontent.ai",
-            CollectionGroup = new[] {
+            CollectionGroups = new[] {
                 new UserCollectionGroup
                 {
                     Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
@@ -68,7 +68,7 @@ public class EnvironmentUserTests
         var (client, mock) = MockClientFactory.Create();
         var user = new UserModel
         {
-            CollectionGroup = new[] {
+            CollectionGroups = new[] {
                 new UserCollectionGroup
                 {
                     Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
@@ -101,7 +101,7 @@ public class EnvironmentUserTests
         var (client, mock) = MockClientFactory.Create();
         var user = new UserModel
         {
-            CollectionGroup = new[] {
+            CollectionGroups = new[] {
                 new UserCollectionGroup
                 {
                     Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
@@ -133,7 +133,7 @@ public class EnvironmentUserTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyUsersRolesAsync(null!, new UserModel())).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyUsersRolesAsync(null!, new UserModel { Id = "usr_x", CollectionGroups = [] })).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]

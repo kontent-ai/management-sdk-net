@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Users;
+namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
-/// Represents user's invitation model.
+/// Payload for inviting a user into an environment.
 /// </summary>
 public sealed record UserInviteModel
 {
     /// <summary>
-    /// Gets the email of user that is to be invited.
+    /// Email address of the user to invite.
     /// </summary>
     [JsonPropertyName("email")]
-    public string Email { get; init; }
+    public required string Email { get; init; }
 
     /// <summary>
-    /// Gets the language's display name.
+    /// Collection-to-roles assignments for the invited user. Must contain at least one group.
     /// </summary>
     [JsonPropertyName("collection_groups")]
-    public IEnumerable<UserCollectionGroup> CollectionGroup { get; init; }
+    public required IEnumerable<UserCollectionGroup> CollectionGroups { get; init; }
 }

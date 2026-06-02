@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.Users;
+namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
-/// Represents the project user model.
+/// An environment user (response shape).
 /// </summary>
 public sealed record UserModel
 {
     /// <summary>
-    /// Gets the user's ID.
+    /// User ID. A prefixed string (e.g. <c>usr_...</c>), not a Guid.
     /// </summary>
     [JsonPropertyName("user_id")]
-    public string Id { get; init; }
+    public required string Id { get; init; }
 
     /// <summary>
-    /// Gets the language's display name.
+    /// The user's collection-to-roles assignments.
     /// </summary>
     [JsonPropertyName("collection_groups")]
-    public IEnumerable<UserCollectionGroup> CollectionGroup { get; init; }
+    public required IEnumerable<UserCollectionGroup> CollectionGroups { get; init; }
 }
