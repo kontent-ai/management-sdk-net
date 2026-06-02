@@ -770,7 +770,7 @@ public sealed class CustomAppCreateModel : IEquatable`1
     IReadOnlyCollection<Reference> AllowedRoles { get; set; init; }
     String Codename { get; set; init; }
     String Config { get; set; init; }
-    CustomAppDisplayMode DisplayMode { get; set; init; }
+    Nullable<CustomAppDisplayMode> DisplayMode { get; set; init; }
     String Name { get; set; init; }
     String SourceUrl { get; set; init; }
     CustomAppCreateModel <Clone>$()

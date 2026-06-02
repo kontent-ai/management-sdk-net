@@ -27,7 +27,7 @@ public enum PropertyName
     /// <summary>
     /// The custom app's config.
     /// </summary>
-    [EnumMember(Value = "Config")]
+    [EnumMember(Value = "config")]
     Config,
 
     /// <summary>

@@ -1,49 +1,49 @@
-﻿namespace Kontent.Ai.Management.Models.CustomApps;
+namespace Kontent.Ai.Management.Models.CustomApps;
 
 /// <summary>
-/// Represents the custom app model.
+/// A custom app (response shape).
 /// </summary>
 public sealed record CustomAppModel
 {
     /// <summary>
-    /// Gets the custom app's internal ID.
+    /// Server-generated custom app ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the custom app's name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the custom app's codename.
+    /// Codename.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the custom app's source url.
+    /// URL that hosts the custom app's UI.
     /// </summary>
     [JsonPropertyName("source_url")]
-    public string SourceUrl { get; init; }
+    public required string SourceUrl { get; init; }
 
     /// <summary>
-    /// Gets the custom app's config.
+    /// Stringified JSON configuration passed to the custom app. Null when not configured.
     /// </summary>
     [JsonPropertyName("config")]
-    public string Config { get; init; }
+    public string? Config { get; init; }
 
     /// <summary>
-    /// Gets the custom app's allowed roles.
+    /// Roles allowed to use the custom app. Always present; empty when no restriction is configured.
     /// </summary>
     [JsonPropertyName("allowed_roles")]
-    public IReadOnlyCollection<Reference> AllowedRoles { get; init; }
+    public required IReadOnlyCollection<Reference> AllowedRoles { get; init; }
 
     /// <summary>
-    /// Gets the custom app's display mode.
+    /// How the custom app is displayed in the UI. Always present; defaults to <see cref="CustomAppDisplayMode.FullScreen"/>.
     /// </summary>
     [JsonPropertyName("display_mode")]
-    public CustomAppDisplayMode DisplayMode { get; init; }
+    public required CustomAppDisplayMode DisplayMode { get; init; }
 }

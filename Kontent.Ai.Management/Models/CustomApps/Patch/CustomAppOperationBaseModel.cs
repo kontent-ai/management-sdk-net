@@ -1,29 +1,25 @@
-
 namespace Kontent.Ai.Management.Models.CustomApps.Patch;
 
 /// <summary>
-/// Represents the operation on the custom app.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
+/// Base shape for a custom app PATCH operation. Concrete subtypes specialize the verb (<c>replace</c>, <c>addInto</c>, <c>remove</c>).
 /// </summary>
 public abstract record CustomAppOperationBaseModel
 {
     /// <summary>
-    /// Gets specification of the operation to perform.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
+    /// Operation verb. Pinned by each concrete subtype.
     /// </summary>
     [JsonPropertyName("op")]
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets the name of the property to modify.
+    /// Property to operate on. <c>addInto</c> / <c>remove</c> target the <c>allowed_roles</c> collection; <c>replace</c> applies to any property.
     /// </summary>
     [JsonPropertyName("property_name")]
-    public PropertyName PropertyName { get; init; }
+    public required PropertyName PropertyName { get; init; }
 
     /// <summary>
-    /// Gets the value to replace into the property specified in the path where the format depends on the specific property.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
+    /// Value for the operation. Type depends on <see cref="PropertyName"/>. May be <c>null</c> when replacing a nullable property (e.g. clearing <c>config</c>).
     /// </summary>
     [JsonPropertyName("value")]
-    public object Value { get; init; }
+    public required object? Value { get; init; }
 }
