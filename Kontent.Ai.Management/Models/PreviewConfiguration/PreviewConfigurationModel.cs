@@ -1,19 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.PreviewConfiguration;
+namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents the preview configuration model.
+/// The environment's preview configuration. Used as both the GET response and the PUT (full-replace) request body.
 /// </summary>
 public sealed record PreviewConfigurationModel
 {
     /// <summary>
-    /// Gets space domains.
+    /// Space-to-domain mappings. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("space_domains")]
-    public IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; init; }
+    public required IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; init; }
 
     /// <summary>
-    /// Gets preview URL patterns.
+    /// Preview URL patterns per content type. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("preview_url_patterns")]
-    public IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; init; }
+    public required IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; init; }
 }

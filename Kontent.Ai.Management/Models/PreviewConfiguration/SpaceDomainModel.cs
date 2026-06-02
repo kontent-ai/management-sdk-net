@@ -1,20 +1,19 @@
-﻿
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents space domain model.
+/// Maps a space to the domain its preview URLs are served from.
 /// </summary>
 public sealed record SpaceDomainModel
 {
     /// <summary>
-    /// Gets the space reference.
+    /// Reference to the space.
     /// </summary>
     [JsonPropertyName("space")]
-    public Reference Space { get; init; }
+    public required Reference Space { get; init; }
 
     /// <summary>
-    /// Gets the space domain.
+    /// Domain serving the space's preview URLs.
     /// </summary>
     [JsonPropertyName("domain")]
-    public string Domain { get; init; }
+    public required string Domain { get; init; }
 }

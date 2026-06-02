@@ -1,20 +1,19 @@
-﻿
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents preview URL pattern model.
+/// A single preview URL pattern, optionally scoped to a space.
 /// </summary>
 public sealed record PreviewUrlPatternModel
 {
     /// <summary>
-    /// Gets the space reference.
+    /// Reference to the space this pattern applies to. Null for the default (space-agnostic) pattern.
     /// </summary>
     [JsonPropertyName("space")]
-    public Reference Space { get; init; }
+    public Reference? Space { get; init; }
 
     /// <summary>
-    /// Gets the content type URL pattern.
+    /// The preview URL pattern (may contain placeholders such as <c>{URLSlug}</c> and <c>{Space}</c>).
     /// </summary>
     [JsonPropertyName("url_pattern")]
-    public string UrlPattern { get; init; }
+    public required string UrlPattern { get; init; }
 }
