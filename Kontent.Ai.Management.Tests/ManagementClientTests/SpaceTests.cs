@@ -27,7 +27,7 @@ public class SpaceTests
         {
             Codename = expected.Codename,
             Name = expected.Name,
-            WebSpotlightRootItem = expected.WebSpotlightRootItem,
+            RootItem = expected.RootItem,
             Collections = expected.Collections
         };
 
@@ -119,7 +119,7 @@ public class SpaceTests
         {
             new() { PropertyName = PropertyName.Name, Value = "New space name" },
             new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" },
-            new() { PropertyName = PropertyName.WebSpotlightRootItem, Value = identifier },
+            new() { PropertyName = PropertyName.RootItem, Value = identifier },
             new() { PropertyName = PropertyName.Collections, Value = new[] {
                     Reference.ByCodename("collection_codename"),
                     Reference.ById(Guid.NewGuid()) }

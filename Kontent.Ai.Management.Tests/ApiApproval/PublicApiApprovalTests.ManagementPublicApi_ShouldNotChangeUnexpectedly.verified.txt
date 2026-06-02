@@ -1423,7 +1423,7 @@ public sealed class SpaceCreateModel : IEquatable`1
     String Codename { get; set; init; }
     IEnumerable<Reference> Collections { get; set; init; }
     String Name { get; set; init; }
-    Reference WebSpotlightRootItem { get; set; init; }
+    Reference RootItem { get; set; init; }
     SpaceCreateModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(SpaceCreateModel other)
@@ -1436,7 +1436,7 @@ public sealed class SpaceModel : IEquatable`1
     IEnumerable<Reference> Collections { get; set; init; }
     Guid Id { get; set; init; }
     String Name { get; set; init; }
-    Reference WebSpotlightRootItem { get; set; init; }
+    Reference RootItem { get; set; init; }
     SpaceModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(SpaceModel other)
@@ -1448,7 +1448,7 @@ public enum PropertyName : Enum
     Codename
     Collections
     Name
-    WebSpotlightRootItem
+    RootItem
 
 // Kontent.Ai.Management.Models.Spaces.Patch
 public sealed class SpaceOperationReplaceModel : IEquatable`1

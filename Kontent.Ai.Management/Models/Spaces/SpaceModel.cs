@@ -1,37 +1,37 @@
 namespace Kontent.Ai.Management.Models.Spaces;
 
 /// <summary>
-/// Represents the space model.
+/// A space (response shape).
 /// </summary>
 public sealed record SpaceModel
 {
     /// <summary>
-    /// Gets the space's internal ID.
+    /// Server-generated space ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the space's codename.
+    /// Codename.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the space's name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the space's root item.
+    /// Reference to the content item that acts as the space's root for preview. Null when no root item is set.
     /// </summary>
-    [JsonPropertyName("web_spotlight_root_item")]
-    public Reference WebSpotlightRootItem { get; init; }
+    [JsonPropertyName("root_item")]
+    public Reference? RootItem { get; init; }
 
     /// <summary>
-    /// Gets the space's collections
+    /// Collections belonging to the space. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference> Collections { get; init; }
+    public required IEnumerable<Reference> Collections { get; init; }
 }

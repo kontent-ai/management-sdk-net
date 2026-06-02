@@ -1,31 +1,31 @@
 namespace Kontent.Ai.Management.Models.Spaces;
 
 /// <summary>
-/// Represents the space create model.
+/// Payload for creating a space.
 /// </summary>
 public sealed record SpaceCreateModel
 {
     /// <summary>
-    /// Gets the space's name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the space's codename.
+    /// Codename. Required on create — unlike most domains, the API does not auto-generate it for spaces.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets the space's root item.
+    /// Reference to the content item that acts as the space's root for preview. Optional.
     /// </summary>
-    [JsonPropertyName("web_spotlight_root_item")]
-    public Reference WebSpotlightRootItem { get; init; }
+    [JsonPropertyName("root_item")]
+    public Reference? RootItem { get; init; }
 
     /// <summary>
-    /// Gets the space's collections
+    /// Collections belonging to the space. Optional.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference> Collections { get; init; }
+    public IEnumerable<Reference>? Collections { get; init; }
 }

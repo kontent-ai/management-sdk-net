@@ -1,26 +1,25 @@
-
 namespace Kontent.Ai.Management.Models.Spaces.Patch;
 
 /// <summary>
-/// Represents the replace operation.
+/// A <c>replace</c> operation in the modify-space patch payload.
 /// </summary>
 public sealed record SpaceOperationReplaceModel
 {
     /// <summary>
-    /// Represents the replace operation.
+    /// Operation verb. Always <c>replace</c> — the only verb supported on the spaces patch endpoint.
     /// </summary>
     [JsonPropertyName("op")]
     public string Op => "replace";
 
     /// <summary>
-    /// Gets the name of the property to modify.
+    /// Property to replace.
     /// </summary>
     [JsonPropertyName("property_name")]
-    public PropertyName PropertyName { get; init; }
+    public required PropertyName PropertyName { get; init; }
 
     /// <summary>
-    /// Gets the value to insert in the specified property.
+    /// New value. Type depends on <see cref="PropertyName"/>. Set to <c>null</c> to unset the root item.
     /// </summary>
     [JsonPropertyName("value")]
-    public object Value { get; init; }
+    public required object? Value { get; init; }
 }
