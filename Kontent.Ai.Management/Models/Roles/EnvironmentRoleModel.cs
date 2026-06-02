@@ -1,25 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.Roles;
+namespace Kontent.Ai.Management.Models.Roles;
 
 /// <summary>
-/// Represents the environment role model.
+/// An environment role (response shape).
 /// </summary>
 public sealed record EnvironmentRoleModel
 {
     /// <summary>
-    /// Gets the environment role's ID.
+    /// Server-generated role ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the environment role's display name.
+    /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the environment role's codename.
+    /// Codename. Only present for the built-in Project manager role; null for all other roles.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public string? Codename { get; init; }
 }
