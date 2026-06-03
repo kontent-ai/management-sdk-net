@@ -33,8 +33,18 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
     /// <c>services.AddManagementClient(...)</c>, which hands lifetime management to the container.
     /// </summary>
     public ManagementClient(ManagementOptions managementOptions)
+        : this(managementOptions, configureResilience: null, configureRefit: null)
     {
-        var (api, subscriptionApi, ownedResources) = BuildDependencies(managementOptions);
+    }
+
+    // Standalone construction with the optional hooks the ManagementClientBuilder exposes. The public ctor above
+    // delegates here with nulls, so its behaviour is unchanged.
+    internal ManagementClient(
+        ManagementOptions managementOptions,
+        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience,
+        Action<RefitSettings>? configureRefit)
+    {
+        var (api, subscriptionApi, ownedResources) = BuildDependencies(managementOptions, configureResilience, configureRefit);
 
         _managementApi = api;
         _subscriptionApi = subscriptionApi;
@@ -88,14 +98,17 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
     // Builds the env-scoped and subscription-scoped Refit clients plus the disposable bundle the ctor needs.
     // Validates options here so all standalone construction paths surface ValidationException uniformly (the DI
     // path uses ValidateOnStart, a separate mechanism with its own exception type — that's not something we control).
-    private static (IManagementApi Api, ISubscriptionApi SubscriptionApi, IDisposable OwnedResources) BuildDependencies(ManagementOptions options)
+    private static (IManagementApi Api, ISubscriptionApi SubscriptionApi, IDisposable OwnedResources) BuildDependencies(
+        ManagementOptions options,
+        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience,
+        Action<RefitSettings>? configureRefit)
     {
         ArgumentNullException.ThrowIfNull(options);
         Validator.ValidateObject(options, new ValidationContext(options), validateAllProperties: true);
 
         var optionsAccessor = new SnapshotManagementOptionsAccessor(options);
-        var pipeline = BuildResiliencePipeline(options);
-        var refitSettings = Configuration.RefitSettingsProvider.CreateRefitSettings();
+        var pipeline = BuildResiliencePipeline(options, configureResilience);
+        var refitSettings = Configuration.RefitSettingsProvider.CreateRefitSettings(configureRefit);
 
         var managementHttp = BuildHttpClient(options, $"projects/{options.EnvironmentId}", pipeline, optionsAccessor);
         var subscriptionHttp = BuildHttpClient(options, $"subscriptions/{options.SubscriptionId}", pipeline, optionsAccessor);
@@ -106,12 +119,22 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
         return (api, subscriptionApi, new CompositeDisposable(managementHttp, subscriptionHttp));
     }
 
-    private static ResiliencePipeline<HttpResponseMessage> BuildResiliencePipeline(ManagementOptions options)
+    private static ResiliencePipeline<HttpResponseMessage> BuildResiliencePipeline(
+        ManagementOptions options,
+        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience)
     {
         var builder = new ResiliencePipelineBuilder<HttpResponseMessage>();
         if (options.EnableResilience)
         {
-            ServiceCollectionExtensions.ConfigureDefaultResilience(builder);
+            // Mirrors the DI path's ConfigureResilienceHandler: a supplied hook fully replaces the default pipeline.
+            if (configureResilience is not null)
+            {
+                configureResilience(builder);
+            }
+            else
+            {
+                ServiceCollectionExtensions.ConfigureDefaultResilience(builder);
+            }
         }
         return builder.Build();
     }

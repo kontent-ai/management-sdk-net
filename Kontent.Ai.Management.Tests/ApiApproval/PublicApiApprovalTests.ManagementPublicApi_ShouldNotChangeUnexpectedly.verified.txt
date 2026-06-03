@@ -10,7 +10,7 @@ public interface IError
     IReadOnlyList<ValidationError> ValidationErrors { get; }
 
 // Kontent.Ai.Management
-public interface IManagementClient
+public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
@@ -318,6 +318,14 @@ public class SourceTrackingHeaderAttribute : Attribute
     String PackageName { get; }
     Int32 PatchVersion { get; }
     String PreReleaseLabel { get; }
+
+// Kontent.Ai.Management.Configuration
+public sealed class ManagementClientBuilder
+    IManagementClient Build()
+    ManagementClientBuilder ConfigureRefit(Action<RefitSettings> configureRefit)
+    static ManagementClientBuilder WithOptions(Action<ManagementOptions> configureOptions)
+    static ManagementClientBuilder WithOptions(ManagementOptions options)
+    ManagementClientBuilder WithResilience(Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience)
 
 // Kontent.Ai.Management.Configuration
 public sealed class ManagementOptions : IValidatableObject
