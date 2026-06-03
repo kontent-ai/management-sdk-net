@@ -8,10 +8,10 @@
 [![NuGet][nuget-shield]][nuget-url]
 [![Stack Overflow][stack-shield]](https://stackoverflow.com/tags/kontent-ai)
 
-The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) — programmatic read/write access to your Kontent.ai projects and environments: content items, language variants, content models, assets, taxonomies, workflows, and more.
+The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) — programmatic read/write access to your Kontent.ai projects and environments: content items, language variants, content models, assets, taxonomies, workflows, environments, and more.
 
 > [!IMPORTANT]
-> The Management SDK is undergoing a ground-up modernization. This README documents the **modernized API** — a result-based return type for every operation, `IAsyncEnumerable` pagination, and `System.Text.Json` serialization. **Breaking changes are expected** until the next major version is released; the current stable NuGet package still exposes the previous API.
+> The Management SDK is undergoing a ground-up modernization. This README documents the **modernized API** — a result-based return type for every operation, `IAsyncEnumerable` pagination, `System.Text.Json` serialization, and strongly-typed content models. **Breaking changes are expected** until the next major version is released; the current stable NuGet package still exposes the previous API.
 
 ## Table of Contents
 
@@ -20,18 +20,23 @@ The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/lea
 - [Creating the Client](#creating-the-client)
   - [With Dependency Injection](#with-dependency-injection)
   - [Standalone](#standalone)
+  - [Fluent Builder](#fluent-builder)
   - [From Configuration](#from-configuration)
   - [Multiple Named Clients](#multiple-named-clients)
+  - [Resilience and the HTTP Pipeline](#resilience-and-the-http-pipeline)
 - [Configuration Options](#configuration-options)
 - [The Result Pattern](#the-result-pattern)
+- [Error Handling](#error-handling)
 - [Identifiers](#identifiers)
+- [Pagination](#pagination)
 - [Content Items](#content-items)
 - [Language Variants](#language-variants)
-- [Pagination](#pagination)
-- [Publishing](#publishing)
+- [Strongly-Typed Models](#strongly-typed-models)
+- [Publishing and Scheduling](#publishing-and-scheduling)
 - [Assets](#assets)
 - [Content Model](#content-model)
-- [Strongly-Typed Models](#strongly-typed-models)
+- [Workflows](#workflows)
+- [Environment and Administration](#environment-and-administration)
 - [Further Information](#further-information)
 - [Contributing](#contributing)
 - [License](#license)
@@ -49,7 +54,11 @@ The SDK targets `net8.0`.
 ## Quick Start
 
 ```csharp
-var client = new ManagementClient(new ManagementOptions
+using Kontent.Ai.Management;
+using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Models.Shared;
+
+await using var client = new ManagementClient(new ManagementOptions
 {
     EnvironmentId = "<YOUR_ENVIRONMENT_ID>",
     ApiKey = "<YOUR_API_KEY>"
@@ -72,6 +81,8 @@ else
 
 ## Creating the Client
 
+There are three entry points, in order of preference: **dependency injection** for applications, the **standalone constructor** for scripts and simple consumers, and the **fluent builder** when a non-DI consumer needs to customize the HTTP pipeline.
+
 ### With Dependency Injection
 
 Register the client on your `IServiceCollection`:
@@ -84,21 +95,41 @@ services.AddManagementClient(options =>
 });
 ```
 
-`IManagementClient` is then resolvable from the container — inject it into your own services. This is the recommended approach: the container owns the client's lifetime and its underlying `HttpClient` pipeline.
+`IManagementClient` is then resolvable from the container — inject it into your own services. This is the recommended approach: the container owns the client's lifetime and its underlying `HttpClient` pipeline (via `IHttpClientFactory`), and reacts to configuration reloads.
+
+> [!NOTE]
+> A DI-resolved client is owned by the container — do **not** dispose it yourself. Disposal is a no-op on DI-managed instances; the container releases the underlying HTTP resources.
 
 ### Standalone
 
 For scripts and simple consumers, construct the client directly:
 
 ```csharp
-var client = new ManagementClient(new ManagementOptions
+await using var client = new ManagementClient(new ManagementOptions
 {
     EnvironmentId = "<YOUR_ENVIRONMENT_ID>",
     ApiKey = "<YOUR_API_KEY>"
 });
 ```
 
-A standalone `ManagementClient` owns its `HttpClient` instances — dispose it when you are done (it implements both `IDisposable` and `IAsyncDisposable`).
+A standalone client owns its `HttpClient` instances — dispose it when you are done (it implements both `IDisposable` and `IAsyncDisposable`, hence the `await using` above).
+
+### Fluent Builder
+
+When you are **not** using DI but still need to customize the resilience pipeline or Refit settings, use `ManagementClientBuilder`:
+
+```csharp
+await using var client = ManagementClientBuilder
+    .WithOptions(options =>
+    {
+        options.EnvironmentId = "<YOUR_ENVIRONMENT_ID>";
+        options.ApiKey = "<YOUR_API_KEY>";
+    })
+    .WithResilience(pipeline => /* customize the Polly pipeline */ pipeline.AddTimeout(TimeSpan.FromSeconds(30)))
+    .Build();
+```
+
+The builder is a thin wrapper over the resource-owning constructor — it does not spin up a private service provider. The built client owns its HTTP resources, so dispose it as with the standalone constructor.
 
 ### From Configuration
 
@@ -115,6 +146,8 @@ Bind the options from an `IConfiguration` section — `ManagementOptions` by def
 
 ```csharp
 services.AddManagementClient(configuration);
+// or bind a differently-named section:
+services.AddManagementClient(configuration, "MyManagementSection");
 ```
 
 ### Multiple Named Clients
@@ -149,6 +182,24 @@ public class ContentMigrator(IManagementClientFactory clientFactory)
 }
 ```
 
+### Resilience and the HTTP Pipeline
+
+Every client comes with a built-in resilience pipeline (powered by [`Microsoft.Extensions.Http.Resilience`](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience)): retries on transient failures and `429` responses, exponential backoff with jitter, and `Retry-After` handling. Set `EnableResilience = false` to turn it into a passthrough.
+
+To replace the pipeline wholesale, use the `configureResilience` hook on the DI overload, or `WithResilience(...)` on the builder:
+
+```csharp
+services.AddManagementClient(
+    options => { options.EnvironmentId = "..."; options.ApiKey = "..."; },
+    configureHttpClient: null,
+    configureResilience: pipeline => pipeline
+        .AddRetry(new HttpRetryStrategyOptions { MaxRetryAttempts = 5 })
+        .AddTimeout(TimeSpan.FromSeconds(30)));
+```
+
+> [!NOTE]
+> Unlike the sibling Delivery and Sync SDKs, the Management pipeline has **no default per-attempt timeout** — asset and file uploads can legitimately run long, and a blind retry would just re-upload. Add one via the hooks above if you need it.
+
 ## Configuration Options
 
 | Option | Required | Default | Description |
@@ -158,6 +209,8 @@ public class ContentMigrator(IManagementClientFactory clientFactory)
 | `SubscriptionId` | No | — | The subscription GUID. Required only for subscription-scoped endpoints (such as user management). |
 | `EnableResilience` | No | `true` | Toggles the built-in retry/backoff pipeline without uninstalling it. |
 | `Endpoint` / `EndpointV2` | No | Production URLs | Override only when targeting non-production endpoints. |
+
+`ManagementOptions` validates on use: a missing or malformed `EnvironmentId`/`ApiKey` surfaces as a `ValidationException` from the constructor/builder, or an `OptionsValidationException` at provider-build time in DI.
 
 ## The Result Pattern
 
@@ -171,9 +224,30 @@ var result = await client.CreateContentItemAsync(new ContentItemCreateModel
     Type = Reference.ByCodename("article")
 });
 
+if (result.IsSuccess)
+{
+    ContentItemModel item = result.Value;
+}
+```
+
+A result carries:
+
+- `IsSuccess` — whether the operation succeeded.
+- `Value` — the returned value, on success (`IManagementResult<T>` only).
+- `Error` — the failure detail, on failure (see [Error Handling](#error-handling)).
+- `StatusCode`, `RequestUrl`, `ResponseHeaders` — response diagnostics. `StatusCode` is `null` when the failure happened before or without an HTTP response (local validation or a transport error).
+
+## Error Handling
+
+On failure, `result.Error` (an `IError`) describes what went wrong:
+
+```csharp
+var result = await client.CreateContentItemAsync(model);
+
 if (!result.IsSuccess)
 {
     Console.WriteLine($"Request failed ({result.StatusCode}): {result.Error?.Message}");
+    Console.WriteLine($"Request ID: {result.Error?.RequestId}");   // quote this when reporting an issue
 
     foreach (var validationError in result.Error?.ValidationErrors ?? [])
     {
@@ -182,18 +256,12 @@ if (!result.IsSuccess)
 
     return;
 }
-
-var item = result.Value;
 ```
 
-A result carries:
+`IError` exposes `Message`, `RequestId`, `ErrorCode` (Kontent.ai's diagnostic code, not the HTTP status), `ValidationErrors`, and the underlying `Exception` for transport-level failures.
 
-- `IsSuccess` — whether the operation succeeded.
-- `Value` — the returned value, on success (`IManagementResult<T>` only).
-- `Error` — the failure detail, on failure: `Message`, `RequestId`, `ErrorCode`, `ValidationErrors`, and the underlying `Exception` for transport-level failures.
-- `StatusCode`, `RequestUrl`, `ResponseHeaders` — response diagnostics.
-
-Exceptions are reserved for programmer errors (for example, a `null` argument) and invalid configuration — not for API errors.
+> [!IMPORTANT]
+> Exceptions are reserved for **programmer errors** (for example, a `null` argument), **invalid configuration**, and **network/serialization failures** — not for API errors. A `404` or a validation rejection comes back as `IsSuccess == false`, never as a thrown exception.
 
 ## Identifiers
 
@@ -220,6 +288,47 @@ var variantIdentifier = new LanguageVariantIdentifier(
     Reference.ByCodename("en-US"));
 ```
 
+> [!NOTE]
+> Not every endpoint accepts every identifier kind — some are ID-only, some forbid external IDs. Passing an unsupported kind throws an `InvalidOperationException` before any request is sent.
+
+## Pagination
+
+Listing endpoints that page through a continuation token are exposed as `EnumerateXPagesAsync` methods returning an `IAsyncEnumerable` of pages. Each iteration is one HTTP request, and each page is itself a result:
+
+```csharp
+await foreach (var page in client.EnumerateContentItemPagesAsync())
+{
+    if (!page.IsSuccess)
+    {
+        Console.WriteLine($"Failed to fetch a page: {page.Error?.Message}");
+        break;
+    }
+
+    foreach (var item in page.Value)
+    {
+        Console.WriteLine(item.Name);
+    }
+}
+```
+
+The next page is fetched only when you iterate past the current one, so breaking early leaves later pages unrequested.
+
+When you don't need per-page control, flatten the page stream into a stream of items with the `Items<T>()` extension:
+
+```csharp
+using Kontent.Ai.Management.Extensions;
+
+await foreach (var item in client.EnumerateContentItemPagesAsync().Items())
+{
+    Console.WriteLine(item.Name);
+}
+```
+
+> [!WARNING]
+> `Items<T>()` opts out of the per-page result channel, so a failed page has nowhere to surface as data — it is thrown as a `ManagementResultException`. Consume the page stream directly (as in the first example) when a mid-enumeration failure must be handled without an exception.
+
+Some listings that are always small (collections, webhooks, spaces, workflows, roles) return the full set in one `IManagementResult<IEnumerable<T>>` instead of a page stream.
+
 ## Content Items
 
 A content item is the language-agnostic wrapper; the actual content lives in its [language variants](#language-variants).
@@ -233,10 +342,11 @@ var created = await client.CreateContentItemAsync(new ContentItemCreateModel
 {
     Name = "On Roasts",
     Codename = "on_roasts",
-    Type = Reference.ByCodename("article")
+    Type = Reference.ByCodename("article"),
+    Collection = Reference.ByCodename("default")   // optional
 });
 
-// Create or update
+// Create or update by external ID
 var upserted = await client.UpsertContentItemAsync(
     Reference.ByExternalId("59713"),
     new ContentItemUpsertModel
@@ -251,7 +361,7 @@ await client.DeleteContentItemAsync(Reference.ByCodename("on_roasts"));
 
 ## Language Variants
 
-A language variant holds the actual content for one language of a content item. Provide elements as anonymous objects — each element is located by its `codename`, `id`, or `external_id`; omitted elements are left unchanged:
+A language variant holds the actual content for one language of a content item. The most direct way to set elements is as anonymous objects — each element is located by its `codename`, `id`, or `external_id`, and omitted elements are left unchanged:
 
 ```csharp
 var identifier = new LanguageVariantIdentifier(
@@ -270,7 +380,7 @@ var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVar
         new
         {
             element = new { codename = "post_date" },
-            value = new DateTime(2018, 7, 4)
+            value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero)
         }
     }
 });
@@ -285,30 +395,67 @@ var allVariants = await client.ListLanguageVariantsByItemAsync(Reference.ByCoden
 // allVariants.Value is an IReadOnlyList<LanguageVariantModel>
 ```
 
-For a strongly-typed alternative, see [Strongly-Typed Models](#strongly-typed-models).
+You can also enumerate variants across a whole collection, space, or content type — see the `EnumerateLanguageVariantsByCollectionPagesAsync`, `…BySpacePagesAsync`, and `…ByTypePagesAsync` methods.
 
-## Pagination
+> [!TIP]
+> Anonymous objects are the untyped escape hatch — convenient, but the element codenames and value shapes aren't checked at compile time. For type-safe authoring, use [strongly-typed models](#strongly-typed-models).
 
-Listing endpoints that page through a continuation token are exposed as `EnumerateXPagesAsync` methods returning an `IAsyncEnumerable` of pages. Each iteration is one HTTP request, and each page is itself a result:
+## Strongly-Typed Models
+
+Instead of anonymous element objects, you can work with strongly-typed records that mirror your content types. Pass a generated model directly to `UpsertLanguageVariantAsync` — only the properties you set are sent (partial update), and the record is validated locally before any HTTP call:
 
 ```csharp
-var items = new List<ContentItemModel>();
+var identifier = new LanguageVariantIdentifier(
+    Reference.ByCodename("on_roasts"),
+    Reference.ByCodename("en-US"));
 
-await foreach (var page in client.EnumerateContentItemPagesAsync())
+var article = new Article
 {
-    if (!page.IsSuccess)
-    {
-        Console.WriteLine($"Failed to fetch a page: {page.Error?.Message}");
-        break;
-    }
+    Title = "On Roasts",
+    PublishingDate = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero)
+};
 
-    items.AddRange(page.Value);
-}
+var result = await client.UpsertLanguageVariantAsync(identifier, article);
 ```
 
-The next page is fetched only when you iterate past the current one, so breaking early leaves later pages unrequested.
+Retrieve a variant the same way with the generic overload:
 
-## Publishing
+```csharp
+var result = await client.GetLanguageVariantAsync<Article>(identifier);
+Article variant = result.Value;
+```
+
+### Element value types
+
+Most elements map to a plain CLR type — `string` for text, `decimal?` for number, `IReadOnlyList<Reference>` for linked items, taxonomy, and subpages, and `RichTextElement` for rich text. Three element kinds carry more than a bare value and use a small wrapper record:
+
+```csharp
+var article = new Article
+{
+    // Date & time — an instant plus an optional IANA zone for how the UI displays it
+    PublishingDate = new DateTimeValue
+    {
+        Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+        DisplayTimeZone = "Europe/Prague"
+    },
+
+    // URL slug — the slug plus whether it is custom or regenerated from its source element
+    Slug = new UrlSlugValue { Value = "on-roasts", Mode = UrlSlugMode.Custom },
+
+    // Custom element — the opaque value plus the plaintext used for search and filtering
+    Rating = new CustomValue { Value = "{\"stars\":5}", SearchableValue = "5 stars" }
+};
+```
+
+Each wrapper has an implicit conversion for the common case, so `Slug = "on-roasts"` (custom mode) and `Rating = "{\"stars\":5}"` work when you don't need the extra field.
+
+> [!IMPORTANT]
+> A date & time value is stored as a **UTC instant**; `DisplayTimeZone` is only a hint for how the editor renders it and never changes the instant. The element accepts a `DateTimeOffset` (not a `DateTime`) so the moment is unambiguous — a bare `DateTime` would be resolved against the machine's local zone. Whatever offset you supply is normalized to UTC on the wire.
+
+> [!TIP]
+> You don't have to hand-write these models. The [**Kontent.ai model generator**](https://github.com/kontent-ai/model-generator-net) generates strongly-typed records from your content model. Management-model generation is currently in active development — watch the repository for its release.
+
+## Publishing and Scheduling
 
 ```csharp
 var identifier = new LanguageVariantIdentifier(
@@ -321,14 +468,21 @@ await client.PublishLanguageVariantAsync(identifier);
 // Schedule publishing
 await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
 {
-    ScheduleTo = DateTime.Parse("2038-01-19T04:14:08"),
+    ScheduleTo = new DateTimeOffset(2038, 1, 19, 4, 14, 8, TimeSpan.Zero),
     DisplayTimeZone = "Europe/London"
 });
 
 // Unpublish, and create a new draft version of a published variant
 await client.UnpublishLanguageVariantAsync(identifier);
 await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+
+// Move a variant to a different workflow step
+await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVariantWorkflowModel(
+    workflow: Reference.ByCodename("default"),
+    step: Reference.ByCodename("review")));
 ```
+
+`SchedulePublishingAndUnpublishingOfLanguageVariantAsync` sets both ends of a publish window in one call.
 
 ## Assets
 
@@ -337,10 +491,10 @@ Creating an asset is a two-step process: upload the binary file, then create the
 ```csharp
 var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world"));
 
-// Upload the binary file
+// 1. Upload the binary file
 var fileResult = await client.UploadFileAsync(new FileContentSource(stream, "hello.txt", "text/plain"));
 
-// Create the asset, optionally assigning taxonomy terms
+// 2. Create the asset, optionally assigning taxonomy terms
 var result = await client.CreateAssetAsync(new AssetCreateModel
 {
     FileReference = fileResult.Value,
@@ -360,9 +514,11 @@ var result = await client.CreateAssetAsync(new AssetCreateModel
 });
 ```
 
+Assets are enumerated with `EnumerateAssetPagesAsync`, updated with `UpsertAssetAsync`, and deleted with `DeleteAssetAsync`. Renditions (`CreateAssetRenditionAsync`, `EnumerateAssetRenditionPagesAsync`) and the asset-folder hierarchy (`GetAssetFoldersAsync`, `CreateAssetFoldersAsync`, `ModifyAssetFoldersAsync`) are managed through their own methods.
+
 ## Content Model
 
-Content types, snippets, and taxonomy groups can all be created and modified through the SDK:
+Content types, snippets, and taxonomy groups can all be created and modified through the SDK. Elements of a content type are described by `ElementMetadataBase` subtypes — one per element kind (`TextElementMetadataModel`, `RichTextElementMetadataModel`, `NumberElementMetadataModel`, `AssetElementMetadataModel`, and so on):
 
 ```csharp
 var result = await client.CreateContentTypeAsync(new ContentTypeCreateModel
@@ -374,7 +530,8 @@ var result = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         new TextElementMetadataModel
         {
             Name = "Title",
-            Codename = "title"
+            Codename = "title",
+            IsRequired = true
         },
         new RichTextElementMetadataModel
         {
@@ -385,35 +542,77 @@ var result = await client.CreateContentTypeAsync(new ContentTypeCreateModel
 });
 ```
 
-Existing types are changed with a list of patch operations via `ModifyContentTypeAsync`, and the full set is enumerated with `EnumerateContentTypePagesAsync`.
-
-## Strongly-Typed Models
-
-Instead of anonymous element objects, you can work with strongly-typed records that mirror your content types. Pass a generated model directly to `UpsertLanguageVariantAsync` — only the properties you set are sent:
+A taxonomy group is created with its terms (terms nest recursively):
 
 ```csharp
-var identifier = new LanguageVariantIdentifier(
-    Reference.ByCodename("on_roasts"),
-    Reference.ByCodename("en-US"));
-
-var article = new Article
+await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
 {
-    Title = "On Roasts",
-    PublishingDate = new DateTime(2018, 7, 4)
-};
-
-var result = await client.UpsertLanguageVariantAsync(identifier, article);
+    Name = "Categories",
+    Codename = "categories",
+    Terms = new[]
+    {
+        new TaxonomyTermCreateModel { Name = "Coffee", Codename = "coffee" },
+        new TaxonomyTermCreateModel { Name = "Brewing", Codename = "brewing" }
+    }
+});
 ```
 
-Retrieve a variant the same way with the generic overload:
+Content type snippets work the same way via `CreateContentTypeSnippetAsync` (a `ContentTypeSnippetCreateModel` carries `Name`, `Codename`, and `Elements`).
+
+Existing types, snippets, and taxonomy groups are changed with a list of **patch operations** rather than a full replace:
 
 ```csharp
-var result = await client.GetLanguageVariantAsync<Article>(identifier);
-Article variant = result.Value;
+await client.ModifyContentTypeAsync(Reference.ByCodename("article"), new ContentTypeOperationBaseModel[]
+{
+    // add, remove, replace, move operations …
+});
 ```
 
-> [!TIP]
-> You don't have to hand-write these models. The [**Kontent.ai model generator**](https://github.com/kontent-ai/model-generator-net) generates strongly-typed records from your content model. Management-model generation is currently in active development — watch the repository for its release.
+The full set of each is enumerated with `EnumerateContentTypePagesAsync`, `EnumerateContentTypeSnippetPagesAsync`, and `EnumerateTaxonomyGroupPagesAsync`.
+
+## Workflows
+
+```csharp
+// List
+var workflows = await client.ListWorkflowsAsync();
+
+// Create / update / delete
+var created = await client.CreateWorkflowAsync(new WorkflowUpsertModel { /* steps, scopes … */ });
+await client.UpdateWorkflowAsync(Reference.ByCodename("default"), updatedWorkflow);
+await client.DeleteWorkflowAsync(Reference.ByCodename("editorial"));
+```
+
+## Environment and Administration
+
+The client also covers environment-level configuration and administration. These follow the same result-pattern and identifier conventions as the sections above; the full request/response shapes are in the [Management API reference](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/).
+
+| Area | Key methods |
+|------|-------------|
+| **Languages** | `GetLanguageAsync`, `CreateLanguageAsync`, `ModifyLanguageAsync`, `EnumerateLanguagePagesAsync` |
+| **Collections** | `ListCollectionsAsync`, `ModifyCollectionAsync` |
+| **Spaces** | `ListSpacesAsync`, `GetSpaceAsync`, `CreateSpaceAsync`, `ModifySpaceAsync`, `DeleteSpaceAsync` |
+| **Webhooks** | `ListWebhooksAsync`, `GetWebhookAsync`, `CreateWebhookAsync`, `EnableWebhookAsync`, `DisableWebhookAsync`, `DeleteWebhookAsync` |
+| **Preview** | `GetPreviewConfigurationAsync`, `ModifyPreviewConfigurationAsync` |
+| **Custom apps** | `EnumerateCustomAppPagesAsync`, `GetCustomAppAsync`, `CreateCustomAppAsync`, `ModifyCustomAppAsync`, `DeleteCustomAppAsync` |
+| **Roles** | `ListEnvironmentRolesAsync`, `GetEnvironmentRoleAsync` |
+| **Environment users** | `InviteUserIntoEnvironmentAsync`, `ModifyUsersRolesAsync` |
+| **Environment lifecycle** | `GetEnvironmentInformationAsync`, `CloneEnvironmentAsync`, `GetEnvironmentCloningStateAsync`, `MarkEnvironmentAsProductionAsync`, `ModifyEnvironmentAsync`, `DeleteEnvironmentAsync` |
+| **Validation** | `ValidateEnvironmentAsync`, `InitiateEnvironmentAsyncValidationTaskAsync`, `GetAsyncValidationTaskAsync`, `EnumerateAsyncValidationTaskIssuePagesAsync` |
+
+For example, creating a language:
+
+```csharp
+await client.CreateLanguageAsync(new LanguageCreateModel
+{
+    Name = "German",
+    Codename = "de-DE",
+    IsActive = true,
+    FallbackLanguage = Reference.ByCodename("en-US")
+});
+```
+
+> [!NOTE]
+> Subscription-scoped endpoints — `EnumerateSubscriptionProjectPagesAsync`, `EnumerateSubscriptionUserPagesAsync`, `GetSubscriptionUserAsync`, `ActivateSubscriptionUserAsync`, `DeactivateSubscriptionUserAsync` — require `SubscriptionId` to be set in the options and an API key with subscription scope.
 
 ## Further Information
 

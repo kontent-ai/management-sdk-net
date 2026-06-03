@@ -1,10 +1,22 @@
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Conversion;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
+using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Models.Items;
+using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.Publishing;
+using Kontent.Ai.Management.Models.TaxonomyGroups;
+using Kontent.Ai.Management.Models.Types;
+using Kontent.Ai.Management.Models.Types.Elements;
+using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Tests.Base;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
 using MyProject.Models;
+using Polly;
 using RichardSzalay.MockHttp;
 using System.Text;
 
@@ -59,7 +71,7 @@ public class Readme
             new
             {
                 element = new { codename = "post_date" },
-                value = new DateTime(2018, 7, 4),
+                value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
             }
         };
 
@@ -175,6 +187,279 @@ public class Readme
 
         // Updates asset metadata
         var response = await client.UpsertAssetAsync(assetReference, asset);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // The members below mirror the remaining README.md code blocks for compile-time safety only: if a model shape or
+    // client signature drifts, the build breaks here. They are intentionally not [Fact]s and are never executed —
+    // they take the dependencies each snippet assumes already exist.
+    // ---------------------------------------------------------------------------------------------------------------
+
+    public async Task QuickStart(IManagementClient client)
+    {
+        var result = await client.GetContentItemAsync(Reference.ByCodename("on_roasts"));
+
+        if (result.IsSuccess)
+        {
+            Console.WriteLine(result.Value.Name);
+        }
+        else
+        {
+            Console.WriteLine($"{result.StatusCode}: {result.Error?.Message}");
+        }
+    }
+
+    public void RegisterWithDependencyInjection(IServiceCollection services)
+    {
+        services.AddManagementClient(options =>
+        {
+            options.EnvironmentId = "<YOUR_ENVIRONMENT_ID>";
+            options.ApiKey = "<YOUR_API_KEY>";
+        });
+    }
+
+    public async Task BuildStandalone()
+    {
+        await using var client = new ManagementClient(new ManagementOptions
+        {
+            EnvironmentId = "<YOUR_ENVIRONMENT_ID>",
+            ApiKey = "<YOUR_API_KEY>"
+        });
+    }
+
+    public async Task BuildWithBuilder()
+    {
+        await using var client = ManagementClientBuilder
+            .WithOptions(options =>
+            {
+                options.EnvironmentId = "<YOUR_ENVIRONMENT_ID>";
+                options.ApiKey = "<YOUR_API_KEY>";
+            })
+            .WithResilience(pipeline => pipeline.AddTimeout(TimeSpan.FromSeconds(30)))
+            .Build();
+    }
+
+    public void RegisterFromConfiguration(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddManagementClient(configuration);
+        services.AddManagementClient(configuration, "MyManagementSection");
+    }
+
+    public void RegisterNamedClients(IServiceCollection services)
+    {
+        services.AddManagementClient("production", options =>
+        {
+            options.EnvironmentId = "<PRODUCTION_ENVIRONMENT_ID>";
+            options.ApiKey = "<PRODUCTION_API_KEY>";
+        });
+
+        services.AddManagementClient("staging", options =>
+        {
+            options.EnvironmentId = "<STAGING_ENVIRONMENT_ID>";
+            options.ApiKey = "<STAGING_API_KEY>";
+        });
+    }
+
+    private sealed class ContentMigrator(IManagementClientFactory clientFactory)
+    {
+        public void Run()
+        {
+            var production = clientFactory.Get("production");
+            var staging = clientFactory.Get("staging");
+        }
+    }
+
+    public void RegisterWithResilience(IServiceCollection services)
+    {
+        services.AddManagementClient(
+            options => { options.EnvironmentId = "..."; options.ApiKey = "..."; },
+            configureHttpClient: null,
+            configureResilience: pipeline => pipeline
+                .AddRetry(new HttpRetryStrategyOptions { MaxRetryAttempts = 5 })
+                .AddTimeout(TimeSpan.FromSeconds(30)));
+    }
+
+    public async Task ResultPattern(IManagementClient client)
+    {
+        var result = await client.CreateContentItemAsync(new ContentItemCreateModel
+        {
+            Name = "On Roasts",
+            Codename = "on_roasts",
+            Type = Reference.ByCodename("article")
+        });
+
+        if (result.IsSuccess)
+        {
+            ContentItemModel item = result.Value;
+        }
+    }
+
+    public async Task ErrorHandling(IManagementClient client, ContentItemCreateModel model)
+    {
+        var result = await client.CreateContentItemAsync(model);
+
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine($"Request failed ({result.StatusCode}): {result.Error?.Message}");
+            Console.WriteLine($"Request ID: {result.Error?.RequestId}");
+
+            foreach (var validationError in result.Error?.ValidationErrors ?? [])
+            {
+                Console.WriteLine(validationError.Message);
+            }
+        }
+    }
+
+    public void Identifiers()
+    {
+        var byEmail = UserIdentifier.ByEmail("user@example.com");
+        var byUserId = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
+
+        var variantIdentifier = new LanguageVariantIdentifier(
+            Reference.ByCodename("on_roasts"),
+            Reference.ByCodename("en-US"));
+    }
+
+    public async Task Pagination(IManagementClient client)
+    {
+        await foreach (var page in client.EnumerateContentItemPagesAsync())
+        {
+            if (!page.IsSuccess)
+            {
+                Console.WriteLine($"Failed to fetch a page: {page.Error?.Message}");
+                break;
+            }
+
+            foreach (var item in page.Value)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
+
+        await foreach (var item in client.EnumerateContentItemPagesAsync().Items())
+        {
+            Console.WriteLine(item.Name);
+        }
+    }
+
+    public async Task ContentItems(IManagementClient client)
+    {
+        var item = await client.GetContentItemAsync(Reference.ByCodename("on_roasts"));
+
+        var created = await client.CreateContentItemAsync(new ContentItemCreateModel
+        {
+            Name = "On Roasts",
+            Codename = "on_roasts",
+            Type = Reference.ByCodename("article"),
+            Collection = Reference.ByCodename("default")
+        });
+
+        var upserted = await client.UpsertContentItemAsync(
+            Reference.ByExternalId("59713"),
+            new ContentItemUpsertModel
+            {
+                Name = "On Roasts",
+                Type = Reference.ByCodename("article")
+            });
+
+        await client.DeleteContentItemAsync(Reference.ByCodename("on_roasts"));
+    }
+
+    public async Task StronglyTypedGet(IManagementClient client, LanguageVariantIdentifier identifier)
+    {
+        var result = await client.GetLanguageVariantAsync<Article>(identifier);
+        Article variant = result.Value;
+    }
+
+    public void ElementValueTypes()
+    {
+        var article = new Article
+        {
+            PublishingDate = new DateTimeValue
+            {
+                Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+                DisplayTimeZone = "Europe/Prague"
+            },
+            Slug = new UrlSlugValue { Value = "on-roasts", Mode = UrlSlugMode.Custom },
+            Rating = new CustomValue { Value = "{\"stars\":5}", SearchableValue = "5 stars" }
+        };
+
+        var shorthand = new Article
+        {
+            Slug = "on-roasts",
+            Rating = "{\"stars\":5}"
+        };
+    }
+
+    public async Task PublishingAndScheduling(IManagementClient client, LanguageVariantIdentifier identifier)
+    {
+        await client.PublishLanguageVariantAsync(identifier);
+
+        await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
+        {
+            ScheduleTo = new DateTimeOffset(2038, 1, 19, 4, 14, 8, TimeSpan.Zero),
+            DisplayTimeZone = "Europe/London"
+        });
+
+        await client.UnpublishLanguageVariantAsync(identifier);
+        await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+
+        await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVariantWorkflowModel(
+            workflow: Reference.ByCodename("default"),
+            step: Reference.ByCodename("review")));
+    }
+
+    public async Task ContentModel(IManagementClient client)
+    {
+        await client.CreateContentTypeAsync(new ContentTypeCreateModel
+        {
+            Name = "Article",
+            Codename = "article",
+            Elements = new ElementMetadataBase[]
+            {
+                new TextElementMetadataModel
+                {
+                    Name = "Title",
+                    Codename = "title",
+                    IsRequired = true
+                },
+                new RichTextElementMetadataModel
+                {
+                    Name = "Body",
+                    Codename = "body"
+                }
+            }
+        });
+
+        await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
+        {
+            Name = "Categories",
+            Codename = "categories",
+            Terms = new[]
+            {
+                new TaxonomyTermCreateModel { Name = "Coffee", Codename = "coffee" },
+                new TaxonomyTermCreateModel { Name = "Brewing", Codename = "brewing" }
+            }
+        });
+
+        await client.ModifyContentTypeAsync(Reference.ByCodename("article"), new ContentTypeOperationBaseModel[] { });
+    }
+
+    public async Task Workflows(IManagementClient client)
+    {
+        var workflows = await client.ListWorkflowsAsync();
+        await client.DeleteWorkflowAsync(Reference.ByCodename("editorial"));
+    }
+
+    public async Task EnvironmentAdmin(IManagementClient client)
+    {
+        await client.CreateLanguageAsync(new LanguageCreateModel
+        {
+            Name = "German",
+            Codename = "de-DE",
+            IsActive = true,
+            FallbackLanguage = Reference.ByCodename("en-US")
+        });
     }
 
     // The test assembly carries deliberately colliding generated-model fixtures; scope the converter to the single
