@@ -1,14 +1,13 @@
-
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
-/// Async validation task type issue.
+/// A content type issue found by an async validation task.
 /// </summary>
 public sealed record AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel
 {
     /// <summary>
-    /// Gets item reference.
+    /// The content type the issues belong to.
     /// </summary>
     [JsonPropertyName("type")]
-    public Metadata Type { get; init; }
+    public required Metadata Type { get; init; }
 }

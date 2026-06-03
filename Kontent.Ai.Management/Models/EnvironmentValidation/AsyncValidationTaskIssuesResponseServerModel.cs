@@ -4,10 +4,10 @@ namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 internal class AsyncValidationTaskIssuesResponseServerModel : IListingResponse<AsyncValidationTaskIssueModel>
 {
     [JsonPropertyName("issues")]
-    public IEnumerable<AsyncValidationTaskIssueModel> Issues { get; set; }
+    public required IEnumerable<AsyncValidationTaskIssueModel> Issues { get; set; }
 
     [JsonPropertyName("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
+    public required PaginationResponseModel Pagination { get; set; }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

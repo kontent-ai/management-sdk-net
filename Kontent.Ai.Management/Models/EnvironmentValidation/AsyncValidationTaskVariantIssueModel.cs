@@ -1,20 +1,19 @@
-
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
-/// Async validation task variant issue.
+/// A language variant issue found by an async validation task.
 /// </summary>
 public sealed record AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel
 {
     /// <summary>
-    /// Gets item reference.
+    /// The content item the variant belongs to.
     /// </summary>
     [JsonPropertyName("item")]
-    public Metadata Item { get; init; }
+    public required Metadata Item { get; init; }
 
     /// <summary>
-    /// Gets language reference.
+    /// The variant's language.
     /// </summary>
     [JsonPropertyName("language")]
-    public Metadata Language { get; init; }
+    public required Metadata Language { get; init; }
 }

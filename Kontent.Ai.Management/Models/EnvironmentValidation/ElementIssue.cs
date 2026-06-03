@@ -9,11 +9,11 @@ public sealed record ElementIssue
     /// Gets information about the element.
     /// </summary>
     [JsonPropertyName("element")]
-    public Metadata Element { get; init; }
+    public required Metadata Element { get; init; }
 
     /// <summary>
     /// Gets validation messages for the element.
     /// </summary>
     [JsonPropertyName("messages")]
-    public List<string> Messages { get; init; }
+    public required List<string> Messages { get; init; }
 }

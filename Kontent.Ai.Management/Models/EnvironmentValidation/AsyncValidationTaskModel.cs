@@ -9,17 +9,17 @@ public sealed record AsyncValidationTaskModel
     /// Gets the id of the task.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
     /// Gets the status of the task.
     /// </summary>
     [JsonPropertyName("status")]
-    public AsyncValidationTaskStatus Status { get; init; }
+    public required AsyncValidationTaskStatus Status { get; init; }
 
     /// <summary>
     /// Gets the validation result of the task.
     /// </summary>
     [JsonPropertyName("validation_result")]
-    public AsyncValidationTaskResult ValidationResult { get; init; }
+    public required AsyncValidationTaskResult ValidationResult { get; init; }
 }
