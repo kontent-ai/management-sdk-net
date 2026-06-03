@@ -9,11 +9,11 @@ public sealed record SubscriptionProjectEnvironmentModel
     /// Gets the environment's internal ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
     /// Gets the environment's name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 }

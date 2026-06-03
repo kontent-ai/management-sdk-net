@@ -4,10 +4,10 @@ namespace Kontent.Ai.Management.Models.Subscription;
 internal class SubscriptionProjectListingResponseServerModel : IListingResponse<SubscriptionProjectModel>
 {
     [JsonPropertyName("projects")]
-    public IEnumerable<SubscriptionProjectModel> Projects { get; set; }
+    public required IEnumerable<SubscriptionProjectModel> Projects { get; set; }
 
     [JsonPropertyName("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
+    public required PaginationResponseModel Pagination { get; set; }
 
     public IEnumerator<SubscriptionProjectModel> GetEnumerator() => Projects.GetEnumerator();
 

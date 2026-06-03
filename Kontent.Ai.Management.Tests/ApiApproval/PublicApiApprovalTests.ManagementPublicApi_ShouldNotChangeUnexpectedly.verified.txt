@@ -1462,12 +1462,12 @@ public sealed class SpaceOperationReplaceModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionColletionGroupModel : IEquatable`1
+public sealed class SubscriptionCollectionGroupModel : IEquatable`1
     IEnumerable<Reference> Collections { get; set; init; }
     IEnumerable<SubscriptionUserRoleModel> Roles { get; set; init; }
-    SubscriptionColletionGroupModel <Clone>$()
+    SubscriptionCollectionGroupModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(SubscriptionColletionGroupModel other)
+    Boolean Equals(SubscriptionCollectionGroupModel other)
     Int32 GetHashCode()
     String ToString()
 
@@ -1509,10 +1509,10 @@ public sealed class SubscriptionUserModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Subscription
 public sealed class SubscriptionUserProjectEnvironmentModel : IEquatable`1
-    IEnumerable<SubscriptionColletionGroupModel> CollectionGroups { get; set; init; }
+    IEnumerable<SubscriptionCollectionGroupModel> CollectionGroups { get; set; init; }
     Guid Id { get; set; init; }
     Boolean IsUserActive { get; set; init; }
-    DateTime LastActivityAt { get; set; init; }
+    Nullable<DateTime> LastActivityAt { get; set; init; }
     String Name { get; set; init; }
     SubscriptionUserProjectEnvironmentModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1532,15 +1532,15 @@ public sealed class SubscriptionUserProjectModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Subscription
-public sealed class SubscriptionUserRoleLangaugeModel : IEquatable`1
+public sealed class SubscriptionUserRoleLanguageModel : IEquatable`1
     String Codename { get; set; init; }
     String ExternalId { get; set; init; }
     Guid Id { get; set; init; }
-    String IsActive { get; set; init; }
+    Boolean IsActive { get; set; init; }
     String Name { get; set; init; }
-    SubscriptionUserRoleLangaugeModel <Clone>$()
+    SubscriptionUserRoleLanguageModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(SubscriptionUserRoleLangaugeModel other)
+    Boolean Equals(SubscriptionUserRoleLanguageModel other)
     Int32 GetHashCode()
     String ToString()
 
@@ -1548,7 +1548,7 @@ public sealed class SubscriptionUserRoleLangaugeModel : IEquatable`1
 public sealed class SubscriptionUserRoleModel : IEquatable`1
     String Codename { get; set; init; }
     Guid Id { get; set; init; }
-    IEnumerable<SubscriptionUserRoleLangaugeModel> Languages { get; set; init; }
+    IEnumerable<SubscriptionUserRoleLanguageModel> Languages { get; set; init; }
     String Name { get; set; init; }
     SubscriptionUserRoleModel <Clone>$()
     Boolean Equals(Object obj)

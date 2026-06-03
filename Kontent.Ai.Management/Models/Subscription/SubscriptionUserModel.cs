@@ -1,43 +1,43 @@
-﻿namespace Kontent.Ai.Management.Models.Subscription;
+namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
-/// Represents subscription user object.
+/// A subscription user (response shape).
 /// </summary>
 public sealed record SubscriptionUserModel
 {
     /// <summary>
-    /// Gets the user's internal ID.
+    /// User ID. A prefixed string (e.g. <c>usr_...</c>), not a Guid.
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public required string Id { get; init; }
 
     /// <summary>
-    /// Gets the user's first name.
+    /// First name. Null for users with a pending invitation who have not yet registered.
     /// </summary>
     [JsonPropertyName("first_name")]
-    public string FirstName { get; init; }
+    public string? FirstName { get; init; }
 
     /// <summary>
-    /// Gets the user's last name.
+    /// Last name. Null for users with a pending invitation who have not yet registered.
     /// </summary>
     [JsonPropertyName("last_name")]
-    public string LastName { get; init; }
+    public string? LastName { get; init; }
 
     /// <summary>
-    /// Gets the user's email address.
+    /// Email address.
     /// </summary>
     [JsonPropertyName("email")]
-    public string Email { get; init; }
+    public required string Email { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the user has any pending invitation to a project.
+    /// Whether the user has any pending project invitation.
     /// </summary>
     [JsonPropertyName("has_pending_invitation")]
-    public bool HasPendingInvitation { get; init; }
+    public required bool HasPendingInvitation { get; init; }
 
     /// <summary>
-    /// Gets the projects to which the user has been invited.
+    /// Projects the user belongs to or has been invited to.
     /// </summary>
     [JsonPropertyName("projects")]
-    public IEnumerable<SubscriptionUserProjectModel> Projects { get; init; }
+    public required IEnumerable<SubscriptionUserProjectModel> Projects { get; init; }
 }

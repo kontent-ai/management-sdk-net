@@ -1,37 +1,37 @@
-﻿namespace Kontent.Ai.Management.Models.Subscription;
+namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
-/// Represents projects to which the user has been invited.
+/// A subscription user's membership in a single environment.
 /// </summary>
 public sealed record SubscriptionUserProjectEnvironmentModel
 {
     /// <summary>
-    /// Gets he environment's internal ID.
+    /// Environment ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the environment's display name.
+    /// Environment display name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets a flag determining whether the user is active in this environment.
+    /// Whether the user is active in this environment.
     /// </summary>
     [JsonPropertyName("is_user_active")]
-    public bool IsUserActive { get; init; }
+    public required bool IsUserActive { get; init; }
 
     /// <summary>
-    /// Gets the timestamp of the last user's activity in the environment.
+    /// Timestamp of the user's last activity in the environment. Null when the user has never been active.
     /// </summary>
     [JsonPropertyName("last_activity_at")]
-    public DateTime LastActivityAt { get; init; }
+    public DateTime? LastActivityAt { get; init; }
 
     /// <summary>
-    /// Gets collections user is assigned to with a set of roles.
+    /// The user's collection-to-roles assignments in this environment.
     /// </summary>
     [JsonPropertyName("collection_groups")]
-    public IEnumerable<SubscriptionColletionGroupModel> CollectionGroups { get; init; }
+    public required IEnumerable<SubscriptionCollectionGroupModel> CollectionGroups { get; init; }
 }

@@ -1,25 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.Subscription;
+namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
-/// Represents the projects to which the user has been invited.
+/// A project a subscription user belongs to or has been invited to.
 /// </summary>
 public sealed record SubscriptionUserProjectModel
 {
     /// <summary>
-    /// Gets the project's internal ID.
+    /// Project ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the project's name.
+    /// Project name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the project's environments.
+    /// The project's environments the user belongs to.
     /// </summary>
     [JsonPropertyName("environments")]
-    public IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; init; }
+    public required IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; init; }
 }
