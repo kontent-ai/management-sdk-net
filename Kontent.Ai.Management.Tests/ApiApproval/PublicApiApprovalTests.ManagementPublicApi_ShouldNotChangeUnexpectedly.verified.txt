@@ -1387,8 +1387,13 @@ public sealed class EnvironmentRolesModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Shared
-public sealed class AssetFolder
-    String Id { get; set; }
+public sealed class AssetFolder : IEquatable`1
+    String Id { get; set; init; }
+    AssetFolder <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolder other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Shared
 public sealed class AssetWithRenditionsReference
@@ -1412,11 +1417,16 @@ public sealed class Reference : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Shared
-public sealed class UserIdentifier
-    String Email { get; }
-    String Id { get; }
+public sealed class UserIdentifier : IEquatable`1
+    String Email { get; init; }
+    String Id { get; init; }
+    UserIdentifier <Clone>$()
     static UserIdentifier ByEmail(String email)
     static UserIdentifier ById(String id)
+    Boolean Equals(Object obj)
+    Boolean Equals(UserIdentifier other)
+    Int32 GetHashCode()
+    String ToString()
 
 // Kontent.Ai.Management.Models.Spaces
 public sealed class SpaceCreateModel : IEquatable`1

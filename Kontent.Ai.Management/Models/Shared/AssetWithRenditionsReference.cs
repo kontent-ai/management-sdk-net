@@ -22,13 +22,13 @@ public sealed class AssetWithRenditionsReference
     /// Gets the codename of the asset identifier.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename => _assetReference.Codename;
+    public string? Codename => _assetReference.Codename;
 
     /// <summary>
     /// Gets the external id of the asset identifier.
     /// </summary>
     [JsonPropertyName("external_id")]
-    public string ExternalId => _assetReference.ExternalId;
+    public string? ExternalId => _assetReference.ExternalId;
 
     /// <summary>
     /// Gets identifiers of linked renditions.
@@ -51,7 +51,7 @@ public sealed class AssetWithRenditionsReference
     /// </summary>
     /// <param name="assetReference">Asset reference.</param>
     /// <param name="renditionReferences">Rendition references.</param>
-    public AssetWithRenditionsReference(Reference assetReference, IEnumerable<Reference> renditionReferences = null)
+    public AssetWithRenditionsReference(Reference assetReference, IEnumerable<Reference>? renditionReferences = null)
     {
         _assetReference = assetReference;
         _renditions = renditionReferences?.ToList() ?? [];

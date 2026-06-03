@@ -1,34 +1,33 @@
-
 namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
-/// Represents identifier of users.
+/// Identifier of a user. Construction is factory-only (<see cref="ById"/> / <see cref="ByEmail"/>) so exactly one identifier is ever set, mirroring <see cref="Reference"/>.
 /// </summary>
-public sealed class UserIdentifier
+public sealed record UserIdentifier
 {
     private UserIdentifier() { }
 
     /// <summary>
-    /// Gets the id of the identifier.
+    /// User ID; <c>null</c> unless this identifier was created by ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; private set; }
+    public string? Id { get; private init; }
 
     /// <summary>
-    /// Gets the email of the identifier.
+    /// User email; <c>null</c> unless this identifier was created by email.
     /// </summary>
     [JsonPropertyName("email")]
-    public string Email { get; private set; }
+    public string? Email { get; private init; }
 
     /// <summary>
-    /// Creates the reference by id.
+    /// Creates the identifier by user ID.
     /// </summary>
-    /// <param name="id">The id of the identifier.</param>
+    /// <param name="id">The user ID.</param>
     public static UserIdentifier ById(string id) => new() { Id = id };
 
     /// <summary>
-    /// Creates the user identifier by email.
+    /// Creates the identifier by email.
     /// </summary>
-    /// <param name="email">The email of the identifier.</param>
+    /// <param name="email">The user email.</param>
     public static UserIdentifier ByEmail(string email) => new() { Email = email };
 }
