@@ -14,9 +14,10 @@ public sealed record DateTimeValue
     [JsonPropertyName("display_timezone")]
     public string? DisplayTimeZone { get; init; }
 
-    /// <summary>Keeps the common "just an instant" authoring path a one-liner.</summary>
+    /// <summary>
+    /// Keeps the common "just an instant" authoring path a one-liner. Deliberately no <see cref="DateTime"/>
+    /// overload: a zoneless <see cref="DateTime"/> would be resolved against the machine's local zone, making the
+    /// stored UTC instant depend on where the code ran. Callers express the instant explicitly via <see cref="DateTimeOffset"/>.
+    /// </summary>
     public static implicit operator DateTimeValue(DateTimeOffset value) => new() { Value = value };
-
-    /// <summary>Keeps the common "just a date" authoring path a one-liner.</summary>
-    public static implicit operator DateTimeValue(DateTime value) => new() { Value = value };
 }

@@ -85,7 +85,7 @@ public class Readme
         var variant = new Article
         {
             Title = "On Roasts - changed",
-            PublishingDate = new DateTime(2018, 7, 4),
+            PublishingDate = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
         };
 
         // Upserts a language variant of a content item

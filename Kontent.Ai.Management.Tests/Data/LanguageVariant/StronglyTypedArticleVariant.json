@@ -1,0 +1,56 @@
+{
+  "elements": [
+    {
+      "element": {
+        "id": "ae9be828-90fe-5fb4-ae3a-8dfe047e2567"
+      },
+      "value": "On Roasts"
+    },
+    {
+      "element": {
+        "id": "dba8efd9-052c-557a-9dfd-3f43f966eab8"
+      },
+      "value": "2024-06-01T12:00:00Z",
+      "display_timezone": "Europe/Prague"
+    },
+    {
+      "element": {
+        "id": "7b9f3bb2-2efb-5285-8988-bfb66e45cf77"
+      },
+      "value": "on-roasts",
+      "mode": "custom"
+    },
+    {
+      "element": {
+        "id": "9b1f0c3a-2d4e-5f60-8a71-b2c3d4e5f607"
+      },
+      "value": "{\"formId\":42}",
+      "searchable_value": "Almighty form!"
+    }
+  ],
+  "workflow": {
+    "workflow_identifier": {
+      "id": "00000000-0000-0000-0000-000000000000"
+    },
+    "step_identifier": {
+      "id": "00000000-0000-0000-0000-000000000000"
+    }
+  },
+  "schedule": {
+    "publish_time": null,
+    "publish_display_timezone": null,
+    "unpublish_time": null,
+    "unpublish_display_timezone": null
+  },
+  "due_date": {
+    "value": null
+  },
+  "contributors": [],
+  "item": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  },
+  "language": {
+    "id": "00000000-0000-0000-0000-000000000000"
+  },
+  "last_modified": "2024-01-01T00:00:00Z"
+}

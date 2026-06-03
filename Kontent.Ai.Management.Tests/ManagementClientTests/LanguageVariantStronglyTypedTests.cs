@@ -5,10 +5,15 @@ using Kontent.Ai.Management.Tests.Base;
 using MyProject.Models;
 using RichardSzalay.MockHttp;
 using System.Net;
-// Models.Content carries its own `Reference`; alias the two types we need so it doesn't collide with
+using System.Text.Json;
+// Models.Content carries its own `Reference`; alias the types we need so it doesn't collide with
 // Models.Shared.Reference used for the identifier.
 using RichTextBuilder = Kontent.Ai.Management.Models.Content.RichTextBuilder;
 using RichTextElement = Kontent.Ai.Management.Models.Content.RichTextElement;
+using DateTimeValue = Kontent.Ai.Management.Models.Content.DateTimeValue;
+using UrlSlugValue = Kontent.Ai.Management.Models.Content.UrlSlugValue;
+using UrlSlugMode = Kontent.Ai.Management.Models.Content.UrlSlugMode;
+using CustomValue = Kontent.Ai.Management.Models.Content.CustomValue;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -33,6 +38,13 @@ public class LanguageVariantStronglyTypedTests
     {
         var registry = new ContentTypeRegistry();
         registry.Register(typeof(Callout));
+        return new ContentItemEnvelopeConverter(registry);
+    }
+
+    private static ContentItemEnvelopeConverter ArticleConverter()
+    {
+        var registry = new ContentTypeRegistry();
+        registry.Register(typeof(Article));
         return new ContentItemEnvelopeConverter(registry);
     }
 
@@ -124,6 +136,61 @@ public class LanguageVariantStronglyTypedTests
         result.IsSuccess.Should().BeTrue();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
         result.Value.Type.Should().Equal(CalloutType.Warning);
+    }
+
+    [Fact]
+    public async Task GetLanguageVariantAsync_StronglyTyped_ReadsElementSiblingFields()
+    {
+        // Full client read path (wire → IEnumerable<dynamic> → ProjectElements → ReadEnvelopes) must carry the
+        // non-value sibling fields the wrappers add: datetime's display_timezone, url_slug's mode, custom's searchable_value.
+        var (client, mock) = MockClientFactory.Create(ArticleConverter());
+        mock.Expect(HttpMethod.Get, VariantUrl)
+            .Respond("application/json", Fixture("StronglyTypedArticleVariant.json"));
+
+        var article = (await client.GetLanguageVariantAsync<Article>(Identifier())).Value;
+
+        mock.VerifyNoOutstandingExpectation();
+        article.PublishingDate!.Value.Should().Be(new DateTimeOffset(2024, 6, 1, 12, 0, 0, TimeSpan.Zero));
+        article.PublishingDate.DisplayTimeZone.Should().Be("Europe/Prague");
+        article.Slug!.Value.Should().Be("on-roasts");
+        article.Slug.Mode.Should().Be(UrlSlugMode.Custom);
+        article.Rating!.Value.Should().Be("{\"formId\":42}");
+        article.Rating.SearchableValue.Should().Be("Almighty form!");
+    }
+
+    [Fact]
+    public async Task UpsertLanguageVariantAsync_StronglyTyped_SendsElementSiblingFields()
+    {
+        // Full client write path (WriteEnvelopes → JsonSerializer.Deserialize<List<object>> → Refit serialize → wire)
+        // must preserve the sibling fields through the intermediate object round-trip.
+        var (client, mock) = MockClientFactory.Create(ArticleConverter());
+        string? sentBody = null;
+        mock.Expect(HttpMethod.Put, VariantUrl)
+            .With(request =>
+            {
+                sentBody = request.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", Fixture("StronglyTypedArticleVariant.json"));
+
+        var article = new Article
+        {
+            Title = "On Roasts",
+            PublishingDate = new DateTimeValue { Value = new DateTimeOffset(2024, 6, 1, 12, 0, 0, TimeSpan.Zero), DisplayTimeZone = "Europe/Prague" },
+            Slug = new UrlSlugValue { Value = "on-roasts", Mode = UrlSlugMode.Custom },
+            Rating = new CustomValue { Value = "{\"formId\":42}", SearchableValue = "Almighty form!" },
+        };
+
+        await client.UpsertLanguageVariantAsync(Identifier(), article);
+
+        mock.VerifyNoOutstandingExpectation();
+        var elements = JsonDocument.Parse(sentBody!).RootElement.GetProperty("elements")
+            .EnumerateArray()
+            .ToDictionary(e => e.GetProperty("element").GetProperty("codename").GetString()!, e => e);
+        elements["publishing_date"].GetProperty("value").GetString().Should().Be("2024-06-01T12:00:00Z");
+        elements["publishing_date"].GetProperty("display_timezone").GetString().Should().Be("Europe/Prague");
+        elements["slug"].GetProperty("mode").GetString().Should().Be("custom");
+        elements["rating"].GetProperty("searchable_value").GetString().Should().Be("Almighty form!");
     }
 
     [Fact]

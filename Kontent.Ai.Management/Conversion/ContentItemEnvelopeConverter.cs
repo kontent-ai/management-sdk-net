@@ -138,7 +138,9 @@ internal sealed class ContentItemEnvelopeConverter
             case ElementKind.DateTime:
                 var dateTime = (DateTimeValue)value;
                 writer.WritePropertyName("value");
-                JsonSerializer.Serialize(writer, dateTime.Value, _scalarOptions);
+                // The API stores a UTC instant (".../Z") with the zone carried separately in display_timezone.
+                // UtcDateTime is Kind=Utc, so STJ emits the "Z" form the API returns rather than a numeric offset.
+                JsonSerializer.Serialize(writer, dateTime.Value.UtcDateTime, _scalarOptions);
                 if (dateTime.DisplayTimeZone is not null) writer.WriteString("display_timezone", dateTime.DisplayTimeZone);
                 break;
             case ElementKind.UrlSlug:

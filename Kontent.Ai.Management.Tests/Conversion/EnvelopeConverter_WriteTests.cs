@@ -60,7 +60,19 @@ public class EnvelopeConverter_WriteTests
         var envelopes = ParseEnvelopes(Converter.WriteEnvelopes(article));
 
         envelopes["publishing_date"].GetProperty("value").GetDateTimeOffset().Should().Be(publishedAt);
+        envelopes["publishing_date"].GetProperty("value").GetString().Should().Be("2024-06-01T12:00:00Z", "the API stores a UTC instant in Z form, not a numeric offset");
         envelopes["publishing_date"].TryGetProperty("display_timezone", out _).Should().BeFalse("zone is unset");
+    }
+
+    [Fact]
+    public void DateTime_NonUtcOffset_NormalizedToUtcZ()
+    {
+        // A caller-supplied +02:00 instant must reach the wire as the equivalent UTC instant in Z form.
+        var article = new Article { PublishingDate = new DateTimeValue { Value = new DateTimeOffset(2024, 6, 1, 14, 0, 0, TimeSpan.FromHours(2)) } };
+
+        var envelopes = ParseEnvelopes(Converter.WriteEnvelopes(article));
+
+        envelopes["publishing_date"].GetProperty("value").GetString().Should().Be("2024-06-01T12:00:00Z");
     }
 
     [Fact]

@@ -53,7 +53,7 @@ public class EnvelopeConverter_ReadTests
     [Fact]
     public void DateTime_RoundTrips()
     {
-        var json = """[{"element":{"id":"dba8efd9-052c-557a-9dfd-3f43f966eab8"},"value":"2024-06-01T12:00:00+00:00"}]""";
+        var json = """[{"element":{"id":"dba8efd9-052c-557a-9dfd-3f43f966eab8"},"value":"2024-06-01T12:00:00Z"}]""";
 
         var publishingDate = Converter.ReadEnvelopes<Article>(json).PublishingDate;
 
@@ -64,7 +64,7 @@ public class EnvelopeConverter_ReadTests
     [Fact]
     public void DateTime_WithZone_ReadsDisplayTimezone()
     {
-        var json = """[{"element":{"id":"dba8efd9-052c-557a-9dfd-3f43f966eab8"},"value":"2024-06-01T12:00:00+00:00","display_timezone":"Europe/Prague"}]""";
+        var json = """[{"element":{"id":"dba8efd9-052c-557a-9dfd-3f43f966eab8"},"value":"2024-06-01T12:00:00Z","display_timezone":"Europe/Prague"}]""";
 
         var publishingDate = Converter.ReadEnvelopes<Article>(json).PublishingDate;
 
