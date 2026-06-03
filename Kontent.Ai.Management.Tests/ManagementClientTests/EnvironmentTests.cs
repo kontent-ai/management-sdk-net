@@ -10,6 +10,7 @@ namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 public class EnvironmentTests
 {
     private static string ClonedEnvironment => Fixture("ClonedEnvironment.json");
+    private static string CloningState => Fixture("EnvironmentCloningState.json");
 
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Environment", name));
@@ -56,13 +57,13 @@ public class EnvironmentTests
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/environment-cloning-state")
-            .Respond("application/json", ClonedEnvironment);
+            .Respond("application/json", CloningState);
 
         var result = await client.GetEnvironmentCloningStateAsync();
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentCloningStateModel>(ClonedEnvironment, SharedTestJsonOptions.Default));
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentCloningStateModel>(CloningState, SharedTestJsonOptions.Default));
     }
 
     [Fact]

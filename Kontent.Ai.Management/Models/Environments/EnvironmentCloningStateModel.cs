@@ -10,5 +10,5 @@ public sealed record EnvironmentCloningStateModel
     /// Gets the state of the environment cloning.
     /// </summary>
     [JsonPropertyName("cloning_state")]
-    public CloningState CloningState { get; init; }
+    public required CloningState CloningState { get; init; }
 }

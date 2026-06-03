@@ -974,7 +974,7 @@ public sealed class EnvironmentModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Environments
 public sealed class MarkAsProductionModel : IEquatable`1
-    Boolean EnableWebhooks { get; set; init; }
+    Nullable<Boolean> EnableWebhooks { get; set; init; }
     MarkAsProductionModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(MarkAsProductionModel other)

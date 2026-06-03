@@ -12,8 +12,8 @@ public sealed record EnvironmentRenamePatchModel : EnvironmentOperationBaseModel
     public override string Op => "rename_environment";
 
     /// <summary>
-    /// Gets the environment name.
+    /// New environment name.
     /// </summary>
     [JsonPropertyName("value")]
-    public string Value { get; init; }
+    public required string Value { get; init; }
 }

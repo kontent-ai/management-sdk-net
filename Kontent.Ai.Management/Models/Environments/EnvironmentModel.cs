@@ -9,17 +9,17 @@ public sealed record EnvironmentModel
     /// Gets the id of the environment
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
     /// Gets the name of the environment
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Gets a flag determining whether the environment is production
     /// </summary>
     [JsonPropertyName("is_production")]
-    public bool IsProduction { get; init; }
+    public required bool IsProduction { get; init; }
 }

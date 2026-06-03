@@ -9,17 +9,17 @@ public sealed record Metadata
     /// Gets the id of the metadata object.
     /// </summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
     /// Gets the name of the metadata object.
     /// </summary>
     [JsonPropertyName("name")]
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Gets the codename of the metadata object.
     /// </summary>
     [JsonPropertyName("codename")]
-    public string Codename { get; init; }
+    public required string Codename { get; init; }
 }

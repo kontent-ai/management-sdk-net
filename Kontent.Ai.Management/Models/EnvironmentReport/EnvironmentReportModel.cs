@@ -1,26 +1,25 @@
-﻿namespace Kontent.Ai.Management.Models.EnvironmentReport;
+namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
-/// Represents environment report model
+/// The validation report for an environment (response shape).
 /// </summary>
 public sealed record EnvironmentReportModel
 {
     /// <summary>
-    /// Gets information about the specified environment
+    /// Information about the validated environment.
     /// </summary>
     [JsonPropertyName("project")]
-    public Environment Environment { get; init; }
+    public required Environment Environment { get; init; }
 
     /// <summary>
-    /// Gets reports of the problems found in the environment's content
+    /// Problems found in the environment's content. May be empty.
     /// </summary>
     [JsonPropertyName("variant_issues")]
-    public List<VariantIssue> VariantIssues { get; init; }
+    public required List<VariantIssue> VariantIssues { get; init; }
 
     /// <summary>
-    /// Gets reports of the problems found in the environment's content types
+    /// Problems found in the environment's content types. May be empty.
     /// </summary>
     [JsonPropertyName("type_issues")]
-    public List<TypeIssue> TypeIssues { get; init; }
+    public required List<TypeIssue> TypeIssues { get; init; }
 }
-

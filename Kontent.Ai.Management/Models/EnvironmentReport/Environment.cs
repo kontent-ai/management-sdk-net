@@ -1,26 +1,25 @@
-
 namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
-/// Represents information about the specified environment
+/// Identifies the environment a validation report belongs to.
 /// </summary>
 public sealed record Environment
 {
     /// <summary>
-    /// Gets the id of the environment
+    /// Project ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public required string Id { get; init; }
 
     /// <summary>
-    /// Gets the name of the project
+    /// Project name.
     /// </summary>
     [JsonPropertyName("name")]
-    public string ProjectName { get; init; }
+    public required string ProjectName { get; init; }
 
     /// <summary>
-    /// Gets the environment name
+    /// Environment name.
     /// </summary>
     [JsonPropertyName("environment")]
-    public string EnvironmentName { get; init; }
+    public required string EnvironmentName { get; init; }
 }

@@ -1,20 +1,19 @@
-﻿namespace Kontent.Ai.Management.Models.EnvironmentReport;
+namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
-/// Represents element issue with messages and element metadata
+/// Validation messages for a single content element.
 /// </summary>
 public sealed record ElementIssue
 {
     /// <summary>
-    /// Gets information about the content element
+    /// The content element the messages belong to.
     /// </summary>
     [JsonPropertyName("element")]
-    public Metadata Element { get; init; }
+    public required Metadata Element { get; init; }
 
     /// <summary>
-    /// Gets validation messages
-    /// for the content element
+    /// Validation messages for the element.
     /// </summary>
     [JsonPropertyName("messages")]
-    public List<string> Messages { get; init; }
+    public required List<string> Messages { get; init; }
 }
