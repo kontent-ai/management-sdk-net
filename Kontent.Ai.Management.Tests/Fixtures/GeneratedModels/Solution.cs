@@ -41,5 +41,5 @@ public sealed partial record Solution : IContentItem
     [AllowedTypes("callout", "fact", "action")]
     public RichTextElement? Showcase { get; init; }
     [KontentElement("slug", "0e2c3f0c-9958-53e9-91e4-d6344e08e845")]
-    public string? Slug { get; init; }
+    public UrlSlugValue? Slug { get; init; }
 }

@@ -30,7 +30,7 @@ public sealed partial record Page : IContentItem
     [KontentElement("metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
     public string? MetadataTitle { get; init; }
     [KontentElement("slug", "af55414d-174f-4901-b2a1-c6934f504a9c")]
-    public string? Slug { get; init; }
+    public UrlSlugValue? Slug { get; init; }
     [KontentElement("subpages", "71383e14-246c-4203-a82a-b324b9efabb9")]
     [AllowedTypes("page", "website_root", "article", "product", "solution")]
     public IReadOnlyList<Reference>? Subpages { get; init; }

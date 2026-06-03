@@ -39,5 +39,5 @@ public sealed partial record Product : IContentItem
     [KontentElement("product_base__name", "9647f1cc-3870-5b67-874b-d56fc2abd7ad")]
     public string? ProductBaseName { get; init; }
     [KontentElement("slug", "ac4fd00c-264e-5189-a4d7-5e7cb7ba1dad")]
-    public string? Slug { get; init; }
+    public UrlSlugValue? Slug { get; init; }
 }
