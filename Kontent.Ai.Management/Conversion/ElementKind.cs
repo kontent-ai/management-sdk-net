@@ -6,14 +6,20 @@ namespace Kontent.Ai.Management.Conversion;
 /// </summary>
 internal enum ElementKind
 {
-    /// <summary><see cref="string"/>; text and url_slug elements.</summary>
+    /// <summary><see cref="string"/>; text elements.</summary>
     Text,
 
     /// <summary><see cref="decimal"/>; number elements.</summary>
     Number,
 
-    /// <summary><see cref="System.DateTimeOffset"/>; date_time elements.</summary>
+    /// <summary><see cref="Models.Content.DateTimeValue"/>; date_time elements (instant + display_timezone).</summary>
     DateTime,
+
+    /// <summary><see cref="Models.Content.UrlSlugValue"/>; url_slug elements (slug + mode).</summary>
+    UrlSlug,
+
+    /// <summary><see cref="Models.Content.CustomValue"/>; custom elements (value + searchable_value).</summary>
+    Custom,
 
     /// <summary><see cref="System.Collections.Generic.IReadOnlyList{T}"/> of an <c>[KontentEnumValue]</c>-annotated enum; multiple_choice elements.</summary>
     MultipleChoice,

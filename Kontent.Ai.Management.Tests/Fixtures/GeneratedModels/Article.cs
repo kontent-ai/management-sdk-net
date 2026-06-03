@@ -39,9 +39,11 @@ public sealed partial record Article : IContentItem
     [KontentElement("metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
     public string? MetadataTitle { get; init; }
     [KontentElement("publishing_date", "dba8efd9-052c-557a-9dfd-3f43f966eab8")]
-    public DateTimeOffset? PublishingDate { get; init; }
+    public DateTimeValue? PublishingDate { get; init; }
+    [KontentElement("rating", "9b1f0c3a-2d4e-5f60-8a71-b2c3d4e5f607")]
+    public CustomValue? Rating { get; init; }
     [KontentElement("slug", "7b9f3bb2-2efb-5285-8988-bfb66e45cf77")]
-    public string? Slug { get; init; }
+    public UrlSlugValue? Slug { get; init; }
     [KontentElement("title", "ae9be828-90fe-5fb4-ae3a-8dfe047e2567")]
     public string? Title { get; init; }
     [KontentElement("type", "c505fded-9c1f-5583-8cf2-dfa4763d2f2a")]

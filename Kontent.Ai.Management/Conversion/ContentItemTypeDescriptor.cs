@@ -66,7 +66,9 @@ internal sealed class ContentItemTypeDescriptor
 
         if (inner == typeof(string)) return (ElementKind.Text, null);
         if (inner == typeof(decimal)) return (ElementKind.Number, null);
-        if (inner == typeof(DateTimeOffset)) return (ElementKind.DateTime, null);
+        if (inner == typeof(DateTimeValue)) return (ElementKind.DateTime, null);
+        if (inner == typeof(UrlSlugValue)) return (ElementKind.UrlSlug, null);
+        if (inner == typeof(CustomValue)) return (ElementKind.Custom, null);
         if (inner == typeof(RichTextElement)) return (ElementKind.RichText, null);
 
         if (inner.IsGenericType && inner.GetGenericTypeDefinition() == typeof(IReadOnlyList<>))

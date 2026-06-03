@@ -136,8 +136,21 @@ internal sealed class ContentItemEnvelopeConverter
                 JsonSerializer.Serialize(writer, (decimal)value, _scalarOptions);
                 break;
             case ElementKind.DateTime:
+                var dateTime = (DateTimeValue)value;
                 writer.WritePropertyName("value");
-                JsonSerializer.Serialize(writer, (DateTimeOffset)value, _scalarOptions);
+                JsonSerializer.Serialize(writer, dateTime.Value, _scalarOptions);
+                if (dateTime.DisplayTimeZone is not null) writer.WriteString("display_timezone", dateTime.DisplayTimeZone);
+                break;
+            case ElementKind.UrlSlug:
+                var urlSlug = (UrlSlugValue)value;
+                writer.WriteString("value", urlSlug.Value);
+                writer.WritePropertyName("mode");
+                JsonSerializer.Serialize(writer, urlSlug.Mode, _scalarOptions);
+                break;
+            case ElementKind.Custom:
+                var custom = (CustomValue)value;
+                writer.WriteString("value", custom.Value);
+                if (custom.SearchableValue is not null) writer.WriteString("searchable_value", custom.SearchableValue);
                 break;
             case ElementKind.MultipleChoice:
                 WriteMultipleChoice(writer, prop, (IEnumerable)value);
@@ -219,7 +232,27 @@ internal sealed class ContentItemEnvelopeConverter
         {
             ElementKind.Text => value.GetString(),
             ElementKind.Number => value.GetDecimal(),
-            ElementKind.DateTime => value.GetDateTimeOffset(),
+            ElementKind.DateTime => new DateTimeValue
+            {
+                Value = value.GetDateTimeOffset(),
+                DisplayTimeZone = envelope.TryGetProperty("display_timezone", out var tz) && tz.ValueKind == JsonValueKind.String
+                    ? tz.GetString()
+                    : null,
+            },
+            ElementKind.UrlSlug => new UrlSlugValue
+            {
+                Value = value.GetString(),
+                Mode = envelope.TryGetProperty("mode", out var mode) && mode.ValueKind == JsonValueKind.String
+                    ? JsonSerializer.Deserialize<UrlSlugMode>(mode.GetRawText(), _scalarOptions)
+                    : default,
+            },
+            ElementKind.Custom => new CustomValue
+            {
+                Value = value.GetString(),
+                SearchableValue = envelope.TryGetProperty("searchable_value", out var searchable) && searchable.ValueKind == JsonValueKind.String
+                    ? searchable.GetString()
+                    : null,
+            },
             ElementKind.MultipleChoice => ReadMultipleChoice(value, prop),
             ElementKind.Asset => JsonSerializer.Deserialize(value.GetRawText(), prop.Property.PropertyType, _scalarOptions),
             ElementKind.Reference => JsonSerializer.Deserialize(value.GetRawText(), prop.Property.PropertyType, _scalarOptions),
@@ -308,6 +341,6 @@ internal sealed class ContentItemEnvelopeConverter
         // on the wire, honouring the MAPI's "any one of id / codename / external_id" contract. Reference is factory-
         // constructed, so it (de)serializes only through ReferenceJsonConverter, which also enforces that contract.
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Converters = { new ReferenceJsonConverter() },
+        Converters = { new ReferenceJsonConverter(), new EnumMemberJsonConverterFactory() },
     };
 }
