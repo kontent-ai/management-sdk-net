@@ -367,6 +367,10 @@ public sealed class AssetExtensions
     static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(IEnumerable<AssetFolderLinkingHierarchy> folders, String folderId)
 
 // Kontent.Ai.Management.Extensions
+public sealed class ContentModelExtensions
+    static Task<IManagementResult<ContentModelSnapshot>> ExportContentModelAsync(IManagementClient client, CancellationToken cancellationToken)
+
+// Kontent.Ai.Management.Extensions
 public sealed class ElementMetadataExtension
     static T ToElement<T>(ElementMetadataBase source)
 
@@ -825,6 +829,17 @@ public sealed class UrlSlugValue : IEquatable`1
     UrlSlugValue <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(UrlSlugValue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel
+public sealed class ContentModelSnapshot : IEquatable`1
+    IReadOnlyList<ContentTypeSnippetModel> Snippets { get; set; init; }
+    IReadOnlyList<TaxonomyGroupModel> Taxonomies { get; set; init; }
+    IReadOnlyList<ContentTypeModel> Types { get; set; init; }
+    ContentModelSnapshot <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelSnapshot other)
     Int32 GetHashCode()
     String ToString()
 
