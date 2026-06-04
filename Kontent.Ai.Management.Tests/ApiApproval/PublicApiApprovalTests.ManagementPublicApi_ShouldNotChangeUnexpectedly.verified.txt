@@ -241,6 +241,24 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken)
 
 // Kontent.Ai.Management
+public sealed class ManagementErrorCodes
+    const Int32 ArchivedVariantCannotBeUpdated = 223
+    const Int32 DuplicateAssetExternalId = 208
+    const Int32 DuplicateAssetRenditionExternalId = 234
+    const Int32 DuplicateContentTypeExternalId = 211
+    const Int32 DuplicateContentTypeSnippetExternalId = 217
+    const Int32 DuplicateLanguageExternalId = 219
+    const Int32 DuplicateTaxonomyExternalId = 210
+    const Int32 FileSizeExceeded = 206
+    const Int32 InvalidContinuationToken = 1007
+    const Int32 NewVersionOfPublishedVariantCannotBeArchived = 222
+    const Int32 OptimisticConcurrencyConflict = 12
+    const Int32 PublishedOrScheduledVariantCannotBeUpdated = 204
+    const Int32 RateLimitExceeded = 10000
+    const Int32 VariantNotPublishedCannotBeUnpublished = 213
+    const Int32 VariantNotPublishedCannotCreateNewVersion = 214
+
+// Kontent.Ai.Management
 public sealed class ManagementResultException : Exception
     IError Error { get; }
     Nullable<HttpStatusCode> StatusCode { get; }
@@ -359,6 +377,8 @@ public sealed class ListingExtensions
 // Kontent.Ai.Management.Extensions
 public sealed class ManagementClientExtensions
     static Task<IManagementResult<AssetModel>> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel, CancellationToken cancellationToken)
+    static Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken)
+    static Task<IManagementResult<T>> CreateContentItemWithVariantAsync<T>(IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
     static Task<IManagementResult<AssetModel>> UpsertAssetAsync(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken)
     static Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken)
 

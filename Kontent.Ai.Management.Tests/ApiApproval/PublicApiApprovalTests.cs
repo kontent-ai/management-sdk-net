@@ -98,6 +98,20 @@ public class PublicApiApprovalTests
             yield break;
         }
 
+        foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly)
+            .OrderBy(f => f.Name))
+        {
+            if (field.IsLiteral)
+            {
+                yield return $"const {FormatTypeName(field.FieldType)} {field.Name} = {field.GetRawConstantValue()}";
+            }
+            else
+            {
+                var fieldModifiers = field.IsStatic ? (field.IsInitOnly ? "static readonly " : "static ") : field.IsInitOnly ? "readonly " : "";
+                yield return $"{fieldModifiers}{FormatTypeName(field.FieldType)} {field.Name}";
+            }
+        }
+
         foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly)
             .OrderBy(p => p.Name))
         {
