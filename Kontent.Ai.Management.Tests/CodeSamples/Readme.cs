@@ -11,6 +11,8 @@ using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Patch;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -460,6 +462,41 @@ public class Readme
             IsActive = true,
             FallbackLanguage = Reference.ByCodename("en-US")
         });
+    }
+
+    public async Task TypedElementBuilders(IManagementClient client, LanguageVariantIdentifier identifier)
+    {
+        var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
+        {
+            Elements = ElementBuilder.GetElements(
+                new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
+                new DateTimeElement
+                {
+                    Element = Reference.ByCodename("post_date"),
+                    Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+                    DisplayTimeZone = "Europe/Prague"
+                },
+                new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom })
+        });
+    }
+
+    public async Task ErrorCodeBranching(IManagementClient client, LanguageVariantIdentifier identifier, Article article)
+    {
+        var result = await client.UpsertLanguageVariantAsync(identifier, article);
+
+        if (!result.IsSuccess && result.Error?.ErrorCode == ManagementErrorCodes.PublishedOrScheduledVariantCannotBeUpdated)
+        {
+            await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+            result = await client.UpsertLanguageVariantAsync(identifier, article);
+        }
+    }
+
+    public async Task CreateItemWithVariant(IManagementClient client)
+    {
+        var result = await client.CreateContentItemWithVariantAsync(
+            new ContentItemCreateModel { Name = "On Roasts", Type = Reference.ByCodename("article") },
+            Reference.ByCodename("en-US"),
+            new LanguageVariantUpsertModel { Elements = [] });
     }
 
     // The test assembly carries deliberately colliding generated-model fixtures; scope the converter to the single

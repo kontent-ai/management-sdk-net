@@ -260,6 +260,21 @@ if (!result.IsSuccess)
 
 `IError` exposes `Message`, `RequestId`, `ErrorCode` (Kontent.ai's diagnostic code, not the HTTP status), `ValidationErrors`, and the underlying `Exception` for transport-level failures.
 
+When you need to branch on a specific failure, compare `ErrorCode` against the `ManagementErrorCodes` catalog rather than a magic number:
+
+```csharp
+var result = await client.UpsertLanguageVariantAsync(identifier, article);
+
+if (!result.IsSuccess && result.Error?.ErrorCode == ManagementErrorCodes.PublishedOrScheduledVariantCannotBeUpdated)
+{
+    // The variant is published; create a new version, then retry the edit.
+    await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+    result = await client.UpsertLanguageVariantAsync(identifier, article);
+}
+```
+
+`ManagementErrorCodes` is a curated set of the codes callers commonly act on — variant workflow-state conflicts, duplicate external IDs, concurrency, and rate limits. The codes are not unique (the API reuses some across unrelated conditions), so inspect `Message` as well when the distinction matters.
+
 > [!IMPORTANT]
 > Exceptions are reserved for **programmer errors** (for example, a `null` argument), **invalid configuration**, and **network/serialization failures** — not for API errors. A `404` or a validation rejection comes back as `IsSuccess == false`, never as a thrown exception.
 
@@ -359,6 +374,20 @@ var upserted = await client.UpsertContentItemAsync(
 await client.DeleteContentItemAsync(Reference.ByCodename("on_roasts"));
 ```
 
+To create an item and set its first variant in one call, use the `CreateContentItemWithVariantAsync` extension (a `<T>` overload takes a strongly-typed model instead):
+
+```csharp
+using Kontent.Ai.Management.Extensions;
+
+var result = await client.CreateContentItemWithVariantAsync(
+    new ContentItemCreateModel { Name = "On Roasts", Type = Reference.ByCodename("article") },
+    Reference.ByCodename("en-US"),
+    new LanguageVariantUpsertModel { Elements = [/* … */] });
+```
+
+> [!NOTE]
+> This is a two-call composite. On a partial failure — the item is created but the variant upsert fails — the item is left in place (no rollback) and the returned failure carries the variant call's detail. Set an `ExternalId` on the item so a retry reuses it rather than creating a duplicate.
+
 ## Language Variants
 
 A language variant holds the actual content for one language of a content item. The most direct way to set elements is as anonymous objects — each element is located by its `codename`, `id`, or `external_id`, and omitted elements are left unchanged:
@@ -398,7 +427,32 @@ var allVariants = await client.ListLanguageVariantsByItemAsync(Reference.ByCoden
 You can also enumerate variants across a whole collection, space, or content type — see the `EnumerateLanguageVariantsByCollectionPagesAsync`, `…BySpacePagesAsync`, and `…ByTypePagesAsync` methods.
 
 > [!TIP]
-> Anonymous objects are the untyped escape hatch — convenient, but the element codenames and value shapes aren't checked at compile time. For type-safe authoring, use [strongly-typed models](#strongly-typed-models).
+> Anonymous objects are the untyped escape hatch — convenient, but the element codenames and value shapes aren't checked at compile time. For type-safe authoring, use the [typed element builders](#typed-element-builders) below, or fully [strongly-typed models](#strongly-typed-models).
+
+### Typed element builders
+
+Between untyped anonymous objects and a fully generated model sits a typed middle tier: a record per element kind that gives each value a checked shape without requiring a generated content type. Build them with `ElementBuilder.GetElements` and assign the result to `Elements`:
+
+```csharp
+using Kontent.Ai.Management.Models.Content;            // UrlSlugMode
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+using Kontent.Ai.Management.Modules.ModelBuilders;
+
+var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
+{
+    Elements = ElementBuilder.GetElements(
+        new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
+        new DateTimeElement
+        {
+            Element = Reference.ByCodename("post_date"),
+            Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+            DisplayTimeZone = "Europe/Prague"
+        },
+        new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom })
+});
+```
+
+There is one record per element kind — `TextElement`, `NumberElement`, `DateTimeElement`, `MultipleChoiceElement`, `AssetElement`, `LinkedItemsElement`, `TaxonomyElement`, `SubpagesElement`, `UrlSlugElement`, `CustomElement`, and `RichTextElement` — each pairing an `Element` reference with a value typed for that kind. Reach for this when you want type-checked element values but don't have (or don't want) a generated model.
 
 ## Strongly-Typed Models
 
