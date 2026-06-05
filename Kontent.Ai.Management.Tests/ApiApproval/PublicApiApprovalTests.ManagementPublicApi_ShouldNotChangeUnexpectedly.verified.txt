@@ -1370,6 +1370,129 @@ public sealed class LanguageVariantUpsertModel : IEquatable`1
     Int32 GetHashCode()
     String ToString()
 
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class AssetElement : BaseElement, IEquatable`1
+    IEnumerable<AssetWithRenditionsReference> Value { get; set; init; }
+    AssetElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(AssetElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public class BaseElement : IEquatable`1
+    Reference Element { get; set; init; }
+    BaseElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class CustomElement : BaseElement, IEquatable`1
+    String SearchableValue { get; set; init; }
+    String Value { get; set; init; }
+    CustomElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(CustomElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class DateTimeElement : BaseElement, IEquatable`1
+    String DisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> Value { get; set; init; }
+    DateTimeElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(DateTimeElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class LinkedItemsElement : BaseElement, IEquatable`1
+    IEnumerable<Reference> Value { get; set; init; }
+    LinkedItemsElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(LinkedItemsElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class MultipleChoiceElement : BaseElement, IEquatable`1
+    IEnumerable<Reference> Value { get; set; init; }
+    MultipleChoiceElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(MultipleChoiceElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class NumberElement : BaseElement, IEquatable`1
+    Nullable<Decimal> Value { get; set; init; }
+    NumberElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(NumberElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class RichTextElement : BaseElement, IEquatable`1
+    IEnumerable<ComponentModel> Components { get; set; init; }
+    String Value { get; set; init; }
+    RichTextElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(RichTextElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class SubpagesElement : BaseElement, IEquatable`1
+    IEnumerable<Reference> Value { get; set; init; }
+    SubpagesElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(SubpagesElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class TaxonomyElement : BaseElement, IEquatable`1
+    IEnumerable<Reference> Value { get; set; init; }
+    TaxonomyElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(TaxonomyElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class TextElement : BaseElement, IEquatable`1
+    String Value { get; set; init; }
+    TextElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(TextElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class UrlSlugElement : BaseElement, IEquatable`1
+    UrlSlugMode Mode { get; set; init; }
+    String Value { get; set; init; }
+    UrlSlugElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(UrlSlugElement other)
+    Int32 GetHashCode()
+    String ToString()
+
 // Kontent.Ai.Management.Models.PreviewConfiguration
 public sealed class PreviewConfigurationModel : IEquatable`1
     IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
@@ -2937,6 +3060,10 @@ public sealed class WorkflowUpsertModel : IEquatable`1
 // Kontent.Ai.Management.Modules.Extensions
 public sealed class ReferenceExtensions
     static Boolean DoesHaveSetOnlyOneIdentifier(Reference property)
+
+// Kontent.Ai.Management.Modules.ModelBuilders
+public sealed class ElementBuilder
+    static IEnumerable<Object> GetElements(BaseElement[] elements)
 
 // Kontent.Ai.Management.Validation
 public sealed class ContentItemValidator
