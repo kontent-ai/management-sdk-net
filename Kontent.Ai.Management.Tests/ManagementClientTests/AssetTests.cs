@@ -47,6 +47,29 @@ public class AssetTests
     }
 
     [Fact]
+    public async Task EnumerateAssetPagesAsync_StreamsAllPages()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("AssetsPage1.json");
+        var page2 = Fixture("AssetsPage2.json");
+        var page3 = Fixture("AssetsPage3.json");
+        var url = $"{MockClientFactory.BaseUrl}/assets";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
+        var assets = new List<AssetModel>();
+        await foreach (var page in client.EnumerateAssetPagesAsync())
+        {
+            page.IsSuccess.Should().BeTrue();
+            assets.AddRange(page.Value);
+        }
+
+        mock.VerifyNoOutstandingExpectation();
+        assets.ShouldEqualAsJson(ConcatPages<AssetModel>(page1, page2, page3));
+    }
+
+    [Fact]
     public async Task GetAssetAsync_ById_GetsAsset()
     {
         var (client, mock) = MockClientFactory.Create();

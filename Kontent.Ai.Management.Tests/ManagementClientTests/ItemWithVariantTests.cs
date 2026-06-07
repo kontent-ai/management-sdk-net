@@ -98,6 +98,52 @@ public class ItemWithVariantTests
     }
 
     [Fact]
+    public async Task EnumerateItemsWithVariantsByFilterPagesAsync_StreamsAllPages()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var firstPage = Fixture("FilterResponseFirstPage.json");
+        var lastPage = Fixture("FilterResponseLastPage.json");
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", firstPage);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .Respond("application/json", lastPage);
+
+        var request = new ItemWithVariantFilterRequestModel
+        {
+            Filters = new VariantFilterFiltersModel { Language = Reference.ByCodename("en-US") }
+        };
+
+        var items = new List<ItemWithVariantFilterResultModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByFilterPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
+
+        mock.VerifyNoOutstandingExpectation();
+        items.Should().BeEquivalentTo(ConcatPages<ItemWithVariantFilterResultModel>(firstPage, lastPage));
+    }
+
+    [Fact]
+    public void EnumerateItemsWithVariantsByFilterPagesAsync_WithNullRequest_ThrowsArgumentNullException()
+    {
+        // The null guard is eager (the method is not an iterator), so the call throws synchronously before enumeration.
+        var (client, _) = MockClientFactory.Create();
+
+        client.Invoking(x => x.EnumerateItemsWithVariantsByFilterPagesAsync(null!))
+            .Should().ThrowExactly<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void EnumerateItemsWithVariantsByBulkGetPagesAsync_WithNullRequest_ThrowsArgumentNullException()
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        client.Invoking(x => x.EnumerateItemsWithVariantsByBulkGetPagesAsync(null!))
+            .Should().ThrowExactly<ArgumentNullException>();
+    }
+
+    [Fact]
     public async Task ListItemsWithVariantsByFilterAsync_LastPage_StopsAfterOnePage()
     {
         var (client, mock) = MockClientFactory.Create();

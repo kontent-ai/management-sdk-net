@@ -16,6 +16,14 @@ public partial class ManagementClient
             cancellationToken);
 
     /// <inheritdoc />
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<AssetListingResponseServerModel, AssetModel>(
+            _managementApi.ListAssetsInternalAsync,
+            page => page.Assets,
+            page => page.Pagination?.Token,
+            cancellationToken);
+
+    /// <inheritdoc />
     public async Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);

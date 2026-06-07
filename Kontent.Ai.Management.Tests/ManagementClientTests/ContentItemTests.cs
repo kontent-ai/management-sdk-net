@@ -41,6 +41,52 @@ public class ContentItemTests
     }
 
     [Fact]
+    public async Task EnumerateContentItemPagesAsync_StreamsAllPages()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("ContentItemPage1.json");
+        var page2 = Fixture("ContentItemPage2.json");
+        var page3 = Fixture("ContentItemPage3.json");
+        var url = $"{MockClientFactory.BaseUrl}/items";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
+        var contentItems = new List<ContentItemModel>();
+        await foreach (var page in client.EnumerateContentItemPagesAsync())
+        {
+            page.IsSuccess.Should().BeTrue();
+            contentItems.AddRange(page.Value);
+        }
+
+        mock.VerifyNoOutstandingExpectation();
+        contentItems.Should().BeEquivalentTo(ConcatPages<ContentItemModel>(page1, page2, page3));
+    }
+
+    [Fact]
+    public async Task EnumerateContentItemPagesAsync_PageFails_YieldsFailureThenStops()
+    {
+        // The streaming property: a failed page surfaces as a failed result page (not an exception) and ends the
+        // stream, so the caller keeps what it gathered and sees the failure.
+        var (client, mock) = MockClientFactory.Create();
+        var url = $"{MockClientFactory.BaseUrl}/items";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", Fixture("ContentItemPage1.json"));
+        mock.Expect(HttpMethod.Get, url).Respond(System.Net.HttpStatusCode.InternalServerError, "application/json", """{ "message": "Server error." }""");
+
+        var pages = new List<IManagementResult<IReadOnlyList<ContentItemModel>>>();
+        await foreach (var page in client.EnumerateContentItemPagesAsync())
+        {
+            pages.Add(page);
+        }
+
+        mock.VerifyNoOutstandingExpectation();
+        pages.Should().HaveCount(2);
+        pages[0].IsSuccess.Should().BeTrue();
+        pages[1].IsSuccess.Should().BeFalse();
+        pages[1].StatusCode.Should().Be(System.Net.HttpStatusCode.InternalServerError);
+    }
+
+    [Fact]
     public async Task GetContentItemAsync_ById_GetsContentItems()
     {
         var (client, mock) = MockClientFactory.Create();

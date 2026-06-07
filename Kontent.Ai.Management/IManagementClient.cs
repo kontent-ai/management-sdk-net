@@ -56,6 +56,14 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Streams the assets one continuation-token page at a time, for environments too large to materialize in one list.
+    /// Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's assets on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Creates an asset.
     /// </summary>
     /// <param name="asset">Represents the asset that will be created.</param>
@@ -375,6 +383,14 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all content items on success, or the first failed page's detail.</returns>
     Task<IManagementResult<IReadOnlyList<ContentItemModel>>> ListContentItemsAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Streams the environment's content items one continuation-token page at a time, for environments too large to
+    /// materialize in one list. Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's content items on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all environment's content types.
@@ -859,10 +875,28 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <returns>A result wrapping all filtered variant references on success, or the first failed page's detail.</returns>
     Task<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> ListItemsWithVariantsByFilterAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Streams filtered item variant references one continuation-token page at a time, for filters matching more
+    /// results than is practical to materialize. Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="filterRequest">The filter request containing filters and ordering options.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's filtered variant references on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken = default);
+
     /// <summary>Lists all content items with their language variants.</summary>
     /// <param name="bulkGetRequest">The bulk-get request containing variant identifiers.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all content items with variants on success, or the first failed page's detail.</returns>
     Task<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> ListItemsWithVariantsByBulkGetAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Streams content items with their language variants one continuation-token page at a time, for bulk-get requests
+    /// matching more results than is practical to materialize. Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="bulkGetRequest">The bulk-get request containing variant identifiers.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's content items with variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken = default);
 
 }

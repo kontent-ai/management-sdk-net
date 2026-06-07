@@ -340,6 +340,23 @@ public class Readme
         }
     }
 
+    public async Task StreamLargeListing(IManagementClient client)
+    {
+        await foreach (var page in client.EnumerateContentItemPagesAsync())
+        {
+            if (!page.IsSuccess)
+            {
+                Console.WriteLine($"A page failed: {page.Error?.Message}");
+                break;
+            }
+
+            foreach (var item in page.Value)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
+    }
+
     public async Task ContentItems(IManagementClient client)
     {
         var item = await client.GetContentItemAsync(Reference.ByCodename("on_roasts"));

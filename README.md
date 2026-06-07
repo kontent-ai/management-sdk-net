@@ -328,7 +328,29 @@ foreach (var item in result.Value)   // result.Value is IReadOnlyList<ContentIte
 A listing is **all-or-nothing**: if any page fails, that first failure short-circuits and is returned as the result, so you never receive a silently truncated set.
 
 > [!NOTE]
-> Because every page is fetched and buffered before the result returns, a listing materializes the full set in memory. For the Management API's configuration data (types, languages, taxonomies, …) that's a non-issue. For very large *content* listings, prefer the targeted filter/bulk endpoints (e.g. `ListItemsWithVariantsByFilterAsync`) over listing everything.
+> Because every page is fetched and buffered before the result returns, a listing materializes the full set in memory. For the Management API's configuration data (types, languages, taxonomies, …) that's a non-issue.
+
+### Streaming large listings
+
+The endpoints whose results can grow large — content items, assets, and the items-with-variants filter and bulk-get — also expose an `EnumerateXPagesAsync` overload that streams one continuation-token page at a time, so you can process the listing without buffering it all in memory (and stop early). Each iteration is one HTTP request and yields a page result; a failed page surfaces as a failed result and ends the stream:
+
+```csharp
+await foreach (var page in client.EnumerateContentItemPagesAsync())
+{
+    if (!page.IsSuccess)
+    {
+        Console.WriteLine($"A page failed: {page.Error?.Message}");
+        break;
+    }
+
+    foreach (var item in page.Value)   // one page's worth
+    {
+        Console.WriteLine(item.Name);
+    }
+}
+```
+
+The next page is fetched only when you iterate past the current one, so breaking early leaves later pages unrequested. Reach for this only when a listing is genuinely large; everywhere else, `ListXAsync` is simpler.
 
 ## Content Items
 

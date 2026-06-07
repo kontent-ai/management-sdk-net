@@ -15,6 +15,14 @@ public partial class ManagementClient
             cancellationToken);
 
     /// <inheritdoc />
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<ContentItemListingResponseServerModel, ContentItemModel>(
+            _managementApi.ListContentItemsInternalAsync,
+            page => page.Items,
+            page => page.Pagination?.Token,
+            cancellationToken);
+
+    /// <inheritdoc />
     public async Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
