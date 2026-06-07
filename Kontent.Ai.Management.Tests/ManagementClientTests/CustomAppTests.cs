@@ -26,7 +26,7 @@ public class CustomAppTests
             .ToList();
 
     [Fact]
-    public async Task EnumerateCustomAppPagesAsync_PagesThroughAllCustomApps()
+    public async Task ListCustomAppsAsync_PagesThroughAllCustomApps()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("CustomAppsPage1.json");
@@ -36,12 +36,9 @@ public class CustomAppTests
         mock.Expect(HttpMethod.Get, CustomAppBaseUrl).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, CustomAppBaseUrl).Respond("application/json", page3);
 
-        var customApps = new List<CustomAppModel>();
-        await foreach (var page in client.EnumerateCustomAppPagesAsync())
-        {
-            page.IsSuccess.Should().BeTrue();
-            customApps.AddRange(page.Value);
-        }
+        var listResult = await client.ListCustomAppsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<CustomAppModel> customApps = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         customApps.Should().BeEquivalentTo(ConcatPages<CustomAppModel>(page1, page2, page3));

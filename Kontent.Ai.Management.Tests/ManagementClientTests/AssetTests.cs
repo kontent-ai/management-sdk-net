@@ -27,7 +27,7 @@ public class AssetTests
         => JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
 
     [Fact]
-    public async Task EnumerateAssetPagesAsync_PagesThroughAllAssets()
+    public async Task ListAssetsAsync_PagesThroughAllAssets()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("AssetsPage1.json");
@@ -38,12 +38,9 @@ public class AssetTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var assets = new List<AssetModel>();
-        await foreach (var page in client.EnumerateAssetPagesAsync())
-        {
-            page.IsSuccess.Should().BeTrue();
-            assets.AddRange(page.Value);
-        }
+        var listResult = await client.ListAssetsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<AssetModel> assets = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         assets.ShouldEqualAsJson(ConcatPages<AssetModel>(page1, page2, page3));

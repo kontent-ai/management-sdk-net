@@ -11,7 +11,7 @@
 The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) — programmatic read/write access to your Kontent.ai projects and environments: content items, language variants, content models, assets, taxonomies, workflows, environments, and more.
 
 > [!IMPORTANT]
-> The Management SDK is undergoing a ground-up modernization. This README documents the **modernized API** — a result-based return type for every operation, `IAsyncEnumerable` pagination, `System.Text.Json` serialization, and strongly-typed content models. **Breaking changes are expected** until the next major version is released; the current stable NuGet package still exposes the previous API.
+> The Management SDK is undergoing a ground-up modernization. This README documents the **modernized API** — a result-based return type for every operation, materialized listings, `System.Text.Json` serialization, and strongly-typed content models. **Breaking changes are expected** until the next major version is released; the current stable NuGet package still exposes the previous API.
 
 ## Table of Contents
 
@@ -28,7 +28,7 @@ The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/lea
 - [The Result Pattern](#the-result-pattern)
 - [Error Handling](#error-handling)
 - [Identifiers](#identifiers)
-- [Pagination](#pagination)
+- [Listings](#listings)
 - [Content Items](#content-items)
 - [Language Variants](#language-variants)
 - [Strongly-Typed Models](#strongly-typed-models)
@@ -306,43 +306,29 @@ var variantIdentifier = new LanguageVariantIdentifier(
 > [!NOTE]
 > Not every endpoint accepts every identifier kind — some are ID-only, some forbid external IDs. Passing an unsupported kind throws an `InvalidOperationException` before any request is sent.
 
-## Pagination
+## Listings
 
-Listing endpoints that page through a continuation token are exposed as `EnumerateXPagesAsync` methods returning an `IAsyncEnumerable` of pages. Each iteration is one HTTP request, and each page is itself a result:
+Listing endpoints return the whole set in one result — `Task<IManagementResult<IReadOnlyList<T>>>`. Continuation-token paging is handled internally: the SDK walks every page and merges them, so you never deal with pages yourself.
 
 ```csharp
-await foreach (var page in client.EnumerateContentItemPagesAsync())
+var result = await client.ListContentItemsAsync();
+
+if (!result.IsSuccess)
 {
-    if (!page.IsSuccess)
-    {
-        Console.WriteLine($"Failed to fetch a page: {page.Error?.Message}");
-        break;
-    }
-
-    foreach (var item in page.Value)
-    {
-        Console.WriteLine(item.Name);
-    }
+    Console.WriteLine($"Failed to list content items: {result.Error?.Message}");
+    return;
 }
-```
 
-The next page is fetched only when you iterate past the current one, so breaking early leaves later pages unrequested.
-
-When you don't need per-page control, flatten the page stream into a stream of items with the `Items<T>()` extension:
-
-```csharp
-using Kontent.Ai.Management.Extensions;
-
-await foreach (var item in client.EnumerateContentItemPagesAsync().Items())
+foreach (var item in result.Value)   // result.Value is IReadOnlyList<ContentItemModel>
 {
     Console.WriteLine(item.Name);
 }
 ```
 
-> [!WARNING]
-> `Items<T>()` opts out of the per-page result channel, so a failed page has nowhere to surface as data — it is thrown as a `ManagementResultException`. Consume the page stream directly (as in the first example) when a mid-enumeration failure must be handled without an exception.
+A listing is **all-or-nothing**: if any page fails, that first failure short-circuits and is returned as the result, so you never receive a silently truncated set.
 
-Some listings that are always small (collections, webhooks, spaces, workflows, roles) return the full set in one `IManagementResult<IEnumerable<T>>` instead of a page stream.
+> [!NOTE]
+> Because every page is fetched and buffered before the result returns, a listing materializes the full set in memory. For the Management API's configuration data (types, languages, taxonomies, …) that's a non-issue. For very large *content* listings, prefer the targeted filter/bulk endpoints (e.g. `ListItemsWithVariantsByFilterAsync`) over listing everything.
 
 ## Content Items
 
@@ -424,7 +410,7 @@ var allVariants = await client.ListLanguageVariantsByItemAsync(Reference.ByCoden
 // allVariants.Value is an IReadOnlyList<LanguageVariantModel>
 ```
 
-You can also enumerate variants across a whole collection, space, or content type — see the `EnumerateLanguageVariantsByCollectionPagesAsync`, `…BySpacePagesAsync`, and `…ByTypePagesAsync` methods.
+You can also enumerate variants across a whole collection, space, or content type — see the `ListLanguageVariantsByCollectionAsync`, `…BySpaceAsync`, and `…ByTypeAsync` methods.
 
 > [!TIP]
 > Anonymous objects are the untyped escape hatch — convenient, but the element codenames and value shapes aren't checked at compile time. For type-safe authoring, use the [typed element builders](#typed-element-builders) below, or fully [strongly-typed models](#strongly-typed-models).
@@ -568,7 +554,7 @@ var result = await client.CreateAssetAsync(new AssetCreateModel
 });
 ```
 
-Assets are enumerated with `EnumerateAssetPagesAsync`, updated with `UpsertAssetAsync`, and deleted with `DeleteAssetAsync`. Renditions (`CreateAssetRenditionAsync`, `EnumerateAssetRenditionPagesAsync`) and the asset-folder hierarchy (`GetAssetFoldersAsync`, `CreateAssetFoldersAsync`, `ModifyAssetFoldersAsync`) are managed through their own methods.
+Assets are enumerated with `ListAssetsAsync`, updated with `UpsertAssetAsync`, and deleted with `DeleteAssetAsync`. Renditions (`CreateAssetRenditionAsync`, `ListAssetRenditionsAsync`) and the asset-folder hierarchy (`GetAssetFoldersAsync`, `CreateAssetFoldersAsync`, `ModifyAssetFoldersAsync`) are managed through their own methods.
 
 ## Content Model
 
@@ -622,7 +608,7 @@ await client.ModifyContentTypeAsync(Reference.ByCodename("article"), new Content
 });
 ```
 
-The full set of each is enumerated with `EnumerateContentTypePagesAsync`, `EnumerateContentTypeSnippetPagesAsync`, and `EnumerateTaxonomyGroupPagesAsync`.
+The full set of each is listed with `ListContentTypesAsync`, `ListContentTypeSnippetsAsync`, and `ListTaxonomyGroupsAsync`.
 
 ## Workflows
 
@@ -642,16 +628,16 @@ The client also covers environment-level configuration and administration. These
 
 | Area | Key methods |
 |------|-------------|
-| **Languages** | `GetLanguageAsync`, `CreateLanguageAsync`, `ModifyLanguageAsync`, `EnumerateLanguagePagesAsync` |
+| **Languages** | `GetLanguageAsync`, `CreateLanguageAsync`, `ModifyLanguageAsync`, `ListLanguagesAsync` |
 | **Collections** | `ListCollectionsAsync`, `ModifyCollectionAsync` |
 | **Spaces** | `ListSpacesAsync`, `GetSpaceAsync`, `CreateSpaceAsync`, `ModifySpaceAsync`, `DeleteSpaceAsync` |
 | **Webhooks** | `ListWebhooksAsync`, `GetWebhookAsync`, `CreateWebhookAsync`, `EnableWebhookAsync`, `DisableWebhookAsync`, `DeleteWebhookAsync` |
 | **Preview** | `GetPreviewConfigurationAsync`, `ModifyPreviewConfigurationAsync` |
-| **Custom apps** | `EnumerateCustomAppPagesAsync`, `GetCustomAppAsync`, `CreateCustomAppAsync`, `ModifyCustomAppAsync`, `DeleteCustomAppAsync` |
+| **Custom apps** | `ListCustomAppsAsync`, `GetCustomAppAsync`, `CreateCustomAppAsync`, `ModifyCustomAppAsync`, `DeleteCustomAppAsync` |
 | **Roles** | `ListEnvironmentRolesAsync`, `GetEnvironmentRoleAsync` |
 | **Environment users** | `InviteUserIntoEnvironmentAsync`, `ModifyUsersRolesAsync` |
 | **Environment lifecycle** | `GetEnvironmentInformationAsync`, `CloneEnvironmentAsync`, `GetEnvironmentCloningStateAsync`, `MarkEnvironmentAsProductionAsync`, `ModifyEnvironmentAsync`, `DeleteEnvironmentAsync` |
-| **Validation** | `ValidateEnvironmentAsync`, `InitiateEnvironmentAsyncValidationTaskAsync`, `GetAsyncValidationTaskAsync`, `EnumerateAsyncValidationTaskIssuePagesAsync` |
+| **Validation** | `ValidateEnvironmentAsync`, `InitiateEnvironmentAsyncValidationTaskAsync`, `GetAsyncValidationTaskAsync`, `ListAsyncValidationTaskIssuesAsync` |
 
 For example, creating a language:
 
@@ -666,7 +652,7 @@ await client.CreateLanguageAsync(new LanguageCreateModel
 ```
 
 > [!NOTE]
-> Subscription-scoped endpoints — `EnumerateSubscriptionProjectPagesAsync`, `EnumerateSubscriptionUserPagesAsync`, `GetSubscriptionUserAsync`, `ActivateSubscriptionUserAsync`, `DeactivateSubscriptionUserAsync` — require `SubscriptionId` to be set in the options and an API key with subscription scope.
+> Subscription-scoped endpoints — `ListSubscriptionProjectsAsync`, `ListSubscriptionUsersAsync`, `GetSubscriptionUserAsync`, `ActivateSubscriptionUserAsync`, `DeactivateSubscriptionUserAsync` — require `SubscriptionId` to be set in the options and an API key with subscription scope.
 
 ## Further Information
 

@@ -24,8 +24,9 @@ public class LanguageTests
             .ToList();
 
     [Fact]
-    public async Task EnumerateLanguagePagesAsync_PagesThroughAllLanguages()
+    public async Task ListLanguagesAsync_ReturnsAllLanguagesAcrossPages()
     {
+        // Paging is internal: every page is drained and merged into one result.
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("LanguagesPage1.json");
         var page2 = Fixture("LanguagesPage2.json");
@@ -35,76 +36,28 @@ public class LanguageTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var languages = new List<LanguageModel>();
-        await foreach (var page in client.EnumerateLanguagePagesAsync())
-        {
-            page.IsSuccess.Should().BeTrue();
-            languages.AddRange(page.Value);
-        }
+        var result = await client.ListLanguagesAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        languages.Should().BeEquivalentTo(ConcatPages<LanguageModel>(page1, page2, page3));
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(ConcatPages<LanguageModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async Task EnumerateLanguagePagesAsync_PageFails_YieldsFailureThenStops()
+    public async Task ListLanguagesAsync_PageFails_ReturnsFailureWithoutPartialList()
     {
+        // A failed page short-circuits the whole listing to a failed result — all-or-nothing, no partial set.
         var (client, mock) = MockClientFactory.Create();
         var url = $"{MockClientFactory.BaseUrl}/languages";
         mock.Expect(HttpMethod.Get, url).Respond("application/json", Fixture("LanguagesPage1.json"));
         mock.Expect(HttpMethod.Get, url).Respond(HttpStatusCode.InternalServerError, "application/json", """{ "message": "Server error." }""");
 
-        var pages = new List<IManagementResult<IReadOnlyList<LanguageModel>>>();
-        await foreach (var page in client.EnumerateLanguagePagesAsync())
-        {
-            pages.Add(page);
-        }
+        var result = await client.ListLanguagesAsync();
 
         mock.VerifyNoOutstandingExpectation();
-        pages.Should().HaveCount(2);
-        pages[0].IsSuccess.Should().BeTrue();
-        pages[1].IsSuccess.Should().BeFalse();
-        pages[1].StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-    }
-
-    [Fact]
-    public async Task EnumerateLanguagePagesAsync_Items_FlattensAllPages()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        var page1 = Fixture("LanguagesPage1.json");
-        var page2 = Fixture("LanguagesPage2.json");
-        var page3 = Fixture("LanguagesPage3.json");
-        var url = $"{MockClientFactory.BaseUrl}/languages";
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
-
-        var languages = new List<LanguageModel>();
-        await foreach (var language in client.EnumerateLanguagePagesAsync().Items())
-        {
-            languages.Add(language);
-        }
-
-        mock.VerifyNoOutstandingExpectation();
-        languages.Should().BeEquivalentTo(ConcatPages<LanguageModel>(page1, page2, page3));
-    }
-
-    [Fact]
-    public async Task EnumerateLanguagePagesAsync_Items_PageFails_Throws()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        var url = $"{MockClientFactory.BaseUrl}/languages";
-        mock.Expect(HttpMethod.Get, url).Respond("application/json", Fixture("LanguagesPage1.json"));
-        mock.Expect(HttpMethod.Get, url).Respond(HttpStatusCode.InternalServerError, "application/json", """{ "message": "Server error." }""");
-
-        var enumerate = async () =>
-        {
-            await foreach (var _ in client.EnumerateLanguagePagesAsync().Items())
-            {
-            }
-        };
-
-        await enumerate.Should().ThrowAsync<ManagementResultException>();
+        result.IsSuccess.Should().BeFalse();
+        result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        result.Value.Should().BeNull();
     }
 
     [Fact]

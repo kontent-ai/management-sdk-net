@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<IEnumerable<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken = default)
+    public async Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken = default)
     {
         var response = await _managementApi.ListWorkflowsInternalAsync(cancellationToken);
         return await response.ToManagementResultAsync();

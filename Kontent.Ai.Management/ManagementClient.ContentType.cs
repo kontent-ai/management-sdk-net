@@ -8,8 +8,8 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeModel>>> EnumerateContentTypePagesAsync(CancellationToken cancellationToken = default)
-        => PageEnumerator.EnumerateAsync<ContentTypeListingResponseServerModel, ContentTypeModel>(
+    public Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<ContentTypeListingResponseServerModel, ContentTypeModel>(
             _managementApi.ListContentTypesInternalAsync,
             page => page.Types,
             page => page.Pagination?.Token,

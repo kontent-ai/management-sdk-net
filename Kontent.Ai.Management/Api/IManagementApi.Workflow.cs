@@ -8,7 +8,7 @@ internal partial interface IManagementApi
     /// <summary>Lists the workflows in the environment.</summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/workflows")]
-    internal Task<IApiResponse<IEnumerable<WorkflowModel>>> ListWorkflowsInternalAsync(
+    internal Task<IApiResponse<IReadOnlyList<WorkflowModel>>> ListWorkflowsInternalAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>Creates a new workflow.</summary>

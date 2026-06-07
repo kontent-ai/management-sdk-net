@@ -28,8 +28,8 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken = default)
-        => PageEnumerator.EnumerateAsync<AsyncValidationTaskIssuesResponseServerModel, AsyncValidationTaskIssueModel>(
+    public Task<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<AsyncValidationTaskIssuesResponseServerModel, AsyncValidationTaskIssueModel>(
             (token, ct) => _managementApi.ListAsyncValidationTaskIssuesInternalAsync(taskId, token, ct),
             page => page.Issues,
             page => page.Pagination?.Token,

@@ -202,11 +202,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Assets.json");
 
-        var assets = new List<AssetModel>();
-        await foreach (var page in client.EnumerateAssetPagesAsync())
-        {
-            assets.AddRange(page.Value);
-        }
+        IReadOnlyList<AssetModel> assets = (await client.ListAssetsAsync()).Value;
 
         Assert.Single(assets);
     }
@@ -241,11 +237,7 @@ public class CmApiV2
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
 
         // Gets the first page of results
-        var renditions = new List<AssetRenditionModel>();
-        await foreach (var page in client.EnumerateAssetRenditionPagesAsync(assetReference))
-        {
-            renditions.AddRange(page.Value);
-        }
+        IReadOnlyList<AssetRenditionModel> renditions = (await client.ListAssetRenditionsAsync(assetReference)).Value;
 
         Assert.Single(renditions);
     }
@@ -261,11 +253,7 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = new List<LanguageVariantModel>();
-        await foreach (var page in client.EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(identifier))
-        {
-            response.AddRange(page.Value);
-        }
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).Value;
 
         Assert.NotNull(response);
     }
@@ -319,11 +307,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItems.json");
 
-        var response = new List<ContentItemModel>();
-        await foreach (var page in client.EnumerateContentItemPagesAsync())
-        {
-            response.AddRange(page.Value);
-        }
+        IReadOnlyList<ContentItemModel> response = (await client.ListContentItemsAsync()).Value;
 
         Assert.Single(response);
     }
@@ -351,11 +335,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Languages.json");
 
-        var count = 0;
-        await foreach (var page in client.EnumerateLanguagePagesAsync())
-        {
-            count += page.Value.Count;
-        }
+        var count = (await client.ListLanguagesAsync()).Value.Count;
 
         Assert.Equal(1, count);
     }
@@ -395,11 +375,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Snippets.json");
 
-        var response = new List<ContentTypeSnippetModel>();
-        await foreach (var page in client.EnumerateContentTypeSnippetPagesAsync())
-        {
-            response.AddRange(page.Value);
-        }
+        IReadOnlyList<ContentTypeSnippetModel> response = (await client.ListContentTypeSnippetsAsync()).Value;
 
         Assert.Single(response);
     }
@@ -427,11 +403,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroups.json");
 
-        var count = 0;
-        await foreach (var page in client.EnumerateTaxonomyGroupPagesAsync())
-        {
-            count += page.Value.Count;
-        }
+        var count = (await client.ListTaxonomyGroupsAsync()).Value.Count;
 
         Assert.Equal(1, count);
     }
@@ -460,11 +432,7 @@ public class CmApiV2
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentTypes.json");
 
 
-        var response = new List<ContentTypeModel>();
-        await foreach (var page in client.EnumerateContentTypePagesAsync())
-        {
-            response.AddRange(page.Value);
-        }
+        IReadOnlyList<ContentTypeModel> response = (await client.ListContentTypesAsync()).Value;
 
         Assert.Single(response);
     }
@@ -534,11 +502,7 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = new List<LanguageVariantModel>();
-        await foreach (var page in client.EnumerateLanguageVariantsByTypePagesAsync(identifier))
-        {
-            response.AddRange(page.Value);
-        }
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsByTypeAsync(identifier)).Value;
 
         Assert.Single(response);
     }
@@ -554,11 +518,7 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = new List<LanguageVariantModel>();
-        await foreach (var page in client.EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(identifier))
-        {
-            response.AddRange(page.Value);
-        }
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).Value;
 
         Assert.Single(response);
     }
@@ -651,11 +611,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUsers.json");
 
-        var count = 0;
-        await foreach (var page in client.EnumerateSubscriptionUserPagesAsync())
-        {
-            count += page.Value.Count;
-        }
+        var count = (await client.ListSubscriptionUsersAsync()).Value.Count;
 
         Assert.Equal(2, count);
     }
@@ -667,11 +623,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionProjects.json");
 
-        var count = 0;
-        await foreach (var page in client.EnumerateSubscriptionProjectPagesAsync())
-        {
-            count += page.Value.Count;
-        }
+        var count = (await client.ListSubscriptionProjectsAsync()).Value.Count;
 
         Assert.Equal(2, count);
     }
@@ -707,10 +659,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTaskIssues.json");
 
-        await foreach (var page in client.EnumerateAsyncValidationTaskIssuePagesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0")))
-        {
-            Assert.True(page.IsSuccess);
-        }
+        var result = await client.ListAsyncValidationTaskIssuesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
+        Assert.True(result.IsSuccess);
     }
 
     // DocSection: cm_api_v2_patch_asset_folders

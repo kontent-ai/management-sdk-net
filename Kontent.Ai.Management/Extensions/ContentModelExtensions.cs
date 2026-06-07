@@ -23,29 +23,29 @@ public static class ContentModelExtensions
     {
         ArgumentNullException.ThrowIfNull(client);
 
-        var (types, typesFailure) = await DrainAsync(client.EnumerateContentTypePagesAsync(cancellationToken), cancellationToken);
-        if (typesFailure is not null)
+        var types = await client.ListContentTypesAsync(cancellationToken);
+        if (!types.IsSuccess)
         {
-            return Project(typesFailure);
+            return Project(types);
         }
 
-        var (snippets, snippetsFailure) = await DrainAsync(client.EnumerateContentTypeSnippetPagesAsync(cancellationToken), cancellationToken);
-        if (snippetsFailure is not null)
+        var snippets = await client.ListContentTypeSnippetsAsync(cancellationToken);
+        if (!snippets.IsSuccess)
         {
-            return Project(snippetsFailure);
+            return Project(snippets);
         }
 
-        var (taxonomies, taxonomiesFailure) = await DrainAsync(client.EnumerateTaxonomyGroupPagesAsync(cancellationToken), cancellationToken);
-        if (taxonomiesFailure is not null)
+        var taxonomies = await client.ListTaxonomyGroupsAsync(cancellationToken);
+        if (!taxonomies.IsSuccess)
         {
-            return Project(taxonomiesFailure);
+            return Project(taxonomies);
         }
 
         var snapshot = new ContentModelSnapshot
         {
-            Types = [.. types.OrderBy(t => t.Codename, StringComparer.Ordinal)],
-            Snippets = [.. snippets.OrderBy(s => s.Codename, StringComparer.Ordinal)],
-            Taxonomies = [.. taxonomies.OrderBy(t => t.Codename, StringComparer.Ordinal)],
+            Types = [.. types.Value.OrderBy(t => t.Codename, StringComparer.Ordinal)],
+            Snippets = [.. snippets.Value.OrderBy(s => s.Codename, StringComparer.Ordinal)],
+            Taxonomies = [.. taxonomies.Value.OrderBy(t => t.Codename, StringComparer.Ordinal)],
         };
 
         return ManagementResult<ContentModelSnapshot>.Success(snapshot);
@@ -53,25 +53,4 @@ public static class ContentModelExtensions
 
     private static ManagementResult<ContentModelSnapshot> Project(IManagementResult failure) =>
         ManagementResult<ContentModelSnapshot>.Failure(failure.Error!, failure.StatusCode, failure.RequestUrl, failure.ResponseHeaders);
-
-    // Drains a page stream into a flat list, or returns the first failed page so the caller can project it. Unlike
-    // ListingExtensions.Items, a failed page does not throw — the export stays within the result pattern.
-    private static async Task<(List<T> Items, IManagementResult? Failure)> DrainAsync<T>(
-        IAsyncEnumerable<IManagementResult<IReadOnlyList<T>>> pages,
-        CancellationToken cancellationToken)
-    {
-        var items = new List<T>();
-
-        await foreach (var page in pages.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (!page.IsSuccess)
-            {
-                return (items, page);
-            }
-
-            items.AddRange(page.Value);
-        }
-
-        return (items, null);
-    }
 }

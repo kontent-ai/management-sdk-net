@@ -33,7 +33,7 @@ public class AssetRenditionTests
     ];
 
     [Fact]
-    public async Task EnumerateAssetRenditionPagesAsync_PagesThroughAllRenditions()
+    public async Task ListAssetRenditionsAsync_PagesThroughAllRenditions()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("AssetRenditionPage1.json");
@@ -45,23 +45,20 @@ public class AssetRenditionTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var renditions = new List<AssetRenditionModel>();
-        await foreach (var page in client.EnumerateAssetRenditionPagesAsync(identifier))
-        {
-            page.IsSuccess.Should().BeTrue();
-            renditions.AddRange(page.Value);
-        }
+        var listResult = await client.ListAssetRenditionsAsync(identifier);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<AssetRenditionModel> renditions = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         renditions.Should().BeEquivalentTo(ConcatPages<AssetRenditionModel>(page1, page2, page3));
     }
 
     [Fact]
-    public void EnumerateAssetRenditionPagesAsync_IdentifierIsNull_Throws()
+    public async Task ListAssetRenditionsAsync_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        client.Invoking(x => x.EnumerateAssetRenditionPagesAsync(null!)).Should().ThrowExactly<ArgumentNullException>();
+        await client.Invoking(x => x.ListAssetRenditionsAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Theory]

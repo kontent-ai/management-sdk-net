@@ -61,19 +61,16 @@ public class EnvironmentValidationTests
     }
 
     [Fact]
-    public async Task EnumerateAsyncValidationTaskIssuePagesAsync_PagesThroughAllIssues()
+    public async Task ListAsyncValidationTaskIssuesAsync_PagesThroughAllIssues()
     {
         var (client, mock) = MockClientFactory.Create();
         var taskIdentifier = Guid.Empty;
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}/issues")
             .Respond("application/json", AsyncValidationTaskIssues);
 
-        var issues = new List<AsyncValidationTaskIssueModel>();
-        await foreach (var page in client.EnumerateAsyncValidationTaskIssuePagesAsync(taskIdentifier))
-        {
-            page.IsSuccess.Should().BeTrue();
-            issues.AddRange(page.Value);
-        }
+        var listResult = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<AsyncValidationTaskIssueModel> issues = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         var expected = JsonNode.Parse(AsyncValidationTaskIssues)!.AsObject().First().Value!.ToString();

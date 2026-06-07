@@ -46,7 +46,7 @@ public class LanguageVariantTests
     }
 
     [Fact]
-    public async Task EnumerateLanguageVariantsByTypePagesAsync_PagesThroughAllVariants()
+    public async Task ListLanguageVariantsByTypeAsync_PagesThroughAllVariants()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("LanguageVariantsPage1.json");
@@ -59,28 +59,25 @@ public class LanguageVariantTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var variants = new List<LanguageVariantModel>();
-        await foreach (var page in client.EnumerateLanguageVariantsByTypePagesAsync(identifier))
-        {
-            page.IsSuccess.Should().BeTrue();
-            variants.AddRange(page.Value);
-        }
+        var listResult = await client.ListLanguageVariantsByTypeAsync(identifier);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<LanguageVariantModel> variants = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         variants.ShouldEqualAsJson(ConcatPages<LanguageVariantModel>(page1, page2, page3));
     }
 
     [Fact]
-    public void EnumerateLanguageVariantsByTypePagesAsync_IdentifierIsNull_Throws()
+    public async Task ListLanguageVariantsByTypeAsync_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        client.Invoking(x => x.EnumerateLanguageVariantsByTypePagesAsync(null!))
-            .Should().ThrowExactly<ArgumentNullException>();
+        await client.Invoking(x => x.ListLanguageVariantsByTypeAsync(null!))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync_PagesThroughAllVariants()
+    public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_PagesThroughAllVariants()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("LanguageVariantsPage1.json");
@@ -93,28 +90,25 @@ public class LanguageVariantTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var variants = new List<LanguageVariantModel>();
-        await foreach (var page in client.EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(identifier))
-        {
-            page.IsSuccess.Should().BeTrue();
-            variants.AddRange(page.Value);
-        }
+        var listResult = await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<LanguageVariantModel> variants = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         variants.ShouldEqualAsJson(ConcatPages<LanguageVariantModel>(page1, page2, page3));
     }
 
     [Fact]
-    public void EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync_IdentifierIsNull_Throws()
+    public async Task ListLanguageVariantsOfContentTypeWithComponentsAsync_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        client.Invoking(x => x.EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(null!))
-            .Should().ThrowExactly<ArgumentNullException>();
+        await client.Invoking(x => x.ListLanguageVariantsOfContentTypeWithComponentsAsync(null!))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task EnumerateLanguageVariantsByCollectionPagesAsync_PagesThroughAllVariants()
+    public async Task ListLanguageVariantsByCollectionAsync_PagesThroughAllVariants()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("LanguageVariantsPage1.json");
@@ -127,28 +121,25 @@ public class LanguageVariantTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var variants = new List<LanguageVariantModel>();
-        await foreach (var page in client.EnumerateLanguageVariantsByCollectionPagesAsync(identifier))
-        {
-            page.IsSuccess.Should().BeTrue();
-            variants.AddRange(page.Value);
-        }
+        var listResult = await client.ListLanguageVariantsByCollectionAsync(identifier);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<LanguageVariantModel> variants = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         variants.ShouldEqualAsJson(ConcatPages<LanguageVariantModel>(page1, page2, page3));
     }
 
     [Fact]
-    public void EnumerateLanguageVariantsByCollectionPagesAsync_IdentifierIsNull_Throws()
+    public async Task ListLanguageVariantsByCollectionAsync_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        client.Invoking(x => x.EnumerateLanguageVariantsByCollectionPagesAsync(null!))
-            .Should().ThrowExactly<ArgumentNullException>();
+        await client.Invoking(x => x.ListLanguageVariantsByCollectionAsync(null!))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task EnumerateLanguageVariantsBySpacePagesAsync_PagesThroughAllVariants()
+    public async Task ListLanguageVariantsBySpaceAsync_PagesThroughAllVariants()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("LanguageVariantsPage1.json");
@@ -161,24 +152,21 @@ public class LanguageVariantTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var variants = new List<LanguageVariantModel>();
-        await foreach (var page in client.EnumerateLanguageVariantsBySpacePagesAsync(identifier))
-        {
-            page.IsSuccess.Should().BeTrue();
-            variants.AddRange(page.Value);
-        }
+        var listResult = await client.ListLanguageVariantsBySpaceAsync(identifier);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<LanguageVariantModel> variants = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         variants.ShouldEqualAsJson(ConcatPages<LanguageVariantModel>(page1, page2, page3));
     }
 
     [Fact]
-    public void EnumerateLanguageVariantsBySpacePagesAsync_IdentifierIsNull_Throws()
+    public async Task ListLanguageVariantsBySpaceAsync_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        client.Invoking(x => x.EnumerateLanguageVariantsBySpacePagesAsync(null!))
-            .Should().ThrowExactly<ArgumentNullException>();
+        await client.Invoking(x => x.ListLanguageVariantsBySpaceAsync(null!))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Theory]

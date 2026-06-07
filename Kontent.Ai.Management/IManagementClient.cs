@@ -49,12 +49,11 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the assets, one continuation-token page at a time.
+    /// Lists all assets.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's assets on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all assets on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an asset.
@@ -98,13 +97,12 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the renditions of the specified asset, one continuation-token page at a time.
+    /// Lists all renditions of the specified asset.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="assetIdentifier">The identifier of the asset.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's renditions on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all renditions on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<AssetRenditionModel>>> ListAssetRenditionsAsync(Reference assetIdentifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new rendition of the specified asset.
@@ -373,49 +371,43 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <returns>A result wrapping the <see cref="CollectionsModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>Enumerates the environment's content items, one continuation-token page at a time.</summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's content items on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken = default);
+    /// <summary>Lists all environment's content items.</summary>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all content items on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<ContentItemModel>>> ListContentItemsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the environment's content types, one continuation-token page at a time.
+    /// Lists all environment's content types.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's content types on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeModel>>> EnumerateContentTypePagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all content types on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the environment's content type snippets, one continuation-token page at a time.
+    /// Lists all environment's content type snippets.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's content type snippets on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> EnumerateContentTypeSnippetPagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all content type snippets on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the languages, one continuation-token page at a time.
+    /// Lists all languages.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's languages on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all languages on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>Enumerates the language variants for the specified collection, one continuation-token page at a time.</summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <summary>Lists all language variants for the specified collection.</summary>
     /// <param name="identifier">The identifier of the collection.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByCollectionAsync(Reference identifier, CancellationToken cancellationToken = default);
 
-    /// <summary>Enumerates the language variants for the specified space, one continuation-token page at a time.</summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <summary>Lists all language variants for the specified space.</summary>
     /// <param name="identifier">The identifier of the space.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsBySpaceAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns strongly typed listing of language variants for the specified content item.
@@ -425,41 +417,38 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <returns>A result wrapping the listing of <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken = default);
 
-    /// <summary>Enumerates the language variants for the specified content type, one continuation-token page at a time.</summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <summary>Lists all language variants for the specified content type.</summary>
     /// <param name="identifier">The identifier of the content type.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByTypeAsync(Reference identifier, CancellationToken cancellationToken = default);
 
-    /// <summary>Enumerates the language variants containing components for the specified content type, one continuation-token page at a time.</summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <summary>Lists all language variants containing components for the specified content type.</summary>
     /// <param name="identifier">The identifier of the content type.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the taxonomy groups, one continuation-token page at a time.
+    /// Lists all taxonomy groups.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's taxonomy groups on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all taxonomy groups on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns listing of webhooks.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the listing of <see cref="WebhookModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IEnumerable<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken = default);
+    Task<IManagementResult<IReadOnlyList<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns listing of workflows.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the listing of <see cref="WorkflowModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IEnumerable<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken = default);
+    Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the given workflow.
@@ -651,13 +640,12 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the issues of an async validation task, one continuation-token page at a time.
+    /// Lists all issues of an async validation task.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
     /// <param name="taskId">The identifier of the validation task.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's issues on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> EnumerateAsyncValidationTaskIssuePagesAsync(Guid taskId, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all issues on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all roles in an environment.
@@ -692,21 +680,19 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the projects under your subscription, one continuation-token page at a time.
+    /// Lists all projects under your subscription.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's projects on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> EnumerateSubscriptionProjectPagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all projects on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the users under your subscription — including their assignment to projects, environments,
+    /// Lists all users under your subscription — including their assignment to projects, environments,
     /// collections, roles, and languages — one continuation-token page at a time.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's users on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> EnumerateSubscriptionUserPagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all users on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve a user metadata from under the specified subscription.
@@ -793,7 +779,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the listing of <see cref="SpaceModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<IEnumerable<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken = default);
+    Task<IManagementResult<IReadOnlyList<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the space.
@@ -828,12 +814,11 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Enumerates the custom apps, one continuation-token page at a time.
+    /// Lists all custom apps.
     /// </summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's custom apps on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<CustomAppModel>>> EnumerateCustomAppPagesAsync(CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all custom apps on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the custom app.
@@ -868,18 +853,16 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <returns>A result wrapping the modified <see cref="CustomAppModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
-    /// <summary>Enumerates the filtered item variant references, one continuation-token page at a time.</summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <summary>Lists all filtered item variant references.</summary>
     /// <param name="filterRequest">The filter request containing filters and ordering options.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's filtered variant references on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all filtered variant references on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> ListItemsWithVariantsByFilterAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken = default);
 
-    /// <summary>Enumerates the content items with their language variants, one continuation-token page at a time.</summary>
-    /// <remarks>Use the <see cref="Extensions.ListingExtensions.Items{T}"/> extension to flatten the pages into a flat item stream.</remarks>
+    /// <summary>Lists all content items with their language variants.</summary>
     /// <param name="bulkGetRequest">The bulk-get request containing variant identifiers.</param>
-    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
-    /// <returns>An async stream of pages; each yields one page's content items with variants on success, or that page's failure detail.</returns>
-    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping all content items with variants on success, or the first failed page's detail.</returns>
+    Task<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> ListItemsWithVariantsByBulkGetAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken = default);
 
 }

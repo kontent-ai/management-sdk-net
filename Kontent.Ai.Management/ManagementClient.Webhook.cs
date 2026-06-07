@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<IEnumerable<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken = default)
+    public async Task<IManagementResult<IReadOnlyList<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken = default)
     {
         var response = await _managementApi.ListWebhooksInternalAsync(cancellationToken);
         return await response.ToManagementResultAsync();

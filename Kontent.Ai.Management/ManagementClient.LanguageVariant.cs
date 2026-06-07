@@ -19,12 +19,12 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByTypeAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
         var typeSegment = identifier.ToUrlSegment();
-        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
             (token, ct) => _managementApi.ListLanguageVariantsByTypeInternalAsync(typeSegment, token, ct),
             page => page.Variants,
             page => page.Pagination?.Token,
@@ -32,12 +32,12 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
         var typeSegment = identifier.ToUrlSegment();
-        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
             (token, ct) => _managementApi.ListLanguageVariantsOfContentTypeWithComponentsInternalAsync(typeSegment, token, ct),
             page => page.Variants,
             page => page.Pagination?.Token,
@@ -45,12 +45,12 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByCollectionAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
         var collectionSegment = identifier.ToUrlSegment();
-        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
             (token, ct) => _managementApi.ListLanguageVariantsByCollectionInternalAsync(collectionSegment, token, ct),
             page => page.Variants,
             page => page.Pagination?.Token,
@@ -58,12 +58,12 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsBySpaceAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
         var spaceSegment = identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename);
-        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
             (token, ct) => _managementApi.ListLanguageVariantsBySpaceInternalAsync(spaceSegment, token, ct),
             page => page.Variants,
             page => page.Pagination?.Token,

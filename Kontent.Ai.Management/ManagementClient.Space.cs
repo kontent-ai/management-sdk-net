@@ -29,7 +29,7 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<IEnumerable<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken = default)
+    public async Task<IManagementResult<IReadOnlyList<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken = default)
     {
         var response = await _managementApi.ListSpacesInternalAsync(cancellationToken);
         return await response.ToManagementResultAsync();

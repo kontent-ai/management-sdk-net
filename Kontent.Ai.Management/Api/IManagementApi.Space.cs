@@ -9,7 +9,7 @@ internal partial interface IManagementApi
     /// <summary>Lists all spaces in the environment.</summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/spaces")]
-    internal Task<IApiResponse<IEnumerable<SpaceModel>>> ListSpacesInternalAsync(
+    internal Task<IApiResponse<IReadOnlyList<SpaceModel>>> ListSpacesInternalAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single space.</summary>

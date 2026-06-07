@@ -7,8 +7,8 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageModel>>> EnumerateLanguagePagesAsync(CancellationToken cancellationToken = default)
-        => PageEnumerator.EnumerateAsync<LanguagesListingResponseServerModel, LanguageModel>(
+    public Task<IManagementResult<IReadOnlyList<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<LanguagesListingResponseServerModel, LanguageModel>(
             _managementApi.ListLanguagesInternalAsync,
             page => page.Languages,
             page => page.Pagination?.Token,

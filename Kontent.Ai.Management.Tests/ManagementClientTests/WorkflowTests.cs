@@ -33,7 +33,7 @@ public class WorkflowTests
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<WorkflowModel>>(Workflows, SharedTestJsonOptions.Default));
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<IReadOnlyList<WorkflowModel>>(Workflows, SharedTestJsonOptions.Default));
     }
 
     [Fact]

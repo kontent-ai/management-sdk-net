@@ -22,7 +22,7 @@ public class ContentTypeTests
             .ToList();
 
     [Fact]
-    public async Task EnumerateContentTypePagesAsync_PagesThroughAllContentTypes()
+    public async Task ListContentTypesAsync_PagesThroughAllContentTypes()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("ContentTypesPage1.json");
@@ -33,12 +33,9 @@ public class ContentTypeTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var contentTypes = new List<ContentTypeModel>();
-        await foreach (var page in client.EnumerateContentTypePagesAsync())
-        {
-            page.IsSuccess.Should().BeTrue();
-            contentTypes.AddRange(page.Value);
-        }
+        var listResult = await client.ListContentTypesAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<ContentTypeModel> contentTypes = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         contentTypes.Should().BeEquivalentTo(ConcatPages<ContentTypeModel>(page1, page2, page3));

@@ -22,7 +22,7 @@ public class ContentTypeSnippetTests
             .ToList();
 
     [Fact]
-    public async Task EnumerateContentTypeSnippetPagesAsync_PagesThroughAllSnippets()
+    public async Task ListContentTypeSnippetsAsync_PagesThroughAllSnippets()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("SnippetsPage1.json");
@@ -33,12 +33,9 @@ public class ContentTypeSnippetTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var snippets = new List<ContentTypeSnippetModel>();
-        await foreach (var page in client.EnumerateContentTypeSnippetPagesAsync())
-        {
-            page.IsSuccess.Should().BeTrue();
-            snippets.AddRange(page.Value);
-        }
+        var listResult = await client.ListContentTypeSnippetsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<ContentTypeSnippetModel> snippets = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         snippets.Should().BeEquivalentTo(ConcatPages<ContentTypeSnippetModel>(page1, page2, page3));

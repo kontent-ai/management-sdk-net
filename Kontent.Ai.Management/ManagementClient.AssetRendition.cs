@@ -7,12 +7,12 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetRenditionModel>>> EnumerateAssetRenditionPagesAsync(Reference assetIdentifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<IReadOnlyList<AssetRenditionModel>>> ListAssetRenditionsAsync(Reference assetIdentifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(assetIdentifier);
 
         var assetSegment = assetIdentifier.ToUrlSegment();
-        return PageEnumerator.EnumerateAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>(
+        return PageEnumerator.CollectAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>(
             (token, ct) => _managementApi.ListAssetRenditionsInternalAsync(assetSegment, token, ct),
             page => page.AssetRenditions,
             page => page.Pagination?.Token,

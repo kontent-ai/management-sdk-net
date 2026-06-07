@@ -324,21 +324,17 @@ public class Readme
 
     public async Task Pagination(IManagementClient client)
     {
-        await foreach (var page in client.EnumerateContentItemPagesAsync())
-        {
-            if (!page.IsSuccess)
-            {
-                Console.WriteLine($"Failed to fetch a page: {page.Error?.Message}");
-                break;
-            }
+        var result = await client.ListContentItemsAsync();
 
-            foreach (var item in page.Value)
-            {
-                Console.WriteLine(item.Name);
-            }
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine($"Failed to list content items: {result.Error?.Message}");
+            return;
         }
 
-        await foreach (var item in client.EnumerateContentItemPagesAsync().Items())
+        IReadOnlyList<ContentItemModel> all = result.Value;
+        Console.WriteLine($"{all.Count} items");
+        foreach (var item in all)
         {
             Console.WriteLine(item.Name);
         }

@@ -8,8 +8,8 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken = default)
-        => PageEnumerator.EnumerateAsync<AssetListingResponseServerModel, AssetModel>(
+    public Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<AssetListingResponseServerModel, AssetModel>(
             _managementApi.ListAssetsInternalAsync,
             page => page.Assets,
             page => page.Pagination?.Token,

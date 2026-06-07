@@ -69,7 +69,7 @@ public class SpaceTests
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<IEnumerable<SpaceModel>>(Spaces, SharedTestJsonOptions.Default));
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<IReadOnlyList<SpaceModel>>(Spaces, SharedTestJsonOptions.Default));
     }
 
     [Fact]

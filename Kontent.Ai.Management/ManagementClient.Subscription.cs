@@ -6,16 +6,16 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> EnumerateSubscriptionProjectPagesAsync(CancellationToken cancellationToken = default)
-        => PageEnumerator.EnumerateAsync<SubscriptionProjectListingResponseServerModel, SubscriptionProjectModel>(
+    public Task<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<SubscriptionProjectListingResponseServerModel, SubscriptionProjectModel>(
             _subscriptionApi.ListSubscriptionProjectsInternalAsync,
             page => page.Projects,
             page => page.Pagination?.Token,
             cancellationToken);
 
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> EnumerateSubscriptionUserPagesAsync(CancellationToken cancellationToken = default)
-        => PageEnumerator.EnumerateAsync<SubscriptionUserListingResponseServerModel, SubscriptionUserModel>(
+    public Task<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<SubscriptionUserListingResponseServerModel, SubscriptionUserModel>(
             _subscriptionApi.ListSubscriptionUsersInternalAsync,
             page => page.Users,
             page => page.Pagination?.Token,

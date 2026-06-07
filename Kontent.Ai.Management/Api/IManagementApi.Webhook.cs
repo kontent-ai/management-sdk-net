@@ -8,7 +8,7 @@ internal partial interface IManagementApi
     /// <summary>Lists the webhooks in the environment.</summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/webhooks-vnext")]
-    internal Task<IApiResponse<IEnumerable<WebhookModel>>> ListWebhooksInternalAsync(
+    internal Task<IApiResponse<IReadOnlyList<WebhookModel>>> ListWebhooksInternalAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single webhook.</summary>

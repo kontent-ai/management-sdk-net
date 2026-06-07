@@ -21,7 +21,7 @@ public class TaxonomyGroupTests
             .ToList();
 
     [Fact]
-    public async Task EnumerateTaxonomyGroupPagesAsync_PagesThroughAllTaxonomyGroups()
+    public async Task ListTaxonomyGroupsAsync_PagesThroughAllTaxonomyGroups()
     {
         var (client, mock) = MockClientFactory.Create();
         var page1 = Fixture("TaxonomyGroupsPage1.json");
@@ -30,12 +30,9 @@ public class TaxonomyGroupTests
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
         mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
 
-        var taxonomyGroups = new List<TaxonomyGroupModel>();
-        await foreach (var page in client.EnumerateTaxonomyGroupPagesAsync())
-        {
-            page.IsSuccess.Should().BeTrue();
-            taxonomyGroups.AddRange(page.Value);
-        }
+        var listResult = await client.ListTaxonomyGroupsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<TaxonomyGroupModel> taxonomyGroups = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
         taxonomyGroups.Should().BeEquivalentTo(ConcatPages<TaxonomyGroupModel>(page1, page2));

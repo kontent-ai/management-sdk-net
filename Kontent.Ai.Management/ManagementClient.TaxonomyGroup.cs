@@ -8,8 +8,8 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public IAsyncEnumerable<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> EnumerateTaxonomyGroupPagesAsync(CancellationToken cancellationToken = default)
-        => PageEnumerator.EnumerateAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>(
+    public Task<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>(
             _managementApi.ListTaxonomyGroupsInternalAsync,
             page => page.Taxonomies,
             page => page.Pagination?.Token,
