@@ -265,3 +265,8 @@ __pycache__/
 
 # Verify (snapshot testing) — received files are transient, regenerated on mismatch
 *.received.*
+
+v2/
+terminal
+sync-and-delivery-di-refactor.md
+Messages/
