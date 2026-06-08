@@ -65,15 +65,6 @@
 		<None Update="Data\**\*.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Data\WebSpotlight\DeactivationWebSpotlightResponse.json">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Data\WebSpotlight\ActivationWebSpotlightWithProvidedRootTypeIdResponse.json">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Data\WebSpotlight\GetStatusWebSpotlightResponse.json">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Data\CustomApp\CustomAppsPage2.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
