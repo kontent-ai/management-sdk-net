@@ -15,7 +15,7 @@ public record ElementDefaultValue<TValue>
 /// <summary>
 /// Wraps a single default value. The wire format is <c>{ "value": ... }</c>.
 /// </summary>
-public record TypeValue<TValue>
+public sealed record TypeValue<TValue>
 {
     /// <summary>
     /// The default value carried by this container. The API rejects null and empty-array values — leave the parent default-value object null to express "no default configured".

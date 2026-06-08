@@ -16,17 +16,17 @@ internal sealed class ReferenceJsonConverter : JsonConverter<Reference>
         using var document = JsonDocument.ParseValue(ref reader);
         var root = document.RootElement;
 
-        if (TryGetString(root, "id", out var id))
+        if (root.TryGetStringProperty("id", out var id))
         {
             return Reference.ById(Guid.Parse(id));
         }
 
-        if (TryGetString(root, "codename", out var codename))
+        if (root.TryGetStringProperty("codename", out var codename))
         {
             return Reference.ByCodename(codename);
         }
 
-        if (TryGetString(root, "external_id", out var externalId))
+        if (root.TryGetStringProperty("external_id", out var externalId))
         {
             return Reference.ByExternalId(externalId);
         }
@@ -52,17 +52,5 @@ internal sealed class ReferenceJsonConverter : JsonConverter<Reference>
         }
 
         writer.WriteEndObject();
-    }
-
-    private static bool TryGetString(JsonElement root, string name, out string value)
-    {
-        if (root.TryGetProperty(name, out var element) && element.ValueKind == JsonValueKind.String)
-        {
-            value = element.GetString()!;
-            return true;
-        }
-
-        value = null!;
-        return false;
     }
 }

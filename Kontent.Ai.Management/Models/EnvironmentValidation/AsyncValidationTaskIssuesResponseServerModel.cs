@@ -1,15 +1,9 @@
-﻿using System.Collections;
-
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
-internal class AsyncValidationTaskIssuesResponseServerModel : IListingResponse<AsyncValidationTaskIssueModel>
+internal sealed record AsyncValidationTaskIssuesResponseServerModel : IListingResponse<AsyncValidationTaskIssueModel>
 {
     [JsonPropertyName("issues")]
-    public required IEnumerable<AsyncValidationTaskIssueModel> Issues { get; set; }
+    public required IEnumerable<AsyncValidationTaskIssueModel> Issues { get; init; }
 
     [JsonPropertyName("pagination")]
-    public required PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<AsyncValidationTaskIssueModel> GetEnumerator() => Issues.GetEnumerator();
+    public required PaginationResponseModel Pagination { get; init; }
 }

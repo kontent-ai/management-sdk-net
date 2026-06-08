@@ -13,12 +13,12 @@ internal sealed class AssetWithRenditionsReferenceJsonConverter : JsonConverter<
     {
         using var document = JsonDocument.ParseValue(ref reader);
 
-        if (!document.RootElement.TryGetProperty("id", out var id) || id.ValueKind != JsonValueKind.String)
+        if (!document.RootElement.TryGetStringProperty("id", out var id))
         {
             throw new JsonException("Object does not contain a string 'id' property.");
         }
 
-        return new AssetWithRenditionsReference(Reference.ById(Guid.Parse(id.GetString()!)));
+        return new AssetWithRenditionsReference(Reference.ById(Guid.Parse(id)));
     }
 
     public override void Write(Utf8JsonWriter writer, AssetWithRenditionsReference value, JsonSerializerOptions options)

@@ -1,15 +1,9 @@
-using System.Collections;
-
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
-internal class ContentItemsWithVariantsListingResponseServerModel : IListingResponse<ContentItemWithVariantModel>
+internal sealed record ContentItemsWithVariantsListingResponseServerModel : IListingResponse<ContentItemWithVariantModel>
 {
     [JsonPropertyName("data")]
-    public required IEnumerable<ContentItemWithVariantModel> Data { get; set; }
+    public required IEnumerable<ContentItemWithVariantModel> Data { get; init; }
 
     [JsonPropertyName("pagination")]
-    public required PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<ContentItemWithVariantModel> GetEnumerator() => Data.GetEnumerator();
+    public required PaginationResponseModel Pagination { get; init; }
 }

@@ -1,15 +1,9 @@
-﻿using System.Collections;
-
 namespace Kontent.Ai.Management.Models.Items;
-internal class ContentItemListingResponseServerModel : IListingResponse<ContentItemModel>
+internal sealed record ContentItemListingResponseServerModel : IListingResponse<ContentItemModel>
 {
     [JsonPropertyName("items")]
-    public required IEnumerable<ContentItemModel> Items { get; set; }
+    public required IEnumerable<ContentItemModel> Items { get; init; }
 
     [JsonPropertyName("pagination")]
-    public required PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<ContentItemModel> GetEnumerator() => Items.GetEnumerator();
+    public required PaginationResponseModel Pagination { get; init; }
 }

@@ -14,14 +14,14 @@ internal sealed class UserIdentifierJsonConverter : JsonConverter<UserIdentifier
         using var document = JsonDocument.ParseValue(ref reader);
         var root = document.RootElement;
 
-        if (root.TryGetProperty("id", out var id) && id.ValueKind == JsonValueKind.String)
+        if (root.TryGetStringProperty("id", out var id))
         {
-            return UserIdentifier.ById(id.GetString()!);
+            return UserIdentifier.ById(id);
         }
 
-        if (root.TryGetProperty("email", out var email) && email.ValueKind == JsonValueKind.String)
+        if (root.TryGetStringProperty("email", out var email))
         {
-            return UserIdentifier.ByEmail(email.GetString()!);
+            return UserIdentifier.ByEmail(email);
         }
 
         throw new JsonException("UserIdentifier object must contain 'id' or 'email'.");

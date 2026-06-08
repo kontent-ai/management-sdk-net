@@ -641,9 +641,9 @@ public sealed class AssetUpsertModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Assets
-public class FileContentSource
-    String ContentType { get; set; }
-    String FileName { get; set; }
+public sealed class FileContentSource
+    String ContentType { get; }
+    String FileName { get; }
     Stream OpenReadStream()
 
 // Kontent.Ai.Management.Models.Assets
@@ -2350,7 +2350,7 @@ public sealed class TextElementDefaultValueModel : ElementDefaultValue`1, IEquat
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public class TypeValue`1<TValue> : IEquatable`1
+public sealed class TypeValue`1<TValue> : IEquatable`1
     TValue Value { get; set; init; }
     TypeValue<TValue> <Clone>$()
     Boolean Equals(Object obj)
@@ -3055,10 +3055,6 @@ public sealed class WorkflowUpsertModel : IEquatable`1
     Boolean Equals(WorkflowUpsertModel other)
     Int32 GetHashCode()
     String ToString()
-
-// Kontent.Ai.Management.Modules.Extensions
-public sealed class ReferenceExtensions
-    static Boolean DoesHaveSetOnlyOneIdentifier(Reference property)
 
 // Kontent.Ai.Management.Modules.ModelBuilders
 public sealed class ElementBuilder

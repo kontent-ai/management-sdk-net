@@ -1,15 +1,9 @@
-﻿using System.Collections;
-
 namespace Kontent.Ai.Management.Models.Assets;
-internal sealed class AssetListingResponseServerModel : IListingResponse<AssetModel>
+internal sealed record AssetListingResponseServerModel : IListingResponse<AssetModel>
 {
     [JsonPropertyName("assets")]
-    public required IEnumerable<AssetModel> Assets { get; set; }
+    public required IEnumerable<AssetModel> Assets { get; init; }
 
     [JsonPropertyName("pagination")]
-    public required PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<AssetModel> GetEnumerator() => Assets.GetEnumerator();
+    public required PaginationResponseModel Pagination { get; init; }
 }
