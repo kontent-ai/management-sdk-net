@@ -51,7 +51,7 @@ public static class ManagementClientExtensions
         var fileResult = await client.UploadFileAsync(fileContent, cancellationToken);
         if (!fileResult.IsSuccess)
         {
-            return ManagementResult<AssetModel>.Failure(fileResult.Error!, fileResult.StatusCode, fileResult.RequestUrl, fileResult.ResponseHeaders);
+            return ProjectFailure<AssetModel>(fileResult);
         }
 
         return await client.CreateAssetAsync(assetCreateModel with { FileReference = fileResult.Value }, cancellationToken);
@@ -75,7 +75,7 @@ public static class ManagementClientExtensions
         var fileResult = await client.UploadFileAsync(fileContent, cancellationToken);
         if (!fileResult.IsSuccess)
         {
-            return ManagementResult<AssetModel>.Failure(fileResult.Error!, fileResult.StatusCode, fileResult.RequestUrl, fileResult.ResponseHeaders);
+            return ProjectFailure<AssetModel>(fileResult);
         }
 
         return await client.UpsertAssetAsync(identifier, upsertModel with { FileReference = fileResult.Value }, cancellationToken);
@@ -104,7 +104,7 @@ public static class ManagementClientExtensions
         var itemResult = await client.CreateContentItemAsync(item, cancellationToken);
         if (!itemResult.IsSuccess)
         {
-            return ManagementResult<LanguageVariantModel>.Failure(itemResult.Error!, itemResult.StatusCode, itemResult.RequestUrl, itemResult.ResponseHeaders);
+            return ProjectFailure<LanguageVariantModel>(itemResult);
         }
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
@@ -138,10 +138,13 @@ public static class ManagementClientExtensions
         var itemResult = await client.CreateContentItemAsync(item, cancellationToken);
         if (!itemResult.IsSuccess)
         {
-            return ManagementResult<T>.Failure(itemResult.Error!, itemResult.StatusCode, itemResult.RequestUrl, itemResult.ResponseHeaders);
+            return ProjectFailure<T>(itemResult);
         }
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
         return await client.UpsertLanguageVariantAsync(identifier, variant, workflow, cancellationToken);
     }
+
+    private static ManagementResult<TTo> ProjectFailure<TTo>(IManagementResult source) =>
+        ManagementResult<TTo>.Failure(source.Error!, source.StatusCode, source.RequestUrl, source.ResponseHeaders);
 }
