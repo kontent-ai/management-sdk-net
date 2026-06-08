@@ -18,7 +18,7 @@ public class ImportContentItems
     // DocSection: importing_create_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateContentItem()
+    public async Task CreateContentItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -30,7 +30,7 @@ public class ImportContentItems
     // DocSection: importing_create_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateContentType()
+    public async Task CreateContentType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -98,7 +98,7 @@ public class ImportContentItems
     // DocSection: importing_upsert_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UpsertLanguageVariant()
+    public async Task UpsertLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 

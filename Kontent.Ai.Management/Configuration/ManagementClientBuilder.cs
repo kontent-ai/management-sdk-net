@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Http.Resilience;
 using Polly;
 
 namespace Kontent.Ai.Management.Configuration;

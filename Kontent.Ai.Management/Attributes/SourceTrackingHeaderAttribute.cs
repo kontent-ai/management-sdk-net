@@ -63,7 +63,7 @@ public class SourceTrackingHeaderAttribute : Attribute
     /// <param name="minorVersion">Minor version according to https://semver.org/</param>
     /// <param name="patchVersion">Patch version according to https://semver.org/</param>
     /// <param name="preReleaseLabel">Pre-release label according to https://semver.org/ (will be appended with a hyphen)</param>
-    public SourceTrackingHeaderAttribute(string packageName, int majorVersion, int minorVersion, int patchVersion, string preReleaseLabel = null)
+    public SourceTrackingHeaderAttribute(string packageName, int majorVersion, int minorVersion, int patchVersion, string? preReleaseLabel = null)
     {
         LoadFromAssembly = false;
         PackageName = packageName;

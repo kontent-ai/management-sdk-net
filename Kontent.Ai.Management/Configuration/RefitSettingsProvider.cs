@@ -1,5 +1,5 @@
-using System.Text.Json;
 using Kontent.Ai.Management.Serialization.Converters;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Configuration;
 
@@ -21,10 +21,9 @@ internal static class RefitSettingsProvider
 
     public static JsonSerializerOptions CreateDefaultJsonSerializerOptions()
     {
-        // No PropertyNamingPolicy on purpose: unlike delivery's camelCase policy, MAPI names are not
-        // expressible by a single policy (e.g. metadata__description), so every model property carries
-        // an explicit [JsonPropertyName]. Case-insensitive matching mirrors Newtonsoft's lenient
-        // fallback; MaxDepth matches the Kontent.ai platform nesting limit (same as delivery).
+        // No PropertyNamingPolicy: every model property carries an explicit [JsonPropertyName], so a
+        // policy would have nothing to do. Case-insensitive matching is a lenient read-side fallback;
+        // MaxDepth matches the Kontent.ai platform nesting limit.
         var options = new JsonSerializerOptions
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,

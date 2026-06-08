@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

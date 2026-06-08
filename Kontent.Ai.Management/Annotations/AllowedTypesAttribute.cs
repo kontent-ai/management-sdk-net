@@ -15,6 +15,7 @@ public sealed class AllowedTypesAttribute : Attribute
     /// <summary>Allowed content type codenames.</summary>
     public IReadOnlyList<string> Codenames { get; }
 
+    /// <inheritdoc/>
     public AllowedTypesAttribute(params string[] codenames)
     {
         ArgumentNullException.ThrowIfNull(codenames);

@@ -1,5 +1,5 @@
-using System.Text.Json;
 using Kontent.Ai.Management.Configuration;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.Base;
 

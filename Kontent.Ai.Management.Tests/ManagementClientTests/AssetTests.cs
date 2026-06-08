@@ -1,12 +1,12 @@
-using System.Net;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
+using System.Net;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -211,10 +211,10 @@ public class AssetTests
         var (client, _) = MockClientFactory.Create();
 
         await client.Invoking(c => c.CreateAssetAsync(null!, new AssetCreateModel
-            {
-                FileReference = new FileReference { Id = "00000000-0000-0000-0000-000000000000", Type = FileReferenceTypeEnum.Internal },
-                Title = "x",
-            }))
+        {
+            FileReference = new FileReference { Id = "00000000-0000-0000-0000-000000000000", Type = FileReferenceTypeEnum.Internal },
+            Title = "x",
+        }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 

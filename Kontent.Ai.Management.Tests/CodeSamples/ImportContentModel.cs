@@ -19,7 +19,7 @@ public class ImportContentModel
     // DocSection: import_model_create_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateSnippet()
+    public async Task CreateSnippet()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -51,7 +51,7 @@ public class ImportContentModel
     // DocSection: import_model_create_taxonomy
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateTaxonomy()
+    public async Task CreateTaxonomy()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -120,7 +120,7 @@ public class ImportContentModel
     // DocSection: import_model_create_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateType()
+    public async Task CreateType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 

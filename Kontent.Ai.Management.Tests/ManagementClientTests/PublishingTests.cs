@@ -1,9 +1,9 @@
-using System.Collections;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
+using System.Collections;
 using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
@@ -362,16 +362,5 @@ public class PublishingTests
         private static (Reference Identifier, string UrlSegment) ById => (Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")), "4b628214-e4fe-4fe0-b1ff-955df33e1515");
         private static (Reference Identifier, string UrlSegment) ByCodename => (Reference.ByCodename("codename"), "codename/codename");
         private static (Reference Identifier, string UrlSegment) ByExternalId => (Reference.ByExternalId("external-id"), "external-id/external-id");
-    }
-
-    private class CombinationOfIdentifiers : CombinationOfVariantIdentifiersAndUrl, IEnumerable<object[]>
-    {
-        public new IEnumerator<object[]> GetEnumerator()
-        {
-            foreach (var (Identifier, Url) in GetPermutation())
-            {
-                yield return new object[] { Identifier };
-            }
-        }
     }
 }

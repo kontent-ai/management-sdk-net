@@ -1,6 +1,6 @@
-using System.Reflection;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Annotations;
+using System.Reflection;
 
 namespace Kontent.Ai.Management.Tests.Annotations;
 

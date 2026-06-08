@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Handlers;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kontent.Ai.Management;
 
@@ -13,7 +13,7 @@ namespace Kontent.Ai.Management;
 /// <see cref="IAsyncDisposable"/> so non-DI consumers can release the underlying <see cref="HttpClient"/> instances;
 /// DI-managed instances pass <c>null</c> for <c>ownedResources</c> and Dispose becomes a no-op.
 /// </summary>
-public sealed partial class ManagementClient : IManagementClient, IDisposable, IAsyncDisposable
+public sealed partial class ManagementClient : IManagementClient, IAsyncDisposable
 {
     private const int MAX_FILE_SIZE_MB = 100;
 
@@ -56,7 +56,7 @@ public sealed partial class ManagementClient : IManagementClient, IDisposable, I
     internal ManagementClient(
         IManagementApi managementApi,
         ISubscriptionApi subscriptionApi,
-        IDisposable ownedResources = null,
+        IDisposable? ownedResources = null,
         Conversion.ContentItemEnvelopeConverter? contentConverter = null)
     {
         _managementApi = managementApi;

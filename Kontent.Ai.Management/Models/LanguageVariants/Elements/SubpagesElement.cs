@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
 /// <summary>Value of a subpages element: the linked subpages, referenced by id or codename.</summary>

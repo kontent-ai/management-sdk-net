@@ -1,9 +1,9 @@
-using System.Net;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
+using System.Net;
 
 namespace Kontent.Ai.Management.Tests.Api;
 

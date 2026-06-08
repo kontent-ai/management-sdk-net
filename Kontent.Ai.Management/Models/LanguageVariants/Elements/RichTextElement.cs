@@ -1,6 +1,3 @@
-using System.Text.Json.Serialization;
-using Kontent.Ai.Management.Models.LanguageVariants;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
 /// <summary>Value of a rich_text element: the markup plus any inline components.</summary>

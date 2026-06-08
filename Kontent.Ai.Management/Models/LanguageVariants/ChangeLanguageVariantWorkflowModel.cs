@@ -37,6 +37,7 @@ public sealed record ChangeLanguageVariantWorkflowModel
     [JsonPropertyName("contributors")]
     public IEnumerable<UserIdentifier>? Contributors { get; init; }
 
+    /// <inheritdoc/>
     [SetsRequiredMembers]
     public ChangeLanguageVariantWorkflowModel(Reference workflow, Reference step)
     {

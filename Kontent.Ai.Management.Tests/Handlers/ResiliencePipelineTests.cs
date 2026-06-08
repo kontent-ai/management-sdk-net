@@ -1,10 +1,10 @@
-using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Sockets;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Polly;
 using Polly.Retry;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Sockets;
 
 namespace Kontent.Ai.Management.Tests.Handlers;
 

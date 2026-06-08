@@ -1,6 +1,6 @@
+using AwesomeAssertions;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using AwesomeAssertions;
 
 namespace Kontent.Ai.Management.Tests.Base;
 

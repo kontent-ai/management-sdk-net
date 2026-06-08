@@ -19,6 +19,7 @@ public sealed record WorkflowStepIdentifier
     [JsonPropertyName("step_identifier")]
     public required Reference Step { get; init; }
 
+    /// <inheritdoc/>
     [SetsRequiredMembers]
     public WorkflowStepIdentifier(Reference workflowIdentifier, Reference stepIdentifier)
     {

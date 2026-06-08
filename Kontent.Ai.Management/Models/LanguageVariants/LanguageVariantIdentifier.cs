@@ -17,6 +17,7 @@ public sealed record LanguageVariantIdentifier
     /// </summary>
     public required Reference LanguageIdentifier { get; init; }
 
+    /// <inheritdoc/>
     [SetsRequiredMembers]
     public LanguageVariantIdentifier(Reference itemIdentifier, Reference languageIdentifier)
     {

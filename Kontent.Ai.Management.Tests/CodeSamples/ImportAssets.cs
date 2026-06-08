@@ -16,7 +16,7 @@ public class ImportAssets
     // DocSection: importing_assets_create_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateAsset()
+    public async Task CreateAsset()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -50,7 +50,7 @@ public class ImportAssets
     // DocSection: importing_assets_upload_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UploadingFiles()
+    public async Task UploadingFiles()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -64,7 +64,7 @@ public class ImportAssets
     // DocSection: importing_assets_upload_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UseAsset()
+    public async Task UseAsset()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -89,7 +89,7 @@ public class ImportAssets
     // DocSection: importing_assets_upload_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UseAssetRichText()
+    public async Task UseAssetRichText()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 

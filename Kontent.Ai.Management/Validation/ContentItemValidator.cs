@@ -1,10 +1,10 @@
+using Kontent.Ai.Management.Annotations;
+using Kontent.Ai.Management.Models.Content;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Kontent.Ai.Management.Annotations;
-using Kontent.Ai.Management.Models.Content;
 
 namespace Kontent.Ai.Management.Validation;
 

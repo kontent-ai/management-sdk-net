@@ -6,12 +6,12 @@ using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Patch;
-using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +21,10 @@ using MyProject.Models;
 using Polly;
 using RichardSzalay.MockHttp;
 using System.Text;
+
+// The parameterized members below are compile-only mirrors of README snippets, not runnable tests.
+// xUnit1013's code fix would otherwise add an invalid [Theory] to each, breaking the build under `dotnet format`.
+#pragma warning disable xUnit1013 // Public test method should be marked as test
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
@@ -52,7 +56,7 @@ public class Readme
     }
 
     [Fact]
-    public async void UpsertDynamicLanguageVariant()
+    public async Task UpsertDynamicLanguageVariant()
     {
         // Remove next line in codesample
         var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleLanguageVariantUpdatedResponse.json");
@@ -84,7 +88,7 @@ public class Readme
     }
 
     [Fact]
-    public async void UpsertStronglyTypedLanguageVariant()
+    public async Task UpsertStronglyTypedLanguageVariant()
     {
         // Remove next line in codesample
         var (client, mock) = MockClientFactory.Create(ArticleConverter());
@@ -108,7 +112,7 @@ public class Readme
 
 
     [Fact]
-    public async void QuickStartCreateContentItem()
+    public async Task QuickStartCreateContentItem()
     {
         // Remove next line in codesample
         var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleContentItemResponse.json");
@@ -124,7 +128,7 @@ public class Readme
     }
 
     [Fact]
-    public async void CreateStronglyTypedAsset()
+    public async Task CreateStronglyTypedAsset()
     {
         // Remove next line in codesample
         var client = MockClientFactory.CreateForSample(SampleFolder, "FileReferenceResponse.json");
@@ -160,7 +164,7 @@ public class Readme
     }
 
     [Fact]
-    public async void UpdateAssetWithElementBuilder()
+    public async Task UpdateAssetWithElementBuilder()
     {
         // Remove next line in codesample
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");

@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Content;
 using MyProject.Models;
+using System.Text.RegularExpressions;
 // MyProject.Models.Action (a content-type fixture) shadows System.Action — alias to avoid the ambiguity in lambdas.
 using SystemAction = System.Action;
 

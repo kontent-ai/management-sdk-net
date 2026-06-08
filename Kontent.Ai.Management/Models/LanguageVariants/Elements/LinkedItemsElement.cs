@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
 /// <summary>Value of a modular content (linked items) element: the linked items, referenced by id or codename.</summary>

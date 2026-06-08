@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
 /// <summary>Value of a custom element: the opaque payload plus its searchable plaintext companion.</summary>

@@ -6,14 +6,14 @@ using MyProject.Models;
 using RichardSzalay.MockHttp;
 using System.Net;
 using System.Text.Json;
+using CustomValue = Kontent.Ai.Management.Models.Content.CustomValue;
+using DateTimeValue = Kontent.Ai.Management.Models.Content.DateTimeValue;
 // Models.Content carries its own `Reference`; alias the types we need so it doesn't collide with
 // Models.Shared.Reference used for the identifier.
 using RichTextBuilder = Kontent.Ai.Management.Models.Content.RichTextBuilder;
 using RichTextElement = Kontent.Ai.Management.Models.Content.RichTextElement;
-using DateTimeValue = Kontent.Ai.Management.Models.Content.DateTimeValue;
-using UrlSlugValue = Kontent.Ai.Management.Models.Content.UrlSlugValue;
 using UrlSlugMode = Kontent.Ai.Management.Models.Content.UrlSlugMode;
-using CustomValue = Kontent.Ai.Management.Models.Content.CustomValue;
+using UrlSlugValue = Kontent.Ai.Management.Models.Content.UrlSlugValue;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

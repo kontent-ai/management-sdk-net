@@ -1,10 +1,10 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.VariantFilter;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

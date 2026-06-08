@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
 

@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Kontent.Ai.Management.Models.Content;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;

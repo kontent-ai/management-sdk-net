@@ -1,11 +1,11 @@
-using System.Net;
-using System.Text.Json;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
+using System.Net;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 

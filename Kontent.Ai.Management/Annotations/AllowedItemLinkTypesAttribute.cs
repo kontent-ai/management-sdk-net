@@ -10,6 +10,7 @@ public sealed class AllowedItemLinkTypesAttribute : Attribute
     /// <summary>Allowed content type codenames for inline item links.</summary>
     public IReadOnlyList<string> Codenames { get; }
 
+    /// <inheritdoc/>
     public AllowedItemLinkTypesAttribute(params string[] codenames)
     {
         ArgumentNullException.ThrowIfNull(codenames);

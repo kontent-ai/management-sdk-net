@@ -18,7 +18,7 @@ public class ImportRichText
     // DocSection: import_rich_create_button_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateButtonType()
+    public async Task CreateButtonType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -45,7 +45,7 @@ public class ImportRichText
     // DocSection: import_rich_create_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateItem()
+    public async Task CreateItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -59,7 +59,7 @@ public class ImportRichText
     // DocSection: import_rich_create_simple_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateCreateSimpleType()
+    public async Task CreateCreateSimpleType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -81,7 +81,7 @@ public class ImportRichText
     // DocSection: import_rich_upsert_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UpsertVariant()
+    public async Task UpsertVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 

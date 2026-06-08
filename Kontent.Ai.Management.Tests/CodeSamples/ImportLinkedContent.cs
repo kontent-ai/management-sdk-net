@@ -16,7 +16,7 @@ public class ImportLinkedContent
     // DocSection: import_linked_create_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateItem()
+    public async Task CreateItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -28,7 +28,7 @@ public class ImportLinkedContent
     // DocSection: import_linked_create_sec_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateSecondItem()
+    public async Task CreateSecondItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -40,7 +40,7 @@ public class ImportLinkedContent
     // DocSection: import_linked_upsert_Sec_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UpsertSecondVariant()
+    public async Task UpsertSecondVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -70,7 +70,7 @@ public class ImportLinkedContent
     // DocSection: import_linked_upsert_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UsertVariant()
+    public async Task UsertVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -100,7 +100,7 @@ public class ImportLinkedContent
     // DocSection: import_linked_validate_content
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostValidate()
+    public async Task PostValidate()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 

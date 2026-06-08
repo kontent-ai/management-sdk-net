@@ -61,7 +61,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteAsset()
+    public async Task DeleteAsset()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -75,7 +75,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteItem()
+    public async Task DeleteItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -89,7 +89,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteSnippet()
+    public async Task DeleteSnippet()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -103,7 +103,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteTaxonomyGroup()
+    public async Task DeleteTaxonomyGroup()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -117,7 +117,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteType()
+    public async Task DeleteType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -131,7 +131,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteLanguageVariant()
+    public async Task DeleteLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -148,7 +148,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteWebhook()
+    public async Task DeleteWebhook()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -160,7 +160,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteWorkflow()
+    public async Task DeleteWorkflow()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -173,7 +173,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_delete_environment
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteEnvironment()
+    public async Task DeleteEnvironment()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -183,7 +183,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetAsset()
+    public async Task GetAsset()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Asset.json");
 
@@ -198,7 +198,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_assets
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetAssets()
+    public async Task GetAssets()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Assets.json");
 
@@ -210,7 +210,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_rendition
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRendition()
+    public async Task GetRendition()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
@@ -229,7 +229,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_renditions
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRenditions()
+    public async Task GetRenditions()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRenditions.json");
 
@@ -245,7 +245,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_components_of_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetComponentsOfType()
+    public async Task GetComponentsOfType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItemsWithComponents.json");
 
@@ -261,7 +261,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_content_collections
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetContentCollections()
+    public async Task GetContentCollections()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
@@ -273,7 +273,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_asset_folders
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetFolders()
+    public async Task GetFolders()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetFolders.json");
 
@@ -286,7 +286,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetItem()
+    public async Task GetItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItem.json");
 
@@ -303,7 +303,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_items
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetItems()
+    public async Task GetItems()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItems.json");
 
@@ -315,7 +315,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_language
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguage()
+    public async Task GetLanguage()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Language.json");
 
@@ -331,7 +331,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_languages
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguages()
+    public async Task GetLanguages()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Languages.json");
 
@@ -343,7 +343,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_project_information
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetProjectInformation()
+    public async Task GetProjectInformation()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Project.json");
 
@@ -355,7 +355,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetSnippet()
+    public async Task GetSnippet()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Snippet.json");
 
@@ -371,7 +371,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_snippets
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetSnippets()
+    public async Task GetSnippets()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Snippets.json");
 
@@ -383,7 +383,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetTaxonomyGroup()
+    public async Task GetTaxonomyGroup()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroup.json");
 
@@ -399,7 +399,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_taxonomy_groups
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetTaxonomyGroups()
+    public async Task GetTaxonomyGroups()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroups.json");
 
@@ -411,7 +411,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetContentType()
+    public async Task GetContentType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentType.json");
 
@@ -427,7 +427,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_types
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetContentTypes()
+    public async Task GetContentTypes()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentTypes.json");
 
@@ -440,7 +440,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguageVariant()
+    public async Task GetLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
@@ -459,7 +459,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_published_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetPublishedLanguageVariant()
+    public async Task GetPublishedLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
@@ -478,7 +478,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_variants
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguageVariants()
+    public async Task GetLanguageVariants()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariants.json");
 
@@ -494,7 +494,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_variants_of_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguageVariantsByType()
+    public async Task GetLanguageVariantsByType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariantsOfType.json");
 
@@ -510,7 +510,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_components_of_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetVariantsWithComponentsOfType()
+    public async Task GetVariantsWithComponentsOfType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariantsOfType.json");
 
@@ -526,7 +526,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetWebhook()
+    public async Task GetWebhook()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Webhook.json");
 
@@ -540,7 +540,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_webhooks
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetWebhooks()
+    public async Task GetWebhooks()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Webhooks.json");
 
@@ -552,7 +552,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_workflows
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetWorkflows()
+    public async Task GetWorkflows()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Workflows.json");
 
@@ -565,7 +565,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_role
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRole()
+    public async Task GetRole()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectRole.json");
 
@@ -580,7 +580,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_roles
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRoles()
+    public async Task GetRoles()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectRoles.json");
 
@@ -592,7 +592,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_subscription_user
     // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
     [Fact]
-    public async void GetSubscriptionUser()
+    public async Task GetSubscriptionUser()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUser.json");
 
@@ -607,7 +607,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_subscription_users
     // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
     [Fact]
-    public async void GetSubscriptionUsers()
+    public async Task GetSubscriptionUsers()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUsers.json");
 
@@ -619,7 +619,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_subscription_projects
     // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
     [Fact]
-    public async void GetSubscriptionProjects()
+    public async Task GetSubscriptionProjects()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionProjects.json");
 
@@ -631,7 +631,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_get_environment_status
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetEnvironmentCloningState()
+    public async Task GetEnvironmentCloningState()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "EnvironmentCloningState.json");
 
@@ -643,7 +643,7 @@ public class CmApiV2
     // DocSection: mapi_v2_get_validation_task
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetValidationTask()
+    public async Task GetValidationTask()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTask.json");
 
@@ -655,7 +655,7 @@ public class CmApiV2
     // DocSection: mapi_v2_get_validation_issues
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetValidationIssues()
+    public async Task GetValidationIssues()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTaskIssues.json");
 
@@ -666,7 +666,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_patch_asset_folders
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchAssetFolders()
+    public async Task PatchAssetFolders()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PatchAssetsFolderResponse.json");
 
@@ -702,7 +702,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_patch_content_collections
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchContentCollections()
+    public async Task PatchContentCollections()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
@@ -741,7 +741,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_patch_language
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchLanguage()
+    public async Task PatchLanguage()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PatchLanguageResponse.json");
 
@@ -770,7 +770,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_patch_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchSnippet()
+    public async Task PatchSnippet()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PatchSnippetResponse.json");
 
@@ -826,7 +826,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_patch_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchTaxonomyGroup()
+    public async Task PatchTaxonomyGroup()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PatchTaxonomyGroupResponse.json");
 
@@ -893,7 +893,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_patch_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchContentType()
+    public async Task PatchContentType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PatchContentTypeResponse.json");
 
@@ -954,7 +954,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_patch_environment
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchEnvironment()
+    public async Task PatchEnvironment()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Environment.json");
 
@@ -972,7 +972,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostAsset()
+    public async Task PostAsset()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostAssetResponse.json");
 
@@ -1019,7 +1019,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_asset_folders
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostAssetFolders()
+    public async Task PostAssetFolders()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostAssetFoldersResponse.json");
 
@@ -1050,7 +1050,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_rendition
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostAssetRendition()
+    public async Task PostAssetRendition()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
@@ -1077,7 +1077,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostFile()
+    public async Task PostFile()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostFileResponse.json");
 
@@ -1093,7 +1093,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostItem()
+    public async Task PostItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostItemResponse.json");
 
@@ -1113,7 +1113,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_language
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostLanguage()
+    public async Task PostLanguage()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostLanguageResponse.json");
 
@@ -1132,7 +1132,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostSnippet()
+    public async Task PostSnippet()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostSnippetResponse.json");
 
@@ -1166,7 +1166,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostTaxonomyGroup()
+    public async Task PostTaxonomyGroup()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostTaxonomyGroupResponse.json");
 
@@ -1230,7 +1230,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostType()
+    public async Task PostType()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostTypeResponse.json");
 
@@ -1291,7 +1291,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_validate
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostValidate()
+    public async Task PostValidate()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostValidateResponse.json");
 
@@ -1303,7 +1303,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostWebhook()
+    public async Task PostWebhook()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PostWebhookResponse.json");
 
@@ -1417,7 +1417,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostWorkflow()
+    public async Task PostWorkflow()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Workflow.json");
 
@@ -1480,7 +1480,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_post_user
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostUser()
+    public async Task PostUser()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectUser.json");
 
@@ -1514,7 +1514,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_clone_environment
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostCloneEnvironment()
+    public async Task PostCloneEnvironment()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ClonedEnvironment.json");
 
@@ -1538,7 +1538,7 @@ public class CmApiV2
     // DocSection: mapi_v2_post_validate_async
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostValidateEnvironment()
+    public async Task PostValidateEnvironment()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTask.json");
 
@@ -1550,7 +1550,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutAsset()
+    public async Task PutAsset()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PutAssetResponse.json");
 
@@ -1633,7 +1633,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_rendition
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutAssetRendition()
+    public async Task PutAssetRendition()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
@@ -1663,7 +1663,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutItem()
+    public async Task PutItem()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PutItemResponse.json");
 
@@ -1686,7 +1686,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutLanguageVariant()
+    public async Task PutLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PutLanguageVariantResponse.json");
 
@@ -1761,7 +1761,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_variant_cancel_schedule
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutLanguageVariantCancelSchedule()
+    public async Task PutLanguageVariantCancelSchedule()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1780,7 +1780,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_var_cancel_sched_unpublish
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutCancelUnpublishingOfLanguageVariant()
+    public async Task PutCancelUnpublishingOfLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1799,7 +1799,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_variant_create_new_version
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutLanguageVariantNewVersion()
+    public async Task PutLanguageVariantNewVersion()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1817,7 +1817,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_variant_publish_or_schedule
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutPublishLanguageVariant()
+    public async Task PutPublishLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1845,7 +1845,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_variant_unpublish_archive
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutUnpublishLanguageVariant()
+    public async Task PutUnpublishLanguageVariant()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1873,7 +1873,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_variant_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutVariantWorkflow()
+    public async Task PutVariantWorkflow()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1905,7 +1905,7 @@ public class CmApiV2
     // DocSection: mapi_v2_disable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutDisableWebhook()
+    public async Task PutDisableWebhook()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1917,7 +1917,7 @@ public class CmApiV2
     // DocSection: mapi_v2_enable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutEnableWebhook()
+    public async Task PutEnableWebhook()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
@@ -1929,7 +1929,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutWorkflow()
+    public async Task PutWorkflow()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Workflow.json");
 
@@ -1995,7 +1995,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_user
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutUser()
+    public async Task PutUser()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectUser.json");
 
@@ -2033,7 +2033,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_subscription_user_activate
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutSubscriptionUserActivate()
+    public async Task PutSubscriptionUserActivate()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -2049,7 +2049,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_put_subscription_user_deactivate
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutSubscriptionUserDeactivate()
+    public async Task PutSubscriptionUserDeactivate()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
@@ -2065,7 +2065,7 @@ public class CmApiV2
     // DocSection: cm_api_v2_mark_environment_as_production
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutMarkEnvironmentAsProduction()
+    public async Task PutMarkEnvironmentAsProduction()
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 

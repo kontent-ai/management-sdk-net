@@ -1,8 +1,8 @@
-using System.Text.Json.Serialization;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Serialization.Converters;
 using Refit;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 

@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
 /// <summary>Value of a multiple_choice element: the selected options, referenced by id or codename.</summary>

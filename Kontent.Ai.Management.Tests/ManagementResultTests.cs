@@ -1,5 +1,5 @@
-using System.Net;
 using AwesomeAssertions;
+using System.Net;
 
 namespace Kontent.Ai.Management.Tests;
 

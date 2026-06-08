@@ -13,5 +13,5 @@ public class ManagementHelpersOptions
     /// <summary>
     /// Gets or sets the Environment identifier.
     /// </summary>
-    public string EnvironmentId { get; set; }
+    public string? EnvironmentId { get; set; }
 }

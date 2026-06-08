@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
 /// <summary>Value of an asset element: the referenced assets, optionally with renditions.</summary>

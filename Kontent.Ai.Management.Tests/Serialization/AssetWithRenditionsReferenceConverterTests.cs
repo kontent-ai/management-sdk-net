@@ -1,7 +1,7 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using AwesomeAssertions;
 using Kontent.Ai.Management.Serialization.Converters;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 

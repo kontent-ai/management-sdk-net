@@ -1,5 +1,5 @@
-using System.Text.Json;
 using Kontent.Ai.Management.Models.AssetRenditions;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Serialization.Converters;
 
