@@ -1,5 +1,6 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Tests.Base;
@@ -106,43 +107,15 @@ public class ImportContentItems
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new object[]
+            Elements = new BaseElement[]
             {
-                new
-                {
-                    element = new { external_id = "street" },
-                    value = "Nove Sady 25",
-                },
-                new
-                {
-                    element = new { external_id = "city" },
-                    value = "Brno",
-                },
-                new
-                {
-                    element = new { external_id = "country" },
-                    value = "Czech republic",
-                },
-                new
-                {
-                    element = new { external_id = "state" },
-                    value = "Jihomoravsky kraj",
-                },
-                new
-                {
-                    element = new { external_id = "zip_code" },
-                    value = "60200",
-                },
-                new
-                {
-                    element = new { external_id = "phone" },
-                    value = "+420 555 555 555",
-                },
-                new
-                {
-                    element = new { external_id = "email" },
-                    value = "brnocafe@kontent.ai",
-                },
+                new TextElement { Element = Reference.ByExternalId("street"), Value = "Nove Sady 25" },
+                new TextElement { Element = Reference.ByExternalId("city"), Value = "Brno" },
+                new TextElement { Element = Reference.ByExternalId("country"), Value = "Czech republic" },
+                new TextElement { Element = Reference.ByExternalId("state"), Value = "Jihomoravsky kraj" },
+                new TextElement { Element = Reference.ByExternalId("zip_code"), Value = "60200" },
+                new TextElement { Element = Reference.ByExternalId("phone"), Value = "+420 555 555 555" },
+                new TextElement { Element = Reference.ByExternalId("email"), Value = "brnocafe@kontent.ai" },
             }
         });
     }

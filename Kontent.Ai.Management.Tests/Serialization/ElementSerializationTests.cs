@@ -2,24 +2,24 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using System.Text.Json;
 // Models.Content also defines a RichTextElement; alias only the one symbol we need to avoid colliding with the
-// element-builder RichTextElement under test.
+// language-variant RichTextElement under test.
 using UrlSlugMode = Kontent.Ai.Management.Models.Content.UrlSlugMode;
 
-namespace Kontent.Ai.Management.Tests.Modules.ModelBuilders;
+namespace Kontent.Ai.Management.Tests.Serialization;
 
-// The typed element records serialize directly into LanguageVariantUpsertModel.Elements (an IEnumerable<object>), so the
-// tests assert the wire each one produces through the client's real serializer options — references, enums, decimals and
-// null-omission all come from there, the same path the client uses.
-public class ElementBuilderTests
+// The typed element records serialize directly into LanguageVariantUpsertModel.Elements (IReadOnlyList<BaseElement>), so
+// the tests assert the wire each one produces through the client's real serializer options — references, enums, decimals
+// and null-omission all come from there, the same path the client uses.
+public class ElementSerializationTests
 {
     private static readonly JsonSerializerOptions Options = RefitSettingsProvider.CreateDefaultJsonSerializerOptions();
 
-    // Serialize as object, mirroring how each element is serialized inside the IEnumerable<object> payload (runtime type).
+    // Serialize against the BaseElement static type, mirroring how each element is serialized inside the
+    // IReadOnlyList<BaseElement> payload — BaseElementJsonConverter writes the runtime subtype's shape.
     private static JsonElement Wire(BaseElement element)
-        => JsonDocument.Parse(JsonSerializer.Serialize<object>(element, Options)).RootElement;
+        => JsonDocument.Parse(JsonSerializer.Serialize<BaseElement>(element, Options)).RootElement;
 
     [Fact]
     public void TextElement_SerializesValueAndElementReference()
@@ -162,13 +162,28 @@ public class ElementBuilderTests
     }
 
     [Fact]
-    public void GetElements_BuildsUpsertPayload_WithEachElementSerialized()
+    public void DynamicElement_SerializesArbitraryValueAndElementReference()
+    {
+        var wire = Wire(new DynamicElement
+        {
+            Element = Reference.ByCodename("widget"),
+            Value = "anything",
+        });
+
+        wire.GetProperty("element").GetProperty("codename").GetString().Should().Be("widget");
+        wire.GetProperty("value").GetString().Should().Be("anything");
+    }
+
+    [Fact]
+    public void UpsertModel_SerializesEachElementByItsRuntimeType()
     {
         var model = new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElements(
+            Elements =
+            [
                 new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
-                new DateTimeElement { Element = Reference.ByCodename("publishing_date"), Value = new DateTimeOffset(2024, 6, 1, 12, 0, 0, TimeSpan.Zero) }),
+                new DateTimeElement { Element = Reference.ByCodename("publishing_date"), Value = new DateTimeOffset(2024, 6, 1, 12, 0, 0, TimeSpan.Zero) },
+            ],
         };
 
         var elements = JsonDocument.Parse(JsonSerializer.Serialize(model, Options)).RootElement
@@ -177,13 +192,5 @@ public class ElementBuilderTests
 
         elements["title"].GetProperty("value").GetString().Should().Be("On Roasts");
         elements["publishing_date"].GetProperty("value").GetString().Should().Be("2024-06-01T12:00:00Z");
-    }
-
-    [Fact]
-    public void GetElements_NullArray_Throws()
-    {
-        var act = () => ElementBuilder.GetElements(null!);
-
-        act.Should().ThrowExactly<ArgumentNullException>();
     }
 }

@@ -398,28 +398,22 @@ var result = await client.CreateContentItemWithVariantAsync(
 
 ## Language Variants
 
-A language variant holds the actual content for one language of a content item. The most direct way to set elements is as anonymous objects — each element is located by its `codename`, `id`, or `external_id`, and omitted elements are left unchanged:
+A language variant holds the actual content for one language of a content item. Set its elements with a typed record per element kind — each locates its target element by `codename`, `id`, or `external_id` and carries a value shaped for that kind; omitted elements are left unchanged:
 
 ```csharp
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+
 var identifier = new LanguageVariantIdentifier(
     Reference.ByCodename("on_roasts"),
     Reference.ByCodename("en-US"));
 
 var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
 {
-    Elements = new object[]
-    {
-        new
-        {
-            element = new { codename = "title" },
-            value = "On Roasts"
-        },
-        new
-        {
-            element = new { codename = "post_date" },
-            value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero)
-        }
-    }
+    Elements =
+    [
+        new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
+        new DateTimeElement { Element = Reference.ByCodename("post_date"), Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero) }
+    ]
 });
 ```
 
@@ -435,32 +429,33 @@ var allVariants = await client.ListLanguageVariantsByItemAsync(Reference.ByCoden
 You can also enumerate variants across a whole collection, space, or content type — see the `ListLanguageVariantsByCollectionAsync`, `…BySpaceAsync`, and `…ByTypeAsync` methods.
 
 > [!TIP]
-> Anonymous objects are the untyped escape hatch — convenient, but the element codenames and value shapes aren't checked at compile time. For type-safe authoring, use the [typed element builders](#typed-element-builders) below, or fully [strongly-typed models](#strongly-typed-models).
+> These typed element records are the type-safe way to author a variant without a generated content type. When you do have generated content-type records, pass one directly — see [strongly-typed models](#strongly-typed-models).
 
-### Typed element builders
+### Element kinds
 
-Between untyped anonymous objects and a fully generated model sits a typed middle tier: a record per element kind that gives each value a checked shape without requiring a generated content type. Build them with `ElementBuilder.GetElements` and assign the result to `Elements`:
+There is one record per element kind — `TextElement`, `NumberElement`, `DateTimeElement`, `MultipleChoiceElement`, `AssetElement`, `LinkedItemsElement`, `TaxonomyElement`, `SubpagesElement`, `UrlSlugElement`, `CustomElement`, and `RichTextElement` — each pairing an `Element` reference with a value typed for that kind. Some carry more than a bare value:
 
 ```csharp
 using Kontent.Ai.Management.Models.Content;            // UrlSlugMode
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 
-var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
-{
-    Elements = ElementBuilder.GetElements(
-        new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
-        new DateTimeElement
-        {
-            Element = Reference.ByCodename("post_date"),
-            Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
-            DisplayTimeZone = "Europe/Prague"
-        },
-        new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom })
-});
+Elements =
+[
+    new DateTimeElement
+    {
+        Element = Reference.ByCodename("post_date"),
+        Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+        DisplayTimeZone = "Europe/Prague"
+    },
+    new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom }
+]
 ```
 
-There is one record per element kind — `TextElement`, `NumberElement`, `DateTimeElement`, `MultipleChoiceElement`, `AssetElement`, `LinkedItemsElement`, `TaxonomyElement`, `SubpagesElement`, `UrlSlugElement`, `CustomElement`, and `RichTextElement` — each pairing an `Element` reference with a value typed for that kind. Reach for this when you want type-checked element values but don't have (or don't want) a generated model.
+For an element kind the SDK doesn't model — or to replay a variant you fetched as raw JSON — use `DynamicElement`, whose `Value` is written to the wire as-is:
+
+```csharp
+new DynamicElement { Element = Reference.ByCodename("widget"), Value = "<opaque payload>" }
+```
 
 ## Strongly-Typed Models
 

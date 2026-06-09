@@ -12,7 +12,6 @@ using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Patch;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -67,21 +66,13 @@ public class Readme
 
         // Elements to update. Each element is identified by its codename;
         // you can also identify it by `id` or `external_id`.
-        var elements = new object[]
+        var elements = new BaseElement[]
         {
-            new
-            {
-                element = new { codename = "title" },
-                value = "On Roasts - changed",
-            },
-            new
-            {
-                element = new { codename = "post_date" },
-                value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
-            }
+            new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts - changed" },
+            new DateTimeElement { Element = Reference.ByCodename("post_date"), Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero) },
         };
 
-        var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
+        var upsertModel = new LanguageVariantUpsertModel { Elements = elements };
 
         // Upserts a language variant of a content item
         var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
@@ -481,11 +472,12 @@ public class Readme
         });
     }
 
-    public async Task TypedElementBuilders(IManagementClient client, LanguageVariantIdentifier identifier)
+    public async Task TypedElements(IManagementClient client, LanguageVariantIdentifier identifier)
     {
         var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElements(
+            Elements =
+            [
                 new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
                 new DateTimeElement
                 {
@@ -493,7 +485,8 @@ public class Readme
                     Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
                     DisplayTimeZone = "Europe/Prague"
                 },
-                new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom })
+                new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom },
+            ]
         });
     }
 

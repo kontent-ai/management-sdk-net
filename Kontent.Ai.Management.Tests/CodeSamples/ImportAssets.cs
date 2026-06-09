@@ -1,6 +1,9 @@
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Tests.Base;
+// Models.Assets also defines an AssetElement (asset metadata); the variant-value one is meant here.
+using AssetElement = Kontent.Ai.Management.Models.LanguageVariants.Elements.AssetElement;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
@@ -72,15 +75,15 @@ public class ImportAssets
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new object[]
+            Elements = new BaseElement[]
             {
-                new
+                new AssetElement
                 {
-                    element = new { codename = "photo" },
-                    value = new[]
-                    {
+                    Element = Reference.ByCodename("photo"),
+                    Value =
+                    [
                         new AssetWithRenditionsReference(Reference.ByExternalId("brno-cafe-image")),
-                    },
+                    ],
                 },
             }
         });
@@ -97,12 +100,12 @@ public class ImportAssets
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new object[]
+            Elements = new BaseElement[]
             {
-                new
+                new RichTextElement
                 {
-                    element = new { codename = "body_copy" },
-                    value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
+                    Element = Reference.ByCodename("body_copy"),
+                    Value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
                 },
             }
         });

@@ -1311,7 +1311,7 @@ public sealed class ChangeLanguageVariantWorkflowModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class ComponentModel : IEquatable`1
-    IEnumerable<Object> Elements { get; set; init; }
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
     Guid Id { get; set; init; }
     Reference Type { get; set; init; }
     ComponentModel <Clone>$()
@@ -1360,7 +1360,7 @@ public sealed class LanguageVariantModel : IEquatable`1
 public sealed class LanguageVariantUpsertModel : IEquatable`1
     IEnumerable<UserIdentifier> Contributors { get; set; init; }
     DueDateModel DueDate { get; set; init; }
-    IEnumerable<Object> Elements { get; set; init; }
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
     String Note { get; set; init; }
     WorkflowStepIdentifier Workflow { get; set; init; }
     LanguageVariantUpsertModel <Clone>$()
@@ -1407,6 +1407,17 @@ public sealed class DateTimeElement : BaseElement, IEquatable`1
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
     Boolean Equals(DateTimeElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class DynamicElement : BaseElement, IEquatable`1
+    IDictionary<String, JsonElement> AdditionalData { get; set; init; }
+    Object Value { get; set; init; }
+    DynamicElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(DynamicElement other)
     Int32 GetHashCode()
     String ToString()
 
@@ -3055,10 +3066,6 @@ public sealed class WorkflowUpsertModel : IEquatable`1
     Boolean Equals(WorkflowUpsertModel other)
     Int32 GetHashCode()
     String ToString()
-
-// Kontent.Ai.Management.Modules.ModelBuilders
-public sealed class ElementBuilder
-    static IEnumerable<Object> GetElements(BaseElement[] elements)
 
 // Kontent.Ai.Management.Validation
 public sealed class ContentItemValidator

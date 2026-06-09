@@ -36,6 +36,7 @@ internal static class RefitSettingsProvider
             AllowTrailingCommas = true,
         };
 
+        options.Converters.Add(new BaseElementJsonConverter());
         options.Converters.Add(new ElementMetadataJsonConverter());
         options.Converters.Add(new ImageTransformationJsonConverter());
         options.Converters.Add(new AsyncValidationTaskIssueJsonConverter());

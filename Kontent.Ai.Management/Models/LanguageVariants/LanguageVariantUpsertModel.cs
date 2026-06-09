@@ -1,5 +1,5 @@
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Workflow;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
@@ -9,10 +9,11 @@ namespace Kontent.Ai.Management.Models.LanguageVariants;
 public sealed record LanguageVariantUpsertModel
 {
     /// <summary>
-    /// Element values to set. Each entry is a polymorphic <c>{ element, value }</c> shape whose value type depends on the element kind.
+    /// Element values to set. Use a typed <see cref="BaseElement"/> subtype per element kind, or
+    /// <see cref="DynamicElement"/> for kinds the SDK does not model.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<object> Elements { get; init; }
+    public required IReadOnlyList<BaseElement> Elements { get; init; }
 
     /// <summary>
     /// Workflow and step to move the variant into. Optional — omit to leave the workflow unchanged.
@@ -37,21 +38,4 @@ public sealed record LanguageVariantUpsertModel
     /// </summary>
     [JsonPropertyName("contributors")]
     public IEnumerable<UserIdentifier>? Contributors { get; init; }
-
-    /// <summary>
-    /// Creates an empty upsert model.
-    /// </summary>
-    public LanguageVariantUpsertModel()
-    {
-    }
-
-    [SetsRequiredMembers]
-    internal LanguageVariantUpsertModel(LanguageVariantModel languageVariant)
-    {
-        Elements = languageVariant.Elements;
-        Workflow = languageVariant.Workflow;
-        DueDate = languageVariant.DueDate;
-        Note = languageVariant.Note;
-        Contributors = languageVariant.Contributors;
-    }
 }

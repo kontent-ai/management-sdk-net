@@ -1,3 +1,5 @@
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
@@ -18,8 +20,9 @@ public sealed record ComponentModel
     public required Reference Type { get; init; }
 
     /// <summary>
-    /// Element values of the component. Each entry is a polymorphic <c>{ element, value }</c> shape.
+    /// Element values of the component. Use a typed <see cref="BaseElement"/> subtype per element kind, or
+    /// <see cref="DynamicElement"/> for kinds the SDK does not model.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<object> Elements { get; init; }
+    public required IReadOnlyList<BaseElement> Elements { get; init; }
 }

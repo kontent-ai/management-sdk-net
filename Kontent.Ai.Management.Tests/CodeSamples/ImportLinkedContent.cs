@@ -1,5 +1,6 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Tests.Base;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
@@ -48,20 +49,13 @@ public class ImportLinkedContent
 
         await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new object[]
+            Elements = new BaseElement[]
             {
-                new
+                new TextElement { Element = Reference.ByCodename("title"), Value = "Donate with us" },
+                new LinkedItemsElement
                 {
-                    element = new { codename = "title" },
-                    value = "Donate with us",
-                },
-                new
-                {
-                    element = new { codename = "related_articles" },
-                    value = new[]
-                    {
-                        new { external_id = "123" },
-                    },
+                    Element = Reference.ByCodename("related_articles"),
+                    Value = [Reference.ByExternalId("123")],
                 },
             }
         });
@@ -78,20 +72,13 @@ public class ImportLinkedContent
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new object[]
+            Elements = new BaseElement[]
             {
-                new
+                new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
+                new LinkedItemsElement
                 {
-                    element = new { codename = "title" },
-                    value = "On Roasts",
-                },
-                new
-                {
-                    element = new { codename = "related_articles" },
-                    value = new[]
-                    {
-                        new { external_id = "456" },
-                    },
+                    Element = Reference.ByCodename("related_articles"),
+                    Value = [Reference.ByExternalId("456")],
                 },
             }
         });

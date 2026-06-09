@@ -1,5 +1,6 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Collections;
@@ -230,7 +231,10 @@ public class LanguageVariantTests
         var (client, mock) = MockClientFactory.Create();
         var fixture = Fixture("LanguageVariant.json");
         var expected = JsonSerializer.Deserialize<LanguageVariantModel>(fixture, SharedTestJsonOptions.Default)!;
-        var upsertModel = new LanguageVariantUpsertModel { Elements = expected.Elements };
+        var upsertModel = new LanguageVariantUpsertModel
+        {
+            Elements = [new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" }],
+        };
 
         string? capturedBody = null;
         mock.Expect(HttpMethod.Put, expectedUrl)
@@ -293,7 +297,16 @@ public class LanguageVariantTests
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
         capturedBody.Should().NotBeNull();
-        var sentModel = new LanguageVariantUpsertModel(expected);
+        var sentModel = new LanguageVariantUpsertModel
+        {
+            Elements = expected.Elements
+                .Select(e => JsonSerializer.Deserialize<DynamicElement>(JsonSerializer.Serialize(e, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!)
+                .ToList(),
+            Workflow = expected.Workflow,
+            DueDate = expected.DueDate,
+            Note = expected.Note,
+            Contributors = expected.Contributors,
+        };
         JsonSerializer.Deserialize<LanguageVariantUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
             .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguageVariantUpsertModel>(JsonSerializer.Serialize(sentModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
