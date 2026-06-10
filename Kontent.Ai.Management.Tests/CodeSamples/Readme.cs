@@ -257,15 +257,6 @@ public class Readme
         });
     }
 
-    private sealed class ContentMigrator(IManagementClientFactory clientFactory)
-    {
-        public void Run()
-        {
-            var production = clientFactory.Get("production");
-            var staging = clientFactory.Get("staging");
-        }
-    }
-
     public void RegisterWithResilience(IServiceCollection services)
     {
         services.AddManagementClient(
