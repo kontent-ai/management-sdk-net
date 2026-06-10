@@ -70,14 +70,22 @@ internal sealed class ContentItemEnvelopeConverter
         writer.WriteEndArray();
     }
 
-    /// <summary>Reads a JSON envelopes array (typically <c>LanguageVariantModel.Elements</c>) into a new instance of <paramref name="contentType"/>.</summary>
+    /// <summary>Reads a JSON envelopes array into a new instance of <paramref name="contentType"/>.</summary>
     public IContentItem ReadEnvelopes(JsonElement envelopesArray, Type contentType)
     {
-        ArgumentNullException.ThrowIfNull(contentType);
         if (envelopesArray.ValueKind != JsonValueKind.Array)
         {
             throw new ArgumentException($"Expected a JSON array, got {envelopesArray.ValueKind}.", nameof(envelopesArray));
         }
+        return ReadEnvelopes(envelopesArray.EnumerateArray(), contentType);
+    }
+
+    /// <summary>Reads element envelopes (typically <c>LanguageVariantModel.Elements</c>) into a new instance of <paramref name="contentType"/>.</summary>
+    public IContentItem ReadEnvelopes(IEnumerable<JsonElement> envelopes, Type contentType)
+    {
+        ArgumentNullException.ThrowIfNull(envelopes);
+        ArgumentNullException.ThrowIfNull(contentType);
+
         // Auto-register the root type itself so its codename is resolvable on recursive descent (rich-text components).
         // Other candidate types (those that may appear as embedded components) must be pre-registered by the caller
         // via ContentTypeRegistry — auto-scanning the whole assembly would risk codename collisions in projects that
@@ -87,7 +95,7 @@ internal sealed class ContentItemEnvelopeConverter
         var descriptor = ContentItemTypeDescriptor.For(contentType);
         var instance = (IContentItem)Activator.CreateInstance(contentType)!;
 
-        foreach (var envelope in envelopesArray.EnumerateArray())
+        foreach (var envelope in envelopes)
         {
             if (!envelope.TryGetProperty("element", out var elementMeta)) continue;
 
@@ -115,6 +123,9 @@ internal sealed class ContentItemEnvelopeConverter
         }
         return Encoding.UTF8.GetString(stream.ToArray());
     }
+
+    public T ReadEnvelopes<T>(IEnumerable<JsonElement> envelopes) where T : IContentItem
+        => (T)ReadEnvelopes(envelopes, typeof(T));
 
     public T ReadEnvelopes<T>(string envelopesJson) where T : IContentItem
     {

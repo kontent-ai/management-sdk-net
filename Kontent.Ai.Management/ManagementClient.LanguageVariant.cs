@@ -18,7 +18,7 @@ public partial class ManagementClient
 
     private static IReadOnlyList<BaseElement> ToDynamicElements(IEnumerable<object> rawElements)
         => rawElements
-            .Select(element => JsonSerializer.Deserialize<DynamicElement>(JsonSerializer.Serialize(element, _elementSerializerOptions), _elementSerializerOptions)!)
+            .Select(element => ((JsonElement)element).Deserialize<DynamicElement>(_elementSerializerOptions)!)
             .ToList();
     /// <inheritdoc />
     public async Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken = default)
@@ -174,14 +174,13 @@ public partial class ManagementClient
     }
 
     // Projects a variant's raw element envelopes into a generated record via the content converter.
-    private T ProjectElements<T>(IEnumerable<dynamic> elements) where T : IContentItem, new()
+    private T ProjectElements<T>(IEnumerable<object>? elements) where T : IContentItem, new()
     {
         if (_autoScanContentTypes)
         {
             _contentConverter.Registry.Scan(typeof(T).Assembly);
         }
 
-        var json = JsonSerializer.Serialize(elements ?? []);
-        return _contentConverter.ReadEnvelopes<T>(json);
+        return _contentConverter.ReadEnvelopes<T>((elements ?? []).Cast<JsonElement>());
     }
 }
