@@ -27,7 +27,6 @@ public class RefitSettingsProviderTests
         converters.Should().ContainSingle(c => c is ElementMetadataJsonConverter);
         converters.Should().ContainSingle(c => c is ImageTransformationJsonConverter);
         converters.Should().ContainSingle(c => c is AsyncValidationTaskIssueJsonConverter);
-        converters.Should().ContainSingle(c => c is AssetWithRenditionsReferenceJsonConverter);
         converters.Should().ContainSingle(c => c is PatchOperationJsonConverterFactory);
         converters.Should().ContainSingle(c => c is DecimalJsonConverter);
     }

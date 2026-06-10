@@ -2,6 +2,7 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Serialization.Converters;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Kontent.Ai.Management.Tests.Content;
 
@@ -77,7 +78,7 @@ public class AssetReferenceTests
         var original = new AssetReference
         {
             Id = SampleId,
-            Renditions = [Reference.ById(SampleRenditionId)],
+            Renditions = [new RenditionReference { Id = SampleRenditionId }],
         };
 
         var json = JsonSerializer.Serialize(original, Options);
@@ -96,5 +97,27 @@ public class AssetReferenceTests
 
         a.Should().Be(b);
         a.GetHashCode().Should().Be(b.GetHashCode());
+    }
+
+    // Renditions wire semantics (verified against MAPI): null omits the property (renditions left unchanged),
+    // an empty array removes them. The null/empty distinction must survive serialization.
+    [Fact]
+    public void AssetReference_NullRenditions_OmitsProperty()
+    {
+        var json = JsonSerializer.Serialize(
+            new AssetReference { Id = SampleId },
+            new JsonSerializerOptions(Options) { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+
+        json.Should().NotContain("renditions");
+    }
+
+    [Fact]
+    public void AssetReference_EmptyRenditions_EmitsEmptyArray()
+    {
+        var json = JsonSerializer.Serialize(
+            new AssetReference { Id = SampleId, Renditions = [] },
+            new JsonSerializerOptions(Options) { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+
+        json.Should().Contain("\"renditions\":[]");
     }
 }

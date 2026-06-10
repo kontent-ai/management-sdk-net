@@ -3,8 +3,9 @@ using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using System.Text.Json;
-// Models.Content also defines a RichTextElement; alias only the one symbol we need to avoid colliding with the
+// Models.Content also defines a RichTextElement; alias only the symbols we need to avoid colliding with the
 // language-variant RichTextElement under test.
+using AssetReference = Kontent.Ai.Management.Models.Content.AssetReference;
 using UrlSlugMode = Kontent.Ai.Management.Models.Content.UrlSlugMode;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
@@ -86,7 +87,7 @@ public class ElementSerializationTests
         var wire = Wire(new AssetElement
         {
             Element = Reference.ByCodename("hero"),
-            Value = [new AssetWithRenditionsReference(Reference.ById(id))],
+            Value = [new AssetReference { Id = id }],
         });
 
         wire.GetProperty("value").EnumerateArray().Single()

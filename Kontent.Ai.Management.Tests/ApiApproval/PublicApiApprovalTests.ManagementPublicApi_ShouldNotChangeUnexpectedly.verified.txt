@@ -761,7 +761,7 @@ public sealed class AssetReference : IEquatable`1
     String Codename { get; set; init; }
     String ExternalId { get; set; init; }
     Nullable<Guid> Id { get; set; init; }
-    IReadOnlyList<Reference> Renditions { get; set; init; }
+    IReadOnlyList<RenditionReference> Renditions { get; set; init; }
     AssetReference <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetReference other)
@@ -795,6 +795,16 @@ public sealed class DateTimeValue : IEquatable`1
     DateTimeValue <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(DateTimeValue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public sealed class RenditionReference : IEquatable`1
+    String ExternalId { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    RenditionReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(RenditionReference other)
     Int32 GetHashCode()
     String ToString()
 
@@ -1371,7 +1381,7 @@ public sealed class LanguageVariantUpsertModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class AssetElement : BaseElement, IEquatable`1
-    IEnumerable<AssetWithRenditionsReference> Value { get; set; init; }
+    IReadOnlyList<AssetReference> Value { get; set; init; }
     AssetElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
@@ -1605,13 +1615,6 @@ public sealed class AssetFolder : IEquatable`1
     Boolean Equals(AssetFolder other)
     Int32 GetHashCode()
     String ToString()
-
-// Kontent.Ai.Management.Models.Shared
-public sealed class AssetWithRenditionsReference
-    String Codename { get; }
-    String ExternalId { get; }
-    Nullable<Guid> Id { get; }
-    IEnumerable<Reference> Renditions { get; }
 
 // Kontent.Ai.Management.Models.Shared
 public sealed class Reference : IEquatable`1
@@ -2292,7 +2295,7 @@ public sealed class ValidationRegexModel : IEquatable`1
 public sealed class AssetDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     AssetDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<IEnumerable<AssetWithRenditionsReference>> other)
+    Boolean Equals(ElementDefaultValue<IEnumerable<AssetReference>> other)
     Boolean Equals(AssetDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
