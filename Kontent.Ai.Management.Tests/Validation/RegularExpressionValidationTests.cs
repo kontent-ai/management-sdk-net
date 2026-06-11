@@ -1,5 +1,5 @@
 using AwesomeAssertions;
-using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
+using Kontent.Ai.Management.Tests.Fixtures.StubModels;
 using Kontent.Ai.Management.Validation;
 
 namespace Kontent.Ai.Management.Tests.Validation;

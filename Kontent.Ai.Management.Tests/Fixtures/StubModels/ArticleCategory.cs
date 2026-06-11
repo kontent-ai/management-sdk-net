@@ -1,6 +1,6 @@
 using Kontent.Ai.Management.Annotations;
 
-namespace Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
+namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 
 internal enum ArticleCategory
 {

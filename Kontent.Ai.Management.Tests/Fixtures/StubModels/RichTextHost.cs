@@ -1,7 +1,7 @@
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
 
-namespace Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
+namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 
 // Stub exercising the rich-text [AllowedTypes] component walk: a RichTextElement property whose
 // embedded components' content types are constrained to `page` / `article`.

@@ -1,7 +1,7 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Conversion;
 using ModelsArticle = MyProject.Models.Article;
-using StubsArticle = Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs.Article;
+using StubsArticle = Kontent.Ai.Management.Tests.Fixtures.StubModels.Article;
 
 namespace Kontent.Ai.Management.Tests.Conversion;
 
@@ -62,7 +62,7 @@ public class ContentTypeRegistryTests
     [Fact]
     public void Scan_OnCollidingAssembly_ThrowsLoudly()
     {
-        // The current test assembly co-locates two content-model sets (GeneratedStubs + MyProject.Models) with overlapping codenames;
+        // The current test assembly co-locates two content-model sets (StubModels + MyProject.Models) with overlapping codenames;
         // Scan must surface the collision rather than silently last-write-wins. Production assemblies have
         // unique codenames and won't trip this — the test pins the contract.
         var registry = new ContentTypeRegistry();

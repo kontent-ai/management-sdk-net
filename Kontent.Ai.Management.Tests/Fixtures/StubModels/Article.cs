@@ -2,7 +2,7 @@ using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
 using System.ComponentModel.DataAnnotations;
 
-namespace Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
+namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 
 // Representative stub of a model-generator-net emitted content-type record. Includes one property per element
 // type the validator currently constrains, plus a few un-constrained properties to confirm they're inert.

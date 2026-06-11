@@ -1,7 +1,7 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
-using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
+using Kontent.Ai.Management.Tests.Fixtures.StubModels;
 using Kontent.Ai.Management.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.Net;

@@ -33,7 +33,7 @@ public class LanguageVariantStronglyTypedTests
         $"{MockClientFactory.BaseUrl}/items/codename/my_article/variants/codename/en-US";
 
     // The client's owned converter auto-scans typeof(T).Assembly; in the test assembly that trips the deliberate
-    // GeneratedStubs/MyProject codename collision. Inject a converter with just the types under test registered.
+    // StubModels/MyProject codename collision. Inject a converter with just the types under test registered.
     private static ContentItemEnvelopeConverter Converter()
     {
         var registry = new ContentTypeRegistry();

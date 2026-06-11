@@ -1,6 +1,6 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Content;
-using Kontent.Ai.Management.Tests.Fixtures.GeneratedStubs;
+using Kontent.Ai.Management.Tests.Fixtures.StubModels;
 using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.Content;
