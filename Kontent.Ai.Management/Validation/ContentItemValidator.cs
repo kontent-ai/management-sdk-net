@@ -159,29 +159,17 @@ public static class ContentItemValidator
         if (prop.GetCustomAttribute<AllowedTypesAttribute>() is { } allowedTypes)
         {
             var allowed = new HashSet<string>(allowedTypes.Codenames, StringComparer.Ordinal);
+            // Enforceable only for rich-text components — the one place MAPI embeds typed content. On linked-items /
+            // subpages the value is bare id/codename references with no type information, so the allow-list there is
+            // server-enforced; the attribute is carried for schema/documentation, not checked here.
             checks.Add((value, errors) =>
             {
-                switch (value)
+                if (value is RichTextElement { Components: { } components })
                 {
-                    // Rich-text element: every embedded component's content type must be in the allow-list.
-                    case RichTextElement { Components: { } components }:
-                        foreach (var component in components)
-                        {
-                            CheckAllowedType(component.Content, allowed, codename, errors);
-                        }
-                        break;
-
-                    // Linked-items / subpages style collection. Conventionally IReadOnlyList<IContentItem>?,
-                    // but stay robust if the attribute is misapplied to a non-IContentItem collection.
-                    case IEnumerable enumerable and not string:
-                        foreach (var entry in enumerable)
-                        {
-                            if (entry is IContentItem item)
-                            {
-                                CheckAllowedType(item, allowed, codename, errors);
-                            }
-                        }
-                        break;
+                    foreach (var component in components)
+                    {
+                        CheckAllowedType(component.Content, allowed, codename, errors);
+                    }
                 }
             });
         }

@@ -40,7 +40,7 @@ public class ContentItemValidatorTests
             Slug = "hello-world",
             Tags = [ArticleCategory.News, ArticleCategory.Release],
             Category = [ArticleCategory.News],
-            Related = [new Article(), new Page()],
+            Related = [Reference.ByCodename("on_roasts")],
             HeroAssets = [new AssetReference { Codename = "logo" }],
             Taxonomy = [Reference.ByCodename("news")],
         });
@@ -58,7 +58,6 @@ public class ContentItemValidatorTests
             Slug = "BAD slug",                  // fails [RegularExpression]
             Tags = [],                          // below [MinElements(1)]
             Category = [ArticleCategory.News, ArticleCategory.Release], // not [ExactElements(1)]
-            Related = [new Banner()],           // not in [AllowedTypes]
         });
 
         result.IsSuccess.Should().BeFalse();
@@ -70,25 +69,27 @@ public class ContentItemValidatorTests
         codenames.Should().Contain("slug");
         codenames.Should().Contain("tags");
         codenames.Should().Contain("category");
-        codenames.Should().Contain("related");
     }
 
     [Fact]
     public void NoOpAttributes_DoNotFire()
     {
-        // [MaxAssetSize], [AllowedAssetFileTypes], [AllowedTaxonomyGroup] are recorded on the property but
-        // not enforced — the data needed to check them isn't present in an in-memory record. The validator
-        // accepts plausibly-out-of-bounds values for these attributes without complaint.
+        // [MaxAssetSize], [AllowedAssetFileTypes], [AllowedTaxonomyGroup], and [AllowedTypes] on a linked-items
+        // reference list are recorded on the property but not enforced — the data needed to check them isn't present
+        // in an in-memory record. The validator accepts plausibly-out-of-bounds values for these without complaint.
         var result = ContentItemValidator.Validate(new Article
         {
             // A "huge" hero asset reference — there's no asset metadata in-memory, so [MaxAssetSize] can't fire.
             HeroAssets = [new AssetReference { Codename = "very-large-asset" }],
             // A taxonomy term that may or may not belong to the [AllowedTaxonomyGroup] — can't be checked locally.
             Taxonomy = [Reference.ByCodename("unknown-term")],
+            // A linked item whose type may or may not be in [AllowedTypes] — a bare reference carries no type.
+            Related = [Reference.ByCodename("some-item-of-unknown-type")],
         });
 
         result.ValidationErrors().Should().NotContain(e => e.Path == "hero_assets");
         result.ValidationErrors().Should().NotContain(e => e.Path == "taxonomy");
+        result.ValidationErrors().Should().NotContain(e => e.Path == "related");
     }
 
     [Fact]

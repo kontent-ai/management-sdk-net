@@ -2,6 +2,6 @@ using Kontent.Ai.Management.Annotations;
 
 namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 
-// Minimal stub used by [AllowedTypes] tests as an item that is NOT permitted in `Article.Related`.
+// Minimal stub used by the rich-text [AllowedTypes] tests as a component content type that is NOT permitted.
 [KontentType("banner", "cccccccc-cccc-cccc-cccc-cccccccccccc")]
 internal sealed record Banner : IContentItem;

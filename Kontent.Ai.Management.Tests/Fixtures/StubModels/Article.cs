@@ -11,8 +11,8 @@ namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 //   - [RegularExpression]   on Slug
 //   - [MinElements]+[MaxElements] on Tags
 //   - [ExactElements]       on Category
-//   - [AllowedTypes]        on Related
-//   - no-op attrs           on HeroAssets and Taxonomy (validator accepts but doesn't enforce)
+//   - no-op attrs           on HeroAssets, Taxonomy and Related (validator accepts but doesn't enforce —
+//                           linked-item refs carry no type, so [AllowedTypes] there is server-enforced)
 [KontentType("article", "11111111-1111-1111-1111-111111111111")]
 internal sealed record Article : IContentItem
 {
@@ -46,8 +46,8 @@ internal sealed record Article : IContentItem
     public IReadOnlyList<AssetReference>? HeroAssets { get; init; }
 
     [KontentElement("related", "99999999-9999-9999-9999-999999999999")]
-    [AllowedTypes("article", "page")]
-    public IReadOnlyList<IContentItem>? Related { get; init; }
+    [AllowedTypes("article", "page")]           // not enforced by the validator — linked items are bare references
+    public IReadOnlyList<Reference>? Related { get; init; }
 
     [KontentElement("taxonomy", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")]
     [AllowedTaxonomyGroup("categories")]        // not enforced by the validator
