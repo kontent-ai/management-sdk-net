@@ -1623,6 +1623,8 @@ public sealed class Reference : IEquatable`1
     Nullable<Guid> Id { get; init; }
     Reference <Clone>$()
     static Reference ByCodename(String codename)
+    static Reference ByDefaultCodename()
+    static Reference ByDefaultId()
     static Reference ByExternalId(String externalId)
     static Reference ById(Guid id)
     Boolean Equals(Object obj)

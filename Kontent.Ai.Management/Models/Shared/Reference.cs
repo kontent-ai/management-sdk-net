@@ -44,4 +44,15 @@ public sealed record Reference
     /// </summary>
     /// <param name="externalId">The external id of the identifier.</param>
     public static Reference ByExternalId(string externalId) => new() { ExternalId = externalId };
+
+    /// <summary>
+    /// Creates a reference to the default object by id — the zero GUID (<see cref="Guid.Empty"/>), which the MAPI
+    /// treats as the default (e.g. the default language / variant).
+    /// </summary>
+    public static Reference ByDefaultId() => ById(Guid.Empty);
+
+    /// <summary>
+    /// Creates a reference to the default object by the reserved <c>"default"</c> codename (e.g. the default language / variant).
+    /// </summary>
+    public static Reference ByDefaultCodename() => ByCodename("default");
 }
