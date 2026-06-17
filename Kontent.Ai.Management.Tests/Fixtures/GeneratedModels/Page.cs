@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("page", "121d16aa-de4b-454f-9174-e26f25f1d860")]
-public sealed partial record Page : IContentItem
+public sealed partial record Page : IElementsModel
 {
     [KontentElement("content", "57ff97d5-2a0b-43f7-9ade-1f2f970df3a0")]
     [AllowedTypes("content_chunk", "visual_container")]

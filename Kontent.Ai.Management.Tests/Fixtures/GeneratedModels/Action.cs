@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("action", "46d20e5c-a72c-5a48-bfae-b054632877ca")]
-public sealed partial record Action : IContentItem
+public sealed partial record Action : IElementsModel
 {
     [KontentElement("image", "bee5bc76-a644-546b-8e3b-e3b5c2dfe2c3")]
     public IReadOnlyList<AssetReference>? Image { get; init; }

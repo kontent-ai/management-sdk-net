@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("article", "5568750a-d7fd-51fa-a8bb-a08940ac5395")]
-public sealed partial record Article : IContentItem
+public sealed partial record Article : IElementsModel
 {
     [KontentElement("abstract", "5ae9979f-cc84-5c0b-81d8-65eabf11f2ec")]
     public string? Abstract { get; init; }

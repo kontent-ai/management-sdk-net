@@ -369,7 +369,13 @@ public class Readme
     public async Task StronglyTypedGet(IManagementClient client, LanguageVariantIdentifier identifier)
     {
         var result = await client.GetLanguageVariantAsync<Article>(identifier);
-        Article variant = result.Value;
+        LanguageVariantModel<Article> variant = result.Value;
+
+        Article elements = variant.Elements;    // the strongly-typed element values
+        // every other property is variant metadata, shared with the untyped LanguageVariantModel:
+        Reference item = variant.Item;
+        Reference language = variant.Language;
+        DateTime lastModified = variant.LastModified;
     }
 
     public void ElementValueTypes()

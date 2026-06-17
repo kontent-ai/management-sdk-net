@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("person", "3b8aea57-afdc-55b4-b7aa-30991e2515f8")]
-public sealed partial record Person : IContentItem
+public sealed partial record Person : IElementsModel
 {
     [KontentElement("bio", "4341b423-f053-523f-bd0f-b63b6c786532")]
     public RichTextElement? Bio { get; init; }

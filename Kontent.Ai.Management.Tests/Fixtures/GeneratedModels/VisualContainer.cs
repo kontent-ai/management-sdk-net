@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("visual_container", "188a66a1-5959-50a3-9073-a756171aff14")]
-public sealed partial record VisualContainer : IContentItem
+public sealed partial record VisualContainer : IElementsModel
 {
     [KontentElement("items", "41ebb699-10b7-5493-b6d3-d6098ab5ebbc")]
     [AllowedTypes("fact")]

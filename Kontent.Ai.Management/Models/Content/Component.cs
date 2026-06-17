@@ -8,7 +8,7 @@ namespace Kontent.Ai.Management.Models.Content;
 /// </summary>
 /// <remarks>
 /// <para>
-/// <see cref="Content"/> is <see cref="JsonIgnoreAttribute">JSON-ignored</see> by design — <see cref="IContentItem"/>
+/// <see cref="Content"/> is <see cref="JsonIgnoreAttribute">JSON-ignored</see> by design — <see cref="IElementsModel"/>
 /// is a polymorphic marker and the wire envelope for a component (<c>{ id, type: { codename }, elements: [...] }</c>)
 /// doesn't match a flat property bag. The envelope converter owns component (de)serialization end-to-end;
 /// direct STJ on <see cref="Component"/> emits only <see cref="Id"/> and never populates <see cref="Content"/>.
@@ -27,5 +27,5 @@ public sealed record Component
 
     /// <summary>Embedded content item; polymorphic by the surrounding rich-text property's <c>[AllowedTypes]</c>.</summary>
     [JsonIgnore]
-    public IContentItem Content { get; init; } = null!;
+    public IElementsModel Content { get; init; } = null!;
 }

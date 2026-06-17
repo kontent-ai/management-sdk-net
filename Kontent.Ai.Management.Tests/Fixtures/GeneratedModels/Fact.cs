@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("fact", "df18210c-bacd-5980-81a7-b35c2a66d81f")]
-public sealed partial record Fact : IContentItem
+public sealed partial record Fact : IElementsModel
 {
     [KontentElement("author", "0ce7a459-f957-5a52-b7c6-52d3476ee2fc")]
     [AllowedTypes("person")]

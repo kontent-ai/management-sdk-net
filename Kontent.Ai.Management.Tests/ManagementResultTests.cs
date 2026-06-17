@@ -84,7 +84,7 @@ public class ManagementResultTests
     [Fact]
     public void IsCovariant_ResultOfDerivedAssignableToResultOfBase()
     {
-        // out T on IManagementResult<T> must allow widening — useful when the generated record is returned as IContentItem.
+        // out T on IManagementResult<T> must allow widening — useful when the generated record is returned as IElementsModel.
         IManagementResult<string> success = ManagementResult<string>.Success("ok");
         IManagementResult<object> widened = success;
 

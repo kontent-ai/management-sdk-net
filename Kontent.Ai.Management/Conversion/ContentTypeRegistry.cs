@@ -20,7 +20,7 @@ internal sealed class ContentTypeRegistry
     private readonly ConcurrentDictionary<Assembly, byte> _scannedAssemblies = new();
 
     /// <summary>
-    /// Indexes every <see cref="IContentItem"/>-implementing type in <paramref name="assembly"/> that carries
+    /// Indexes every <see cref="IElementsModel"/>-implementing type in <paramref name="assembly"/> that carries
     /// a <see cref="KontentTypeAttribute"/>. Idempotent — subsequent calls for the same assembly are no-ops.
     /// </summary>
     public void Scan(Assembly assembly)
@@ -35,7 +35,7 @@ internal sealed class ContentTypeRegistry
     }
 
     /// <summary>
-    /// Registers <paramref name="type"/> if it implements <see cref="IContentItem"/> and carries
+    /// Registers <paramref name="type"/> if it implements <see cref="IElementsModel"/> and carries
     /// <see cref="KontentTypeAttribute"/>. Throws when a different type is already registered for the same codename.
     /// </summary>
     public void Register(Type type)
@@ -44,7 +44,7 @@ internal sealed class ContentTypeRegistry
         if (!TryRegister(type))
         {
             throw new ArgumentException(
-                $"Type '{type.FullName}' is not a content-type record (must implement IContentItem and carry [KontentType]).",
+                $"Type '{type.FullName}' is not a content-type record (must implement IElementsModel and carry [KontentType]).",
                 nameof(type));
         }
     }
@@ -61,7 +61,7 @@ internal sealed class ContentTypeRegistry
     private bool TryRegister(Type type)
     {
         var attr = type.GetCustomAttribute<KontentTypeAttribute>();
-        if (attr is null || !typeof(IContentItem).IsAssignableFrom(type)) return false;
+        if (attr is null || !typeof(IElementsModel).IsAssignableFrom(type)) return false;
 
         var existing = _byCodename.GetOrAdd(attr.Codename, type);
         if (existing != type)

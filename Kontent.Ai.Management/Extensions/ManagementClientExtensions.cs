@@ -120,16 +120,17 @@ public static class ManagementClientExtensions
     /// (no rollback) and the returned failure carries the variant call's detail. Set
     /// <see cref="ContentItemCreateModel.ExternalId"/> so a retry reuses the same item instead of creating a duplicate.
     /// </remarks>
-    /// <typeparam name="T">The generated content-type record (implements <see cref="IContentItem"/>).</typeparam>
+    /// <typeparam name="T">The generated content-type record (implements <see cref="IElementsModel"/>).</typeparam>
     /// <param name="client">Content management client instance.</param>
     /// <param name="item">The content item to create.</param>
     /// <param name="language">The language of the variant to upsert on the created item.</param>
     /// <param name="variant">The content-type record carrying the elements to set.</param>
     /// <param name="workflow">Optional workflow step to set on the variant.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the upserted variant projected onto <typeparamref name="T"/>, or the failure detail of the item creation or the variant upsert.</returns>
-    public async static Task<IManagementResult<T>> CreateContentItemWithVariantAsync<T>(this IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier? workflow = null, CancellationToken cancellationToken = default)
-        where T : IContentItem, new()
+    /// <returns>A result wrapping the upserted variant — its element values as <typeparamref name="T"/> plus the item,
+    /// language, workflow and other variant metadata — or the failure detail of the item creation or the variant upsert.</returns>
+    public async static Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(this IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier? workflow = null, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new()
     {
         ArgumentNullException.ThrowIfNull(item);
         ArgumentNullException.ThrowIfNull(language);
@@ -138,7 +139,7 @@ public static class ManagementClientExtensions
         var itemResult = await client.CreateContentItemAsync(item, cancellationToken);
         if (!itemResult.IsSuccess)
         {
-            return ProjectFailure<T>(itemResult);
+            return ProjectFailure<LanguageVariantModel<T>>(itemResult);
         }
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);

@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 // Stub exercising the rich-text [AllowedTypes] component walk: a RichTextElement property whose
 // embedded components' content types are constrained to `page` / `article`.
 [KontentType("rich_text_host", "dddddddd-dddd-dddd-dddd-dddddddddddd")]
-internal sealed record RichTextHost : IContentItem
+internal sealed record RichTextHost : IElementsModel
 {
     [KontentElement("body", "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")]
     [AllowedTypes("page", "article")]

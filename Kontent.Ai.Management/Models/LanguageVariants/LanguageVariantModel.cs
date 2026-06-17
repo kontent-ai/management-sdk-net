@@ -4,21 +4,16 @@ using Kontent.Ai.Management.Models.Workflow;
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// A language variant of a content item (response shape).
+/// Everything about a language variant except its element values — the metadata shared by the untyped
+/// <see cref="LanguageVariantModel"/> and the strongly-typed <see cref="LanguageVariantModel{TModel}"/>.
 /// </summary>
-public sealed record LanguageVariantModel
+public abstract record LanguageVariantMetadata
 {
     /// <summary>
     /// Reference to the content item this variant belongs to.
     /// </summary>
     [JsonPropertyName("item")]
     public required Reference Item { get; init; }
-
-    /// <summary>
-    /// Element values. Each entry is a polymorphic <c>{ element, value }</c> shape whose value type depends on the element kind.
-    /// </summary>
-    [JsonPropertyName("elements")]
-    public required IEnumerable<object> Elements { get; init; }
 
     /// <summary>
     /// Reference to the language of this variant.
@@ -61,4 +56,29 @@ public sealed record LanguageVariantModel
     /// </summary>
     [JsonPropertyName("contributors")]
     public required IEnumerable<UserIdentifier> Contributors { get; init; }
+}
+
+/// <summary>
+/// A language variant of a content item (response shape), with untyped element values.
+/// </summary>
+public sealed record LanguageVariantModel : LanguageVariantMetadata
+{
+    /// <summary>
+    /// Element values. Each entry is a polymorphic <c>{ element, value }</c> shape whose value type depends on the element kind.
+    /// </summary>
+    [JsonPropertyName("elements")]
+    public required IEnumerable<object> Elements { get; init; }
+}
+
+/// <summary>
+/// A language variant with strongly-typed elements — the typed counterpart of <see cref="LanguageVariantModel"/>.
+/// Returned by the generic <c>GetLanguageVariantAsync&lt;T&gt;</c> / <c>UpsertLanguageVariantAsync&lt;T&gt;</c>: the variant's
+/// element values are projected onto <typeparamref name="TModel"/>, while the metadata is preserved rather than discarded.
+/// A client-side projection — not deserialized from the wire.
+/// </summary>
+/// <typeparam name="TModel">The generated content-type record modeling this variant's elements.</typeparam>
+public sealed record LanguageVariantModel<TModel> : LanguageVariantMetadata where TModel : IElementsModel
+{
+    /// <summary>The strongly-typed element values.</summary>
+    public required TModel Elements { get; init; }
 }

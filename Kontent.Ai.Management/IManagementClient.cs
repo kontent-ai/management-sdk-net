@@ -334,12 +334,13 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <typeparamref name="T"/>. Failures (HTTP 4xx/5xx) are surfaced through the returned result rather than thrown;
     /// network-level and serialization failures still propagate as exceptions.
     /// </summary>
-    /// <typeparam name="T">The generated content-type record (implements <see cref="IContentItem"/>).</typeparam>
+    /// <typeparam name="T">The generated content-type record (implements <see cref="IElementsModel"/>).</typeparam>
     /// <param name="identifier">The identifier of the language variant.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the populated <typeparamref name="T"/> on success, or the API errors on failure.</returns>
-    Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
-        where T : IContentItem, new();
+    /// <returns>A result wrapping the variant — its element values as <typeparamref name="T"/> plus the item, language,
+    /// workflow and other variant metadata — on success, or the API errors on failure.</returns>
+    Task<IManagementResult<LanguageVariantModel<T>>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new();
 
     /// <summary>
     /// Returns strongly typed currently published language variant.
@@ -620,18 +621,19 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// Failures (validation, HTTP 4xx/5xx) are surfaced through the returned result rather than thrown;
     /// network-level and serialization failures still propagate as exceptions.
     /// </summary>
-    /// <typeparam name="T">The generated content-type record (implements <see cref="IContentItem"/>).</typeparam>
+    /// <typeparam name="T">The generated content-type record (implements <see cref="IElementsModel"/>).</typeparam>
     /// <param name="identifier">The identifier of the language variant.</param>
     /// <param name="variant">The content-type record carrying the elements to set.</param>
     /// <param name="workflow">Optional workflow step to set on the variant.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the upserted variant projected onto <typeparamref name="T"/>, or the errors on failure.</returns>
-    Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(
+    /// <returns>A result wrapping the upserted variant — its element values as <typeparamref name="T"/> plus the item,
+    /// language, workflow and other variant metadata — or the errors on failure.</returns>
+    Task<IManagementResult<LanguageVariantModel<T>>> UpsertLanguageVariantAsync<T>(
         LanguageVariantIdentifier identifier,
         T variant,
         WorkflowStepIdentifier? workflow = null,
         CancellationToken cancellationToken = default)
-        where T : IContentItem, new();
+        where T : IElementsModel, new();
 
     /// <summary>
     /// Validates the environment.

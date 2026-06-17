@@ -130,7 +130,7 @@ public class ContentItemValidatorTests
     }
 
     [KontentType("unannotated_property_owner")]
-    private sealed record UnannotatedPropertyOwner : IContentItem
+    private sealed record UnannotatedPropertyOwner : IElementsModel
     {
         // No [KontentElement] — must be ignored even with constraint attrs.
         [StringLength(1)]

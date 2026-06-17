@@ -14,7 +14,7 @@ namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 //   - no-op attrs           on HeroAssets, Taxonomy and Related (validator accepts but doesn't enforce —
 //                           linked-item refs carry no type, so [AllowedTypes] there is server-enforced)
 [KontentType("article", "11111111-1111-1111-1111-111111111111")]
-internal sealed record Article : IContentItem
+internal sealed record Article : IElementsModel
 {
     [KontentElement("title", "22222222-2222-2222-2222-222222222222")]
     [StringLength(50)]

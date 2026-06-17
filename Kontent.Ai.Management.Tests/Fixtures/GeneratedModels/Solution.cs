@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("solution", "f750641e-b3aa-5e4a-9e21-c8871904894d")]
-public sealed partial record Solution : IContentItem
+public sealed partial record Solution : IElementsModel
 {
     [KontentElement("imaging_technology", "35fc766e-4d5d-58f1-a46f-3ea552eb388d")]
     [AllowedTaxonomyGroup("5cf829cd-e8fe-56c2-89be-369de0a0b8ff")]

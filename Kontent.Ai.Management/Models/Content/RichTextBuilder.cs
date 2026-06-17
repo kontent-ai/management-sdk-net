@@ -41,7 +41,7 @@ public sealed class RichTextBuilder
     /// <c>&lt;object data-type="component" data-id="…"&gt;</c> placeholder. The GUID is generated internally
     /// and shared between the placeholder and the recorded <see cref="Component.Id"/>; consumers do not see it.
     /// </summary>
-    public string Component(IContentItem item)
+    public string Component(IElementsModel item)
     {
         ArgumentNullException.ThrowIfNull(item);
         if (item.GetType().GetCustomAttribute<KontentTypeAttribute>() is null)

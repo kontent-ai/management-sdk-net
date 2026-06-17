@@ -7,7 +7,7 @@ namespace Kontent.Ai.Management.Tests.Validation;
 
 public class RichTextAllowedTypesValidationTests
 {
-    private static Component Embed(IContentItem content) =>
+    private static Component Embed(IElementsModel content) =>
         new() { Id = Guid.NewGuid(), Content = content };
 
     [Fact]

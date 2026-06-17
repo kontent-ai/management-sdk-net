@@ -1,5 +1,5 @@
 ﻿// Kontent.Ai.Management
-public interface IContentItem
+public interface IElementsModel
 
 // Kontent.Ai.Management
 public interface IError
@@ -60,7 +60,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken)
@@ -116,7 +116,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken)
-    Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken)
 
 // Kontent.Ai.Management
@@ -189,7 +189,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
-    Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken)
@@ -245,7 +245,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken)
-    Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken)
 
 // Kontent.Ai.Management
@@ -381,7 +381,7 @@ public sealed class ElementMetadataExtension
 public sealed class ManagementClientExtensions
     static Task<IManagementResult<AssetModel>> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel, CancellationToken cancellationToken)
     static Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken)
-    static Task<IManagementResult<T>> CreateContentItemWithVariantAsync<T>(IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
+    static Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
     static Task<IManagementResult<AssetModel>> UpsertAssetAsync(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken)
     static Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken)
 
@@ -770,7 +770,7 @@ public sealed class AssetReference : IEquatable`1
 
 // Kontent.Ai.Management.Models.Content
 public sealed class Component : IEquatable`1
-    IContentItem Content { get; set; init; }
+    IElementsModel Content { get; set; init; }
     Guid Id { get; set; init; }
     Component <Clone>$()
     Boolean Equals(Object obj)
@@ -812,7 +812,7 @@ public sealed class RenditionReference : IEquatable`1
 public sealed class RichTextBuilder
     String Asset(AssetReference asset)
     RichTextElement Build(String html)
-    String Component(IContentItem item)
+    String Component(IElementsModel item)
     String ItemLink(Reference reference, String linkText)
     String LinkedItem(Reference reference)
 
@@ -1350,19 +1350,38 @@ public sealed class LanguageVariantIdentifier : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.LanguageVariants
-public sealed class LanguageVariantModel : IEquatable`1
+public class LanguageVariantMetadata : IEquatable`1
     IEnumerable<UserIdentifier> Contributors { get; set; init; }
     DueDateModel DueDate { get; set; init; }
-    IEnumerable<Object> Elements { get; set; init; }
     Reference Item { get; set; init; }
     Reference Language { get; set; init; }
     DateTime LastModified { get; set; init; }
     String Note { get; set; init; }
     ScheduleResponseModel Schedule { get; set; init; }
     WorkflowStepIdentifier Workflow { get; set; init; }
+    LanguageVariantMetadata <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantMetadata other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class LanguageVariantModel : LanguageVariantMetadata, IEquatable`1
+    IEnumerable<Object> Elements { get; set; init; }
     LanguageVariantModel <Clone>$()
     Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantMetadata other)
     Boolean Equals(LanguageVariantModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class LanguageVariantModel`1<TModel> : LanguageVariantMetadata, IEquatable`1
+    TModel Elements { get; set; init; }
+    LanguageVariantModel<TModel> <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantMetadata other)
+    Boolean Equals(LanguageVariantModel<TModel> other)
     Int32 GetHashCode()
     String ToString()
 

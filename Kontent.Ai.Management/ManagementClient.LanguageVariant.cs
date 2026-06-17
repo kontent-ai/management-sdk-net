@@ -91,13 +91,13 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
-        where T : IContentItem, new()
+    public async Task<IManagementResult<LanguageVariantModel<T>>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new()
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
         var response = await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync(content => ProjectElements<T>(content.Elements));
+        return await response.ToManagementResultAsync(ToTypedVariant<T>);
     }
 
     /// <inheritdoc />
@@ -138,12 +138,12 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<T>> UpsertLanguageVariantAsync<T>(
+    public async Task<IManagementResult<LanguageVariantModel<T>>> UpsertLanguageVariantAsync<T>(
         LanguageVariantIdentifier identifier,
         T variant,
         WorkflowStepIdentifier? workflow = null,
         CancellationToken cancellationToken = default)
-        where T : IContentItem, new()
+        where T : IElementsModel, new()
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(variant);
@@ -151,7 +151,7 @@ public partial class ManagementClient
         var validation = ContentItemValidator.Validate(variant);
         if (!validation.IsSuccess)
         {
-            return validation;
+            return ManagementResult<LanguageVariantModel<T>>.Failure(validation.Error!);
         }
 
         var upsertModel = new LanguageVariantUpsertModel
@@ -161,7 +161,7 @@ public partial class ManagementClient
         };
 
         var response = await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), upsertModel, cancellationToken);
-        return await response.ToManagementResultAsync(content => ProjectElements<T>(content.Elements));
+        return await response.ToManagementResultAsync(ToTypedVariant<T>);
     }
 
     /// <inheritdoc />
@@ -173,8 +173,24 @@ public partial class ManagementClient
         return await response.ToManagementResultAsync();
     }
 
+    // Projects a fetched variant onto the typed wrapper: raw elements become the generated record, the variant
+    // metadata (item, language, workflow, …) that the response carries is preserved rather than discarded.
+    private LanguageVariantModel<T> ToTypedVariant<T>(LanguageVariantModel variant) where T : IElementsModel, new()
+        => new()
+        {
+            Item = variant.Item,
+            Elements = ProjectElements<T>(variant.Elements),
+            Language = variant.Language,
+            LastModified = variant.LastModified,
+            Schedule = variant.Schedule,
+            Workflow = variant.Workflow,
+            DueDate = variant.DueDate,
+            Note = variant.Note,
+            Contributors = variant.Contributors,
+        };
+
     // Projects a variant's raw element envelopes into a generated record via the content converter.
-    private T ProjectElements<T>(IEnumerable<object>? elements) where T : IContentItem, new()
+    private T ProjectElements<T>(IEnumerable<object>? elements) where T : IElementsModel, new()
     {
         if (_autoScanContentTypes)
         {

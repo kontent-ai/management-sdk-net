@@ -9,7 +9,7 @@ using System.Text.Json;
 namespace Kontent.Ai.Management.Conversion;
 
 /// <summary>
-/// Translates between generated content-type records (implementing <see cref="IContentItem"/>) and the MAPI
+/// Translates between generated content-type records (implementing <see cref="IElementsModel"/>) and the MAPI
 /// language-variant <c>elements</c> wire shape — an array of envelopes of the form
 /// <c>{ "element": { "codename" | "id": "..." }, "value": &lt;kind-specific&gt;, "components": [...] }</c>.
 /// </summary>
@@ -46,7 +46,7 @@ internal sealed class ContentItemEnvelopeConverter
     // ---- Primary API ----
 
     /// <summary>Writes <paramref name="item"/>'s <c>[KontentElement]</c> properties as a JSON array of envelopes onto <paramref name="writer"/>.</summary>
-    public void WriteEnvelopes(Utf8JsonWriter writer, IContentItem item)
+    public void WriteEnvelopes(Utf8JsonWriter writer, IElementsModel item)
     {
         ArgumentNullException.ThrowIfNull(writer);
         ArgumentNullException.ThrowIfNull(item);
@@ -71,7 +71,7 @@ internal sealed class ContentItemEnvelopeConverter
     }
 
     /// <summary>Reads a JSON envelopes array into a new instance of <paramref name="contentType"/>.</summary>
-    public IContentItem ReadEnvelopes(JsonElement envelopesArray, Type contentType)
+    public IElementsModel ReadEnvelopes(JsonElement envelopesArray, Type contentType)
     {
         if (envelopesArray.ValueKind != JsonValueKind.Array)
         {
@@ -81,7 +81,7 @@ internal sealed class ContentItemEnvelopeConverter
     }
 
     /// <summary>Reads element envelopes (typically <c>LanguageVariantModel.Elements</c>) into a new instance of <paramref name="contentType"/>.</summary>
-    public IContentItem ReadEnvelopes(IEnumerable<JsonElement> envelopes, Type contentType)
+    public IElementsModel ReadEnvelopes(IEnumerable<JsonElement> envelopes, Type contentType)
     {
         ArgumentNullException.ThrowIfNull(envelopes);
         ArgumentNullException.ThrowIfNull(contentType);
@@ -93,7 +93,7 @@ internal sealed class ContentItemEnvelopeConverter
         _registry.Register(contentType);
 
         var descriptor = ContentItemTypeDescriptor.For(contentType);
-        var instance = (IContentItem)Activator.CreateInstance(contentType)!;
+        var instance = (IElementsModel)Activator.CreateInstance(contentType)!;
 
         foreach (var envelope in envelopes)
         {
@@ -113,7 +113,7 @@ internal sealed class ContentItemEnvelopeConverter
 
     // ---- Test / typed convenience ----
 
-    public string WriteEnvelopes<T>(T item) where T : IContentItem
+    public string WriteEnvelopes<T>(T item) where T : IElementsModel
     {
         ArgumentNullException.ThrowIfNull(item);
         using var stream = new MemoryStream();
@@ -124,10 +124,10 @@ internal sealed class ContentItemEnvelopeConverter
         return Encoding.UTF8.GetString(stream.ToArray());
     }
 
-    public T ReadEnvelopes<T>(IEnumerable<JsonElement> envelopes) where T : IContentItem
+    public T ReadEnvelopes<T>(IEnumerable<JsonElement> envelopes) where T : IElementsModel
         => (T)ReadEnvelopes(envelopes, typeof(T));
 
-    public T ReadEnvelopes<T>(string envelopesJson) where T : IContentItem
+    public T ReadEnvelopes<T>(string envelopesJson) where T : IElementsModel
     {
         using var doc = JsonDocument.Parse(envelopesJson);
         return (T)ReadEnvelopes(doc.RootElement, typeof(T));

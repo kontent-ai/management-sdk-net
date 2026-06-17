@@ -27,7 +27,7 @@ public static class ContentItemValidator
     /// Validates <paramref name="item"/>. Returns a success result wrapping the same instance on a clean walk,
     /// or a failure result whose <see cref="IError.ValidationErrors"/> name each violation.
     /// </summary>
-    public static IManagementResult<T> Validate<T>(T item) where T : IContentItem
+    public static IManagementResult<T> Validate<T>(T item) where T : IElementsModel
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -180,7 +180,7 @@ public static class ContentItemValidator
         return checks.ToArray();
     }
 
-    private static void CheckAllowedType(IContentItem item, HashSet<string> allowed, string codename, List<ValidationError> errors)
+    private static void CheckAllowedType(IElementsModel item, HashSet<string> allowed, string codename, List<ValidationError> errors)
     {
         var typeAttr = item.GetType().GetCustomAttribute<KontentTypeAttribute>();
         if (typeAttr is null || !allowed.Contains(typeAttr.Codename))

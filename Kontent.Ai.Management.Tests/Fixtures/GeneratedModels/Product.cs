@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("product", "b23ee675-d1f5-53c3-9a8b-a2ed57b10aa6")]
-public sealed partial record Product : IContentItem
+public sealed partial record Product : IElementsModel
 {
     [KontentElement("category", "8a5acc99-d4ba-5fa1-9bd0-7a8e86e6e1c9")]
     [AllowedTaxonomyGroup("502de9a1-3673-51e5-bf88-92e76c35cbee")]

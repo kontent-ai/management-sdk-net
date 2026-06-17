@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("callout", "72c5b04f-e316-5912-baf2-8ccd2f0ad7a2")]
-public sealed partial record Callout : IContentItem
+public sealed partial record Callout : IElementsModel
 {
     [KontentElement("content", "15a9fc79-e85f-5bb1-8e81-d0362cd93b93")]
     public RichTextElement? Content { get; init; }

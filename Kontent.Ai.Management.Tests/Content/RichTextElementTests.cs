@@ -68,7 +68,7 @@ public class RichTextElementTests
     [Fact]
     public void Component_SerializesIdOnly_ContentIsJsonIgnored()
     {
-        // [JsonIgnore] on Content is deliberate: IContentItem is polymorphic and the wire envelope shape
+        // [JsonIgnore] on Content is deliberate: IElementsModel is polymorphic and the wire envelope shape
         // (id + type + elements) is the envelope converter's responsibility, not direct STJ's.
         var component = new Component { Id = SampleComponentId, Content = new Page() };
 

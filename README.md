@@ -475,11 +475,17 @@ var article = new Article
 var result = await client.UpsertLanguageVariantAsync(identifier, article);
 ```
 
-Retrieve a variant the same way with the generic overload:
+Retrieve a variant the same way with the generic overload. The generic get and upsert return a `LanguageVariantModel<T>`: the strongly-typed `Elements` plus the variant metadata it shares with the untyped `LanguageVariantModel` — item, language, workflow, schedule, last-modified, due date, note, contributors (every property except `Elements`):
 
 ```csharp
 var result = await client.GetLanguageVariantAsync<Article>(identifier);
-Article variant = result.Value;
+LanguageVariantModel<Article> variant = result.Value;
+
+Article elements = variant.Elements;   // the strongly-typed element values
+// every other property is variant metadata, shared with the untyped LanguageVariantModel:
+Reference item = variant.Item;
+Reference language = variant.Language;
+DateTime lastModified = variant.LastModified;
 ```
 
 ### Element value types

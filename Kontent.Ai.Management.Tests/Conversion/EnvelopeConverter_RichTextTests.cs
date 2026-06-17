@@ -134,6 +134,6 @@ public class EnvelopeConverter_RichTextTests
         act.Should().Throw<InvalidOperationException>().WithMessage("*KontentType*");
     }
 
-    // A degenerate IContentItem that lacks [KontentType] — exercises the converter's defensive check.
-    private sealed record BareContentItem : IContentItem;
+    // A degenerate IElementsModel that lacks [KontentType] — exercises the converter's defensive check.
+    private sealed record BareContentItem : IElementsModel;
 }

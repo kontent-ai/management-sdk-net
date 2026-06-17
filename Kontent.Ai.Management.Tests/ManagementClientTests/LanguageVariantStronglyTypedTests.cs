@@ -104,9 +104,14 @@ public class LanguageVariantStronglyTypedTests
         result.StatusCode.Should().Be(HttpStatusCode.OK);
         result.Error.Should().BeNull();
 
-        var callout = result.Value;
+        var callout = result.Value.Elements;
         callout.Type.Should().Equal(CalloutType.Warning);
         callout.Content!.Value.Should().StartWith("<p>outer</p>");
+
+        // The wrapper preserves the variant metadata the response carries (previously dropped on the typed path).
+        result.Value.Item.Should().NotBeNull();
+        result.Value.Language.Should().NotBeNull();
+        result.Value.Workflow.Should().NotBeNull();
 
         // Rich-text component recursed through the client: bridge → converter → nested record.
         var nested = callout.Content.Components.Should().ContainSingle()
@@ -135,7 +140,7 @@ public class LanguageVariantStronglyTypedTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
-        result.Value.Type.Should().Equal(CalloutType.Warning);
+        result.Value.Elements.Type.Should().Equal(CalloutType.Warning);
     }
 
     [Fact]
@@ -147,7 +152,7 @@ public class LanguageVariantStronglyTypedTests
         mock.Expect(HttpMethod.Get, VariantUrl)
             .Respond("application/json", Fixture("StronglyTypedArticleVariant.json"));
 
-        var article = (await client.GetLanguageVariantAsync<Article>(Identifier())).Value;
+        var article = (await client.GetLanguageVariantAsync<Article>(Identifier())).Value.Elements;
 
         mock.VerifyNoOutstandingExpectation();
         article.PublishingDate!.Value.Should().Be(new DateTimeOffset(2024, 6, 1, 12, 0, 0, TimeSpan.Zero));

@@ -18,7 +18,7 @@ using Kontent.Ai.Management.Models.Content;
 namespace MyProject.Models;
 
 [KontentType("navigation_item", "fc4d093f-9e1a-5c1a-a47c-21acf156dadf")]
-public sealed partial record NavigationItem : IContentItem
+public sealed partial record NavigationItem : IElementsModel
 {
     [KontentElement("reference__caption", "75684270-5e43-5d21-b93a-700f85e50853")]
     public string? ReferenceCaption { get; init; }

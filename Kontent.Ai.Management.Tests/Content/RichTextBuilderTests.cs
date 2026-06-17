@@ -252,5 +252,5 @@ public class RichTextBuilderTests
         return match.Groups["v"].Value;
     }
 
-    private sealed record BareContentItem : IContentItem;
+    private sealed record BareContentItem : IElementsModel;
 }
