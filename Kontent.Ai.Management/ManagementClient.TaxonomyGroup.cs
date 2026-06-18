@@ -20,8 +20,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -29,8 +29,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(taxonomyGroup);
 
-        var response = await _managementApi.CreateTaxonomyGroupInternalAsync(taxonomyGroup, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateTaxonomyGroupInternalAsync(taxonomyGroup, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -38,8 +38,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.ModifyTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ModifyTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -47,7 +47,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

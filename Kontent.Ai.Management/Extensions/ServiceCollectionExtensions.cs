@@ -295,7 +295,6 @@ public static class ServiceCollectionExtensions
         var name = (string)key!;
         var managementApi = serviceProvider.GetRequiredKeyedService<IManagementApi>(name);
         var subscriptionApi = serviceProvider.GetRequiredKeyedService<ISubscriptionApi>(name);
-        var options = serviceProvider.GetRequiredService<IOptionsMonitor<ManagementOptions>>().Get(name);
         return new ManagementClient(managementApi, subscriptionApi);
     }
 

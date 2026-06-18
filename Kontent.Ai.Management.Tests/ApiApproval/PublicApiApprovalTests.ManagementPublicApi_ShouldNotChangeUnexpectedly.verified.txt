@@ -280,7 +280,7 @@ public sealed class ValidationError : IEquatable`1
 
 // Kontent.Ai.Management.Annotations
 public sealed class AllowedAssetFileTypesAttribute : Attribute
-    AssetFileType Types { get; }
+    FileType Types { get; }
 
 // Kontent.Ai.Management.Annotations
 public sealed class AllowedItemLinkTypesAttribute : Attribute
@@ -293,12 +293,6 @@ public sealed class AllowedTaxonomyGroupAttribute : Attribute
 // Kontent.Ai.Management.Annotations
 public sealed class AllowedTypesAttribute : Attribute
     IReadOnlyList<String> Codenames { get; }
-
-// Kontent.Ai.Management.Annotations
-public enum AssetFileType : Enum
-    Adjustable
-    Any
-    Image
 
 // Kontent.Ai.Management.Annotations
 public sealed class ExactElementsAttribute : Attribute
@@ -332,7 +326,7 @@ public sealed class MinElementsAttribute : Attribute
     Int32 N { get; }
 
 // Kontent.Ai.Management.Attributes
-public class SourceTrackingHeaderAttribute : Attribute
+public sealed class SourceTrackingHeaderAttribute : Attribute
     Boolean LoadFromAssembly { get; }
     Int32 MajorVersion { get; }
     Int32 MinorVersion { get; }
@@ -352,7 +346,6 @@ public sealed class ManagementClientBuilder
 public sealed class ManagementOptions : IValidatableObject
     String ApiKey { get; set; }
     Boolean EnableResilience { get; set; }
-    String Endpoint { get; set; }
     String EndpointV2 { get; set; }
     String EnvironmentId { get; set; }
     String SubscriptionId { get; set; }

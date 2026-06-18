@@ -4,10 +4,10 @@ using System.Text.Json;
 namespace Kontent.Ai.Management.Serialization.Converters;
 
 /// <summary>
-/// Constructs <see cref="WorkflowStepIdentifier"/> via its only public constructor — System.Text.Json
-/// cannot bind otherwise because the constructor parameter names (<c>workflowIdentifier</c>,
-/// <c>stepIdentifier</c>) do not match the property names (<c>Workflow</c>, <c>Step</c>) carrying the
-/// <c>[JsonPropertyName]</c> attributes that describe the wire shape.
+/// Constructs <see cref="WorkflowStepIdentifier"/> via its only public constructor and maps the
+/// <c>workflow_identifier</c> / <c>step_identifier</c> wire properties to its <c>Workflow</c> / <c>Step</c>
+/// members. The constructor parameter names do not match the wire names, so System.Text.Json cannot bind the
+/// single parameterized constructor on its own.
 /// </summary>
 internal sealed class WorkflowStepIdentifierJsonConverter : JsonConverter<WorkflowStepIdentifier>
 {

@@ -7,17 +7,10 @@ namespace Kontent.Ai.Management.Models.Content;
 /// <see cref="Content"/> carries the embedded content item.
 /// </summary>
 /// <remarks>
-/// <para>
-/// <see cref="Content"/> is <see cref="JsonIgnoreAttribute">JSON-ignored</see> by design — <see cref="IElementsModel"/>
-/// is a polymorphic marker and the wire envelope for a component (<c>{ id, type: { codename }, elements: [...] }</c>)
-/// doesn't match a flat property bag. The envelope converter owns component (de)serialization end-to-end;
-/// direct STJ on <see cref="Component"/> emits only <see cref="Id"/> and never populates <see cref="Content"/>.
-/// </para>
-/// <para>
-/// <see cref="Content"/> is functionally required — every component on the wire carries an embedded item — but
-/// is not declared with the <c>required</c> modifier because STJ rejects <c>required</c> properties that have
-/// no deserializable setter. The envelope converter validates on write and always populates on read.
-/// </para>
+/// <see cref="Content"/> is <see cref="JsonIgnoreAttribute">JSON-ignored</see> by design — the component wire
+/// envelope (<c>{ id, type: { codename }, elements: [...] }</c>) doesn't match a flat property bag, so the
+/// envelope converter owns component (de)serialization end-to-end. It is functionally required but cannot use the
+/// <c>required</c> modifier, since STJ rejects <c>required</c> properties that have no deserializable setter.
 /// </remarks>
 public sealed record Component
 {

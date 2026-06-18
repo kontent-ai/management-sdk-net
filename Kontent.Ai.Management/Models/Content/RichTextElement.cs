@@ -7,8 +7,8 @@ namespace Kontent.Ai.Management.Models.Content;
 /// and is non-null only when components are present.
 /// </summary>
 /// <remarks>
-/// Distinct from the legacy <c>Kontent.Ai.Management.Models.LanguageVariants.Elements.RichTextElement</c>, which
-/// is bound to the Newtonsoft dynamic-elements write path. The two coexist by namespace.
+/// Distinct from <c>Kontent.Ai.Management.Models.LanguageVariants.Elements.RichTextElement</c>, which is the
+/// untyped variant-upsert shape. This one carries strongly-typed generated component records; the two coexist by namespace.
 /// </remarks>
 public sealed record RichTextElement
 {

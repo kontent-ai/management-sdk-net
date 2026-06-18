@@ -3,7 +3,7 @@ namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 /// <summary>
 /// Base shape for an element's default value. Subclasses specialize <typeparamref name="TValue"/> for the element kind.
 /// </summary>
-public record ElementDefaultValue<TValue>
+public abstract record ElementDefaultValue<TValue>
 {
     /// <summary>
     /// Non-language-specific default. Required when the caller configures any default on the element.

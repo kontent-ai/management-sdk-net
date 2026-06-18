@@ -92,8 +92,7 @@ public static class ContentItemValidator
 
         if (prop.GetCustomAttribute<RegularExpressionAttribute>() is { } regexAttr)
         {
-            // Compile once per property; closure captures the compiled regex.
-            var regex = new Regex(regexAttr.Pattern, RegexOptions.Compiled);
+            var regex = new Regex(regexAttr.Pattern);
             var pattern = regexAttr.Pattern;
             checks.Add((value, errors) =>
             {
@@ -203,14 +202,6 @@ public static class ContentItemValidator
                 return false;
             case ICollection collection:
                 count = collection.Count;
-                return true;
-            case IEnumerable enumerable:
-                var c = 0;
-                foreach (var _ in enumerable)
-                {
-                    c++;
-                }
-                count = c;
                 return true;
             default:
                 count = 0;

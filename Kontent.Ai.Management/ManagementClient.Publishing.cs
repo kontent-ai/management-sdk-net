@@ -13,8 +13,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changeModel);
 
-        var response = await _managementApi.ChangeLanguageVariantWorkflowInternalAsync(identifier.ToUrlSegment(), changeModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ChangeLanguageVariantWorkflowInternalAsync(identifier.ToUrlSegment(), changeModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -22,8 +22,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.PublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.PublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -32,8 +32,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        var response = await _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -42,8 +42,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(schedule);
 
-        var response = await _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -51,8 +51,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.CancelPublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CancelPublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -60,8 +60,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.UnpublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.UnpublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -69,8 +69,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -79,8 +79,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(scheduleModel);
 
-        var response = await _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -88,7 +88,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

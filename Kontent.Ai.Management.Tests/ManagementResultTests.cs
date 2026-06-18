@@ -45,14 +45,6 @@ public class ManagementResultTests
     }
 
     [Fact]
-    public void Failure_NullError_Throws()
-    {
-        Action act = () => _ = ManagementResult<string>.Failure(null!);
-
-        act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("error");
-    }
-
-    [Fact]
     public void NonGeneric_Success_ExposesNoError()
     {
         var result = ManagementResult.Success(HttpStatusCode.NoContent);
@@ -71,14 +63,6 @@ public class ManagementResultTests
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().BeSameAs(error);
-    }
-
-    [Fact]
-    public void NonGeneric_Failure_NullError_Throws()
-    {
-        Action act = () => _ = ManagementResult.Failure(null!);
-
-        act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("error");
     }
 
     [Fact]

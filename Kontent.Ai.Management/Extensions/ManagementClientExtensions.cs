@@ -32,7 +32,7 @@ public static class ManagementClientExtensions
             Type = contentItem.Type
         };
 
-        return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel, cancellationToken);
+        return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -48,13 +48,13 @@ public static class ManagementClientExtensions
         ArgumentNullException.ThrowIfNull(fileContent);
         ArgumentNullException.ThrowIfNull(assetCreateModel);
 
-        var fileResult = await client.UploadFileAsync(fileContent, cancellationToken);
+        var fileResult = await client.UploadFileAsync(fileContent, cancellationToken).ConfigureAwait(false);
         if (!fileResult.IsSuccess)
         {
             return ProjectFailure<AssetModel>(fileResult);
         }
 
-        return await client.CreateAssetAsync(assetCreateModel with { FileReference = fileResult.Value }, cancellationToken);
+        return await client.CreateAssetAsync(assetCreateModel with { FileReference = fileResult.Value }, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -72,13 +72,13 @@ public static class ManagementClientExtensions
         ArgumentNullException.ThrowIfNull(fileContent);
         ArgumentNullException.ThrowIfNull(upsertModel);
 
-        var fileResult = await client.UploadFileAsync(fileContent, cancellationToken);
+        var fileResult = await client.UploadFileAsync(fileContent, cancellationToken).ConfigureAwait(false);
         if (!fileResult.IsSuccess)
         {
             return ProjectFailure<AssetModel>(fileResult);
         }
 
-        return await client.UpsertAssetAsync(identifier, upsertModel with { FileReference = fileResult.Value }, cancellationToken);
+        return await client.UpsertAssetAsync(identifier, upsertModel with { FileReference = fileResult.Value }, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -101,14 +101,14 @@ public static class ManagementClientExtensions
         ArgumentNullException.ThrowIfNull(language);
         ArgumentNullException.ThrowIfNull(variant);
 
-        var itemResult = await client.CreateContentItemAsync(item, cancellationToken);
+        var itemResult = await client.CreateContentItemAsync(item, cancellationToken).ConfigureAwait(false);
         if (!itemResult.IsSuccess)
         {
             return ProjectFailure<LanguageVariantModel>(itemResult);
         }
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
-        return await client.UpsertLanguageVariantAsync(identifier, variant, cancellationToken);
+        return await client.UpsertLanguageVariantAsync(identifier, variant, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -136,14 +136,14 @@ public static class ManagementClientExtensions
         ArgumentNullException.ThrowIfNull(language);
         ArgumentNullException.ThrowIfNull(variant);
 
-        var itemResult = await client.CreateContentItemAsync(item, cancellationToken);
+        var itemResult = await client.CreateContentItemAsync(item, cancellationToken).ConfigureAwait(false);
         if (!itemResult.IsSuccess)
         {
             return ProjectFailure<LanguageVariantModel<T>>(itemResult);
         }
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
-        return await client.UpsertLanguageVariantAsync(identifier, variant, workflow, cancellationToken);
+        return await client.UpsertLanguageVariantAsync(identifier, variant, workflow, cancellationToken).ConfigureAwait(false);
     }
 
     private static ManagementResult<TTo> ProjectFailure<TTo>(IManagementResult source) =>

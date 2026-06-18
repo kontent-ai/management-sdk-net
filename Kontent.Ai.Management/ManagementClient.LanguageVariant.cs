@@ -25,8 +25,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.ListLanguageVariantsByItemInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync<IEnumerable<LanguageVariantModel>, IReadOnlyList<LanguageVariantModel>>(variants => variants.ToList());
+        var response = await _managementApi.ListLanguageVariantsByItemInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync<IEnumerable<LanguageVariantModel>, IReadOnlyList<LanguageVariantModel>>(variants => variants.ToList()).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -86,8 +86,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -96,8 +96,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync(ToTypedVariant<T>);
+        var response = await _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync(ToTypedVariant<T>).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -105,8 +105,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetPublishedLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetPublishedLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -115,8 +115,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(languageVariantUpsertModel);
 
-        var response = await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), languageVariantUpsertModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), languageVariantUpsertModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -134,7 +134,7 @@ public partial class ManagementClient
             Contributors = languageVariant.Contributors,
         };
 
-        return await UpsertLanguageVariantAsync(identifier, upsertModel, cancellationToken);
+        return await UpsertLanguageVariantAsync(identifier, upsertModel, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -160,8 +160,8 @@ public partial class ManagementClient
             Workflow = workflow,
         };
 
-        var response = await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), upsertModel, cancellationToken);
-        return await response.ToManagementResultAsync(ToTypedVariant<T>);
+        var response = await _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), upsertModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync(ToTypedVariant<T>).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -169,8 +169,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     // Projects a fetched variant onto the typed wrapper: raw elements become the generated record, the variant

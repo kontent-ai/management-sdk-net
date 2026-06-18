@@ -10,8 +10,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(invitation);
 
-        var response = await _managementApi.InviteUserIntoEnvironmentInternalAsync(invitation, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.InviteUserIntoEnvironmentInternalAsync(invitation, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -20,8 +20,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(user);
 
-        var response = await _managementApi.ModifyUsersRolesInternalAsync(UserSegment(identifier), user, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ModifyUsersRolesInternalAsync(UserSegment(identifier), user, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     // A user is addressed by id or email — `{id}` or `email/{email}` (matches the legacy UserTemplate; Refit url-encodes the value).
@@ -37,6 +37,6 @@ public partial class ManagementClient
             return $"email/{identifier.Email}";
         }
 
-        throw new ArgumentException("You must provide user id or email");
+        throw new ArgumentException("You must provide user id or email.", nameof(identifier));
     }
 }

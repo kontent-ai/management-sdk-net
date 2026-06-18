@@ -8,7 +8,7 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IManagementResult<Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.GetEnvironmentInformationInternalAsync(cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetEnvironmentInformationInternalAsync(cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

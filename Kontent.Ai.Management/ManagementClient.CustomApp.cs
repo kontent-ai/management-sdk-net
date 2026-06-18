@@ -20,8 +20,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -29,8 +29,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(customApp);
 
-        var response = await _managementApi.CreateCustomAppInternalAsync(customApp, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateCustomAppInternalAsync(customApp, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -38,8 +38,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -48,7 +48,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);
 
-        var response = await _managementApi.ModifyCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), changes, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ModifyCustomAppInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), changes, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

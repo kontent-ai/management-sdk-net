@@ -26,8 +26,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _subscriptionApi.GetSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _subscriptionApi.GetSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -35,8 +35,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _subscriptionApi.ActivateSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _subscriptionApi.ActivateSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -44,7 +44,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _subscriptionApi.DeactivateSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _subscriptionApi.DeactivateSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

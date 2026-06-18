@@ -19,8 +19,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetLanguageInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetLanguageInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -28,8 +28,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(language);
 
-        var response = await _managementApi.CreateLanguageInternalAsync(language, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateLanguageInternalAsync(language, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -37,7 +37,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.ModifyLanguageInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ModifyLanguageInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

@@ -5,12 +5,12 @@
 /// See https://github.com/Kentico/Home/wiki/Guidelines-for-Kontent-related-tools#analytics for more info.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
-public class SourceTrackingHeaderAttribute : Attribute
+public sealed class SourceTrackingHeaderAttribute : Attribute
 {
     /// <summary>
     /// Name of the package (e.g. Acme.KenticoKontent.AwesomeTool)
     /// </summary>
-    public string PackageName { get; }
+    public string? PackageName { get; }
 
     /// <summary>
     /// Major version according to https://semver.org/
@@ -30,7 +30,7 @@ public class SourceTrackingHeaderAttribute : Attribute
     /// <summary>
     /// Pre-release label according to https://semver.org/ (will be appended with a hyphen)
     /// </summary>
-    public string PreReleaseLabel { get; }
+    public string? PreReleaseLabel { get; }
 
     /// <summary>
     /// Determines whether or not to load the version from the calling assembly.

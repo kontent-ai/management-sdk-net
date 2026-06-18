@@ -17,7 +17,9 @@ public sealed record LanguageVariantIdentifier
     /// </summary>
     public required Reference LanguageIdentifier { get; init; }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Creates an identifier from the content item and language references.
+    /// </summary>
     [SetsRequiredMembers]
     public LanguageVariantIdentifier(Reference itemIdentifier, Reference languageIdentifier)
     {

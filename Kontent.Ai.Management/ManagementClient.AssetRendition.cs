@@ -24,8 +24,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetAssetRenditionInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetAssetRenditionInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -34,8 +34,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(updateModel);
 
-        var response = await _managementApi.UpdateAssetRenditionInternalAsync(identifier.ToUrlSegment(), updateModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.UpdateAssetRenditionInternalAsync(identifier.ToUrlSegment(), updateModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -44,7 +44,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(assetIdentifier);
         ArgumentNullException.ThrowIfNull(createModel);
 
-        var response = await _managementApi.CreateAssetRenditionInternalAsync(assetIdentifier.ToUrlSegment(), createModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateAssetRenditionInternalAsync(assetIdentifier.ToUrlSegment(), createModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

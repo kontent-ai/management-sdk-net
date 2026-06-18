@@ -3,7 +3,7 @@ namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 /// <summary>
 /// Shared shape between taxonomy groups and their (recursive) terms. Used as both request payload and response shape.
 /// </summary>
-public record TaxonomyBaseModel
+public abstract record TaxonomyBaseModel
 {
     /// <summary>
     /// Display name.

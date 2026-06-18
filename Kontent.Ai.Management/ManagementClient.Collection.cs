@@ -9,8 +9,8 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.ListCollectionsInternalAsync(cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ListCollectionsInternalAsync(cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -18,7 +18,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        var response = await _managementApi.ModifyCollectionInternalAsync(changes, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ModifyCollectionInternalAsync(changes, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

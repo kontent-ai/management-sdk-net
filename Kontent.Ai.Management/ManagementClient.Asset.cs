@@ -28,8 +28,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -38,8 +38,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(asset);
 
-        var response = await _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -47,8 +47,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(asset);
 
-        var response = await _managementApi.CreateAssetInternalAsync(asset, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateAssetInternalAsync(asset, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -56,8 +56,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -77,8 +77,8 @@ public partial class ManagementClient
             content.Headers.ContentType = MediaTypeHeaderValue.Parse(fileContent.ContentType);
             content.Headers.ContentLength = stream.Length;
 
-            var response = await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken);
-            return await response.ToManagementResultAsync();
+            var response = await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ConfigureAwait(false);
+            return await response.ToManagementResultAsync().ConfigureAwait(false);
         }
         finally
         {

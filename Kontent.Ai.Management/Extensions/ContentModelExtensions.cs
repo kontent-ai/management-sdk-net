@@ -23,19 +23,19 @@ public static class ContentModelExtensions
     {
         ArgumentNullException.ThrowIfNull(client);
 
-        var types = await client.ListContentTypesAsync(cancellationToken);
+        var types = await client.ListContentTypesAsync(cancellationToken).ConfigureAwait(false);
         if (!types.IsSuccess)
         {
             return Project(types);
         }
 
-        var snippets = await client.ListContentTypeSnippetsAsync(cancellationToken);
+        var snippets = await client.ListContentTypeSnippetsAsync(cancellationToken).ConfigureAwait(false);
         if (!snippets.IsSuccess)
         {
             return Project(snippets);
         }
 
-        var taxonomies = await client.ListTaxonomyGroupsAsync(cancellationToken);
+        var taxonomies = await client.ListTaxonomyGroupsAsync(cancellationToken).ConfigureAwait(false);
         if (!taxonomies.IsSuccess)
         {
             return Project(taxonomies);

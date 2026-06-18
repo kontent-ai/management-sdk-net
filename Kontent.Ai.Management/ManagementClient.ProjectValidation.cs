@@ -9,22 +9,22 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.ValidateEnvironmentInternalAsync(cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ValidateEnvironmentInternalAsync(cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.InitiateEnvironmentAsyncValidationTaskInternalAsync(cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.InitiateEnvironmentAsyncValidationTaskInternalAsync(cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.GetAsyncValidationTaskInternalAsync(taskId, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetAsyncValidationTaskInternalAsync(taskId, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />

@@ -37,7 +37,7 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
     private static Dictionary<string, TEnum> BuildNameToValue()
     {
         var map = new Dictionary<string, TEnum>(StringComparer.OrdinalIgnoreCase);
-        foreach (var (value, wire) in BuildValueToName())
+        foreach (var (value, wire) in ValueToName)
         {
             map[wire] = value;
         }

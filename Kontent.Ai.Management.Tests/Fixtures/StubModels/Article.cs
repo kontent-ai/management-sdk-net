@@ -1,5 +1,6 @@
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
+using Kontent.Ai.Management.Models.Types.Elements;
 using System.ComponentModel.DataAnnotations;
 
 namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
@@ -42,7 +43,7 @@ internal sealed record Article : IElementsModel
     [KontentElement("hero_assets", "88888888-8888-8888-8888-888888888888")]
     [MaxElements(3)]
     [MaxAssetSize(10_485_760)]                  // not enforced by the validator
-    [AllowedAssetFileTypes(AssetFileType.Image)] // not enforced by the validator
+    [AllowedAssetFileTypes(FileType.Adjustable)] // not enforced by the validator
     public IReadOnlyList<AssetReference>? HeroAssets { get; init; }
 
     [KontentElement("related", "99999999-9999-9999-9999-999999999999")]

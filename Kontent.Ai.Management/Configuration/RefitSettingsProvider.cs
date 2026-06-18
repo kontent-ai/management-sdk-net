@@ -46,7 +46,6 @@ internal static class RefitSettingsProvider
         options.Converters.Add(new PatchOperationJsonConverterFactory());
         options.Converters.Add(new DecimalJsonConverter());
         options.Converters.Add(new EnumMemberJsonConverterFactory());
-        options.Converters.Add(new ListingResponseJsonConverterFactory());
 
         return options;
     }

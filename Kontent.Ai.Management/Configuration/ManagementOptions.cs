@@ -8,13 +8,7 @@ namespace Kontent.Ai.Management.Configuration;
 public sealed class ManagementOptions : IValidatableObject
 {
     /// <summary>
-    /// Gets or sets the Production endpoint address. Optional, defaults to "https://manage.kontent.ai/{0}".
-    /// </summary>
-    [Url]
-    public string Endpoint { get; set; } = "https://manage.kontent.ai/{0}";
-
-    /// <summary>
-    /// Gets or sets the Production endpoint address for V2 management API. Optional, defaults to "https://manage.kontent.ai/v2/{0}".
+    /// Gets or sets the Production endpoint address for the management API. Optional, defaults to "https://manage.kontent.ai/v2/{0}".
     /// </summary>
     [Url]
     public string EndpointV2 { get; set; } = "https://manage.kontent.ai/v2/{0}";

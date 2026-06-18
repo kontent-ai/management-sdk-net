@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace Kontent.Ai.Management.Extensions;
 
 /// <summary>
@@ -16,8 +14,6 @@ internal static class RefitApiResponseExtensions
         this IApiResponse<TResponse> response,
         Func<TResponse, TValue> selector)
     {
-        ArgumentNullException.ThrowIfNull(selector);
-
         if (response.IsSuccessStatusCode)
         {
             return Task.FromResult<IManagementResult<TValue>>(ManagementResult<TValue>.Success(
@@ -46,13 +42,13 @@ internal static class RefitApiResponseExtensions
     private static async Task<IManagementResult<TValue>> MapFailureAsync<TValue>(IApiResponse response)
     {
         var error = await BuildErrorAsync(response).ConfigureAwait(false);
-        return ManagementResult<TValue>.Failure(error, StatusCodeOf(response), RequestUrl(response), response.Headers);
+        return ManagementResult<TValue>.Failure(error, response.StatusCode, RequestUrl(response), response.Headers);
     }
 
     private static async Task<IManagementResult> MapFailureAsync(IApiResponse response)
     {
         var error = await BuildErrorAsync(response).ConfigureAwait(false);
-        return ManagementResult.Failure(error, StatusCodeOf(response), RequestUrl(response), response.Headers);
+        return ManagementResult.Failure(error, response.StatusCode, RequestUrl(response), response.Headers);
     }
 
     private static async Task<IError> BuildErrorAsync(IApiResponse response)
@@ -70,7 +66,7 @@ internal static class RefitApiResponseExtensions
                 ? parsed with { Exception = apiException }
                 : new Error { Message = apiException.Message, Exception = apiException };
         }
-        catch (Exception parseException) when (!IsFatalException(parseException))
+        catch (Exception)
         {
             // The body was not a Management API error envelope — an HTML 5xx page, plain text, or empty.
             var rawBody = apiException.Content;
@@ -82,21 +78,9 @@ internal static class RefitApiResponseExtensions
         }
     }
 
-    private static HttpStatusCode? StatusCodeOf(IApiResponse response) =>
-        response.Error is not null ? response.StatusCode : null;
-
     private static string RequestUrl(IApiResponse response) =>
         response.RequestMessage?.RequestUri?.ToString() ?? string.Empty;
 
     private static string Truncate(string body) =>
         body.Length > MaxRawBodyLength ? body[..MaxRawBodyLength] + "... (truncated)" : body;
-
-    private static bool IsFatalException(Exception exception) =>
-        exception is OutOfMemoryException
-            or StackOverflowException
-            or AccessViolationException
-            or AppDomainUnloadedException
-            or BadImageFormatException
-            or CannotUnloadAppDomainException
-            or InvalidProgramException;
 }

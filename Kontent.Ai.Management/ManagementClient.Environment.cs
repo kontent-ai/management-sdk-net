@@ -11,22 +11,22 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(cloneEnvironmentModel);
 
-        var response = await _managementApi.CloneEnvironmentInternalAsync(cloneEnvironmentModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CloneEnvironmentInternalAsync(cloneEnvironmentModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.GetEnvironmentCloningStateInternalAsync(cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetEnvironmentCloningStateInternalAsync(cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.DeleteEnvironmentInternalAsync(cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteEnvironmentInternalAsync(cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -34,8 +34,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(markAsProductionModel);
 
-        var response = await _managementApi.MarkEnvironmentAsProductionInternalAsync(markAsProductionModel, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.MarkEnvironmentAsProductionInternalAsync(markAsProductionModel, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -43,7 +43,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        var response = await _managementApi.ModifyEnvironmentInternalAsync(changes, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ModifyEnvironmentInternalAsync(changes, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

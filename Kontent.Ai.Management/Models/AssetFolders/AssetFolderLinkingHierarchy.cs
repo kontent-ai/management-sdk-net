@@ -10,36 +10,30 @@ public sealed class AssetFolderLinkingHierarchy
     /// <summary>
     /// The folder's ID. The zero Guid string means the asset sits outside any folder.
     /// </summary>
-    [JsonPropertyName("id")]
     public string? Id { get; set; }
 
     /// <summary>
     /// The folder's external ID. Only present if specified when the folder was created.
     /// </summary>
-    [JsonPropertyName("external_id")]
     public string? ExternalId { get; set; }
 
     /// <summary>
     /// The folder's codename.
     /// </summary>
-    [JsonPropertyName("codename")]
     public string? Codename { get; set; }
 
     /// <summary>
     /// The folder's name.
     /// </summary>
-    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
     /// <summary>
     /// Nested folders. Null or empty for a leaf folder.
     /// </summary>
-    [JsonPropertyName("folders")]
     public IEnumerable<AssetFolderLinkingHierarchy>? Folders { get; set; }
 
     /// <summary>
     /// Reference to the parent folder. Null for a root folder.
     /// </summary>
-    [JsonIgnore]
     public AssetFolderLinkingHierarchy? Parent { get; set; }
 }

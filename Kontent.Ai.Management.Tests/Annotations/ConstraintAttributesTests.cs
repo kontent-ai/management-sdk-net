@@ -1,5 +1,6 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Annotations;
+using Kontent.Ai.Management.Models.Types.Elements;
 
 namespace Kontent.Ai.Management.Tests.Annotations;
 
@@ -75,10 +76,9 @@ public class ConstraintAttributesTests
     }
 
     [Theory]
-    [InlineData(AssetFileType.Any)]
-    [InlineData(AssetFileType.Adjustable)]
-    [InlineData(AssetFileType.Image)]
-    public void AllowedAssetFileTypes_StoresEnum(AssetFileType type)
+    [InlineData(FileType.Any)]
+    [InlineData(FileType.Adjustable)]
+    public void AllowedAssetFileTypes_StoresEnum(FileType type)
     {
         new AllowedAssetFileTypesAttribute(type).Types.Should().Be(type);
     }
@@ -87,8 +87,8 @@ public class ConstraintAttributesTests
     public void AssetFileType_Default_IsAny()
     {
         // The default enum value matters — generator emits no attribute when the constraint is Any,
-        // so a default-constructed AssetFileType must mean "no restriction."
-        default(AssetFileType).Should().Be(AssetFileType.Any);
+        // so a default-constructed FileType must mean "no restriction."
+        default(FileType).Should().Be(FileType.Any);
     }
 
     [Fact]

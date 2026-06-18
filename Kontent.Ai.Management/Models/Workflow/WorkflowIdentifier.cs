@@ -26,7 +26,7 @@ public sealed record WorkflowIdentifier
     /// </summary>
     /// <param name="itemIdentifier">The identifier of the content item.</param>
     /// <param name="languageIdentifier">The identifier of the language.</param>
-    /// /// <param name="stepIdentifier">The identifier of the workflow step.</param>
+    /// <param name="stepIdentifier">The identifier of the workflow step.</param>
     public WorkflowIdentifier(Reference itemIdentifier, Reference languageIdentifier, Reference stepIdentifier)
     {
         ItemIdentifier = itemIdentifier;

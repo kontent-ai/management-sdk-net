@@ -9,8 +9,8 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.ListWorkflowsInternalAsync(cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ListWorkflowsInternalAsync(cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -18,8 +18,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(workflow);
 
-        var response = await _managementApi.CreateWorkflowInternalAsync(workflow, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateWorkflowInternalAsync(workflow, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -28,8 +28,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(workflow);
 
-        var response = await _managementApi.UpdateWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), workflow, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.UpdateWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), workflow, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -37,7 +37,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

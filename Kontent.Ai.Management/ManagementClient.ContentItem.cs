@@ -27,8 +27,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -36,8 +36,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        var response = await _managementApi.CreateContentItemInternalAsync(contentItem, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateContentItemInternalAsync(contentItem, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -46,8 +46,8 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        var response = await _managementApi.UpsertContentItemInternalAsync(identifier.ToUrlSegment(), contentItem, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.UpsertContentItemInternalAsync(identifier.ToUrlSegment(), contentItem, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -55,7 +55,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

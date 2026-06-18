@@ -20,8 +20,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.GetContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -29,8 +29,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(contentTypeSnippet);
 
-        var response = await _managementApi.CreateContentTypeSnippetInternalAsync(contentTypeSnippet, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.CreateContentTypeSnippetInternalAsync(contentTypeSnippet, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -38,8 +38,8 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.DeleteContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -48,7 +48,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);
 
-        var response = await _managementApi.ModifyContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken);
-        return await response.ToManagementResultAsync();
+        var response = await _managementApi.ModifyContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }
