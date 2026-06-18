@@ -7,5 +7,5 @@ public sealed record AssetElement : BaseElement
 {
     /// <summary>The referenced assets.</summary>
     [JsonPropertyName("value")]
-    public IReadOnlyList<AssetReference>? Value { get; init; }
+    public IEnumerable<AssetReference>? Value { get; init; }
 }

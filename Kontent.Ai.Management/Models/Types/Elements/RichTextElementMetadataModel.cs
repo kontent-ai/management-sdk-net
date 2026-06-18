@@ -18,6 +18,12 @@ public sealed record RichTextElementMetadataModel : ElementMetadataBase
     public bool IsRequired { get; init; }
 
     /// <summary>
+    /// Whether the element is shared across all language variants.
+    /// </summary>
+    [JsonPropertyName("is_non_localizable")]
+    public bool IsNonLocalizable { get; init; }
+
+    /// <summary>
     /// HTML guidelines shown to authors.
     /// </summary>
     [JsonPropertyName("guidelines")]

@@ -5,9 +5,6 @@ using Kontent.Ai.Management.Models.Spaces.Patch;
 
 namespace Kontent.Ai.Management;
 
-/// <summary>
-/// Executes requests against the Kontent.ai Management API.
-/// </summary>
 public partial class ManagementClient
 {
     /// <inheritdoc />

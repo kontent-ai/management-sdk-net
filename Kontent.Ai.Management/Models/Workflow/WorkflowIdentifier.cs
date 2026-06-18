@@ -2,27 +2,27 @@
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow step identifier.
+/// Identifies the content item variant and workflow step used by workflow operations.
 /// </summary>
 public sealed record WorkflowIdentifier
 {
     /// <summary>
-    /// Represents the identifier of the content item variant.
+    /// The identifier of the content item.
     /// </summary>
     public Reference ItemIdentifier { get; }
 
     /// <summary>
-    /// Represents the identifier of the language.
+    /// The identifier of the language variant.
     /// </summary>
     public Reference LanguageIdentifier { get; }
 
     /// <summary>
-    /// Represents the identifier of the workflow step.
+    /// The identifier of the workflow step.
     /// </summary>
     public Reference WorkflowStepIdentifier { get; }
 
     /// <summary>
-    /// Creates an instance of the workflow step identifier.
+    /// Creates a workflow-operation identifier from content item, language, and workflow step references.
     /// </summary>
     /// <param name="itemIdentifier">The identifier of the content item.</param>
     /// <param name="languageIdentifier">The identifier of the language.</param>

@@ -18,5 +18,5 @@ public sealed record RichTextElement
 
     /// <summary>Inline components, when present.</summary>
     [JsonPropertyName("components")]
-    public IReadOnlyList<Component>? Components { get; init; }
+    public IEnumerable<Component>? Components { get; init; }
 }

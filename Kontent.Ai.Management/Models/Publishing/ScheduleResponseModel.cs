@@ -9,7 +9,7 @@ public sealed record ScheduleResponseModel
     /// ISO-8601 date-time of scheduled publishing. Null when no publish is scheduled.
     /// </summary>
     [JsonPropertyName("publish_time")]
-    public DateTime? PublishTime { get; init; }
+    public DateTimeOffset? PublishTime { get; init; }
 
     /// <summary>
     /// IANA time zone name used to display the scheduled publish date's offset in the UI. Null when no publish is scheduled.
@@ -21,7 +21,7 @@ public sealed record ScheduleResponseModel
     /// ISO-8601 date-time of scheduled unpublishing. Null when no unpublish is scheduled.
     /// </summary>
     [JsonPropertyName("unpublish_time")]
-    public DateTime? UnpublishTime { get; init; }
+    public DateTimeOffset? UnpublishTime { get; init; }
 
     /// <summary>
     /// IANA time zone name used to display the scheduled unpublish date's offset in the UI. Null when no unpublish is scheduled.

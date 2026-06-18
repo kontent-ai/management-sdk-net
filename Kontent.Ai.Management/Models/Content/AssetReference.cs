@@ -26,5 +26,5 @@ public sealed record AssetReference
     /// that element must specify the property too — the SDK does not enforce this; the API does.
     /// </summary>
     [JsonPropertyName("renditions")]
-    public IReadOnlyList<RenditionReference>? Renditions { get; init; }
+    public IEnumerable<RenditionReference>? Renditions { get; init; }
 }

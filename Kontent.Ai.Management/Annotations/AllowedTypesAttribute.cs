@@ -1,13 +1,12 @@
 namespace Kontent.Ai.Management.Annotations;
 
 /// <summary>
-/// Restricts the content types permitted in a linked-items, subpages, or rich-text element. The validator and
-/// envelope converter use this to reject (or refuse to deserialize) items whose <c>[KontentContentType]</c>
-/// codename is not in the allow-list.
+/// Restricts the content types permitted in a linked-items, subpages, or rich-text element.
 /// </summary>
 /// <remarks>
-/// On rich-text properties, this covers both inline components and inline linked-item references — the MAPI does
-/// not distinguish "allowed component types" from "allowed linked-item types" for rich text.
+/// The local validator can enforce this for rich-text components, where component type information is available
+/// in memory. Linked-item and subpage references carry only item identifiers, so the MAPI remains the source of
+/// truth for those constraints.
 /// </remarks>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public sealed class AllowedTypesAttribute : Attribute

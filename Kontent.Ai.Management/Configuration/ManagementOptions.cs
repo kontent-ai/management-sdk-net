@@ -39,6 +39,13 @@ public sealed class ManagementOptions : IValidatableObject
     /// <inheritdoc />
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
+        if (string.IsNullOrWhiteSpace(ApiKey))
+        {
+            yield return new ValidationResult(
+                "ApiKey cannot be empty.",
+                [nameof(ApiKey)]);
+        }
+
         if (!Guid.TryParse(EnvironmentId, out var environmentGuid))
         {
             yield return new ValidationResult(

@@ -54,7 +54,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single language variant.</summary>
-    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <c>ManagementClient.BuildVariantPath</c>).</param>
+    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(LanguageVariantIdentifier)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/items/{**variantPath}")]
     internal Task<IApiResponse<LanguageVariantModel>> GetLanguageVariantInternalAsync(
@@ -62,7 +62,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets the published version of a language variant.</summary>
-    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <c>ManagementClient.BuildVariantPath</c>).</param>
+    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(LanguageVariantIdentifier)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/items/{**variantPath}/published")]
     internal Task<IApiResponse<LanguageVariantModel>> GetPublishedLanguageVariantInternalAsync(
@@ -70,7 +70,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Creates or updates a language variant.</summary>
-    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <c>ManagementClient.BuildVariantPath</c>).</param>
+    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(LanguageVariantIdentifier)"/>).</param>
     /// <param name="languageVariantUpsertModel">The variant to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/items/{**variantPath}")]
@@ -80,7 +80,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a language variant.</summary>
-    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <c>ManagementClient.BuildVariantPath</c>).</param>
+    /// <param name="variantPath">The <c>{item}/variants/{language}</c> path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(LanguageVariantIdentifier)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/items/{**variantPath}")]
     internal Task<IApiResponse> DeleteLanguageVariantInternalAsync(

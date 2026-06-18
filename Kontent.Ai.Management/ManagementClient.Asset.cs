@@ -1,7 +1,6 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
-using System.Net.Http.Headers;
 
 namespace Kontent.Ai.Management;
 
@@ -65,28 +64,13 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(fileContent);
 
-        var stream = fileContent.OpenReadStream();
-        try
+        using var content = new FileUploadContent(fileContent);
+        if (content.Length is > MaxFileSizeBytes)
         {
-            if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
-            {
-                throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(fileContent));
-            }
-
-            var content = new StreamContent(stream);
-            content.Headers.ContentType = MediaTypeHeaderValue.Parse(fileContent.ContentType);
-            content.Headers.ContentLength = stream.Length;
-
-            var response = await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ConfigureAwait(false);
-            return await response.ToManagementResultAsync().ConfigureAwait(false);
+            throw new ArgumentException("Maximum supported file size is 2 GB.", nameof(fileContent));
         }
-        finally
-        {
-            // Dispose the stream only in case a new stream was created.
-            if (fileContent.CreatesNewStream)
-            {
-                stream.Dispose();
-            }
-        }
+
+        var response = await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ConfigureAwait(false);
+        return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

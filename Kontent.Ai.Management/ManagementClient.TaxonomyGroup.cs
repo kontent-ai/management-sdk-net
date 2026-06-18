@@ -37,6 +37,7 @@ public partial class ManagementClient
     public async Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
         var response = await _managementApi.ModifyTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);

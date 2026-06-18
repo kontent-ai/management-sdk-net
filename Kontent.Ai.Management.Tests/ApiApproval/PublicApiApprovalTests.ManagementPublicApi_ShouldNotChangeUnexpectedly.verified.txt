@@ -753,7 +753,7 @@ public sealed class AssetReference : IEquatable`1
     String Codename { get; set; init; }
     String ExternalId { get; set; init; }
     Nullable<Guid> Id { get; set; init; }
-    IReadOnlyList<RenditionReference> Renditions { get; set; init; }
+    IEnumerable<RenditionReference> Renditions { get; set; init; }
     AssetReference <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetReference other)
@@ -810,7 +810,7 @@ public sealed class RichTextBuilder
 
 // Kontent.Ai.Management.Models.Content
 public sealed class RichTextElement : IEquatable`1
-    IReadOnlyList<Component> Components { get; set; init; }
+    IEnumerable<Component> Components { get; set; init; }
     String Value { get; set; init; }
     RichTextElement <Clone>$()
     Boolean Equals(Object obj)
@@ -1313,7 +1313,7 @@ public sealed class ChangeLanguageVariantWorkflowModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class ComponentModel : IEquatable`1
-    IReadOnlyList<BaseElement> Elements { get; set; init; }
+    IEnumerable<BaseElement> Elements { get; set; init; }
     Guid Id { get; set; init; }
     Reference Type { get; set; init; }
     ComponentModel <Clone>$()
@@ -1324,7 +1324,7 @@ public sealed class ComponentModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class DueDateModel : IEquatable`1
-    Nullable<DateTime> Value { get; set; init; }
+    Nullable<DateTimeOffset> Value { get; set; init; }
     DueDateModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(DueDateModel other)
@@ -1392,7 +1392,7 @@ public sealed class LanguageVariantUpsertModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class AssetElement : BaseElement, IEquatable`1
-    IReadOnlyList<AssetReference> Value { get; set; init; }
+    IEnumerable<AssetReference> Value { get; set; init; }
     AssetElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
@@ -1589,9 +1589,9 @@ public sealed class SchedulePublishAndUnpublishModel : IEquatable`1
 // Kontent.Ai.Management.Models.Publishing
 public sealed class ScheduleResponseModel : IEquatable`1
     String PublishDisplayTimeZone { get; set; init; }
-    Nullable<DateTime> PublishTime { get; set; init; }
+    Nullable<DateTimeOffset> PublishTime { get; set; init; }
     String UnpublishDisplayTimeZone { get; set; init; }
-    Nullable<DateTime> UnpublishTime { get; set; init; }
+    Nullable<DateTimeOffset> UnpublishTime { get; set; init; }
     ScheduleResponseModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ScheduleResponseModel other)
@@ -2172,6 +2172,7 @@ public sealed class RichTextElementMetadataModel : ElementMetadataBase, IEquatab
     String Guidelines { get; set; init; }
     LimitModel ImageHeightLimit { get; set; init; }
     LimitModel ImageWidthLimit { get; set; init; }
+    Boolean IsNonLocalizable { get; set; init; }
     Boolean IsRequired { get; set; init; }
     Nullable<Int64> MaximumImageSize { get; set; init; }
     MaximumTextLengthModel MaximumTextLength { get; set; init; }
@@ -2986,8 +2987,8 @@ public sealed class WorkflowScopeModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowScopeUpsertModel : IEquatable`1
-    IReadOnlyList<Reference> Collections { get; set; init; }
-    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    IEnumerable<Reference> Collections { get; set; init; }
+    IEnumerable<Reference> ContentTypes { get; set; init; }
     WorkflowScopeUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowScopeUpsertModel other)
@@ -3075,8 +3076,8 @@ public sealed class WorkflowUpsertModel : IEquatable`1
     String Codename { get; set; init; }
     String Name { get; set; init; }
     WorkflowPublishedStepUpsertModel PublishedStep { get; set; init; }
-    IReadOnlyList<WorkflowScopeUpsertModel> Scopes { get; set; init; }
-    IReadOnlyList<WorkflowStepUpsertModel> Steps { get; set; init; }
+    IEnumerable<WorkflowScopeUpsertModel> Scopes { get; set; init; }
+    IEnumerable<WorkflowStepUpsertModel> Steps { get; set; init; }
     WorkflowUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowUpsertModel other)

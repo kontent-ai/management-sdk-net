@@ -36,6 +36,7 @@ public partial class ManagementClient
     public async Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
         var response = await _managementApi.ModifyLanguageInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);

@@ -15,6 +15,8 @@ public partial class ManagementClient
     /// <inheritdoc />
     public async Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(previewConfiguration);
+
         var response = await _managementApi.ModifyPreviewConfigurationInternalAsync(previewConfiguration, cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }

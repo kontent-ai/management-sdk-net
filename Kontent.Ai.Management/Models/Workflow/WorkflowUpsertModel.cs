@@ -21,13 +21,13 @@ public sealed record WorkflowUpsertModel
     /// Scopes this workflow applies to. The array is required (cannot be omitted) but may be empty.
     /// </summary>
     [JsonPropertyName("scopes")]
-    public required IReadOnlyList<WorkflowScopeUpsertModel> Scopes { get; init; }
+    public required IEnumerable<WorkflowScopeUpsertModel> Scopes { get; init; }
 
     /// <summary>
     /// Custom workflow steps.
     /// </summary>
     [JsonPropertyName("steps")]
-    public required IReadOnlyList<WorkflowStepUpsertModel> Steps { get; init; }
+    public required IEnumerable<WorkflowStepUpsertModel> Steps { get; init; }
 
     /// <summary>
     /// Published system step configuration.

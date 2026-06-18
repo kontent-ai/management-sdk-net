@@ -85,7 +85,7 @@ public class EnvelopeConverter_RichTextTests
         roundtripped.Content!.Value.Should().Be("<p>body</p>");
         roundtripped.Content.Components.Should().ContainSingle();
 
-        var component = roundtripped.Content.Components![0];
+        var component = roundtripped.Content.Components!.ElementAt(0);
         component.Id.Should().Be(SampleComponentId);
         var nestedCallout = component.Content.Should().BeOfType<Callout>().Subject;
         nestedCallout.Type.Should().Equal(CalloutType.Lightbulb);

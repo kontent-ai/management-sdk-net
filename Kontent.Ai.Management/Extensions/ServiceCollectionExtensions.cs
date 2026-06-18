@@ -120,7 +120,7 @@ public static class ServiceCollectionExtensions
     /// <param name="configureOptions">Action to configure the management options.</param>
     /// <param name="configureHttpClient">Optional hook on the underlying <see cref="IHttpClientBuilder"/> (both env and subscription clients).</param>
     /// <param name="configureResilience">Optional hook to replace the default resilience pipeline.</param>
-    /// <param name="configureRefit">Optional hook to tweak Refit settings (still Newtonsoft-backed until model regen).</param>
+    /// <param name="configureRefit">Optional hook to tweak Refit settings.</param>
     /// <exception cref="InvalidOperationException">A client with the same name is already registered.</exception>
     public static IServiceCollection AddManagementClient(
         this IServiceCollection services,

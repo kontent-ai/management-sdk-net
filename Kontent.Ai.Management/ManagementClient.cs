@@ -15,11 +15,11 @@ namespace Kontent.Ai.Management;
 /// </summary>
 public sealed partial class ManagementClient : IManagementClient
 {
-    private const int MAX_FILE_SIZE_MB = 100;
+    private const long MaxFileSizeBytes = 2L * 1024 * 1024 * 1024;
 
     private readonly IManagementApi _managementApi;
     private readonly ISubscriptionApi _subscriptionApi;
-    private readonly IDisposable _ownedResources;
+    private readonly IDisposable? _ownedResources;
     private readonly Conversion.ContentItemEnvelopeConverter _contentConverter;
     // When we built the converter ourselves, auto-scan the consumer's generated-models assembly on first use so
     // rich-text component types resolve. When one was injected (tests / advanced callers), trust its registry as-is.

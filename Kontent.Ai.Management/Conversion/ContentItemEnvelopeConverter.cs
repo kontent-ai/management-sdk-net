@@ -206,7 +206,8 @@ internal sealed class ContentItemEnvelopeConverter
     private void WriteRichText(Utf8JsonWriter writer, RichTextElement value)
     {
         writer.WriteString("value", value.Value);
-        if (value.Components is { Count: > 0 } components)
+        var components = value.Components?.ToList();
+        if (components is { Count: > 0 })
         {
             writer.WritePropertyName("components");
             writer.WriteStartArray();
