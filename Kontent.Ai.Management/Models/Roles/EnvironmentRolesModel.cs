@@ -9,5 +9,5 @@ public sealed record EnvironmentRolesModel
     /// The environment's roles.
     /// </summary>
     [JsonPropertyName("roles")]
-    public required IEnumerable<EnvironmentRoleModel> Roles { get; init; }
+    public required IReadOnlyList<EnvironmentRoleModel> Roles { get; init; }
 }

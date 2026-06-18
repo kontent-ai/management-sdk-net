@@ -21,5 +21,5 @@ public sealed record VariantIssue
     /// Issues found in the variant's elements.
     /// </summary>
     [JsonPropertyName("issues")]
-    public required List<ElementIssue> Issues { get; init; }
+    public required IReadOnlyList<ElementIssue> Issues { get; init; }
 }

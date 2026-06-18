@@ -15,7 +15,7 @@ public sealed record EnvironmentCloneModel
     /// Role IDs whose assigned users are activated in the cloned environment. Optional.
     /// </summary>
     [JsonPropertyName("roles_to_activate")]
-    public ICollection<Guid>? RolesToActivate { get; init; }
+    public IEnumerable<Guid>? RolesToActivate { get; init; }
 
     /// <summary>
     /// Options controlling which data is copied into the clone. Optional.

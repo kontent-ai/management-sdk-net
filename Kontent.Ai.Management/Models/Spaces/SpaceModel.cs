@@ -33,5 +33,5 @@ public sealed record SpaceModel
     /// Collections belonging to the space. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("collections")]
-    public required IEnumerable<Reference> Collections { get; init; }
+    public required IReadOnlyList<Reference> Collections { get; init; }
 }

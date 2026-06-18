@@ -30,7 +30,7 @@ public sealed class AssetFolderLinkingHierarchy
     /// <summary>
     /// Nested folders. Null or empty for a leaf folder.
     /// </summary>
-    public IEnumerable<AssetFolderLinkingHierarchy>? Folders { get; set; }
+    public IReadOnlyList<AssetFolderLinkingHierarchy>? Folders { get; set; }
 
     /// <summary>
     /// Reference to the parent folder. Null for a root folder.

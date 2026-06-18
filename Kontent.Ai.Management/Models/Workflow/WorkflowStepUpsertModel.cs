@@ -33,11 +33,11 @@ public sealed record WorkflowStepUpsertModel
     /// Workflow steps that this step can transition to.
     /// </summary>
     [JsonPropertyName("transitions_to")]
-    public required IReadOnlyList<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; init; }
+    public required IEnumerable<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; init; }
 
     /// <summary>
     /// Roles allowed to work with items in this step. May be empty.
     /// </summary>
     [JsonPropertyName("role_ids")]
-    public required IReadOnlyCollection<Guid> RoleIds { get; init; }
+    public required IEnumerable<Guid> RoleIds { get; init; }
 }

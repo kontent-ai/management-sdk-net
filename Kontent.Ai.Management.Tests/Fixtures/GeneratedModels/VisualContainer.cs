@@ -23,14 +23,14 @@ public sealed partial record VisualContainer : IElementsModel
     [KontentElement("items", "41ebb699-10b7-5493-b6d3-d6098ab5ebbc")]
     [AllowedTypes("fact")]
     [MinElements(1)]
-    public IReadOnlyList<Reference>? Items { get; init; }
+    public IEnumerable<Reference>? Items { get; init; }
     [KontentElement("subtitle", "9a6832bb-d7b6-5954-aa80-92aee2b96441")]
     public string? Subtitle { get; init; }
     [KontentElement("title", "fbdd1530-319d-5c94-8bc7-c2c82f744272")]
     public string? Title { get; init; }
     [KontentElement("visual_representation", "b81bc86b-7f9f-5d2f-909e-b973320531f4")]
     [MaxElements(1)]
-    public IReadOnlyList<VisualContainerVisualRepresentation>? VisualRepresentation { get; init; }
+    public IEnumerable<VisualContainerVisualRepresentation>? VisualRepresentation { get; init; }
 }
 
 public enum VisualContainerVisualRepresentation

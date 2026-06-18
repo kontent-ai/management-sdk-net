@@ -23,12 +23,12 @@ public sealed partial record Fact : IElementsModel
     [KontentElement("author", "0ce7a459-f957-5a52-b7c6-52d3476ee2fc")]
     [AllowedTypes("person")]
     [MaxElements(1)]
-    public IReadOnlyList<Reference>? Author { get; init; }
+    public IEnumerable<Reference>? Author { get; init; }
     [KontentElement("fact_type", "b47c1ab1-118a-5b11-8709-ec0dba96cd3e")]
     [AllowedTaxonomyGroup("60c8d377-24b2-54f0-886b-18aaa0f1095b")]
-    public IReadOnlyList<Reference>? FactType { get; init; }
+    public IEnumerable<Reference>? FactType { get; init; }
     [KontentElement("image", "8c8946ce-e683-5df1-b029-967a3e43e056")]
-    public IReadOnlyList<AssetReference>? Image { get; init; }
+    public IEnumerable<AssetReference>? Image { get; init; }
     [KontentElement("message", "db8a7f6b-afd5-5170-bd6f-e450a96c8053")]
     public string? Message { get; init; }
     [KontentElement("reference__caption", "75684270-5e43-5d21-b93a-700f85e50853")]
@@ -36,7 +36,7 @@ public sealed partial record Fact : IElementsModel
     [KontentElement("reference__content__item_link", "ed9d88d5-2375-57c3-9916-615eaae7d5da")]
     [AllowedTypes("website_root", "page", "article", "product", "solution")]
     [MaxElements(1)]
-    public IReadOnlyList<Reference>? ReferenceContentItemLink { get; init; }
+    public IEnumerable<Reference>? ReferenceContentItemLink { get; init; }
     [KontentElement("reference__external_uri", "580e3f46-f033-50d4-9f34-4ed91384f4e4")]
     [RegularExpression("^(https?:\\/\\/(?:www\\.|(?!www)))?[a-z0-9]{1,63}([\\-\\.]{1}[a-z0-9]{1,63})*\\.[a-z]{2,63}(:[0-9]{1,5})?(\\/\\S*)?$")]
     public string? ReferenceExternalUri { get; init; }

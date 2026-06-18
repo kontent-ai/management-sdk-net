@@ -15,5 +15,5 @@ public sealed record TaxonomyTermModel : TaxonomyBaseModel
     /// Child terms. Always present; may be empty for leaf terms.
     /// </summary>
     [JsonPropertyName("terms")]
-    public required IEnumerable<TaxonomyTermModel> Terms { get; init; }
+    public required IReadOnlyList<TaxonomyTermModel> Terms { get; init; }
 }

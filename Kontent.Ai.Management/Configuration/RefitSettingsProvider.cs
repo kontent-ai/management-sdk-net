@@ -42,7 +42,6 @@ internal static class RefitSettingsProvider
         options.Converters.Add(new AsyncValidationTaskIssueJsonConverter());
         options.Converters.Add(new ReferenceJsonConverter());
         options.Converters.Add(new UserIdentifierJsonConverter());
-        options.Converters.Add(new WorkflowStepIdentifierJsonConverter());
         options.Converters.Add(new PatchOperationJsonConverterFactory());
         options.Converters.Add(new DecimalJsonConverter());
         options.Converters.Add(new EnumMemberJsonConverterFactory());

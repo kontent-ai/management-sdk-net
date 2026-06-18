@@ -15,5 +15,5 @@ public sealed record UserModel
     /// The user's collection-to-roles assignments.
     /// </summary>
     [JsonPropertyName("collection_groups")]
-    public required IEnumerable<UserCollectionGroup> CollectionGroups { get; init; }
+    public required IReadOnlyList<UserCollectionGroup> CollectionGroups { get; init; }
 }

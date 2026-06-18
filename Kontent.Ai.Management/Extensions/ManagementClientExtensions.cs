@@ -147,5 +147,5 @@ public static class ManagementClientExtensions
     }
 
     private static ManagementResult<TTo> ProjectFailure<TTo>(IManagementResult source) =>
-        ManagementResult<TTo>.Failure(source.Error!, source.StatusCode, source.RequestUrl, source.ResponseHeaders);
+        ManagementResult<TTo>.Failure(source.Error!, source.StatusCode, source.RequestUrl);
 }

@@ -129,7 +129,6 @@ public interface IManagementResult
     IError Error { get; }
     Boolean IsSuccess { get; }
     String RequestUrl { get; }
-    HttpResponseHeaders ResponseHeaders { get; }
     Nullable<HttpStatusCode> StatusCode { get; }
 
 // Kontent.Ai.Management
@@ -357,7 +356,7 @@ public sealed class AssetExtensions
     static AssetFolderHierarchy GetFolderHierarchyByExternalId(IEnumerable<AssetFolderHierarchy> folders, String externalId)
     static AssetFolderHierarchy GetFolderHierarchyById(IEnumerable<AssetFolderHierarchy> folders, String folderId)
     static String GetFullFolderPath(AssetFolderLinkingHierarchy folder)
-    static IEnumerable<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(IEnumerable<AssetFolderHierarchy> folders, AssetFolderLinkingHierarchy parentLinked)
+    static IReadOnlyList<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(IEnumerable<AssetFolderHierarchy> folders, AssetFolderLinkingHierarchy parentLinked)
     static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyByCodename(IEnumerable<AssetFolderLinkingHierarchy> folders, String codename)
     static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyByExternalId(IEnumerable<AssetFolderLinkingHierarchy> folders, String externalId)
     static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(IEnumerable<AssetFolderLinkingHierarchy> folders, String folderId)
@@ -414,14 +413,14 @@ public sealed class AssetFolderHierarchy : IEquatable`1
 public sealed class AssetFolderLinkingHierarchy
     String Codename { get; set; }
     String ExternalId { get; set; }
-    IEnumerable<AssetFolderLinkingHierarchy> Folders { get; set; }
+    IReadOnlyList<AssetFolderLinkingHierarchy> Folders { get; set; }
     String Id { get; set; }
     String Name { get; set; }
     AssetFolderLinkingHierarchy Parent { get; set; }
 
 // Kontent.Ai.Management.Models.AssetFolders
 public sealed class AssetFoldersModel : IEquatable`1
-    IEnumerable<AssetFolderHierarchy> Folders { get; set; init; }
+    IReadOnlyList<AssetFolderHierarchy> Folders { get; set; init; }
     Nullable<DateTime> LastModified { get; set; init; }
     AssetFoldersModel <Clone>$()
     Boolean Equals(Object obj)
@@ -598,8 +597,8 @@ public sealed class AssetElement : IEquatable`1
 public sealed class AssetModel : IEquatable`1
     String Codename { get; set; init; }
     AssetCollectionReference Collection { get; set; init; }
-    IEnumerable<AssetDescription> Descriptions { get; set; init; }
-    IEnumerable<AssetElement> Elements { get; set; init; }
+    IReadOnlyList<AssetDescription> Descriptions { get; set; init; }
+    IReadOnlyList<AssetElement> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     String FileName { get; set; init; }
     FileReference FileReference { get; set; init; }
@@ -678,7 +677,7 @@ public sealed class CollectionModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Collections
 public sealed class CollectionsModel : IEquatable`1
-    IEnumerable<CollectionModel> Collections { get; set; init; }
+    IReadOnlyList<CollectionModel> Collections { get; set; init; }
     Nullable<DateTime> LastModified { get; set; init; }
     CollectionsModel <Clone>$()
     Boolean Equals(Object obj)
@@ -847,7 +846,7 @@ public sealed class ContentModelSnapshot : IEquatable`1
 
 // Kontent.Ai.Management.Models.CustomApps
 public sealed class CustomAppCreateModel : IEquatable`1
-    IReadOnlyCollection<Reference> AllowedRoles { get; set; init; }
+    IEnumerable<Reference> AllowedRoles { get; set; init; }
     String Codename { get; set; init; }
     String Config { get; set; init; }
     Nullable<CustomAppDisplayMode> DisplayMode { get; set; init; }
@@ -866,7 +865,7 @@ public enum CustomAppDisplayMode : Enum
 
 // Kontent.Ai.Management.Models.CustomApps
 public sealed class CustomAppModel : IEquatable`1
-    IReadOnlyCollection<Reference> AllowedRoles { get; set; init; }
+    IReadOnlyList<Reference> AllowedRoles { get; set; init; }
     String Codename { get; set; init; }
     String Config { get; set; init; }
     CustomAppDisplayMode DisplayMode { get; set; init; }
@@ -932,7 +931,7 @@ public enum PropertyName : Enum
 // Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class ElementIssue : IEquatable`1
     Metadata Element { get; set; init; }
-    List<String> Messages { get; set; init; }
+    IReadOnlyList<String> Messages { get; set; init; }
     ElementIssue <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ElementIssue other)
@@ -953,8 +952,8 @@ public sealed class Environment : IEquatable`1
 // Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class EnvironmentReportModel : IEquatable`1
     Environment Environment { get; set; init; }
-    List<TypeIssue> TypeIssues { get; set; init; }
-    List<VariantIssue> VariantIssues { get; set; init; }
+    IReadOnlyList<TypeIssue> TypeIssues { get; set; init; }
+    IReadOnlyList<VariantIssue> VariantIssues { get; set; init; }
     EnvironmentReportModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(EnvironmentReportModel other)
@@ -974,7 +973,7 @@ public sealed class Metadata : IEquatable`1
 
 // Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class TypeIssue : IEquatable`1
-    IEnumerable<ElementIssue> Issues { get; set; init; }
+    IReadOnlyList<ElementIssue> Issues { get; set; init; }
     Metadata Type { get; set; init; }
     TypeIssue <Clone>$()
     Boolean Equals(Object obj)
@@ -984,7 +983,7 @@ public sealed class TypeIssue : IEquatable`1
 
 // Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class VariantIssue : IEquatable`1
-    List<ElementIssue> Issues { get; set; init; }
+    IReadOnlyList<ElementIssue> Issues { get; set; init; }
     Metadata Item { get; set; init; }
     Metadata Language { get; set; init; }
     VariantIssue <Clone>$()
@@ -1025,7 +1024,7 @@ public sealed class EnvironmentClonedModel : IEquatable`1
 public sealed class EnvironmentCloneModel : IEquatable`1
     CopyDataOptions CopyDataOptions { get; set; init; }
     String Name { get; set; init; }
-    ICollection<Guid> RolesToActivate { get; set; init; }
+    IEnumerable<Guid> RolesToActivate { get; set; init; }
     EnvironmentCloneModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(EnvironmentCloneModel other)
@@ -1083,7 +1082,7 @@ public sealed class EnvironmentRenamePatchModel : EnvironmentOperationBaseModel,
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
 public class AsyncValidationTaskIssueModel : IEquatable`1
-    List<ElementIssue> Issues { get; set; init; }
+    IReadOnlyList<ElementIssue> Issues { get; set; init; }
     AsyncValidationTaskIssueType IssueType { get; set; init; }
     AsyncValidationTaskIssueModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1143,7 +1142,7 @@ public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIs
 // Kontent.Ai.Management.Models.EnvironmentValidation
 public sealed class ElementIssue : IEquatable`1
     Metadata Element { get; set; init; }
-    List<String> Messages { get; set; init; }
+    IReadOnlyList<String> Messages { get; set; init; }
     ElementIssue <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ElementIssue other)
@@ -1182,8 +1181,8 @@ public sealed class ContentItemModel : IEquatable`1
     Guid Id { get; set; init; }
     DateTime LastModified { get; set; init; }
     String Name { get; set; init; }
-    IEnumerable<Reference> SitemapLocations { get; set; init; }
-    IReadOnlyCollection<Reference> Spaces { get; set; init; }
+    IReadOnlyList<Reference> SitemapLocations { get; set; init; }
+    IReadOnlyList<Reference> Spaces { get; set; init; }
     Reference Type { get; set; init; }
     ContentItemModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1344,7 +1343,7 @@ public sealed class LanguageVariantIdentifier : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public class LanguageVariantMetadata : IEquatable`1
-    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
     DueDateModel DueDate { get; set; init; }
     Reference Item { get; set; init; }
     Reference Language { get; set; init; }
@@ -1360,7 +1359,7 @@ public class LanguageVariantMetadata : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class LanguageVariantModel : LanguageVariantMetadata, IEquatable`1
-    IEnumerable<Object> Elements { get; set; init; }
+    IReadOnlyList<Object> Elements { get; set; init; }
     LanguageVariantModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(LanguageVariantMetadata other)
@@ -1382,7 +1381,7 @@ public sealed class LanguageVariantModel`1<TModel> : LanguageVariantMetadata, IE
 public sealed class LanguageVariantUpsertModel : IEquatable`1
     IEnumerable<UserIdentifier> Contributors { get; set; init; }
     DueDateModel DueDate { get; set; init; }
-    IReadOnlyList<BaseElement> Elements { get; set; init; }
+    IEnumerable<BaseElement> Elements { get; set; init; }
     String Note { get; set; init; }
     WorkflowStepIdentifier Workflow { get; set; init; }
     LanguageVariantUpsertModel <Clone>$()
@@ -1527,8 +1526,8 @@ public sealed class UrlSlugElement : BaseElement, IEquatable`1
 
 // Kontent.Ai.Management.Models.PreviewConfiguration
 public sealed class PreviewConfigurationModel : IEquatable`1
-    IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
-    IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; set; init; }
+    IEnumerable<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
+    IEnumerable<SpaceDomainModel> SpaceDomains { get; set; init; }
     PreviewConfigurationModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(PreviewConfigurationModel other)
@@ -1558,7 +1557,7 @@ public sealed class SpaceDomainModel : IEquatable`1
 // Kontent.Ai.Management.Models.PreviewConfiguration
 public sealed class TypePreviewUrlPatternModel : IEquatable`1
     Reference ContentType { get; set; init; }
-    IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; set; init; }
+    IEnumerable<PreviewUrlPatternModel> UrlPatterns { get; set; init; }
     TypePreviewUrlPatternModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TypePreviewUrlPatternModel other)
@@ -1612,7 +1611,7 @@ public sealed class EnvironmentRoleModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Roles
 public sealed class EnvironmentRolesModel : IEquatable`1
-    IEnumerable<EnvironmentRoleModel> Roles { get; set; init; }
+    IReadOnlyList<EnvironmentRoleModel> Roles { get; set; init; }
     EnvironmentRolesModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(EnvironmentRolesModel other)
@@ -1671,7 +1670,7 @@ public sealed class SpaceCreateModel : IEquatable`1
 // Kontent.Ai.Management.Models.Spaces
 public sealed class SpaceModel : IEquatable`1
     String Codename { get; set; init; }
-    IEnumerable<Reference> Collections { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
     Guid Id { get; set; init; }
     String Name { get; set; init; }
     Reference RootItem { get; set; init; }
@@ -1701,8 +1700,8 @@ public sealed class SpaceOperationReplaceModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Subscription
 public sealed class SubscriptionCollectionGroupModel : IEquatable`1
-    IEnumerable<Reference> Collections { get; set; init; }
-    IEnumerable<SubscriptionUserRoleModel> Roles { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<SubscriptionUserRoleModel> Roles { get; set; init; }
     SubscriptionCollectionGroupModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(SubscriptionCollectionGroupModel other)
@@ -1721,7 +1720,7 @@ public sealed class SubscriptionProjectEnvironmentModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Subscription
 public sealed class SubscriptionProjectModel : IEquatable`1
-    IEnumerable<SubscriptionProjectEnvironmentModel> Environments { get; set; init; }
+    IReadOnlyList<SubscriptionProjectEnvironmentModel> Environments { get; set; init; }
     Guid Id { get; set; init; }
     Boolean IsActive { get; set; init; }
     String Name { get; set; init; }
@@ -1738,7 +1737,7 @@ public sealed class SubscriptionUserModel : IEquatable`1
     Boolean HasPendingInvitation { get; set; init; }
     String Id { get; set; init; }
     String LastName { get; set; init; }
-    IEnumerable<SubscriptionUserProjectModel> Projects { get; set; init; }
+    IReadOnlyList<SubscriptionUserProjectModel> Projects { get; set; init; }
     SubscriptionUserModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(SubscriptionUserModel other)
@@ -1747,7 +1746,7 @@ public sealed class SubscriptionUserModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Subscription
 public sealed class SubscriptionUserProjectEnvironmentModel : IEquatable`1
-    IEnumerable<SubscriptionCollectionGroupModel> CollectionGroups { get; set; init; }
+    IReadOnlyList<SubscriptionCollectionGroupModel> CollectionGroups { get; set; init; }
     Guid Id { get; set; init; }
     Boolean IsUserActive { get; set; init; }
     Nullable<DateTime> LastActivityAt { get; set; init; }
@@ -1760,7 +1759,7 @@ public sealed class SubscriptionUserProjectEnvironmentModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Subscription
 public sealed class SubscriptionUserProjectModel : IEquatable`1
-    IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; set; init; }
+    IReadOnlyList<SubscriptionUserProjectEnvironmentModel> Environments { get; set; init; }
     Guid Id { get; set; init; }
     String Name { get; set; init; }
     SubscriptionUserProjectModel <Clone>$()
@@ -1786,7 +1785,7 @@ public sealed class SubscriptionUserRoleLanguageModel : IEquatable`1
 public sealed class SubscriptionUserRoleModel : IEquatable`1
     String Codename { get; set; init; }
     Guid Id { get; set; init; }
-    IEnumerable<SubscriptionUserRoleLanguageModel> Languages { get; set; init; }
+    IReadOnlyList<SubscriptionUserRoleLanguageModel> Languages { get; set; init; }
     String Name { get; set; init; }
     SubscriptionUserRoleModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1819,7 +1818,7 @@ public sealed class TaxonomyGroupCreateModel : TaxonomyBaseModel, IEquatable`1
 public sealed class TaxonomyGroupModel : TaxonomyBaseModel, IEquatable`1
     Guid Id { get; set; init; }
     DateTime LastModified { get; set; init; }
-    IEnumerable<TaxonomyTermModel> Terms { get; set; init; }
+    IReadOnlyList<TaxonomyTermModel> Terms { get; set; init; }
     TaxonomyGroupModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TaxonomyBaseModel other)
@@ -1840,7 +1839,7 @@ public sealed class TaxonomyTermCreateModel : TaxonomyBaseModel, IEquatable`1
 // Kontent.Ai.Management.Models.TaxonomyGroups
 public sealed class TaxonomyTermModel : TaxonomyBaseModel, IEquatable`1
     Guid Id { get; set; init; }
-    IEnumerable<TaxonomyTermModel> Terms { get; set; init; }
+    IReadOnlyList<TaxonomyTermModel> Terms { get; set; init; }
     TaxonomyTermModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TaxonomyBaseModel other)
@@ -1940,8 +1939,8 @@ public sealed class ContentTypeCreateModel : IEquatable`1
 // Kontent.Ai.Management.Models.Types
 public sealed class ContentTypeModel : IEquatable`1
     String Codename { get; set; init; }
-    IEnumerable<ContentGroupModel> ContentGroups { get; set; init; }
-    IEnumerable<ElementMetadataBase> Elements { get; set; init; }
+    IReadOnlyList<ContentGroupModel> ContentGroups { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     Guid Id { get; set; init; }
     DateTime LastModified { get; set; init; }
@@ -2318,7 +2317,7 @@ public sealed class AssetDefaultValueModel : ElementDefaultValue`1, IEquatable`1
 public sealed class DateElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     DateElementDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<DateTime> other)
+    Boolean Equals(ElementDefaultValue<DateTimeOffset> other)
     Boolean Equals(DateElementDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2345,7 +2344,7 @@ public sealed class LinkedItemsDefaultValueModel : ElementDefaultValue`1, IEquat
 public sealed class MultipleChoiceDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     MultipleChoiceDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<List<Reference>> other)
+    Boolean Equals(ElementDefaultValue<IEnumerable<Reference>> other)
     Boolean Equals(MultipleChoiceDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2363,7 +2362,7 @@ public sealed class NumberElementDefaultValueModel : ElementDefaultValue`1, IEqu
 public sealed class TaxonomyElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     TaxonomyElementDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<List<Reference>> other)
+    Boolean Equals(ElementDefaultValue<IEnumerable<Reference>> other)
     Boolean Equals(TaxonomyElementDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2457,7 +2456,7 @@ public sealed class ContentTypeSnippetCreateModel : IEquatable`1
 // Kontent.Ai.Management.Models.TypeSnippets
 public sealed class ContentTypeSnippetModel : IEquatable`1
     String Codename { get; set; init; }
-    IEnumerable<ElementMetadataBase> Elements { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     Guid Id { get; set; init; }
     DateTime LastModified { get; set; init; }
@@ -2527,7 +2526,7 @@ public sealed class ContentTypeSnippetReplacePatchModel : ContentTypeSnippetOper
 // Kontent.Ai.Management.Models.Users
 public sealed class RoleModel : IEquatable`1
     Guid Id { get; set; init; }
-    IEnumerable<Reference> Languages { get; set; init; }
+    IReadOnlyList<Reference> Languages { get; set; init; }
     RoleModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(RoleModel other)
@@ -2536,8 +2535,8 @@ public sealed class RoleModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Users
 public sealed class UserCollectionGroup : IEquatable`1
-    IEnumerable<Reference> Collections { get; set; init; }
-    IEnumerable<RoleModel> Roles { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<RoleModel> Roles { get; set; init; }
     UserCollectionGroup <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(UserCollectionGroup other)
@@ -2556,7 +2555,7 @@ public sealed class UserInviteModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Users
 public sealed class UserModel : IEquatable`1
-    IEnumerable<UserCollectionGroup> CollectionGroups { get; set; init; }
+    IReadOnlyList<UserCollectionGroup> CollectionGroups { get; set; init; }
     String Id { get; set; init; }
     UserModel <Clone>$()
     Boolean Equals(Object obj)
@@ -2668,7 +2667,7 @@ public enum WebhookHealthStatus : Enum
 public sealed class WebhookModel : IEquatable`1
     DeliveryTriggersModel DeliveryTriggers { get; set; init; }
     Boolean Enabled { get; set; init; }
-    IEnumerable<CustomHeaderModel> Headers { get; set; init; }
+    IReadOnlyList<CustomHeaderModel> Headers { get; set; init; }
     WebhookHealthStatus HealthStatus { get; set; init; }
     Guid Id { get; set; init; }
     DateTime LastModified { get; set; init; }
@@ -2898,7 +2897,7 @@ public sealed class WorkflowArchivedStepModel : IEquatable`1
     String Codename { get; set; init; }
     Guid Id { get; set; init; }
     String Name { get; set; init; }
-    IReadOnlyCollection<Guid> RoleIds { get; set; init; }
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
     WorkflowArchivedStepModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowArchivedStepModel other)
@@ -2907,7 +2906,7 @@ public sealed class WorkflowArchivedStepModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowArchivedStepUpsertModel : IEquatable`1
-    IReadOnlyCollection<Guid> RoleIds { get; set; init; }
+    IEnumerable<Guid> RoleIds { get; set; init; }
     WorkflowArchivedStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowArchivedStepUpsertModel other)
@@ -2944,10 +2943,10 @@ public sealed class WorkflowModel : IEquatable`1
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowPublishedStepModel : IEquatable`1
     String Codename { get; set; init; }
-    IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; set; init; }
+    IReadOnlyList<Guid> CreateNewVersionRoleIds { get; set; init; }
     Guid Id { get; set; init; }
     String Name { get; set; init; }
-    IReadOnlyCollection<Guid> UnpublishRoleIds { get; set; init; }
+    IReadOnlyList<Guid> UnpublishRoleIds { get; set; init; }
     WorkflowPublishedStepModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowPublishedStepModel other)
@@ -2956,8 +2955,8 @@ public sealed class WorkflowPublishedStepModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowPublishedStepUpsertModel : IEquatable`1
-    IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; set; init; }
-    IReadOnlyCollection<Guid> UnpublishRoleIds { get; set; init; }
+    IEnumerable<Guid> CreateNewVersionRoleIds { get; set; init; }
+    IEnumerable<Guid> UnpublishRoleIds { get; set; init; }
     WorkflowPublishedStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowPublishedStepUpsertModel other)
@@ -3030,7 +3029,7 @@ public sealed class WorkflowStepModel : IEquatable`1
     WorkflowStepColorModel Color { get; set; init; }
     Guid Id { get; set; init; }
     String Name { get; set; init; }
-    IReadOnlyCollection<Guid> RoleIds { get; set; init; }
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
     IReadOnlyList<WorkflowStepTransitionToModel> TransitionsTo { get; set; init; }
     WorkflowStepModel <Clone>$()
     Boolean Equals(Object obj)
@@ -3062,8 +3061,8 @@ public sealed class WorkflowStepUpsertModel : IEquatable`1
     WorkflowStepColorModel Color { get; set; init; }
     Nullable<Guid> Id { get; set; init; }
     String Name { get; set; init; }
-    IReadOnlyCollection<Guid> RoleIds { get; set; init; }
-    IReadOnlyList<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; set; init; }
+    IEnumerable<Guid> RoleIds { get; set; init; }
+    IEnumerable<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; set; init; }
     WorkflowStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowStepUpsertModel other)

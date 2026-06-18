@@ -33,25 +33,25 @@ internal sealed record Article : IElementsModel
 
     [KontentElement("category", "66666666-6666-6666-6666-666666666666")]
     [ExactElements(1)]
-    public IReadOnlyList<ArticleCategory>? Category { get; init; }
+    public IEnumerable<ArticleCategory>? Category { get; init; }
 
     [KontentElement("tags", "77777777-7777-7777-7777-777777777777")]
     [MinElements(1)]
     [MaxElements(5)]
-    public IReadOnlyList<ArticleCategory>? Tags { get; init; }
+    public IEnumerable<ArticleCategory>? Tags { get; init; }
 
     [KontentElement("hero_assets", "88888888-8888-8888-8888-888888888888")]
     [MaxElements(3)]
     [MaxAssetSize(10_485_760)]                  // not enforced by the validator
     [AllowedAssetFileTypes(FileType.Adjustable)] // not enforced by the validator
-    public IReadOnlyList<AssetReference>? HeroAssets { get; init; }
+    public IEnumerable<AssetReference>? HeroAssets { get; init; }
 
     [KontentElement("related", "99999999-9999-9999-9999-999999999999")]
     [AllowedTypes("article", "page")]           // not enforced by the validator — linked items are bare references
-    public IReadOnlyList<Reference>? Related { get; init; }
+    public IEnumerable<Reference>? Related { get; init; }
 
     [KontentElement("taxonomy", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")]
     [AllowedTaxonomyGroup("categories")]        // not enforced by the validator
     [MinElements(1)]
-    public IReadOnlyList<Reference>? Taxonomy { get; init; }
+    public IEnumerable<Reference>? Taxonomy { get; init; }
 }

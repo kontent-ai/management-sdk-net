@@ -9,7 +9,7 @@ public sealed record AssetFoldersModel
     /// The recursive asset folder hierarchy.
     /// </summary>
     [JsonPropertyName("folders")]
-    public required IEnumerable<AssetFolderHierarchy> Folders { get; init; }
+    public required IReadOnlyList<AssetFolderHierarchy> Folders { get; init; }
 
     /// <summary>
     /// Timestamp of the most recent folder modification. Populated by the PATCH response; absent in the GET response.

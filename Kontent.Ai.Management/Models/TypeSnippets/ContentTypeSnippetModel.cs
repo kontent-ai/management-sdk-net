@@ -35,7 +35,7 @@ public sealed record ContentTypeSnippetModel
     /// Elements defined on the snippet. Snippets cannot contain <c>url_slug</c>, <c>subpages</c>, or <c>content_type_snippet</c> elements — those are rejected by the API.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<ElementMetadataBase> Elements { get; init; }
+    public required IReadOnlyList<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
     /// Caller-supplied external ID. Only present when one was specified on create.

@@ -23,7 +23,7 @@ public sealed partial record Product : IElementsModel
 {
     [KontentElement("category", "8a5acc99-d4ba-5fa1-9bd0-7a8e86e6e1c9")]
     [AllowedTaxonomyGroup("502de9a1-3673-51e5-bf88-92e76c35cbee")]
-    public IReadOnlyList<Reference>? Category { get; init; }
+    public IEnumerable<Reference>? Category { get; init; }
     [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
     public string? MetadataDescription { get; init; }
     [KontentElement("metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
@@ -36,7 +36,7 @@ public sealed partial record Product : IElementsModel
     public string? ProductBaseDescription { get; init; }
     [KontentElement("product_base__main_image", "333cb56d-09c7-58a9-b759-97a0931ce8e6")]
     [AllowedAssetFileTypes(FileType.Adjustable)]
-    public IReadOnlyList<AssetReference>? ProductBaseMainImage { get; init; }
+    public IEnumerable<AssetReference>? ProductBaseMainImage { get; init; }
     [KontentElement("product_base__name", "9647f1cc-3870-5b67-874b-d56fc2abd7ad")]
     public string? ProductBaseName { get; init; }
     [KontentElement("slug", "ac4fd00c-264e-5189-a4d7-5e7cb7ba1dad")]

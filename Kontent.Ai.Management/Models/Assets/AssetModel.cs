@@ -51,7 +51,7 @@ public sealed record AssetModel
     /// Per-language alt-text descriptions. Always emitted; individual entries may have <see cref="AssetDescription.Description"/> set to null for languages without a description.
     /// </summary>
     [JsonPropertyName("descriptions")]
-    public required IEnumerable<AssetDescription> Descriptions { get; init; }
+    public required IReadOnlyList<AssetDescription> Descriptions { get; init; }
 
     /// <summary>
     /// Display title. Null when not specified on create.
@@ -99,5 +99,5 @@ public sealed record AssetModel
     /// Taxonomy assignments from the environment's asset type. Always emitted; empty when none are assigned.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<AssetElement> Elements { get; init; }
+    public required IReadOnlyList<AssetElement> Elements { get; init; }
 }

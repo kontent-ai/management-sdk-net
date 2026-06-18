@@ -39,13 +39,13 @@ public sealed record ContentItemModel
     /// Spaces the item is assigned to. Empty when none.
     /// </summary>
     [JsonPropertyName("spaces")]
-    public required IReadOnlyCollection<Reference> Spaces { get; init; }
+    public required IReadOnlyList<Reference> Spaces { get; init; }
 
     /// <summary>
     /// Sitemap locations. Deprecated — sitemap is being phased out.
     /// </summary>
     [JsonPropertyName("sitemap_locations")]
-    public IEnumerable<Reference>? SitemapLocations { get; init; }
+    public IReadOnlyList<Reference>? SitemapLocations { get; init; }
 
     /// <summary>
     /// Caller-supplied external ID. Only present when one was specified on create.

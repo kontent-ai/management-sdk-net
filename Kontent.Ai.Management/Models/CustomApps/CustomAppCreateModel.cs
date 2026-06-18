@@ -33,7 +33,7 @@ public sealed record CustomAppCreateModel
     /// Roles allowed to use the custom app. Optional.
     /// </summary>
     [JsonPropertyName("allowed_roles")]
-    public IReadOnlyCollection<Reference>? AllowedRoles { get; init; }
+    public IEnumerable<Reference>? AllowedRoles { get; init; }
 
     /// <summary>
     /// How the custom app is displayed in the UI. Optional — omit to use the server default.

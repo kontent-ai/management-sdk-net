@@ -33,5 +33,5 @@ public sealed record SubscriptionUserProjectEnvironmentModel
     /// The user's collection-to-roles assignments in this environment.
     /// </summary>
     [JsonPropertyName("collection_groups")]
-    public required IEnumerable<SubscriptionCollectionGroupModel> CollectionGroups { get; init; }
+    public required IReadOnlyList<SubscriptionCollectionGroupModel> CollectionGroups { get; init; }
 }

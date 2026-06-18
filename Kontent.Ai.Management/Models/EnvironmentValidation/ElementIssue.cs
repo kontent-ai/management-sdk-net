@@ -15,5 +15,5 @@ public sealed record ElementIssue
     /// Gets validation messages for the element.
     /// </summary>
     [JsonPropertyName("messages")]
-    public required List<string> Messages { get; init; }
+    public required IReadOnlyList<string> Messages { get; init; }
 }

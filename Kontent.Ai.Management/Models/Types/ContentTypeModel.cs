@@ -35,7 +35,7 @@ public sealed record ContentTypeModel
     /// Elements that make up this content type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<ElementMetadataBase> Elements { get; init; }
+    public required IReadOnlyList<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
     /// Caller-supplied external ID. Only present when one was specified on create.
@@ -47,5 +47,5 @@ public sealed record ContentTypeModel
     /// Content groups defined on this type. Empty when none.
     /// </summary>
     [JsonPropertyName("content_groups")]
-    public required IEnumerable<ContentGroupModel> ContentGroups { get; init; }
+    public required IReadOnlyList<ContentGroupModel> ContentGroups { get; init; }
 }

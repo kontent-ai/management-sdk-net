@@ -21,5 +21,5 @@ public sealed record TaxonomyGroupModel : TaxonomyBaseModel
     /// Root-level terms. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("terms")]
-    public required IEnumerable<TaxonomyTermModel> Terms { get; init; }
+    public required IReadOnlyList<TaxonomyTermModel> Terms { get; init; }
 }

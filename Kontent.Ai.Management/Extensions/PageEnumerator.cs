@@ -67,6 +67,6 @@ internal static class PageEnumerator
             lastPage = page;
         }
 
-        return ManagementResult<IReadOnlyList<TItem>>.Success(items, lastPage?.StatusCode, lastPage?.RequestUrl, lastPage?.ResponseHeaders);
+        return ManagementResult<IReadOnlyList<TItem>>.Success(items, lastPage?.StatusCode, lastPage?.RequestUrl);
     }
 }

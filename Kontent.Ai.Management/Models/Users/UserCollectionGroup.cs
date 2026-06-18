@@ -9,11 +9,11 @@ public sealed record UserCollectionGroup
     /// Collections this group applies to. An empty array assigns the user to all collections.
     /// </summary>
     [JsonPropertyName("collections")]
-    public required IEnumerable<Reference> Collections { get; init; }
+    public required IReadOnlyList<Reference> Collections { get; init; }
 
     /// <summary>
     /// Roles the user holds in these collections.
     /// </summary>
     [JsonPropertyName("roles")]
-    public required IEnumerable<RoleModel> Roles { get; init; }
+    public required IReadOnlyList<RoleModel> Roles { get; init; }
 }

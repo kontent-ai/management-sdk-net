@@ -22,7 +22,7 @@ public sealed partial record Page : IElementsModel
 {
     [KontentElement("content", "57ff97d5-2a0b-43f7-9ade-1f2f970df3a0")]
     [AllowedTypes("content_chunk", "visual_container")]
-    public IReadOnlyList<Reference>? Content { get; init; }
+    public IEnumerable<Reference>? Content { get; init; }
     [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
     public string? MetadataDescription { get; init; }
     [KontentElement("metadata__keywords", "f46d7c9a-a08f-5987-83e7-a061dd036842")]
@@ -33,7 +33,7 @@ public sealed partial record Page : IElementsModel
     public UrlSlugValue? Slug { get; init; }
     [KontentElement("subpages", "71383e14-246c-4203-a82a-b324b9efabb9")]
     [AllowedTypes("page", "website_root", "article", "product", "solution")]
-    public IReadOnlyList<Reference>? Subpages { get; init; }
+    public IEnumerable<Reference>? Subpages { get; init; }
     [KontentElement("title", "27c29a82-2a65-4d97-8827-1ff3be27f22f")]
     public string? Title { get; init; }
 }

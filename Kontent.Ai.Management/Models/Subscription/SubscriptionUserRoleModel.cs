@@ -27,5 +27,5 @@ public sealed record SubscriptionUserRoleModel
     /// Languages the role is scoped to. An empty array represents the remaining languages not assigned in any other role.
     /// </summary>
     [JsonPropertyName("languages")]
-    public required IEnumerable<SubscriptionUserRoleLanguageModel> Languages { get; init; }
+    public required IReadOnlyList<SubscriptionUserRoleLanguageModel> Languages { get; init; }
 }

@@ -39,5 +39,5 @@ public sealed record SubscriptionUserModel
     /// Projects the user belongs to or has been invited to.
     /// </summary>
     [JsonPropertyName("projects")]
-    public required IEnumerable<SubscriptionUserProjectModel> Projects { get; init; }
+    public required IReadOnlyList<SubscriptionUserProjectModel> Projects { get; init; }
 }

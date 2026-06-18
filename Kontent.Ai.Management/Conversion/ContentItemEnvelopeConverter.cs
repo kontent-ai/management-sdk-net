@@ -170,11 +170,11 @@ internal sealed class ContentItemEnvelopeConverter
                 break;
             case ElementKind.Asset:
                 writer.WritePropertyName("value");
-                JsonSerializer.Serialize(writer, (IReadOnlyList<AssetReference>)value, _scalarOptions);
+                JsonSerializer.Serialize(writer, (IEnumerable<AssetReference>)value, _scalarOptions);
                 break;
             case ElementKind.Reference:
                 writer.WritePropertyName("value");
-                JsonSerializer.Serialize(writer, (IReadOnlyList<Reference>)value, _scalarOptions);
+                JsonSerializer.Serialize(writer, (IEnumerable<Reference>)value, _scalarOptions);
                 break;
             case ElementKind.RichText:
                 WriteRichText(writer, (RichTextElement)value);

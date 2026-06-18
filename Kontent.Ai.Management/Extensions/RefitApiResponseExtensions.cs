@@ -19,8 +19,7 @@ internal static class RefitApiResponseExtensions
             return Task.FromResult<IManagementResult<TValue>>(ManagementResult<TValue>.Success(
                 selector(response.Content!),
                 response.StatusCode,
-                RequestUrl(response),
-                response.Headers));
+                RequestUrl(response)));
         }
 
         return MapFailureAsync<TValue>(response);
@@ -32,8 +31,7 @@ internal static class RefitApiResponseExtensions
         {
             return Task.FromResult<IManagementResult>(ManagementResult.Success(
                 response.StatusCode,
-                RequestUrl(response),
-                response.Headers));
+                RequestUrl(response)));
         }
 
         return MapFailureAsync(response);
@@ -42,13 +40,13 @@ internal static class RefitApiResponseExtensions
     private static async Task<IManagementResult<TValue>> MapFailureAsync<TValue>(IApiResponse response)
     {
         var error = await BuildErrorAsync(response).ConfigureAwait(false);
-        return ManagementResult<TValue>.Failure(error, response.StatusCode, RequestUrl(response), response.Headers);
+        return ManagementResult<TValue>.Failure(error, response.StatusCode, RequestUrl(response));
     }
 
     private static async Task<IManagementResult> MapFailureAsync(IApiResponse response)
     {
         var error = await BuildErrorAsync(response).ConfigureAwait(false);
-        return ManagementResult.Failure(error, response.StatusCode, RequestUrl(response), response.Headers);
+        return ManagementResult.Failure(error, response.StatusCode, RequestUrl(response));
     }
 
     private static async Task<IError> BuildErrorAsync(IApiResponse response)

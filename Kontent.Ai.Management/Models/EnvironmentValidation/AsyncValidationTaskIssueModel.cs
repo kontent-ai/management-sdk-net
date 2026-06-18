@@ -18,5 +18,5 @@ public abstract record AsyncValidationTaskIssueModel
     /// Gets information about issues found in specific elements.
     /// </summary>
     [JsonPropertyName("issues")]
-    public required List<ElementIssue> Issues { get; init; }
+    public required IReadOnlyList<ElementIssue> Issues { get; init; }
 }

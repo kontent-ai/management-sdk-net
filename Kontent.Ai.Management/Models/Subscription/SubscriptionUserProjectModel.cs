@@ -21,5 +21,5 @@ public sealed record SubscriptionUserProjectModel
     /// The project's environments the user belongs to.
     /// </summary>
     [JsonPropertyName("environments")]
-    public required IEnumerable<SubscriptionUserProjectEnvironmentModel> Environments { get; init; }
+    public required IReadOnlyList<SubscriptionUserProjectEnvironmentModel> Environments { get; init; }
 }

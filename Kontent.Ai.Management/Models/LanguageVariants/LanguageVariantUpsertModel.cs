@@ -13,7 +13,7 @@ public sealed record LanguageVariantUpsertModel
     /// <see cref="DynamicElement"/> for kinds the SDK does not model.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IReadOnlyList<BaseElement> Elements { get; init; }
+    public required IEnumerable<BaseElement> Elements { get; init; }
 
     /// <summary>
     /// Workflow and step to move the variant into. Optional — omit to leave the workflow unchanged.

@@ -13,6 +13,14 @@ internal sealed class ContentItemTypeDescriptor
 {
     private static readonly ConcurrentDictionary<Type, ContentItemTypeDescriptor> _cache = new();
 
+    // Generated records expose collection elements as IEnumerable<T> (write-optimized); accept the common
+    // read-collection interfaces and List<T> so hand-written models bind too.
+    private static readonly HashSet<Type> CollectionInterfaces =
+    [
+        typeof(IEnumerable<>), typeof(IReadOnlyList<>), typeof(IReadOnlyCollection<>),
+        typeof(IList<>), typeof(ICollection<>), typeof(List<>),
+    ];
+
     public required Type Type { get; init; }
     public required string ContentTypeCodename { get; init; }
     public required IReadOnlyList<ContentItemPropertyDescriptor> Properties { get; init; }
@@ -71,7 +79,7 @@ internal sealed class ContentItemTypeDescriptor
         if (inner == typeof(CustomValue)) return (ElementKind.Custom, null);
         if (inner == typeof(RichTextElement)) return (ElementKind.RichText, null);
 
-        if (inner.IsGenericType && inner.GetGenericTypeDefinition() == typeof(IReadOnlyList<>))
+        if (inner.IsGenericType && CollectionInterfaces.Contains(inner.GetGenericTypeDefinition()))
         {
             var elem = inner.GetGenericArguments()[0];
             if (elem.IsEnum) return (ElementKind.MultipleChoice, elem);

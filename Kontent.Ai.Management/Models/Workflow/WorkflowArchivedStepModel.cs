@@ -30,5 +30,5 @@ public sealed record WorkflowArchivedStepModel
     /// Roles allowed to work with archived variants. May be empty.
     /// </summary>
     [JsonPropertyName("role_ids")]
-    public required IReadOnlyCollection<Guid> RoleIds { get; init; }
+    public required IReadOnlyList<Guid> RoleIds { get; init; }
 }

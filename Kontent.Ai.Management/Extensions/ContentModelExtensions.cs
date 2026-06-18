@@ -52,5 +52,5 @@ public static class ContentModelExtensions
     }
 
     private static ManagementResult<ContentModelSnapshot> Project(IManagementResult failure) =>
-        ManagementResult<ContentModelSnapshot>.Failure(failure.Error!, failure.StatusCode, failure.RequestUrl, failure.ResponseHeaders);
+        ManagementResult<ContentModelSnapshot>.Failure(failure.Error!, failure.StatusCode, failure.RequestUrl);
 }

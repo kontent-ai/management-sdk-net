@@ -23,9 +23,9 @@ public sealed record WorkflowStepIdentifier
     /// Creates an identifier from the workflow and step references.
     /// </summary>
     [SetsRequiredMembers]
-    public WorkflowStepIdentifier(Reference workflowIdentifier, Reference stepIdentifier)
+    public WorkflowStepIdentifier(Reference workflow, Reference step)
     {
-        Workflow = workflowIdentifier;
-        Step = stepIdentifier;
+        Workflow = workflow;
+        Step = step;
     }
 }

@@ -55,7 +55,7 @@ public abstract record LanguageVariantMetadata
     /// Users assigned as contributors. May be empty.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public required IEnumerable<UserIdentifier> Contributors { get; init; }
+    public required IReadOnlyList<UserIdentifier> Contributors { get; init; }
 }
 
 /// <summary>
@@ -67,7 +67,7 @@ public sealed record LanguageVariantModel : LanguageVariantMetadata
     /// Element values. Each entry is a polymorphic <c>{ element, value }</c> shape whose value type depends on the element kind.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<object> Elements { get; init; }
+    public required IReadOnlyList<object> Elements { get; init; }
 }
 
 /// <summary>

@@ -1,5 +1,4 @@
 using System.Net;
-using System.Net.Http.Headers;
 
 namespace Kontent.Ai.Management;
 
@@ -29,11 +28,6 @@ public interface IManagementResult
     /// The request URL, for diagnostics. <c>null</c> when no request was sent.
     /// </summary>
     string? RequestUrl { get; }
-
-    /// <summary>
-    /// The Management API response headers. <c>null</c> when no response was received.
-    /// </summary>
-    HttpResponseHeaders? ResponseHeaders { get; }
 }
 
 /// <summary>

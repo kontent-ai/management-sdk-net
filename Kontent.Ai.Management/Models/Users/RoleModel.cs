@@ -15,5 +15,5 @@ public sealed record RoleModel
     /// Languages the role applies to. An empty array assigns the role to all languages.
     /// </summary>
     [JsonPropertyName("languages")]
-    public required IEnumerable<Reference> Languages { get; init; }
+    public required IReadOnlyList<Reference> Languages { get; init; }
 }

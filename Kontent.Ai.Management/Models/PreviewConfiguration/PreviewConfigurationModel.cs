@@ -9,11 +9,11 @@ public sealed record PreviewConfigurationModel
     /// Space-to-domain mappings. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("space_domains")]
-    public required IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; init; }
+    public required IEnumerable<SpaceDomainModel> SpaceDomains { get; init; }
 
     /// <summary>
     /// Preview URL patterns per content type. Always present; may be empty.
     /// </summary>
     [JsonPropertyName("preview_url_patterns")]
-    public required IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; init; }
+    public required IEnumerable<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; init; }
 }

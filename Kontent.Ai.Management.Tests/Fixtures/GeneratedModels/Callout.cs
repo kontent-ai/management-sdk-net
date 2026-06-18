@@ -24,7 +24,7 @@ public sealed partial record Callout : IElementsModel
     public RichTextElement? Content { get; init; }
     [KontentElement("type", "44dd9032-c950-53b8-91bd-c6c586233311")]
     [MaxElements(1)]
-    public IReadOnlyList<CalloutType>? Type { get; init; }
+    public IEnumerable<CalloutType>? Type { get; init; }
 }
 
 public enum CalloutType

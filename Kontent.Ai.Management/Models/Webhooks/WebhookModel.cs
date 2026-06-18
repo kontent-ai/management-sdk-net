@@ -35,7 +35,7 @@ public sealed record WebhookModel
     /// Custom HTTP headers sent with each notification. Null when none are configured.
     /// </summary>
     [JsonPropertyName("headers")]
-    public IEnumerable<CustomHeaderModel>? Headers { get; init; }
+    public IReadOnlyList<CustomHeaderModel>? Headers { get; init; }
 
     /// <summary>
     /// Whether the webhook is enabled.

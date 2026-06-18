@@ -9,11 +9,11 @@ public sealed record SubscriptionCollectionGroupModel
     /// Collections the user is assigned to. An empty array means the user can access any collection.
     /// </summary>
     [JsonPropertyName("collections")]
-    public required IEnumerable<Reference> Collections { get; init; }
+    public required IReadOnlyList<Reference> Collections { get; init; }
 
     /// <summary>
     /// Roles the user holds within these collections.
     /// </summary>
     [JsonPropertyName("roles")]
-    public required IEnumerable<SubscriptionUserRoleModel> Roles { get; init; }
+    public required IReadOnlyList<SubscriptionUserRoleModel> Roles { get; init; }
 }

@@ -86,7 +86,7 @@ public static class AssetExtensions
     /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> instance that contains the entire list of folders retrieved from the <see cref="IManagementClient.GetAssetFoldersAsync"/> method.</param>
     /// <param name="parentLinked">Parent linked folder</param>
     /// <returns>A <see cref="AssetFolderLinkingHierarchy"/> containing the parent linking folder hierarchy.</returns>
-    public static IEnumerable<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders,
+    public static IReadOnlyList<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders,
         AssetFolderLinkingHierarchy? parentLinked = null)
     {
         var folderList = new List<AssetFolderLinkingHierarchy>();

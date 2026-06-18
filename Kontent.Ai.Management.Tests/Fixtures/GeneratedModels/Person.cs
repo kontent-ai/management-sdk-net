@@ -29,5 +29,5 @@ public sealed partial record Person : IElementsModel
     [KontentElement("occupation", "d73579bd-b03a-59e0-8464-63939e0cb6c7")]
     public string? Occupation { get; init; }
     [KontentElement("photograph", "514655d3-a35d-5c58-8807-b62108651728")]
-    public IReadOnlyList<AssetReference>? Photograph { get; init; }
+    public IEnumerable<AssetReference>? Photograph { get; init; }
 }

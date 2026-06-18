@@ -15,5 +15,5 @@ public sealed record TypeIssue
     /// Issues found in the content type's elements.
     /// </summary>
     [JsonPropertyName("issues")]
-    public required IEnumerable<ElementIssue> Issues { get; init; }
+    public required IReadOnlyList<ElementIssue> Issues { get; init; }
 }
