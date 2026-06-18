@@ -53,6 +53,8 @@ The SDK targets `net8.0`.
 
 ## Quick Start
 
+The fastest path to a first call — a standalone client, ideal for scripts and simple apps. For applications, prefer [dependency injection](#with-dependency-injection).
+
 ```csharp
 using Kontent.Ai.Management;
 using Kontent.Ai.Management.Configuration;
@@ -208,7 +210,7 @@ services.AddManagementClient(
 | `ApiKey` | Yes | — | A Management API key, or a Subscription API key for subscription-scoped endpoints. |
 | `SubscriptionId` | No | — | The subscription GUID. Required only for subscription-scoped endpoints (such as user management). |
 | `EnableResilience` | No | `true` | Toggles the built-in retry/backoff pipeline without uninstalling it. |
-| `Endpoint` / `EndpointV2` | No | Production URLs | Override only when targeting non-production endpoints. |
+| `EndpointV2` | No | Production URL | Override only when targeting a non-production endpoint. |
 
 `ManagementOptions` validates on use: a missing or malformed `EnvironmentId`/`ApiKey` surfaces as a `ValidationException` from the constructor/builder, or an `OptionsValidationException` at provider-build time in DI.
 
@@ -235,7 +237,22 @@ A result carries:
 - `IsSuccess` — whether the operation succeeded.
 - `Value` — the returned value, on success (`IManagementResult<T>` only).
 - `Error` — the failure detail, on failure (see [Error Handling](#error-handling)).
-- `StatusCode`, `RequestUrl`, `ResponseHeaders` — response diagnostics. `StatusCode` is `null` when the failure happened before or without an HTTP response (local validation or a transport error).
+- `StatusCode`, `RequestUrl` — response diagnostics. `StatusCode` is `null` when the failure happened before or without an HTTP response (local validation or a transport error).
+
+For call sites that would rather not branch, two opt-in conveniences live on the result:
+
+```csharp
+// Throw on failure (the thrown ManagementException carries the IError) and get the value:
+var item = (await client.GetContentItemAsync(Reference.ByCodename("on_roasts"))).EnsureSuccess();
+
+// Or the Try pattern:
+if ((await client.GetContentItemAsync(Reference.ByCodename("on_roasts"))).TryGetValue(out var value))
+{
+    Console.WriteLine(value.Name);
+}
+```
+
+The SDK itself never throws `ManagementException` — it surfaces only when you opt in with `EnsureSuccess()`.
 
 ## Error Handling
 
@@ -295,12 +312,13 @@ var byEmail = UserIdentifier.ByEmail("user@example.com");
 var byUserId = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
 ```
 
-A language variant is identified by the pairing of its content item and its language:
+A language variant is identified by the pairing of its content item and its language. The `ByCodenames` / `ByIds` / `ByExternalIds` factories cover the common case; the constructor takes any two `Reference`s when you need to mix kinds:
 
 ```csharp
-var variantIdentifier = new LanguageVariantIdentifier(
-    Reference.ByCodename("on_roasts"),
-    Reference.ByCodename("en-US"));
+var variantIdentifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
+
+// mix identifier kinds via the constructor:
+var mixed = new LanguageVariantIdentifier(Reference.ById(itemId), Reference.ByCodename("en-US"));
 ```
 
 > [!NOTE]
@@ -366,7 +384,7 @@ var created = await client.CreateContentItemAsync(new ContentItemCreateModel
     Name = "On Roasts",
     Codename = "on_roasts",
     Type = Reference.ByCodename("article"),
-    Collection = Reference.ByCodename("default")   // optional
+    Collection = Reference.ByDefaultCodename()   // optional
 });
 
 // Create or update by external ID
@@ -398,14 +416,15 @@ var result = await client.CreateContentItemWithVariantAsync(
 
 ## Language Variants
 
+> [!TIP]
+> The most type-safe way to author a variant is a **[strongly-typed model](#strongly-typed-models)** — `await client.UpsertLanguageVariantAsync(id, typedModel)`. When you have generated content-type records that's the recommended path; the typed element records shown here cover the same ground without a generator and are the building block underneath.
+
 A language variant holds the actual content for one language of a content item. Set its elements with a typed record per element kind — each locates its target element by `codename`, `id`, or `external_id` and carries a value shaped for that kind; omitted elements are left unchanged:
 
 ```csharp
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
-var identifier = new LanguageVariantIdentifier(
-    Reference.ByCodename("on_roasts"),
-    Reference.ByCodename("en-US"));
+var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
 
 var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
 {
@@ -462,9 +481,7 @@ new DynamicElement { Element = Reference.ByCodename("widget"), Value = "<opaque 
 Instead of anonymous element objects, you can work with strongly-typed records that mirror your content types. Pass a generated model directly to `UpsertLanguageVariantAsync` — only the properties you set are sent (partial update), and the record is validated locally before any HTTP call:
 
 ```csharp
-var identifier = new LanguageVariantIdentifier(
-    Reference.ByCodename("on_roasts"),
-    Reference.ByCodename("en-US"));
+var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
 
 var article = new Article
 {
@@ -490,7 +507,7 @@ DateTime lastModified = variant.LastModified;
 
 ### Element value types
 
-Most elements map to a plain CLR type — `string` for text, `decimal?` for number, `IReadOnlyList<Reference>` for linked items, taxonomy, and subpages, and `RichTextElement` for rich text. Three element kinds carry more than a bare value and use a small wrapper record:
+Most elements map to a plain CLR type — `string` for text, `decimal?` for number, `IEnumerable<Reference>` for linked items, taxonomy, and subpages, and `RichTextElement` for rich text. Three element kinds carry more than a bare value and use a small wrapper record:
 
 ```csharp
 var article = new Article
@@ -521,9 +538,7 @@ Each wrapper has an implicit conversion for the common case, so `Slug = "on-roas
 ## Publishing and Scheduling
 
 ```csharp
-var identifier = new LanguageVariantIdentifier(
-    Reference.ByCodename("on_roasts"),
-    Reference.ByCodename("en-US"));
+var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
 
 // Publish now
 await client.PublishLanguageVariantAsync(identifier);
@@ -541,7 +556,7 @@ await client.CreateNewVersionOfLanguageVariantAsync(identifier);
 
 // Move a variant to a different workflow step
 await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVariantWorkflowModel(
-    workflow: Reference.ByCodename("default"),
+    workflow: Reference.ByDefaultCodename(),
     step: Reference.ByCodename("review")));
 ```
 
@@ -641,7 +656,7 @@ var workflows = await client.ListWorkflowsAsync();
 
 // Create / update / delete
 var created = await client.CreateWorkflowAsync(new WorkflowUpsertModel { /* steps, scopes … */ });
-await client.UpdateWorkflowAsync(Reference.ByCodename("default"), updatedWorkflow);
+await client.UpdateWorkflowAsync(Reference.ByDefaultCodename(), updatedWorkflow);
 await client.DeleteWorkflowAsync(Reference.ByCodename("editorial"));
 ```
 

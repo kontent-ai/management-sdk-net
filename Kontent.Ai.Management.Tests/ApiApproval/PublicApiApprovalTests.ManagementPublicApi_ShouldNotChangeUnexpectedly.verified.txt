@@ -266,6 +266,18 @@ public sealed class ManagementErrorCodes
     const Int32 VariantNotPublishedCannotCreateNewVersion = 214
 
 // Kontent.Ai.Management
+public sealed class ManagementException : Exception
+    IError Error { get; }
+    String RequestUrl { get; }
+    Nullable<HttpStatusCode> StatusCode { get; }
+
+// Kontent.Ai.Management
+public sealed class ManagementResultExtensions
+    static IManagementResult EnsureSuccess(IManagementResult result)
+    static T EnsureSuccess<T>(IManagementResult<T> result)
+    static Boolean TryGetValue<T>(IManagementResult<T> result, T& value)
+
+// Kontent.Ai.Management
 public sealed class ValidationError : IEquatable`1
     Nullable<Int32> Line { get; set; init; }
     String Message { get; set; init; }
@@ -1336,6 +1348,9 @@ public sealed class LanguageVariantIdentifier : IEquatable`1
     Reference ItemIdentifier { get; set; init; }
     Reference LanguageIdentifier { get; set; init; }
     LanguageVariantIdentifier <Clone>$()
+    static LanguageVariantIdentifier ByCodenames(String itemCodename, String languageCodename)
+    static LanguageVariantIdentifier ByExternalIds(String itemExternalId, String languageExternalId)
+    static LanguageVariantIdentifier ByIds(Guid itemId, Guid languageId)
     Boolean Equals(Object obj)
     Boolean Equals(LanguageVariantIdentifier other)
     Int32 GetHashCode()

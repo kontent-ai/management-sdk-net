@@ -303,9 +303,7 @@ public class Readme
         var byEmail = UserIdentifier.ByEmail("user@example.com");
         var byUserId = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
 
-        var variantIdentifier = new LanguageVariantIdentifier(
-            Reference.ByCodename("on_roasts"),
-            Reference.ByCodename("en-US"));
+        var variantIdentifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
     }
 
     public async Task Pagination(IManagementClient client)
@@ -352,7 +350,7 @@ public class Readme
             Name = "On Roasts",
             Codename = "on_roasts",
             Type = Reference.ByCodename("article"),
-            Collection = Reference.ByCodename("default")
+            Collection = Reference.ByDefaultCodename()
         });
 
         var upserted = await client.UpsertContentItemAsync(
@@ -412,7 +410,7 @@ public class Readme
         await client.CreateNewVersionOfLanguageVariantAsync(identifier);
 
         await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVariantWorkflowModel(
-            workflow: Reference.ByCodename("default"),
+            workflow: Reference.ByDefaultCodename(),
             step: Reference.ByCodename("review")));
     }
 
