@@ -507,7 +507,7 @@ DateTime lastModified = variant.LastModified;
 
 ### Element value types
 
-Most elements map to a plain CLR type — `string` for text, `decimal?` for number, `IEnumerable<Reference>` for linked items, taxonomy, and subpages, and `RichTextElement` for rich text. Three element kinds carry more than a bare value and use a small wrapper record:
+Many elements map directly to a single value, with nothing carried beside it — `string` for text, `decimal?` for number, `IEnumerable<Reference>` for linked items, taxonomy, and subpages, and `IEnumerable<AssetReference>` for assets. The rest carry a companion field beside the value, so each uses a small record that pairs the two. Rich text is the canonical case — `RichTextElement` holds the HTML `Value` plus its inline `Components` (see [Rich text and inline components](#rich-text-and-inline-components)). Three more follow the same shape — date & time, URL slug, and custom:
 
 ```csharp
 var article = new Article
@@ -527,13 +527,49 @@ var article = new Article
 };
 ```
 
-Each wrapper has an implicit conversion for the common case, so `Slug = "on-roasts"` (custom mode) and `Rating = "{\"stars\":5}"` work when you don't need the extra field.
+Each wrapper has an implicit conversion for the common case, so `PublishingDate = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero)`, `Slug = "on-roasts"` (custom mode), and `Rating = "{\"stars\":5}"` all work when you don't need the extra field.
 
 > [!IMPORTANT]
 > A date & time value is stored as a **UTC instant**; `DisplayTimeZone` is only a hint for how the editor renders it and never changes the instant. The element accepts a `DateTimeOffset` (not a `DateTime`) so the moment is unambiguous — a bare `DateTime` would be resolved against the machine's local zone. Whatever offset you supply is normalized to UTC on the wire.
 
 > [!TIP]
 > You don't have to hand-write these models. The [**Kontent.ai model generator**](https://github.com/kontent-ai/model-generator-net) generates strongly-typed records from your content model. Management-model generation is currently in active development — watch the repository for its release.
+
+### Rich text and inline components
+
+Rich text is authored as an HTML **string**. The SDK intentionally has no structured rich-text model on the write path — in a write-primary SDK that would mean a heavyweight tree builder for little gain. What it *does* provide is `RichTextBuilder`, which removes the one genuinely error-prone part of hand-authoring rich text: keeping each inline `<object data-id="…">` placeholder in the HTML in sync with the matching entry in the `components` array.
+
+You interpolate helper calls directly into the HTML string. The builder mints the shared GUID, emits the placeholder, and records the matching component — both sides stay consistent and you never handle the GUID yourself:
+
+```csharp
+using Kontent.Ai.Management.Models.Content;
+
+var rt = new RichTextBuilder();
+
+var content = rt.Build($"""
+    <h1>On Roasts</h1>
+    <p>See {rt.ItemLink(Reference.ByCodename("intro"), "the introduction")} first.</p>
+    {rt.Component(new Callout { Type = [CalloutType.Warning] })}
+    {rt.Asset(new AssetReference { Codename = "roasting_chart" })}
+    """);
+
+var article = new Article { Title = "On Roasts", Content = content };
+await client.UpsertLanguageVariantAsync(identifier, article);
+```
+
+`Build` returns a `RichTextElement` — the verbatim HTML plus the recorded components — ready to assign to a generated model's rich-text property. The helpers:
+
+| Helper | Emits | Use for |
+|--------|-------|---------|
+| `Component(IElementsModel item)` | `<object data-type="component" data-id="…">` **and** records the component object | Embedding a generated content-type record as an inline component |
+| `LinkedItem(Reference)` | `<object data-type="item" data-…="…">` | Referencing an existing content item inline |
+| `ItemLink(Reference, linkText)` | `<a data-item-…="…">…</a>` | A hyperlink to a content item (link text is HTML-encoded) |
+| `Asset(AssetReference)` | `<figure data-asset-…="…">` | Embedding an asset |
+
+`Component` accepts any generated record (it must carry `[KontentType]`). Interpolation evaluates left-to-right, so the order you call the helpers is the order the components are recorded. `Build` snapshots and resets the builder, so one instance can produce several elements in turn; builders nested inside a component's own rich-text body are independent of the outer one.
+
+> [!NOTE]
+> The HTML is passed through verbatim — the builder does not sanitize or validate the markup; it is intended for trusted, code-authored content such as migration scripts. Helper attribute values and link text are HTML-encoded.
 
 ## Publishing and Scheduling
 
@@ -564,31 +600,43 @@ await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVa
 
 ## Assets
 
-Creating an asset is a two-step process: upload the binary file, then create the asset that references it.
+An asset is a binary file plus its metadata. Creating one is a two-step operation under the hood — upload the file, then create the asset that references it — but the `CreateAssetAsync(FileContentSource, AssetCreateModel)` extension does both in a single call, threading the uploaded file's reference into the asset for you (note there's no `FileReference` to set on the model — the helper fills it in):
 
 ```csharp
+using Kontent.Ai.Management.Extensions;
+
 var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world"));
 
+var result = await client.CreateAssetAsync(
+    new FileContentSource(stream, "hello.txt", "text/plain"),
+    new AssetCreateModel
+    {
+        Title = "Hello",
+        // optionally assign taxonomy terms defined on the environment's asset type
+        Elements = new[]
+        {
+            new AssetTaxonomyElement
+            {
+                Element = Reference.ByCodename("taxonomy-categories"),
+                Value = new[] { Reference.ByCodename("hello"), Reference.ByCodename("sdk") }
+            }
+        }
+    });
+```
+
+The matching `UpsertAssetAsync(identifier, FileContentSource, AssetUpsertModel)` overload does the same for create-or-update. If the file upload fails, no asset is created and the upload's failure is returned.
+
+When you need finer control — reusing one uploaded file across several assets, or separating the upload from the create — call the two steps yourself:
+
+```csharp
 // 1. Upload the binary file
 var fileResult = await client.UploadFileAsync(new FileContentSource(stream, "hello.txt", "text/plain"));
 
-// 2. Create the asset, optionally assigning taxonomy terms
+// 2. Create the asset referencing it
 var result = await client.CreateAssetAsync(new AssetCreateModel
 {
     FileReference = fileResult.Value,
-    Title = "Hello",
-    Elements = new[]
-    {
-        new AssetElement
-        {
-            Element = Reference.ByCodename("taxonomy-categories"),
-            Value = new[]
-            {
-                Reference.ByCodename("hello"),
-                Reference.ByCodename("sdk")
-            }
-        }
-    }
+    Title = "Hello"
 });
 ```
 

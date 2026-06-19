@@ -1002,7 +1002,7 @@ public class CmApiV2
             },
             Elements = new[]
             {
-                new Models.Assets.AssetElement
+                new Models.Assets.AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
                     Value = new[]
@@ -1577,7 +1577,7 @@ public class CmApiV2
             },
             Elements = new[]
             {
-                new Models.Assets.AssetElement
+                new Models.Assets.AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
                     Value = new[]
@@ -1615,7 +1615,7 @@ public class CmApiV2
             },
             Elements = new[]
             {
-                new Models.Assets.AssetElement
+                new Models.Assets.AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
                     Value = new[]

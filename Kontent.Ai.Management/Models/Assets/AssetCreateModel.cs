@@ -45,7 +45,7 @@ public sealed record AssetCreateModel
     /// Taxonomy assignments from the environment's asset type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<AssetElement>? Elements { get; init; }
+    public IEnumerable<AssetTaxonomyElement>? Elements { get; init; }
 
     /// <summary>
     /// Caller-supplied codename. When omitted, the CMS generates one from the title (or file name).

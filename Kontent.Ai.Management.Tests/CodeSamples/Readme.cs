@@ -134,7 +134,7 @@ public class Readme
         // Defines the content elements to create
         var taxonomyElements = new[]
         {
-            new Models.Assets.AssetElement
+            new Models.Assets.AssetTaxonomyElement
             {
                 Element = Reference.ByCodename("taxonomy-categories"),
                 Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
@@ -163,7 +163,7 @@ public class Readme
         // Elements to update
         var taxonomyElements = new[]
         {
-            new Models.Assets.AssetElement
+            new Models.Assets.AssetTaxonomyElement
             {
                 Element = Reference.ByCodename("taxonomy-categories"),
                 Value = new[]

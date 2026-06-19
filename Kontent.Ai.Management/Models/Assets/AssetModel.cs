@@ -99,5 +99,5 @@ public sealed record AssetModel
     /// Taxonomy assignments from the environment's asset type. Always emitted; empty when none are assigned.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IReadOnlyList<AssetElement> Elements { get; init; }
+    public required IReadOnlyList<AssetTaxonomyElement> Elements { get; init; }
 }

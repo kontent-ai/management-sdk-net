@@ -574,7 +574,7 @@ public sealed class AssetCreateModel : IEquatable`1
     String Codename { get; set; init; }
     AssetCollectionReference Collection { get; set; init; }
     IEnumerable<AssetDescription> Descriptions { get; set; init; }
-    IEnumerable<AssetElement> Elements { get; set; init; }
+    IEnumerable<AssetTaxonomyElement> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     FileReference FileReference { get; set; init; }
     Reference Folder { get; set; init; }
@@ -596,21 +596,11 @@ public sealed class AssetDescription : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Assets
-public sealed class AssetElement : IEquatable`1
-    Reference Element { get; set; init; }
-    IEnumerable<Reference> Value { get; set; init; }
-    AssetElement <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(AssetElement other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Assets
 public sealed class AssetModel : IEquatable`1
     String Codename { get; set; init; }
     AssetCollectionReference Collection { get; set; init; }
     IReadOnlyList<AssetDescription> Descriptions { get; set; init; }
-    IReadOnlyList<AssetElement> Elements { get; set; init; }
+    IReadOnlyList<AssetTaxonomyElement> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     String FileName { get; set; init; }
     FileReference FileReference { get; set; init; }
@@ -630,11 +620,21 @@ public sealed class AssetModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Assets
+public sealed class AssetTaxonomyElement : IEquatable`1
+    Reference Element { get; set; init; }
+    IEnumerable<Reference> Value { get; set; init; }
+    AssetTaxonomyElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetTaxonomyElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
 public sealed class AssetUpsertModel : IEquatable`1
     String Codename { get; set; init; }
     AssetCollectionReference Collection { get; set; init; }
     IEnumerable<AssetDescription> Descriptions { get; set; init; }
-    IEnumerable<AssetElement> Elements { get; set; init; }
+    IEnumerable<AssetTaxonomyElement> Elements { get; set; init; }
     FileReference FileReference { get; set; init; }
     Reference Folder { get; set; init; }
     String Title { get; set; init; }

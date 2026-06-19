@@ -33,7 +33,7 @@ public sealed record AssetUpsertModel
     /// Taxonomy assignments from the environment's asset type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<AssetElement>? Elements { get; init; }
+    public IEnumerable<AssetTaxonomyElement>? Elements { get; init; }
 
     /// <summary>
     /// Reference to the previously uploaded binary file. Omit when upserting metadata only — the existing binary stays attached.

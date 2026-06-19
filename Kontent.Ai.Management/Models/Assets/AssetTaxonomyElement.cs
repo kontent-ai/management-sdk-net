@@ -5,7 +5,7 @@ namespace Kontent.Ai.Management.Models.Assets;
 /// (singleton) asset type defines which taxonomy groups are available; the Management API does not expose the
 /// asset type itself, so the groups and terms are referenced directly.
 /// </summary>
-public sealed record AssetElement
+public sealed record AssetTaxonomyElement
 {
     /// <summary>
     /// Reference to the taxonomy group.

@@ -2,8 +2,6 @@ using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Tests.Base;
-// Models.Assets also defines an AssetElement (asset metadata); the variant-value one is meant here.
-using AssetElement = Kontent.Ai.Management.Models.LanguageVariants.Elements.AssetElement;
 using AssetReference = Kontent.Ai.Management.Models.Content.AssetReference;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
