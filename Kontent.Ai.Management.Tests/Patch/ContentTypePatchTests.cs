@@ -180,4 +180,16 @@ public class ContentTypePatchTests
         op.Path.Should().Be("/elements/codename:x/some_future_prop");
         op.Value.Should().Be(42);
     }
+
+    [Fact]
+    public void Raw_NullOrEmptyPath_Throws()
+    {
+        ((System.Action)(() => ContentTypePatch.ReplaceRaw(null!, 1))).Should().Throw<ArgumentException>();
+        ((System.Action)(() => ContentTypePatch.RemoveRaw(""))).Should().Throw<ArgumentException>();
+        ((System.Action)(() => ContentTypePatch.AddIntoRaw("", new object()))).Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void ReplaceName_NullName_Throws() =>
+        ((System.Action)(() => ContentTypePatch.ReplaceName(null!))).Should().Throw<ArgumentNullException>();
 }

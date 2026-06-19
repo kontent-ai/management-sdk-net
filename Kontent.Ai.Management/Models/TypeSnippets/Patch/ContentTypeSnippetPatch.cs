@@ -56,12 +56,18 @@ public static class ContentTypeSnippetPatch
     // ---- Element properties (replace) ----
 
     /// <summary>Replaces the snippet's display name.</summary>
-    public static ContentTypeSnippetOperationBaseModel ReplaceName(string name) =>
-        new ContentTypeSnippetReplacePatchModel { Path = "/name", Value = name };
+    public static ContentTypeSnippetOperationBaseModel ReplaceName(string name)
+    {
+        ArgumentNullException.ThrowIfNull(name);
+        return new ContentTypeSnippetReplacePatchModel { Path = "/name", Value = name };
+    }
 
     /// <summary>Replaces an element's display name.</summary>
-    public static ContentTypeSnippetOperationBaseModel ReplaceElementName(Reference element, string name) =>
-        new ContentTypeSnippetReplacePatchModel { Path = ElementProperty(element, "name"), Value = name };
+    public static ContentTypeSnippetOperationBaseModel ReplaceElementName(Reference element, string name)
+    {
+        ArgumentNullException.ThrowIfNull(name);
+        return new ContentTypeSnippetReplacePatchModel { Path = ElementProperty(element, "name"), Value = name };
+    }
 
     /// <summary>Replaces an element's guidelines. Pass <c>null</c> to clear them.</summary>
     public static ContentTypeSnippetOperationBaseModel ReplaceGuidelines(Reference element, string? guidelines) =>
@@ -181,6 +187,7 @@ public static class ContentTypeSnippetPatch
         RemoveToken(element, "allowed_text_blocks", block);
 
     /// <summary>Allows a text-formatting option in a rich-text element.</summary>
+    /// <remarks>When formatting is restricted, the API requires <see cref="RichTextFormattingType.Unstyled"/> to be among the allowed options; include it too, or the operation is rejected.</remarks>
     public static ContentTypeSnippetOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting) =>
         AddToken(element, "allowed_formatting", formatting);
 
@@ -205,6 +212,7 @@ public static class ContentTypeSnippetPatch
         RemoveToken(element, "allowed_table_text_blocks", block);
 
     /// <summary>Allows a text-formatting option inside tables of a rich-text element.</summary>
+    /// <remarks>When table formatting is restricted, the API requires <see cref="RichTextFormattingType.Unstyled"/> to be among the allowed options; include it too, or the operation is rejected.</remarks>
     public static ContentTypeSnippetOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting) =>
         AddToken(element, "allowed_table_formatting", formatting);
 
@@ -223,22 +231,30 @@ public static class ContentTypeSnippetPatch
     /// <summary>Adds <paramref name="value"/> at a raw <paramref name="path"/>, for paths not modeled by a dedicated factory.</summary>
     public static ContentTypeSnippetOperationBaseModel AddIntoRaw(string path, object value, Reference? before = null, Reference? after = null)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
         ArgumentNullException.ThrowIfNull(value);
         EnsureNotBoth(before, after);
         return new ContentTypeSnippetAddIntoPatchModel { Path = path, Value = value, Before = before, After = after };
     }
 
     /// <summary>Replaces the value at a raw <paramref name="path"/>. Pass <c>null</c> to clear.</summary>
-    public static ContentTypeSnippetOperationBaseModel ReplaceRaw(string path, object? value) =>
-        new ContentTypeSnippetReplacePatchModel { Path = path, Value = value };
+    public static ContentTypeSnippetOperationBaseModel ReplaceRaw(string path, object? value)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        return new ContentTypeSnippetReplacePatchModel { Path = path, Value = value };
+    }
 
     /// <summary>Removes the object at a raw <paramref name="path"/>.</summary>
-    public static ContentTypeSnippetOperationBaseModel RemoveRaw(string path) =>
-        new ContentTypeSnippetRemovePatchModel { Path = path };
+    public static ContentTypeSnippetOperationBaseModel RemoveRaw(string path)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        return new ContentTypeSnippetRemovePatchModel { Path = path };
+    }
 
     /// <summary>Moves the object at a raw <paramref name="path"/> before <paramref name="target"/>.</summary>
     public static ContentTypeSnippetOperationBaseModel MoveRawBefore(string path, Reference target)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
         ArgumentNullException.ThrowIfNull(target);
         return new ContentTypeSnippetMovePatchModel { Path = path, Before = target };
     }
@@ -246,6 +262,7 @@ public static class ContentTypeSnippetPatch
     /// <summary>Moves the object at a raw <paramref name="path"/> after <paramref name="target"/>.</summary>
     public static ContentTypeSnippetOperationBaseModel MoveRawAfter(string path, Reference target)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
         ArgumentNullException.ThrowIfNull(target);
         return new ContentTypeSnippetMovePatchModel { Path = path, After = target };
     }
