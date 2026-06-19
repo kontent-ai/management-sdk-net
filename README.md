@@ -637,16 +637,51 @@ await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
 
 Content type snippets work the same way via `CreateContentTypeSnippetAsync` (a `ContentTypeSnippetCreateModel` carries `Name`, `Codename`, and `Elements`).
 
-Existing types, snippets, and taxonomy groups are changed with a list of **patch operations** rather than a full replace:
+### Editing types and snippets with patch operations
+
+Existing types, snippets, and taxonomy groups are changed with a list of **patch operations** rather than a full replace. Content-type and snippet operations address their target — an element, an option, a content group, or a per-element property — through a JSON-Pointer `path`. Rather than hand-write that wire grammar, use the `ContentTypePatch` and `ContentTypeSnippetPatch` factories: each method bundles the path, the correctly-typed value, and the operation verb, and returns a `ContentTypeOperationBaseModel` so the operations compose into one list you can mix freely.
 
 ```csharp
-await client.ModifyContentTypeAsync(Reference.ByCodename("article"), new ContentTypeOperationBaseModel[]
-{
-    // add, remove, replace, move operations …
-});
+using Kontent.Ai.Management.Models.Types.Patch;
+using Kontent.Ai.Management.Models.Types.Elements;
+
+await client.ModifyContentTypeAsync(Reference.ByCodename("article"),
+[
+    // add a new element
+    ContentTypePatch.AddElement(new TextElementMetadataModel { Name = "Subtitle", Codename = "subtitle" }),
+
+    // replace a scalar property of an existing element
+    ContentTypePatch.ReplaceGuidelines(Reference.ByCodename("body"), "Keep it under 300 words."),
+    ContentTypePatch.ReplaceIsRequired(Reference.ByCodename("title"), true),
+
+    // set a rich-text / linked-items element's allowed content types (whole set at once) …
+    ContentTypePatch.ReplaceAllowedContentTypes(Reference.ByCodename("related"),
+        [Reference.ByCodename("article"), Reference.ByCodename("blog_post")]),
+
+    // … or toggle a single allowed rich-text block
+    ContentTypePatch.RemoveAllowedBlock(Reference.ByCodename("body"), RichTextBlockType.Tables),
+
+    // reorder, reassign to a content group, remove
+    ContentTypePatch.MoveElementAfter(Reference.ByCodename("subtitle"), Reference.ByCodename("title")),
+    ContentTypePatch.ReplaceContentGroup(Reference.ByCodename("title"), Reference.ByCodename("metadata")),
+    ContentTypePatch.RemoveElement(Reference.ByCodename("legacy_field")),
+]);
 ```
 
-The full set of each is listed with `ListContentTypesAsync`, `ListContentTypeSnippetsAsync`, and `ListTaxonomyGroupsAsync`.
+`ContentTypeSnippetPatch` mirrors the same surface for `ModifyContentTypeSnippetAsync`, minus the content-group operations (snippets have none). The factories are the discoverable way through a finite but irregular grammar — some collections (allowed content types / item-link types / elements) are set as a whole array, while rich-text blocks are added and removed one at a time — and the method names reflect which is which.
+
+Two fallbacks cover anything the factories don't model:
+
+- **Raw-path factories** — `AddIntoRaw`, `ReplaceRaw`, `RemoveRaw`, `MoveRawBefore` / `MoveRawAfter` take the `path` string directly, so a property the SDK doesn't yet have a named factory for is still reachable in the same fluent style.
+- **The operation records** — construct `ContentTypeReplacePatchModel { Path = "/elements/codename:body/guidelines", Value = … }` (and its add / move / remove siblings) by hand for full control.
+
+Taxonomy groups, collections, languages, and the other patchable resources address their target by a typed `PropertyName` and `Reference` instead of a path string, so they have no grammar to encode and are edited directly with their own operation models:
+
+```csharp
+await client.ModifyTaxonomyGroupAsync(Reference.ByCodename("categories"), [/* TaxonomyGroupOperationBaseModel ops */]);
+```
+
+The full set of each resource is listed with `ListContentTypesAsync`, `ListContentTypeSnippetsAsync`, and `ListTaxonomyGroupsAsync`.
 
 ## Workflows
 
