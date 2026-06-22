@@ -23,7 +23,7 @@ public class RichTextAllowedTypesValidationTests
     {
         var result = ContentItemValidator.Validate(new RichTextHost
         {
-            Body = new RichTextElement { Value = "<p>plain</p>" },
+            Body = new RichTextValue { Value = "<p>plain</p>" },
         });
 
         result.ValidationErrors().Should().NotContain(e => e.Path == "body");
@@ -34,7 +34,7 @@ public class RichTextAllowedTypesValidationTests
     {
         var result = ContentItemValidator.Validate(new RichTextHost
         {
-            Body = new RichTextElement
+            Body = new RichTextValue
             {
                 Value = "<p>x</p>",
                 Components = [Embed(new Page()), Embed(new Article())],
@@ -49,7 +49,7 @@ public class RichTextAllowedTypesValidationTests
     {
         var result = ContentItemValidator.Validate(new RichTextHost
         {
-            Body = new RichTextElement
+            Body = new RichTextValue
             {
                 Value = "<p>x</p>",
                 Components = [Embed(new Banner())],
@@ -66,7 +66,7 @@ public class RichTextAllowedTypesValidationTests
         // One error per disallowed component, symmetric with the linked-items [AllowedTypes] rule.
         var result = ContentItemValidator.Validate(new RichTextHost
         {
-            Body = new RichTextElement
+            Body = new RichTextValue
             {
                 Value = "<p>x</p>",
                 Components = [Embed(new Banner()), Embed(new Page()), Embed(new Banner())],

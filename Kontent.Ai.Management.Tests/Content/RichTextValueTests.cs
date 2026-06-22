@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.Content;
 
-public class RichTextElementTests
+public class RichTextValueTests
 {
     private static readonly Guid SampleComponentId = new("44444444-4444-4444-4444-444444444444");
 
@@ -14,7 +14,7 @@ public class RichTextElementTests
     {
         var json = """{ "value": "<p>hello</p>" }""";
 
-        var element = JsonSerializer.Deserialize<RichTextElement>(json);
+        var element = JsonSerializer.Deserialize<RichTextValue>(json);
 
         element!.Value.Should().Be("<p>hello</p>");
         element.Components.Should().BeNull();
@@ -23,11 +23,11 @@ public class RichTextElementTests
     [Fact]
     public void RichText_Deserialize_MissingValue_Throws()
     {
-        // The `required` keyword on RichTextElement.Value is honored by STJ at deserialize time —
+        // The `required` keyword on RichTextValue.Value is honored by STJ at deserialize time —
         // a payload that omits "value" is a contract violation, not a partial response.
         var json = """{ "components": [] }""";
 
-        Action act = () => JsonSerializer.Deserialize<RichTextElement>(json);
+        Action act = () => JsonSerializer.Deserialize<RichTextValue>(json);
 
         act.Should().Throw<JsonException>();
     }
@@ -37,10 +37,10 @@ public class RichTextElementTests
     {
         // Round-trip without components — direct STJ doesn't round-trip Component.Content (it's [JsonIgnore]
         // by design; the envelope converter owns the components-with-content story).
-        var original = new RichTextElement { Value = "<p>hello</p>" };
+        var original = new RichTextValue { Value = "<p>hello</p>" };
 
         var json = JsonSerializer.Serialize(original);
-        var roundtripped = JsonSerializer.Deserialize<RichTextElement>(json);
+        var roundtripped = JsonSerializer.Deserialize<RichTextValue>(json);
 
         roundtripped.Should().Be(original);
     }
@@ -48,8 +48,8 @@ public class RichTextElementTests
     [Fact]
     public void RichText_RecordEqualityHoldsByValue()
     {
-        var a = new RichTextElement { Value = "<p>x</p>" };
-        var b = new RichTextElement { Value = "<p>x</p>" };
+        var a = new RichTextValue { Value = "<p>x</p>" };
+        var b = new RichTextValue { Value = "<p>x</p>" };
 
         a.Should().Be(b);
         a.GetHashCode().Should().Be(b.GetHashCode());

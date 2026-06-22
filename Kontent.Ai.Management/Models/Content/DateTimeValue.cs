@@ -4,6 +4,7 @@ namespace Kontent.Ai.Management.Models.Content;
 /// Value of a date_time element on a generated content-type record: the instant plus the IANA time zone the UI
 /// displays it in. The envelope converter flattens this to a <c>value</c> + sibling <c>display_timezone</c> on the wire.
 /// </summary>
+/// <remarks>Use this to set a date_time element on a generated content-type record. To set the same element by hand in the untyped element array instead, use <see cref="LanguageVariants.Elements.DateTimeElement"/>.</remarks>
 public sealed record DateTimeValue
 {
     /// <summary>The instant.</summary>

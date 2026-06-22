@@ -21,7 +21,7 @@ namespace MyProject.Models;
 public sealed partial record Person : IElementsModel
 {
     [KontentElement("bio", "4341b423-f053-523f-bd0f-b63b6c786532")]
-    public RichTextElement? Bio { get; init; }
+    public RichTextValue? Bio { get; init; }
     [KontentElement("first_name", "412e6d34-62aa-524a-b97f-a23b2cf3e252")]
     public string? FirstName { get; init; }
     [KontentElement("last_name", "3b153753-6cd6-58e8-99ae-e60020ffd890")]

@@ -33,6 +33,6 @@ internal enum ElementKind
     /// </summary>
     Reference,
 
-    /// <summary><see cref="Models.Content.RichTextElement"/>; rich_text elements (with optional embedded components).</summary>
+    /// <summary><see cref="Models.Content.RichTextValue"/>; rich_text elements (with optional embedded components).</summary>
     RichText,
 }

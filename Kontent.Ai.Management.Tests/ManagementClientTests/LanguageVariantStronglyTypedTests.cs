@@ -11,7 +11,7 @@ using DateTimeValue = Kontent.Ai.Management.Models.Content.DateTimeValue;
 // Models.Content carries its own `Reference`; alias the types we need so it doesn't collide with
 // Models.Shared.Reference used for the identifier.
 using RichTextBuilder = Kontent.Ai.Management.Models.Content.RichTextBuilder;
-using RichTextElement = Kontent.Ai.Management.Models.Content.RichTextElement;
+using RichTextValue = Kontent.Ai.Management.Models.Content.RichTextValue;
 using UrlSlugMode = Kontent.Ai.Management.Models.Content.UrlSlugMode;
 using UrlSlugValue = Kontent.Ai.Management.Models.Content.UrlSlugValue;
 
@@ -132,7 +132,7 @@ public class LanguageVariantStronglyTypedTests
         var callout = new Callout
         {
             Type = [CalloutType.Warning],
-            Content = rt.Build($"<p>body</p>{rt.Component(new Callout { Type = [CalloutType.Info], Content = new RichTextElement { Value = "<p>inner</p>" } })}"),
+            Content = rt.Build($"<p>body</p>{rt.Component(new Callout { Type = [CalloutType.Info], Content = new RichTextValue { Value = "<p>inner</p>" } })}"),
         };
 
         var result = await client.UpsertLanguageVariantAsync(Identifier(), callout);

@@ -669,8 +669,8 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// Lists all roles in an environment.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the <see cref="EnvironmentRolesModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<EnvironmentRolesModel>> ListEnvironmentRolesAsync(CancellationToken cancellationToken = default);
+    /// <returns>A result wrapping the environment's roles on success, or the failure detail.</returns>
+    Task<IManagementResult<IReadOnlyList<EnvironmentRoleModel>>> ListEnvironmentRolesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns environment role.

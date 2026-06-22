@@ -587,7 +587,7 @@ public class CmApiV2
 
         var response = await client.ListEnvironmentRolesAsync();
 
-        Assert.Equal(2, response.Value.Roles.Count());
+        Assert.Equal(2, response.Value.Count());
     }
 
     // DocSection: cm_api_v2_get_subscription_user

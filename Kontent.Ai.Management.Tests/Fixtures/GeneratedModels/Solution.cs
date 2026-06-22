@@ -40,7 +40,7 @@ public sealed partial record Solution : IElementsModel
     public string? ProductBaseName { get; init; }
     [KontentElement("showcase", "42b24153-7274-550d-8fc1-5f5daea12e89")]
     [AllowedTypes("callout", "fact", "action")]
-    public RichTextElement? Showcase { get; init; }
+    public RichTextValue? Showcase { get; init; }
     [KontentElement("slug", "0e2c3f0c-9958-53e9-91e4-d6344e08e845")]
     public UrlSlugValue? Slug { get; init; }
 }

@@ -7,10 +7,10 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<EnvironmentRolesModel>> ListEnvironmentRolesAsync(CancellationToken cancellationToken = default)
+    public async Task<IManagementResult<IReadOnlyList<EnvironmentRoleModel>>> ListEnvironmentRolesAsync(CancellationToken cancellationToken = default)
     {
         var response = await _managementApi.ListEnvironmentRolesInternalAsync(cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return await response.ToManagementResultAsync(static envelope => envelope.Roles).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

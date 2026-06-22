@@ -197,7 +197,7 @@ public class EnvelopeConverter_WriteTests
     [Fact]
     public void RichText_WithoutComponents_WritesValueOnly()
     {
-        var person = new Person { Bio = new RichTextElement { Value = "<p>hello</p>" } };
+        var person = new Person { Bio = new RichTextValue { Value = "<p>hello</p>" } };
 
         var envelopes = ParseEnvelopes(Converter.WriteEnvelopes(person));
 

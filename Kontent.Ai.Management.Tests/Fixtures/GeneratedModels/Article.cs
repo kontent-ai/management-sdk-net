@@ -28,7 +28,7 @@ public sealed partial record Article : IElementsModel
     public IEnumerable<Reference>? Author { get; init; }
     [KontentElement("content", "7d4b95b0-76fc-552e-8931-c90dd2746399")]
     [AllowedTypes("action", "callout")]
-    public RichTextElement? Content { get; init; }
+    public RichTextValue? Content { get; init; }
     [KontentElement("hero_image", "ed868ae7-0b90-5752-a53b-aa4cfa2ca56e")]
     [ExactElements(1)]
     public IEnumerable<AssetReference>? HeroImage { get; init; }

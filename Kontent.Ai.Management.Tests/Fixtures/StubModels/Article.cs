@@ -26,7 +26,7 @@ internal sealed record Article : IElementsModel
     public string? Slug { get; init; }
 
     [KontentElement("body", "44444444-4444-4444-4444-444444444444")]
-    public RichTextElement? Body { get; init; }
+    public RichTextValue? Body { get; init; }
 
     [KontentElement("rating", "55555555-5555-5555-5555-555555555555")]
     public decimal? Rating { get; init; }

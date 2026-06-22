@@ -1,9 +1,9 @@
 namespace Kontent.Ai.Management.Models.Roles;
 
 /// <summary>
-/// The set of roles in an environment (response shape).
+/// Wire envelope for the roles listing (<c>{ "roles": [...] }</c>); unwrapped to the bare list at the client surface.
 /// </summary>
-public sealed record EnvironmentRolesModel
+internal sealed record EnvironmentRolesModel
 {
     /// <summary>
     /// The environment's roles.

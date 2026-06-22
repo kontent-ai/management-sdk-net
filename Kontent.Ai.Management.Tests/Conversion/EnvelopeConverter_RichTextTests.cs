@@ -24,12 +24,12 @@ public class EnvelopeConverter_RichTextTests
     {
         var callout = new Callout
         {
-            Content = new RichTextElement { Value = "<p>watch out</p>" },
+            Content = new RichTextValue { Value = "<p>watch out</p>" },
             Type = [CalloutType.Warning],
         };
         var article = new Article
         {
-            Content = new RichTextElement
+            Content = new RichTextValue
             {
                 Value = "<p>intro</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"...\"></object>",
                 Components = [new Component { Id = SampleComponentId, Content = callout }],
@@ -60,7 +60,7 @@ public class EnvelopeConverter_RichTextTests
         var original = new Article
         {
             Title = "Roundtrip",
-            Content = new RichTextElement
+            Content = new RichTextValue
             {
                 Value = "<p>body</p>",
                 Components =
@@ -71,7 +71,7 @@ public class EnvelopeConverter_RichTextTests
                         Content = new Callout
                         {
                             Type = [CalloutType.Lightbulb],
-                            Content = new RichTextElement { Value = "<p>nested</p>" },
+                            Content = new RichTextValue { Value = "<p>nested</p>" },
                         },
                     },
                 ],
@@ -122,7 +122,7 @@ public class EnvelopeConverter_RichTextTests
     {
         var article = new Article
         {
-            Content = new RichTextElement
+            Content = new RichTextValue
             {
                 Value = "<p>x</p>",
                 Components = [new Component { Id = SampleComponentId, Content = new BareContentItem() }],

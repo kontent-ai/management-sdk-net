@@ -77,7 +77,7 @@ internal sealed class ContentItemTypeDescriptor
         if (inner == typeof(DateTimeValue)) return (ElementKind.DateTime, null);
         if (inner == typeof(UrlSlugValue)) return (ElementKind.UrlSlug, null);
         if (inner == typeof(CustomValue)) return (ElementKind.Custom, null);
-        if (inner == typeof(RichTextElement)) return (ElementKind.RichText, null);
+        if (inner == typeof(RichTextValue)) return (ElementKind.RichText, null);
 
         if (inner.IsGenericType && CollectionInterfaces.Contains(inner.GetGenericTypeDefinition()))
         {

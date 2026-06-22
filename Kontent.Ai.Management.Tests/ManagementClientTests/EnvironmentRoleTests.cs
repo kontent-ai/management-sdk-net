@@ -31,7 +31,7 @@ public class EnvironmentRoleTests
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRolesModel>(ProjectRoles, SharedTestJsonOptions.Default));
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRolesModel>(ProjectRoles, SharedTestJsonOptions.Default)!.Roles);
     }
 
     [Fact]

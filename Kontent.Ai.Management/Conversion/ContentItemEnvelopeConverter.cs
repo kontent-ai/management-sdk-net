@@ -177,7 +177,7 @@ internal sealed class ContentItemEnvelopeConverter
                 JsonSerializer.Serialize(writer, (IEnumerable<Reference>)value, _scalarOptions);
                 break;
             case ElementKind.RichText:
-                WriteRichText(writer, (RichTextElement)value);
+                WriteRichText(writer, (RichTextValue)value);
                 break;
             default:
                 throw new NotSupportedException($"Unknown element kind: {prop.Kind}");
@@ -203,7 +203,7 @@ internal sealed class ContentItemEnvelopeConverter
         writer.WriteEndArray();
     }
 
-    private void WriteRichText(Utf8JsonWriter writer, RichTextElement value)
+    private void WriteRichText(Utf8JsonWriter writer, RichTextValue value)
     {
         writer.WriteString("value", value.Value);
         var components = value.Components?.ToList();
@@ -298,7 +298,7 @@ internal sealed class ContentItemEnvelopeConverter
         return list;
     }
 
-    private RichTextElement ReadRichText(JsonElement valueElement, JsonElement envelope)
+    private RichTextValue ReadRichText(JsonElement valueElement, JsonElement envelope)
     {
         var html = valueElement.GetString()!;
 
@@ -314,7 +314,7 @@ internal sealed class ContentItemEnvelopeConverter
             }
         }
 
-        return new RichTextElement { Value = html, Components = components };
+        return new RichTextValue { Value = html, Components = components };
     }
 
     private Component ReadComponent(JsonElement componentElem)

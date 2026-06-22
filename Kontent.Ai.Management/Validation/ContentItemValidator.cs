@@ -163,7 +163,7 @@ public static class ContentItemValidator
             // server-enforced; the attribute is carried for schema/documentation, not checked here.
             checks.Add((value, errors) =>
             {
-                if (value is RichTextElement { Components: { } components })
+                if (value is RichTextValue { Components: { } components })
                 {
                     foreach (var component in components)
                     {

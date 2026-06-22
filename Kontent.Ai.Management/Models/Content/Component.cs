@@ -2,8 +2,8 @@
 namespace Kontent.Ai.Management.Models.Content;
 
 /// <summary>
-/// Inline component within a <see cref="RichTextElement"/>. <see cref="Id"/> threads the component to its
-/// placeholder in <see cref="RichTextElement.Value"/> via the matching <c>data-id</c> attribute, while
+/// Inline component within a <see cref="RichTextValue"/>. <see cref="Id"/> threads the component to its
+/// placeholder in <see cref="RichTextValue.Value"/> via the matching <c>data-id</c> attribute, while
 /// <see cref="Content"/> carries the embedded content item.
 /// </summary>
 /// <remarks>

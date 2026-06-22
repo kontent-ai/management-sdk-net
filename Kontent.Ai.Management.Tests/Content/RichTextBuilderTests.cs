@@ -222,7 +222,7 @@ public class RichTextBuilderTests
     [Fact]
     public void NestedBuilders_AreIndependent()
     {
-        // A component whose own Content is a RichTextElement built by a nested RichTextBuilder must not leak its
+        // A component whose own Content is a RichTextValue built by a nested RichTextBuilder must not leak its
         // inner components onto the outer builder.
         var outer = new RichTextBuilder();
         var inner = new RichTextBuilder();

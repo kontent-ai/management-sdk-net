@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Kontent.Ai.Management.Models.Content;
 
 /// <summary>
-/// Fluent authoring helper for <see cref="RichTextElement"/>. Designed for migration scripts and similar code-authored
+/// Fluent authoring helper for <see cref="RichTextValue"/>. Designed for migration scripts and similar code-authored
 /// content: lets the consumer compose the rich-text HTML body with string interpolation while the builder records
 /// embedded components and emits the matching <c>&lt;object data-id="…"&gt;</c> placeholders — same GUID on both sides,
 /// hidden from the consumer.
@@ -92,16 +92,16 @@ public sealed class RichTextBuilder
     }
 
     /// <summary>
-    /// Closes the builder. Returns a <see cref="RichTextElement"/> whose <see cref="RichTextElement.Value"/> is
-    /// <paramref name="html"/> verbatim and <see cref="RichTextElement.Components"/> is the recorded components list
+    /// Closes the builder. Returns a <see cref="RichTextValue"/> whose <see cref="RichTextValue.Value"/> is
+    /// <paramref name="html"/> verbatim and <see cref="RichTextValue.Components"/> is the recorded components list
     /// (<c>null</c> if none). The builder's internal component list is cleared so the same instance can be reused.
     /// </summary>
-    public RichTextElement Build(string html)
+    public RichTextValue Build(string html)
     {
         ArgumentNullException.ThrowIfNull(html);
         var components = _components.Count == 0 ? null : _components.ToArray();
         _components.Clear();
-        return new RichTextElement { Value = html, Components = components };
+        return new RichTextValue { Value = html, Components = components };
     }
 
     private static (string Suffix, string Value) PickReferenceIdentifier(Reference reference)

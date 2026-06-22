@@ -77,7 +77,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken)
-    Task<IManagementResult<EnvironmentRolesModel>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<EnvironmentRoleModel>>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> ListItemsWithVariantsByBulkGetAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> ListItemsWithVariantsByFilterAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken)
@@ -205,7 +205,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken)
-    Task<IManagementResult<EnvironmentRolesModel>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<EnvironmentRoleModel>>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> ListItemsWithVariantsByBulkGetAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> ListItemsWithVariantsByFilterAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken)
@@ -815,18 +815,18 @@ public sealed class RenditionReference : IEquatable`1
 // Kontent.Ai.Management.Models.Content
 public sealed class RichTextBuilder
     String Asset(AssetReference asset)
-    RichTextElement Build(String html)
+    RichTextValue Build(String html)
     String Component(IElementsModel item)
     String ItemLink(Reference reference, String linkText)
     String LinkedItem(Reference reference)
 
 // Kontent.Ai.Management.Models.Content
-public sealed class RichTextElement : IEquatable`1
+public sealed class RichTextValue : IEquatable`1
     IEnumerable<Component> Components { get; set; init; }
     String Value { get; set; init; }
-    RichTextElement <Clone>$()
+    RichTextValue <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(RichTextElement other)
+    Boolean Equals(RichTextValue other)
     Int32 GetHashCode()
     String ToString()
 
@@ -1621,15 +1621,6 @@ public sealed class EnvironmentRoleModel : IEquatable`1
     EnvironmentRoleModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(EnvironmentRoleModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Roles
-public sealed class EnvironmentRolesModel : IEquatable`1
-    IReadOnlyList<EnvironmentRoleModel> Roles { get; set; init; }
-    EnvironmentRolesModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(EnvironmentRolesModel other)
     Int32 GetHashCode()
     String ToString()
 

@@ -5,6 +5,7 @@ namespace Kontent.Ai.Management.Models.Content;
 /// the CMS uses for search and filtering. The envelope converter flattens this to a <c>value</c> + sibling
 /// <c>searchable_value</c> on the wire.
 /// </summary>
+/// <remarks>Use this to set a custom element on a generated content-type record. To set the same element by hand in the untyped element array instead, use <see cref="LanguageVariants.Elements.CustomElement"/>.</remarks>
 public sealed record CustomValue
 {
     /// <summary>The opaque element value, as produced by the custom element; often a JSON string.</summary>

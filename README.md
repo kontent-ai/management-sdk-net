@@ -507,7 +507,9 @@ DateTime lastModified = variant.LastModified;
 
 ### Element value types
 
-Many elements map directly to a single value, with nothing carried beside it — `string` for text, `decimal?` for number, `IEnumerable<Reference>` for linked items, taxonomy, and subpages, and `IEnumerable<AssetReference>` for assets. The rest carry a companion field beside the value, so each uses a small record that pairs the two. Rich text is the canonical case — `RichTextElement` holds the HTML `Value` plus its inline `Components` (see [Rich text and inline components](#rich-text-and-inline-components)). Three more follow the same shape — date & time, URL slug, and custom:
+These value types are the strongly-typed-record counterpart to the raw [element kinds](#element-kinds), and the two are deliberately distinct rather than duplicated: a raw `*Element` (e.g. `CustomElement`) carries its own `Element` reference because it lives in the untyped `Elements[]` array, whereas a `*Value` (e.g. `CustomValue`) is *just* the value — on a generated record the property already identifies which element it is. Pick the family that matches your authoring path; you don't mix them.
+
+Many elements map directly to a single value, with nothing carried beside it — `string` for text, `decimal?` for number, `IEnumerable<Reference>` for linked items, taxonomy, and subpages, and `IEnumerable<AssetReference>` for assets. The rest carry a companion field beside the value, so each uses a small record that pairs the two. Rich text is the canonical case — `RichTextValue` holds the HTML `Value` plus its inline `Components` (see [Rich text and inline components](#rich-text-and-inline-components)). Three more follow the same shape — date & time, URL slug, and custom:
 
 ```csharp
 var article = new Article
@@ -557,7 +559,7 @@ var article = new Article { Title = "On Roasts", Content = content };
 await client.UpsertLanguageVariantAsync(identifier, article);
 ```
 
-`Build` returns a `RichTextElement` — the verbatim HTML plus the recorded components — ready to assign to a generated model's rich-text property. The helpers:
+`Build` returns a `RichTextValue` — the verbatim HTML plus the recorded components — ready to assign to a generated model's rich-text property. The helpers:
 
 | Helper | Emits | Use for |
 |--------|-------|---------|
