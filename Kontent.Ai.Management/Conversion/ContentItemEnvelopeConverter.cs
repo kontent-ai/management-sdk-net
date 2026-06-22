@@ -1,6 +1,6 @@
 using Kontent.Ai.Management.Annotations;
+using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.Content;
-using Kontent.Ai.Management.Serialization.Converters;
 using System.Collections;
 using System.Reflection;
 using System.Text;
@@ -37,7 +37,7 @@ internal sealed class ContentItemEnvelopeConverter
     public ContentItemEnvelopeConverter(ContentTypeRegistry? registry = null, JsonSerializerOptions? scalarOptions = null)
     {
         _registry = registry ?? new ContentTypeRegistry();
-        _scalarOptions = scalarOptions ?? CreateDefaultScalarOptions();
+        _scalarOptions = scalarOptions ?? RefitSettingsProvider.CreateDefaultJsonSerializerOptions();
     }
 
     /// <summary>The codename↔type registry this converter dispatches rich-text components through.</summary>
@@ -90,7 +90,7 @@ internal sealed class ContentItemEnvelopeConverter
         // Other candidate types (those that may appear as embedded components) must be pre-registered by the caller
         // via ContentTypeRegistry — auto-scanning the whole assembly would risk codename collisions in projects that
         // co-locate multiple content-model sets.
-        _registry.Register(contentType);
+        _registry.EnsureRegistered(contentType);
 
         var descriptor = ContentItemTypeDescriptor.For(contentType);
         var instance = (IElementsModel)Activator.CreateInstance(contentType)!;
@@ -348,13 +348,4 @@ internal sealed class ContentItemEnvelopeConverter
         }
         return null;
     }
-
-    private static JsonSerializerOptions CreateDefaultScalarOptions() => new(JsonSerializerDefaults.Web)
-    {
-        // AssetReference carries its identifier fields as nullable — WhenWritingNull keeps only the populated one(s)
-        // on the wire, honouring the MAPI's "any one of id / codename / external_id" contract. Reference is factory-
-        // constructed, so it (de)serializes only through ReferenceJsonConverter, which also enforces that contract.
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Converters = { new ReferenceJsonConverter(), new EnumMemberJsonConverterFactory() },
-    };
 }

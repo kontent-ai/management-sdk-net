@@ -600,7 +600,7 @@ await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVa
 
 ## Assets
 
-An asset is a binary file plus its metadata. Creating one is a two-step operation under the hood — upload the file, then create the asset that references it — but the `CreateAssetAsync(FileContentSource, AssetCreateModel)` extension does both in a single call, threading the uploaded file's reference into the asset for you (note there's no `FileReference` to set on the model — the helper fills it in):
+An asset is a binary file plus its metadata. Creating one is a two-step operation under the hood — upload the file, then create the asset that references it — but the `CreateAssetAsync(FileContentSource, Func<FileReference, AssetCreateModel>)` extension does both in a single call: it uploads the file and hands the resulting `FileReference` to your factory so you can build the asset around it.
 
 ```csharp
 using Kontent.Ai.Management.Extensions;
@@ -609,8 +609,9 @@ var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world"));
 
 var result = await client.CreateAssetAsync(
     new FileContentSource(stream, "hello.txt", "text/plain"),
-    new AssetCreateModel
+    fileReference => new AssetCreateModel
     {
+        FileReference = fileReference,
         Title = "Hello",
         // optionally assign taxonomy terms defined on the environment's asset type
         Elements = new[]

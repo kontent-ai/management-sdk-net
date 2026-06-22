@@ -50,6 +50,17 @@ internal sealed class ContentTypeRegistry
     }
 
     /// <summary>
+    /// Registers <paramref name="type"/> if it is a content-type record. Idempotent for the same type, and a
+    /// non-content-type is a no-op so the read path can self-register a root without failing. A codename already
+    /// mapped to a different type still throws — a duplicate codename is always a conflict.
+    /// </summary>
+    public void EnsureRegistered(Type type)
+    {
+        ArgumentNullException.ThrowIfNull(type);
+        TryRegister(type);
+    }
+
+    /// <summary>
     /// Resolves <paramref name="codename"/> to the registered CLR type, or returns <c>null</c> if no type is registered.
     /// </summary>
     public Type? Resolve(string codename)

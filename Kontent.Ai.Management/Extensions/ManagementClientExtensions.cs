@@ -40,13 +40,13 @@ public static class ManagementClientExtensions
     /// </summary>
     /// <param name="client">Content management client instance.</param>
     /// <param name="fileContent">Represents the content of the file.</param>
-    /// <param name="assetCreateModel">Values for the created asset; its <see cref="AssetCreateModel.FileReference"/> is set from the uploaded file.</param>
+    /// <param name="createModel">Builds the asset to create from the reference of the uploaded file.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the created asset, or the failure detail of the file upload or the create.</returns>
-    public async static Task<IManagementResult<AssetModel>> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel, CancellationToken cancellationToken = default)
+    public async static Task<IManagementResult<AssetModel>> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, Func<FileReference, AssetCreateModel> createModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(fileContent);
-        ArgumentNullException.ThrowIfNull(assetCreateModel);
+        ArgumentNullException.ThrowIfNull(createModel);
 
         var fileResult = await client.UploadFileAsync(fileContent, cancellationToken).ConfigureAwait(false);
         if (!fileResult.IsSuccess)
@@ -54,7 +54,7 @@ public static class ManagementClientExtensions
             return ProjectFailure<AssetModel>(fileResult);
         }
 
-        return await client.CreateAssetAsync(assetCreateModel with { FileReference = fileResult.Value }, cancellationToken).ConfigureAwait(false);
+        return await client.CreateAssetAsync(createModel(fileResult.Value), cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

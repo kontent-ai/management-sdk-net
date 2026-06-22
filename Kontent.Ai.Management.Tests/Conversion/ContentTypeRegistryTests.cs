@@ -42,6 +42,42 @@ public class ContentTypeRegistryTests
     }
 
     [Fact]
+    public void EnsureRegistered_SameTypeTwice_IsIdempotent()
+    {
+        var registry = new ContentTypeRegistry();
+
+        registry.EnsureRegistered(typeof(ModelsArticle));
+        registry.EnsureRegistered(typeof(ModelsArticle));
+
+        registry.Resolve("article").Should().Be<ModelsArticle>();
+    }
+
+    [Fact]
+    public void EnsureRegistered_CollidingCodename_Throws()
+    {
+        // Same codename, different type — the read-path entry must stay collision-strict, not silently keep the first mapping.
+        var registry = new ContentTypeRegistry();
+        registry.EnsureRegistered(typeof(ModelsArticle));
+
+        var act = () => registry.EnsureRegistered(typeof(StubsArticle));
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("*article*");
+    }
+
+    [Fact]
+    public void EnsureRegistered_NonContentType_IsNoOp()
+    {
+        // Unlike Register, the read-path entry tolerates a root that isn't a content-type record.
+        var registry = new ContentTypeRegistry();
+
+        var act = () => registry.EnsureRegistered(typeof(string));
+
+        act.Should().NotThrow();
+        registry.Resolve("string").Should().BeNull();
+    }
+
+    [Fact]
     public void Resolve_UnknownCodename_ReturnsNull()
     {
         var registry = new ContentTypeRegistry();

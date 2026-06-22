@@ -186,19 +186,18 @@ public class AssetTests
             new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
             "Hello.txt",
             "text/plain");
-        var createModel = new AssetCreateModel
-        {
-            FileReference = new FileReference { Id = expected.FileReference.Id, Type = FileReferenceTypeEnum.Internal },
-            Title = expected.Title,
-            Elements = expected.Elements,
-        };
 
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/files/Hello.txt")
             .Respond("application/json", File_);
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/assets")
             .Respond("application/json", Asset);
 
-        var result = await client.CreateAssetAsync(content, createModel);
+        var result = await client.CreateAssetAsync(content, fileReference => new AssetCreateModel
+        {
+            FileReference = fileReference,
+            Title = expected.Title,
+            Elements = expected.Elements,
+        });
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
@@ -210,9 +209,9 @@ public class AssetTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.CreateAssetAsync(null!, new AssetCreateModel
+        await client.Invoking(c => c.CreateAssetAsync(null!, fileReference => new AssetCreateModel
         {
-            FileReference = new FileReference { Id = "00000000-0000-0000-0000-000000000000", Type = FileReferenceTypeEnum.Internal },
+            FileReference = fileReference,
             Title = "x",
         }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();

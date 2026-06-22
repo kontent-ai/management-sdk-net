@@ -383,7 +383,7 @@ public sealed class ElementMetadataExtension
 
 // Kontent.Ai.Management.Extensions
 public sealed class ManagementClientExtensions
-    static Task<IManagementResult<AssetModel>> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel, CancellationToken cancellationToken)
+    static Task<IManagementResult<AssetModel>> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, Func<FileReference, AssetCreateModel> createModel, CancellationToken cancellationToken)
     static Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken)
     static Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
     static Task<IManagementResult<AssetModel>> UpsertAssetAsync(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken)

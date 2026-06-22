@@ -76,7 +76,10 @@ public static class AssetExtensions
         {
             segments.Add(folder.Parent.GetFullFolderPath());
         }
-        segments.Add(folder.Name);
+        if (!string.IsNullOrEmpty(folder.Name))
+        {
+            segments.Add(folder.Name);
+        }
         return string.Join("\\", segments);
     }
 
