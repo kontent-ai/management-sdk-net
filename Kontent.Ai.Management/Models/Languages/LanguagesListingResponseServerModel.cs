@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.Languages;
-internal sealed record LanguagesListingResponseServerModel : IListingResponse<LanguageModel>
+internal sealed record LanguagesListingResponseServerModel
 {
     [JsonPropertyName("languages")]
     public required IReadOnlyList<LanguageModel> Languages { get; init; }

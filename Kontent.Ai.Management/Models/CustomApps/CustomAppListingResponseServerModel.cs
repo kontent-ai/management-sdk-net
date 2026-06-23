@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.CustomApps;
-internal sealed record CustomAppListingResponseServerModel : IListingResponse<CustomAppModel>
+internal sealed record CustomAppListingResponseServerModel
 {
     [JsonPropertyName("custom_apps")]
     public required IReadOnlyList<CustomAppModel> CustomApps { get; init; }

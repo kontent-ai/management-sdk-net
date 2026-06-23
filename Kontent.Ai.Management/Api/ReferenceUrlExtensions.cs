@@ -60,4 +60,20 @@ internal static class ReferenceUrlExtensions
 
         return $"{identifier.AssetIdentifier.ToUrlSegment()}/renditions/{identifier.RenditionIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.ExternalId)}";
     }
+
+    /// <summary>
+    /// Renders a user identifier as the path segment the Management API expects: the bare <c>id</c>, or
+    /// <c>email/{email}</c>. The email is left raw — it routes through a <c>{**}</c> catch-all that percent-encodes it.
+    /// </summary>
+    public static string ToUrlSegment(this UserIdentifier identifier)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        return identifier switch
+        {
+            { Id: { } id } => id,
+            { Email: { } email } => $"email/{email}",
+            _ => throw new ArgumentException("You must provide user id or email.", nameof(identifier)),
+        };
+    }
 }

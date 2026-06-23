@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.LanguageVariants;
-internal sealed record LanguageVariantsListingResponseServerModel : IListingResponse<LanguageVariantModel>
+internal sealed record LanguageVariantsListingResponseServerModel
 {
     [JsonPropertyName("variants")]
     public required IReadOnlyList<LanguageVariantModel> Variants { get; init; }

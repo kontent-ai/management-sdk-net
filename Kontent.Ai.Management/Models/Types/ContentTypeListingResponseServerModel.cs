@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.Types;
-internal sealed record ContentTypeListingResponseServerModel : IListingResponse<ContentTypeModel>
+internal sealed record ContentTypeListingResponseServerModel
 {
     [JsonPropertyName("types")]
     public required IReadOnlyList<ContentTypeModel> Types { get; init; }

@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.Subscription;
-internal sealed record SubscriptionUserListingResponseServerModel : IListingResponse<SubscriptionUserModel>
+internal sealed record SubscriptionUserListingResponseServerModel
 {
     [JsonPropertyName("users")]
     public required IReadOnlyList<SubscriptionUserModel> Users { get; init; }

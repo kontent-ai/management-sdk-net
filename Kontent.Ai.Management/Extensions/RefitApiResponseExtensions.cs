@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace Kontent.Ai.Management.Extensions;
 
 /// <summary>
@@ -64,7 +66,7 @@ internal static class RefitApiResponseExtensions
                 ? parsed with { Exception = apiException }
                 : new Error { Message = apiException.Message, Exception = apiException };
         }
-        catch (Exception)
+        catch (JsonException)
         {
             // The body was not a Management API error envelope — an HTML 5xx page, plain text, or empty.
             var rawBody = apiException.Content;

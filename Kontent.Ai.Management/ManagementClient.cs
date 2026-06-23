@@ -2,7 +2,6 @@ using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Handlers;
-using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using System.ComponentModel.DataAnnotations;
 
@@ -110,8 +109,8 @@ public sealed partial class ManagementClient : IManagementClient
         var pipeline = BuildResiliencePipeline(options, configureResilience);
         var refitSettings = Configuration.RefitSettingsProvider.CreateRefitSettings(configureRefit);
 
-        var managementHttp = BuildHttpClient(options, $"projects/{options.EnvironmentId}", pipeline, optionsAccessor);
-        var subscriptionHttp = BuildHttpClient(options, $"subscriptions/{options.SubscriptionId}", pipeline, optionsAccessor);
+        var managementHttp = ManagementApiFactory.CreateHttpClient(options, $"projects/{options.EnvironmentId}", optionsAccessor, pipeline);
+        var subscriptionHttp = ManagementApiFactory.CreateHttpClient(options, $"subscriptions/{options.SubscriptionId}", optionsAccessor, pipeline);
 
         var api = RestService.For<IManagementApi>(managementHttp, refitSettings);
         var subscriptionApi = RestService.For<ISubscriptionApi>(subscriptionHttp, refitSettings);
@@ -137,25 +136,6 @@ public sealed partial class ManagementClient : IManagementClient
             }
         }
         return builder.Build();
-    }
-
-    private static HttpClient BuildHttpClient(
-        ManagementOptions options,
-        string scopePath,
-        ResiliencePipeline<HttpResponseMessage> pipeline,
-        IManagementOptionsAccessor optionsAccessor)
-    {
-        // Innermost → outermost: primary → resilience → auth → tracking. Matches the DI pipeline's order so each
-        // retry re-runs auth + tracking fresh.
-        HttpMessageHandler primary = new HttpClientHandler();
-        var resilience = new ResilienceHandler(pipeline) { InnerHandler = primary };
-        var auth = new ManagementAuthenticationHandler(optionsAccessor) { InnerHandler = resilience };
-        var tracking = new TrackingHandler { InnerHandler = auth };
-
-        return new HttpClient(tracking)
-        {
-            BaseAddress = new Uri(string.Format(options.EndpointV2, scopePath), UriKind.Absolute),
-        };
     }
 
     private sealed class CompositeDisposable(params IDisposable[] items) : IDisposable, IAsyncDisposable

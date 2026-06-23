@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Users;
 
@@ -20,23 +21,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(user);
 
-        var response = await _managementApi.ModifyUsersRolesInternalAsync(UserSegment(identifier), user, cancellationToken).ConfigureAwait(false);
+        var response = await _managementApi.ModifyUsersRolesInternalAsync(identifier.ToUrlSegment(), user, cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
-    }
-
-    // A user is addressed by id or email — `{id}` or `email/{email}` (matches the legacy UserTemplate; Refit url-encodes the value).
-    private static string UserSegment(UserIdentifier identifier)
-    {
-        if (identifier.Id is not null)
-        {
-            return identifier.Id;
-        }
-
-        if (!string.IsNullOrEmpty(identifier.Email))
-        {
-            return $"email/{identifier.Email}";
-        }
-
-        throw new ArgumentException("You must provide user id or email.", nameof(identifier));
     }
 }

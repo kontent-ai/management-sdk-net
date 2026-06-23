@@ -1,45 +1,55 @@
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Handlers;
+using Microsoft.Extensions.Http.Resilience;
+using Polly;
 
 namespace Kontent.Ai.Management.Api;
 
 /// <summary>
-/// Builds Refit clients for the Management API without the DI / resilience pipeline. Used by the test infrastructure,
-/// which injects an <see cref="HttpMessageHandler"/> directly to short-circuit the network. Production callers go
-/// through <c>AddManagementClient</c> or <see cref="ManagementClientBuilder"/> instead, which add resilience.
+/// Builds the configured <see cref="HttpClient"/> and Refit clients for the Management API. The handler chain and
+/// base-address scoping live in <see cref="CreateHttpClient"/> so the standalone <see cref="ManagementClient"/> and
+/// this test-facing factory share one definition. The <see cref="Create"/> / <see cref="CreateSubscription"/> entry
+/// points omit resilience and let the test infrastructure inject a primary handler to short-circuit the network.
 /// </summary>
 internal static class ManagementApiFactory
 {
     public static IManagementApi Create(ManagementOptions options, HttpMessageHandler? innerHandler = null)
     {
         ArgumentNullException.ThrowIfNull(options);
-        return CreateClient<IManagementApi>(options, innerHandler, $"projects/{options.EnvironmentId}");
+        var http = CreateHttpClient(options, $"projects/{options.EnvironmentId}", new SnapshotManagementOptionsAccessor(options), primaryHandler: innerHandler);
+        return RestService.For<IManagementApi>(http, RefitSettingsProvider.CreateRefitSettings());
     }
 
     public static ISubscriptionApi CreateSubscription(ManagementOptions options, HttpMessageHandler? innerHandler = null)
     {
         ArgumentNullException.ThrowIfNull(options);
-        return CreateClient<ISubscriptionApi>(options, innerHandler, $"subscriptions/{options.SubscriptionId}");
+        var http = CreateHttpClient(options, $"subscriptions/{options.SubscriptionId}", new SnapshotManagementOptionsAccessor(options), primaryHandler: innerHandler);
+        return RestService.For<ISubscriptionApi>(http, RefitSettingsProvider.CreateRefitSettings());
     }
 
-    private static T CreateClient<T>(ManagementOptions options, HttpMessageHandler? innerHandler, string scopePath)
+    /// <summary>
+    /// Builds an <see cref="HttpClient"/> scoped to <paramref name="scopePath"/> with the handler chain, innermost to
+    /// outermost, <c>primary → [resilience] → auth → tracking</c>. Resilience is included only when
+    /// <paramref name="resiliencePipeline"/> is supplied; <paramref name="primaryHandler"/> overrides the default
+    /// <see cref="HttpClientHandler"/> (the test infrastructure injects a mock here).
+    /// </summary>
+    public static HttpClient CreateHttpClient(
+        ManagementOptions options,
+        string scopePath,
+        IManagementOptionsAccessor optionsAccessor,
+        ResiliencePipeline<HttpResponseMessage>? resiliencePipeline = null,
+        HttpMessageHandler? primaryHandler = null)
     {
-        // Pipeline order matches the DI registration: tracking → auth → resilience (absent here) → inner.
-        var optionsAccessor = new SnapshotManagementOptionsAccessor(options);
-        var auth = new ManagementAuthenticationHandler(optionsAccessor)
-        {
-            InnerHandler = innerHandler ?? new HttpClientHandler(),
-        };
-        var tracking = new TrackingHandler
-        {
-            InnerHandler = auth,
-        };
+        HttpMessageHandler primary = primaryHandler ?? new HttpClientHandler();
+        HttpMessageHandler resilient = resiliencePipeline is null
+            ? primary
+            : new ResilienceHandler(resiliencePipeline) { InnerHandler = primary };
+        var auth = new ManagementAuthenticationHandler(optionsAccessor) { InnerHandler = resilient };
+        var tracking = new TrackingHandler { InnerHandler = auth };
 
-        var httpClient = new HttpClient(tracking)
+        return new HttpClient(tracking)
         {
             BaseAddress = new Uri(string.Format(options.EndpointV2, scopePath), UriKind.Absolute),
         };
-
-        return RestService.For<T>(httpClient, RefitSettingsProvider.CreateRefitSettings());
     }
 }

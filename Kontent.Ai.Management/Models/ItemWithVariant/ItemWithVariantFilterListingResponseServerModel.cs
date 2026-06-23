@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
-internal sealed record ItemWithVariantFilterListingResponseServerModel : IListingResponse<ItemWithVariantFilterResultModel>
+internal sealed record ItemWithVariantFilterListingResponseServerModel
 {
     [JsonPropertyName("variants")]
     public required IReadOnlyList<ItemWithVariantFilterResultModel> Variants { get; init; }

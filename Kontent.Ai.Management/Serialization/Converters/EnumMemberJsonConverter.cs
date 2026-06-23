@@ -44,6 +44,10 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
         return map;
     }
 
+    /// <summary>The wire token for <paramref name="value"/> from the cached map — same resolution as the writer, for non-JSON callers (e.g. PATCH path segments).</summary>
+    public static string ToWireValue(TEnum value)
+        => ValueToName.TryGetValue(value, out var mapped) ? mapped : value.ToString();
+
     private static TEnum ParseString(string value)
     {
         if (NameToValue.TryGetValue(value, out var mapped))

@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Subscription;
 
@@ -26,7 +27,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _subscriptionApi.GetSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken).ConfigureAwait(false);
+        var response = await _subscriptionApi.GetSubscriptionUserInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
@@ -35,7 +36,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _subscriptionApi.ActivateSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken).ConfigureAwait(false);
+        var response = await _subscriptionApi.ActivateSubscriptionUserInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
@@ -44,7 +45,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _subscriptionApi.DeactivateSubscriptionUserInternalAsync(UserSegment(identifier), cancellationToken).ConfigureAwait(false);
+        var response = await _subscriptionApi.DeactivateSubscriptionUserInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

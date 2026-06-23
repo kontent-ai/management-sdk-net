@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.Assets;
-internal sealed record AssetListingResponseServerModel : IListingResponse<AssetModel>
+internal sealed record AssetListingResponseServerModel
 {
     [JsonPropertyName("assets")]
     public required IReadOnlyList<AssetModel> Assets { get; init; }

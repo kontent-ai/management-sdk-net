@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 
-// IListingResponse<T> server models are plain records with explicit [JsonPropertyName]; System.Text.Json
+// The *ListingResponseServerModel records are plain records with explicit [JsonPropertyName]; System.Text.Json
 // (de)serializes them natively with no custom converter. These tests guard that the production options keep
 // round-tripping the object shape { "<items>": [...], "pagination": {...} }.
 public class ListingResponseSerializationTests

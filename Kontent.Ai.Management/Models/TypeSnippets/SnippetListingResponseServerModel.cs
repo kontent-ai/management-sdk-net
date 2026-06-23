@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.TypeSnippets;
-internal sealed record SnippetListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
+internal sealed record SnippetListingResponseServerModel
 {
     [JsonPropertyName("snippets")]
     public required IReadOnlyList<ContentTypeSnippetModel> Snippets { get; init; }

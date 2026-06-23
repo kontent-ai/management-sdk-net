@@ -1,5 +1,5 @@
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
-internal sealed record AsyncValidationTaskIssuesResponseServerModel : IListingResponse<AsyncValidationTaskIssueModel>
+internal sealed record AsyncValidationTaskIssuesResponseServerModel
 {
     [JsonPropertyName("issues")]
     public required IReadOnlyList<AsyncValidationTaskIssueModel> Issues { get; init; }
