@@ -690,7 +690,7 @@ Content type snippets work the same way via `CreateContentTypeSnippetAsync` (a `
 
 ### Editing types and snippets with patch operations
 
-Existing types, snippets, and taxonomy groups are changed with a list of **patch operations** rather than a full replace. Content-type and snippet operations address their target — an element, an option, a content group, or a per-element property — through a JSON-Pointer `path`. Rather than hand-write that wire grammar, use the `ContentTypePatch` and `ContentTypeSnippetPatch` factories: each method bundles the path, the correctly-typed value, and the operation verb, and returns a `ContentTypeOperationBaseModel` so the operations compose into one list you can mix freely.
+Existing types, snippets, and taxonomy groups are changed with a list of **patch operations** rather than a full replace. Content-type and snippet operations address their target — an element, an option, a content group, or a per-element property — through a JSON-Pointer `path`. Rather than hand-write that wire grammar, use the `ContentTypePatch` and `ContentTypeSnippetPatch` factories: each method bundles the path, the correctly-typed value, and the operation verb, and returns a `ContentModelOperationBaseModel` so the operations compose into one list you can mix freely.
 
 ```csharp
 using Kontent.Ai.Management.Models.Types.Patch;
@@ -723,8 +723,8 @@ await client.ModifyContentTypeAsync(Reference.ByCodename("article"),
 
 Two fallbacks cover anything the factories don't model:
 
-- **Raw-path factories** — `AddIntoRaw`, `ReplaceRaw`, `RemoveRaw`, `MoveRawBefore` / `MoveRawAfter` take the `path` string directly, so a property the SDK doesn't yet have a named factory for is still reachable in the same fluent style.
-- **The operation records** — construct `ContentTypeReplacePatchModel { Path = "/elements/codename:body/guidelines", Value = … }` (and its add / move / remove siblings) by hand for full control.
+- **Raw-path factories** — `AddIntoRaw`, `ReplaceRaw`, `RemoveRaw`, `MoveRawBefore` / `MoveRawAfter` take the `path` string directly, so a property the SDK has no named factory for — e.g. an element's `maximum_text_length` — is still reachable in the same fluent style: `ContentTypePatch.ReplaceRaw("/elements/codename:summary/maximum_text_length", new MaximumTextLengthModel { Value = 280, AppliesTo = TextLengthLimitType.Characters })`.
+- **The operation records** — construct `ContentModelReplacePatchModel { Path = …, Value = … }` (and its add / move / remove siblings) by hand for full control.
 
 Taxonomy groups, collections, languages, and the other patchable resources address their target by a typed `PropertyName` and `Reference` instead of a path string, so they have no grammar to encode and are edited directly with their own operation models:
 

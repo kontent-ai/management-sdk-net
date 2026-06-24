@@ -1,7 +1,7 @@
 using AwesomeAssertions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.TypeSnippets;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Text.Json;
@@ -284,18 +284,18 @@ public class ContentTypeSnippetTests
         await client.Invoking(x => x.ModifyContentTypeSnippetAsync(Reference.ByCodename("metadata"), null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
-    private static List<ContentTypeSnippetOperationBaseModel> GetChanges() => new()
+    private static List<ContentModelOperationBaseModel> GetChanges() => new()
     {
-        new ContentTypeSnippetRemovePatchModel
+        new ContentModelRemovePatchModel
         {
             Path = $"/elements/codename:none"
         },
-        new ContentTypeSnippetReplacePatchModel
+        new ContentModelReplacePatchModel
         {
             Value = "Provide all personas for which this article is relevant.",
             Path = $"/elements/codename:personas/guidelines"
         },
-        new ContentTypeSnippetAddIntoPatchModel
+        new ContentModelAddIntoPatchModel
         {
             Value = new TextElementMetadataModel
             {
@@ -309,7 +309,7 @@ public class ContentTypeSnippetTests
             After = Reference.ByCodename("personas"),
             Path = "/elements"
         },
-        new ContentTypeSnippetMovePatchModel {
+        new ContentModelMovePatchModel {
             Path = "/elements/codename:summary",
             After = Reference.ByCodename("personas")
         }

@@ -4,6 +4,7 @@ using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
@@ -16,9 +17,7 @@ using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
-using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Models.TypeSnippets;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
@@ -779,19 +778,19 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("my_metadata_snippet");
         // var identifier = Reference.ByExternalId("my-metadata-snippet-id");
 
-        var response = await client.ModifyContentTypeSnippetAsync(identifier, new ContentTypeSnippetOperationBaseModel[]
+        var response = await client.ModifyContentTypeSnippetAsync(identifier, new ContentModelOperationBaseModel[]
         {
-            new ContentTypeSnippetReplacePatchModel
+            new ContentModelReplacePatchModel
             {
                 Path = "/name",
                 Value = "A new snippet name"
             },
-            new ContentTypeSnippetReplacePatchModel
+            new ContentModelReplacePatchModel
             {
                 Path = "/elements/codename:my_metadata__my_meta_description/guidelines",
                 Value = "Length: 70-150 characters."
             },
-            new ContentTypeSnippetAddIntoPatchModel
+            new ContentModelAddIntoPatchModel
             {
                 Path = "/elements",
                 Value = new TextElementMetadataModel
@@ -801,20 +800,20 @@ public class CmApiV2
                     ExternalId = "my-meta-title-id"
                 },
             },
-            new ContentTypeSnippetRemovePatchModel
+            new ContentModelRemovePatchModel
             {
                 Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
             },
-            new ContentTypeSnippetRemovePatchModel
+            new ContentModelRemovePatchModel
             {
                 Path = "/elements/external_id:my-multiple-choice-id/options/codename:my_option"
             },
-            new ContentTypeSnippetMovePatchModel
+            new ContentModelMovePatchModel
             {
                 Path = "/elements/codename:my_metadata_snippet__my_meta_title",
                 After = Reference.ByCodename("my_metadata_snippet__my_meta_description")
             },
-            new ContentTypeSnippetMovePatchModel
+            new ContentModelMovePatchModel
             {
                 Path = "/elements/external_id:my-multiple-choice-id/options/id:8e6ec8b1-6510-4b9b-b4be-6c977f4bdfbc",
                 Before = Reference.ById(Guid.Parse("6bfe5a60-5cc2-4303-8f72-9cc53431046b"))
@@ -902,19 +901,19 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("my_article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ModifyContentTypeAsync(identifier, new ContentTypeOperationBaseModel[]
+        var response = await client.ModifyContentTypeAsync(identifier, new ContentModelOperationBaseModel[]
         {
-            new ContentTypeReplacePatchModel
+            new ContentModelReplacePatchModel
             {
                 Path = "/name",
                 Value = "A new type name"
             },
-            new ContentTypeReplacePatchModel
+            new ContentModelReplacePatchModel
             {
                 Path = "/elements/codename:my_text_element/guidelines",
                 Value = "Here you can tell users how to fill in the element."
             },
-            new ContentTypeReplacePatchModel
+            new ContentModelReplacePatchModel
             {
                 Path = "/elements/codename:my_text_element/default",
                 Value = new TextElementDefaultValueModel {
@@ -923,7 +922,7 @@ public class CmApiV2
                     }
                 }
             },
-            new ContentTypeAddIntoPatchModel
+            new ContentModelAddIntoPatchModel
             {
                 Path = "/elements",
                 Value = new TextElementMetadataModel
@@ -933,16 +932,16 @@ public class CmApiV2
                     ExternalId = "my-title-id",
                 },
             },
-            new ContentTypeRemovePatchModel
+            new ContentModelRemovePatchModel
             {
                 Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
             },
-            new ContentTypeMovePatchModel
+            new ContentModelMovePatchModel
             {
                 Path = "/elements/codename:my_text_element",
                 After = Reference.ByExternalId("my-title-id")
             },
-            new ContentTypeMovePatchModel
+            new ContentModelMovePatchModel
             {
                 Path = "/elements/external_id:my-multiple-choice-id/options/id:d66ffa49-86ff-eeaa-c33b-e5d9eefe8b81",
                 Before = Reference.ById(Guid.Parse("523e6231-8d80-a158-3601-dffde4e64a78"))

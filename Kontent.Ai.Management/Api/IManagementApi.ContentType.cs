@@ -1,5 +1,5 @@
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types;
-using Kontent.Ai.Management.Models.Types.Patch;
 
 namespace Kontent.Ai.Management.Api;
 
@@ -45,6 +45,6 @@ internal partial interface IManagementApi
     [Patch("/types/{**identifier}")]
     internal Task<IApiResponse<ContentTypeModel>> ModifyContentTypeInternalAsync(
         string identifier,
-        [Body] IEnumerable<ContentTypeOperationBaseModel> changes,
+        [Body] IEnumerable<ContentModelOperationBaseModel> changes,
         CancellationToken cancellationToken = default);
 }

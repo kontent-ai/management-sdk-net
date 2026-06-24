@@ -1,7 +1,7 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types;
-using Kontent.Ai.Management.Models.Types.Patch;
 
 namespace Kontent.Ai.Management;
 
@@ -43,7 +43,7 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes, CancellationToken cancellationToken = default)
+    public async Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);

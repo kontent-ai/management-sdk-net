@@ -1,9 +1,9 @@
-namespace Kontent.Ai.Management.Models.Types.Patch;
+namespace Kontent.Ai.Management.Models.ContentModel.Patch;
 
 /// <summary>
-/// <c>addInto</c> operation. Inserts a new object into the collection at <see cref="ContentTypeOperationBaseModel.Path"/>.
+/// <c>addInto</c> operation. Inserts a new object into the collection at <see cref="ContentModelOperationBaseModel.Path"/>.
 /// </summary>
-public sealed record ContentTypeAddIntoPatchModel : ContentTypeOperationBaseModel
+public sealed record ContentModelAddIntoPatchModel : ContentModelOperationBaseModel
 {
     /// <inheritdoc/>
     public override string Op => "addInto";

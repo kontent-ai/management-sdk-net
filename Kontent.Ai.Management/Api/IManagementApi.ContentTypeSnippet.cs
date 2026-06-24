@@ -1,5 +1,5 @@
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.TypeSnippets;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 
 namespace Kontent.Ai.Management.Api;
 
@@ -45,6 +45,6 @@ internal partial interface IManagementApi
     [Patch("/snippets/{**identifier}")]
     internal Task<IApiResponse<ContentTypeSnippetModel>> ModifyContentTypeSnippetInternalAsync(
         string identifier,
-        [Body] IEnumerable<ContentTypeSnippetOperationBaseModel> changes,
+        [Body] IEnumerable<ContentModelOperationBaseModel> changes,
         CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,5 @@
 using AwesomeAssertions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 
@@ -11,7 +12,7 @@ public class ContentTypeSnippetPatchTests
     [Fact]
     public void AddElement_AppendsToElements()
     {
-        var op = (ContentTypeSnippetAddIntoPatchModel)ContentTypeSnippetPatch.AddElement(new TextElementMetadataModel { Name = "Title" });
+        var op = (ContentModelAddIntoPatchModel)ContentTypeSnippetPatch.AddElement(new TextElementMetadataModel { Name = "Title" });
 
         op.Op.Should().Be("addInto");
         op.Path.Should().Be("/elements");
@@ -20,7 +21,7 @@ public class ContentTypeSnippetPatchTests
     [Fact]
     public void ReplaceGuidelines_TargetsGuidelines()
     {
-        var op = (ContentTypeSnippetReplacePatchModel)ContentTypeSnippetPatch.ReplaceGuidelines(El, "text");
+        var op = (ContentModelReplacePatchModel)ContentTypeSnippetPatch.ReplaceGuidelines(El, "text");
 
         op.Op.Should().Be("replace");
         op.Path.Should().Be("/elements/codename:body/guidelines");
@@ -31,7 +32,7 @@ public class ContentTypeSnippetPatchTests
     public void AllowedItemLinkTypes_ReplaceWholeArray()
     {
         var types = new[] { Reference.ByCodename("article") };
-        var op = (ContentTypeSnippetReplacePatchModel)ContentTypeSnippetPatch.ReplaceAllowedItemLinkTypes(El, types);
+        var op = (ContentModelReplacePatchModel)ContentTypeSnippetPatch.ReplaceAllowedItemLinkTypes(El, types);
 
         op.Path.Should().Be("/elements/codename:body/allowed_item_link_types");
         op.Value.Should().BeSameAs(types);
@@ -40,7 +41,7 @@ public class ContentTypeSnippetPatchTests
     [Fact]
     public void AllowedFormatting_AddUsesWireToken()
     {
-        var op = (ContentTypeSnippetAddIntoPatchModel)ContentTypeSnippetPatch.AddAllowedFormatting(El, RichTextFormattingType.Unstyled);
+        var op = (ContentModelAddIntoPatchModel)ContentTypeSnippetPatch.AddAllowedFormatting(El, RichTextFormattingType.Unstyled);
 
         op.Path.Should().Be("/elements/codename:body/allowed_formatting");
         op.Value.Should().Be("unstyled");
@@ -49,7 +50,7 @@ public class ContentTypeSnippetPatchTests
     [Fact]
     public void RemoveRaw_PassesPathThrough()
     {
-        var op = (ContentTypeSnippetRemovePatchModel)ContentTypeSnippetPatch.RemoveRaw("/elements/codename:body/whatever");
+        var op = (ContentModelRemovePatchModel)ContentTypeSnippetPatch.RemoveRaw("/elements/codename:body/whatever");
 
         op.Path.Should().Be("/elements/codename:body/whatever");
     }

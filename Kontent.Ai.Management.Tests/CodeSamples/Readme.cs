@@ -447,7 +447,31 @@ public class Readme
             }
         });
 
-        await client.ModifyContentTypeAsync(Reference.ByCodename("article"), new ContentTypeOperationBaseModel[] { });
+        await client.ModifyContentTypeAsync(Reference.ByCodename("article"),
+        [
+            // add a new element
+            ContentTypePatch.AddElement(new TextElementMetadataModel { Name = "Subtitle", Codename = "subtitle" }),
+
+            // replace a scalar property of an existing element
+            ContentTypePatch.ReplaceGuidelines(Reference.ByCodename("body"), "Keep it under 300 words."),
+            ContentTypePatch.ReplaceIsRequired(Reference.ByCodename("title"), true),
+
+            // set a rich-text / linked-items element's allowed content types (whole set at once) …
+            ContentTypePatch.ReplaceAllowedContentTypes(Reference.ByCodename("related"),
+                [Reference.ByCodename("article"), Reference.ByCodename("blog_post")]),
+
+            // … or toggle a single allowed rich-text block
+            ContentTypePatch.RemoveAllowedBlock(Reference.ByCodename("body"), RichTextBlockType.Tables),
+
+            // reorder, reassign to a content group, remove
+            ContentTypePatch.MoveElementAfter(Reference.ByCodename("subtitle"), Reference.ByCodename("title")),
+            ContentTypePatch.ReplaceContentGroup(Reference.ByCodename("title"), Reference.ByCodename("metadata")),
+            ContentTypePatch.RemoveElement(Reference.ByCodename("legacy_field")),
+
+            // escape hatch: a property the SDK has no named factory for, via a raw path
+            ContentTypePatch.ReplaceRaw("/elements/codename:summary/maximum_text_length",
+                new MaximumTextLengthModel { Value = 280, AppliesTo = TextLengthLimitType.Characters }),
+        ]);
     }
 
     public async Task Workflows(IManagementClient client)

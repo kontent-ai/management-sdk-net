@@ -1,9 +1,9 @@
-namespace Kontent.Ai.Management.Models.Types.Patch;
+namespace Kontent.Ai.Management.Models.ContentModel.Patch;
 
 /// <summary>
-/// <c>replace</c> operation. Replaces the value at <see cref="ContentTypeOperationBaseModel.Path"/>. A null <see cref="Value"/> clears the targeted property.
+/// <c>replace</c> operation. Replaces the value at <see cref="ContentModelOperationBaseModel.Path"/>. A null <see cref="Value"/> clears the targeted property.
 /// </summary>
-public sealed record ContentTypeReplacePatchModel : ContentTypeOperationBaseModel
+public sealed record ContentModelReplacePatchModel : ContentModelOperationBaseModel
 {
     /// <inheritdoc/>
     public override string Op => "replace";

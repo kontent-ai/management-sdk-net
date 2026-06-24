@@ -4,6 +4,7 @@ using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.CustomApps;
 using Kontent.Ai.Management.Models.CustomApps.Patch;
 using Kontent.Ai.Management.Models.EnvironmentReport;
@@ -23,9 +24,7 @@ using Kontent.Ai.Management.Models.Subscription;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Models.Types;
-using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Models.TypeSnippets;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Workflow;
@@ -515,7 +514,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="changes">Represents changes that will be applied to the content type.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the modified <see cref="ContentTypeModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes, CancellationToken cancellationToken = default);
+    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies content type snippet.
@@ -524,7 +523,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="changes">Represents changes that will be applied to the content type snippet.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the modified <see cref="ContentTypeSnippetModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes, CancellationToken cancellationToken = default);
+    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the language.

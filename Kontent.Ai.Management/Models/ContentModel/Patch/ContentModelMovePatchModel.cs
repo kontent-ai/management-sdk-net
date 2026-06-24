@@ -1,9 +1,9 @@
-namespace Kontent.Ai.Management.Models.TypeSnippets.Patch;
+namespace Kontent.Ai.Management.Models.ContentModel.Patch;
 
 /// <summary>
-/// <c>move</c> operation. Moves the object at <see cref="ContentTypeSnippetOperationBaseModel.Path"/> to a new position. The API requires exactly one of <see cref="Before"/> or <see cref="After"/>; sending neither (or both) returns 400.
+/// <c>move</c> operation. Moves the object at <see cref="ContentModelOperationBaseModel.Path"/> to a new position. The API requires exactly one of <see cref="Before"/> or <see cref="After"/>; sending neither (or both) returns 400.
 /// </summary>
-public sealed record ContentTypeSnippetMovePatchModel : ContentTypeSnippetOperationBaseModel
+public sealed record ContentModelMovePatchModel : ContentModelOperationBaseModel
 {
     /// <inheritdoc/>
     public override string Op => "move";

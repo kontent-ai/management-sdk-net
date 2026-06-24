@@ -95,8 +95,8 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
@@ -223,8 +223,8 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
@@ -853,6 +853,62 @@ public sealed class ContentModelSnapshot : IEquatable`1
     ContentModelSnapshot <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ContentModelSnapshot other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelAddIntoPatchModel : ContentModelOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    Object Value { get; set; init; }
+    ContentModelAddIntoPatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelAddIntoPatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelMovePatchModel : ContentModelOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    ContentModelMovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelMovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public class ContentModelOperationBaseModel : IEquatable`1
+    String Op { get; }
+    String Path { get; set; init; }
+    ContentModelOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelRemovePatchModel : ContentModelOperationBaseModel, IEquatable`1
+    String Op { get; }
+    ContentModelRemovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelRemovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelReplacePatchModel : ContentModelOperationBaseModel, IEquatable`1
+    String Op { get; }
+    Object Value { get; set; init; }
+    ContentModelReplacePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelReplacePatchModel other)
     Int32 GetHashCode()
     String ToString()
 
@@ -2393,108 +2449,52 @@ public sealed class TypeValue`1<TValue> : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Patch
-public sealed class ContentTypeAddIntoPatchModel : ContentTypeOperationBaseModel, IEquatable`1
-    Reference After { get; set; init; }
-    Reference Before { get; set; init; }
-    String Op { get; }
-    Object Value { get; set; init; }
-    ContentTypeAddIntoPatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeOperationBaseModel other)
-    Boolean Equals(ContentTypeAddIntoPatchModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Types.Patch
-public sealed class ContentTypeMovePatchModel : ContentTypeOperationBaseModel, IEquatable`1
-    Reference After { get; set; init; }
-    Reference Before { get; set; init; }
-    String Op { get; }
-    ContentTypeMovePatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeOperationBaseModel other)
-    Boolean Equals(ContentTypeMovePatchModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Types.Patch
-public class ContentTypeOperationBaseModel : IEquatable`1
-    String Op { get; }
-    String Path { get; set; init; }
-    ContentTypeOperationBaseModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeOperationBaseModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Types.Patch
 public sealed class ContentTypePatch
-    static ContentTypeOperationBaseModel AddAllowedBlock(Reference element, RichTextBlockType block)
-    static ContentTypeOperationBaseModel AddAllowedContentType(Reference element, Reference type)
-    static ContentTypeOperationBaseModel AddAllowedElement(Reference element, Reference allowedElement)
-    static ContentTypeOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeOperationBaseModel AddAllowedItemLinkType(Reference element, Reference type)
-    static ContentTypeOperationBaseModel AddAllowedTableBlock(Reference element, RichTextTableBlockType block)
-    static ContentTypeOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeOperationBaseModel AddAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeOperationBaseModel AddAllowedTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeOperationBaseModel AddContentGroup(ContentGroupModel group, Reference before, Reference after)
-    static ContentTypeOperationBaseModel AddElement(ElementMetadataBase element, Reference before, Reference after)
-    static ContentTypeOperationBaseModel AddIntoRaw(String path, Object value, Reference before, Reference after)
-    static ContentTypeOperationBaseModel AddOption(Reference element, MultipleChoiceOptionModel option, Reference before, Reference after)
-    static ContentTypeOperationBaseModel MoveContentGroupAfter(Reference group, Reference target)
-    static ContentTypeOperationBaseModel MoveContentGroupBefore(Reference group, Reference target)
-    static ContentTypeOperationBaseModel MoveElementAfter(Reference element, Reference target)
-    static ContentTypeOperationBaseModel MoveElementBefore(Reference element, Reference target)
-    static ContentTypeOperationBaseModel MoveOptionAfter(Reference element, Reference option, Reference target)
-    static ContentTypeOperationBaseModel MoveOptionBefore(Reference element, Reference option, Reference target)
-    static ContentTypeOperationBaseModel MoveRawAfter(String path, Reference target)
-    static ContentTypeOperationBaseModel MoveRawBefore(String path, Reference target)
-    static ContentTypeOperationBaseModel RemoveAllowedBlock(Reference element, RichTextBlockType block)
-    static ContentTypeOperationBaseModel RemoveAllowedContentType(Reference element, Reference type)
-    static ContentTypeOperationBaseModel RemoveAllowedElement(Reference element, Reference allowedElement)
-    static ContentTypeOperationBaseModel RemoveAllowedFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeOperationBaseModel RemoveAllowedItemLinkType(Reference element, Reference type)
-    static ContentTypeOperationBaseModel RemoveAllowedTableBlock(Reference element, RichTextTableBlockType block)
-    static ContentTypeOperationBaseModel RemoveAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeOperationBaseModel RemoveAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeOperationBaseModel RemoveAllowedTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeOperationBaseModel RemoveContentGroup(Reference group)
-    static ContentTypeOperationBaseModel RemoveElement(Reference element)
-    static ContentTypeOperationBaseModel RemoveOption(Reference element, Reference option)
-    static ContentTypeOperationBaseModel RemoveRaw(String path)
-    static ContentTypeOperationBaseModel ReplaceAllowedContentTypes(Reference element, IEnumerable<Reference> types)
-    static ContentTypeOperationBaseModel ReplaceAllowedElements(Reference element, IEnumerable<Reference> allowedElements)
-    static ContentTypeOperationBaseModel ReplaceAllowedItemLinkTypes(Reference element, IEnumerable<Reference> types)
-    static ContentTypeOperationBaseModel ReplaceContentGroup(Reference element, Reference group)
-    static ContentTypeOperationBaseModel ReplaceDefault(Reference element, Object value)
-    static ContentTypeOperationBaseModel ReplaceElementName(Reference element, String name)
-    static ContentTypeOperationBaseModel ReplaceGuidelines(Reference element, String guidelines)
-    static ContentTypeOperationBaseModel ReplaceIsNonLocalizable(Reference element, Boolean isNonLocalizable)
-    static ContentTypeOperationBaseModel ReplaceIsRequired(Reference element, Boolean isRequired)
-    static ContentTypeOperationBaseModel ReplaceName(String name)
-    static ContentTypeOperationBaseModel ReplaceRaw(String path, Object value)
-
-// Kontent.Ai.Management.Models.Types.Patch
-public sealed class ContentTypeRemovePatchModel : ContentTypeOperationBaseModel, IEquatable`1
-    String Op { get; }
-    ContentTypeRemovePatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeOperationBaseModel other)
-    Boolean Equals(ContentTypeRemovePatchModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Types.Patch
-public sealed class ContentTypeReplacePatchModel : ContentTypeOperationBaseModel, IEquatable`1
-    String Op { get; }
-    Object Value { get; set; init; }
-    ContentTypeReplacePatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeOperationBaseModel other)
-    Boolean Equals(ContentTypeReplacePatchModel other)
-    Int32 GetHashCode()
-    String ToString()
+    static ContentModelOperationBaseModel AddAllowedBlock(Reference element, RichTextBlockType block)
+    static ContentModelOperationBaseModel AddAllowedContentType(Reference element, Reference type)
+    static ContentModelOperationBaseModel AddAllowedElement(Reference element, Reference allowedElement)
+    static ContentModelOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel AddAllowedItemLinkType(Reference element, Reference type)
+    static ContentModelOperationBaseModel AddAllowedTableBlock(Reference element, RichTextTableBlockType block)
+    static ContentModelOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel AddAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel AddAllowedTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel AddContentGroup(ContentGroupModel group, Reference before, Reference after)
+    static ContentModelOperationBaseModel AddElement(ElementMetadataBase element, Reference before, Reference after)
+    static ContentModelOperationBaseModel AddIntoRaw(String path, Object value, Reference before, Reference after)
+    static ContentModelOperationBaseModel AddOption(Reference element, MultipleChoiceOptionModel option, Reference before, Reference after)
+    static ContentModelOperationBaseModel MoveContentGroupAfter(Reference group, Reference target)
+    static ContentModelOperationBaseModel MoveContentGroupBefore(Reference group, Reference target)
+    static ContentModelOperationBaseModel MoveElementAfter(Reference element, Reference target)
+    static ContentModelOperationBaseModel MoveElementBefore(Reference element, Reference target)
+    static ContentModelOperationBaseModel MoveOptionAfter(Reference element, Reference option, Reference target)
+    static ContentModelOperationBaseModel MoveOptionBefore(Reference element, Reference option, Reference target)
+    static ContentModelOperationBaseModel MoveRawAfter(String path, Reference target)
+    static ContentModelOperationBaseModel MoveRawBefore(String path, Reference target)
+    static ContentModelOperationBaseModel RemoveAllowedBlock(Reference element, RichTextBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedContentType(Reference element, Reference type)
+    static ContentModelOperationBaseModel RemoveAllowedElement(Reference element, Reference allowedElement)
+    static ContentModelOperationBaseModel RemoveAllowedFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel RemoveAllowedItemLinkType(Reference element, Reference type)
+    static ContentModelOperationBaseModel RemoveAllowedTableBlock(Reference element, RichTextTableBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel RemoveAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel RemoveContentGroup(Reference group)
+    static ContentModelOperationBaseModel RemoveElement(Reference element)
+    static ContentModelOperationBaseModel RemoveOption(Reference element, Reference option)
+    static ContentModelOperationBaseModel RemoveRaw(String path)
+    static ContentModelOperationBaseModel ReplaceAllowedContentTypes(Reference element, IEnumerable<Reference> types)
+    static ContentModelOperationBaseModel ReplaceAllowedElements(Reference element, IEnumerable<Reference> allowedElements)
+    static ContentModelOperationBaseModel ReplaceAllowedItemLinkTypes(Reference element, IEnumerable<Reference> types)
+    static ContentModelOperationBaseModel ReplaceContentGroup(Reference element, Reference group)
+    static ContentModelOperationBaseModel ReplaceDefault(Reference element, Object value)
+    static ContentModelOperationBaseModel ReplaceElementName(Reference element, String name)
+    static ContentModelOperationBaseModel ReplaceGuidelines(Reference element, String guidelines)
+    static ContentModelOperationBaseModel ReplaceIsNonLocalizable(Reference element, Boolean isNonLocalizable)
+    static ContentModelOperationBaseModel ReplaceIsRequired(Reference element, Boolean isRequired)
+    static ContentModelOperationBaseModel ReplaceName(String name)
+    static ContentModelOperationBaseModel ReplaceRaw(String path, Object value)
 
 // Kontent.Ai.Management.Models.TypeSnippets
 public sealed class ContentTypeSnippetCreateModel : IEquatable`1
@@ -2523,103 +2523,47 @@ public sealed class ContentTypeSnippetModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.TypeSnippets.Patch
-public sealed class ContentTypeSnippetAddIntoPatchModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
-    Reference After { get; set; init; }
-    Reference Before { get; set; init; }
-    String Op { get; }
-    Object Value { get; set; init; }
-    ContentTypeSnippetAddIntoPatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Boolean Equals(ContentTypeSnippetAddIntoPatchModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.TypeSnippets.Patch
-public sealed class ContentTypeSnippetMovePatchModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
-    Reference After { get; set; init; }
-    Reference Before { get; set; init; }
-    String Op { get; }
-    ContentTypeSnippetMovePatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Boolean Equals(ContentTypeSnippetMovePatchModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.TypeSnippets.Patch
-public class ContentTypeSnippetOperationBaseModel : IEquatable`1
-    String Op { get; }
-    String Path { get; set; init; }
-    ContentTypeSnippetOperationBaseModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.TypeSnippets.Patch
 public sealed class ContentTypeSnippetPatch
-    static ContentTypeSnippetOperationBaseModel AddAllowedBlock(Reference element, RichTextBlockType block)
-    static ContentTypeSnippetOperationBaseModel AddAllowedContentType(Reference element, Reference type)
-    static ContentTypeSnippetOperationBaseModel AddAllowedElement(Reference element, Reference allowedElement)
-    static ContentTypeSnippetOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeSnippetOperationBaseModel AddAllowedItemLinkType(Reference element, Reference type)
-    static ContentTypeSnippetOperationBaseModel AddAllowedTableBlock(Reference element, RichTextTableBlockType block)
-    static ContentTypeSnippetOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeSnippetOperationBaseModel AddAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeSnippetOperationBaseModel AddAllowedTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeSnippetOperationBaseModel AddElement(ElementMetadataBase element, Reference before, Reference after)
-    static ContentTypeSnippetOperationBaseModel AddIntoRaw(String path, Object value, Reference before, Reference after)
-    static ContentTypeSnippetOperationBaseModel AddOption(Reference element, MultipleChoiceOptionModel option, Reference before, Reference after)
-    static ContentTypeSnippetOperationBaseModel MoveElementAfter(Reference element, Reference target)
-    static ContentTypeSnippetOperationBaseModel MoveElementBefore(Reference element, Reference target)
-    static ContentTypeSnippetOperationBaseModel MoveOptionAfter(Reference element, Reference option, Reference target)
-    static ContentTypeSnippetOperationBaseModel MoveOptionBefore(Reference element, Reference option, Reference target)
-    static ContentTypeSnippetOperationBaseModel MoveRawAfter(String path, Reference target)
-    static ContentTypeSnippetOperationBaseModel MoveRawBefore(String path, Reference target)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedBlock(Reference element, RichTextBlockType block)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedContentType(Reference element, Reference type)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedElement(Reference element, Reference allowedElement)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedItemLinkType(Reference element, Reference type)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedTableBlock(Reference element, RichTextTableBlockType block)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeSnippetOperationBaseModel RemoveAllowedTextBlock(Reference element, RichTextTextBlockType block)
-    static ContentTypeSnippetOperationBaseModel RemoveElement(Reference element)
-    static ContentTypeSnippetOperationBaseModel RemoveOption(Reference element, Reference option)
-    static ContentTypeSnippetOperationBaseModel RemoveRaw(String path)
-    static ContentTypeSnippetOperationBaseModel ReplaceAllowedContentTypes(Reference element, IEnumerable<Reference> types)
-    static ContentTypeSnippetOperationBaseModel ReplaceAllowedElements(Reference element, IEnumerable<Reference> allowedElements)
-    static ContentTypeSnippetOperationBaseModel ReplaceAllowedItemLinkTypes(Reference element, IEnumerable<Reference> types)
-    static ContentTypeSnippetOperationBaseModel ReplaceDefault(Reference element, Object value)
-    static ContentTypeSnippetOperationBaseModel ReplaceElementName(Reference element, String name)
-    static ContentTypeSnippetOperationBaseModel ReplaceGuidelines(Reference element, String guidelines)
-    static ContentTypeSnippetOperationBaseModel ReplaceIsNonLocalizable(Reference element, Boolean isNonLocalizable)
-    static ContentTypeSnippetOperationBaseModel ReplaceIsRequired(Reference element, Boolean isRequired)
-    static ContentTypeSnippetOperationBaseModel ReplaceName(String name)
-    static ContentTypeSnippetOperationBaseModel ReplaceRaw(String path, Object value)
-
-// Kontent.Ai.Management.Models.TypeSnippets.Patch
-public sealed class ContentTypeSnippetRemovePatchModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
-    String Op { get; }
-    ContentTypeSnippetRemovePatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Boolean Equals(ContentTypeSnippetRemovePatchModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.TypeSnippets.Patch
-public sealed class ContentTypeSnippetReplacePatchModel : ContentTypeSnippetOperationBaseModel, IEquatable`1
-    String Op { get; }
-    Object Value { get; set; init; }
-    ContentTypeSnippetReplacePatchModel <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ContentTypeSnippetOperationBaseModel other)
-    Boolean Equals(ContentTypeSnippetReplacePatchModel other)
-    Int32 GetHashCode()
-    String ToString()
+    static ContentModelOperationBaseModel AddAllowedBlock(Reference element, RichTextBlockType block)
+    static ContentModelOperationBaseModel AddAllowedContentType(Reference element, Reference type)
+    static ContentModelOperationBaseModel AddAllowedElement(Reference element, Reference allowedElement)
+    static ContentModelOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel AddAllowedItemLinkType(Reference element, Reference type)
+    static ContentModelOperationBaseModel AddAllowedTableBlock(Reference element, RichTextTableBlockType block)
+    static ContentModelOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel AddAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel AddAllowedTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel AddElement(ElementMetadataBase element, Reference before, Reference after)
+    static ContentModelOperationBaseModel AddIntoRaw(String path, Object value, Reference before, Reference after)
+    static ContentModelOperationBaseModel AddOption(Reference element, MultipleChoiceOptionModel option, Reference before, Reference after)
+    static ContentModelOperationBaseModel MoveElementAfter(Reference element, Reference target)
+    static ContentModelOperationBaseModel MoveElementBefore(Reference element, Reference target)
+    static ContentModelOperationBaseModel MoveOptionAfter(Reference element, Reference option, Reference target)
+    static ContentModelOperationBaseModel MoveOptionBefore(Reference element, Reference option, Reference target)
+    static ContentModelOperationBaseModel MoveRawAfter(String path, Reference target)
+    static ContentModelOperationBaseModel MoveRawBefore(String path, Reference target)
+    static ContentModelOperationBaseModel RemoveAllowedBlock(Reference element, RichTextBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedContentType(Reference element, Reference type)
+    static ContentModelOperationBaseModel RemoveAllowedElement(Reference element, Reference allowedElement)
+    static ContentModelOperationBaseModel RemoveAllowedFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel RemoveAllowedItemLinkType(Reference element, Reference type)
+    static ContentModelOperationBaseModel RemoveAllowedTableBlock(Reference element, RichTextTableBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel RemoveAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel RemoveElement(Reference element)
+    static ContentModelOperationBaseModel RemoveOption(Reference element, Reference option)
+    static ContentModelOperationBaseModel RemoveRaw(String path)
+    static ContentModelOperationBaseModel ReplaceAllowedContentTypes(Reference element, IEnumerable<Reference> types)
+    static ContentModelOperationBaseModel ReplaceAllowedElements(Reference element, IEnumerable<Reference> allowedElements)
+    static ContentModelOperationBaseModel ReplaceAllowedItemLinkTypes(Reference element, IEnumerable<Reference> types)
+    static ContentModelOperationBaseModel ReplaceDefault(Reference element, Object value)
+    static ContentModelOperationBaseModel ReplaceElementName(Reference element, String name)
+    static ContentModelOperationBaseModel ReplaceGuidelines(Reference element, String guidelines)
+    static ContentModelOperationBaseModel ReplaceIsNonLocalizable(Reference element, Boolean isNonLocalizable)
+    static ContentModelOperationBaseModel ReplaceIsRequired(Reference element, Boolean isRequired)
+    static ContentModelOperationBaseModel ReplaceName(String name)
+    static ContentModelOperationBaseModel ReplaceRaw(String path, Object value)
 
 // Kontent.Ai.Management.Models.Users
 public sealed class RoleModel : IEquatable`1

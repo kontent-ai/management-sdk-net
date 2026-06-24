@@ -1,4 +1,5 @@
 using AwesomeAssertions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Patch;
@@ -12,7 +13,7 @@ public class ContentTypePatchTests
     [Fact]
     public void AddElement_AppendsToElements()
     {
-        var op = (ContentTypeAddIntoPatchModel)ContentTypePatch.AddElement(new TextElementMetadataModel { Name = "Title" });
+        var op = (ContentModelAddIntoPatchModel)ContentTypePatch.AddElement(new TextElementMetadataModel { Name = "Title" });
 
         op.Op.Should().Be("addInto");
         op.Path.Should().Be("/elements");
@@ -33,7 +34,7 @@ public class ContentTypePatchTests
     [Fact]
     public void RemoveElement_TargetsElementBySelector()
     {
-        var op = (ContentTypeRemovePatchModel)ContentTypePatch.RemoveElement(El);
+        var op = (ContentModelRemovePatchModel)ContentTypePatch.RemoveElement(El);
 
         op.Op.Should().Be("remove");
         op.Path.Should().Be("/elements/codename:title");
@@ -43,7 +44,7 @@ public class ContentTypePatchTests
     public void MoveElementBefore_SetsBeforeOnly()
     {
         var target = Reference.ByCodename("body");
-        var op = (ContentTypeMovePatchModel)ContentTypePatch.MoveElementBefore(El, target);
+        var op = (ContentModelMovePatchModel)ContentTypePatch.MoveElementBefore(El, target);
 
         op.Op.Should().Be("move");
         op.Path.Should().Be("/elements/codename:title");
@@ -55,7 +56,7 @@ public class ContentTypePatchTests
     [InlineData("title", "/elements/codename:title/guidelines")]
     public void ReplaceGuidelines_TargetsGuidelinesProperty(string codename, string expectedPath)
     {
-        var op = (ContentTypeReplacePatchModel)ContentTypePatch.ReplaceGuidelines(Reference.ByCodename(codename), "Keep it short.");
+        var op = (ContentModelReplacePatchModel)ContentTypePatch.ReplaceGuidelines(Reference.ByCodename(codename), "Keep it short.");
 
         op.Op.Should().Be("replace");
         op.Path.Should().Be(expectedPath);
@@ -65,7 +66,7 @@ public class ContentTypePatchTests
     [Fact]
     public void ReplaceGuidelines_Null_Clears()
     {
-        var op = (ContentTypeReplacePatchModel)ContentTypePatch.ReplaceGuidelines(El, null);
+        var op = (ContentModelReplacePatchModel)ContentTypePatch.ReplaceGuidelines(El, null);
 
         op.Value.Should().BeNull();
     }
@@ -73,7 +74,7 @@ public class ContentTypePatchTests
     [Fact]
     public void ReplaceIsRequired_EmitsBoolValue()
     {
-        var op = (ContentTypeReplacePatchModel)ContentTypePatch.ReplaceIsRequired(El, true);
+        var op = (ContentModelReplacePatchModel)ContentTypePatch.ReplaceIsRequired(El, true);
 
         op.Path.Should().Be("/elements/codename:title/is_required");
         op.Value.Should().Be(true);
@@ -83,7 +84,7 @@ public class ContentTypePatchTests
     public void ReplaceContentGroup_TargetsContentGroupProperty()
     {
         var group = Reference.ByCodename("group_b");
-        var op = (ContentTypeReplacePatchModel)ContentTypePatch.ReplaceContentGroup(El, group);
+        var op = (ContentModelReplacePatchModel)ContentTypePatch.ReplaceContentGroup(El, group);
 
         op.Path.Should().Be("/elements/codename:title/content_group");
         op.Value.Should().Be(group);
@@ -94,15 +95,15 @@ public class ContentTypePatchTests
     {
         var type = Reference.ByCodename("article");
 
-        var add = (ContentTypeAddIntoPatchModel)ContentTypePatch.AddAllowedContentType(El, type);
+        var add = (ContentModelAddIntoPatchModel)ContentTypePatch.AddAllowedContentType(El, type);
         add.Path.Should().Be("/elements/codename:title/allowed_content_types");
         add.Value.Should().Be(type);
 
-        var remove = (ContentTypeRemovePatchModel)ContentTypePatch.RemoveAllowedContentType(El, type);
+        var remove = (ContentModelRemovePatchModel)ContentTypePatch.RemoveAllowedContentType(El, type);
         remove.Path.Should().Be("/elements/codename:title/allowed_content_types/codename:article");
 
         var types = new[] { type, Reference.ByCodename("blog_post") };
-        var replace = (ContentTypeReplacePatchModel)ContentTypePatch.ReplaceAllowedContentTypes(El, types);
+        var replace = (ContentModelReplacePatchModel)ContentTypePatch.ReplaceAllowedContentTypes(El, types);
         replace.Path.Should().Be("/elements/codename:title/allowed_content_types");
         replace.Value.Should().BeSameAs(types);
     }
@@ -112,13 +113,13 @@ public class ContentTypePatchTests
     {
         var option = Reference.ByCodename("news");
 
-        var add = (ContentTypeAddIntoPatchModel)ContentTypePatch.AddOption(El, new MultipleChoiceOptionModel { Name = "News" });
+        var add = (ContentModelAddIntoPatchModel)ContentTypePatch.AddOption(El, new MultipleChoiceOptionModel { Name = "News" });
         add.Path.Should().Be("/elements/codename:title/options");
 
-        var remove = (ContentTypeRemovePatchModel)ContentTypePatch.RemoveOption(El, option);
+        var remove = (ContentModelRemovePatchModel)ContentTypePatch.RemoveOption(El, option);
         remove.Path.Should().Be("/elements/codename:title/options/codename:news");
 
-        var move = (ContentTypeMovePatchModel)ContentTypePatch.MoveOptionAfter(El, option, Reference.ByCodename("release"));
+        var move = (ContentModelMovePatchModel)ContentTypePatch.MoveOptionAfter(El, option, Reference.ByCodename("release"));
         move.Path.Should().Be("/elements/codename:title/options/codename:news");
         move.After.Should().Be(Reference.ByCodename("release"));
     }
@@ -126,28 +127,28 @@ public class ContentTypePatchTests
     [Fact]
     public void ContentGroups_AddRemove()
     {
-        var add = (ContentTypeAddIntoPatchModel)ContentTypePatch.AddContentGroup(new ContentGroupModel { Name = "Group A" });
+        var add = (ContentModelAddIntoPatchModel)ContentTypePatch.AddContentGroup(new ContentGroupModel { Name = "Group A" });
         add.Path.Should().Be("/content_groups");
 
-        var remove = (ContentTypeRemovePatchModel)ContentTypePatch.RemoveContentGroup(Reference.ByCodename("group_a"));
+        var remove = (ContentModelRemovePatchModel)ContentTypePatch.RemoveContentGroup(Reference.ByCodename("group_a"));
         remove.Path.Should().Be("/content_groups/codename:group_a");
     }
 
     [Fact]
     public void AllowedBlock_AddUsesWireToken_RemovePutsTokenInPath()
     {
-        var add = (ContentTypeAddIntoPatchModel)ContentTypePatch.AddAllowedBlock(El, RichTextBlockType.ComponentsAndItems);
+        var add = (ContentModelAddIntoPatchModel)ContentTypePatch.AddAllowedBlock(El, RichTextBlockType.ComponentsAndItems);
         add.Path.Should().Be("/elements/codename:title/allowed_blocks");
         add.Value.Should().Be("components-and-items");
 
-        var remove = (ContentTypeRemovePatchModel)ContentTypePatch.RemoveAllowedBlock(El, RichTextBlockType.ComponentsAndItems);
+        var remove = (ContentModelRemovePatchModel)ContentTypePatch.RemoveAllowedBlock(El, RichTextBlockType.ComponentsAndItems);
         remove.Path.Should().Be("/elements/codename:title/allowed_blocks/components-and-items");
     }
 
     [Fact]
     public void AllowedTableTextBlock_UsesTableTextBlocksPathAndToken()
     {
-        var remove = (ContentTypeRemovePatchModel)ContentTypePatch.RemoveAllowedTableTextBlock(El, RichTextTextBlockType.HeadingThree);
+        var remove = (ContentModelRemovePatchModel)ContentTypePatch.RemoveAllowedTableTextBlock(El, RichTextTextBlockType.HeadingThree);
 
         remove.Path.Should().Be("/elements/codename:title/allowed_table_text_blocks/heading-three");
     }
@@ -156,18 +157,18 @@ public class ContentTypePatchTests
     [InlineData("id")]
     public void Selector_RendersEachReferenceKind(string _)
     {
-        ((ContentTypeRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ById(Guid.Empty)))
+        ((ContentModelRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ById(Guid.Empty)))
             .Path.Should().Be("/elements/id:00000000-0000-0000-0000-000000000000");
-        ((ContentTypeRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ByCodename("my_field")))
+        ((ContentModelRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ByCodename("my_field")))
             .Path.Should().Be("/elements/codename:my_field");
-        ((ContentTypeRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ByExternalId("ext-1")))
+        ((ContentModelRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ByExternalId("ext-1")))
             .Path.Should().Be("/elements/external_id:ext-1");
     }
 
     [Fact]
     public void Selector_EscapesForwardSlashInExternalId()
     {
-        var op = (ContentTypeRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ByExternalId("my/value"));
+        var op = (ContentModelRemovePatchModel)ContentTypePatch.RemoveElement(Reference.ByExternalId("my/value"));
 
         op.Path.Should().Be("/elements/external_id:my\\/value");
     }
@@ -175,7 +176,7 @@ public class ContentTypePatchTests
     [Fact]
     public void Raw_EscapeHatch_PassesPathThrough()
     {
-        var op = (ContentTypeReplacePatchModel)ContentTypePatch.ReplaceRaw("/elements/codename:x/some_future_prop", 42);
+        var op = (ContentModelReplacePatchModel)ContentTypePatch.ReplaceRaw("/elements/codename:x/some_future_prop", 42);
 
         op.Path.Should().Be("/elements/codename:x/some_future_prop");
         op.Value.Should().Be(42);

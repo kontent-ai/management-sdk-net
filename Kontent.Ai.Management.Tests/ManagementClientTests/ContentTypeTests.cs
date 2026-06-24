@@ -1,7 +1,7 @@
 using AwesomeAssertions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Text.Json;
@@ -285,18 +285,18 @@ public class ContentTypeTests
         await client.Invoking(x => x.ModifyContentTypeAsync(Reference.ByCodename("tweet"), null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
-    private static List<ContentTypeOperationBaseModel> GetChanges() => new()
+    private static List<ContentModelOperationBaseModel> GetChanges() => new()
         {
-            new ContentTypeRemovePatchModel
+            new ContentModelRemovePatchModel
             {
                 Path = $"/elements/codename:none"
             },
-            new ContentTypeReplacePatchModel
+            new ContentModelReplacePatchModel
             {
                 Value = "bla bla bla",
                 Path = $"/elements/codename:display_options/guidelines"
             },
-            new ContentTypeAddIntoPatchModel
+            new ContentModelAddIntoPatchModel
             {
                 Value = new TextElementMetadataModel
                 {
@@ -310,7 +310,7 @@ public class ContentTypeTests
                 Before = Reference.ByCodename("theme"),
                 Path = "/elements"
             },
-            new ContentTypeMovePatchModel {
+            new ContentModelMovePatchModel {
                 Path = "/elements/codename:display_options",
                 After = Reference.ByCodename("theme")
             }

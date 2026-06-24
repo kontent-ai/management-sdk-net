@@ -1,305 +1,210 @@
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Serialization;
 
 namespace Kontent.Ai.Management.Models.Types.Patch;
 
 /// <summary>
 /// Intent-revealing factories for content-type PATCH operations. Each method returns a
-/// <see cref="ContentTypeOperationBaseModel"/> ready to pass to <c>ModifyContentTypeAsync</c>, bundling
+/// <see cref="ContentModelOperationBaseModel"/> ready to pass to <c>ModifyContentTypeAsync</c>, bundling
 /// the JSON-Pointer <c>path</c>, the correctly-typed value, and the operation verb so callers never hand-write
-/// the wire grammar. The raw <see cref="ContentTypeOperationBaseModel.Path"/> string remains available for
-/// anything not modeled here.
+/// the wire grammar. The raw <see cref="ContentModelOperationBaseModel.Path"/> string remains available for
+/// anything not modeled here. Snippets share the same operations minus content groups — see <c>ContentTypeSnippetPatch</c>.
 /// </summary>
 public static class ContentTypePatch
 {
-    private static string ElementPath(Reference element) => $"/elements/{PatchPath.Selector(element)}";
-
-    private static string ElementProperty(Reference element, string property) => $"{ElementPath(element)}/{property}";
-
-    private static void EnsureNotBoth(Reference? before, Reference? after)
-    {
-        if (before is not null && after is not null)
-        {
-            throw new ArgumentException("Specify at most one of 'before' or 'after', not both.");
-        }
-    }
-
     // ---- Elements ----
 
     /// <summary>Adds a new element. With no <paramref name="before"/>/<paramref name="after"/> the element is appended.</summary>
-    public static ContentTypeOperationBaseModel AddElement(ElementMetadataBase element, Reference? before = null, Reference? after = null)
-    {
-        ArgumentNullException.ThrowIfNull(element);
-        EnsureNotBoth(before, after);
-        return new ContentTypeAddIntoPatchModel { Path = "/elements", Value = element, Before = before, After = after };
-    }
+    public static ContentModelOperationBaseModel AddElement(ElementMetadataBase element, Reference? before = null, Reference? after = null) =>
+        ContentModelPatchOperations.AddElement(element, before, after);
 
     /// <summary>Removes the element identified by <paramref name="element"/>.</summary>
-    public static ContentTypeOperationBaseModel RemoveElement(Reference element) =>
-        new ContentTypeRemovePatchModel { Path = ElementPath(element) };
+    public static ContentModelOperationBaseModel RemoveElement(Reference element) =>
+        ContentModelPatchOperations.RemoveElement(element);
 
     /// <summary>Moves <paramref name="element"/> before <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveElementBefore(Reference element, Reference target)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = ElementPath(element), Before = target };
-    }
+    public static ContentModelOperationBaseModel MoveElementBefore(Reference element, Reference target) =>
+        ContentModelPatchOperations.MoveElementBefore(element, target);
 
     /// <summary>Moves <paramref name="element"/> after <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveElementAfter(Reference element, Reference target)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = ElementPath(element), After = target };
-    }
+    public static ContentModelOperationBaseModel MoveElementAfter(Reference element, Reference target) =>
+        ContentModelPatchOperations.MoveElementAfter(element, target);
 
     // ---- Element properties (replace) ----
 
     /// <summary>Replaces the content type's display name.</summary>
-    public static ContentTypeOperationBaseModel ReplaceName(string name)
-    {
-        ArgumentNullException.ThrowIfNull(name);
-        return new ContentTypeReplacePatchModel { Path = "/name", Value = name };
-    }
+    public static ContentModelOperationBaseModel ReplaceName(string name) =>
+        ContentModelPatchOperations.ReplaceName(name);
 
     /// <summary>Replaces an element's display name.</summary>
-    public static ContentTypeOperationBaseModel ReplaceElementName(Reference element, string name)
-    {
-        ArgumentNullException.ThrowIfNull(name);
-        return new ContentTypeReplacePatchModel { Path = ElementProperty(element, "name"), Value = name };
-    }
+    public static ContentModelOperationBaseModel ReplaceElementName(Reference element, string name) =>
+        ContentModelPatchOperations.ReplaceElementName(element, name);
 
     /// <summary>Replaces an element's guidelines. Pass <c>null</c> to clear them.</summary>
-    public static ContentTypeOperationBaseModel ReplaceGuidelines(Reference element, string? guidelines) =>
-        new ContentTypeReplacePatchModel { Path = ElementProperty(element, "guidelines"), Value = guidelines };
+    public static ContentModelOperationBaseModel ReplaceGuidelines(Reference element, string? guidelines) =>
+        ContentModelPatchOperations.ReplaceGuidelines(element, guidelines);
 
     /// <summary>Sets whether an element must be filled in.</summary>
-    public static ContentTypeOperationBaseModel ReplaceIsRequired(Reference element, bool isRequired) =>
-        new ContentTypeReplacePatchModel { Path = ElementProperty(element, "is_required"), Value = isRequired };
+    public static ContentModelOperationBaseModel ReplaceIsRequired(Reference element, bool isRequired) =>
+        ContentModelPatchOperations.ReplaceIsRequired(element, isRequired);
 
     /// <summary>Sets whether an element is non-localizable.</summary>
-    public static ContentTypeOperationBaseModel ReplaceIsNonLocalizable(Reference element, bool isNonLocalizable) =>
-        new ContentTypeReplacePatchModel { Path = ElementProperty(element, "is_non_localizable"), Value = isNonLocalizable };
+    public static ContentModelOperationBaseModel ReplaceIsNonLocalizable(Reference element, bool isNonLocalizable) =>
+        ContentModelPatchOperations.ReplaceIsNonLocalizable(element, isNonLocalizable);
 
     /// <summary>Replaces an element's default value. Pass <c>null</c> to clear it.</summary>
-    public static ContentTypeOperationBaseModel ReplaceDefault(Reference element, object? value) =>
-        new ContentTypeReplacePatchModel { Path = ElementProperty(element, "default"), Value = value };
+    public static ContentModelOperationBaseModel ReplaceDefault(Reference element, object? value) =>
+        ContentModelPatchOperations.ReplaceDefault(element, value);
 
     /// <summary>Reassigns an element to a different content group.</summary>
-    public static ContentTypeOperationBaseModel ReplaceContentGroup(Reference element, Reference group)
-    {
-        ArgumentNullException.ThrowIfNull(group);
-        return new ContentTypeReplacePatchModel { Path = ElementProperty(element, "content_group"), Value = group };
-    }
+    public static ContentModelOperationBaseModel ReplaceContentGroup(Reference element, Reference group) =>
+        ContentModelPatchOperations.ReplaceContentGroup(element, group);
 
     // ---- Reference collections (per-item add/remove + whole-array replace) ----
 
     /// <summary>Adds an allowed content type to a linked-items or rich-text element.</summary>
-    public static ContentTypeOperationBaseModel AddAllowedContentType(Reference element, Reference type) =>
-        AddRef(element, "allowed_content_types", type);
+    public static ContentModelOperationBaseModel AddAllowedContentType(Reference element, Reference type) =>
+        ContentModelPatchOperations.AddAllowedContentType(element, type);
 
     /// <summary>Removes an allowed content type from a linked-items or rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedContentType(Reference element, Reference type) =>
-        RemoveRef(element, "allowed_content_types", type);
+    public static ContentModelOperationBaseModel RemoveAllowedContentType(Reference element, Reference type) =>
+        ContentModelPatchOperations.RemoveAllowedContentType(element, type);
 
     /// <summary>Replaces the whole set of allowed content types. An empty set allows all.</summary>
-    public static ContentTypeOperationBaseModel ReplaceAllowedContentTypes(Reference element, IEnumerable<Reference> types) =>
-        ReplaceRefs(element, "allowed_content_types", types);
+    public static ContentModelOperationBaseModel ReplaceAllowedContentTypes(Reference element, IEnumerable<Reference> types) =>
+        ContentModelPatchOperations.ReplaceAllowedContentTypes(element, types);
 
     /// <summary>Adds an allowed item-link content type to a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel AddAllowedItemLinkType(Reference element, Reference type) =>
-        AddRef(element, "allowed_item_link_types", type);
+    public static ContentModelOperationBaseModel AddAllowedItemLinkType(Reference element, Reference type) =>
+        ContentModelPatchOperations.AddAllowedItemLinkType(element, type);
 
     /// <summary>Removes an allowed item-link content type from a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedItemLinkType(Reference element, Reference type) =>
-        RemoveRef(element, "allowed_item_link_types", type);
+    public static ContentModelOperationBaseModel RemoveAllowedItemLinkType(Reference element, Reference type) =>
+        ContentModelPatchOperations.RemoveAllowedItemLinkType(element, type);
 
     /// <summary>Replaces the whole set of allowed item-link content types. An empty set allows all.</summary>
-    public static ContentTypeOperationBaseModel ReplaceAllowedItemLinkTypes(Reference element, IEnumerable<Reference> types) =>
-        ReplaceRefs(element, "allowed_item_link_types", types);
+    public static ContentModelOperationBaseModel ReplaceAllowedItemLinkTypes(Reference element, IEnumerable<Reference> types) =>
+        ContentModelPatchOperations.ReplaceAllowedItemLinkTypes(element, types);
 
     /// <summary>Adds an allowed element to a custom element.</summary>
-    public static ContentTypeOperationBaseModel AddAllowedElement(Reference element, Reference allowedElement) =>
-        AddRef(element, "allowed_elements", allowedElement);
+    public static ContentModelOperationBaseModel AddAllowedElement(Reference element, Reference allowedElement) =>
+        ContentModelPatchOperations.AddAllowedElement(element, allowedElement);
 
     /// <summary>Removes an allowed element from a custom element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedElement(Reference element, Reference allowedElement) =>
-        RemoveRef(element, "allowed_elements", allowedElement);
+    public static ContentModelOperationBaseModel RemoveAllowedElement(Reference element, Reference allowedElement) =>
+        ContentModelPatchOperations.RemoveAllowedElement(element, allowedElement);
 
     /// <summary>Replaces the whole set of allowed elements on a custom element.</summary>
-    public static ContentTypeOperationBaseModel ReplaceAllowedElements(Reference element, IEnumerable<Reference> allowedElements) =>
-        ReplaceRefs(element, "allowed_elements", allowedElements);
-
-    private static ContentTypeOperationBaseModel AddRef(Reference element, string collection, Reference value)
-    {
-        ArgumentNullException.ThrowIfNull(value);
-        return new ContentTypeAddIntoPatchModel { Path = ElementProperty(element, collection), Value = value };
-    }
-
-    private static ContentTypeOperationBaseModel RemoveRef(Reference element, string collection, Reference value) =>
-        new ContentTypeRemovePatchModel { Path = $"{ElementProperty(element, collection)}/{PatchPath.Selector(value)}" };
-
-    private static ContentTypeOperationBaseModel ReplaceRefs(Reference element, string collection, IEnumerable<Reference> values)
-    {
-        ArgumentNullException.ThrowIfNull(values);
-        return new ContentTypeReplacePatchModel { Path = ElementProperty(element, collection), Value = values };
-    }
+    public static ContentModelOperationBaseModel ReplaceAllowedElements(Reference element, IEnumerable<Reference> allowedElements) =>
+        ContentModelPatchOperations.ReplaceAllowedElements(element, allowedElements);
 
     // ---- Multiple-choice options ----
 
     /// <summary>Adds an option to a multiple-choice element. With no <paramref name="before"/>/<paramref name="after"/> the option is appended.</summary>
-    public static ContentTypeOperationBaseModel AddOption(Reference element, MultipleChoiceOptionModel option, Reference? before = null, Reference? after = null)
-    {
-        ArgumentNullException.ThrowIfNull(option);
-        EnsureNotBoth(before, after);
-        return new ContentTypeAddIntoPatchModel { Path = ElementProperty(element, "options"), Value = option, Before = before, After = after };
-    }
+    public static ContentModelOperationBaseModel AddOption(Reference element, MultipleChoiceOptionModel option, Reference? before = null, Reference? after = null) =>
+        ContentModelPatchOperations.AddOption(element, option, before, after);
 
     /// <summary>Removes an option from a multiple-choice element.</summary>
-    public static ContentTypeOperationBaseModel RemoveOption(Reference element, Reference option) =>
-        new ContentTypeRemovePatchModel { Path = OptionPath(element, option) };
+    public static ContentModelOperationBaseModel RemoveOption(Reference element, Reference option) =>
+        ContentModelPatchOperations.RemoveOption(element, option);
 
     /// <summary>Moves an option before <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveOptionBefore(Reference element, Reference option, Reference target)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = OptionPath(element, option), Before = target };
-    }
+    public static ContentModelOperationBaseModel MoveOptionBefore(Reference element, Reference option, Reference target) =>
+        ContentModelPatchOperations.MoveOptionBefore(element, option, target);
 
     /// <summary>Moves an option after <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveOptionAfter(Reference element, Reference option, Reference target)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = OptionPath(element, option), After = target };
-    }
-
-    private static string OptionPath(Reference element, Reference option) => $"{ElementProperty(element, "options")}/{PatchPath.Selector(option)}";
+    public static ContentModelOperationBaseModel MoveOptionAfter(Reference element, Reference option, Reference target) =>
+        ContentModelPatchOperations.MoveOptionAfter(element, option, target);
 
     // ---- Content groups ----
 
     /// <summary>Adds a content group. With no <paramref name="before"/>/<paramref name="after"/> the group is appended.</summary>
-    public static ContentTypeOperationBaseModel AddContentGroup(ContentGroupModel group, Reference? before = null, Reference? after = null)
-    {
-        ArgumentNullException.ThrowIfNull(group);
-        EnsureNotBoth(before, after);
-        return new ContentTypeAddIntoPatchModel { Path = "/content_groups", Value = group, Before = before, After = after };
-    }
+    public static ContentModelOperationBaseModel AddContentGroup(ContentGroupModel group, Reference? before = null, Reference? after = null) =>
+        ContentModelPatchOperations.AddContentGroup(group, before, after);
 
     /// <summary>Removes a content group.</summary>
-    public static ContentTypeOperationBaseModel RemoveContentGroup(Reference group) =>
-        new ContentTypeRemovePatchModel { Path = ContentGroupPath(group) };
+    public static ContentModelOperationBaseModel RemoveContentGroup(Reference group) =>
+        ContentModelPatchOperations.RemoveContentGroup(group);
 
     /// <summary>Moves a content group before <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveContentGroupBefore(Reference group, Reference target)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = ContentGroupPath(group), Before = target };
-    }
+    public static ContentModelOperationBaseModel MoveContentGroupBefore(Reference group, Reference target) =>
+        ContentModelPatchOperations.MoveContentGroupBefore(group, target);
 
     /// <summary>Moves a content group after <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveContentGroupAfter(Reference group, Reference target)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = ContentGroupPath(group), After = target };
-    }
-
-    private static string ContentGroupPath(Reference group) => $"/content_groups/{PatchPath.Selector(group)}";
+    public static ContentModelOperationBaseModel MoveContentGroupAfter(Reference group, Reference target) =>
+        ContentModelPatchOperations.MoveContentGroupAfter(group, target);
 
     // ---- Rich-text allowed blocks (per-item add/remove only; no whole-array replace) ----
 
     /// <summary>Allows a block type in a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel AddAllowedBlock(Reference element, RichTextBlockType block) =>
-        AddToken(element, "allowed_blocks", block);
+    public static ContentModelOperationBaseModel AddAllowedBlock(Reference element, RichTextBlockType block) =>
+        ContentModelPatchOperations.AddAllowedBlock(element, block);
 
     /// <summary>Disallows a block type in a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedBlock(Reference element, RichTextBlockType block) =>
-        RemoveToken(element, "allowed_blocks", block);
+    public static ContentModelOperationBaseModel RemoveAllowedBlock(Reference element, RichTextBlockType block) =>
+        ContentModelPatchOperations.RemoveAllowedBlock(element, block);
 
     /// <summary>Allows a text-block type in a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel AddAllowedTextBlock(Reference element, RichTextTextBlockType block) =>
-        AddToken(element, "allowed_text_blocks", block);
+    public static ContentModelOperationBaseModel AddAllowedTextBlock(Reference element, RichTextTextBlockType block) =>
+        ContentModelPatchOperations.AddAllowedTextBlock(element, block);
 
     /// <summary>Disallows a text-block type in a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedTextBlock(Reference element, RichTextTextBlockType block) =>
-        RemoveToken(element, "allowed_text_blocks", block);
+    public static ContentModelOperationBaseModel RemoveAllowedTextBlock(Reference element, RichTextTextBlockType block) =>
+        ContentModelPatchOperations.RemoveAllowedTextBlock(element, block);
 
     /// <summary>Allows a text-formatting option in a rich-text element.</summary>
     /// <remarks>When formatting is restricted, the API requires <see cref="RichTextFormattingType.Unstyled"/> to be among the allowed options; include it too, or the operation is rejected.</remarks>
-    public static ContentTypeOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting) =>
-        AddToken(element, "allowed_formatting", formatting);
+    public static ContentModelOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting) =>
+        ContentModelPatchOperations.AddAllowedFormatting(element, formatting);
 
     /// <summary>Disallows a text-formatting option in a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedFormatting(Reference element, RichTextFormattingType formatting) =>
-        RemoveToken(element, "allowed_formatting", formatting);
+    public static ContentModelOperationBaseModel RemoveAllowedFormatting(Reference element, RichTextFormattingType formatting) =>
+        ContentModelPatchOperations.RemoveAllowedFormatting(element, formatting);
 
     /// <summary>Allows a block type inside tables of a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel AddAllowedTableBlock(Reference element, RichTextTableBlockType block) =>
-        AddToken(element, "allowed_table_blocks", block);
+    public static ContentModelOperationBaseModel AddAllowedTableBlock(Reference element, RichTextTableBlockType block) =>
+        ContentModelPatchOperations.AddAllowedTableBlock(element, block);
 
     /// <summary>Disallows a block type inside tables of a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedTableBlock(Reference element, RichTextTableBlockType block) =>
-        RemoveToken(element, "allowed_table_blocks", block);
+    public static ContentModelOperationBaseModel RemoveAllowedTableBlock(Reference element, RichTextTableBlockType block) =>
+        ContentModelPatchOperations.RemoveAllowedTableBlock(element, block);
 
     /// <summary>Allows a text-block type inside tables of a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel AddAllowedTableTextBlock(Reference element, RichTextTextBlockType block) =>
-        AddToken(element, "allowed_table_text_blocks", block);
+    public static ContentModelOperationBaseModel AddAllowedTableTextBlock(Reference element, RichTextTextBlockType block) =>
+        ContentModelPatchOperations.AddAllowedTableTextBlock(element, block);
 
     /// <summary>Disallows a text-block type inside tables of a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedTableTextBlock(Reference element, RichTextTextBlockType block) =>
-        RemoveToken(element, "allowed_table_text_blocks", block);
+    public static ContentModelOperationBaseModel RemoveAllowedTableTextBlock(Reference element, RichTextTextBlockType block) =>
+        ContentModelPatchOperations.RemoveAllowedTableTextBlock(element, block);
 
     /// <summary>Allows a text-formatting option inside tables of a rich-text element.</summary>
     /// <remarks>When table formatting is restricted, the API requires <see cref="RichTextFormattingType.Unstyled"/> to be among the allowed options; include it too, or the operation is rejected.</remarks>
-    public static ContentTypeOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting) =>
-        AddToken(element, "allowed_table_formatting", formatting);
+    public static ContentModelOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting) =>
+        ContentModelPatchOperations.AddAllowedTableFormatting(element, formatting);
 
     /// <summary>Disallows a text-formatting option inside tables of a rich-text element.</summary>
-    public static ContentTypeOperationBaseModel RemoveAllowedTableFormatting(Reference element, RichTextFormattingType formatting) =>
-        RemoveToken(element, "allowed_table_formatting", formatting);
-
-    private static ContentTypeOperationBaseModel AddToken<TToken>(Reference element, string collection, TToken token) where TToken : struct, Enum =>
-        new ContentTypeAddIntoPatchModel { Path = ElementProperty(element, collection), Value = EnumWire.ToValue(token) };
-
-    private static ContentTypeOperationBaseModel RemoveToken<TToken>(Reference element, string collection, TToken token) where TToken : struct, Enum =>
-        new ContentTypeRemovePatchModel { Path = $"{ElementProperty(element, collection)}/{EnumWire.ToValue(token)}" };
+    public static ContentModelOperationBaseModel RemoveAllowedTableFormatting(Reference element, RichTextFormattingType formatting) =>
+        ContentModelPatchOperations.RemoveAllowedTableFormatting(element, formatting);
 
     // ---- Escape hatch (raw paths) ----
 
     /// <summary>Adds <paramref name="value"/> at a raw <paramref name="path"/>, for paths not modeled by a dedicated factory.</summary>
-    public static ContentTypeOperationBaseModel AddIntoRaw(string path, object value, Reference? before = null, Reference? after = null)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(path);
-        ArgumentNullException.ThrowIfNull(value);
-        EnsureNotBoth(before, after);
-        return new ContentTypeAddIntoPatchModel { Path = path, Value = value, Before = before, After = after };
-    }
+    public static ContentModelOperationBaseModel AddIntoRaw(string path, object value, Reference? before = null, Reference? after = null) =>
+        ContentModelPatchOperations.AddIntoRaw(path, value, before, after);
 
     /// <summary>Replaces the value at a raw <paramref name="path"/>. Pass <c>null</c> to clear.</summary>
-    public static ContentTypeOperationBaseModel ReplaceRaw(string path, object? value)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(path);
-        return new ContentTypeReplacePatchModel { Path = path, Value = value };
-    }
+    public static ContentModelOperationBaseModel ReplaceRaw(string path, object? value) =>
+        ContentModelPatchOperations.ReplaceRaw(path, value);
 
     /// <summary>Removes the object at a raw <paramref name="path"/>.</summary>
-    public static ContentTypeOperationBaseModel RemoveRaw(string path)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(path);
-        return new ContentTypeRemovePatchModel { Path = path };
-    }
+    public static ContentModelOperationBaseModel RemoveRaw(string path) =>
+        ContentModelPatchOperations.RemoveRaw(path);
 
     /// <summary>Moves the object at a raw <paramref name="path"/> before <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveRawBefore(string path, Reference target)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(path);
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = path, Before = target };
-    }
+    public static ContentModelOperationBaseModel MoveRawBefore(string path, Reference target) =>
+        ContentModelPatchOperations.MoveRawBefore(path, target);
 
     /// <summary>Moves the object at a raw <paramref name="path"/> after <paramref name="target"/>.</summary>
-    public static ContentTypeOperationBaseModel MoveRawAfter(string path, Reference target)
-    {
-        ArgumentException.ThrowIfNullOrEmpty(path);
-        ArgumentNullException.ThrowIfNull(target);
-        return new ContentTypeMovePatchModel { Path = path, After = target };
-    }
+    public static ContentModelOperationBaseModel MoveRawAfter(string path, Reference target) =>
+        ContentModelPatchOperations.MoveRawAfter(path, target);
 }
