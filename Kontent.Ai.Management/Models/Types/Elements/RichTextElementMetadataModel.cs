@@ -18,7 +18,9 @@ public sealed record RichTextElementMetadataModel : ElementMetadataBase
     public bool IsRequired { get; init; }
 
     /// <summary>
-    /// Whether the element is shared across all language variants.
+    /// Whether the element is shared across all language variants. Always <c>false</c> for rich text — the API does
+    /// not allow making rich text non-localizable and rejects an attempt to set this to <c>true</c>. Present only so
+    /// the field the API returns round-trips faithfully.
     /// </summary>
     [JsonPropertyName("is_non_localizable")]
     public bool IsNonLocalizable { get; init; }

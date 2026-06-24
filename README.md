@@ -8,14 +8,19 @@
 [![NuGet][nuget-shield]][nuget-url]
 [![Stack Overflow][stack-shield]](https://stackoverflow.com/tags/kontent-ai)
 
-The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) — programmatic read/write access to your Kontent.ai projects and environments: content items, language variants, content models, assets, taxonomies, workflows, environments, and more.
+> [!WARNING]
+> **This is a beta release.** The SDK is undergoing a ground-up modernization, and this README documents the new, **modernized API** — result-based return types, materialized listings, `System.Text.Json` serialization, and strongly-typed content models. While in beta it is published as a **prerelease**, and **breaking changes may land between prereleases** until the first stable major version ships. Pin an exact version if you need stability during the beta.
+>
+> **For production, use the latest stable release** — the `8.x` line, which exposes the previous API and is installed without the `--prerelease` flag. See the [package on NuGet][nuget-url] for the current stable version.
+>
+> Migrating from `8.x`? Start with the [upgrade guide](./docs/upgrade-guide.md).
 
-> [!IMPORTANT]
-> The Management SDK is undergoing a ground-up modernization. This README documents the **modernized API** — a result-based return type for every operation, materialized listings, `System.Text.Json` serialization, and strongly-typed content models. **Breaking changes are expected** until the next major version is released; the current stable NuGet package still exposes the previous API.
+The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) — programmatic read/write access to your Kontent.ai projects and environments: content items, language variants, content models, assets, taxonomies, workflows, environments, and more.
 
 ## Table of Contents
 
 - [Installation](#installation)
+- [Upgrade Guide](#upgrade-guide)
 - [Quick Start](#quick-start)
 - [Creating the Client](#creating-the-client)
   - [With Dependency Injection](#with-dependency-injection)
@@ -43,13 +48,17 @@ The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/lea
 
 ## Installation
 
-Install the SDK via the NuGet Package Manager:
+Install the SDK via the NuGet Package Manager. The modernized API documented here ships as a **prerelease** during the beta, so include the `--prerelease` flag — without it you get the previous stable API, which these examples do not match:
 
 ```bash
-dotnet add package Kontent.Ai.Management
+dotnet add package Kontent.Ai.Management --prerelease
 ```
 
 The SDK targets `net8.0`.
+
+## Upgrade Guide
+
+If you are moving from the stable `8.x` SDK to the modernized prerelease, read the [upgrade guide](./docs/upgrade-guide.md). It covers the result pattern, listing changes, strongly-typed model changes, `System.Text.Json`, and removed legacy surfaces.
 
 ## Quick Start
 
@@ -97,7 +106,7 @@ services.AddManagementClient(options =>
 });
 ```
 
-`IManagementClient` is then resolvable from the container — inject it into your own services. This is the recommended approach: the container owns the client's lifetime and its underlying `HttpClient` pipeline (via `IHttpClientFactory`), and reacts to configuration reloads.
+`IManagementClient` is then resolvable from the container — inject it into your own services. This is the recommended approach: the container owns the client's lifetime and its underlying `HttpClient` pipeline (via `IHttpClientFactory`).
 
 > [!NOTE]
 > A DI-resolved client is owned by the container — do **not** dispose it yourself. Disposal is a no-op on DI-managed instances; the container releases the underlying HTTP resources.
@@ -212,11 +221,11 @@ services.AddManagementClient(
 | `EnableResilience` | No | `true` | Toggles the built-in retry/backoff pipeline without uninstalling it. |
 | `EndpointV2` | No | Production URL | Override only when targeting a non-production endpoint. |
 
-`ManagementOptions` validates on use: a missing or malformed `EnvironmentId`/`ApiKey` surfaces as a `ValidationException` from the constructor/builder, or an `OptionsValidationException` at provider-build time in DI.
+`ManagementOptions` validates on use: a missing or malformed `EnvironmentId`/`ApiKey` surfaces as a `ValidationException` from the constructor/builder, or an `OptionsValidationException` when DI options validation runs during host startup.
 
 ## The Result Pattern
 
-Every `IManagementClient` method returns an `IManagementResult` (for void operations) or an `IManagementResult<T>` (for operations that yield a value). The SDK **does not throw** on `4xx`/`5xx` responses or on transport failures — inspect the result instead:
+Every `IManagementClient` method returns an `IManagementResult` (for void operations) or an `IManagementResult<T>` (for operations that yield a value). The SDK **does not throw** on Management API `4xx`/`5xx` responses — inspect the result instead. Network-level and serialization failures still propagate as exceptions.
 
 ```csharp
 var result = await client.CreateContentItemAsync(new ContentItemCreateModel
@@ -237,7 +246,7 @@ A result carries:
 - `IsSuccess` — whether the operation succeeded.
 - `Value` — the returned value, on success (`IManagementResult<T>` only).
 - `Error` — the failure detail, on failure (see [Error Handling](#error-handling)).
-- `StatusCode`, `RequestUrl` — response diagnostics. `StatusCode` is `null` when the failure happened before or without an HTTP response (local validation or a transport error).
+- `StatusCode`, `RequestUrl` — response diagnostics. `StatusCode` is `null` when the failure happened before any HTTP request was sent, such as local content-item validation.
 
 For call sites that would rather not branch, two opt-in conveniences live on the result:
 
@@ -275,7 +284,7 @@ if (!result.IsSuccess)
 }
 ```
 
-`IError` exposes `Message`, `RequestId`, `ErrorCode` (Kontent.ai's diagnostic code, not the HTTP status), `ValidationErrors`, and the underlying `Exception` for transport-level failures.
+`IError` exposes `Message`, `RequestId`, `ErrorCode` (Kontent.ai's diagnostic code, not the HTTP status), `ValidationErrors`, and the underlying `Exception` when a response could not be parsed as a standard Management API error envelope.
 
 When you need to branch on a specific failure, compare `ErrorCode` against the `ManagementErrorCodes` catalog rather than a magic number:
 
@@ -293,7 +302,7 @@ if (!result.IsSuccess && result.Error?.ErrorCode == ManagementErrorCodes.Publish
 `ManagementErrorCodes` is a curated set of the codes callers commonly act on — variant workflow-state conflicts, duplicate external IDs, concurrency, and rate limits. The codes are not unique (the API reuses some across unrelated conditions), so inspect `Message` as well when the distinction matters.
 
 > [!IMPORTANT]
-> Exceptions are reserved for **programmer errors** (for example, a `null` argument), **invalid configuration**, and **network/serialization failures** — not for API errors. A `404` or a validation rejection comes back as `IsSuccess == false`, never as a thrown exception.
+> Exceptions are reserved for **programmer errors** (for example, a `null` argument), **invalid configuration**, and **network/serialization failures** — not for API errors. A `404` or an API validation rejection comes back as `IsSuccess == false`, never as a thrown exception.
 
 ## Identifiers
 
@@ -326,7 +335,7 @@ var mixed = new LanguageVariantIdentifier(Reference.ById(itemId), Reference.ByCo
 
 ## Listings
 
-Listing endpoints return the whole set in one result — `Task<IManagementResult<IReadOnlyList<T>>>`. Continuation-token paging is handled internally: the SDK walks every page and merges them, so you never deal with pages yourself.
+Paged listing endpoints return the whole set in one result — typically `Task<IManagementResult<IReadOnlyList<T>>>`. Continuation-token paging is handled internally: the SDK walks every page and merges them, so you never deal with pages yourself.
 
 ```csharp
 var result = await client.ListContentItemsAsync();
@@ -417,7 +426,7 @@ var result = await client.CreateContentItemWithVariantAsync(
 ## Language Variants
 
 > [!TIP]
-> The most type-safe way to author a variant is a **[strongly-typed model](#strongly-typed-models)** — `await client.UpsertLanguageVariantAsync(id, typedModel)`. When you have generated content-type records that's the recommended path; the typed element records shown here cover the same ground without a generator and are the building block underneath.
+> The most type-safe way to author a variant is a **[strongly-typed model](#strongly-typed-models)** — `await client.UpsertLanguageVariantAsync(id, typedModel)`. When you have generated content-type records that's the recommended path; the typed element records shown here cover the same ground without a generator.
 
 A language variant holds the actual content for one language of a content item. Set its elements with a typed record per element kind — each locates its target element by `codename`, `id`, or `external_id` and carries a value shaped for that kind; omitted elements are left unchanged:
 
@@ -780,7 +789,7 @@ await client.CreateLanguageAsync(new LanguageCreateModel
 
 ## Further Information
 
-For more developer resources, see the [Management API reference](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) and the [.NET development overview](https://kontent.ai/learn/develop/develop-with-kontent-ai/net) on Kontent.ai Learn.
+For migration details, see the [upgrade guide](./docs/upgrade-guide.md). For more developer resources, see the [Management API reference](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) and the [.NET development overview](https://kontent.ai/learn/develop/develop-with-kontent-ai/net) on Kontent.ai Learn.
 
 ## Contributing
 
