@@ -981,7 +981,7 @@ public class CmApiV2
             FileReference = new FileReference
             {
                 Id = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
-                Type = FileReferenceTypeEnum.Internal
+                Type = FileReferenceType.Internal
             },
             Folder = Reference.ByExternalId("another-folder"),
             Title = "Coffee Brewing Techniques",
@@ -1596,7 +1596,7 @@ public class CmApiV2
             FileReference = new FileReference
             {
                 Id = "ab7bdf75-781b-4bf9-aed8-501048860402",
-                Type = FileReferenceTypeEnum.Internal
+                Type = FileReferenceType.Internal
             },
             Title = "Coffee Brewing Techniques",
             Descriptions = new AssetDescription[]

@@ -1,4 +1,4 @@
-namespace Kontent.Ai.Management.Models.EnvironmentReport;
+namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
 /// Validation messages for a single content element.
@@ -9,7 +9,7 @@ public sealed record ElementIssue
     /// The content element the messages belong to.
     /// </summary>
     [JsonPropertyName("element")]
-    public required Metadata Element { get; init; }
+    public required NamedReference Element { get; init; }
 
     /// <summary>
     /// Validation messages for the element.

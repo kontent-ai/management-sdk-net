@@ -56,7 +56,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken)
-    Task<IManagementResult<Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentInformationModel>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
@@ -184,7 +184,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken)
-    Task<IManagementResult<Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentInformationModel>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
@@ -653,7 +653,7 @@ public sealed class FileContentSource
 // Kontent.Ai.Management.Models.Assets
 public sealed class FileReference : IEquatable`1
     String Id { get; set; init; }
-    FileReferenceTypeEnum Type { get; set; init; }
+    FileReferenceType Type { get; set; init; }
     FileReference <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(FileReference other)
@@ -661,7 +661,7 @@ public sealed class FileReference : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Assets
-public enum FileReferenceTypeEnum : Enum
+public enum FileReferenceType : Enum
     Internal
 
 // Kontent.Ai.Management.Models.Collections
@@ -997,29 +997,8 @@ public enum PropertyName : Enum
     SourceUrl
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class ElementIssue : IEquatable`1
-    Metadata Element { get; set; init; }
-    IReadOnlyList<String> Messages { get; set; init; }
-    ElementIssue <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ElementIssue other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class Environment : IEquatable`1
-    String EnvironmentName { get; set; init; }
-    String Id { get; set; init; }
-    String ProjectName { get; set; init; }
-    Environment <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(Environment other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class EnvironmentReportModel : IEquatable`1
-    Environment Environment { get; set; init; }
+    EnvironmentInformationModel Environment { get; set; init; }
     IReadOnlyList<TypeIssue> TypeIssues { get; set; init; }
     IReadOnlyList<VariantIssue> VariantIssues { get; set; init; }
     EnvironmentReportModel <Clone>$()
@@ -1029,20 +1008,9 @@ public sealed class EnvironmentReportModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.EnvironmentReport
-public sealed class Metadata : IEquatable`1
-    String Codename { get; set; init; }
-    Guid Id { get; set; init; }
-    String Name { get; set; init; }
-    Metadata <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(Metadata other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class TypeIssue : IEquatable`1
     IReadOnlyList<ElementIssue> Issues { get; set; init; }
-    Metadata Type { get; set; init; }
+    NamedReference Type { get; set; init; }
     TypeIssue <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TypeIssue other)
@@ -1052,8 +1020,8 @@ public sealed class TypeIssue : IEquatable`1
 // Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class VariantIssue : IEquatable`1
     IReadOnlyList<ElementIssue> Issues { get; set; init; }
-    Metadata Item { get; set; init; }
-    Metadata Language { get; set; init; }
+    NamedReference Item { get; set; init; }
+    NamedReference Language { get; set; init; }
     VariantIssue <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(VariantIssue other)
@@ -1105,6 +1073,17 @@ public sealed class EnvironmentCloningStateModel : IEquatable`1
     EnvironmentCloningStateModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(EnvironmentCloningStateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class EnvironmentInformationModel : IEquatable`1
+    String EnvironmentName { get; set; init; }
+    String Id { get; set; init; }
+    String ProjectName { get; set; init; }
+    EnvironmentInformationModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentInformationModel other)
     Int32 GetHashCode()
     String ToString()
 
@@ -1188,7 +1167,7 @@ public enum AsyncValidationTaskStatus : Enum
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
 public sealed class AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel, IEquatable`1
-    Metadata Type { get; set; init; }
+    NamedReference Type { get; set; init; }
     AsyncValidationTaskTypeIssueModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AsyncValidationTaskIssueModel other)
@@ -1198,33 +1177,12 @@ public sealed class AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssue
 
 // Kontent.Ai.Management.Models.EnvironmentValidation
 public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel, IEquatable`1
-    Metadata Item { get; set; init; }
-    Metadata Language { get; set; init; }
+    NamedReference Item { get; set; init; }
+    NamedReference Language { get; set; init; }
     AsyncValidationTaskVariantIssueModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AsyncValidationTaskIssueModel other)
     Boolean Equals(AsyncValidationTaskVariantIssueModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.EnvironmentValidation
-public sealed class ElementIssue : IEquatable`1
-    Metadata Element { get; set; init; }
-    IReadOnlyList<String> Messages { get; set; init; }
-    ElementIssue <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(ElementIssue other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.EnvironmentValidation
-public sealed class Metadata : IEquatable`1
-    String Codename { get; set; init; }
-    Guid Id { get; set; init; }
-    String Name { get; set; init; }
-    Metadata <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(Metadata other)
     Int32 GetHashCode()
     String ToString()
 
@@ -1686,6 +1644,27 @@ public sealed class AssetFolder : IEquatable`1
     AssetFolder <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetFolder other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Shared
+public sealed class ElementIssue : IEquatable`1
+    NamedReference Element { get; set; init; }
+    IReadOnlyList<String> Messages { get; set; init; }
+    ElementIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementIssue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Shared
+public sealed class NamedReference : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    NamedReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(NamedReference other)
     Int32 GetHashCode()
     String ToString()
 

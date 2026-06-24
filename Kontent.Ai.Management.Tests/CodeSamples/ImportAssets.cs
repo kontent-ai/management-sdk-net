@@ -30,7 +30,7 @@ public class ImportAssets
             FileReference = new FileReference
             {
                 Id = "8660e19c-7bbd-48a3-bb51-721934c7756c",
-                Type = FileReferenceTypeEnum.Internal
+                Type = FileReferenceType.Internal
             },
             Title = "Brno Cafe",
             Descriptions = new AssetDescription[]

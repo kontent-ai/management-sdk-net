@@ -2,9 +2,9 @@
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
-/// Represents file reference type.
+/// Type of a file reference. Currently the API only uses <see cref="Internal"/>.
 /// </summary>
-public enum FileReferenceTypeEnum
+public enum FileReferenceType
 {
     /// <summary>
     /// Internal reference type.

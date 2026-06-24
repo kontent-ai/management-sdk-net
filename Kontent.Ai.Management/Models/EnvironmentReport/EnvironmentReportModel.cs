@@ -1,3 +1,5 @@
+using Kontent.Ai.Management.Models.Environments;
+
 namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
@@ -9,7 +11,7 @@ public sealed record EnvironmentReportModel
     /// Information about the validated environment.
     /// </summary>
     [JsonPropertyName("project")]
-    public required Environment Environment { get; init; }
+    public required EnvironmentInformationModel Environment { get; init; }
 
     /// <summary>
     /// Problems found in the environment's content. May be empty.

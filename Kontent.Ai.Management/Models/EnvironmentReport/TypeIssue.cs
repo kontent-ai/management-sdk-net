@@ -9,7 +9,7 @@ public sealed record TypeIssue
     /// The content type the issues belong to.
     /// </summary>
     [JsonPropertyName("type")]
-    public required Metadata Type { get; init; }
+    public required NamedReference Type { get; init; }
 
     /// <summary>
     /// Issues found in the content type's elements.

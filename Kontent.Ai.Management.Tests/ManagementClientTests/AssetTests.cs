@@ -152,7 +152,7 @@ public class AssetTests
 
         var createModel = new AssetCreateModel
         {
-            FileReference = new FileReference { Id = expected.FileReference.Id, Type = FileReferenceTypeEnum.Internal },
+            FileReference = new FileReference { Id = expected.FileReference.Id, Type = FileReferenceType.Internal },
             Title = expected.Title,
             Elements = expected.Elements,
         };

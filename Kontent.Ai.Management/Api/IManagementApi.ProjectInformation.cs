@@ -1,4 +1,4 @@
-using Environment = Kontent.Ai.Management.Models.EnvironmentReport.Environment;
+using Kontent.Ai.Management.Models.Environments;
 
 namespace Kontent.Ai.Management.Api;
 
@@ -8,6 +8,6 @@ internal partial interface IManagementApi
     /// <summary>Gets information about the environment.</summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("")]
-    internal Task<IApiResponse<Environment>> GetEnvironmentInformationInternalAsync(
+    internal Task<IApiResponse<EnvironmentInformationModel>> GetEnvironmentInformationInternalAsync(
         CancellationToken cancellationToken = default);
 }

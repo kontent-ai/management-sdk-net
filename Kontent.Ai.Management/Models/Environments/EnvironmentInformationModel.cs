@@ -1,9 +1,9 @@
-namespace Kontent.Ai.Management.Models.EnvironmentReport;
+namespace Kontent.Ai.Management.Models.Environments;
 
 /// <summary>
-/// Identifies the environment a validation report belongs to.
+/// Project and environment identity — returned by <c>GetEnvironmentInformationAsync</c> and carried on a validation report.
 /// </summary>
-public sealed record Environment
+public sealed record EnvironmentInformationModel
 {
     /// <summary>
     /// Project ID.

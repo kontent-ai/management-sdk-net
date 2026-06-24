@@ -23,6 +23,6 @@ public class EnvironmentInformationTests
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<Models.EnvironmentReport.Environment>(Project, SharedTestJsonOptions.Default));
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<Models.Environments.EnvironmentInformationModel>(Project, SharedTestJsonOptions.Default));
     }
 }

@@ -353,8 +353,8 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// Returns environment information
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the <see cref="Environment"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<Models.EnvironmentReport.Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken = default);
+    /// <returns>A result wrapping the <see cref="EnvironmentInformationModel"/> on success, or the failure detail.</returns>
+    Task<IManagementResult<EnvironmentInformationModel>> GetEnvironmentInformationAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns taxonomy group.

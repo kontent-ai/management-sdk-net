@@ -1,24 +1,24 @@
-﻿namespace Kontent.Ai.Management.Models.EnvironmentValidation;
+namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
-/// Represents the metadata object.
+/// A server-returned reference to a content-model object — its ID, display name, and codename.
 /// </summary>
-public sealed record Metadata
+public sealed record NamedReference
 {
     /// <summary>
-    /// Gets the id of the metadata object.
+    /// The object's ID.
     /// </summary>
     [JsonPropertyName("id")]
     public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets the name of the metadata object.
+    /// The object's display name.
     /// </summary>
     [JsonPropertyName("name")]
     public required string Name { get; init; }
 
     /// <summary>
-    /// Gets the codename of the metadata object.
+    /// The object's codename.
     /// </summary>
     [JsonPropertyName("codename")]
     public required string Codename { get; init; }

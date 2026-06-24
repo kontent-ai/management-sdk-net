@@ -1,12 +1,12 @@
 using Kontent.Ai.Management.Extensions;
-using Environment = Kontent.Ai.Management.Models.EnvironmentReport.Environment;
+using Kontent.Ai.Management.Models.Environments;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<Environment>> GetEnvironmentInformationAsync(CancellationToken cancellationToken = default)
+    public async Task<IManagementResult<EnvironmentInformationModel>> GetEnvironmentInformationAsync(CancellationToken cancellationToken = default)
     {
         var response = await _managementApi.GetEnvironmentInformationInternalAsync(cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);

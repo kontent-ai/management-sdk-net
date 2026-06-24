@@ -9,5 +9,5 @@ public sealed record AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssu
     /// The content type the issues belong to.
     /// </summary>
     [JsonPropertyName("type")]
-    public required Metadata Type { get; init; }
+    public required NamedReference Type { get; init; }
 }

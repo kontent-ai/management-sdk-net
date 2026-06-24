@@ -13,8 +13,8 @@ public sealed record FileReference
     public required string Id { get; init; }
 
     /// <summary>
-    /// Reference type. Always <see cref="FileReferenceTypeEnum.Internal"/>.
+    /// Reference type. Defaults to <see cref="FileReferenceType.Internal"/> — the only type the API uses — so callers never set it.
     /// </summary>
     [JsonPropertyName("type")]
-    public required FileReferenceTypeEnum Type { get; init; }
+    public FileReferenceType Type { get; init; } = FileReferenceType.Internal;
 }

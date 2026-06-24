@@ -9,11 +9,11 @@ public sealed record AsyncValidationTaskVariantIssueModel : AsyncValidationTaskI
     /// The content item the variant belongs to.
     /// </summary>
     [JsonPropertyName("item")]
-    public required Metadata Item { get; init; }
+    public required NamedReference Item { get; init; }
 
     /// <summary>
     /// The variant's language.
     /// </summary>
     [JsonPropertyName("language")]
-    public required Metadata Language { get; init; }
+    public required NamedReference Language { get; init; }
 }
