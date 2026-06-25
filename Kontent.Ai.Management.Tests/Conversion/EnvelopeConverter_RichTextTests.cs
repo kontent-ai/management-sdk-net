@@ -8,7 +8,6 @@ namespace Kontent.Ai.Management.Tests.Conversion;
 
 public class EnvelopeConverter_RichTextTests
 {
-    // Component candidates must be pre-registered so the read path can dispatch by content-type codename.
     private static readonly ContentItemEnvelopeConverter Converter = CreateConverter();
     private static readonly Guid SampleComponentId = new("44444444-4444-4444-4444-444444444444");
 
@@ -55,47 +54,37 @@ public class EnvelopeConverter_RichTextTests
     }
 
     [Fact]
-    public void RoundTrip_RichTextWithComponent_PreservesAll()
+    public void Read_RichTextWithComponent_MaterializesNestedRecord()
     {
-        var original = new Article
-        {
-            Title = "Roundtrip",
-            Content = new RichTextValue
-            {
-                Value = "<p>body</p>",
-                Components =
-                [
-                    new Component
-                    {
-                        Id = SampleComponentId,
-                        Content = new Callout
-                        {
-                            Type = [CalloutType.Lightbulb],
-                            Content = new RichTextValue { Value = "<p>nested</p>" },
-                        },
-                    },
-                ],
-            },
-        };
+        var json = """
+            [{
+              "element": { "id": "7d4b95b0-76fc-552e-8931-c90dd2746399" },
+              "value": "<p>body</p>",
+              "components": [{
+                "id": "44444444-4444-4444-4444-444444444444",
+                "type": { "id": "72c5b04f-e316-5912-baf2-8ccd2f0ad7a2" },
+                "elements": [
+                  { "element": { "id": "15a9fc79-e85f-5bb1-8e81-d0362cd93b93" }, "value": "<p>nested</p>" },
+                  { "element": { "id": "44dd9032-c950-53b8-91bd-c6c586233311" }, "value": [{ "id": "e0b420c5-e95f-5a51-83db-39627cecc00b" }] }
+                ]
+              }]
+            }]
+            """;
 
-        var wire = Converter.WriteEnvelopes(original);
-        var roundtripped = Converter.ReadEnvelopes<Article>(wire);
+        var article = Converter.ReadEnvelopes<Article>(json);
 
-        roundtripped.Title.Should().Be("Roundtrip");
-        roundtripped.Content!.Value.Should().Be("<p>body</p>");
-        roundtripped.Content.Components.Should().ContainSingle();
-
-        var component = roundtripped.Content.Components!.ElementAt(0);
+        article.Content!.Value.Should().Be("<p>body</p>");
+        var component = article.Content.Components.Should().ContainSingle().Subject;
         component.Id.Should().Be(SampleComponentId);
         var nestedCallout = component.Content.Should().BeOfType<Callout>().Subject;
-        nestedCallout.Type.Should().Equal(CalloutType.Lightbulb);
         nestedCallout.Content!.Value.Should().Be("<p>nested</p>");
+        nestedCallout.Type.Should().Equal(CalloutType.Lightbulb);
     }
 
     [Fact]
-    public void Read_ComponentWithUnregisteredCodename_Throws()
+    public void Read_ComponentWithUnregisteredId_Throws()
     {
-        // Use a registry that has been scanned to know `article` but not the synthetic codename below.
+        // Registry knows `article` but not the synthetic component type id below.
         var registry = new ContentTypeRegistry();
         registry.Register(typeof(Article));
         var converter = new ContentItemEnvelopeConverter(registry);
@@ -106,7 +95,7 @@ public class EnvelopeConverter_RichTextTests
               "value": "<p>x</p>",
               "components": [{
                 "id": "44444444-4444-4444-4444-444444444444",
-                "type": { "codename": "totally_unknown_type" },
+                "type": { "id": "99999999-9999-9999-9999-999999999999" },
                 "elements": []
               }]
             }]
@@ -114,7 +103,7 @@ public class EnvelopeConverter_RichTextTests
 
         var act = () => converter.ReadEnvelopes<Article>(json);
 
-        act.Should().Throw<InvalidOperationException>().WithMessage("*totally_unknown_type*");
+        act.Should().Throw<InvalidOperationException>().WithMessage("*99999999-9999-9999-9999-999999999999*");
     }
 
     [Fact]

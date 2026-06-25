@@ -7,14 +7,16 @@ namespace Kontent.Ai.Management.Tests.Conversion;
 
 public class ContentTypeRegistryTests
 {
+    private const string ModelsArticleId = "5568750a-d7fd-51fa-a8bb-a08940ac5395";
+
     [Fact]
-    public void Register_IndexesTypeByCodename()
+    public void Register_IndexesTypeById()
     {
         var registry = new ContentTypeRegistry();
 
         registry.Register(typeof(ModelsArticle));
 
-        registry.Resolve("article").Should().Be<ModelsArticle>();
+        registry.ResolveById(ModelsArticleId).Should().Be<ModelsArticle>();
     }
 
     [Fact]
@@ -25,7 +27,7 @@ public class ContentTypeRegistryTests
         registry.Register(typeof(ModelsArticle));
         registry.Register(typeof(ModelsArticle));
 
-        registry.Resolve("article").Should().Be<ModelsArticle>();
+        registry.ResolveById(ModelsArticleId).Should().Be<ModelsArticle>();
     }
 
     [Fact]
@@ -49,7 +51,7 @@ public class ContentTypeRegistryTests
         registry.EnsureRegistered(typeof(ModelsArticle));
         registry.EnsureRegistered(typeof(ModelsArticle));
 
-        registry.Resolve("article").Should().Be<ModelsArticle>();
+        registry.ResolveById(ModelsArticleId).Should().Be<ModelsArticle>();
     }
 
     [Fact]
@@ -74,15 +76,15 @@ public class ContentTypeRegistryTests
         var act = () => registry.EnsureRegistered(typeof(string));
 
         act.Should().NotThrow();
-        registry.Resolve("string").Should().BeNull();
+        registry.ResolveById(ModelsArticleId).Should().BeNull();
     }
 
     [Fact]
-    public void Resolve_UnknownCodename_ReturnsNull()
+    public void ResolveById_UnknownId_ReturnsNull()
     {
         var registry = new ContentTypeRegistry();
 
-        registry.Resolve("does_not_exist").Should().BeNull();
+        registry.ResolveById("00000000-0000-0000-0000-000000000000").Should().BeNull();
     }
 
     [Fact]

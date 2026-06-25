@@ -5,10 +5,10 @@ using System.Reflection;
 namespace Kontent.Ai.Management.Conversion;
 
 /// <summary>
-/// Resolves Kontent.ai content-type codenames to the CLR record types that carry the matching
+/// Resolves Kontent.ai content-type ids to the CLR record types that carry the matching
 /// <see cref="KontentTypeAttribute"/>. Used by <see cref="ContentItemEnvelopeConverter"/> for polymorphic
-/// dispatch on the read path — specifically, materializing rich-text components into their concrete
-/// generated record types.
+/// dispatch on the read path — specifically, materializing rich-text components into their concrete generated
+/// record types.
 /// </summary>
 /// <remarks>
 /// Thread-safe; safe to share across calls. Population is lazy — a registry will scan an assembly on
@@ -16,6 +16,11 @@ namespace Kontent.Ai.Management.Conversion;
 /// </remarks>
 internal sealed class ContentTypeRegistry
 {
+    private readonly ConcurrentDictionary<string, Type> _byId = new(StringComparer.OrdinalIgnoreCase);
+
+    // The read path resolves components by id (see ResolveById); this index only enforces codename uniqueness today.
+    // It is retained deliberately: codename is the portable identity, so resolving an environment's component-type id
+    // to a model via a fetched id↔codename map would key through here. Don't drop it as unused.
     private readonly ConcurrentDictionary<string, Type> _byCodename = new();
     private readonly ConcurrentDictionary<Assembly, byte> _scannedAssemblies = new();
 
@@ -61,12 +66,13 @@ internal sealed class ContentTypeRegistry
     }
 
     /// <summary>
-    /// Resolves <paramref name="codename"/> to the registered CLR type, or returns <c>null</c> if no type is registered.
+    /// Resolves a content-type <paramref name="id"/> (from <see cref="KontentTypeAttribute.Id"/>) to the registered
+    /// CLR type, or <c>null</c> if none is registered for it. Case-insensitive.
     /// </summary>
-    public Type? Resolve(string codename)
+    public Type? ResolveById(string id)
     {
-        ArgumentNullException.ThrowIfNull(codename);
-        return _byCodename.TryGetValue(codename, out var type) ? type : null;
+        ArgumentNullException.ThrowIfNull(id);
+        return _byId.TryGetValue(id, out var type) ? type : null;
     }
 
     private bool TryRegister(Type type)
@@ -74,12 +80,23 @@ internal sealed class ContentTypeRegistry
         var attr = type.GetCustomAttribute<KontentTypeAttribute>();
         if (attr is null || !typeof(IElementsModel).IsAssignableFrom(type)) return false;
 
-        var existing = _byCodename.GetOrAdd(attr.Codename, type);
-        if (existing != type)
+        var existingByCodename = _byCodename.GetOrAdd(attr.Codename, type);
+        if (existingByCodename != type)
         {
             throw new InvalidOperationException(
-                $"Codename '{attr.Codename}' is already registered to type '{existing.FullName}'; cannot also register '{type.FullName}'.");
+                $"Codename '{attr.Codename}' is already registered to type '{existingByCodename.FullName}'; cannot also register '{type.FullName}'.");
         }
+
+        if (attr.Id is not null)
+        {
+            var existingById = _byId.GetOrAdd(attr.Id, type);
+            if (existingById != type)
+            {
+                throw new InvalidOperationException(
+                    $"Type id '{attr.Id}' is already registered to type '{existingById.FullName}'; cannot also register '{type.FullName}'.");
+            }
+        }
+
         return true;
     }
 }
