@@ -18,7 +18,7 @@ public static class ManagementClientExtensions
     /// <param name="contentItem">Specifies data for updated content item.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
-    public async static Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken = default)
+    public static async Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(contentItem);
@@ -43,7 +43,7 @@ public static class ManagementClientExtensions
     /// <param name="createModel">Builds the asset to create from the reference of the uploaded file.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the created asset, or the failure detail of the file upload or the create.</returns>
-    public async static Task<IManagementResult<AssetModel>> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, Func<FileReference, AssetCreateModel> createModel, CancellationToken cancellationToken = default)
+    public static async Task<IManagementResult<AssetModel>> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, Func<FileReference, AssetCreateModel> createModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(fileContent);
         ArgumentNullException.ThrowIfNull(createModel);
@@ -66,7 +66,7 @@ public static class ManagementClientExtensions
     /// <param name="upsertModel">Values for the upserted asset; its <see cref="AssetUpsertModel.FileReference"/> is set from the uploaded file.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the upserted asset, or the failure detail of the file upload or the upsert.</returns>
-    public async static Task<IManagementResult<AssetModel>> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken = default)
+    public static async Task<IManagementResult<AssetModel>> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(fileContent);
@@ -95,7 +95,7 @@ public static class ManagementClientExtensions
     /// <param name="variant">The variant data to upsert.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the upserted variant, or the failure detail of the item creation or the variant upsert.</returns>
-    public async static Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(this IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken = default)
+    public static async Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(this IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(item);
         ArgumentNullException.ThrowIfNull(language);
@@ -129,7 +129,7 @@ public static class ManagementClientExtensions
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the upserted variant — its element values as <typeparamref name="T"/> plus the item,
     /// language, workflow and other variant metadata — or the failure detail of the item creation or the variant upsert.</returns>
-    public async static Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(this IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier? workflow = null, CancellationToken cancellationToken = default)
+    public static async Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(this IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier? workflow = null, CancellationToken cancellationToken = default)
         where T : IElementsModel, new()
     {
         ArgumentNullException.ThrowIfNull(item);

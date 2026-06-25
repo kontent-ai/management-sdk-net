@@ -1,4 +1,4 @@
-using Kontent.Ai.Management.Modules.Extensions;
+using Kontent.Ai.Management.Extensions;
 
 namespace Kontent.Ai.Management.Handlers;
 

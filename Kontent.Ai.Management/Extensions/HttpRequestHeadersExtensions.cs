@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Kontent.Ai.Management.Modules.Extensions;
+namespace Kontent.Ai.Management.Extensions;
 
 internal static class HttpRequestHeadersExtensions
 {

@@ -19,7 +19,7 @@ public static class ContentModelExtensions
     /// <param name="client">Content management client instance.</param>
     /// <param name="cancellationToken">Token to cancel the export.</param>
     /// <returns>A result wrapping the complete <see cref="ContentModelSnapshot"/>, or the first listing failure.</returns>
-    public async static Task<IManagementResult<ContentModelSnapshot>> ExportContentModelAsync(this IManagementClient client, CancellationToken cancellationToken = default)
+    public static async Task<IManagementResult<ContentModelSnapshot>> ExportContentModelAsync(this IManagementClient client, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(client);
 

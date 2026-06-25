@@ -1,7 +1,7 @@
 using AwesomeAssertions;
-using Kontent.Ai.Management.Modules.Extensions;
+using Kontent.Ai.Management.Extensions;
 
-namespace Kontent.Ai.Management.Tests.Modules.Extensions;
+namespace Kontent.Ai.Management.Tests.Extensions;
 
 public class HttpRequestHeadersExtensionsTests
 {
