@@ -27,19 +27,19 @@ public static class ContentModelExtensions
         var types = await client.ListContentTypesAsync(cancellationToken).ConfigureAwait(false);
         if (!types.IsSuccess)
         {
-            return Project(types);
+            return types.AsFailure<ContentModelSnapshot>();
         }
 
         var snippets = await client.ListContentTypeSnippetsAsync(cancellationToken).ConfigureAwait(false);
         if (!snippets.IsSuccess)
         {
-            return Project(snippets);
+            return snippets.AsFailure<ContentModelSnapshot>();
         }
 
         var taxonomies = await client.ListTaxonomyGroupsAsync(cancellationToken).ConfigureAwait(false);
         if (!taxonomies.IsSuccess)
         {
-            return Project(taxonomies);
+            return taxonomies.AsFailure<ContentModelSnapshot>();
         }
 
         var snapshot = new ContentModelSnapshot
@@ -52,7 +52,4 @@ public static class ContentModelExtensions
         // Aggregates several successful calls into one snapshot, so report a synthetic success status.
         return ManagementResult<ContentModelSnapshot>.Success(snapshot, HttpStatusCode.OK);
     }
-
-    private static ManagementResult<ContentModelSnapshot> Project(IManagementResult failure) =>
-        ManagementResult<ContentModelSnapshot>.Failure(failure.Error!, failure.StatusCode, failure.RequestUrl);
 }

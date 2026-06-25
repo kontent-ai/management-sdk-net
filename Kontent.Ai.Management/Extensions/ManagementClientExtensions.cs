@@ -51,7 +51,7 @@ public static class ManagementClientExtensions
         var fileResult = await client.UploadFileAsync(fileContent, cancellationToken).ConfigureAwait(false);
         if (!fileResult.IsSuccess)
         {
-            return ProjectFailure<AssetModel>(fileResult);
+            return fileResult.AsFailure<AssetModel>();
         }
 
         return await client.CreateAssetAsync(createModel(fileResult.Value), cancellationToken).ConfigureAwait(false);
@@ -75,7 +75,7 @@ public static class ManagementClientExtensions
         var fileResult = await client.UploadFileAsync(fileContent, cancellationToken).ConfigureAwait(false);
         if (!fileResult.IsSuccess)
         {
-            return ProjectFailure<AssetModel>(fileResult);
+            return fileResult.AsFailure<AssetModel>();
         }
 
         return await client.UpsertAssetAsync(identifier, upsertModel with { FileReference = fileResult.Value }, cancellationToken).ConfigureAwait(false);
@@ -104,7 +104,7 @@ public static class ManagementClientExtensions
         var itemResult = await client.CreateContentItemAsync(item, cancellationToken).ConfigureAwait(false);
         if (!itemResult.IsSuccess)
         {
-            return ProjectFailure<LanguageVariantModel>(itemResult);
+            return itemResult.AsFailure<LanguageVariantModel>();
         }
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
@@ -139,13 +139,11 @@ public static class ManagementClientExtensions
         var itemResult = await client.CreateContentItemAsync(item, cancellationToken).ConfigureAwait(false);
         if (!itemResult.IsSuccess)
         {
-            return ProjectFailure<LanguageVariantModel<T>>(itemResult);
+            return itemResult.AsFailure<LanguageVariantModel<T>>();
         }
 
         var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
         return await client.UpsertLanguageVariantAsync(identifier, variant, workflow, cancellationToken).ConfigureAwait(false);
     }
 
-    private static ManagementResult<TTo> ProjectFailure<TTo>(IManagementResult source) =>
-        ManagementResult<TTo>.Failure(source.Error!, source.StatusCode, source.RequestUrl);
 }
