@@ -263,7 +263,7 @@ internal sealed class ContentItemEnvelopeConverter
             {
                 Value = value.GetString(),
                 Mode = envelope.TryGetProperty("mode", out var mode) && mode.ValueKind == JsonValueKind.String
-                    ? JsonSerializer.Deserialize<UrlSlugMode>(mode.GetRawText(), _scalarOptions)
+                    ? mode.Deserialize<UrlSlugMode>(_scalarOptions)
                     : default,
             },
             ElementKind.Custom => new CustomValue
@@ -274,8 +274,8 @@ internal sealed class ContentItemEnvelopeConverter
                     : null,
             },
             ElementKind.MultipleChoice => ReadMultipleChoice(value, prop),
-            ElementKind.Asset => JsonSerializer.Deserialize(value.GetRawText(), prop.Property.PropertyType, _scalarOptions),
-            ElementKind.Reference => JsonSerializer.Deserialize(value.GetRawText(), prop.Property.PropertyType, _scalarOptions),
+            ElementKind.Asset => value.Deserialize(prop.Property.PropertyType, _scalarOptions),
+            ElementKind.Reference => value.Deserialize(prop.Property.PropertyType, _scalarOptions),
             ElementKind.RichText => ReadRichText(value, envelope),
             _ => throw new NotSupportedException($"Unknown element kind: {prop.Kind}"),
         };

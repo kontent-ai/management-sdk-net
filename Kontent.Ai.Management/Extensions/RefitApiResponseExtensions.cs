@@ -68,7 +68,7 @@ internal static class RefitApiResponseExtensions
         var apiException = response.Error;
         if (apiException is null)
         {
-            return new Error { Message = "Unknown error." };
+            return new Error();
         }
 
         try

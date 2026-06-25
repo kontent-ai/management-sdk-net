@@ -16,7 +16,6 @@ public sealed class ManagementOptions : IValidatableObject
     /// <summary>
     /// Gets or sets the environment identifier (GUID).
     /// </summary>
-    [Required]
     public string? EnvironmentId { get; set; }
 
     /// <summary>
@@ -27,7 +26,6 @@ public sealed class ManagementOptions : IValidatableObject
     /// <summary>
     /// Gets or sets the Management API key.
     /// </summary>
-    [Required]
     public string? ApiKey { get; set; }
 
     /// <summary>
