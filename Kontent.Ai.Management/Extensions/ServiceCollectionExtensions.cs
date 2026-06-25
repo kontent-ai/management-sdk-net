@@ -1,20 +1,16 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Handlers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Http.Resilience;
-using Microsoft.Extensions.Options;
 using Polly;
-using Polly.Retry;
 
 namespace Kontent.Ai.Management.Extensions;
 
 /// <summary>
 /// Registers the Kontent.ai Management client and its dependencies on an <see cref="IServiceCollection"/>.
 /// </summary>
-public static class ServiceCollectionExtensions
+public static partial class ServiceCollectionExtensions
 {
     private const string ManagementHttpClientPrefix = "Kontent.Ai.Management.HttpClient.";
     private const string SubscriptionHttpClientPrefix = "Kontent.Ai.Management.SubscriptionHttpClient.";
@@ -222,78 +218,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static void RegisterRefitClient<T>(
-        IServiceCollection services,
-        string clientName,
-        string httpClientName,
-        Func<ManagementOptions, string> scopePathSelector,
-        RefitSettings refitSettings,
-        Action<IHttpClientBuilder>? configureHttpClient,
-        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience) where T : class
-    {
-        var httpClientBuilder = services
-            .AddHttpClient(httpClientName)
-            .ConfigureHttpClient((sp, httpClient) =>
-            {
-                var options = sp.GetRequiredService<IOptionsMonitor<ManagementOptions>>().Get(clientName);
-                httpClient.BaseAddress = options.ScopedEndpoint(scopePathSelector(options));
-            });
-
-        // Resilience first → resilience sits outermost so each retry re-runs tracking + auth fresh (matters when
-        // tokens rotate). Diverges from delivery/sync by omitting AddTimeout — see ConfigureDefaultResilience.
-        ConfigureResilienceHandler(httpClientBuilder, $"management_{typeof(T).Name}_{clientName}", clientName, configureResilience);
-        AddMessageHandlers(httpClientBuilder, clientName);
-        configureHttpClient?.Invoke(httpClientBuilder);
-
-        services.AddKeyedTransient<T>(clientName, (sp, _) =>
-        {
-            var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient(httpClientName);
-            return RestService.For<T>(httpClient, refitSettings);
-        });
-    }
-
-    private static RefitSettings CreateRefitSettings(Action<RefitSettings>? configureRefit)
-    {
-        var settings = RefitSettingsProvider.CreateDefaultSettings();
-        configureRefit?.Invoke(settings);
-        return settings;
-    }
-
-    private static void ConfigureResilienceHandler(
-        IHttpClientBuilder httpClientBuilder,
-        string resilienceHandlerName,
-        string clientName,
-        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience)
-    {
-        httpClientBuilder.AddResilienceHandler(resilienceHandlerName, (builder, context) =>
-        {
-            var options = context.ServiceProvider.GetRequiredService<IOptionsMonitor<ManagementOptions>>().Get(clientName);
-
-            if (!options.EnableResilience)
-            {
-                return;
-            }
-
-            if (configureResilience is not null)
-            {
-                configureResilience(builder);
-            }
-            else
-            {
-                ConfigureDefaultResilience(builder);
-            }
-        });
-    }
-
-    private static void AddMessageHandlers(IHttpClientBuilder httpClientBuilder, string clientName)
-    {
-        httpClientBuilder.AddHttpMessageHandler(_ => new TrackingHandler());
-        httpClientBuilder.AddHttpMessageHandler(sp => new ManagementAuthenticationHandler(
-            new MonitorBackedManagementOptionsAccessor(
-                sp.GetRequiredService<IOptionsMonitor<ManagementOptions>>(),
-                clientName)));
-    }
-
     private static IManagementClient CreateManagementClient(IServiceProvider serviceProvider, object? key)
     {
         var name = (string)key!;
@@ -323,67 +247,5 @@ public static class ServiceCollectionExtensions
 
         throw new InvalidOperationException(
             $"A management client with the name '{name}' has already been registered. Each client must have a unique name.");
-    }
-
-    /// <summary>
-    /// Configures the default resilience pipeline. Diverges from delivery-sdk-net / sync-sdk-net by omitting
-    /// <c>AddTimeout</c> — management operations include asset uploads where a per-attempt timeout would be more
-    /// hindrance than help. Consumers who want one should add it via the <c>configureResilience</c> hook on
-    /// <c>AddManagementClient</c>.
-    /// </summary>
-    internal static void ConfigureDefaultResilience(ResiliencePipelineBuilder<HttpResponseMessage> builder)
-    {
-        builder.AddRetry(new HttpRetryStrategyOptions
-        {
-            MaxRetryAttempts = 3,
-            Delay = TimeSpan.FromSeconds(1),
-            BackoffType = DelayBackoffType.Exponential,
-            UseJitter = true,
-            ShouldHandle = args => ValueTask.FromResult(
-                IsTransientException(args.Outcome.Exception, args.Context.CancellationToken) ||
-                (args.Outcome.Result?.IsSuccessStatusCode == false &&
-                 IsRetryableStatusCode(args.Outcome.Result?.StatusCode))),
-            DelayGenerator = GetRetryAfterDelay
-        });
-    }
-
-    internal static ValueTask<TimeSpan?> GetRetryAfterDelay(RetryDelayGeneratorArguments<HttpResponseMessage> args)
-    {
-        if (args.Outcome.Result is { StatusCode: System.Net.HttpStatusCode.TooManyRequests } response
-            && response.Headers.RetryAfter?.Delta is { } retryAfter)
-        {
-            return ValueTask.FromResult<TimeSpan?>(retryAfter);
-        }
-
-        return ValueTask.FromResult<TimeSpan?>(null);
-    }
-
-    internal static bool IsRetryableStatusCode(System.Net.HttpStatusCode? statusCode)
-        => statusCode is
-            System.Net.HttpStatusCode.TooManyRequests or
-            System.Net.HttpStatusCode.RequestTimeout or
-            System.Net.HttpStatusCode.InternalServerError or
-            System.Net.HttpStatusCode.BadGateway or
-            System.Net.HttpStatusCode.ServiceUnavailable or
-            System.Net.HttpStatusCode.GatewayTimeout;
-
-    internal static bool IsTransientException(Exception? exception, CancellationToken requestCancellationToken)
-    {
-        if (exception is null)
-        {
-            return false;
-        }
-
-        if (exception is OperationCanceledException)
-        {
-            if (requestCancellationToken.IsCancellationRequested)
-            {
-                return false;
-            }
-
-            return exception is TaskCanceledException || exception.InnerException is TimeoutException;
-        }
-
-        return exception is HttpRequestException or TimeoutException;
     }
 }
