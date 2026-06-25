@@ -1,4 +1,6 @@
 using AwesomeAssertions;
+using Kontent.Ai.Management;
+using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Conversion;
 using ModelsArticle = MyProject.Models.Article;
 using StubsArticle = Kontent.Ai.Management.Tests.Fixtures.StubModels.Article;
@@ -8,6 +10,11 @@ namespace Kontent.Ai.Management.Tests.Conversion;
 public class ContentTypeRegistryTests
 {
     private const string ModelsArticleId = "5568750a-d7fd-51fa-a8bb-a08940ac5395";
+    private const string StubsArticleId = "11111111-1111-1111-1111-111111111111";
+
+    // A second content-type record deliberately claiming ModelsArticle's id, to exercise id-collision detection.
+    [KontentType("clashing", ModelsArticleId)]
+    private sealed record IdClashingArticle : IElementsModel;
 
     [Fact]
     public void Register_IndexesTypeById()
@@ -31,16 +38,15 @@ public class ContentTypeRegistryTests
     }
 
     [Fact]
-    public void Register_CollidingCodename_Throws()
+    public void Register_SharedCodenameDistinctIds_ResolvesEachById()
     {
-        // Two types share `[KontentType("article")]` — registering the second should refuse and surface both names.
+        // Two types share `[KontentType("article")]` but carry distinct ids — resolution is by id, so both coexist.
         var registry = new ContentTypeRegistry();
         registry.Register(typeof(ModelsArticle));
+        registry.Register(typeof(StubsArticle));
 
-        var act = () => registry.Register(typeof(StubsArticle));
-
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*article*");
+        registry.ResolveById(ModelsArticleId).Should().Be<ModelsArticle>();
+        registry.ResolveById(StubsArticleId).Should().Be<StubsArticle>();
     }
 
     [Fact]
@@ -55,16 +61,16 @@ public class ContentTypeRegistryTests
     }
 
     [Fact]
-    public void EnsureRegistered_CollidingCodename_Throws()
+    public void EnsureRegistered_CollidingId_Throws()
     {
-        // Same codename, different type — the read-path entry must stay collision-strict, not silently keep the first mapping.
+        // Two types claiming one id cannot both be resolved — the read-path entry stays strict on id, not codename.
         var registry = new ContentTypeRegistry();
         registry.EnsureRegistered(typeof(ModelsArticle));
 
-        var act = () => registry.EnsureRegistered(typeof(StubsArticle));
+        var act = () => registry.EnsureRegistered(typeof(IdClashingArticle));
 
         act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*article*");
+            .WithMessage($"*{ModelsArticleId}*");
     }
 
     [Fact]
@@ -98,15 +104,15 @@ public class ContentTypeRegistryTests
     }
 
     [Fact]
-    public void Scan_OnCollidingAssembly_ThrowsLoudly()
+    public void Scan_OnIdCollidingAssembly_ThrowsLoudly()
     {
-        // This test assembly co-locates two content-model sets, StubModels and MyProject.Models, that share codenames.
-        // Scan must surface that collision instead of silently keeping whichever type it saw first. Real projects use
-        // unique codenames and never hit this, so the test exists to pin the contract.
+        // Shared codenames across co-located model sets are fine — resolution is by id. An id claimed by two types is
+        // not: this assembly's IdClashingArticle deliberately reuses ModelsArticle's id, and Scan must surface that.
         var registry = new ContentTypeRegistry();
 
         var act = () => registry.Scan(typeof(ModelsArticle).Assembly);
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage($"*{ModelsArticleId}*");
     }
 }

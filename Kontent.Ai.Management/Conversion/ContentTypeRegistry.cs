@@ -17,11 +17,6 @@ namespace Kontent.Ai.Management.Conversion;
 internal sealed class ContentTypeRegistry
 {
     private readonly ConcurrentDictionary<string, Type> _byId = new(StringComparer.OrdinalIgnoreCase);
-
-    // The read path resolves components by id (see ResolveById); this index only enforces codename uniqueness today.
-    // It is retained deliberately: codename is the portable identity, so resolving an environment's component-type id
-    // to a model via a fetched id↔codename map would key through here. Don't drop it as unused.
-    private readonly ConcurrentDictionary<string, Type> _byCodename = new();
     private readonly ConcurrentDictionary<Assembly, byte> _scannedAssemblies = new();
 
     /// <summary>
@@ -41,7 +36,7 @@ internal sealed class ContentTypeRegistry
 
     /// <summary>
     /// Registers <paramref name="type"/> if it implements <see cref="IElementsModel"/> and carries
-    /// <see cref="KontentTypeAttribute"/>. Throws when a different type is already registered for the same codename.
+    /// <see cref="KontentTypeAttribute"/>. Throws when a different type is already registered for the same id.
     /// </summary>
     public void Register(Type type)
     {
@@ -56,8 +51,8 @@ internal sealed class ContentTypeRegistry
 
     /// <summary>
     /// Registers <paramref name="type"/> if it is a content-type record. Idempotent for the same type, and a
-    /// non-content-type is a no-op so the read path can self-register a root without failing. A codename already
-    /// mapped to a different type still throws — a duplicate codename is always a conflict.
+    /// non-content-type is a no-op so the read path can self-register a root without failing. An id already
+    /// mapped to a different type still throws — two types claiming one id cannot both be resolved.
     /// </summary>
     public void EnsureRegistered(Type type)
     {
@@ -79,13 +74,6 @@ internal sealed class ContentTypeRegistry
     {
         var attr = type.GetCustomAttribute<KontentTypeAttribute>();
         if (attr is null || !typeof(IElementsModel).IsAssignableFrom(type)) return false;
-
-        var existingByCodename = _byCodename.GetOrAdd(attr.Codename, type);
-        if (existingByCodename != type)
-        {
-            throw new InvalidOperationException(
-                $"Codename '{attr.Codename}' is already registered to type '{existingByCodename.FullName}'; cannot also register '{type.FullName}'.");
-        }
 
         if (attr.Id is not null)
         {

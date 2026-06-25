@@ -93,9 +93,9 @@ internal sealed class ContentItemEnvelopeConverter
         ArgumentNullException.ThrowIfNull(contentType);
 
         // Auto-register the root type itself so it is resolvable by id on recursive descent (a root type can recur as
-        // its own rich-text component). Other candidate types (those that may appear as embedded components) must be
-        // pre-registered by the caller via ContentTypeRegistry — auto-scanning the whole assembly would risk codename
-        // collisions in projects that co-locate multiple content-model sets.
+        // its own rich-text component). Other candidate types (those that may appear as embedded components) are
+        // registered by the caller via ContentTypeRegistry.Scan — this primitive stays off the assembly-reflection
+        // path and leaves registration scope to the caller.
         _registry.EnsureRegistered(contentType);
 
         var descriptor = ContentItemTypeDescriptor.For(contentType);

@@ -2,28 +2,12 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Conversion;
 using Kontent.Ai.Management.Models.Content;
 using MyProject.Models;
-using StubsArticle = Kontent.Ai.Management.Tests.Fixtures.StubModels.Article;
 
 namespace Kontent.Ai.Management.Tests.Conversion;
 
 public class EnvelopeConverter_ReadTests
 {
     private static readonly ContentItemEnvelopeConverter Converter = new();
-
-    [Fact]
-    public void ReadEnvelopes_RootCodenameCollidesWithRegisteredType_Throws()
-    {
-        // The root type shares [KontentType("article")] with an already-registered different type — the read must
-        // fail fast rather than self-register over it and resolve components to the wrong type.
-        var registry = new ContentTypeRegistry();
-        registry.Register(typeof(Article));
-        var converter = new ContentItemEnvelopeConverter(registry);
-
-        var act = () => converter.ReadEnvelopes<StubsArticle>("[]");
-
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*article*");
-    }
 
     [Fact]
     public void EmptyArray_ReturnsEmptyRecord()
