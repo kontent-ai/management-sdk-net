@@ -3,13 +3,13 @@ using System.Text.Json;
 
 namespace Kontent.Ai.Management.Serialization.Converters;
 
-internal sealed class ImageTransformationJsonConverter : PolymorphicJsonConverter<ImageTransformation>
+internal sealed class ImageTransformationJsonConverter : PolymorphicJsonConverter<ImageTransformation, ImageTransformationMode>
 {
     protected override string DiscriminatorPropertyName => "mode";
 
-    protected override Type ResolveType(string discriminator) => discriminator switch
+    protected override Type ResolveType(ImageTransformationMode discriminator) => discriminator switch
     {
-        "rect" => typeof(RectangleResizeTransformation),
-        _ => throw new JsonException($"Unknown image transformation mode '{discriminator}'."),
+        ImageTransformationMode.Rect => typeof(RectangleResizeTransformation),
+        _ => throw new JsonException($"No image transformation subtype for '{discriminator}'."),
     };
 }

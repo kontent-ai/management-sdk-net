@@ -3,8 +3,9 @@ using System.Text.Json;
 namespace Kontent.Ai.Management.Serialization.Converters;
 
 /// <summary>
-/// Deserializes an abstract model to the concrete subtype selected by a string discriminator
-/// property, and serializes the runtime concrete type.
+/// Deserializes an abstract model to the concrete subtype selected by a <typeparamref name="TDiscriminator"/>
+/// enum discriminator property, and serializes the runtime concrete type. The wire token is resolved against the
+/// enum's <see cref="EnumMemberAttribute"/> values, so each converter only maps enum members to subtypes.
 /// </summary>
 /// <remarks>
 /// <see cref="CanConvert"/> matches the abstract base type only. That is load-bearing: the nested
@@ -12,11 +13,13 @@ namespace Kontent.Ai.Management.Serialization.Converters;
 /// recurses forever. It is the System.Text.Json equivalent of the legacy Newtonsoft
 /// <c>BaseSpecifiedConcreteClassConverter</c> contract resolver.
 /// </remarks>
-internal abstract class PolymorphicJsonConverter<TBase> : JsonConverter<TBase> where TBase : class
+internal abstract class PolymorphicJsonConverter<TBase, TDiscriminator> : JsonConverter<TBase>
+    where TBase : class
+    where TDiscriminator : struct, Enum
 {
     protected abstract string DiscriminatorPropertyName { get; }
 
-    protected abstract Type ResolveType(string discriminator);
+    protected abstract Type ResolveType(TDiscriminator discriminator);
 
     public override bool CanConvert(Type typeToConvert) => typeToConvert == typeof(TBase);
 
@@ -30,7 +33,13 @@ internal abstract class PolymorphicJsonConverter<TBase> : JsonConverter<TBase> w
             throw new JsonException($"Object does not contain a string '{DiscriminatorPropertyName}' discriminator property.");
         }
 
-        var concreteType = ResolveType(discriminator.GetString()!);
+        var token = discriminator.GetString()!;
+        if (!EnumWire.TryFromValue<TDiscriminator>(token, out var key))
+        {
+            throw new JsonException($"Unknown '{DiscriminatorPropertyName}' discriminator value '{token}'.");
+        }
+
+        var concreteType = ResolveType(key);
         return (TBase)root.Deserialize(concreteType, options)!;
     }
 

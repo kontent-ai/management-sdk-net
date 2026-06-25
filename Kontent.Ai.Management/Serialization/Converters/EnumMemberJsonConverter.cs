@@ -48,20 +48,14 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
     public static string ToWireValue(TEnum value)
         => ValueToName.TryGetValue(value, out var mapped) ? mapped : value.ToString();
 
+    /// <summary>Resolves a wire token (or, as a fallback, the member name) to its enum value. The inverse of <see cref="ToWireValue"/>.</summary>
+    public static bool TryParseWire(string value, out TEnum result)
+        => NameToValue.TryGetValue(value, out result) || Enum.TryParse(value, ignoreCase: true, out result);
+
     private static TEnum ParseString(string value)
-    {
-        if (NameToValue.TryGetValue(value, out var mapped))
-        {
-            return mapped;
-        }
-
-        if (Enum.TryParse<TEnum>(value, ignoreCase: true, out var parsed))
-        {
-            return parsed;
-        }
-
-        throw new JsonException($"'{value}' is not a valid {typeof(TEnum).Name} value.");
-    }
+        => TryParseWire(value, out var result)
+            ? result
+            : throw new JsonException($"'{value}' is not a valid {typeof(TEnum).Name} value.");
 
     private static void Write(Utf8JsonWriter writer, TEnum value, bool asPropertyName)
     {

@@ -16,7 +16,7 @@ namespace Kontent.Ai.Management.Serialization.Converters;
 /// <remarks>
 /// <see cref="CanConvert"/> matches the abstract bases only. The nested serialization of the runtime
 /// concrete type therefore does not re-enter this factory and falls through to default reflection
-/// serialization — same recursion guard as <see cref="PolymorphicJsonConverter{TBase}"/>. These
+/// serialization — same recursion guard as <see cref="PolymorphicJsonConverter{TBase, TDiscriminator}"/>. These
 /// models are request-only; deserialization is never exercised.
 /// </remarks>
 internal sealed class PatchOperationJsonConverterFactory : JsonConverterFactory

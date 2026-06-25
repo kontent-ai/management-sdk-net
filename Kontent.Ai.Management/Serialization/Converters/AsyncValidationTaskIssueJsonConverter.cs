@@ -3,14 +3,14 @@ using System.Text.Json;
 
 namespace Kontent.Ai.Management.Serialization.Converters;
 
-internal sealed class AsyncValidationTaskIssueJsonConverter : PolymorphicJsonConverter<AsyncValidationTaskIssueModel>
+internal sealed class AsyncValidationTaskIssueJsonConverter : PolymorphicJsonConverter<AsyncValidationTaskIssueModel, AsyncValidationTaskIssueType>
 {
     protected override string DiscriminatorPropertyName => "issue_type";
 
-    protected override Type ResolveType(string discriminator) => discriminator switch
+    protected override Type ResolveType(AsyncValidationTaskIssueType discriminator) => discriminator switch
     {
-        "variant_issue" => typeof(AsyncValidationTaskVariantIssueModel),
-        "type_issue" => typeof(AsyncValidationTaskTypeIssueModel),
-        _ => throw new JsonException($"Unknown async validation task issue type '{discriminator}'."),
+        AsyncValidationTaskIssueType.VariantIssue => typeof(AsyncValidationTaskVariantIssueModel),
+        AsyncValidationTaskIssueType.TypeIssue => typeof(AsyncValidationTaskTypeIssueModel),
+        _ => throw new JsonException($"No async validation task issue subtype for '{discriminator}'."),
     };
 }
