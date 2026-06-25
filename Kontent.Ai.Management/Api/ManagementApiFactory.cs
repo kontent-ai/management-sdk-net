@@ -17,14 +17,14 @@ internal static class ManagementApiFactory
     {
         ArgumentNullException.ThrowIfNull(options);
         var http = CreateHttpClient(options, $"projects/{options.EnvironmentId}", new SnapshotManagementOptionsAccessor(options), primaryHandler: innerHandler);
-        return RestService.For<IManagementApi>(http, RefitSettingsProvider.CreateRefitSettings());
+        return RestService.For<IManagementApi>(http, RefitSettingsProvider.CreateDefaultSettings());
     }
 
     public static ISubscriptionApi CreateSubscription(ManagementOptions options, HttpMessageHandler? innerHandler = null)
     {
         ArgumentNullException.ThrowIfNull(options);
         var http = CreateHttpClient(options, $"subscriptions/{options.SubscriptionId}", new SnapshotManagementOptionsAccessor(options), primaryHandler: innerHandler);
-        return RestService.For<ISubscriptionApi>(http, RefitSettingsProvider.CreateRefitSettings());
+        return RestService.For<ISubscriptionApi>(http, RefitSettingsProvider.CreateDefaultSettings());
     }
 
     /// <summary>

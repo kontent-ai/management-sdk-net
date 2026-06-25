@@ -8,16 +8,13 @@ namespace Kontent.Ai.Management.Configuration;
 /// </summary>
 internal static class RefitSettingsProvider
 {
-    public static RefitSettings CreateRefitSettings(Action<RefitSettings>? configureRefit = null)
-    {
-        var settings = new RefitSettings
+    public static RefitSettings CreateDefaultSettings()
+        => new()
         {
             ContentSerializer = new SystemTextJsonContentSerializer(CreateDefaultJsonSerializerOptions()),
+            CollectionFormat = CollectionFormat.Multi,
+            UrlParameterKeyFormatter = new CamelCaseUrlParameterKeyFormatter(),
         };
-
-        configureRefit?.Invoke(settings);
-        return settings;
-    }
 
     public static JsonSerializerOptions CreateDefaultJsonSerializerOptions()
     {

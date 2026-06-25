@@ -32,18 +32,19 @@ public class RefitSettingsProviderTests
     }
 
     [Fact]
-    public void CreateRefitSettings_UsesSystemTextJsonContentSerializer()
+    public void CreateDefaultSettings_UsesSystemTextJsonContentSerializer()
     {
-        var settings = RefitSettingsProvider.CreateRefitSettings();
+        var settings = RefitSettingsProvider.CreateDefaultSettings();
 
         settings.ContentSerializer.Should().BeOfType<SystemTextJsonContentSerializer>();
     }
 
     [Fact]
-    public void CreateRefitSettings_AppliesConfigureHook()
+    public void CreateDefaultSettings_SetsMultiCollectionAndCamelCaseKeyFormat()
     {
-        var settings = RefitSettingsProvider.CreateRefitSettings(s => s.Buffered = true);
+        var settings = RefitSettingsProvider.CreateDefaultSettings();
 
-        settings.Buffered.Should().BeTrue();
+        settings.CollectionFormat.Should().Be(CollectionFormat.Multi);
+        settings.UrlParameterKeyFormatter.Should().BeOfType<CamelCaseUrlParameterKeyFormatter>();
     }
 }

@@ -253,7 +253,11 @@ public static class ServiceCollectionExtensions
     }
 
     private static RefitSettings CreateRefitSettings(Action<RefitSettings>? configureRefit)
-        => RefitSettingsProvider.CreateRefitSettings(configureRefit);
+    {
+        var settings = RefitSettingsProvider.CreateDefaultSettings();
+        configureRefit?.Invoke(settings);
+        return settings;
+    }
 
     private static void ConfigureResilienceHandler(
         IHttpClientBuilder httpClientBuilder,
