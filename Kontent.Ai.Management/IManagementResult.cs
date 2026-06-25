@@ -20,10 +20,10 @@ public interface IManagementResult
     IError? Error { get; }
 
     /// <summary>
-    /// The HTTP status code of the Management API response. <c>null</c> when the operation failed before a request
-    /// was sent — local content-item validation performed by the SDK.
+    /// The HTTP status code of the Management API response. Operations that aggregate multiple requests report a
+    /// synthetic status representing the overall outcome.
     /// </summary>
-    HttpStatusCode? StatusCode { get; }
+    HttpStatusCode StatusCode { get; }
 
     /// <summary>
     /// The request URL, for diagnostics. <c>null</c> when no request was sent.

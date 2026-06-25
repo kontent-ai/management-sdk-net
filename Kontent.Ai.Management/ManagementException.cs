@@ -12,8 +12,8 @@ public sealed class ManagementException : Exception
     /// <summary>The failure detail carried by the originating result.</summary>
     public IError Error { get; }
 
-    /// <summary>The HTTP status code, when the failure came from an HTTP response.</summary>
-    public HttpStatusCode? StatusCode { get; }
+    /// <summary>The HTTP status code carried by the originating result.</summary>
+    public HttpStatusCode StatusCode { get; }
 
     /// <summary>The request URL, when one was sent.</summary>
     public string? RequestUrl { get; }

@@ -14,12 +14,12 @@ public class ManagementResultTests
     [Fact]
     public void Success_ExposesValueAndNoError()
     {
-        var result = ManagementResult<string>.Success("ok");
+        var result = ManagementResult<string>.Success("ok", HttpStatusCode.OK);
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().Be("ok");
         result.Error.Should().BeNull();
-        result.StatusCode.Should().BeNull();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class ManagementResultTests
     public void IsCovariant_ResultOfDerivedAssignableToResultOfBase()
     {
         // out T on IManagementResult<T> must allow widening — useful when the generated record is returned as IElementsModel.
-        IManagementResult<string> success = ManagementResult<string>.Success("ok");
+        IManagementResult<string> success = ManagementResult<string>.Success("ok", HttpStatusCode.OK);
         IManagementResult<object> widened = success;
 
         widened.Value.Should().Be("ok");
@@ -78,7 +78,7 @@ public class ManagementResultTests
     [Fact]
     public void GenericResult_IsAlsoNonGenericResult()
     {
-        IManagementResult result = ManagementResult<string>.Success("ok");
+        IManagementResult result = ManagementResult<string>.Success("ok", HttpStatusCode.OK);
 
         result.IsSuccess.Should().BeTrue();
     }

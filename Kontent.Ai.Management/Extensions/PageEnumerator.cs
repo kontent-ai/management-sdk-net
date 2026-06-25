@@ -67,6 +67,7 @@ internal static class PageEnumerator
             lastPage = page;
         }
 
-        return ManagementResult<IReadOnlyList<TItem>>.Success(items, lastPage?.StatusCode, lastPage?.RequestUrl);
+        // Normal completion implies at least one successful page was yielded, so lastPage is set.
+        return ManagementResult<IReadOnlyList<TItem>>.Success(items, lastPage!.StatusCode, lastPage.RequestUrl);
     }
 }

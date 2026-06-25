@@ -11,7 +11,7 @@ public class ManagementResultExtensionsTests
     [Fact]
     public void EnsureSuccess_Generic_ReturnsValue()
     {
-        ManagementResult<string>.Success("ok").EnsureSuccess().Should().Be("ok");
+        ManagementResult<string>.Success("ok", HttpStatusCode.OK).EnsureSuccess().Should().Be("ok");
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class ManagementResultExtensionsTests
     [Fact]
     public void EnsureSuccess_NonGeneric_Throws_OnFailure()
     {
-        var act = () => ManagementResult.Failure(SampleError()).EnsureSuccess();
+        var act = () => ManagementResult.Failure(SampleError(), HttpStatusCode.BadRequest).EnsureSuccess();
 
         act.Should().Throw<ManagementException>();
     }
@@ -38,14 +38,14 @@ public class ManagementResultExtensionsTests
     [Fact]
     public void TryGetValue_ReturnsTrueAndValue_OnSuccess()
     {
-        ManagementResult<string>.Success("ok").TryGetValue(out var value).Should().BeTrue();
+        ManagementResult<string>.Success("ok", HttpStatusCode.OK).TryGetValue(out var value).Should().BeTrue();
         value.Should().Be("ok");
     }
 
     [Fact]
     public void TryGetValue_ReturnsFalse_OnFailure()
     {
-        ManagementResult<string>.Failure(SampleError()).TryGetValue(out var value).Should().BeFalse();
+        ManagementResult<string>.Failure(SampleError(), HttpStatusCode.BadRequest).TryGetValue(out var value).Should().BeFalse();
         value.Should().BeNull();
     }
 

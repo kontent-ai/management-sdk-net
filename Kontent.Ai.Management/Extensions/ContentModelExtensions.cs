@@ -1,4 +1,5 @@
 using Kontent.Ai.Management.Models.ContentModel;
+using System.Net;
 
 namespace Kontent.Ai.Management.Extensions;
 
@@ -48,7 +49,8 @@ public static class ContentModelExtensions
             Taxonomies = [.. taxonomies.Value.OrderBy(t => t.Codename, StringComparer.Ordinal)],
         };
 
-        return ManagementResult<ContentModelSnapshot>.Success(snapshot);
+        // Aggregates several successful calls into one snapshot, so report a synthetic success status.
+        return ManagementResult<ContentModelSnapshot>.Success(snapshot, HttpStatusCode.OK);
     }
 
     private static ManagementResult<ContentModelSnapshot> Project(IManagementResult failure) =>

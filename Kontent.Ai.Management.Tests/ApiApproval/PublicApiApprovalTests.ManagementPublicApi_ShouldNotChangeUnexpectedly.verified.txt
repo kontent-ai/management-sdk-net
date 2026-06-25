@@ -129,7 +129,7 @@ public interface IManagementResult
     IError Error { get; }
     Boolean IsSuccess { get; }
     String RequestUrl { get; }
-    Nullable<HttpStatusCode> StatusCode { get; }
+    HttpStatusCode StatusCode { get; }
 
 // Kontent.Ai.Management
 public interface IManagementResult`1<T> : IManagementResult
@@ -269,7 +269,7 @@ public sealed class ManagementErrorCodes
 public sealed class ManagementException : Exception
     IError Error { get; }
     String RequestUrl { get; }
-    Nullable<HttpStatusCode> StatusCode { get; }
+    HttpStatusCode StatusCode { get; }
 
 // Kontent.Ai.Management
 public sealed class ManagementResultExtensions
