@@ -14,7 +14,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single asset.</summary>
-    /// <param name="identifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="identifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/assets/{**identifier}")]
     internal Task<IApiResponse<AssetModel>> GetAssetInternalAsync(
@@ -30,7 +30,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Creates or updates an asset.</summary>
-    /// <param name="identifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="identifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="asset">The asset to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/assets/{**identifier}")]
@@ -40,7 +40,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes an asset.</summary>
-    /// <param name="identifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="identifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/assets/{**identifier}")]
     internal Task<IApiResponse> DeleteAssetInternalAsync(

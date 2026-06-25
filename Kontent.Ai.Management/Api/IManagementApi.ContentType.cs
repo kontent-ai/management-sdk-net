@@ -15,7 +15,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single content type.</summary>
-    /// <param name="identifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="identifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/types/{**identifier}")]
     internal Task<IApiResponse<ContentTypeModel>> GetContentTypeInternalAsync(
@@ -31,7 +31,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a content type.</summary>
-    /// <param name="identifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="identifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/types/{**identifier}")]
     internal Task<IApiResponse> DeleteContentTypeInternalAsync(
@@ -39,7 +39,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Applies a set of operations to an existing content type.</summary>
-    /// <param name="identifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="identifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="changes">The operations to apply.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Patch("/types/{**identifier}")]

@@ -22,13 +22,11 @@ public class AssetRenditionTests
 
     public static TheoryData<AssetRenditionIdentifier?> InvalidGetIdentifiers =>
     [
-        new AssetRenditionIdentifier(Reference.ByCodename("assetcodename"), Reference.ByCodename("renditioncodename")),
         null,
     ];
 
     public static TheoryData<AssetRenditionIdentifier?> InvalidUpdateIdentifiers =>
     [
-        new AssetRenditionIdentifier(Reference.ByCodename("assetcodename"), Reference.ByCodename("renditioncodename")),
         null,
     ];
 

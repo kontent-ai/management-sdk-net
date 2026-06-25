@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Api;
 internal partial interface IManagementApi
 {
     /// <summary>Lists all language variants of a content item.</summary>
-    /// <param name="itemIdentifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="itemIdentifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/items/{**itemIdentifier}/variants")]
     internal Task<IApiResponse<IEnumerable<LanguageVariantModel>>> ListLanguageVariantsByItemInternalAsync(
@@ -14,7 +14,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Lists one page of the language variants of a content type.</summary>
-    /// <param name="typeIdentifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="typeIdentifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="continuationToken">Continuation token from a previous page's response; <c>null</c> for the first page.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/types/{**typeIdentifier}/variants")]
@@ -24,7 +24,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Lists one page of the language variants that use a content type as a component.</summary>
-    /// <param name="typeIdentifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="typeIdentifier">The content type identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="continuationToken">Continuation token from a previous page's response; <c>null</c> for the first page.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/types/{**typeIdentifier}/components")]
@@ -34,7 +34,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Lists one page of the language variants in a collection.</summary>
-    /// <param name="collectionIdentifier">The collection identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="collectionIdentifier">The collection identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="continuationToken">Continuation token from a previous page's response; <c>null</c> for the first page.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/collections/{**collectionIdentifier}/variants")]
@@ -44,7 +44,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Lists one page of the language variants in a space.</summary>
-    /// <param name="spaceIdentifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
+    /// <param name="spaceIdentifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="continuationToken">Continuation token from a previous page's response; <c>null</c> for the first page.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/spaces/{**spaceIdentifier}/variants")]

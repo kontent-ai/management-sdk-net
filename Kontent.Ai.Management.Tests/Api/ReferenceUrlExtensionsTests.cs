@@ -58,34 +58,8 @@ public class ReferenceUrlExtensionsTests
         Reference.ByCodename("not a codename").ToUrlSegment().Should().Be("codename/not%20a%20codename");
     }
 
-    // ----- Reference.ToUrlSegment: kind-restriction enforcement -----------------------------------------------------
-
     [Fact]
-    public void ToUrlSegment_ById_WhenIdNotAllowed_Throws()
-    {
-        var act = () => Reference.ById(Guid.NewGuid()).ToUrlSegment(ReferenceKinds.Codename | ReferenceKinds.ExternalId);
-
-        act.Should().Throw<InvalidOperationException>();
-    }
-
-    [Fact]
-    public void ToUrlSegment_ByCodename_WhenCodenameNotAllowed_Throws()
-    {
-        var act = () => Reference.ByCodename("x").ToUrlSegment(ReferenceKinds.Id);
-
-        act.Should().Throw<InvalidOperationException>();
-    }
-
-    [Fact]
-    public void ToUrlSegment_ByExternalId_WhenExternalIdNotAllowed_Throws()
-    {
-        var act = () => Reference.ByExternalId("x").ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename);
-
-        act.Should().Throw<InvalidOperationException>();
-    }
-
-    [Fact]
-    public void ToUrlSegment_DefaultAllowed_IsAll()
+    public void ToUrlSegment_RendersEveryKind()
     {
         Reference.ById(Guid.NewGuid()).Invoking(r => r.ToUrlSegment()).Should().NotThrow();
         Reference.ByCodename("x").Invoking(r => r.ToUrlSegment()).Should().NotThrow();
@@ -133,15 +107,6 @@ public class ReferenceUrlExtensionsTests
     }
 
     [Fact]
-    public void LanguageVariantIdentifier_ToUrlSegment_LanguageByExternalId_Throws()
-    {
-        var act = () => new LanguageVariantIdentifier(Reference.ById(Guid.NewGuid()), Reference.ByExternalId("ext-en"))
-            .ToUrlSegment();
-
-        act.Should().Throw<InvalidOperationException>();
-    }
-
-    [Fact]
     public void LanguageVariantIdentifier_ToUrlSegment_NullIdentifier_Throws()
     {
         var act = () => ((LanguageVariantIdentifier)null!).ToUrlSegment();
@@ -150,7 +115,7 @@ public class ReferenceUrlExtensionsTests
     }
 
     // ----- AssetRenditionIdentifier.ToUrlSegment --------------------------------------------------------------------
-    // Shape: `{asset}/renditions/{rendition}`. Asset allows all three kinds; rendition allows id or external id only.
+    // Shape: `{asset}/renditions/{rendition}`.
 
     [Fact]
     public void AssetRenditionIdentifier_ToUrlSegment_BothById_ComposesAssetSlashRenditionsSlashRendition()
@@ -179,15 +144,6 @@ public class ReferenceUrlExtensionsTests
         new AssetRenditionIdentifier(Reference.ByExternalId("ext-asset"), Reference.ByExternalId("ext-rendition"))
             .ToUrlSegment()
             .Should().Be("external-id/ext-asset/renditions/external-id/ext-rendition");
-    }
-
-    [Fact]
-    public void AssetRenditionIdentifier_ToUrlSegment_RenditionByCodename_Throws()
-    {
-        var act = () => new AssetRenditionIdentifier(Reference.ById(Guid.NewGuid()), Reference.ByCodename("thumb"))
-            .ToUrlSegment();
-
-        act.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]

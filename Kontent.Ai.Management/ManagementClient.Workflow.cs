@@ -28,7 +28,7 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(workflow);
 
-        var response = await _managementApi.UpdateWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), workflow, cancellationToken).ConfigureAwait(false);
+        var response = await _managementApi.UpdateWorkflowInternalAsync(identifier.ToUrlSegment(), workflow, cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
@@ -37,7 +37,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteWorkflowInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename), cancellationToken).ConfigureAwait(false);
+        var response = await _managementApi.DeleteWorkflowInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

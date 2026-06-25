@@ -17,11 +17,8 @@ public class WebhookTests
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Webhook", name));
 
-    // ById is the only kind webhooks accept; the rest must throw before any HTTP call.
     public static TheoryData<Reference?> InvalidIdentifiers =>
     [
-        Reference.ByCodename("codename"),
-        Reference.ByExternalId("externalId"),
         null,
     ];
 

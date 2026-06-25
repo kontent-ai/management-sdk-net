@@ -14,11 +14,8 @@ public class WorkflowTests
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Workflow", name));
 
-    // ByExternalId is unsupported for these operations; combined with the null identifier they all fail
-    // before any HTTP call, so the loose throw assertion covers both.
     public static TheoryData<Reference?> InvalidIdentifiers =>
     [
-        Reference.ByExternalId("externalId"),
         null,
     ];
 

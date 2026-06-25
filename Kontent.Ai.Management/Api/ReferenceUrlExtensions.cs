@@ -3,62 +3,43 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 
 namespace Kontent.Ai.Management.Api;
 
-/// <summary>
-/// Which kinds of <see cref="Reference"/> an endpoint accepts in its URL. Mirrors the per-resource restrictions the
-/// legacy URL templates encoded (e.g. webhooks accept only an id, spaces accept id or codename but not an external id).
-/// </summary>
-[Flags]
-internal enum ReferenceKinds
-{
-    Id = 1,
-    Codename = 2,
-    ExternalId = 4,
-    All = Id | Codename | ExternalId,
-}
-
 internal static class ReferenceUrlExtensions
 {
     /// <summary>
     /// Renders a <see cref="Reference"/> as the path segment the Management API expects after a resource collection:
-    /// the bare <c>id</c>, <c>codename/{codename}</c>, or <c>external-id/{externalId}</c>. When more than one is set,
-    /// the id wins, then the codename. Throws if the reference uses a kind
-    /// the endpoint doesn't support (see <paramref name="allowed"/>).
+    /// the bare <c>id</c>, <c>codename/{codename}</c>, or <c>external-id/{externalId}</c>.
     /// </summary>
-    public static string ToUrlSegment(this Reference reference, ReferenceKinds allowed = ReferenceKinds.All)
+    public static string ToUrlSegment(this Reference reference)
     {
         ArgumentNullException.ThrowIfNull(reference);
 
         return reference switch
         {
-            { Id: { } id } when allowed.HasFlag(ReferenceKinds.Id) => id.ToString(),
-            { Codename: { } codename } when allowed.HasFlag(ReferenceKinds.Codename) => $"codename/{Uri.EscapeDataString(codename)}",
-            { ExternalId: { } externalId } when allowed.HasFlag(ReferenceKinds.ExternalId) => $"external-id/{Uri.EscapeDataString(externalId)}",
-            { Id: not null } or { Codename: not null } or { ExternalId: not null } =>
-                throw new InvalidOperationException("The provided identifier kind is not supported for this endpoint."),
+            { Id: { } id } => id.ToString(),
+            { Codename: { } codename } => $"codename/{Uri.EscapeDataString(codename)}",
+            { ExternalId: { } externalId } => $"external-id/{Uri.EscapeDataString(externalId)}",
             _ => throw new ArgumentException("Reference must have an id, codename, or external id set.", nameof(reference)),
         };
     }
 
     /// <summary>
-    /// Renders a language variant identifier as <c>{item}/variants/{language}</c>. The language part supports id or
-    /// codename only.
+    /// Renders a language variant identifier as <c>{item}/variants/{language}</c>.
     /// </summary>
     public static string ToUrlSegment(this LanguageVariantIdentifier identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return $"{identifier.ItemIdentifier.ToUrlSegment()}/variants/{identifier.LanguageIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.Codename)}";
+        return $"{identifier.ItemIdentifier.ToUrlSegment()}/variants/{identifier.LanguageIdentifier.ToUrlSegment()}";
     }
 
     /// <summary>
-    /// Renders an asset rendition identifier as <c>{asset}/renditions/{rendition}</c>. The rendition part supports id
-    /// or external id only.
+    /// Renders an asset rendition identifier as <c>{asset}/renditions/{rendition}</c>.
     /// </summary>
     public static string ToUrlSegment(this AssetRenditionIdentifier identifier)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        return $"{identifier.AssetIdentifier.ToUrlSegment()}/renditions/{identifier.RenditionIdentifier.ToUrlSegment(ReferenceKinds.Id | ReferenceKinds.ExternalId)}";
+        return $"{identifier.AssetIdentifier.ToUrlSegment()}/renditions/{identifier.RenditionIdentifier.ToUrlSegment()}";
     }
 
     /// <summary>

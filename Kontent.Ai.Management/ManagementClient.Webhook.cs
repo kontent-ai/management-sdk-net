@@ -18,7 +18,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id), cancellationToken).ConfigureAwait(false);
+        var response = await _managementApi.GetWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
@@ -36,7 +36,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id), cancellationToken).ConfigureAwait(false);
+        var response = await _managementApi.DeleteWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
@@ -45,7 +45,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.EnableWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id), cancellationToken).ConfigureAwait(false);
+        var response = await _managementApi.EnableWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 
@@ -54,7 +54,7 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DisableWebhookInternalAsync(identifier.ToUrlSegment(ReferenceKinds.Id), cancellationToken).ConfigureAwait(false);
+        var response = await _managementApi.DisableWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }
 }

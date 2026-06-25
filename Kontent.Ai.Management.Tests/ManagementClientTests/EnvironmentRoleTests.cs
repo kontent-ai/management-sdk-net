@@ -16,7 +16,6 @@ public class EnvironmentRoleTests
 
     public static TheoryData<Reference?> InvalidIdentifiers =>
     [
-        Reference.ByExternalId("externalId"),
         null,
     ];
 
