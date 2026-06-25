@@ -4,7 +4,6 @@ using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Workflow;
-using Kontent.Ai.Management.Validation;
 using System.Text.Json;
 
 namespace Kontent.Ai.Management;
@@ -147,12 +146,6 @@ public partial class ManagementClient
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(variant);
-
-        var validation = ContentItemValidator.Validate(variant);
-        if (!validation.IsSuccess)
-        {
-            return ManagementResult<LanguageVariantModel<T>>.Failure(validation.Error!);
-        }
 
         var upsertModel = new LanguageVariantUpsertModel
         {

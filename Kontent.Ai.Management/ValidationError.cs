@@ -13,8 +13,7 @@ public sealed record ValidationError
     public string Message { get; init; } = "";
 
     /// <summary>
-    /// Locates the failure. For a Management API response this is a path into the request body; for content-item
-    /// validation performed by the SDK it is the codename of the offending element.
+    /// Locates the failure — a path into the request body the Management API rejected.
     /// </summary>
     [JsonPropertyName("path")]
     public string? Path { get; init; }

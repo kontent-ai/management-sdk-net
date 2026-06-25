@@ -14,7 +14,6 @@ using System.ComponentModel.DataAnnotations;
 using Kontent.Ai.Management;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
-using Kontent.Ai.Management.Models.Types.Elements;
 
 namespace MyProject.Models;
 
@@ -22,7 +21,6 @@ namespace MyProject.Models;
 public sealed partial record Product : IElementsModel
 {
     [KontentElement("category", "8a5acc99-d4ba-5fa1-9bd0-7a8e86e6e1c9")]
-    [AllowedTaxonomyGroup("502de9a1-3673-51e5-bf88-92e76c35cbee")]
     public IEnumerable<Reference>? Category { get; init; }
     [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
     public string? MetadataDescription { get; init; }
@@ -35,7 +33,6 @@ public sealed partial record Product : IElementsModel
     [KontentElement("product_base__description", "30f6b775-071e-5a5a-9394-8251d2081b0e")]
     public string? ProductBaseDescription { get; init; }
     [KontentElement("product_base__main_image", "333cb56d-09c7-58a9-b759-97a0931ce8e6")]
-    [AllowedAssetFileTypes(FileType.Adjustable)]
     public IEnumerable<AssetReference>? ProductBaseMainImage { get; init; }
     [KontentElement("product_base__name", "9647f1cc-3870-5b67-874b-d56fc2abd7ad")]
     public string? ProductBaseName { get; init; }

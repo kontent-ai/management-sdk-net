@@ -23,15 +23,13 @@ public interface IError
     int? ErrorCode { get; }
 
     /// <summary>
-    /// Individual validation failures. Populated for requests rejected by Management API validation and for
-    /// content-item validation performed by the SDK before a request is sent; empty otherwise.
+    /// Individual validation failures reported by Management API validation; empty otherwise.
     /// </summary>
     IReadOnlyList<ValidationError> ValidationErrors { get; }
 
     /// <summary>
     /// The underlying exception captured for the failure, when one is available — for a Management API error
-    /// response this carries the raw HTTP response for diagnostics. <c>null</c> for failures the SDK raises before
-    /// a request is sent, such as local content-item validation.
+    /// response this carries the raw HTTP response for diagnostics. <c>null</c> when no exception was captured.
     /// </summary>
     Exception? Exception { get; }
 }

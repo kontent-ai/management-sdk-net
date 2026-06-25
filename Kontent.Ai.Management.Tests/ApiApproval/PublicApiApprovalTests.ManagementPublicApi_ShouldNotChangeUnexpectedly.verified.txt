@@ -290,26 +290,6 @@ public sealed class ValidationError : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Annotations
-public sealed class AllowedAssetFileTypesAttribute : Attribute
-    FileType Types { get; }
-
-// Kontent.Ai.Management.Annotations
-public sealed class AllowedItemLinkTypesAttribute : Attribute
-    IReadOnlyList<String> Codenames { get; }
-
-// Kontent.Ai.Management.Annotations
-public sealed class AllowedTaxonomyGroupAttribute : Attribute
-    String CodenameOrId { get; }
-
-// Kontent.Ai.Management.Annotations
-public sealed class AllowedTypesAttribute : Attribute
-    IReadOnlyList<String> Codenames { get; }
-
-// Kontent.Ai.Management.Annotations
-public sealed class ExactElementsAttribute : Attribute
-    Int32 N { get; }
-
-// Kontent.Ai.Management.Annotations
 public sealed class KontentElementAttribute : Attribute
     String Codename { get; }
     String Id { get; }
@@ -323,18 +303,6 @@ public sealed class KontentEnumValueAttribute : Attribute
 public sealed class KontentTypeAttribute : Attribute
     String Codename { get; }
     String Id { get; }
-
-// Kontent.Ai.Management.Annotations
-public sealed class MaxAssetSizeAttribute : Attribute
-    Int64 Bytes { get; }
-
-// Kontent.Ai.Management.Annotations
-public sealed class MaxElementsAttribute : Attribute
-    Int32 N { get; }
-
-// Kontent.Ai.Management.Annotations
-public sealed class MinElementsAttribute : Attribute
-    Int32 N { get; }
 
 // Kontent.Ai.Management.Attributes
 public sealed class SourceTrackingHeaderAttribute : Attribute
@@ -3103,8 +3071,4 @@ public sealed class WorkflowUpsertModel : IEquatable`1
     Boolean Equals(WorkflowUpsertModel other)
     Int32 GetHashCode()
     String ToString()
-
-// Kontent.Ai.Management.Validation
-public sealed class ContentItemValidator
-    static IManagementResult<T> Validate<T>(T item)
 

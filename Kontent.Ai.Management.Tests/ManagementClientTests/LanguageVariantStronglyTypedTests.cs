@@ -76,21 +76,6 @@ public class LanguageVariantStronglyTypedTests
     }
 
     [Fact]
-    public async Task UpsertLanguageVariantAsync_StronglyTyped_ValidationFailure_ShortCircuitsWithoutHttp()
-    {
-        // [ExactElements(1)] on Article.Author — an empty collection violates it, so the validator fails the
-        // precheck and the method returns before any HTTP call: no status, element-scoped error. No mock.Expect is
-        // registered: MockHttp throws on any unmatched request, so an erroneous HTTP call would fail this test.
-        var (client, _) = MockClientFactory.Create();
-
-        var result = await client.UpsertLanguageVariantAsync(Identifier(), new Article { Author = [] });
-
-        result.IsSuccess.Should().BeFalse();
-        result.StatusCode.Should().BeNull();
-        result.ValidationErrors().Should().Contain(e => e.Path == "author");
-    }
-
-    [Fact]
     public async Task GetLanguageVariantAsync_StronglyTyped_Success_ProjectsValueAndStatus()
     {
         var (client, mock) = MockClientFactory.Create(Converter());

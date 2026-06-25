@@ -18,7 +18,7 @@ public sealed record Component
     [JsonPropertyName("id")]
     public required Guid Id { get; init; }
 
-    /// <summary>Embedded content item; polymorphic by the surrounding rich-text property's <c>[AllowedTypes]</c>.</summary>
+    /// <summary>Embedded content item; its concrete type is resolved from the component's content-type id.</summary>
     [JsonIgnore]
     public IElementsModel Content { get; init; } = null!;
 }

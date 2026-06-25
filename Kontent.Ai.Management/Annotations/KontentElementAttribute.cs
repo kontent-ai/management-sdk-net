@@ -8,7 +8,7 @@ namespace Kontent.Ai.Management.Annotations;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public sealed class KontentElementAttribute(string codename, string id) : Attribute
 {
-    /// <summary>Element codename. Used as the canonical key for outbound writes and validator error reporting.</summary>
+    /// <summary>Element codename. The canonical key for outbound writes.</summary>
     public string Codename { get; } = codename ?? throw new ArgumentNullException(nameof(codename));
 
     /// <summary>Element identifier (GUID). Used to look up the property when deserializing inbound responses.</summary>

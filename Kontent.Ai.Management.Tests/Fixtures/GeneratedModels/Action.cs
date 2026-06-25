@@ -25,8 +25,6 @@ public sealed partial record Action : IElementsModel
     [KontentElement("reference__caption", "75684270-5e43-5d21-b93a-700f85e50853")]
     public string? ReferenceCaption { get; init; }
     [KontentElement("reference__content__item_link", "ed9d88d5-2375-57c3-9916-615eaae7d5da")]
-    [AllowedTypes("website_root", "page", "article", "product", "solution")]
-    [MaxElements(1)]
     public IEnumerable<Reference>? ReferenceContentItemLink { get; init; }
     [KontentElement("reference__external_uri", "580e3f46-f033-50d4-9f34-4ed91384f4e4")]
     [RegularExpression("^(https?:\\/\\/(?:www\\.|(?!www)))?[a-z0-9]{1,63}([\\-\\.]{1}[a-z0-9]{1,63})*\\.[a-z]{2,63}(:[0-9]{1,5})?(\\/\\S*)?$")]

@@ -21,7 +21,6 @@ namespace MyProject.Models;
 public sealed partial record Page : IElementsModel
 {
     [KontentElement("content", "57ff97d5-2a0b-43f7-9ade-1f2f970df3a0")]
-    [AllowedTypes("content_chunk", "visual_container")]
     public IEnumerable<Reference>? Content { get; init; }
     [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
     public string? MetadataDescription { get; init; }
@@ -32,7 +31,6 @@ public sealed partial record Page : IElementsModel
     [KontentElement("slug", "af55414d-174f-4901-b2a1-c6934f504a9c")]
     public UrlSlugValue? Slug { get; init; }
     [KontentElement("subpages", "71383e14-246c-4203-a82a-b324b9efabb9")]
-    [AllowedTypes("page", "website_root", "article", "product", "solution")]
     public IEnumerable<Reference>? Subpages { get; init; }
     [KontentElement("title", "27c29a82-2a65-4d97-8827-1ff3be27f22f")]
     public string? Title { get; init; }

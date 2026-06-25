@@ -23,14 +23,10 @@ public sealed partial record Article : IElementsModel
     [KontentElement("abstract", "5ae9979f-cc84-5c0b-81d8-65eabf11f2ec")]
     public string? Abstract { get; init; }
     [KontentElement("author", "5be60600-49ac-52f8-a759-ab0ead3a3301")]
-    [AllowedTypes("person")]
-    [ExactElements(1)]
     public IEnumerable<Reference>? Author { get; init; }
     [KontentElement("content", "7d4b95b0-76fc-552e-8931-c90dd2746399")]
-    [AllowedTypes("action", "callout")]
     public RichTextValue? Content { get; init; }
     [KontentElement("hero_image", "ed868ae7-0b90-5752-a53b-aa4cfa2ca56e")]
-    [ExactElements(1)]
     public IEnumerable<AssetReference>? HeroImage { get; init; }
     [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
     public string? MetadataDescription { get; init; }
@@ -47,6 +43,5 @@ public sealed partial record Article : IElementsModel
     [KontentElement("title", "ae9be828-90fe-5fb4-ae3a-8dfe047e2567")]
     public string? Title { get; init; }
     [KontentElement("type", "c505fded-9c1f-5583-8cf2-dfa4763d2f2a")]
-    [AllowedTaxonomyGroup("37f4ed63-efb5-54cb-8cc9-4fdf63223f1e")]
     public IEnumerable<Reference>? Type { get; init; }
 }

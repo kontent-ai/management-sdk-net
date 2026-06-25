@@ -1,28 +1,17 @@
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Models.Content;
-using Kontent.Ai.Management.Models.Types.Elements;
-using System.ComponentModel.DataAnnotations;
 
 namespace Kontent.Ai.Management.Tests.Fixtures.StubModels;
 
-// Representative stub of a model-generator-net emitted content-type record. Includes one property per element
-// type the validator currently constrains, plus a few un-constrained properties to confirm they're inert.
-// Constraint coverage:
-//   - [StringLength]        on Title
-//   - [RegularExpression]   on Slug
-//   - [MinElements]+[MaxElements] on Tags
-//   - [ExactElements]       on Category
-//   - no-op attrs           on HeroAssets, Taxonomy and Related (validator accepts but doesn't enforce —
-//                           linked-item refs carry no type, so [AllowedTypes] there is server-enforced)
+// Representative stub of a model-generator-net emitted content-type record, one property per element type.
+// Exercised by the envelope-converter and content-type-registry tests.
 [KontentType("article", "11111111-1111-1111-1111-111111111111")]
 internal sealed record Article : IElementsModel
 {
     [KontentElement("title", "22222222-2222-2222-2222-222222222222")]
-    [StringLength(50)]
     public string? Title { get; init; }
 
     [KontentElement("slug", "33333333-3333-3333-3333-333333333333")]
-    [RegularExpression("^[a-z0-9-]+$")]
     public string? Slug { get; init; }
 
     [KontentElement("body", "44444444-4444-4444-4444-444444444444")]
@@ -32,26 +21,17 @@ internal sealed record Article : IElementsModel
     public decimal? Rating { get; init; }
 
     [KontentElement("category", "66666666-6666-6666-6666-666666666666")]
-    [ExactElements(1)]
     public IEnumerable<ArticleCategory>? Category { get; init; }
 
     [KontentElement("tags", "77777777-7777-7777-7777-777777777777")]
-    [MinElements(1)]
-    [MaxElements(5)]
     public IEnumerable<ArticleCategory>? Tags { get; init; }
 
     [KontentElement("hero_assets", "88888888-8888-8888-8888-888888888888")]
-    [MaxElements(3)]
-    [MaxAssetSize(10_485_760)]                  // not enforced by the validator
-    [AllowedAssetFileTypes(FileType.Adjustable)] // not enforced by the validator
     public IEnumerable<AssetReference>? HeroAssets { get; init; }
 
     [KontentElement("related", "99999999-9999-9999-9999-999999999999")]
-    [AllowedTypes("article", "page")]           // not enforced by the validator — linked items are bare references
     public IEnumerable<Reference>? Related { get; init; }
 
     [KontentElement("taxonomy", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")]
-    [AllowedTaxonomyGroup("categories")]        // not enforced by the validator
-    [MinElements(1)]
     public IEnumerable<Reference>? Taxonomy { get; init; }
 }

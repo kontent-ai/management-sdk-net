@@ -23,7 +23,6 @@ public sealed partial record Callout : IElementsModel
     [KontentElement("content", "15a9fc79-e85f-5bb1-8e81-d0362cd93b93")]
     public RichTextValue? Content { get; init; }
     [KontentElement("type", "44dd9032-c950-53b8-91bd-c6c586233311")]
-    [MaxElements(1)]
     public IEnumerable<CalloutType>? Type { get; init; }
 }
 

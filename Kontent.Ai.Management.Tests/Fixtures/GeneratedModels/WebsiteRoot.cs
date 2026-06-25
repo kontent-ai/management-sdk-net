@@ -21,7 +21,6 @@ namespace MyProject.Models;
 public sealed partial record WebsiteRoot : IElementsModel
 {
     [KontentElement("content", "03fda1d5-fd18-4145-b15f-c8610a40dc33")]
-    [AllowedTypes("visual_container", "content_chunk")]
     public IEnumerable<Reference>? Content { get; init; }
     [KontentElement("metadata__description", "e57614c6-e299-51c3-83bc-961f053dfe17")]
     public string? MetadataDescription { get; init; }
@@ -30,11 +29,8 @@ public sealed partial record WebsiteRoot : IElementsModel
     [KontentElement("metadata__title", "49abab33-e5d1-55bb-9c1b-2f144430da28")]
     public string? MetadataTitle { get; init; }
     [KontentElement("navigation", "49a9000d-8d82-5527-baca-d3fb97bebea0")]
-    [AllowedTypes("navigation_item")]
-    [ExactElements(1)]
     public IEnumerable<Reference>? Navigation { get; init; }
     [KontentElement("subpages", "f9a9da6a-13a7-4f55-bd1c-68cbfedee157")]
-    [AllowedTypes("page", "website_root")]
     public IEnumerable<Reference>? Subpages { get; init; }
     [KontentElement("title", "7640bccd-6058-4ae5-a213-5e9811f92178")]
     public string? Title { get; init; }

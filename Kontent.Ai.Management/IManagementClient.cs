@@ -621,10 +621,8 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Inserts or updates a language variant from the generated content-type record <typeparamref name="T"/>.
-    /// The record is validated locally first (<see cref="Validation.ContentItemValidator"/>); a validation failure
-    /// short-circuits with no HTTP call. <c>null</c> properties are omitted from the payload (partial update).
-    /// Failures (validation, HTTP 4xx/5xx) are surfaced through the returned result rather than thrown;
-    /// network-level and serialization failures still propagate as exceptions.
+    /// <c>null</c> properties are omitted from the payload (partial update). HTTP 4xx/5xx failures are surfaced
+    /// through the returned result rather than thrown; network-level and serialization failures still propagate as exceptions.
     /// </summary>
     /// <typeparam name="T">The generated content-type record (implements <see cref="IElementsModel"/>).</typeparam>
     /// <param name="identifier">The identifier of the language variant.</param>

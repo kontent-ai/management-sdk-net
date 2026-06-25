@@ -21,6 +21,5 @@ namespace MyProject.Models;
 public sealed partial record ContentChunk : IElementsModel
 {
     [KontentElement("content", "b60790f9-7ed1-5b6d-92ed-15594b9e4253")]
-    [AllowedTypes("callout", "action")]
     public RichTextValue? Content { get; init; }
 }
