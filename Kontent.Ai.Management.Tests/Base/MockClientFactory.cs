@@ -19,7 +19,7 @@ internal static class MockClientFactory
     public const string SubscriptionId = "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
 
     // Refit composes "{BaseAddress}{relative path}", so the base must carry no trailing slash or every path
-    // doubles the separator. EndpointV2 defaults to "https://manage.kontent.ai/v2/{0}", scoped to the project here.
+    // doubles the separator. Endpoint defaults to "https://manage.kontent.ai"; the SDK appends "/v2/projects/{id}".
     public static string BaseUrl => $"https://manage.kontent.ai/v2/projects/{EnvironmentId}";
 
     // Subscription-scoped endpoints resolve against the subscription scope instead of the project.

@@ -325,7 +325,7 @@ public sealed class ManagementClientBuilder
 public sealed class ManagementOptions : IValidatableObject
     String ApiKey { get; set; }
     Boolean EnableResilience { get; set; }
-    String EndpointV2 { get; set; }
+    String Endpoint { get; set; }
     String EnvironmentId { get; set; }
     String SubscriptionId { get; set; }
     IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

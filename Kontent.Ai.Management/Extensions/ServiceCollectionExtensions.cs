@@ -236,7 +236,7 @@ public static class ServiceCollectionExtensions
             .ConfigureHttpClient((sp, httpClient) =>
             {
                 var options = sp.GetRequiredService<IOptionsMonitor<ManagementOptions>>().Get(clientName);
-                httpClient.BaseAddress = new Uri(string.Format(options.EndpointV2, scopePathSelector(options)), UriKind.Absolute);
+                httpClient.BaseAddress = options.ScopedEndpoint(scopePathSelector(options));
             });
 
         // Resilience first → resilience sits outermost so each retry re-runs tracking + auth fresh (matters when

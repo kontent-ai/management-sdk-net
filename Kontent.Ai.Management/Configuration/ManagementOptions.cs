@@ -8,10 +8,11 @@ namespace Kontent.Ai.Management.Configuration;
 public sealed class ManagementOptions : IValidatableObject
 {
     /// <summary>
-    /// Gets or sets the Production endpoint address for the management API. Optional, defaults to "https://manage.kontent.ai/v2/{0}".
+    /// Gets or sets the base address of the Management API. Optional; defaults to <c>https://manage.kontent.ai</c>.
+    /// The SDK appends the versioned, scoped path (<c>/v2/projects/{id}</c> or <c>/v2/subscriptions/{id}</c>).
     /// </summary>
     [Url]
-    public string EndpointV2 { get; set; } = "https://manage.kontent.ai/v2/{0}";
+    public string Endpoint { get; set; } = "https://manage.kontent.ai";
 
     /// <summary>
     /// Gets or sets the environment identifier (GUID).

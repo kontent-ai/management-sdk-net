@@ -49,7 +49,7 @@ internal static class ManagementApiFactory
 
         return new HttpClient(tracking)
         {
-            BaseAddress = new Uri(string.Format(options.EndpointV2, scopePath), UriKind.Absolute),
+            BaseAddress = options.ScopedEndpoint(scopePath),
         };
     }
 }
