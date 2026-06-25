@@ -21,7 +21,7 @@ internal static class RefitSettingsProvider
 
     public static JsonSerializerOptions CreateDefaultJsonSerializerOptions()
     {
-        // No PropertyNamingPolicy: every model property carries an explicit [JsonPropertyName], so a
+        // No PropertyNamingPolicy: every model property carries an explicit JsonPropertyName attribute, so a
         // policy would have nothing to do. Case-insensitive matching is a lenient read-side fallback;
         // MaxDepth matches the Kontent.ai platform nesting limit.
         var options = new JsonSerializerOptions

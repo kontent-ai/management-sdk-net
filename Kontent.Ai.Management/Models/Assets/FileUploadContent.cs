@@ -40,7 +40,7 @@ internal sealed class FileUploadContent : HttpContent
         {
             if (_source.CreatesNewStream)
             {
-                source.Dispose();
+                await source.DisposeAsync().ConfigureAwait(false);
             }
         }
     }

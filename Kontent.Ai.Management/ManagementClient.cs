@@ -1,7 +1,6 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Handlers;
 using Polly;
 using System.ComponentModel.DataAnnotations;
 
@@ -84,9 +83,9 @@ public sealed partial class ManagementClient : IManagementClient
             return;
         }
 
-        if (_ownedResources is IAsyncDisposable async)
+        if (_ownedResources is IAsyncDisposable asyncDisposable)
         {
-            await async.DisposeAsync().ConfigureAwait(false);
+            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
         }
         else
         {

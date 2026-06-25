@@ -12,7 +12,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single role.</summary>
-    /// <param name="identifier">The role identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The role identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/roles/{**identifier}")]
     internal Task<IApiResponse<EnvironmentRoleModel>> GetEnvironmentRoleInternalAsync(

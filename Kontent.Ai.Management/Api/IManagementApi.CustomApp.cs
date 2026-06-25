@@ -15,7 +15,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single custom app.</summary>
-    /// <param name="identifier">The custom app identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The custom app identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/custom-apps/{**identifier}")]
     internal Task<IApiResponse<CustomAppModel>> GetCustomAppInternalAsync(
@@ -31,7 +31,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a custom app.</summary>
-    /// <param name="identifier">The custom app identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The custom app identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/custom-apps/{**identifier}")]
     internal Task<IApiResponse> DeleteCustomAppInternalAsync(
@@ -39,7 +39,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Applies a set of operations to an existing custom app.</summary>
-    /// <param name="identifier">The custom app identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The custom app identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="changes">The operations to apply.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Patch("/custom-apps/{**identifier}")]

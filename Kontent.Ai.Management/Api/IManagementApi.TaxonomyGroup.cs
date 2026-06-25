@@ -15,7 +15,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single taxonomy group.</summary>
-    /// <param name="identifier">The taxonomy group identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The taxonomy group identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/taxonomies/{**identifier}")]
     internal Task<IApiResponse<TaxonomyGroupModel>> GetTaxonomyGroupInternalAsync(
@@ -31,7 +31,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Applies a set of operations to an existing taxonomy group.</summary>
-    /// <param name="identifier">The taxonomy group identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The taxonomy group identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="changes">The operations to apply.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Patch("/taxonomies/{**identifier}")]
@@ -41,7 +41,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a taxonomy group.</summary>
-    /// <param name="identifier">The taxonomy group identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The taxonomy group identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/taxonomies/{**identifier}")]
     internal Task<IApiResponse> DeleteTaxonomyGroupInternalAsync(

@@ -415,8 +415,8 @@ public class ItemWithVariantTests
         items[0].Item.Id.Should().Be(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"));
         items[0].Item.Name.Should().Be("Sample Article");
         items[0].Variant.Should().NotBeNull();
-        items[0].Variant.Language.Id.Should().Be(Guid.Empty);
-        items[0].Variant.Elements.Should().NotBeNull();
+        items[0].Variant!.Language.Id.Should().Be(Guid.Empty);
+        items[0].Variant!.Elements.Should().NotBeNull();
 
         items[1].Item.Should().NotBeNull();
         items[1].Item.Id.Should().Be(new Guid("6a8b4d04-7d3e-4d3c-8b9a-4c7e8f9a1b2c"));

@@ -15,7 +15,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single content type snippet.</summary>
-    /// <param name="identifier">The snippet identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The snippet identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/snippets/{**identifier}")]
     internal Task<IApiResponse<ContentTypeSnippetModel>> GetContentTypeSnippetInternalAsync(
@@ -31,7 +31,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a content type snippet.</summary>
-    /// <param name="identifier">The snippet identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The snippet identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/snippets/{**identifier}")]
     internal Task<IApiResponse> DeleteContentTypeSnippetInternalAsync(
@@ -39,7 +39,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Applies a set of operations to an existing content type snippet.</summary>
-    /// <param name="identifier">The snippet identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The snippet identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="changes">The operations to apply.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Patch("/snippets/{**identifier}")]

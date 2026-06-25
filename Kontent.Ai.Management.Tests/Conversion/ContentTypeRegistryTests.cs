@@ -100,9 +100,9 @@ public class ContentTypeRegistryTests
     [Fact]
     public void Scan_OnCollidingAssembly_ThrowsLoudly()
     {
-        // The current test assembly co-locates two content-model sets (StubModels + MyProject.Models) with overlapping codenames;
-        // Scan must surface the collision rather than silently last-write-wins. Production assemblies have
-        // unique codenames and won't trip this — the test pins the contract.
+        // This test assembly co-locates two content-model sets, StubModels and MyProject.Models, that share codenames.
+        // Scan must surface that collision instead of silently keeping whichever type it saw first. Real projects use
+        // unique codenames and never hit this, so the test exists to pin the contract.
         var registry = new ContentTypeRegistry();
 
         var act = () => registry.Scan(typeof(ModelsArticle).Assembly);

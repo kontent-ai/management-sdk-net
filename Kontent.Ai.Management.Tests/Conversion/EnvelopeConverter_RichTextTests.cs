@@ -50,7 +50,7 @@ public class EnvelopeConverter_RichTextTests
         var innerCodenames = inner.EnumerateArray()
             .Select(env => env.GetProperty("element").GetProperty("codename").GetString())
             .ToHashSet();
-        innerCodenames.Should().BeEquivalentTo(["content", "type"]);
+        innerCodenames.Should().BeEquivalentTo("content", "type");
     }
 
     [Fact]

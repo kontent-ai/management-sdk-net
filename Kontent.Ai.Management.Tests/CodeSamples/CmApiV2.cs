@@ -280,7 +280,7 @@ public class CmApiV2
         var response = await client.GetAssetFoldersAsync();
 
         Assert.Equal(2, response.Value.Folders.Count());
-        Assert.Single(response.Value.Folders.First().Folders);
+        Assert.Single(response.Value.Folders.First().Folders!);
     }
 
     // DocSection: cm_api_v2_get_item
@@ -696,7 +696,7 @@ public class CmApiV2
 
         Assert.NotNull(response);
         Assert.Equal(3, response.Value.Folders.Count());
-        Assert.Single(response.Value.Folders.Skip(1).First().Folders);
+        Assert.Single(response.Value.Folders.Skip(1).First().Folders!);
     }
 
     // DocSection: cm_api_v2_patch_content_collections

@@ -13,7 +13,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single space.</summary>
-    /// <param name="identifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/spaces/{**identifier}")]
     internal Task<IApiResponse<SpaceModel>> GetSpaceInternalAsync(
@@ -29,7 +29,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Replaces properties of an existing space.</summary>
-    /// <param name="identifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="changes">The replace operations to apply.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Patch("/spaces/{**identifier}")]
@@ -39,7 +39,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a space.</summary>
-    /// <param name="identifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The space identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/spaces/{**identifier}")]
     internal Task<IApiResponse> DeleteSpaceInternalAsync(

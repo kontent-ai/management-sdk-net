@@ -29,7 +29,7 @@ public class ListingResponseSerializationTests
         var listing = JsonSerializer.Deserialize<LanguagesListingResponseServerModel>(json, Options);
 
         listing!.Languages.Should().HaveCount(2);
-        listing.Languages.First().Codename.Should().Be("default");
+        listing.Languages[0].Codename.Should().Be("default");
         listing.Pagination.Token.Should().Be("t");
     }
 

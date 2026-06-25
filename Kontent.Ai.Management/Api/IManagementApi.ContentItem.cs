@@ -14,7 +14,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single content item.</summary>
-    /// <param name="identifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/items/{**identifier}")]
     internal Task<IApiResponse<ContentItemModel>> GetContentItemInternalAsync(
@@ -30,7 +30,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Creates or updates a content item.</summary>
-    /// <param name="identifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="contentItem">The content item to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/items/{**identifier}")]
@@ -40,7 +40,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a content item.</summary>
-    /// <param name="identifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/items/{**identifier}")]
     internal Task<IApiResponse> DeleteContentItemInternalAsync(

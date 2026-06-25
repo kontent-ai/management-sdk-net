@@ -1,6 +1,5 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.Shared;
 using System.Net;
 
 namespace Kontent.Ai.Management.Tests;
@@ -25,7 +24,7 @@ public class ManagementResultExtensionsTests
 
         act.Should().Throw<ManagementException>()
             .Which.Should().Match<ManagementException>(e =>
-                e.Error == error && e.StatusCode == HttpStatusCode.BadRequest && e.RequestUrl == "https://example.org/x");
+                ReferenceEquals(e.Error, error) && e.StatusCode == HttpStatusCode.BadRequest && e.RequestUrl == "https://example.org/x");
     }
 
     [Fact]

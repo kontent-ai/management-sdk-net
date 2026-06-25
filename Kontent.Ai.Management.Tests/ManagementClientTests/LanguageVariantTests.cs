@@ -357,7 +357,7 @@ public class LanguageVariantTests
             }
         }
 
-        public IEnumerable<(LanguageVariantIdentifier Identifier, string Url)> GetPermutation()
+        public static IEnumerable<(LanguageVariantIdentifier Identifier, string Url)> GetPermutation()
         {
             var itemsIdentifiers = new[] { ById, ByCodename, ByExternalId };
             var languageIdentifiers = new[] { ById, ByCodename };
@@ -384,7 +384,7 @@ public class LanguageVariantTests
 
         public new IEnumerator<object[]> GetEnumerator()
         {
-            foreach (var (Identifier, Url) in GetPermutation())
+            foreach (var (Identifier, _) in GetPermutation())
             {
                 yield return new object[] { Identifier };
             }

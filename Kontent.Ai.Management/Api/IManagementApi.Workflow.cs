@@ -20,7 +20,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Updates an existing workflow.</summary>
-    /// <param name="identifier">The workflow identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The workflow identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="workflow">The workflow to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/workflows/{**identifier}")]
@@ -30,7 +30,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a workflow.</summary>
-    /// <param name="identifier">The workflow identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The workflow identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/workflows/{**identifier}")]
     internal Task<IApiResponse> DeleteWorkflowInternalAsync(

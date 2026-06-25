@@ -93,7 +93,6 @@ internal static class HttpRequestHeadersExtensions
             .Select(frame => frame.GetMethod()?.ReflectedType?.Assembly)
             .Distinct()
             .OfType<Assembly>()
-            .Where(assembly => assembly.GetReferencedAssemblies().Any(referenced => referenced.FullName == executingAssembly.FullName))
-            .LastOrDefault();
+            .LastOrDefault(assembly => assembly.GetReferencedAssemblies().Any(referenced => referenced.FullName == executingAssembly.FullName));
     }
 }

@@ -228,6 +228,6 @@ public class WebhookTests
         webhook.Headers.Should().ContainSingle()
             .Which.Should().BeEquivalentTo(new CustomHeaderModel { Key = "key1", Value = "value1" });
         webhook.DeliveryTriggers.Should().NotBeNull();
-        webhook.DeliveryTriggers.ContentType.Enabled.Should().BeTrue();
+        webhook.DeliveryTriggers!.ContentType!.Enabled.Should().BeTrue();
     }
 }

@@ -6,7 +6,7 @@ namespace Kontent.Ai.Management.Api;
 internal partial interface IManagementApi
 {
     /// <summary>Lists one page of an asset's renditions.</summary>
-    /// <param name="assetIdentifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="assetIdentifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="continuationToken">Continuation token from a previous page's response; <c>null</c> for the first page.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/assets/{**assetIdentifier}/renditions")]
@@ -34,7 +34,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Creates an asset rendition.</summary>
-    /// <param name="assetIdentifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="assetIdentifier">The asset identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="createModel">The rendition to create.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Post("/assets/{**assetIdentifier}/renditions")]

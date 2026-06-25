@@ -85,7 +85,7 @@ public class EnvironmentUserTests
         };
 
         var identifier = UserIdentifier.ByEmail("test@kontent.ai");
-        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/email/{Uri.EscapeDataString(identifier.Email)}/roles")
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/email/{Uri.EscapeDataString(identifier.Email!)}/roles")
             .Respond("application/json", ProjectUser);
 
         var result = await client.ModifyUsersRolesAsync(identifier, user);

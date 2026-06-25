@@ -14,7 +14,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single language.</summary>
-    /// <param name="identifier">The language identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The language identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/languages/{**identifier}")]
     internal Task<IApiResponse<LanguageModel>> GetLanguageInternalAsync(
@@ -30,7 +30,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Applies a set of operations to an existing language.</summary>
-    /// <param name="identifier">The language identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The language identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="changes">The operations to apply.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Patch("/languages/{**identifier}")]

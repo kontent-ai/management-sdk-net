@@ -252,3 +252,41 @@ csharp_style_expression_bodied_methods = true:silent
 # would cost the record idiom and non-breaking contract evolution.
 [**/{*OperationBaseModel,ImageTransformation}.cs]
 dotnet_diagnostic.S1694.severity = none
+
+# Rich-text authoring helpers (LinkedItem, ItemLink, Asset) are pure today but live on the builder beside the
+# stateful Component/Build members so the whole authoring surface is reachable from one instance the caller already
+# holds. Making the pure ones static for S2325's sake would split the fluent surface across static and instance.
+[**/RichTextBuilder.cs]
+dotnet_diagnostic.S2325.severity = none
+
+# Envelope (de)serializer is organized by direction and audience — a Primary API section then a typed-convenience
+# section — not by overload name. S4136's adjacency demand would scatter that structure; the grouping is the point.
+[**/ContentItemEnvelopeConverter.cs]
+dotnet_diagnostic.S4136.severity = none
+
+# S125 misfires on the prose explaining the serializer-options choices (it reads a semicolon-terminated clause as
+# code). The comment documents a non-obvious decision and is worth keeping; the file holds no actual dead code.
+[**/RefitSettingsProvider.cs]
+dotnet_diagnostic.S125.severity = none
+
+# CodeSamples are runnable documentation snippets, not tests. Several quality rules are inherent to that genre and
+# fighting them would make the samples read worse: no-assertion (S2699), unused demo locals (S1481/S1854),
+# commented-out alternative usages (S125), First() over indexing (S6608), make-static / format-provider / async
+# nags (S2325/S6580/S6966). Correctness warnings (CS86xx nullable, CS0252) are NOT suppressed here — samples must
+# still model correct code, so those are fixed in place.
+# The paging tests deserialize each mock page via JsonNode.Parse(p).AsObject().First().Value to grab the data
+# property regardless of its name (the page wrapper also carries a pagination property, so the first property is
+# the data array). S6608 wants [0] indexing, but JsonObject has no positional indexer and Single() would throw on
+# the second property — .First() is both required and correct here.
+[**/ManagementClientTests/**.cs]
+dotnet_diagnostic.S6608.severity = none
+
+[**/CodeSamples/**.cs]
+dotnet_diagnostic.S2699.severity = none
+dotnet_diagnostic.S1481.severity = none
+dotnet_diagnostic.S1854.severity = none
+dotnet_diagnostic.S125.severity = none
+dotnet_diagnostic.S6608.severity = none
+dotnet_diagnostic.S2325.severity = none
+dotnet_diagnostic.S6580.severity = none
+dotnet_diagnostic.S6966.severity = none

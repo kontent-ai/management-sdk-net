@@ -294,7 +294,7 @@ public class AssetRenditionTests
             }
         }
 
-        public IEnumerable<(AssetRenditionIdentifier Identifier, string Url)> GetPermutation()
+        public static IEnumerable<(AssetRenditionIdentifier Identifier, string Url)> GetPermutation()
         {
             var assetIdentifier = new[] { ById, ByCodename, ByExternalId };
             var renditionIdentifiers = new[] { ById, ByExternalId };

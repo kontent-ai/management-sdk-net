@@ -107,7 +107,13 @@ public class PublicApiApprovalTests
             }
             else
             {
-                var fieldModifiers = field.IsStatic ? (field.IsInitOnly ? "static readonly " : "static ") : field.IsInitOnly ? "readonly " : "";
+                var fieldModifiers = (field.IsStatic, field.IsInitOnly) switch
+                {
+                    (true, true) => "static readonly ",
+                    (true, false) => "static ",
+                    (false, true) => "readonly ",
+                    (false, false) => "",
+                };
                 yield return $"{fieldModifiers}{FormatTypeName(field.FieldType)} {field.Name}";
             }
         }

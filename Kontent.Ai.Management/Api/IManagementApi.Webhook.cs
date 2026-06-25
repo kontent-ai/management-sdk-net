@@ -12,7 +12,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a single webhook.</summary>
-    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/webhooks-vnext/{**identifier}")]
     internal Task<IApiResponse<WebhookModel>> GetWebhookInternalAsync(
@@ -28,7 +28,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a webhook.</summary>
-    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Delete("/webhooks-vnext/{**identifier}")]
     internal Task<IApiResponse> DeleteWebhookInternalAsync(
@@ -36,7 +36,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Enables a webhook.</summary>
-    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/webhooks-vnext/{**identifier}/enable")]
     internal Task<IApiResponse> EnableWebhookInternalAsync(
@@ -44,7 +44,7 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Disables a webhook.</summary>
-    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment"/>).</param>
+    /// <param name="identifier">The webhook identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference, ReferenceKinds)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/webhooks-vnext/{**identifier}/disable")]
     internal Task<IApiResponse> DisableWebhookInternalAsync(
