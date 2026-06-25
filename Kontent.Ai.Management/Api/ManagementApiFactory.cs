@@ -28,10 +28,11 @@ internal static class ManagementApiFactory
     }
 
     /// <summary>
-    /// Builds an <see cref="HttpClient"/> scoped to <paramref name="scopePath"/> with the handler chain, innermost to
-    /// outermost, <c>primary → [resilience] → auth → tracking</c>. Resilience is included only when
-    /// <paramref name="resiliencePipeline"/> is supplied; <paramref name="primaryHandler"/> overrides the default
-    /// <see cref="HttpClientHandler"/> (the test infrastructure injects a mock here).
+    /// Builds an <see cref="HttpClient"/> scoped to <paramref name="scopePath"/> with the handler chain, outermost to
+    /// innermost, <c>[resilience] → tracking → auth → primary</c> — matching the DI path's ordering so each retry
+    /// re-runs tracking and auth fresh. Resilience is included only when <paramref name="resiliencePipeline"/> is
+    /// supplied; <paramref name="primaryHandler"/> overrides the default <see cref="HttpClientHandler"/> (the test
+    /// infrastructure injects a mock here).
     /// </summary>
     public static HttpClient CreateHttpClient(
         ManagementOptions options,
@@ -41,13 +42,13 @@ internal static class ManagementApiFactory
         HttpMessageHandler? primaryHandler = null)
     {
         HttpMessageHandler primary = primaryHandler ?? new HttpClientHandler();
-        HttpMessageHandler resilient = resiliencePipeline is null
-            ? primary
-            : new ResilienceHandler(resiliencePipeline) { InnerHandler = primary };
-        var auth = new ManagementAuthenticationHandler(optionsAccessor) { InnerHandler = resilient };
+        var auth = new ManagementAuthenticationHandler(optionsAccessor) { InnerHandler = primary };
         var tracking = new TrackingHandler { InnerHandler = auth };
+        HttpMessageHandler outermost = resiliencePipeline is null
+            ? tracking
+            : new ResilienceHandler(resiliencePipeline) { InnerHandler = tracking };
 
-        return new HttpClient(tracking)
+        return new HttpClient(outermost)
         {
             BaseAddress = options.ScopedEndpoint(scopePath),
         };
