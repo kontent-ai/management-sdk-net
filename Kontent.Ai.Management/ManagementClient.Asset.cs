@@ -23,49 +23,44 @@ public partial class ManagementClient
             cancellationToken);
 
     /// <inheritdoc />
-    public async Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(asset);
 
-        var response = await _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(asset);
 
-        var response = await _managementApi.CreateAssetInternalAsync(asset, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.CreateAssetInternalAsync(asset, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(fileContent);
 
         using var content = new FileUploadContent(fileContent);
-        var response = await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ToManagementResultAsync();
     }
 }

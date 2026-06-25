@@ -16,39 +16,35 @@ public partial class ManagementClient
             cancellationToken);
 
     /// <inheritdoc />
-    public async Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.GetTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(taxonomyGroup);
 
-        var response = await _managementApi.CreateTaxonomyGroupInternalAsync(taxonomyGroup, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.CreateTaxonomyGroupInternalAsync(taxonomyGroup, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);
 
-        var response = await _managementApi.ModifyTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.ModifyTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.DeleteTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

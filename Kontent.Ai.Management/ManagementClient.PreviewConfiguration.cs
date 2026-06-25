@@ -6,18 +6,16 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken = default)
+    public Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.GetPreviewConfigurationInternalAsync(cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.GetPreviewConfigurationInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(previewConfiguration);
 
-        var response = await _managementApi.ModifyPreviewConfigurationInternalAsync(previewConfiguration, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.ModifyPreviewConfigurationInternalAsync(previewConfiguration, cancellationToken).ToManagementResultAsync();
     }
 }

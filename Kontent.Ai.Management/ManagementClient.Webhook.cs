@@ -7,54 +7,48 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<IReadOnlyList<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken = default)
+    public Task<IManagementResult<IReadOnlyList<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.ListWebhooksInternalAsync(cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.ListWebhooksInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.GetWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.GetWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(webhook);
 
-        var response = await _managementApi.CreateWebhookInternalAsync(webhook, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.CreateWebhookInternalAsync(webhook, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult> DeleteWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult> DeleteWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DeleteWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.DeleteWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.EnableWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.EnableWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult> DisableWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
+    public Task<IManagementResult> DisableWebhookAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var response = await _managementApi.DisableWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.DisableWebhookInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

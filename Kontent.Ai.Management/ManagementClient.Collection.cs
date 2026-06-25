@@ -7,18 +7,16 @@ namespace Kontent.Ai.Management;
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken = default)
+    public Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _managementApi.ListCollectionsInternalAsync(cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.ListCollectionsInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        var response = await _managementApi.ModifyCollectionInternalAsync(changes, cancellationToken).ConfigureAwait(false);
-        return await response.ToManagementResultAsync().ConfigureAwait(false);
+        return _managementApi.ModifyCollectionInternalAsync(changes, cancellationToken).ToManagementResultAsync();
     }
 }

@@ -12,6 +12,17 @@ internal static class RefitApiResponseExtensions
     public static Task<IManagementResult<T>> ToManagementResultAsync<T>(this IApiResponse<T> response) =>
         response.ToManagementResultAsync(static value => value);
 
+    public static async Task<IManagementResult<T>> ToManagementResultAsync<T>(this Task<IApiResponse<T>> responseTask) =>
+        await (await responseTask.ConfigureAwait(false)).ToManagementResultAsync().ConfigureAwait(false);
+
+    public static async Task<IManagementResult<TValue>> ToManagementResultAsync<TResponse, TValue>(
+        this Task<IApiResponse<TResponse>> responseTask,
+        Func<TResponse, TValue> selector) =>
+        await (await responseTask.ConfigureAwait(false)).ToManagementResultAsync(selector).ConfigureAwait(false);
+
+    public static async Task<IManagementResult> ToManagementResultAsync(this Task<IApiResponse> responseTask) =>
+        await (await responseTask.ConfigureAwait(false)).ToManagementResultAsync().ConfigureAwait(false);
+
     public static Task<IManagementResult<TValue>> ToManagementResultAsync<TResponse, TValue>(
         this IApiResponse<TResponse> response,
         Func<TResponse, TValue> selector)
