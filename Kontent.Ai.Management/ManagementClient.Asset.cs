@@ -65,11 +65,6 @@ public partial class ManagementClient
         ArgumentNullException.ThrowIfNull(fileContent);
 
         using var content = new FileUploadContent(fileContent);
-        if (content.Length is > MaxFileSizeBytes)
-        {
-            throw new ArgumentException("Maximum supported file size is 2 GB.", nameof(fileContent));
-        }
-
         var response = await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ConfigureAwait(false);
         return await response.ToManagementResultAsync().ConfigureAwait(false);
     }

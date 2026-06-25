@@ -13,8 +13,6 @@ namespace Kontent.Ai.Management;
 /// </summary>
 public sealed partial class ManagementClient : IManagementClient
 {
-    private const long MaxFileSizeBytes = 2L * 1024 * 1024 * 1024;
-
     private readonly IManagementApi _managementApi;
     private readonly ISubscriptionApi _subscriptionApi;
     private readonly IDisposable? _ownedResources;
