@@ -117,7 +117,7 @@ internal sealed class ContentItemEnvelopeConverter
         return instance;
     }
 
-    // ---- Test / typed convenience ----
+    // ---- Typed convenience ----
 
     public string WriteEnvelopes<T>(T item) where T : IElementsModel
     {

@@ -10,8 +10,7 @@ namespace Kontent.Ai.Management.Serialization.Converters;
 /// <remarks>
 /// <see cref="CanConvert"/> matches the abstract base type only. That is load-bearing: the nested
 /// (de)serialization of the resolved concrete type must not re-enter this converter, otherwise it
-/// recurses forever. It is the System.Text.Json equivalent of the legacy Newtonsoft
-/// <c>BaseSpecifiedConcreteClassConverter</c> contract resolver.
+/// recurses forever.
 /// </remarks>
 internal abstract class PolymorphicJsonConverter<TBase, TDiscriminator> : JsonConverter<TBase>
     where TBase : class

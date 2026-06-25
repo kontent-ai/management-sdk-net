@@ -4,11 +4,10 @@ using System.Text.Json;
 namespace Kontent.Ai.Management.Serialization.Converters;
 
 /// <summary>
-/// Serializes enums by their <see cref="EnumMemberAttribute"/> value (falling back to the member
-/// name), reproducing the legacy Newtonsoft <c>StringEnumConverter</c> + <c>[EnumMember]</c>
-/// behaviour. System.Text.Json's built-in converter writes member names and ignores
-/// <c>[EnumMember]</c> on .NET 8 (per-member naming via <c>[JsonStringEnumMemberName]</c> is .NET 9+),
-/// so this is required for the wire strings to match the Management API.
+/// Serializes enums by their <see cref="EnumMemberAttribute"/> value (falling back to the member name).
+/// System.Text.Json's built-in converter writes member names and ignores <c>[EnumMember]</c> on .NET 8
+/// (per-member naming via <c>[JsonStringEnumMemberName]</c> is .NET 9+), so this is required for the wire
+/// strings to match the Management API.
 /// </summary>
 internal sealed class EnumMemberJsonConverterFactory : JsonConverterFactory
 {
@@ -74,7 +73,6 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
         => reader.TokenType switch
         {
             JsonTokenType.String => ParseString(reader.GetString()!),
-            // Newtonsoft's StringEnumConverter tolerates integer values on read (AllowIntegerValues).
             JsonTokenType.Number => (TEnum)Enum.ToObject(typeof(TEnum), reader.GetInt64()),
             _ => throw new JsonException($"Unexpected token {reader.TokenType} when reading {typeof(TEnum).Name}."),
         };

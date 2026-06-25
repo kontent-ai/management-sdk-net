@@ -26,10 +26,10 @@ internal static class RefitSettingsProvider
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             PropertyNameCaseInsensitive = true,
             MaxDepth = 124,
-            // Newtonsoft accepted string-encoded numbers on read (e.g. element default values `"value": "10"`
-            // bound to decimal). System.Text.Json is strict by default; this restores the lenient parity.
+            // The Management API sends some numeric values as strings (e.g. a number element's default
+            // `"value": "10"` bound to decimal), so tolerate string-encoded numbers on read.
             NumberHandling = JsonNumberHandling.AllowReadingFromString,
-            // Newtonsoft also tolerated trailing commas in JSON (some hand-authored fixtures rely on it).
+            // Tolerate trailing commas — some hand-authored JSON fixtures include them.
             AllowTrailingCommas = true,
         };
 
