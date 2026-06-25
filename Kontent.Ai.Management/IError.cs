@@ -29,8 +29,9 @@ public interface IError
     IReadOnlyList<ValidationError> ValidationErrors { get; }
 
     /// <summary>
-    /// The underlying exception, when the failure originated from a transport error or an unparseable response.
-    /// <c>null</c> when the failure was a well-formed Management API error response.
+    /// The underlying exception captured for the failure, when one is available — for a Management API error
+    /// response this carries the raw HTTP response for diagnostics. <c>null</c> for failures the SDK raises before
+    /// a request is sent, such as local content-item validation.
     /// </summary>
     Exception? Exception { get; }
 }

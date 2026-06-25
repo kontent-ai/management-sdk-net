@@ -145,6 +145,21 @@ public class AssetTests
     }
 
     [Fact]
+    public async Task GetAssetAsync_SuccessStatusWithoutBody_ReturnsFailureInsteadOfThrowing()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var id = Guid.NewGuid();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/{id}")
+            .Respond("application/json", "null");
+
+        var result = await client.GetAssetAsync(Reference.ById(id));
+
+        result.IsSuccess.Should().BeFalse();
+        result.Value.Should().BeNull();
+        result.Error!.Message.Should().Contain("success status");
+    }
+
+    [Fact]
     public async Task CreateAssetAsync_CreatesAsset()
     {
         var (client, mock) = MockClientFactory.Create();

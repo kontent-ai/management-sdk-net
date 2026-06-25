@@ -18,8 +18,20 @@ internal static class RefitApiResponseExtensions
     {
         if (response.IsSuccessStatusCode)
         {
+            if (response.Content is null)
+            {
+                return Task.FromResult<IManagementResult<TValue>>(ManagementResult<TValue>.Failure(
+                    new Error
+                    {
+                        Message = "The Management API returned a success status but no readable response body.",
+                        Exception = response.Error,
+                    },
+                    response.StatusCode,
+                    RequestUrl(response)));
+            }
+
             return Task.FromResult<IManagementResult<TValue>>(ManagementResult<TValue>.Success(
-                selector(response.Content!),
+                selector(response.Content),
                 response.StatusCode,
                 RequestUrl(response)));
         }

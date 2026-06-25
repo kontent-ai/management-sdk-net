@@ -3,8 +3,9 @@ using System.Net;
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// The outcome of a Management SDK operation. Surfaces failures without throwing — inspect <see cref="IsSuccess"/>
-/// rather than catching exceptions.
+/// The outcome of a Management SDK operation. Management API responses — including validation failures and other
+/// 4xx/5xx errors — are surfaced here without throwing; inspect <see cref="IsSuccess"/> rather than catching.
+/// Transport-level failures, where no HTTP response is received, still surface as exceptions.
 /// </summary>
 public interface IManagementResult
 {
@@ -19,8 +20,8 @@ public interface IManagementResult
     IError? Error { get; }
 
     /// <summary>
-    /// The HTTP status code of the Management API response. <c>null</c> when the operation failed before or without
-    /// an HTTP response — local content-item validation, or a transport-level error.
+    /// The HTTP status code of the Management API response. <c>null</c> when the operation failed before a request
+    /// was sent — local content-item validation performed by the SDK.
     /// </summary>
     HttpStatusCode? StatusCode { get; }
 

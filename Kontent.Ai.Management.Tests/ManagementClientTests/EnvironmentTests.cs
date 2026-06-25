@@ -132,12 +132,13 @@ public class EnvironmentTests
                 capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
                 return true;
             })
-            .Respond(System.Net.HttpStatusCode.OK);
+            .Respond("application/json", Fixture("Environment.json"));
 
         var result = await client.ModifyEnvironmentAsync(changes);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentModel>(Fixture("Environment.json"), SharedTestJsonOptions.Default));
         capturedBody.Should().NotBeNull();
         JsonSerializer.Deserialize<EnvironmentRenamePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRenamePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default), opt => opt.WithStrictOrdering());
