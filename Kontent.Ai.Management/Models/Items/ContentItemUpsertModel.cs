@@ -27,7 +27,7 @@ public sealed record ContentItemUpsertModel
     /// Sitemap locations. Deprecated — sitemap is being phased out.
     /// </summary>
     [JsonPropertyName("sitemap_locations")]
-    public IEnumerable<Reference>? SitemapLocations { get; init; }
+    public IReadOnlyList<Reference>? SitemapLocations { get; init; }
 
     /// <summary>
     /// Reference to the collection the item should belong to.

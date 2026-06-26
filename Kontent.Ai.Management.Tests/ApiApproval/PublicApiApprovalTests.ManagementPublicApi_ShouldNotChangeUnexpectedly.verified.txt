@@ -369,7 +369,7 @@ public sealed class ServiceCollectionExtensions
 
 // Kontent.Ai.Management.Models.AssetFolders
 public sealed class AssetFolderCreateModel : IEquatable`1
-    IEnumerable<AssetFolderHierarchy> Folders { get; set; init; }
+    IReadOnlyList<AssetFolderHierarchy> Folders { get; set; init; }
     AssetFolderCreateModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetFolderCreateModel other)
@@ -380,7 +380,7 @@ public sealed class AssetFolderCreateModel : IEquatable`1
 public sealed class AssetFolderHierarchy : IEquatable`1
     String Codename { get; set; init; }
     String ExternalId { get; set; init; }
-    IEnumerable<AssetFolderHierarchy> Folders { get; set; init; }
+    IReadOnlyList<AssetFolderHierarchy> Folders { get; set; init; }
     String Id { get; set; init; }
     String Name { get; set; init; }
     AssetFolderHierarchy <Clone>$()
@@ -590,7 +590,7 @@ public sealed class AssetModel : IEquatable`1
 // Kontent.Ai.Management.Models.Assets
 public sealed class AssetTaxonomyElement : IEquatable`1
     Reference Element { get; set; init; }
-    IEnumerable<Reference> Value { get; set; init; }
+    IReadOnlyList<Reference> Value { get; set; init; }
     AssetTaxonomyElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetTaxonomyElement other)
@@ -1047,7 +1047,7 @@ public sealed class EnvironmentCloningStateModel : IEquatable`1
 // Kontent.Ai.Management.Models.Environments
 public sealed class EnvironmentInformationModel : IEquatable`1
     String EnvironmentName { get; set; init; }
-    String Id { get; set; init; }
+    Guid Id { get; set; init; }
     String ProjectName { get; set; init; }
     EnvironmentInformationModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1189,7 +1189,7 @@ public sealed class ContentItemUpsertModel : IEquatable`1
     String Codename { get; set; init; }
     Reference Collection { get; set; init; }
     String Name { get; set; init; }
-    IEnumerable<Reference> SitemapLocations { get; set; init; }
+    IReadOnlyList<Reference> SitemapLocations { get; set; init; }
     Reference Type { get; set; init; }
     ContentItemUpsertModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1307,7 +1307,7 @@ public sealed class ChangeLanguageVariantWorkflowModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class ComponentModel : IEquatable`1
-    IEnumerable<BaseElement> Elements { get; set; init; }
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
     Guid Id { get; set; init; }
     Reference Type { get; set; init; }
     ComponentModel <Clone>$()
@@ -1378,7 +1378,7 @@ public sealed class LanguageVariantModel`1<TModel> : LanguageVariantMetadata, IE
 public sealed class LanguageVariantUpsertModel : IEquatable`1
     IEnumerable<UserIdentifier> Contributors { get; set; init; }
     DueDateModel DueDate { get; set; init; }
-    IEnumerable<BaseElement> Elements { get; set; init; }
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
     String Note { get; set; init; }
     WorkflowStepIdentifier Workflow { get; set; init; }
     LanguageVariantUpsertModel <Clone>$()
@@ -2534,7 +2534,7 @@ public sealed class UserCollectionGroup : IEquatable`1
 
 // Kontent.Ai.Management.Models.Users
 public sealed class UserInviteModel : IEquatable`1
-    IEnumerable<UserCollectionGroup> CollectionGroups { get; set; init; }
+    IReadOnlyList<UserCollectionGroup> CollectionGroups { get; set; init; }
     String Email { get; set; init; }
     UserInviteModel <Clone>$()
     Boolean Equals(Object obj)

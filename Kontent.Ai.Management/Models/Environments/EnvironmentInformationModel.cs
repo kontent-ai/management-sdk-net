@@ -9,7 +9,7 @@ public sealed record EnvironmentInformationModel
     /// Project ID.
     /// </summary>
     [JsonPropertyName("id")]
-    public required string Id { get; init; }
+    public required Guid Id { get; init; }
 
     /// <summary>
     /// Project name.

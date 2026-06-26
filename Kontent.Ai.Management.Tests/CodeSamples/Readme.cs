@@ -137,7 +137,7 @@ public class Readme
             new Models.Assets.AssetTaxonomyElement
             {
                 Element = Reference.ByCodename("taxonomy-categories"),
-                Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
+                Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename).ToList()
             }
         };
 

@@ -679,7 +679,7 @@ public class CmApiV2
                 {
                     ExternalId = "folder-with-shared-assets",
                     Name = "Shared assets",
-                    Folders = Enumerable.Empty<AssetFolderHierarchy>(),
+                    Folders = [],
                 },
                 Before = Reference.ByExternalId("folder-with-downloadable-assets")
             },
@@ -1037,7 +1037,7 @@ public class CmApiV2
                         {
                             Name = "Second level folder",
                             ExternalId = "second-folder",
-                            Folders = Enumerable.Empty<AssetFolderHierarchy>(),
+                            Folders = [],
                         }
                     }
                 }

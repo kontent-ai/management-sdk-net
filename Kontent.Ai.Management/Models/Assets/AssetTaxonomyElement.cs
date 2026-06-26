@@ -17,5 +17,5 @@ public sealed record AssetTaxonomyElement
     /// References to the selected taxonomy terms; empty when none are assigned.
     /// </summary>
     [JsonPropertyName("value")]
-    public required IEnumerable<Reference> Value { get; init; }
+    public required IReadOnlyList<Reference> Value { get; init; }
 }

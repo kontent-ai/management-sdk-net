@@ -24,5 +24,5 @@ public sealed record ComponentModel
     /// <see cref="DynamicElement"/> for kinds the SDK does not model.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<BaseElement> Elements { get; init; }
+    public required IReadOnlyList<BaseElement> Elements { get; init; }
 }

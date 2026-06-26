@@ -9,7 +9,7 @@ internal partial interface IManagementApi
     /// <param name="itemIdentifier">The content item identifier path segment (see <see cref="ReferenceUrlExtensions.ToUrlSegment(Reference)"/>).</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Get("/items/{**itemIdentifier}/variants")]
-    internal Task<IApiResponse<IEnumerable<LanguageVariantModel>>> ListLanguageVariantsByItemInternalAsync(
+    internal Task<IApiResponse<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemInternalAsync(
         string itemIdentifier,
         CancellationToken cancellationToken = default);
 

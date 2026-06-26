@@ -15,5 +15,5 @@ public sealed record UserInviteModel
     /// Collection-to-roles assignments for the invited user. Must contain at least one group.
     /// </summary>
     [JsonPropertyName("collection_groups")]
-    public required IEnumerable<UserCollectionGroup> CollectionGroups { get; init; }
+    public required IReadOnlyList<UserCollectionGroup> CollectionGroups { get; init; }
 }

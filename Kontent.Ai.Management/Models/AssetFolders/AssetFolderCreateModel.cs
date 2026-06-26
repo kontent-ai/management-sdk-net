@@ -9,5 +9,5 @@ public sealed record AssetFolderCreateModel
     /// The folder hierarchy to create (recursive).
     /// </summary>
     [JsonPropertyName("folders")]
-    public required IEnumerable<AssetFolderHierarchy> Folders { get; init; }
+    public required IReadOnlyList<AssetFolderHierarchy> Folders { get; init; }
 }

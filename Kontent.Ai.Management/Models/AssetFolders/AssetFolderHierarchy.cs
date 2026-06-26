@@ -34,5 +34,5 @@ public sealed record AssetFolderHierarchy
     /// Nested child folders.
     /// </summary>
     [JsonPropertyName("folders")]
-    public IEnumerable<AssetFolderHierarchy>? Folders { get; init; }
+    public IReadOnlyList<AssetFolderHierarchy>? Folders { get; init; }
 }
