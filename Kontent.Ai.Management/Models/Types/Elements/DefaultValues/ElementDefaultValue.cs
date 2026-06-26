@@ -9,13 +9,13 @@ public abstract record ElementDefaultValue<TValue>
     /// Non-language-specific default. Required when the caller configures any default on the element.
     /// </summary>
     [JsonPropertyName("global")]
-    public required TypeValue<TValue> Global { get; init; }
+    public required ElementDefaultValueEnvelope<TValue> Global { get; init; }
 }
 
 /// <summary>
-/// Wraps a single default value. The wire format is <c>{ "value": ... }</c>.
+/// Wraps a single element default value. The wire format is <c>{ "value": ... }</c>.
 /// </summary>
-public sealed record TypeValue<TValue>
+public sealed record ElementDefaultValueEnvelope<TValue>
 {
     /// <summary>
     /// The default value carried by this container. The API rejects null and empty-array values — leave the parent default-value object null to express "no default configured".

@@ -47,7 +47,7 @@ public sealed record RichTextElementMetadataModel : ElementMetadataBase
     /// Content types allowed as inline components/items. Null or empty means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_content_types")]
-    public IEnumerable<Reference>? AllowedTypes { get; init; }
+    public IEnumerable<Reference>? AllowedContentTypes { get; init; }
 
     /// <summary>
     /// Content types whose items can be linked from rich text. Null or empty means no restriction.

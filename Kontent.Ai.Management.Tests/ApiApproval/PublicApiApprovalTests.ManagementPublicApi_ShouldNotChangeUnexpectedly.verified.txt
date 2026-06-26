@@ -467,6 +467,7 @@ public sealed class AssetRenditionIdentifier : IEquatable`1
     Reference AssetIdentifier { get; set; init; }
     Reference RenditionIdentifier { get; set; init; }
     AssetRenditionIdentifier <Clone>$()
+    static AssetRenditionIdentifier ByIds(Guid assetId, Guid renditionId)
     Boolean Equals(Object obj)
     Boolean Equals(AssetRenditionIdentifier other)
     Int32 GetHashCode()
@@ -2086,7 +2087,7 @@ public sealed class GuidelinesElementMetadataModel : ElementMetadataBase, IEquat
 
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class LinkedItemsElementMetadataModel : ElementMetadataBase, IEquatable`1
-    IEnumerable<Reference> AllowedTypes { get; set; init; }
+    IEnumerable<Reference> AllowedContentTypes { get; set; init; }
     LinkedItemsDefaultValueModel DefaultValue { get; set; init; }
     String Guidelines { get; set; init; }
     Boolean IsNonLocalizable { get; set; init; }
@@ -2170,6 +2171,7 @@ public enum RichTextBlockType : Enum
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class RichTextElementMetadataModel : ElementMetadataBase, IEquatable`1
     ISet<RichTextBlockType> AllowedBlocks { get; set; init; }
+    IEnumerable<Reference> AllowedContentTypes { get; set; init; }
     ISet<RichTextFormattingType> AllowedFormatting { get; set; init; }
     Nullable<FileType> AllowedImageTypes { get; set; init; }
     IEnumerable<Reference> AllowedItemLinkTypes { get; set; init; }
@@ -2177,7 +2179,6 @@ public sealed class RichTextElementMetadataModel : ElementMetadataBase, IEquatab
     ISet<RichTextFormattingType> AllowedTableFormatting { get; set; init; }
     ISet<RichTextTextBlockType> AllowedTableTextBlocks { get; set; init; }
     ISet<RichTextTextBlockType> AllowedTextBlocks { get; set; init; }
-    IEnumerable<Reference> AllowedTypes { get; set; init; }
     String Guidelines { get; set; init; }
     LimitModel ImageHeightLimit { get; set; init; }
     LimitModel ImageWidthLimit { get; set; init; }
@@ -2334,10 +2335,19 @@ public sealed class DateElementDefaultValueModel : ElementDefaultValue`1, IEquat
 
 // Kontent.Ai.Management.Models.Types.Elements.DefaultValues
 public class ElementDefaultValue`1<TValue> : IEquatable`1
-    TypeValue<TValue> Global { get; set; init; }
+    ElementDefaultValueEnvelope<TValue> Global { get; set; init; }
     ElementDefaultValue<TValue> <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ElementDefaultValue<TValue> other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class ElementDefaultValueEnvelope`1<TValue> : IEquatable`1
+    TValue Value { get; set; init; }
+    ElementDefaultValueEnvelope<TValue> <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValueEnvelope<TValue> other)
     Int32 GetHashCode()
     String ToString()
 
@@ -2383,15 +2393,6 @@ public sealed class TextElementDefaultValueModel : ElementDefaultValue`1, IEquat
     Boolean Equals(Object obj)
     Boolean Equals(ElementDefaultValue<String> other)
     Boolean Equals(TextElementDefaultValueModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
-public sealed class TypeValue`1<TValue> : IEquatable`1
-    TValue Value { get; set; init; }
-    TypeValue<TValue> <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(TypeValue<TValue> other)
     Int32 GetHashCode()
     String ToString()
 

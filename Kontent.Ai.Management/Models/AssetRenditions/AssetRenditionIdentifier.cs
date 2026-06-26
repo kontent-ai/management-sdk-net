@@ -28,4 +28,12 @@ public sealed record AssetRenditionIdentifier
         AssetIdentifier = assetIdentifier;
         RenditionIdentifier = renditionIdentifier;
     }
+
+    /// <summary>
+    /// Creates an identifier from the asset and rendition IDs. Renditions are addressed by id server-side.
+    /// </summary>
+    /// <param name="assetId">The id of the asset.</param>
+    /// <param name="renditionId">The id of the rendition.</param>
+    public static AssetRenditionIdentifier ByIds(Guid assetId, Guid renditionId)
+        => new(Reference.ById(assetId), Reference.ById(renditionId));
 }
