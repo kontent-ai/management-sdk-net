@@ -108,7 +108,7 @@ public class SpaceTests
     {
         var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
-        var changes = new SpaceOperationReplaceModel[]
+        var changes = new SpaceReplacePatchModel[]
         {
             new() { PropertyName = PropertyName.Name, Value = "New space name" },
             new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" },
@@ -129,15 +129,15 @@ public class SpaceTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(ModifySpaceReplace, SharedTestJsonOptions.Default));
         capturedBody.Value.Should().NotBeNull();
-        JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(capturedBody.Value!, SharedTestJsonOptions.Default)!
-            .ShouldEqualAsJson(JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
+        JsonSerializer.Deserialize<SpaceReplacePatchModel[]>(capturedBody.Value!, SharedTestJsonOptions.Default)!
+            .ShouldEqualAsJson(JsonSerializer.Deserialize<SpaceReplacePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
     [Fact]
     public async Task ModifySpace_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
-        var changes = new SpaceOperationReplaceModel[]
+        var changes = new SpaceReplacePatchModel[]
         {
             new() { PropertyName = PropertyName.Name, Value = "New space name" }
         };

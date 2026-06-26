@@ -1,4 +1,4 @@
-namespace Kontent.Ai.Management.Models.Languages;
+namespace Kontent.Ai.Management.Models.Languages.Patch;
 
 /// <summary>
 /// A single <c>replace</c> operation in the modify-language patch payload. The endpoint takes an array of these.

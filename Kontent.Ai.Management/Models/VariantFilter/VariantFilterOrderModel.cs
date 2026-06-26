@@ -7,10 +7,10 @@ namespace Kontent.Ai.Management.Models.VariantFilter;
 public sealed record VariantFilterOrderModel
 {
     /// <summary>
-    /// Column to order by. Supported values: <c>name</c>, <c>due_date</c>, <c>last_modified</c>.
+    /// Column to order by.
     /// </summary>
     [JsonPropertyName("by")]
-    public required string By { get; init; }
+    public required VariantFilterOrderColumn By { get; init; }
 
     /// <summary>
     /// Sort direction. Defaults to ascending.

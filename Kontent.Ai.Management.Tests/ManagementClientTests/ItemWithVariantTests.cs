@@ -34,7 +34,7 @@ public class ItemWithVariantTests
             },
             Order = new VariantFilterOrderModel
             {
-                By = "name",
+                By = VariantFilterOrderColumn.Name,
                 Direction = VariantFilterOrderDirection.Ascending
             }
         };
@@ -213,7 +213,7 @@ public class ItemWithVariantTests
             },
             Order = new VariantFilterOrderModel
             {
-                By = "last_modified",
+                By = VariantFilterOrderColumn.LastModified,
                 Direction = VariantFilterOrderDirection.Descending
             }
         };

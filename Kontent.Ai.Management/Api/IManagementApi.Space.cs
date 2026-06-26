@@ -35,7 +35,7 @@ internal partial interface IManagementApi
     [Patch("/spaces/{**identifier}")]
     internal Task<IApiResponse<SpaceModel>> ModifySpaceInternalAsync(
         string identifier,
-        [Body] IEnumerable<SpaceOperationReplaceModel> changes,
+        [Body] IEnumerable<SpaceReplacePatchModel> changes,
         CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a space.</summary>

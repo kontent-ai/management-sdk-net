@@ -9,6 +9,7 @@ using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages.Patch;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Publishing;

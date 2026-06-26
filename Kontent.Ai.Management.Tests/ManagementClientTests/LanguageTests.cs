@@ -1,5 +1,6 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Net;

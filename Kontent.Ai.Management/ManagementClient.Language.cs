@@ -1,6 +1,7 @@
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages.Patch;
 
 namespace Kontent.Ai.Management;
 

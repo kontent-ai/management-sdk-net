@@ -3,7 +3,7 @@ namespace Kontent.Ai.Management.Models.Spaces.Patch;
 /// <summary>
 /// A <c>replace</c> operation in the modify-space patch payload.
 /// </summary>
-public sealed record SpaceOperationReplaceModel
+public sealed record SpaceReplacePatchModel
 {
     /// <summary>
     /// Operation verb. Always <c>replace</c> — the only verb supported on the spaces patch endpoint.

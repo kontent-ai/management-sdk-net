@@ -101,7 +101,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
-    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
     Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
@@ -229,7 +229,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
-    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
     Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
@@ -1274,7 +1274,7 @@ public sealed class LanguageModel : IEquatable`1
     Int32 GetHashCode()
     String ToString()
 
-// Kontent.Ai.Management.Models.Languages
+// Kontent.Ai.Management.Models.Languages.Patch
 public sealed class LanguagePatchModel : IEquatable`1
     String Op { get; }
     LanguagePropertyName PropertyName { get; set; init; }
@@ -1285,7 +1285,7 @@ public sealed class LanguagePatchModel : IEquatable`1
     Int32 GetHashCode()
     String ToString()
 
-// Kontent.Ai.Management.Models.Languages
+// Kontent.Ai.Management.Models.Languages.Patch
 public enum LanguagePropertyName : Enum
     Codename
     FallbackLanguage
@@ -1697,13 +1697,13 @@ public enum PropertyName : Enum
     RootItem
 
 // Kontent.Ai.Management.Models.Spaces.Patch
-public sealed class SpaceOperationReplaceModel : IEquatable`1
+public sealed class SpaceReplacePatchModel : IEquatable`1
     String Op { get; }
     PropertyName PropertyName { get; set; init; }
     Object Value { get; set; init; }
-    SpaceOperationReplaceModel <Clone>$()
+    SpaceReplacePatchModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(SpaceOperationReplaceModel other)
+    Boolean Equals(SpaceReplacePatchModel other)
     Int32 GetHashCode()
     String ToString()
 
@@ -2580,13 +2580,19 @@ public sealed class VariantFilterFiltersModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.VariantFilter
+public enum VariantFilterOrderColumn : Enum
+    DueDate
+    LastModified
+    Name
+
+// Kontent.Ai.Management.Models.VariantFilter
 public enum VariantFilterOrderDirection : Enum
     Ascending
     Descending
 
 // Kontent.Ai.Management.Models.VariantFilter
 public sealed class VariantFilterOrderModel : IEquatable`1
-    String By { get; set; init; }
+    VariantFilterOrderColumn By { get; set; init; }
     VariantFilterOrderDirection Direction { get; set; init; }
     VariantFilterOrderModel <Clone>$()
     Boolean Equals(Object obj)

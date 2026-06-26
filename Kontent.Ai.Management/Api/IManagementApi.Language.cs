@@ -1,4 +1,5 @@
 using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages.Patch;
 
 namespace Kontent.Ai.Management.Api;
 

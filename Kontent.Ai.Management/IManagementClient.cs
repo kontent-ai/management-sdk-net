@@ -14,6 +14,7 @@ using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages.Patch;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.PreviewConfiguration;
 using Kontent.Ai.Management.Models.Publishing;
@@ -809,7 +810,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="changes">The changes that will be applied to the space.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the modified <see cref="SpaceModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes, CancellationToken cancellationToken = default);
+    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the space.
