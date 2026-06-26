@@ -5,31 +5,13 @@ namespace Kontent.Ai.Management.Models.Types.Elements;
 /// <summary>
 /// A taxonomy element on a content type. Authors tag the content item with terms from a taxonomy group.
 /// </summary>
-public sealed record TaxonomyElementMetadataModel : ElementMetadataBase
+public sealed record TaxonomyElementMetadataModel : ContentElementMetadataBase
 {
     /// <summary>
     /// Display name. Defaults to the taxonomy group's name when omitted on create.
     /// </summary>
     [JsonPropertyName("name")]
     public string? Name { get; init; }
-
-    /// <summary>
-    /// Whether authors must fill in the element. Defaults to false.
-    /// </summary>
-    [JsonPropertyName("is_required")]
-    public bool IsRequired { get; init; }
-
-    /// <summary>
-    /// Whether the element is non-localizable (shared across all languages). Defaults to false.
-    /// </summary>
-    [JsonPropertyName("is_non_localizable")]
-    public bool IsNonLocalizable { get; init; }
-
-    /// <summary>
-    /// HTML guidelines shown to authors.
-    /// </summary>
-    [JsonPropertyName("guidelines")]
-    public string? Guidelines { get; init; }
 
     /// <summary>
     /// Reference to the taxonomy group whose terms this element exposes.

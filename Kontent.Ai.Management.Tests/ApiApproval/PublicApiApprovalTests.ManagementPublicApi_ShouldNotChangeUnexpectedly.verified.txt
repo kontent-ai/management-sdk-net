@@ -1978,22 +1978,31 @@ public enum LimitType : Enum
     Exactly
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class AssetElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class AssetElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     Nullable<FileType> AllowedFileTypes { get; set; init; }
     LimitModel AssetCountLimit { get; set; init; }
     AssetDefaultValueModel DefaultValue { get; set; init; }
-    String Guidelines { get; set; init; }
     LimitModel ImageHeightLimit { get; set; init; }
     LimitModel ImageWidthLimit { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     Nullable<Int64> MaximumFileSize { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     AssetElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(AssetElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public class ContentElementMetadataBase : ElementMetadataBase, IEquatable`1
+    String Guidelines { get; set; init; }
+    Boolean IsNonLocalizable { get; set; init; }
+    Boolean IsRequired { get; set; init; }
+    ContentElementMetadataBase <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Int32 GetHashCode()
     String ToString()
 
@@ -2009,33 +2018,27 @@ public sealed class ContentTypeSnippetElementMetadataModel : ElementMetadataBase
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class CustomElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class CustomElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     IEnumerable<Reference> AllowedElements { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     String JsonParameters { get; set; init; }
     String Name { get; set; init; }
     String SourceUrl { get; set; init; }
     ElementMetadataType Type { get; }
     CustomElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(CustomElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class DateTimeElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class DateTimeElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     DateElementDefaultValueModel DefaultValue { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     DateTimeElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(DateTimeElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2086,18 +2089,15 @@ public sealed class GuidelinesElementMetadataModel : ElementMetadataBase, IEquat
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class LinkedItemsElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class LinkedItemsElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     IEnumerable<Reference> AllowedContentTypes { get; set; init; }
     LinkedItemsDefaultValueModel DefaultValue { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     LimitModel ItemCountLimit { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     LinkedItemsElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(LinkedItemsElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2113,18 +2113,15 @@ public sealed class MaximumTextLengthModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class MultipleChoiceElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class MultipleChoiceElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     MultipleChoiceDefaultValueModel DefaultValue { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     MultipleChoiceMode Mode { get; set; init; }
     String Name { get; set; init; }
     IEnumerable<MultipleChoiceOptionModel> Options { get; set; init; }
     ElementMetadataType Type { get; }
     MultipleChoiceElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(MultipleChoiceElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2147,16 +2144,13 @@ public sealed class MultipleChoiceOptionModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class NumberElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class NumberElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     NumberElementDefaultValueModel DefaultValue { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     NumberElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(NumberElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2169,7 +2163,7 @@ public enum RichTextBlockType : Enum
     Text
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class RichTextElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class RichTextElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     ISet<RichTextBlockType> AllowedBlocks { get; set; init; }
     IEnumerable<Reference> AllowedContentTypes { get; set; init; }
     ISet<RichTextFormattingType> AllowedFormatting { get; set; init; }
@@ -2179,18 +2173,15 @@ public sealed class RichTextElementMetadataModel : ElementMetadataBase, IEquatab
     ISet<RichTextFormattingType> AllowedTableFormatting { get; set; init; }
     ISet<RichTextTextBlockType> AllowedTableTextBlocks { get; set; init; }
     ISet<RichTextTextBlockType> AllowedTextBlocks { get; set; init; }
-    String Guidelines { get; set; init; }
     LimitModel ImageHeightLimit { get; set; init; }
     LimitModel ImageWidthLimit { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     Nullable<Int64> MaximumImageSize { get; set; init; }
     MaximumTextLengthModel MaximumTextLength { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     RichTextElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(RichTextElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2223,51 +2214,42 @@ public enum RichTextTextBlockType : Enum
     UnorderedList
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class SubpagesElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class SubpagesElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     IEnumerable<Reference> AllowedContentTypes { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     LimitModel ItemCountLimit { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     SubpagesElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(SubpagesElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class TaxonomyElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class TaxonomyElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     TaxonomyElementDefaultValueModel DefaultValue { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     String Name { get; set; init; }
     Reference TaxonomyGroup { get; set; init; }
     LimitModel TermCountLimit { get; set; init; }
     ElementMetadataType Type { get; }
     TaxonomyElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(TaxonomyElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class TextElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class TextElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     TextElementDefaultValueModel DefaultValue { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     MaximumTextLengthModel MaximumTextLength { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     ValidationRegexModel ValidationRegex { get; set; init; }
     TextElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(TextElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2288,17 +2270,14 @@ public sealed class UrlSlugDependency : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Types.Elements
-public sealed class UrlSlugElementMetadataModel : ElementMetadataBase, IEquatable`1
+public sealed class UrlSlugElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     UrlSlugDependency DependsOn { get; set; init; }
-    String Guidelines { get; set; init; }
-    Boolean IsNonLocalizable { get; set; init; }
-    Boolean IsRequired { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
     ValidationRegexModel ValidationRegex { get; set; init; }
     UrlSlugElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
     Boolean Equals(UrlSlugElementMetadataModel other)
     Int32 GetHashCode()
     String ToString()

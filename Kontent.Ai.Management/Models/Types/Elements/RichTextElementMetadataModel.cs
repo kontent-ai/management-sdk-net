@@ -3,33 +3,17 @@ namespace Kontent.Ai.Management.Models.Types.Elements;
 /// <summary>
 /// A rich text element on a content type.
 /// </summary>
-public sealed record RichTextElementMetadataModel : ElementMetadataBase
+/// <remarks>
+/// Rich text cannot be made non-localizable: the API rejects setting <see cref="ContentElementMetadataBase.IsNonLocalizable"/>
+/// to <c>true</c>. The inherited property exists so the value the API returns round-trips faithfully.
+/// </remarks>
+public sealed record RichTextElementMetadataModel : ContentElementMetadataBase
 {
     /// <summary>
     /// Display name.
     /// </summary>
     [JsonPropertyName("name")]
     public required string Name { get; init; }
-
-    /// <summary>
-    /// Whether authors must fill in the element. Defaults to false.
-    /// </summary>
-    [JsonPropertyName("is_required")]
-    public bool IsRequired { get; init; }
-
-    /// <summary>
-    /// Whether the element is shared across all language variants. Always <c>false</c> for rich text — the API does
-    /// not allow making rich text non-localizable and rejects an attempt to set this to <c>true</c>. Present only so
-    /// the field the API returns round-trips faithfully.
-    /// </summary>
-    [JsonPropertyName("is_non_localizable")]
-    public bool IsNonLocalizable { get; init; }
-
-    /// <summary>
-    /// HTML guidelines shown to authors.
-    /// </summary>
-    [JsonPropertyName("guidelines")]
-    public string? Guidelines { get; init; }
 
     /// <summary>
     /// Maximum text length (characters or words).
