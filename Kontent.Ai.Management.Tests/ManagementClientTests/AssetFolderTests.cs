@@ -46,13 +46,8 @@ public class AssetFolderTests
             }
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/folders")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Folder);
 
         var result = await client.CreateAssetFoldersAsync(folderModel);
@@ -60,9 +55,7 @@ public class AssetFolderTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<AssetFolderCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFolderCreateModel>(JsonSerializer.Serialize(folderModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(folderModel);
     }
 
     [Fact]
@@ -79,13 +72,8 @@ public class AssetFolderTests
         var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
 
-        string? capturedBody = null;
         mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/folders")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Folder);
 
         var result = await client.ModifyAssetFoldersAsync(changes);
@@ -93,10 +81,10 @@ public class AssetFolderTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AssetFoldersModel>(Folder, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
+        capturedBody.Value.Should().NotBeNull();
         // Heterogeneous polymorphic operation list: assert the converter-free, behaviourally meaningful part — the
         // ordered sequence of operation kinds (PATCH order matters), via each element's stable "op" discriminator.
-        var sentOps = JsonNode.Parse(capturedBody!)!.AsArray().Select(t => (string?)t!["op"]);
+        var sentOps = JsonNode.Parse(capturedBody.Value!)!.AsArray().Select(t => (string?)t!["op"]);
         var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
         sentOps.Should().Equal(expectedOps);
     }

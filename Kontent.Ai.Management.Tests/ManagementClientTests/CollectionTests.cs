@@ -97,13 +97,8 @@ public class CollectionTests
     private static async Task AssertModifyCollection<T>(T[] changes) where T : CollectionOperationBaseModel
     {
         var (client, mock) = MockClientFactory.Create();
-        string? capturedBody = null;
         mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/collections")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Collections);
 
         var result = await client.ModifyCollectionAsync(changes);
@@ -111,8 +106,6 @@ public class CollectionTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CollectionsModel>(Collections, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<T[]>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<T[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default), opt => opt.WithStrictOrdering());
+        capturedBody.ShouldMatchSerialized(changes, strictOrdering: true);
     }
 }

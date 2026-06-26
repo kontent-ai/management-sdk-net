@@ -4,7 +4,8 @@ using Kontent.Ai.Management.Models.CustomApps.Patch;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -19,11 +20,6 @@ public class CustomAppTests
 
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "CustomApp", name));
-
-    private static List<T> ConcatPages<T>(params string[] pages)
-        => pages
-            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
-            .ToList();
 
     [Fact]
     public async Task ListCustomAppsAsync_PagesThroughAllCustomApps()
@@ -66,13 +62,8 @@ public class CustomAppTests
             AllowedRoles = expected.AllowedRoles
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Post, CustomAppBaseUrl)
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", CustomApp);
 
         var result = await client.CreateCustomAppAsync(createModel);
@@ -80,9 +71,7 @@ public class CustomAppTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(CustomApp, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<CustomAppCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(createModel);
     }
 
     [Fact]
@@ -140,13 +129,8 @@ public class CustomAppTests
             }
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Patch, CustomAppBaseUrl + $"/{identifier.Id}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ModifyAddInto);
 
         var result = await client.ModifyCustomAppAsync(identifier, changes);
@@ -154,8 +138,8 @@ public class CustomAppTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyAddInto, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<CustomAppAddIntoPatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<CustomAppAddIntoPatchModel[]>(capturedBody.Value!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppAddIntoPatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
@@ -176,13 +160,8 @@ public class CustomAppTests
             }
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Patch, CustomAppBaseUrl + $"/{identifier.Id}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ModifyRemove);
 
         var result = await client.ModifyCustomAppAsync(identifier, changes);
@@ -190,8 +169,8 @@ public class CustomAppTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyRemove, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<CustomAppRemovePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<CustomAppRemovePatchModel[]>(capturedBody.Value!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppRemovePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
@@ -217,13 +196,8 @@ public class CustomAppTests
             }
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Patch, CustomAppBaseUrl + $"/{identifier.Id}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ModifyReplace);
 
         var result = await client.ModifyCustomAppAsync(identifier, changes);
@@ -231,8 +205,8 @@ public class CustomAppTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<CustomAppModel>(ModifyReplace, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<CustomAppReplacePatchModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<CustomAppReplacePatchModel[]>(capturedBody.Value!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<CustomAppReplacePatchModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 

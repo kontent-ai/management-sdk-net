@@ -3,7 +3,8 @@ using Kontent.Ai.Management.Models.Subscription;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -11,11 +12,6 @@ public class SubscriptionTests
 {
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Subscription", name));
-
-    private static List<T> ConcatPages<T>(params string[] pages)
-        => pages
-            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
-            .ToList();
 
     [Fact]
     public async Task ListSubscriptionProjectsAsync_PagesThroughAllProjects()

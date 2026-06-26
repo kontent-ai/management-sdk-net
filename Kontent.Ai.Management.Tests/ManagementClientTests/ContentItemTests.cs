@@ -4,7 +4,8 @@ using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -14,11 +15,6 @@ public class ContentItemTests
 
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ContentItem", name));
-
-    private static List<T> ConcatPages<T>(params string[] pages)
-        => pages
-            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
-            .ToList();
 
     [Fact]
     public async Task ListContentItemsAsync_PagesThroughAllContentItems()
@@ -154,13 +150,8 @@ public class ContentItemTests
             Name = expected.Name
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ContentItem);
 
         var result = await client.CreateContentItemAsync(createModel);
@@ -168,9 +159,7 @@ public class ContentItemTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(createModel);
     }
 
     [Fact]
@@ -198,13 +187,8 @@ public class ContentItemTests
 
         var identifier = Reference.ById(Guid.NewGuid());
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/items/{identifier.Id}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ContentItem);
 
         var result = await client.UpsertContentItemAsync(identifier, upsertModel);
@@ -212,9 +196,7 @@ public class ContentItemTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
@@ -234,13 +216,8 @@ public class ContentItemTests
 
         var identifier = Reference.ByCodename("codename");
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/items/codename/{identifier.Codename}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ContentItem);
 
         var result = await client.UpsertContentItemAsync(identifier, upsertModel);
@@ -248,9 +225,7 @@ public class ContentItemTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
@@ -270,13 +245,8 @@ public class ContentItemTests
 
         var identifier = Reference.ByExternalId("externalId");
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/items/external-id/{identifier.ExternalId}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ContentItem);
 
         var result = await client.UpsertContentItemAsync(identifier, upsertModel);
@@ -284,9 +254,7 @@ public class ContentItemTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
@@ -329,13 +297,8 @@ public class ContentItemTests
 
         var identifier = Reference.ById(Guid.NewGuid());
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/items/{identifier.Id}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ContentItem);
 
         var result = await client.UpsertContentItemAsync(identifier, model);
@@ -343,8 +306,8 @@ public class ContentItemTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody.Value!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
@@ -369,13 +332,8 @@ public class ContentItemTests
 
         var identifier = Reference.ByCodename("codename");
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/items/codename/{identifier.Codename}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ContentItem);
 
         var result = await client.UpsertContentItemAsync(identifier, model);
@@ -383,8 +341,8 @@ public class ContentItemTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody.Value!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 
@@ -409,13 +367,8 @@ public class ContentItemTests
 
         var identifier = Reference.ByExternalId("externalId");
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/items/external-id/{identifier.ExternalId}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ContentItem);
 
         var result = await client.UpsertContentItemAsync(identifier, model);
@@ -423,8 +376,8 @@ public class ContentItemTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemModel>(ContentItem, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<ContentItemUpsertModel>(capturedBody.Value!, SharedTestJsonOptions.Default)
             .Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentItemUpsertModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
     }
 

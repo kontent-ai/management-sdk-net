@@ -35,13 +35,8 @@ public class EnvironmentUserTests
             }
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/users")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ProjectUser);
 
         var result = await client.InviteUserIntoEnvironmentAsync(invitation);
@@ -49,9 +44,7 @@ public class EnvironmentUserTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<UserInviteModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<UserInviteModel>(JsonSerializer.Serialize(invitation, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(invitation);
     }
 
     [Fact]

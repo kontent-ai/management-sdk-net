@@ -4,7 +4,6 @@ using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Collections;
-using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -21,22 +20,15 @@ public class PublishingTests
                 step: Reference.ById(Guid.NewGuid())
             );
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/change-workflow")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond(System.Net.HttpStatusCode.OK);
 
         var result = await client.ChangeLanguageVariantWorkflowAsync(variantIdentifier, model);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ChangeLanguageVariantWorkflowModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ChangeLanguageVariantWorkflowModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(model);
     }
 
     [Fact]
@@ -98,22 +90,15 @@ public class PublishingTests
             ScheduleTo = DateTimeOffset.UtcNow
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/publish")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond(System.Net.HttpStatusCode.OK);
 
         var result = await client.SchedulePublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ScheduleModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ScheduleModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(schedule);
     }
 
     [Fact]
@@ -142,22 +127,15 @@ public class PublishingTests
             UnpublishScheduledTo = DateTimeOffset.UtcNow.AddDays(10)
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/schedule-publish-and-unpublish")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond(System.Net.HttpStatusCode.OK);
 
         var result = await client.SchedulePublishingAndUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<SchedulePublishAndUnpublishModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<SchedulePublishAndUnpublishModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(schedule);
     }
 
     [Fact]
@@ -265,22 +243,15 @@ public class PublishingTests
             ScheduleTo = DateTimeOffset.UtcNow
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/unpublish-and-archive")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond(System.Net.HttpStatusCode.OK);
 
         var result = await client.ScheduleUnpublishingOfLanguageVariantAsync(variantIdentifier, schedule);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<ScheduleModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<ScheduleModel>(JsonSerializer.Serialize(schedule, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(schedule);
     }
 
     [Fact]
@@ -345,22 +316,15 @@ public class PublishingTests
 
         public static IEnumerable<(LanguageVariantIdentifier Identifier, string Url)> GetPermutation()
         {
-            var itemsIdentifiers = new[] { ById, ByCodename, ByExternalId };
-            var languageIdentifiers = new[] { ById, ByCodename };
+            var items = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename, IdentifierPermutations.ByExternalId };
+            var languages = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename };
 
-            foreach (var item in itemsIdentifiers)
+            foreach (var (item, itemSegment, language, languageSegment) in IdentifierPermutations.Pairs(items, languages))
             {
-                foreach (var language in languageIdentifiers)
-                {
-                    var identifier = new LanguageVariantIdentifier(item.Identifier, language.Identifier);
-                    var url = $"{MockClientFactory.BaseUrl}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
-                    yield return (identifier, url);
-                }
+                var identifier = new LanguageVariantIdentifier(item, language);
+                var url = $"{MockClientFactory.BaseUrl}/items/{itemSegment}/variants/{languageSegment}";
+                yield return (identifier, url);
             }
         }
-
-        private static (Reference Identifier, string UrlSegment) ById => (Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")), "4b628214-e4fe-4fe0-b1ff-955df33e1515");
-        private static (Reference Identifier, string UrlSegment) ByCodename => (Reference.ByCodename("codename"), "codename/codename");
-        private static (Reference Identifier, string UrlSegment) ByExternalId => (Reference.ByExternalId("external-id"), "external-id/external-id");
     }
 }

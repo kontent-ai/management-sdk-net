@@ -31,13 +31,8 @@ public class SpaceTests
             Collections = expected.Collections
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Post, SpacesUrl)
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Space);
 
         var result = await client.CreateSpaceAsync(createModel);
@@ -45,9 +40,7 @@ public class SpaceTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(Space, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<SpaceCreateModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceCreateModel>(JsonSerializer.Serialize(createModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(createModel);
     }
 
     [Fact]
@@ -126,13 +119,8 @@ public class SpaceTests
             }
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Patch, $"{SpacesUrl}/{identifier.Id}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", ModifySpaceReplace);
 
         var result = await client.ModifySpaceAsync(identifier, changes);
@@ -140,8 +128,8 @@ public class SpaceTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SpaceModel>(ModifySpaceReplace, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(capturedBody!, SharedTestJsonOptions.Default)!
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(capturedBody.Value!, SharedTestJsonOptions.Default)!
             .ShouldEqualAsJson(JsonSerializer.Deserialize<SpaceOperationReplaceModel[]>(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 

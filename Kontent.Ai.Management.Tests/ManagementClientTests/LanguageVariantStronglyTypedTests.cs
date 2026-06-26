@@ -154,13 +154,8 @@ public class LanguageVariantStronglyTypedTests
         // Full client write path (WriteEnvelopes → JsonSerializer.Deserialize<List<object>> → Refit serialize → wire)
         // must preserve the sibling fields through the intermediate object round-trip.
         var (client, mock) = MockClientFactory.Create(ArticleConverter());
-        string? sentBody = null;
         mock.Expect(HttpMethod.Put, VariantUrl)
-            .With(request =>
-            {
-                sentBody = request.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var sentBody)
             .Respond("application/json", Fixture("StronglyTypedArticleVariant.json"));
 
         var article = new Article
@@ -174,7 +169,7 @@ public class LanguageVariantStronglyTypedTests
         await client.UpsertLanguageVariantAsync(Identifier(), article);
 
         mock.VerifyNoOutstandingExpectation();
-        var elements = JsonDocument.Parse(sentBody!).RootElement.GetProperty("elements")
+        var elements = JsonDocument.Parse(sentBody.Value!).RootElement.GetProperty("elements")
             .EnumerateArray()
             .ToDictionary(e => e.GetProperty("element").GetProperty("codename").GetString()!, e => e);
         elements["publishing_date"].GetProperty("value").GetString().Should().Be("2024-06-01T12:00:00Z");

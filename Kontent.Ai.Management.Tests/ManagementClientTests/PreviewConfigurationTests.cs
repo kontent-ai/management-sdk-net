@@ -63,13 +63,8 @@ public class PreviewConfigurationTests
            }
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/preview-configuration")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", PreviewConfiguration);
 
         var result = await client.ModifyPreviewConfigurationAsync(request);
@@ -77,8 +72,6 @@ public class PreviewConfigurationTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(PreviewConfiguration, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<PreviewConfigurationModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<PreviewConfigurationModel>(JsonSerializer.Serialize(request, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(request);
     }
 }

@@ -14,11 +14,6 @@ public class WorkflowTests
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Workflow", name));
 
-    public static TheoryData<Reference?> InvalidIdentifiers =>
-    [
-        null,
-    ];
-
     [Fact]
     public async Task ListWorkflowsAsync_ListsAllWorkflows()
     {
@@ -39,13 +34,8 @@ public class WorkflowTests
         var (client, mock) = MockClientFactory.Create();
         var newWorkflow = GetNewWorkflow();
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/workflows")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Workflow);
 
         var result = await client.CreateWorkflowAsync(newWorkflow);
@@ -53,9 +43,7 @@ public class WorkflowTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(newWorkflow);
     }
 
     [Fact]
@@ -73,13 +61,8 @@ public class WorkflowTests
         var newWorkflow = GetNewWorkflow();
         var identifier = Reference.ById(Guid.NewGuid());
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/workflows/{identifier.Id}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Workflow);
 
         var result = await client.UpdateWorkflowAsync(identifier, newWorkflow);
@@ -87,9 +70,7 @@ public class WorkflowTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(newWorkflow);
     }
 
     [Fact]
@@ -99,13 +80,8 @@ public class WorkflowTests
         var newWorkflow = GetNewWorkflow();
         var identifier = Reference.ByCodename("codename");
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/workflows/codename/{identifier.Codename}")
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Workflow);
 
         var result = await client.UpdateWorkflowAsync(identifier, newWorkflow);
@@ -113,18 +89,15 @@ public class WorkflowTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowModel>(Workflow, SharedTestJsonOptions.Default));
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<WorkflowUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
-            .Should().BeEquivalentTo(JsonSerializer.Deserialize<WorkflowUpsertModel>(JsonSerializer.Serialize(newWorkflow, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(newWorkflow);
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidIdentifiers))]
-    public async Task UpdateWorkflowAsync_InvalidIdentifier_Throws(Reference? identifier)
+    [Fact]
+    public async Task UpdateWorkflowAsync_InvalidIdentifier_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpdateWorkflowAsync(identifier!, GetNewWorkflow())).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.UpdateWorkflowAsync(null!, GetNewWorkflow())).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -163,13 +136,12 @@ public class WorkflowTests
         result.IsSuccess.Should().BeTrue();
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidIdentifiers))]
-    public async Task DeleteWorkflowAsync_InvalidIdentifier_Throws(Reference? identifier)
+    [Fact]
+    public async Task DeleteWorkflowAsync_InvalidIdentifier_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeleteWorkflowAsync(identifier!)).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.DeleteWorkflowAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     private static WorkflowUpsertModel GetNewWorkflow() => new()

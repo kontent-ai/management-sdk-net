@@ -5,7 +5,8 @@ using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Collections;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -13,11 +14,6 @@ public class LanguageVariantTests
 {
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "LanguageVariant", name));
-
-    private static List<T> ConcatPages<T>(params string[] pages)
-        => pages
-            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
-            .ToList();
 
     [Fact]
     public async Task ListLanguageVariantsByItemAsync_ListsVariants()
@@ -236,13 +232,8 @@ public class LanguageVariantTests
             Elements = [new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" }],
         };
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, expectedUrl)
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", fixture);
 
         var result = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
@@ -250,8 +241,8 @@ public class LanguageVariantTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
-        capturedBody.Should().NotBeNull();
-        JsonSerializer.Deserialize<LanguageVariantUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+        capturedBody.Value.Should().NotBeNull();
+        JsonSerializer.Deserialize<LanguageVariantUpsertModel>(capturedBody.Value!, SharedTestJsonOptions.Default)
             .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguageVariantUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
@@ -282,13 +273,8 @@ public class LanguageVariantTests
         var fixture = Fixture("LanguageVariant.json");
         var expected = JsonSerializer.Deserialize<LanguageVariantModel>(fixture, SharedTestJsonOptions.Default)!;
 
-        string? capturedBody = null;
         mock.Expect(HttpMethod.Put, expectedUrl)
-            .With(r =>
-            {
-                capturedBody = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                return true;
-            })
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", fixture);
 
         var result = await client.UpsertLanguageVariantAsync(identifier, expected);
@@ -296,7 +282,7 @@ public class LanguageVariantTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
-        capturedBody.Should().NotBeNull();
+        capturedBody.Value.Should().NotBeNull();
         var sentModel = new LanguageVariantUpsertModel
         {
             Elements = expected.Elements
@@ -307,7 +293,7 @@ public class LanguageVariantTests
             Note = expected.Note,
             Contributors = expected.Contributors,
         };
-        JsonSerializer.Deserialize<LanguageVariantUpsertModel>(capturedBody!, SharedTestJsonOptions.Default)
+        JsonSerializer.Deserialize<LanguageVariantUpsertModel>(capturedBody.Value!, SharedTestJsonOptions.Default)
             .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguageVariantUpsertModel>(JsonSerializer.Serialize(sentModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
     }
 
@@ -359,23 +345,16 @@ public class LanguageVariantTests
 
         public static IEnumerable<(LanguageVariantIdentifier Identifier, string Url)> GetPermutation()
         {
-            var itemsIdentifiers = new[] { ById, ByCodename, ByExternalId };
-            var languageIdentifiers = new[] { ById, ByCodename };
+            var items = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename, IdentifierPermutations.ByExternalId };
+            var languages = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename };
 
-            foreach (var item in itemsIdentifiers)
+            foreach (var (item, itemSegment, language, languageSegment) in IdentifierPermutations.Pairs(items, languages))
             {
-                foreach (var language in languageIdentifiers)
-                {
-                    var identifier = new LanguageVariantIdentifier(item.Identifier, language.Identifier);
-                    var url = $"{MockClientFactory.BaseUrl}/items/{item.UrlSegment}/variants/{language.UrlSegment}";
-                    yield return (identifier, url);
-                }
+                var identifier = new LanguageVariantIdentifier(item, language);
+                var url = $"{MockClientFactory.BaseUrl}/items/{itemSegment}/variants/{languageSegment}";
+                yield return (identifier, url);
             }
         }
-
-        static protected (Reference Identifier, string UrlSegment) ById => (Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")), "4b628214-e4fe-4fe0-b1ff-955df33e1515");
-        static protected (Reference Identifier, string UrlSegment) ByCodename => (Reference.ByCodename("codename"), "codename/codename");
-        static protected (Reference Identifier, string UrlSegment) ByExternalId => (Reference.ByExternalId("external-id"), "external-id/external-id");
     }
 
     private class CombinationOfIdentifiers : CombinationOfIdentifiersAndUrl, IEnumerable<object[]>

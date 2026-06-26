@@ -6,7 +6,8 @@ using RichardSzalay.MockHttp;
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -17,11 +18,6 @@ public class AssetTests
 
     private static string Fixture(string name)
         => System.IO.File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Asset", name));
-
-    private static List<T> ConcatPages<T>(params string[] pages)
-        => pages
-            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
-            .ToList();
 
     private static AssetModel ExpectedAsset()
         => JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;

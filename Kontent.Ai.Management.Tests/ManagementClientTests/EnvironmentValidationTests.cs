@@ -4,7 +4,8 @@ using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -73,7 +74,6 @@ public class EnvironmentValidationTests
         IReadOnlyList<AsyncValidationTaskIssueModel> issues = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
-        var expected = JsonNode.Parse(AsyncValidationTaskIssues)!.AsObject().First().Value!.ToString();
-        issues.Should().BeEquivalentTo(JsonSerializer.Deserialize<List<AsyncValidationTaskIssueModel>>(expected, SharedTestJsonOptions.Default));
+        issues.Should().BeEquivalentTo(ConcatPages<AsyncValidationTaskIssueModel>(AsyncValidationTaskIssues));
     }
 }

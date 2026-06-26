@@ -17,11 +17,6 @@ public class WebhookTests
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Webhook", name));
 
-    public static TheoryData<Reference?> InvalidIdentifiers =>
-    [
-        null,
-    ];
-
     [Fact]
     public async Task ListWebhooksAsync_ListsWebhooks()
     {
@@ -60,13 +55,12 @@ public class WebhookTests
         AssertIsAllTriggersWebhook(result.Value);
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidIdentifiers))]
-    public async Task GetWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
+    [Fact]
+    public async Task GetWebhookAsync_InvalidIdentifier_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.GetWebhookAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -157,13 +151,12 @@ public class WebhookTests
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidIdentifiers))]
-    public async Task DeleteWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
+    [Fact]
+    public async Task DeleteWebhookAsync_InvalidIdentifier_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeleteWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.DeleteWebhookAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -181,13 +174,12 @@ public class WebhookTests
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidIdentifiers))]
-    public async Task EnableWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
+    [Fact]
+    public async Task EnableWebhookAsync_InvalidIdentifier_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.EnableWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.EnableWebhookAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -205,13 +197,12 @@ public class WebhookTests
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidIdentifiers))]
-    public async Task DisableWebhookAsync_InvalidIdentifier_Throws(Reference? identifier)
+    [Fact]
+    public async Task DisableWebhookAsync_InvalidIdentifier_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DisableWebhookAsync(identifier!)).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.DisableWebhookAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     // Webhook.json — asserted with literal expected values rather than a fixture round-trip.

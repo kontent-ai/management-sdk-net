@@ -27,4 +27,17 @@ internal static class JsonEquivalency
         JsonNode.DeepEquals(JsonNode.Parse(subjectJson), JsonNode.Parse(expectedJson))
             .Should().BeTrue($"collections must serialize identically.\nsubject:  {subjectJson}\nexpected: {expectedJson}");
     }
+
+    /// <summary>
+    /// Asserts a captured request body, deserialized to <typeparamref name="TModel"/>, equals <paramref name="model"/>
+    /// after a serialize→deserialize round-trip through the production options (so the comparison ignores JSON
+    /// formatting / property order unless <paramref name="strictOrdering"/> is set). Also asserts the body was captured.
+    /// </summary>
+    public static void ShouldMatchSerialized<TModel>(this CapturedBody captured, TModel model, bool strictOrdering = false)
+    {
+        captured.Value.Should().NotBeNull();
+        var actual = JsonSerializer.Deserialize<TModel>(captured.Value!, SharedTestJsonOptions.Default);
+        var expected = JsonSerializer.Deserialize<TModel>(JsonSerializer.Serialize(model, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default);
+        actual.Should().BeEquivalentTo(expected, opt => strictOrdering ? opt.WithStrictOrdering() : opt);
+    }
 }

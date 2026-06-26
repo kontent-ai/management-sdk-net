@@ -14,11 +14,6 @@ public class EnvironmentRoleTests
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ProjectRole", name));
 
-    public static TheoryData<Reference?> InvalidIdentifiers =>
-    [
-        null,
-    ];
-
     [Fact]
     public async Task ListEnvironmentRolesAsync_ListsEnvironmentRoles()
     {
@@ -63,12 +58,11 @@ public class EnvironmentRoleTests
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
     }
 
-    [Theory]
-    [MemberData(nameof(InvalidIdentifiers))]
-    public async Task GetEnvironmentRoleAsync_InvalidIdentifier_Throws(Reference? identifier)
+    [Fact]
+    public async Task GetEnvironmentRoleAsync_InvalidIdentifier_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetEnvironmentRoleAsync(identifier!)).Should().ThrowAsync<Exception>();
+        await client.Invoking(x => x.GetEnvironmentRoleAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }
