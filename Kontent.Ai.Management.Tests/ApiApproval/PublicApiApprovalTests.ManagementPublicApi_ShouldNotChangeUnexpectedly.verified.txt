@@ -346,7 +346,7 @@ public sealed class ContentModelExtensions
     static Task<IManagementResult<ContentModelSnapshot>> ExportContentModelAsync(IManagementClient client, CancellationToken cancellationToken)
 
 // Kontent.Ai.Management.Extensions
-public sealed class ElementMetadataExtension
+public sealed class ElementMetadataExtensions
     static T ToElement<T>(ElementMetadataBase source)
 
 // Kontent.Ai.Management.Extensions
@@ -2899,17 +2899,6 @@ public sealed class WorkflowArchivedStepUpsertModel : IEquatable`1
     WorkflowArchivedStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowArchivedStepUpsertModel other)
-    Int32 GetHashCode()
-    String ToString()
-
-// Kontent.Ai.Management.Models.Workflow
-public sealed class WorkflowIdentifier : IEquatable`1
-    Reference ItemIdentifier { get; }
-    Reference LanguageIdentifier { get; }
-    Reference WorkflowStepIdentifier { get; }
-    WorkflowIdentifier <Clone>$()
-    Boolean Equals(Object obj)
-    Boolean Equals(WorkflowIdentifier other)
     Int32 GetHashCode()
     String ToString()
 

@@ -125,22 +125,14 @@ public static partial class ServiceCollectionExtensions
             System.Net.HttpStatusCode.GatewayTimeout;
 
     internal static bool IsTransientException(Exception? exception, CancellationToken requestCancellationToken)
-    {
-        if (exception is null)
+        => exception switch
         {
-            return false;
-        }
-
-        if (exception is OperationCanceledException)
-        {
-            if (requestCancellationToken.IsCancellationRequested)
-            {
-                return false;
-            }
-
-            return exception is TaskCanceledException || exception.InnerException is TimeoutException;
-        }
-
-        return exception is HttpRequestException or TimeoutException;
-    }
+            null => false,
+            // A caller-initiated cancellation is not transient; a timeout-driven one (surfaced as a bare
+            // TaskCanceledException or wrapping a TimeoutException) is.
+            OperationCanceledException when requestCancellationToken.IsCancellationRequested => false,
+            OperationCanceledException => exception is TaskCanceledException || exception.InnerException is TimeoutException,
+            HttpRequestException or TimeoutException => true,
+            _ => false,
+        };
 }

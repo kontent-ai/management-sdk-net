@@ -46,7 +46,6 @@ public class FileUploadContentTests
     {
         var content = new FileUploadContent(new FileContentSource(Payload, "hello.txt", "text/plain"));
 
-        content.Length.Should().Be(Payload.Length);
         content.Headers.ContentLength.Should().Be(Payload.Length);
     }
 
@@ -55,7 +54,6 @@ public class FileUploadContentTests
     {
         var content = new FileUploadContent(new FileContentSource(new NonSeekableStream(Payload), "hello.txt", "text/plain"));
 
-        content.Length.Should().BeNull();
         content.Headers.ContentLength.Should().BeNull();
         (await SerializeAsync(content)).Should().Equal(Payload);
     }

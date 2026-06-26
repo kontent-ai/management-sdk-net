@@ -104,25 +104,23 @@ public sealed class RichTextBuilder
         return new RichTextValue { Value = html, Components = components };
     }
 
-    private static (string Suffix, string Value) PickReferenceIdentifier(Reference reference)
+    private static (string Suffix, string Value) PickReferenceIdentifier(Reference reference) => reference switch
     {
-        if (reference.Id is Guid id) return ("id", id.ToString());
-        if (!string.IsNullOrEmpty(reference.Codename)) return ("codename", WebUtility.HtmlEncode(reference.Codename));
-        if (!string.IsNullOrEmpty(reference.ExternalId)) return ("external-id", WebUtility.HtmlEncode(reference.ExternalId));
-
-        throw new ArgumentException(
+        { Id: Guid id } => ("id", id.ToString()),
+        { Codename: { Length: > 0 } codename } => ("codename", WebUtility.HtmlEncode(codename)),
+        { ExternalId: { Length: > 0 } externalId } => ("external-id", WebUtility.HtmlEncode(externalId)),
+        _ => throw new ArgumentException(
             "Reference must carry at least one of Id, Codename, or ExternalId to be emitted as inline rich-text markup.",
-            nameof(reference));
-    }
+            nameof(reference)),
+    };
 
-    private static (string Suffix, string Value) PickAssetIdentifier(AssetReference asset)
+    private static (string Suffix, string Value) PickAssetIdentifier(AssetReference asset) => asset switch
     {
-        if (asset.Id is Guid id) return ("id", id.ToString());
-        if (!string.IsNullOrEmpty(asset.Codename)) return ("codename", WebUtility.HtmlEncode(asset.Codename));
-        if (!string.IsNullOrEmpty(asset.ExternalId)) return ("external-id", WebUtility.HtmlEncode(asset.ExternalId));
-
-        throw new ArgumentException(
+        { Id: Guid id } => ("id", id.ToString()),
+        { Codename: { Length: > 0 } codename } => ("codename", WebUtility.HtmlEncode(codename)),
+        { ExternalId: { Length: > 0 } externalId } => ("external-id", WebUtility.HtmlEncode(externalId)),
+        _ => throw new ArgumentException(
             "AssetReference must carry at least one of Id, Codename, or ExternalId to be emitted as inline rich-text markup.",
-            nameof(asset));
-    }
+            nameof(asset)),
+    };
 }

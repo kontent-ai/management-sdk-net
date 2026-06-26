@@ -6,7 +6,7 @@
 public sealed record DueDateModel
 {
     /// <summary>
-    /// Gets ISO-8601 formatted date-time for due date.
+    /// The due date, as an ISO-8601 date-time.
     /// </summary>
     [JsonPropertyName("value")]
     public DateTimeOffset? Value { get; init; }

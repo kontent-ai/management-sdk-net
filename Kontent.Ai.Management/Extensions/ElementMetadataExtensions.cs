@@ -3,9 +3,9 @@
 namespace Kontent.Ai.Management.Extensions;
 
 /// <summary>
-/// Extensions methods for the ElementMetadataBase class.
+/// Extension methods for the <see cref="ElementMetadataBase"/> class.
 /// </summary>
-public static class ElementMetadataExtension
+public static class ElementMetadataExtensions
 {
     /// <summary>
     /// Casts the base element metadata to a concrete element type.

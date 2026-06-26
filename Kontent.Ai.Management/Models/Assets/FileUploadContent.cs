@@ -19,7 +19,7 @@ internal sealed class FileUploadContent : HttpContent
     }
 
     /// <summary>Content length when the source size is known (seekable); <c>null</c> for non-seekable streams.</summary>
-    public long? Length { get; }
+    private long? Length { get; }
 
     protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context)
         => SerializeToStreamAsync(stream, context, CancellationToken.None);

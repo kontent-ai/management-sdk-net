@@ -2,6 +2,7 @@ using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.Content;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -255,9 +256,7 @@ internal sealed class ContentItemEnvelopeConverter
             ElementKind.DateTime => new DateTimeValue
             {
                 Value = value.GetDateTimeOffset(),
-                DisplayTimeZone = envelope.TryGetProperty("display_timezone", out var tz) && tz.ValueKind == JsonValueKind.String
-                    ? tz.GetString()
-                    : null,
+                DisplayTimeZone = TryGetString(envelope, "display_timezone", out var tz) ? tz : null,
             },
             ElementKind.UrlSlug => new UrlSlugValue
             {
@@ -269,13 +268,10 @@ internal sealed class ContentItemEnvelopeConverter
             ElementKind.Custom => new CustomValue
             {
                 Value = value.GetString(),
-                SearchableValue = envelope.TryGetProperty("searchable_value", out var searchable) && searchable.ValueKind == JsonValueKind.String
-                    ? searchable.GetString()
-                    : null,
+                SearchableValue = TryGetString(envelope, "searchable_value", out var searchable) ? searchable : null,
             },
             ElementKind.MultipleChoice => ReadMultipleChoice(value, prop),
-            ElementKind.Asset => value.Deserialize(prop.Property.PropertyType, _scalarOptions),
-            ElementKind.Reference => value.Deserialize(prop.Property.PropertyType, _scalarOptions),
+            ElementKind.Asset or ElementKind.Reference => value.Deserialize(prop.Property.PropertyType, _scalarOptions),
             ElementKind.RichText => ReadRichText(value, envelope),
             _ => throw new NotSupportedException($"Unknown element kind: {prop.Kind}"),
         };
@@ -291,13 +287,13 @@ internal sealed class ContentItemEnvelopeConverter
         foreach (var entry in value.EnumerateArray())
         {
             object? member = null;
-            if (entry.TryGetProperty("id", out var idProp) && idProp.ValueKind == JsonValueKind.String)
+            if (TryGetString(entry, "id", out var id))
             {
-                enumDescriptor.ByItemId.TryGetValue(idProp.GetString()!, out member);
+                enumDescriptor.ByItemId.TryGetValue(id, out member);
             }
-            if (member is null && entry.TryGetProperty("codename", out var codeProp) && codeProp.ValueKind == JsonValueKind.String)
+            if (member is null && TryGetString(entry, "codename", out var codename))
             {
-                enumDescriptor.ByCodename.TryGetValue(codeProp.GetString()!, out member);
+                enumDescriptor.ByCodename.TryGetValue(codename, out member);
             }
             if (member is not null) list.Add(member);
         }
@@ -351,16 +347,25 @@ internal sealed class ContentItemEnvelopeConverter
 
     private static ContentItemPropertyDescriptor? ResolveProperty(ContentItemTypeDescriptor descriptor, JsonElement elementMeta)
     {
-        if (elementMeta.TryGetProperty("id", out var idProp) && idProp.ValueKind == JsonValueKind.String
-            && descriptor.ByElementId.TryGetValue(idProp.GetString()!, out var byId))
+        if (TryGetString(elementMeta, "id", out var id) && descriptor.ByElementId.TryGetValue(id, out var byId))
         {
             return byId;
         }
-        if (elementMeta.TryGetProperty("codename", out var codeProp) && codeProp.ValueKind == JsonValueKind.String
-            && descriptor.ByElementCodename.TryGetValue(codeProp.GetString()!, out var byCodename))
+        if (TryGetString(elementMeta, "codename", out var codename) && descriptor.ByElementCodename.TryGetValue(codename, out var byCodename))
         {
             return byCodename;
         }
         return null;
+    }
+
+    private static bool TryGetString(JsonElement element, string propertyName, [NotNullWhen(true)] out string? value)
+    {
+        if (element.TryGetProperty(propertyName, out var property) && property.ValueKind == JsonValueKind.String)
+        {
+            value = property.GetString()!;
+            return true;
+        }
+        value = null;
+        return false;
     }
 }

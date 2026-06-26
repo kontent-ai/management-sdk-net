@@ -16,14 +16,6 @@ internal sealed class DecimalJsonConverter : JsonConverter<decimal>
             : reader.GetDecimal();
 
     public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options)
-    {
-        if (value == 0m)
-        {
-            writer.WriteNumberValue(0);
-        }
-        else
-        {
-            writer.WriteNumberValue(value);
-        }
-    }
+        // Normalize any scaled zero (e.g. 0.0m) to the scale-0 zero so it serializes as `0`, not `0.0`.
+        => writer.WriteNumberValue(value == 0m ? 0m : value);
 }

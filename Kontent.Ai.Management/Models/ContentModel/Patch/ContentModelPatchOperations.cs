@@ -16,7 +16,7 @@ internal static class ContentModelPatchOperations
 
     private static string ElementProperty(Reference element, string property) => $"{ElementPath(element)}/{property}";
 
-    internal static void EnsureNotBoth(Reference? before, Reference? after)
+    private static void EnsureNotBoth(Reference? before, Reference? after)
     {
         if (before is not null && after is not null)
         {

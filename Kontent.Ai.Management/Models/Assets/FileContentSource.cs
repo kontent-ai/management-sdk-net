@@ -53,17 +53,11 @@ public sealed class FileContentSource
     /// <param name="contentType">The media type of the asset, for example: "image/jpeg".</param>
     public FileContentSource(byte[] data, string fileName, string contentType)
     {
-        if (string.IsNullOrEmpty(fileName))
-        {
-            throw new ArgumentException("File name cannot be empty.", nameof(fileName));
-        }
+        ArgumentNullException.ThrowIfNull(data);
+        ArgumentException.ThrowIfNullOrEmpty(fileName);
+        ArgumentException.ThrowIfNullOrEmpty(contentType);
 
-        if (string.IsNullOrEmpty(contentType))
-        {
-            throw new ArgumentException("Content type cannot be empty.", nameof(contentType));
-        }
-
-        _data = data ?? throw new ArgumentNullException(nameof(data));
+        _data = data;
         FileName = fileName;
         ContentType = contentType;
         CreatesNewStream = true;
@@ -76,15 +70,8 @@ public sealed class FileContentSource
     /// <param name="contentType">The media type of the asset, for example: "image/jpeg".</param>
     public FileContentSource(string filePath, string contentType)
     {
-        if (string.IsNullOrEmpty(filePath))
-        {
-            throw new ArgumentException("File name cannot be empty.", nameof(filePath));
-        }
-
-        if (string.IsNullOrEmpty(contentType))
-        {
-            throw new ArgumentException("Content type cannot be empty.", nameof(contentType));
-        }
+        ArgumentException.ThrowIfNullOrEmpty(filePath);
+        ArgumentException.ThrowIfNullOrEmpty(contentType);
 
         _filePath = filePath;
         FileName = Path.GetFileName(filePath);
@@ -100,17 +87,11 @@ public sealed class FileContentSource
     /// <param name="contentType">The media type of the asset, for example: "image/jpeg".</param>
     public FileContentSource(Stream stream, string fileName, string contentType)
     {
-        if (string.IsNullOrEmpty(fileName))
-        {
-            throw new ArgumentException("File name cannot be empty.", nameof(fileName));
-        }
+        ArgumentNullException.ThrowIfNull(stream);
+        ArgumentException.ThrowIfNullOrEmpty(fileName);
+        ArgumentException.ThrowIfNullOrEmpty(contentType);
 
-        if (string.IsNullOrEmpty(contentType))
-        {
-            throw new ArgumentException("Content type cannot be empty.", nameof(contentType));
-        }
-
-        _stream = stream ?? throw new ArgumentNullException(nameof(stream));
+        _stream = stream;
         FileName = fileName;
         ContentType = contentType;
     }

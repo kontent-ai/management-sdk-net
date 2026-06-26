@@ -2,7 +2,7 @@
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Specifies which text formatting is allowed inside tables in your rich text element. To allow all formatting, leave the array empty.
+/// Specifies which text formatting is allowed in a rich text element. To allow all formatting, leave the array empty.
 /// </summary>
 public enum RichTextFormattingType
 {

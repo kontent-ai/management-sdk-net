@@ -20,7 +20,7 @@ public class RefitSettingsProviderTests
     }
 
     [Fact]
-    public void DefaultJsonSerializerOptions_RegistersAllWaveOneConverters()
+    public void DefaultJsonSerializerOptions_RegistersAllConverters()
     {
         var converters = RefitSettingsProvider.CreateDefaultJsonSerializerOptions().Converters;
 

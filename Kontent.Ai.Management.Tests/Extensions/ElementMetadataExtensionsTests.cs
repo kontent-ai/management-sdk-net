@@ -5,7 +5,7 @@ using Kontent.Ai.Management.Models.Types.Elements;
 
 namespace Kontent.Ai.Management.Tests.Extensions;
 
-public class ElementMetadataExtensionTests
+public class ElementMetadataExtensionsTests
 {
     [Fact]
     public void ToElement_AllElementsArePresent()
@@ -14,51 +14,26 @@ public class ElementMetadataExtensionTests
 
         var types = typeof(ElementMetadataBase).Assembly
             .GetTypes()
-            .Where(t => !t.IsAbstract && t.IsClass && t.IsSubclassOf(typeof(ElementMetadataBase))).Distinct();
+            .Where(t => !t.IsAbstract && t.IsClass && t.IsSubclassOf(typeof(ElementMetadataBase)));
 
         elements.Select(x => x.GetType()).Should().BeEquivalentTo(types, $"Please make sure that every content type element is created in method {nameof(GetElementMetadata)}");
     }
 
     [Fact]
-    public void ToElement_AllElementsCasted()
+    public void ToElement_MatchingType_ReturnsSameInstance()
     {
-        var elements = GetElementMetadata();
+        ElementMetadataBase element = new TextElementMetadataModel { Name = "text" };
 
-        foreach (var element in elements)
-        {
-            Action action = element switch
-            {
-                TextElementMetadataModel e => () => { var result = e.ToElement<TextElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                NumberElementMetadataModel e => () => { var result = e.ToElement<NumberElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                AssetElementMetadataModel e => () => { var result = e.ToElement<AssetElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                CustomElementMetadataModel e => () => { var result = e.ToElement<CustomElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                ContentTypeSnippetElementMetadataModel e => () => { var result = e.ToElement<ContentTypeSnippetElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                DateTimeElementMetadataModel e => () => { var result = e.ToElement<DateTimeElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                GuidelinesElementMetadataModel e => () => { var result = e.ToElement<GuidelinesElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                LinkedItemsElementMetadataModel e => () => { var result = e.ToElement<LinkedItemsElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                MultipleChoiceElementMetadataModel e => () => { var result = e.ToElement<MultipleChoiceElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                RichTextElementMetadataModel e => () => { var result = e.ToElement<RichTextElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                TaxonomyElementMetadataModel e => () => { var result = e.ToElement<TaxonomyElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                UrlSlugElementMetadataModel e => () => { var result = e.ToElement<UrlSlugElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                SubpagesElementMetadataModel e => () => { var result = e.ToElement<SubpagesElementMetadataModel>(); result.Should().NotBeNull(); }
-                ,
-                _ => throw new Exception("There is content type element that is not tested")
-            };
+        element.ToElement<TextElementMetadataModel>().Should().BeSameAs(element);
+    }
 
-            action.Should().NotThrow();
-        }
+    [Fact]
+    public void ToElement_MismatchedType_Throws()
+    {
+        ElementMetadataBase element = new TextElementMetadataModel { Name = "text" };
+
+        element.Invoking(e => e.ToElement<NumberElementMetadataModel>())
+            .Should().Throw<InvalidOperationException>();
     }
 
     public static List<ElementMetadataBase> GetElementMetadata() => new()

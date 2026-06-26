@@ -44,7 +44,7 @@ public class ImportContentItems
             {
                 new NumberElementMetadataModel
                 {
-                    Name = "Price per uni",
+                    Name = "Price per unit",
                     Codename = "price_per_unit",
                 },
                 new GuidelinesElementMetadataModel

@@ -105,7 +105,7 @@ public class ImportRichText
                             Elements =
                             [
                                 new TextElement { Element = Reference.ByExternalId("button-text"), Value = "Buy me" },
-                                new TextElement { Element = Reference.ByExternalId("button-link"), Value = "https://kontent.a" },
+                                new TextElement { Element = Reference.ByExternalId("button-link"), Value = "https://kontent.ai" },
                             ],
                         },
                     ],

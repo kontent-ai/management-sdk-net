@@ -58,7 +58,7 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
 
     private static void Write(Utf8JsonWriter writer, TEnum value, bool asPropertyName)
     {
-        var name = ValueToName.TryGetValue(value, out var mapped) ? mapped : value.ToString();
+        var name = ToWireValue(value);
         if (asPropertyName)
         {
             writer.WritePropertyName(name);

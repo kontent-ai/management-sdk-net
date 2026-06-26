@@ -1991,7 +1991,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectUser.json");
 
-        var identifier = UserIdentifier.ByEmail("user@kontentai");
+        var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
 
         var response = await client.ModifyUsersRolesAsync(

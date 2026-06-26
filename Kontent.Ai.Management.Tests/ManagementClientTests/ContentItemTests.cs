@@ -494,6 +494,6 @@ public class ContentItemTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeleteContentTypeAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.DeleteContentItemAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 }
