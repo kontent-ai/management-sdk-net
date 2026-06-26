@@ -246,7 +246,7 @@ A result carries:
 - `IsSuccess` — whether the operation succeeded.
 - `Value` — the returned value, on success (`IManagementResult<T>` only).
 - `Error` — the failure detail, on failure (see [Error Handling](#error-handling)).
-- `StatusCode`, `RequestUrl` — response diagnostics. `StatusCode` is `null` when the failure happened before any HTTP request was sent, such as local content-item validation.
+- `StatusCode`, `RequestUrl` — response diagnostics from the HTTP response.
 
 For call sites that would rather not branch, two opt-in conveniences live on the result:
 
@@ -487,7 +487,7 @@ new DynamicElement { Element = Reference.ByCodename("widget"), Value = "<opaque 
 
 ## Strongly-Typed Models
 
-Instead of anonymous element objects, you can work with strongly-typed records that mirror your content types. Pass a generated model directly to `UpsertLanguageVariantAsync` — only the properties you set are sent (partial update), and the record is validated locally before any HTTP call:
+Instead of anonymous element objects, you can work with strongly-typed records that mirror your content types. Pass a generated model directly to `UpsertLanguageVariantAsync` — only the properties you set are sent (partial update):
 
 ```csharp
 var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");

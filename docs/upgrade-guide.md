@@ -174,7 +174,7 @@ else
 }
 ```
 
-A result carries `IsSuccess`, `Value` (on success, `IManagementResult<T>` only), `Error` (on failure), and `StatusCode` / `RequestUrl` diagnostics. `StatusCode` is `null` when the failure happened before any HTTP request was sent, such as local content-item validation.
+A result carries `IsSuccess`, `Value` (on success, `IManagementResult<T>` only), `Error` (on failure), and `StatusCode` / `RequestUrl` diagnostics from the HTTP response.
 
 ### 2.1 Opt-in conveniences
 
@@ -378,7 +378,7 @@ await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertMod
 });
 ```
 
-`Elements` is now typed as `IEnumerable<BaseElement>` — no `ElementBuilder` wrapping step, no `dynamic`. There's one record per element kind: `TextElement`, `NumberElement`, `DateTimeElement`, `MultipleChoiceElement`, `AssetElement`, `LinkedItemsElement`, `TaxonomyElement`, `SubpagesElement`, `UrlSlugElement`, `CustomElement`, `RichTextElement`. Each pairs an `Element` reference with a value typed for that kind. Omitted elements are left unchanged.
+`Elements` is now typed as `IReadOnlyList<BaseElement>` — no `ElementBuilder` wrapping step, no `dynamic`. There's one record per element kind: `TextElement`, `NumberElement`, `DateTimeElement`, `MultipleChoiceElement`, `AssetElement`, `LinkedItemsElement`, `TaxonomyElement`, `SubpagesElement`, `UrlSlugElement`, `CustomElement`, `RichTextElement`. Each pairs an `Element` reference with a value typed for that kind. Omitted elements are left unchanged.
 
 > [!NOTE]
 > These raw `*Element` records (which carry their own `Element` reference) are a **separate family** from the strongly-typed `*Value` records in [§4](#4-language-variants-and-strongly-typed-models) (which are just the value, because a generated record's property already identifies the element). Pick the family that matches your authoring path; you don't mix them.
@@ -522,7 +522,7 @@ If you had a custom Polly v7 policy or `Polly.Extensions.Http` setup wrapping th
 
 ## 10. Model and DTO Changes
 
-Phase 9 of the rewrite brought every public DTO into agreement with the actual Management API v2 contract. Three kinds of change affect callers:
+The DTO modernization brought every public DTO into agreement with the actual Management API v2 contract. Three kinds of change affect callers:
 
 - **`required` members** — properties the API always returns or always demands now carry `required`. Object-initializer construction must set them, or you get a compile error.
 - **Nullability** — properties whose wire value is genuinely optional changed from `T` to `T?`. Existing writes are unaffected; reads may now need a null check.
@@ -552,7 +552,7 @@ The highlights you're most likely to hit:
 
 ### 10.3 Default-value and type-change footguns
 
-- `ElementDefaultValue<TContainer, TValue>` collapsed to `ElementDefaultValue<TValue>`, and `Global` / `TypeValue.Value` became `required`. Constructing an empty default-value object used to silently produce `{ "global": { "value": 0 } }`; the API now rejects an empty/null default. To express "no default", leave the parent element's `DefaultValue` as `null` — don't construct an empty default-value model.
+- `ElementDefaultValue<TContainer, TValue>` collapsed to `ElementDefaultValue<TValue>`, and `Global` / `ElementDefaultValueEnvelope.Value` became `required`. Constructing an empty default-value object used to silently produce `{ "global": { "value": 0 } }`; the API now rejects an empty/null default. To express "no default", leave the parent element's `DefaultValue` as `null` — don't construct an empty default-value model.
 - Several `bool` flags became `bool?` so that omission lets the server apply its default instead of silently sending `false`: `WebhookCreateModel.Enabled` and `MarkAsProductionModel.EnableWebhooks`.
 - `SubscriptionUserRoleLanguageModel.IsActive` changed from `string` to `bool` (the API sends it as a quoted string; an internal converter now exposes a real `bool`).
 - `last_modified` is now `required DateTime` (was `DateTime?`) across response models — it is always populated.
@@ -567,7 +567,7 @@ The highlights you're most likely to hit:
 | Removed | Replacement |
 |---------|-------------|
 | `ManagementException` as control flow (thrown on `4xx`/`5xx`) | Result pattern — `IsSuccess` / `Value` / `Error`. `EnsureSuccess()` opts back into throwing ([§2](#2-response-handling-exceptions--result-pattern)). |
-| `ElementBuilder.GetElementsAsDynamic(...)` | Typed `IEnumerable<BaseElement>`; `DynamicElement` for unmodeled kinds ([§5](#5-authoring-elements-without-a-generated-model)). |
+| `ElementBuilder.GetElementsAsDynamic(...)` | Typed `IReadOnlyList<BaseElement>`; `DynamicElement` for unmodeled kinds ([§5](#5-authoring-elements-without-a-generated-model)). |
 | Anonymous `dynamic[]` element arrays | Same as above. |
 | `IListingResponseModel<T>.HasNextPage()` / `GetNextPage()` / `GetAllAsync()` | Materialized `List…Async` + streaming `Enumerate…PagesAsync` ([§3](#3-listings-manual-paging--materialized-results)). |
 | Generic `AssetCreateModel<T>` | Non-generic `AssetCreateModel` with typed `Elements` ([§7](#7-assets)). |
@@ -593,7 +593,7 @@ Build a typed `BaseElement[]` and assign it to `LanguageVariantUpsertModel.Eleme
 `List…Async` returns the whole set already merged. For large sets, stream pages with `Enumerate…PagesAsync` ([§3](#3-listings-manual-paging--materialized-results)).
 
 **"Required member must be set" on an object initializer.**
-Phase 9 added `required` to properties the API always demands. Set them — the compiler lists exactly which ([§10](#10-model-and-dto-changes)).
+The DTO modernization added `required` to properties the API always demands. Set them — the compiler lists exactly which ([§10](#10-model-and-dto-changes)).
 
 **A read that used to be non-null is now `T?`.**
 Nullability was corrected to match the wire contract; add the null check. The wire format is unchanged ([§10](#10-model-and-dto-changes)).
