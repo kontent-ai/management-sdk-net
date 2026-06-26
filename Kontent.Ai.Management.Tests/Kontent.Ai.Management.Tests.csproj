@@ -12,7 +12,6 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
-		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="RichardSzalay.MockHttp" />
 		<PackageReference Include="Verify.Xunit" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />

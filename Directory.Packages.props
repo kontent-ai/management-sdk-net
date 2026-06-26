@@ -37,7 +37,6 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.15" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.15" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <!-- MockHttp + Verify test harness, pinned to the sibling-SDK versions. -->
     <PackageVersion Include="RichardSzalay.MockHttp" Version="6.0.0" />
     <PackageVersion Include="Verify.Xunit" Version="28.3.1" />
