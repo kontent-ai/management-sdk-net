@@ -56,11 +56,13 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken = default)
+    public async Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(fileContent);
 
+        // Must stay async: `using` in a non-async Task-returning method disposes the content the instant the task is
+        // returned, racing the send and defeating the retry-driven re-reads FileUploadContent exists for.
         using var content = new FileUploadContent(fileContent);
-        return _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ToManagementResultAsync();
+        return await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ToManagementResultAsync().ConfigureAwait(false);
     }
 }

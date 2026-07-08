@@ -29,33 +29,33 @@ public class ReferenceUrlExtensionsTests
         Reference.ByExternalId("ext-123").ToUrlSegment().Should().Be("external-id/ext-123");
     }
 
-    // ----- Reference.ToUrlSegment: external-id and codename encoding ------------------------------------------------
-    // The catch-all path machinery in Refit uses Uri.EscapeDataString — same semantics we apply here. Reserved chars
-    // that previously slipped through WebUtility.UrlEncode (notably '@' and '+'-vs-'%20' for space) must encode now.
+    // ----- Reference.ToUrlSegment: codename / external-id are left RAW ----------------------------------------------
+    // ToUrlSegment does not percent-encode: the value routes through a Refit `{**}` catch-all that encodes it exactly
+    // once. Pre-escaping here would double-encode (a space would reach the wire as %2520). The single, wire-level
+    // encoding is asserted by ReferenceWireEncodingTests.
 
     [Fact]
-    public void ToUrlSegment_ByExternalId_EncodesSpaceAsPercent20()
+    public void ToUrlSegment_ByExternalId_LeavesSpaceRaw()
     {
-        Reference.ByExternalId("with space").ToUrlSegment().Should().Be("external-id/with%20space");
+        Reference.ByExternalId("with space").ToUrlSegment().Should().Be("external-id/with space");
     }
 
     [Fact]
-    public void ToUrlSegment_ByExternalId_EncodesAtSign()
+    public void ToUrlSegment_ByExternalId_LeavesAtSignRaw()
     {
-        Reference.ByExternalId("user@kontent.ai").ToUrlSegment().Should().Be("external-id/user%40kontent.ai");
+        Reference.ByExternalId("user@kontent.ai").ToUrlSegment().Should().Be("external-id/user@kontent.ai");
     }
 
     [Fact]
-    public void ToUrlSegment_ByExternalId_EncodesReservedChars()
+    public void ToUrlSegment_ByExternalId_LeavesReservedCharsRaw()
     {
-        Reference.ByExternalId("a&b=c+d/e").ToUrlSegment().Should().Be("external-id/a%26b%3Dc%2Bd%2Fe");
+        Reference.ByExternalId("a&b=c+d").ToUrlSegment().Should().Be("external-id/a&b=c+d");
     }
 
     [Fact]
-    public void ToUrlSegment_ByCodename_EncodesReservedChars()
+    public void ToUrlSegment_ByCodename_LeavesValueRaw()
     {
-        // Codenames in practice are `[a-z0-9_]`, but the segment composition must not let surprise inputs slip through.
-        Reference.ByCodename("not a codename").ToUrlSegment().Should().Be("codename/not%20a%20codename");
+        Reference.ByCodename("not a codename").ToUrlSegment().Should().Be("codename/not a codename");
     }
 
     [Fact]
