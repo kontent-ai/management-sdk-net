@@ -30,8 +30,13 @@ public class EnumMemberJsonConverterTests
     }
 
     [Fact]
-    public void Read_ToleratesInteger()
-        => JsonSerializer.Deserialize<ElementMetadataType>("7", Options()).Should().Be(ElementMetadataType.LinkedItems);
+    public void Read_NumberToken_Throws()
+    {
+        // The Management API is a string-token API; a bare number would mint an unchecked enum value.
+        var act = () => JsonSerializer.Deserialize<ElementMetadataType>("7", Options());
+
+        act.Should().Throw<JsonException>();
+    }
 
     [Fact]
     public void Read_UnknownString_Throws()
@@ -39,6 +44,15 @@ public class EnumMemberJsonConverterTests
         var act = () => JsonSerializer.Deserialize<ElementMetadataType>("\"not_a_type\"", Options());
 
         act.Should().Throw<JsonException>().WithMessage("*not_a_type*");
+    }
+
+    [Fact]
+    public void Read_UndefinedNumericString_Throws()
+    {
+        // Enum.TryParse would otherwise accept "999" and mint an undefined value.
+        var act = () => JsonSerializer.Deserialize<ElementMetadataType>("\"999\"", Options());
+
+        act.Should().Throw<JsonException>().WithMessage("*999*");
     }
 
     [Fact]

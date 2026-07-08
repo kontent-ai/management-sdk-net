@@ -13,11 +13,11 @@ internal partial interface IManagementApi
         CancellationToken cancellationToken = default);
 
     /// <summary>Creates asset folders.</summary>
-    /// <param name="folder">The folders to create.</param>
+    /// <param name="folders">The folders to create.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Post("/folders")]
     internal Task<IApiResponse<AssetFoldersModel>> CreateAssetFoldersInternalAsync(
-        [Body] AssetFolderCreateModel folder,
+        [Body] AssetFolderCreateModel folders,
         CancellationToken cancellationToken = default);
 
     /// <summary>Applies a set of operations to the environment's asset folders.</summary>

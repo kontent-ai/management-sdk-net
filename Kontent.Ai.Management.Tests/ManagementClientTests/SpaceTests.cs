@@ -110,10 +110,10 @@ public class SpaceTests
         var identifier = Reference.ById(Guid.NewGuid());
         var changes = new SpaceReplacePatchModel[]
         {
-            new() { PropertyName = PropertyName.Name, Value = "New space name" },
-            new() { PropertyName = PropertyName.Codename, Value = "new_space_codename" },
-            new() { PropertyName = PropertyName.RootItem, Value = identifier },
-            new() { PropertyName = PropertyName.Collections, Value = new[] {
+            new() { PropertyName = SpacePropertyName.Name, Value = "New space name" },
+            new() { PropertyName = SpacePropertyName.Codename, Value = "new_space_codename" },
+            new() { PropertyName = SpacePropertyName.RootItem, Value = identifier },
+            new() { PropertyName = SpacePropertyName.Collections, Value = new[] {
                     Reference.ByCodename("collection_codename"),
                     Reference.ById(Guid.NewGuid()) }
             }
@@ -139,7 +139,7 @@ public class SpaceTests
         var (client, _) = MockClientFactory.Create();
         var changes = new SpaceReplacePatchModel[]
         {
-            new() { PropertyName = PropertyName.Name, Value = "New space name" }
+            new() { PropertyName = SpacePropertyName.Name, Value = "New space name" }
         };
 
         await client.Invoking(x => x.ModifySpaceAsync(null!, changes)).Should().ThrowAsync<ArgumentNullException>();

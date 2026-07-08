@@ -20,9 +20,9 @@ public class PatchOperationConverterTests
     {
         var operations = new List<AssetFolderOperationBaseModel>
         {
-            new AssetFolderAddIntoModel { Value = new AssetFolderHierarchy { Name = "new-folder" } },
-            new AssetFolderRemoveModel(),
-            new AssetFolderRenameModel { Value = "renamed" },
+            new AssetFolderAddIntoPatchModel { Value = new AssetFolderHierarchy { Name = "new-folder" } },
+            new AssetFolderRemovePatchModel(),
+            new AssetFolderRenamePatchModel { Value = "renamed" },
         };
 
         var array = JsonNode.Parse(JsonSerializer.Serialize(operations, Options))!.AsArray();
@@ -48,6 +48,6 @@ public class PatchOperationConverterTests
         var factory = new PatchOperationJsonConverterFactory();
 
         factory.CanConvert(typeof(AssetFolderOperationBaseModel)).Should().BeTrue();
-        factory.CanConvert(typeof(AssetFolderAddIntoModel)).Should().BeFalse();
+        factory.CanConvert(typeof(AssetFolderAddIntoPatchModel)).Should().BeFalse();
     }
 }

@@ -5,6 +5,9 @@ using Kontent.Ai.Management.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace Kontent.Ai.Management.Tests.Extensions;
 
@@ -175,9 +178,95 @@ public class ServiceCollectionExtensionsTests
         act.Should().Throw<InvalidOperationException>().WithMessage("*SubscriptionId is not configured*");
     }
 
+    [Fact]
+    public async Task AddManagementClient_DefaultResilience_RetriesGet429AndReappliesAuthAndTrackingHandlers()
+    {
+        var stub = new RecordingPrimaryHandler(attempt => attempt == 1
+            ? TooManyRequestsResponse()
+            : EnvironmentInformationResponse());
+
+        var services = new ServiceCollection();
+        services.AddManagementClient(
+            ConfigureValidOptions,
+            httpClientBuilder => httpClientBuilder.ConfigurePrimaryHttpMessageHandler(() => stub));
+
+        using var provider = services.BuildServiceProvider();
+        var client = provider.GetRequiredService<IManagementClient>();
+
+        var result = await client.GetEnvironmentInformationAsync();
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.EnvironmentName.Should().Be("Production");
+        stub.Attempts.Should().HaveCount(2);
+        stub.Attempts.Should().AllSatisfy(attempt =>
+        {
+            attempt.Authorization.Should().Be($"Bearer {ValidApiKey}");
+            attempt.SdkId.Should().NotBeNullOrWhiteSpace();
+        });
+    }
+
+    [Fact]
+    public async Task AddManagementClient_ResilienceDisabled_DoesNotRetryAndSurfaces429()
+    {
+        var stub = new RecordingPrimaryHandler(_ => TooManyRequestsResponse());
+
+        var services = new ServiceCollection();
+        services.AddManagementClient(
+            options =>
+            {
+                ConfigureValidOptions(options);
+                options.EnableResilience = false;
+            },
+            httpClientBuilder => httpClientBuilder.ConfigurePrimaryHttpMessageHandler(() => stub));
+
+        using var provider = services.BuildServiceProvider();
+        var client = provider.GetRequiredService<IManagementClient>();
+
+        var result = await client.GetEnvironmentInformationAsync();
+
+        result.IsSuccess.Should().BeFalse();
+        result.StatusCode.Should().Be(HttpStatusCode.TooManyRequests);
+        stub.Attempts.Should().HaveCount(1);
+    }
+
     private static void ConfigureValidOptions(ManagementOptions options)
     {
         options.EnvironmentId = ValidEnvironmentId;
         options.ApiKey = ValidApiKey;
+    }
+
+    private static HttpResponseMessage TooManyRequestsResponse()
+    {
+        var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
+        response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.Zero);
+        return response;
+    }
+
+    private static HttpResponseMessage EnvironmentInformationResponse() => new(HttpStatusCode.OK)
+    {
+        Content = new StringContent(
+            $$"""{"id":"{{ValidEnvironmentId}}","name":"Sample project","environment":"Production"}""",
+            Encoding.UTF8,
+            "application/json"),
+    };
+
+    /// <summary>
+    /// Stands in for the network as the primary handler and records the auth/tracking headers of each attempt,
+    /// proving that retries re-run the full handler chain rather than replaying a frozen request.
+    /// </summary>
+    private sealed class RecordingPrimaryHandler(Func<int, HttpResponseMessage> responder) : HttpMessageHandler
+    {
+        public List<(string? Authorization, string? SdkId)> Attempts { get; } = [];
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Attempts.Add((
+                request.Headers.Authorization?.ToString(),
+                request.Headers.TryGetValues("X-KC-SDKID", out var values) ? string.Join(",", values) : null));
+
+            var response = responder(Attempts.Count);
+            response.RequestMessage ??= request;
+            return Task.FromResult(response);
+        }
     }
 }

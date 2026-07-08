@@ -15,7 +15,7 @@ public sealed record SpaceReplacePatchModel
     /// Property to replace.
     /// </summary>
     [JsonPropertyName("property_name")]
-    public required PropertyName PropertyName { get; init; }
+    public required SpacePropertyName PropertyName { get; init; }
 
     /// <summary>
     /// New value. Type depends on <see cref="PropertyName"/>. Set to <c>null</c> to unset the root item.

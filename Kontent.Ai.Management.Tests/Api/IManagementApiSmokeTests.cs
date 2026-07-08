@@ -106,7 +106,7 @@ public class IManagementApiSmokeTests
         var (api, handler) = CreateApi();
         await api.ModifySpaceInternalAsync(
             Reference.ByCodename("marketing").ToUrlSegment(),
-            new[] { new SpaceReplacePatchModel { PropertyName = PropertyName.Name, Value = "Marketing 2" } });
+            new[] { new SpaceReplacePatchModel { PropertyName = SpacePropertyName.Name, Value = "Marketing 2" } });
         handler.LastRequest!.Method.Should().Be(HttpMethod.Patch);
         handler.LastRequest!.RequestUri!.AbsolutePath.Should().Be($"{EnvPrefix}/spaces/codename/marketing");
         // string enums via [EnumMember]

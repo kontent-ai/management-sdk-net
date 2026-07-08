@@ -13,11 +13,11 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folders, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(folder);
+        ArgumentNullException.ThrowIfNull(folders);
 
-        return _managementApi.CreateAssetFoldersInternalAsync(folder, cancellationToken).ToManagementResultAsync();
+        return _managementApi.CreateAssetFoldersInternalAsync(folders, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />

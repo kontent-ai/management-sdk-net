@@ -1,9 +1,19 @@
 using AwesomeAssertions;
+using Kontent.Ai.Management.Tests.Base;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.Shared;
 
 public class ReferenceTests
 {
+    [Fact]
+    public void Deserialize_InvalidGuidId_ThrowsJsonException()
+    {
+        var act = () => JsonSerializer.Deserialize<Reference>("""{"id":"not-a-guid"}""", SharedTestJsonOptions.Default);
+
+        act.Should().Throw<JsonException>().WithMessage("*not-a-guid*");
+    }
+
     [Fact]
     public void ById_SetsOnlyId()
     {

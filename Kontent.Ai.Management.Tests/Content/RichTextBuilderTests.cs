@@ -68,7 +68,7 @@ public class RichTextBuilderTests
 
         var act = () => rt.Component(new BareContentItem());
 
-        act.Should().Throw<ArgumentException>().WithMessage("*KontentType*");
+        act.Should().Throw<InvalidOperationException>().WithMessage("*KontentType*");
     }
 
     // --- LinkedItem ---

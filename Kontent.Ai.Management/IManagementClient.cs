@@ -155,12 +155,12 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates the asset folder.
+    /// Creates asset folders.
     /// </summary>
-    /// <param name="folder">The asset folder that will be created.</param>
+    /// <param name="folders">The folders to create.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the created <see cref="AssetFoldersModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken = default);
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folders, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates content item.
@@ -380,11 +380,11 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns listing of collection.
+    /// Gets the environment's collections.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the <see cref="CollectionsModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken = default);
+    Task<IManagementResult<CollectionsModel>> GetCollectionsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>Lists all environment's content items.</summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
@@ -512,7 +512,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="changes">Represents changes that will be applied to the collection.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the modified <see cref="CollectionsModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken = default);
+    Task<IManagementResult<CollectionsModel>> ModifyCollectionsAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies content type.
@@ -562,19 +562,19 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// Schedules publishing of the language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant to be published.</param>
-    /// <param name="scheduleModel">The time when the language variant will be published</param>
+    /// <param name="schedule">The time when the language variant will be published</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result indicating success, or the failure detail.</returns>
-    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default);
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules unpublishing of the language variant.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant that should be unpublished.</param>
-    /// <param name="scheduleModel">The time when the language variant will be unpublished</param>
+    /// <param name="schedule">The time when the language variant will be unpublished</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result indicating success, or the failure detail.</returns>
-    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default);
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules publish and unpublish of language variant.
@@ -699,7 +699,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="user">Represents an user that is to be modified.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the modified <see cref="UserModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default);
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all projects under your subscription.
@@ -838,7 +838,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="previewConfiguration">Represents configuration that will be used for project.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the <see cref="PreviewConfigurationModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default);
+    Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all custom apps.

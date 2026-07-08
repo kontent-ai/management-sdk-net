@@ -56,7 +56,7 @@ public class EnvironmentUserTests
     }
 
     [Fact]
-    public async Task ModifyUsersRolesAsync_ByEmail_ModifiesUserRoles()
+    public async Task UpdateUserRolesAsync_ByEmail_ModifiesUserRoles()
     {
         var (client, mock) = MockClientFactory.Create();
         var user = new UserModel
@@ -81,7 +81,7 @@ public class EnvironmentUserTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/email/{Uri.EscapeDataString(identifier.Email!)}/roles")
             .Respond("application/json", ProjectUser);
 
-        var result = await client.ModifyUsersRolesAsync(identifier, user);
+        var result = await client.UpdateUserRolesAsync(identifier, user);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
@@ -89,7 +89,7 @@ public class EnvironmentUserTests
     }
 
     [Fact]
-    public async Task ModifyUsersRolesAsync_ById_ModifiesUserRoles()
+    public async Task UpdateUserRolesAsync_ById_ModifiesUserRoles()
     {
         var (client, mock) = MockClientFactory.Create();
         var user = new UserModel
@@ -114,7 +114,7 @@ public class EnvironmentUserTests
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/{identifier.Id}/roles")
             .Respond("application/json", ProjectUser);
 
-        var result = await client.ModifyUsersRolesAsync(identifier, user);
+        var result = await client.UpdateUserRolesAsync(identifier, user);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
@@ -122,18 +122,18 @@ public class EnvironmentUserTests
     }
 
     [Fact]
-    public async Task ModifyUsersRolesAsync_IdentifierIsNull_Throws()
+    public async Task UpdateUserRolesAsync_IdentifierIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyUsersRolesAsync(null!, new UserModel { Id = "usr_x", CollectionGroups = [] })).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.UpdateUserRolesAsync(null!, new UserModel { Id = "usr_x", CollectionGroups = [] })).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task ModifyUsersRolesAsync_UserModelIsNull_Throws()
+    public async Task UpdateUserRolesAsync_UserModelIsNull_Throws()
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyUsersRolesAsync(UserIdentifier.ById("userId"), null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.UpdateUserRolesAsync(UserIdentifier.ById("userId"), null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }

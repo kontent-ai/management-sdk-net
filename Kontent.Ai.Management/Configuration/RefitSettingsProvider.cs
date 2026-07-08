@@ -29,8 +29,6 @@ internal static class RefitSettingsProvider
             // The Management API sends some numeric values as strings (e.g. a number element's default
             // `"value": "10"` bound to decimal), so tolerate string-encoded numbers on read.
             NumberHandling = JsonNumberHandling.AllowReadingFromString,
-            // Tolerate trailing commas — some hand-authored JSON fixtures include them.
-            AllowTrailingCommas = true,
         };
 
         options.Converters.Add(new BaseElementJsonConverter());

@@ -1,24 +1,13 @@
 using Kontent.Ai.Management.Api;
-using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Workflow;
-using System.Text.Json;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
-    // Re-shapes raw element envelopes (a fetched variant's elements, or the envelope converter's output) into the
-    // DynamicElement carrier that LanguageVariantUpsertModel.Elements expects. Default options carry the Reference
-    // converter the element references need; this internal re-shaping is independent of user-supplied Refit customizations.
-    private static readonly JsonSerializerOptions _elementSerializerOptions = RefitSettingsProvider.CreateDefaultJsonSerializerOptions();
-
-    private static IReadOnlyList<BaseElement> ToDynamicElements(IEnumerable<object> rawElements)
-        => rawElements
-            .Select(element => ((JsonElement)element).Deserialize<DynamicElement>(_elementSerializerOptions)!)
-            .ToList();
     /// <inheritdoc />
     public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
@@ -121,7 +110,7 @@ public partial class ManagementClient
 
         var upsertModel = new LanguageVariantUpsertModel
         {
-            Elements = ToDynamicElements(languageVariant.Elements),
+            Elements = languageVariant.Elements,
             Workflow = languageVariant.Workflow,
             DueDate = languageVariant.DueDate,
             Note = languageVariant.Note,
@@ -144,7 +133,7 @@ public partial class ManagementClient
 
         var upsertModel = new LanguageVariantUpsertModel
         {
-            Elements = JsonSerializer.Deserialize<List<DynamicElement>>(_contentConverter.WriteEnvelopes(variant), _elementSerializerOptions)!,
+            Elements = _contentConverter.ToElements(variant),
             Workflow = workflow,
         };
 
@@ -175,14 +164,14 @@ public partial class ManagementClient
             Contributors = variant.Contributors,
         };
 
-    // Projects a variant's raw element envelopes into a generated record via the content converter.
-    private T ProjectElements<T>(IEnumerable<object>? elements) where T : IElementsModel, new()
+    // Projects a variant's element envelopes into a generated record via the content converter.
+    private T ProjectElements<T>(IReadOnlyList<BaseElement> elements) where T : IElementsModel, new()
     {
         if (_autoScanContentTypes)
         {
             _contentConverter.Registry.Scan(typeof(T).Assembly);
         }
 
-        return _contentConverter.ReadEnvelopes<T>((elements ?? []).Cast<JsonElement>());
+        return _contentConverter.ReadEnvelopes<T>(elements);
     }
 }

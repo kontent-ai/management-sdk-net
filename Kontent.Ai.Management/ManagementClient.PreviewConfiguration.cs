@@ -12,10 +12,10 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(previewConfiguration);
 
-        return _managementApi.ModifyPreviewConfigurationInternalAsync(previewConfiguration, cancellationToken).ToManagementResultAsync();
+        return _managementApi.UpdatePreviewConfigurationInternalAsync(previewConfiguration, cancellationToken).ToManagementResultAsync();
     }
 }

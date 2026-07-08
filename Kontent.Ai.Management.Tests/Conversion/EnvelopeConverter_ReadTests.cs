@@ -196,4 +196,17 @@ public class EnvelopeConverter_ReadTests
 
         Converter.ReadEnvelopes<Article>(json).Title.Should().Be("FromCodename");
     }
+
+    [Fact]
+    public void Read_ValueKindMismatch_ThrowsWithElementContext()
+    {
+        // A number where text is expected: the raw JsonElement accessor error alone wouldn't say which element failed.
+        var json = """[{"element":{"codename":"title"},"value":42}]""";
+
+        var act = () => Converter.ReadEnvelopes<Article>(json);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("Failed to read element 'title' on 'Article'.")
+            .WithInnerException<InvalidOperationException>();
+    }
 }

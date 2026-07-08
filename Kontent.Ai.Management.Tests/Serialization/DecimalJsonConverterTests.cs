@@ -37,4 +37,16 @@ public class DecimalJsonConverterTests
     [Fact]
     public void Converter_Roundtrips()
         => JsonSerializer.Deserialize<decimal>(JsonSerializer.Serialize(42.42m, Options), Options).Should().Be(42.42m);
+
+    [Fact]
+    public void Converter_StringEncodedNumber_Reads()
+        => JsonSerializer.Deserialize<decimal>("\"10.5\"", Options).Should().Be(10.5m);
+
+    [Fact]
+    public void Converter_NonNumericString_ThrowsJsonException()
+    {
+        var act = () => JsonSerializer.Deserialize<decimal>("\"garbage\"", Options);
+
+        act.Should().Throw<JsonException>().WithMessage("*garbage*");
+    }
 }

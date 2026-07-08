@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Models.Workflow;
 
@@ -64,10 +65,11 @@ public abstract record LanguageVariantMetadata
 public sealed record LanguageVariantModel : LanguageVariantMetadata
 {
     /// <summary>
-    /// Element values. Each entry is a polymorphic <c>{ element, value }</c> shape whose value type depends on the element kind.
+    /// Element values. Deserialized as <see cref="DynamicElement"/> — the wire carries no element-kind
+    /// discriminator, so the value payload stays untyped while the envelope (element reference, sibling fields) is modeled.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IReadOnlyList<object> Elements { get; init; }
+    public required IReadOnlyList<BaseElement> Elements { get; init; }
 }
 
 /// <summary>

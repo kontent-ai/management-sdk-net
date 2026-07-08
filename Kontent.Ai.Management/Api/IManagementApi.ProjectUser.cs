@@ -18,7 +18,7 @@ internal partial interface IManagementApi
     /// <param name="user">The user with the roles to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/users/{**userIdentifier}/roles")]
-    internal Task<IApiResponse<UserModel>> ModifyUsersRolesInternalAsync(
+    internal Task<IApiResponse<UserModel>> UpdateUserRolesInternalAsync(
         string userIdentifier,
         [Body] UserModel user,
         CancellationToken cancellationToken = default);

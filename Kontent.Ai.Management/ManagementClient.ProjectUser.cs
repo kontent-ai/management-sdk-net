@@ -15,11 +15,11 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default)
+    public Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(user);
 
-        return _managementApi.ModifyUsersRolesInternalAsync(identifier.ToUrlSegment(), user, cancellationToken).ToManagementResultAsync();
+        return _managementApi.UpdateUserRolesInternalAsync(identifier.ToUrlSegment(), user, cancellationToken).ToManagementResultAsync();
     }
 }

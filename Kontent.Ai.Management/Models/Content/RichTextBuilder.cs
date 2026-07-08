@@ -1,6 +1,5 @@
-using Kontent.Ai.Management.Annotations;
+using Kontent.Ai.Management.Conversion;
 using System.Net;
-using System.Reflection;
 
 namespace Kontent.Ai.Management.Models.Content;
 
@@ -44,12 +43,8 @@ public sealed class RichTextBuilder
     public string Component(IElementsModel item)
     {
         ArgumentNullException.ThrowIfNull(item);
-        if (item.GetType().GetCustomAttribute<KontentTypeAttribute>() is null)
-        {
-            throw new ArgumentException(
-                $"Type '{item.GetType().FullName}' lacks [KontentType] and cannot be embedded as a rich-text component.",
-                nameof(item));
-        }
+        // Fail here, at the recording site, for a type the envelope write would reject anyway (no [KontentType]).
+        _ = ContentItemTypeDescriptor.For(item.GetType());
 
         var id = Guid.NewGuid();
         _components.Add(new Models.Content.Component { Id = id, Content = item });

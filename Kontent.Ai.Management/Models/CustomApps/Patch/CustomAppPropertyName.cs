@@ -4,7 +4,7 @@ namespace Kontent.Ai.Management.Models.CustomApps.Patch;
 /// <summary>
 /// Represents enum of properties that can be replaced in the custom app.
 /// </summary>
-public enum PropertyName
+public enum CustomAppPropertyName
 {
     /// <summary>
     /// The custom app's name.

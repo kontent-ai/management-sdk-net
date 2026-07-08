@@ -15,7 +15,7 @@ internal partial interface IManagementApi
     /// <param name="previewConfiguration">The preview configuration to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/preview-configuration")]
-    internal Task<IApiResponse<PreviewConfigurationModel>> ModifyPreviewConfigurationInternalAsync(
+    internal Task<IApiResponse<PreviewConfigurationModel>> UpdatePreviewConfigurationInternalAsync(
         [Body] PreviewConfigurationModel previewConfiguration,
         CancellationToken cancellationToken = default);
 }

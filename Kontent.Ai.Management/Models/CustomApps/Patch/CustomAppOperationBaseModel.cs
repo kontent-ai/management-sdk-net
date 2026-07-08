@@ -15,7 +15,7 @@ public abstract record CustomAppOperationBaseModel
     /// Property to operate on. <c>addInto</c> / <c>remove</c> target the <c>allowed_roles</c> collection; <c>replace</c> applies to any property.
     /// </summary>
     [JsonPropertyName("property_name")]
-    public required PropertyName PropertyName { get; init; }
+    public required CustomAppPropertyName PropertyName { get; init; }
 
     /// <summary>
     /// Value for the operation. Type depends on <see cref="PropertyName"/>. May be <c>null</c> when replacing a nullable property (e.g. clearing <c>config</c>).

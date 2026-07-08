@@ -17,7 +17,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
-    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folders, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
     Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken)
@@ -51,6 +51,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> GetCollectionsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
@@ -72,7 +73,6 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<IReadOnlyList<AssetRenditionModel>>> ListAssetRenditionsAsync(Reference assetIdentifier, CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken)
-    Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentItemModel>>> ListContentItemsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken)
@@ -94,22 +94,22 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
     Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> ModifyCollectionsAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
     Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken)
-    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
-    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
     Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
+    Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
@@ -143,7 +143,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
-    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folder, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folders, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
     Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken)
@@ -179,6 +179,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> GetCollectionsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
@@ -200,7 +201,6 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<IReadOnlyList<AssetRenditionModel>>> ListAssetRenditionsAsync(Reference assetIdentifier, CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken)
-    Task<IManagementResult<CollectionsModel>> ListCollectionsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentItemModel>>> ListContentItemsAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken)
     Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken)
@@ -222,22 +222,22 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
     Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<CollectionsModel>> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> ModifyCollectionsAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<PreviewConfigurationModel>> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
     Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken)
     Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
-    Task<IManagementResult<UserModel>> ModifyUsersRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
     Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken)
-    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
-    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
     Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
+    Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
@@ -409,15 +409,15 @@ public sealed class AssetFoldersModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders.Patch
-public sealed class AssetFolderAddIntoModel : AssetFolderOperationBaseModel, IEquatable`1
+public sealed class AssetFolderAddIntoPatchModel : AssetFolderOperationBaseModel, IEquatable`1
     Reference After { get; set; init; }
     Reference Before { get; set; init; }
     String Op { get; }
     AssetFolderHierarchy Value { get; set; init; }
-    AssetFolderAddIntoModel <Clone>$()
+    AssetFolderAddIntoPatchModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetFolderOperationBaseModel other)
-    Boolean Equals(AssetFolderAddIntoModel other)
+    Boolean Equals(AssetFolderAddIntoPatchModel other)
     Int32 GetHashCode()
     String ToString()
 
@@ -432,23 +432,23 @@ public class AssetFolderOperationBaseModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders.Patch
-public sealed class AssetFolderRemoveModel : AssetFolderOperationBaseModel, IEquatable`1
+public sealed class AssetFolderRemovePatchModel : AssetFolderOperationBaseModel, IEquatable`1
     String Op { get; }
-    AssetFolderRemoveModel <Clone>$()
+    AssetFolderRemovePatchModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetFolderOperationBaseModel other)
-    Boolean Equals(AssetFolderRemoveModel other)
+    Boolean Equals(AssetFolderRemovePatchModel other)
     Int32 GetHashCode()
     String ToString()
 
 // Kontent.Ai.Management.Models.AssetFolders.Patch
-public sealed class AssetFolderRenameModel : AssetFolderOperationBaseModel, IEquatable`1
+public sealed class AssetFolderRenamePatchModel : AssetFolderOperationBaseModel, IEquatable`1
     String Op { get; }
     String Value { get; set; init; }
-    AssetFolderRenameModel <Clone>$()
+    AssetFolderRenamePatchModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetFolderOperationBaseModel other)
-    Boolean Equals(AssetFolderRenameModel other)
+    Boolean Equals(AssetFolderRenamePatchModel other)
     Int32 GetHashCode()
     String ToString()
 
@@ -702,6 +702,10 @@ public class CollectionOperationBaseModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Collections.Patch
+public enum CollectionPropertyName : Enum
+    Name
+
+// Kontent.Ai.Management.Models.Collections.Patch
 public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel, IEquatable`1
     String Op { get; }
     Reference Reference { get; set; init; }
@@ -715,7 +719,7 @@ public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel, I
 // Kontent.Ai.Management.Models.Collections.Patch
 public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel, IEquatable`1
     String Op { get; }
-    PropertyName PropertyName { get; set; init; }
+    CollectionPropertyName PropertyName { get; set; init; }
     Reference Reference { get; set; init; }
     String Value { get; set; init; }
     CollectionReplacePatchModel <Clone>$()
@@ -724,10 +728,6 @@ public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel, 
     Boolean Equals(CollectionReplacePatchModel other)
     Int32 GetHashCode()
     String ToString()
-
-// Kontent.Ai.Management.Models.Collections.Patch
-public enum PropertyName : Enum
-    Name
 
 // Kontent.Ai.Management.Models.Content
 public sealed class AssetReference : IEquatable`1
@@ -971,13 +971,22 @@ public sealed class CustomAppAddIntoPatchModel : CustomAppOperationBaseModel, IE
 // Kontent.Ai.Management.Models.CustomApps.Patch
 public class CustomAppOperationBaseModel : IEquatable`1
     String Op { get; }
-    PropertyName PropertyName { get; set; init; }
+    CustomAppPropertyName PropertyName { get; set; init; }
     Object Value { get; set; init; }
     CustomAppOperationBaseModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(CustomAppOperationBaseModel other)
     Int32 GetHashCode()
     String ToString()
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
+public enum CustomAppPropertyName : Enum
+    AllowedRoles
+    Codename
+    Config
+    DisplayMode
+    Name
+    SourceUrl
 
 // Kontent.Ai.Management.Models.CustomApps.Patch
 public sealed class CustomAppRemovePatchModel : CustomAppOperationBaseModel, IEquatable`1
@@ -998,15 +1007,6 @@ public sealed class CustomAppReplacePatchModel : CustomAppOperationBaseModel, IE
     Boolean Equals(CustomAppReplacePatchModel other)
     Int32 GetHashCode()
     String ToString()
-
-// Kontent.Ai.Management.Models.CustomApps.Patch
-public enum PropertyName : Enum
-    AllowedRoles
-    Codename
-    Config
-    DisplayMode
-    Name
-    SourceUrl
 
 // Kontent.Ai.Management.Models.EnvironmentReport
 public sealed class EnvironmentReportModel : IEquatable`1
@@ -1400,7 +1400,7 @@ public class LanguageVariantMetadata : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class LanguageVariantModel : LanguageVariantMetadata, IEquatable`1
-    IReadOnlyList<Object> Elements { get; set; init; }
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
     LanguageVariantModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(LanguageVariantMetadata other)
@@ -1734,7 +1734,7 @@ public sealed class SpaceModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Spaces.Patch
-public enum PropertyName : Enum
+public enum SpacePropertyName : Enum
     Codename
     Collections
     Name
@@ -1743,7 +1743,7 @@ public enum PropertyName : Enum
 // Kontent.Ai.Management.Models.Spaces.Patch
 public sealed class SpaceReplacePatchModel : IEquatable`1
     String Op { get; }
-    PropertyName PropertyName { get; set; init; }
+    SpacePropertyName PropertyName { get; set; init; }
     Object Value { get; set; init; }
     SpaceReplacePatchModel <Clone>$()
     Boolean Equals(Object obj)
@@ -1901,12 +1901,6 @@ public sealed class TaxonomyTermModel : TaxonomyBaseModel, IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.TaxonomyGroups.Patch
-public enum PropertyName : Enum
-    Codename
-    Name
-    Terms
-
-// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
 public sealed class TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBaseModel, IEquatable`1
     Reference After { get; set; init; }
     Reference Before { get; set; init; }
@@ -1943,6 +1937,12 @@ public class TaxonomyGroupOperationBaseModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public enum TaxonomyGroupPropertyName : Enum
+    Codename
+    Name
+    Terms
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
 public sealed class TaxonomyGroupRemovePatchModel : TaxonomyGroupOperationBaseModel, IEquatable`1
     String Op { get; }
     TaxonomyGroupRemovePatchModel <Clone>$()
@@ -1955,7 +1955,7 @@ public sealed class TaxonomyGroupRemovePatchModel : TaxonomyGroupOperationBaseMo
 // Kontent.Ai.Management.Models.TaxonomyGroups.Patch
 public sealed class TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseModel, IEquatable`1
     String Op { get; }
-    PropertyName PropertyName { get; set; init; }
+    TaxonomyGroupPropertyName PropertyName { get; set; init; }
     Object Value { get; set; init; }
     TaxonomyGroupReplacePatchModel <Clone>$()
     Boolean Equals(Object obj)

@@ -4,7 +4,7 @@ namespace Kontent.Ai.Management.Models.AssetFolders.Patch;
 /// <summary>
 /// Represents addInto operation to perform on the folder.
 /// </summary>
-public sealed record AssetFolderAddIntoModel : AssetFolderOperationBaseModel
+public sealed record AssetFolderAddIntoPatchModel : AssetFolderOperationBaseModel
 {
     /// <summary>
     /// Represents addInto operation.

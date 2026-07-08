@@ -35,18 +35,29 @@ internal sealed class ContentTypeRegistry
     }
 
     /// <summary>
-    /// Registers <paramref name="type"/> if it implements <see cref="IElementsModel"/> and carries
-    /// <see cref="KontentTypeAttribute"/>. Throws when a different type is already registered for the same id.
+    /// Registers <paramref name="type"/>. Throws when it is not a content-type record (must implement
+    /// <see cref="IElementsModel"/> and carry <see cref="KontentTypeAttribute"/> with an id), or when a
+    /// different type is already registered for the same id.
     /// </summary>
     public void Register(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        if (!TryRegister(type))
+
+        if (type.GetCustomAttribute<KontentTypeAttribute>() is not { } attr || !typeof(IElementsModel).IsAssignableFrom(type))
         {
             throw new ArgumentException(
                 $"Type '{type.FullName}' is not a content-type record (must implement IElementsModel and carry [KontentType]).",
                 nameof(type));
         }
+        if (attr.Id is null)
+        {
+            throw new ArgumentException(
+                $"Type '{type.FullName}' carries [KontentType] without an id, so it can never be resolved as a rich-text component. " +
+                "Set the attribute's id to register it.",
+                nameof(type));
+        }
+
+        AddById(type, attr.Id);
     }
 
     /// <summary>
@@ -70,21 +81,23 @@ internal sealed class ContentTypeRegistry
         return _byId.TryGetValue(id, out var type) ? type : null;
     }
 
-    private bool TryRegister(Type type)
+    private void TryRegister(Type type)
     {
-        var attr = type.GetCustomAttribute<KontentTypeAttribute>();
-        if (attr is null || !typeof(IElementsModel).IsAssignableFrom(type)) return false;
-
-        if (attr.Id is not null)
+        // Id-less content-type records are skipped, not rejected: only the component read path needs ids, and
+        // scans / read-path self-registration must tolerate write-only models that never carry one.
+        if (type.GetCustomAttribute<KontentTypeAttribute>() is { Id: { } id } && typeof(IElementsModel).IsAssignableFrom(type))
         {
-            var existingById = _byId.GetOrAdd(attr.Id, type);
-            if (existingById != type)
-            {
-                throw new InvalidOperationException(
-                    $"Type id '{attr.Id}' is already registered to type '{existingById.FullName}'; cannot also register '{type.FullName}'.");
-            }
+            AddById(type, id);
         }
+    }
 
-        return true;
+    private void AddById(Type type, string id)
+    {
+        var existingById = _byId.GetOrAdd(id, type);
+        if (existingById != type)
+        {
+            throw new InvalidOperationException(
+                $"Type id '{id}' is already registered to type '{existingById.FullName}'; cannot also register '{type.FullName}'.");
+        }
     }
 }

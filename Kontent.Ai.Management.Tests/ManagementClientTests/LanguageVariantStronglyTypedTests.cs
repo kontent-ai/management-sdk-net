@@ -131,7 +131,7 @@ public class LanguageVariantStronglyTypedTests
     [Fact]
     public async Task GetLanguageVariantAsync_StronglyTyped_ReadsElementSiblingFields()
     {
-        // Full client read path (wire → IEnumerable<dynamic> → ProjectElements → ReadEnvelopes) must carry the
+        // Full client read path (wire → DynamicElement envelopes → ProjectElements → ReadEnvelopes) must carry the
         // non-value sibling fields the wrappers add: datetime's display_timezone, url_slug's mode, custom's searchable_value.
         var (client, mock) = MockClientFactory.Create(ArticleConverter());
         mock.Expect(HttpMethod.Get, VariantUrl)
@@ -151,8 +151,8 @@ public class LanguageVariantStronglyTypedTests
     [Fact]
     public async Task UpsertLanguageVariantAsync_StronglyTyped_SendsElementSiblingFields()
     {
-        // Full client write path (WriteEnvelopes → JsonSerializer.Deserialize<List<object>> → Refit serialize → wire)
-        // must preserve the sibling fields through the intermediate object round-trip.
+        // Full client write path (ToElements → Refit serialize → wire) must preserve the sibling fields
+        // through the intermediate DynamicElement round-trip.
         var (client, mock) = MockClientFactory.Create(ArticleConverter());
         mock.Expect(HttpMethod.Put, VariantUrl)
             .CaptureBody(out var sentBody)

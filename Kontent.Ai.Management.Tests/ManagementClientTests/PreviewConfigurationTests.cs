@@ -28,7 +28,7 @@ public class PreviewConfigurationTests
     }
 
     [Fact]
-    public async Task ModifyPreviewConfiguration_ModifiesPreviewConfiguration()
+    public async Task UpdatePreviewConfiguration_UpdatesPreviewConfiguration()
     {
         var (client, mock) = MockClientFactory.Create();
         var request = new PreviewConfigurationModel
@@ -67,7 +67,7 @@ public class PreviewConfigurationTests
             .CaptureBody(out var capturedBody)
             .Respond("application/json", PreviewConfiguration);
 
-        var result = await client.ModifyPreviewConfigurationAsync(request);
+        var result = await client.UpdatePreviewConfigurationAsync(request);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();

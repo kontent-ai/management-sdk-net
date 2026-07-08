@@ -24,8 +24,8 @@ public sealed record CollectionReplacePatchModel : CollectionOperationBaseModel
     public required string Value { get; init; }
 
     /// <summary>
-    /// The property to update. Today only <see cref="Patch.PropertyName.Name"/> is supported.
+    /// The property to update. Today only <see cref="CollectionPropertyName.Name"/> is supported.
     /// </summary>
     [JsonPropertyName("property_name")]
-    public required PropertyName PropertyName { get; init; }
+    public required CollectionPropertyName PropertyName { get; init; }
 }

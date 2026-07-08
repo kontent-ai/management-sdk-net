@@ -22,13 +22,13 @@ public class CollectionTests
     ];
 
     [Fact]
-    public async Task ListCollections_ListsCollections()
+    public async Task GetCollections_GetsCollections()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/collections")
             .Respond("application/json", Collections);
 
-        var result = await client.ListCollectionsAsync();
+        var result = await client.GetCollectionsAsync();
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
@@ -80,7 +80,7 @@ public class CollectionTests
         var changes = new[] { new CollectionReplacePatchModel
         {
             Reference = identifier,
-            PropertyName = PropertyName.Name,
+            PropertyName = CollectionPropertyName.Name,
             Value = "Second collection"
         }};
         await AssertModifyCollection(changes);
@@ -91,7 +91,7 @@ public class CollectionTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyCollectionAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyCollectionsAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     private static async Task AssertModifyCollection<T>(T[] changes) where T : CollectionOperationBaseModel
@@ -101,7 +101,7 @@ public class CollectionTests
             .CaptureBody(out var capturedBody)
             .Respond("application/json", Collections);
 
-        var result = await client.ModifyCollectionAsync(changes);
+        var result = await client.ModifyCollectionsAsync(changes);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();

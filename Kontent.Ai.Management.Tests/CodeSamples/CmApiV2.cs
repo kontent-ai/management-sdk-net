@@ -29,6 +29,7 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 using Kontent.Ai.Management.Models.Workflow;
 using Kontent.Ai.Management.Tests.Base;
+using System.Globalization;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
@@ -266,7 +267,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
-        var response = await client.ListCollectionsAsync();
+        var response = await client.GetCollectionsAsync();
 
         Assert.Equal(2, response.Value.Collections.Count());
     }
@@ -673,7 +674,7 @@ public class CmApiV2
 
         var response = await client.ModifyAssetFoldersAsync(new AssetFolderOperationBaseModel[]
         {
-            new AssetFolderAddIntoModel
+            new AssetFolderAddIntoPatchModel
             {
                 Reference = Reference.ByExternalId("folder-with-shared-asset"),
                 Value = new AssetFolderHierarchy
@@ -684,11 +685,11 @@ public class CmApiV2
                 },
                 Before = Reference.ByExternalId("folder-with-downloadable-assets")
             },
-            new AssetFolderRemoveModel
+            new AssetFolderRemovePatchModel
             {
                 Reference = Reference.ByExternalId("folder-with-archived-assets")
             },
-            new AssetFolderRenameModel
+            new AssetFolderRenamePatchModel
             {
                 Reference = Reference.ByExternalId("folder-documents"),
                 Value = "Legal documents"
@@ -707,7 +708,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
-        var response = await client.ModifyCollectionAsync(new CollectionOperationBaseModel[]
+        var response = await client.ModifyCollectionsAsync(new CollectionOperationBaseModel[]
         {
             new CollectionAddIntoPatchModel
             {
@@ -730,7 +731,7 @@ public class CmApiV2
             },
             new CollectionReplacePatchModel
             {
-                PropertyName = Models.Collections.Patch.PropertyName.Name,
+                PropertyName = Models.Collections.Patch.CollectionPropertyName.Name,
                 Value = "A new name",
                 Reference = Reference.ByCodename("second_collection")
             }
@@ -839,18 +840,18 @@ public class CmApiV2
         {
             new TaxonomyGroupReplacePatchModel
             {
-                PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Name,
+                PropertyName = Models.TaxonomyGroups.Patch.TaxonomyGroupPropertyName.Name,
                 Value = "Categories"
             },
             new TaxonomyGroupReplacePatchModel
             {
-                PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Codename,
+                PropertyName = Models.TaxonomyGroups.Patch.TaxonomyGroupPropertyName.Codename,
                 Value = "category"
             },
             new TaxonomyGroupReplacePatchModel
             {
                 Reference = Reference.ByCodename("first_term"),
-                PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Terms,
+                PropertyName = Models.TaxonomyGroups.Patch.TaxonomyGroupPropertyName.Terms,
                 Value = new TaxonomyGroupCreateModel[]
                 {
                     new TaxonomyGroupCreateModel
@@ -1743,7 +1744,7 @@ public class CmApiV2
                 },
                 DueDate = new DueDateModel
                 {
-                    Value = DateTime.Parse("2092-01-07T06:04:00.7069564Z")
+                    Value = DateTime.Parse("2092-01-07T06:04:00.7069564Z", CultureInfo.InvariantCulture)
                 },
                 Workflow = new WorkflowStepIdentifier(Reference.ByCodename("default"), Reference.ByCodename("review"))
             });
@@ -1827,7 +1828,7 @@ public class CmApiV2
         // Scheduled publish
         var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08"),
+            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
             DisplayTimeZone = "Europe/London"
         }));
 
@@ -1855,7 +1856,7 @@ public class CmApiV2
         // Scheduled unpublish
         var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08"),
+            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
             DisplayTimeZone = "Europe/London"
         }));
 
@@ -1995,7 +1996,7 @@ public class CmApiV2
         var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
 
-        var response = await client.ModifyUsersRolesAsync(
+        var response = await client.UpdateUserRolesAsync(
             identifier,
             new UserModel
             {

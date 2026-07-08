@@ -121,7 +121,7 @@ public class CustomAppTests
         {
             new()
             {
-                PropertyName = PropertyName.AllowedRoles,
+                PropertyName = CustomAppPropertyName.AllowedRoles,
                 Value = new[]
                 {
                     Reference.ByCodename("new_allowed_role_codename")
@@ -152,7 +152,7 @@ public class CustomAppTests
         {
             new()
             {
-                PropertyName = PropertyName.AllowedRoles,
+                PropertyName = CustomAppPropertyName.AllowedRoles,
                 Value = new[]
                 {
                     Reference.ByCodename("allowed_role_codename")
@@ -181,13 +181,13 @@ public class CustomAppTests
         var identifier = Reference.ById(Guid.NewGuid());
         var changes = new CustomAppReplacePatchModel[]
         {
-            new() { PropertyName = PropertyName.Name, Value = "New Custom App Name" },
-            new() { PropertyName = PropertyName.Codename, Value = "new_custom_app_codename" },
-            new() { PropertyName = PropertyName.SourceUrl, Value = "https://newcustomapplication.net" },
-            new() { PropertyName = PropertyName.Config, Value = "{ \"enabled\": \"False\" }" },
+            new() { PropertyName = CustomAppPropertyName.Name, Value = "New Custom App Name" },
+            new() { PropertyName = CustomAppPropertyName.Codename, Value = "new_custom_app_codename" },
+            new() { PropertyName = CustomAppPropertyName.SourceUrl, Value = "https://newcustomapplication.net" },
+            new() { PropertyName = CustomAppPropertyName.Config, Value = "{ \"enabled\": \"False\" }" },
             new()
             {
-                PropertyName = PropertyName.AllowedRoles,
+                PropertyName = CustomAppPropertyName.AllowedRoles,
                 Value = new[]
                 {
                     Reference.ByCodename("allowed_role_codename"),
@@ -216,7 +216,7 @@ public class CustomAppTests
         var (client, _) = MockClientFactory.Create();
         var changes = new CustomAppReplacePatchModel[]
         {
-            new() { PropertyName = PropertyName.Name, Value = "New space name" }
+            new() { PropertyName = CustomAppPropertyName.Name, Value = "New space name" }
         };
 
         await client.Invoking(x => x.ModifyCustomAppAsync(null!, changes)).Should().ThrowAsync<ArgumentNullException>();

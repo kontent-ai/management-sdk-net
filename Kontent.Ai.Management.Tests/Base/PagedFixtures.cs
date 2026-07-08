@@ -12,6 +12,6 @@ internal static class PagedFixtures
     /// </summary>
     public static List<T> ConcatPages<T>(params string[] pages)
         => pages
-            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().First().Value!.ToString(), SharedTestJsonOptions.Default)!)
+            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().GetAt(0).Value!.ToString(), SharedTestJsonOptions.Default)!)
             .ToList();
 }

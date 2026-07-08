@@ -14,10 +14,15 @@ internal sealed class StringOrBooleanJsonConverter : JsonConverter<bool>
         {
             JsonTokenType.True => true,
             JsonTokenType.False => false,
-            JsonTokenType.String => bool.Parse(reader.GetString()!),
+            JsonTokenType.String => ParseBoolean(reader.GetString()!),
             _ => throw new JsonException($"Unexpected token {reader.TokenType} when reading a boolean."),
         };
 
     public override void Write(Utf8JsonWriter writer, bool value, JsonSerializerOptions options)
         => writer.WriteBooleanValue(value);
+
+    private static bool ParseBoolean(string text)
+        => bool.TryParse(text, out var value)
+            ? value
+            : throw new JsonException($"'{text}' is not a valid boolean value.");
 }

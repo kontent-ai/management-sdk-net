@@ -107,7 +107,7 @@ Prefer commands without explicit paths so they keep working if layout shifts.
 
 - Commit messages follow `TICKET-ID - Description` (e.g. `EN-713 - Add component_types filter`). Branch names follow `TICKET-ID_Short_description`.
 - Keep each PR scoped: framework/infra changes separate from per-domain rewrites separate from model regeneration.
-- Package version lives in a central property (`Directory.Build.props`), matching the siblings — not in per-csproj `<Version>`.
+- Package version comes from the release git tag: `.github/workflows/release.yml` strips the `v` prefix and passes it as `/p:Version` and `/p:PackageVersion` at build/pack time — no version property in any project file.
 
 ## Open questions (do not invent answers)
 

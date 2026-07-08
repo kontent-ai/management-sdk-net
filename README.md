@@ -762,13 +762,13 @@ The client also covers environment-level configuration and administration. These
 | Area | Key methods |
 |------|-------------|
 | **Languages** | `GetLanguageAsync`, `CreateLanguageAsync`, `ModifyLanguageAsync`, `ListLanguagesAsync` |
-| **Collections** | `ListCollectionsAsync`, `ModifyCollectionAsync` |
+| **Collections** | `GetCollectionsAsync`, `ModifyCollectionsAsync` |
 | **Spaces** | `ListSpacesAsync`, `GetSpaceAsync`, `CreateSpaceAsync`, `ModifySpaceAsync`, `DeleteSpaceAsync` |
 | **Webhooks** | `ListWebhooksAsync`, `GetWebhookAsync`, `CreateWebhookAsync`, `EnableWebhookAsync`, `DisableWebhookAsync`, `DeleteWebhookAsync` |
-| **Preview** | `GetPreviewConfigurationAsync`, `ModifyPreviewConfigurationAsync` |
+| **Preview** | `GetPreviewConfigurationAsync`, `UpdatePreviewConfigurationAsync` |
 | **Custom apps** | `ListCustomAppsAsync`, `GetCustomAppAsync`, `CreateCustomAppAsync`, `ModifyCustomAppAsync`, `DeleteCustomAppAsync` |
 | **Roles** | `ListEnvironmentRolesAsync`, `GetEnvironmentRoleAsync` |
-| **Environment users** | `InviteUserIntoEnvironmentAsync`, `ModifyUsersRolesAsync` |
+| **Environment users** | `InviteUserIntoEnvironmentAsync`, `UpdateUserRolesAsync` |
 | **Environment lifecycle** | `GetEnvironmentInformationAsync`, `CloneEnvironmentAsync`, `GetEnvironmentCloningStateAsync`, `MarkEnvironmentAsProductionAsync`, `ModifyEnvironmentAsync`, `DeleteEnvironmentAsync` |
 | **Validation** | `ValidateEnvironmentAsync`, `InitiateEnvironmentAsyncValidationTaskAsync`, `GetAsyncValidationTaskAsync`, `ListAsyncValidationTaskIssuesAsync` |
 

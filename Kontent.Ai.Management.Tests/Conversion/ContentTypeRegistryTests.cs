@@ -1,5 +1,4 @@
 using AwesomeAssertions;
-using Kontent.Ai.Management;
 using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Conversion;
 using ModelsArticle = MyProject.Models.Article;
@@ -15,6 +14,9 @@ public class ContentTypeRegistryTests
     // A second content-type record deliberately claiming ModelsArticle's id, to exercise id-collision detection.
     [KontentType("clashing", ModelsArticleId)]
     private sealed record IdClashingArticle : IElementsModel;
+
+    [KontentType("idless")]
+    private sealed record IdlessArticle : IElementsModel;
 
     [Fact]
     public void Register_IndexesTypeById()
@@ -101,6 +103,17 @@ public class ContentTypeRegistryTests
         var act = () => registry.Register(typeof(string));
 
         act.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void Register_TypeWithoutId_Throws()
+    {
+        // Silently registering nothing would surface much later as an "unregistered component type" read failure.
+        var registry = new ContentTypeRegistry();
+
+        var act = () => registry.Register(typeof(IdlessArticle));
+
+        act.Should().Throw<ArgumentException>().WithMessage("*without an id*");
     }
 
     [Fact]

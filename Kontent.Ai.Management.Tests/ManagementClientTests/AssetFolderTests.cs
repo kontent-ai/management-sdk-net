@@ -99,7 +99,7 @@ public class AssetFolderTests
 
     private static List<AssetFolderOperationBaseModel> GetChanges() => new()
     {
-        new AssetFolderAddIntoModel
+        new AssetFolderAddIntoPatchModel
         {
             Value = new AssetFolderHierarchy
             {
@@ -110,10 +110,10 @@ public class AssetFolderTests
             Before = Reference.ByCodename("codename"),
             After = Reference.ById(Guid.NewGuid())
         },
-        new AssetFolderRenameModel
+        new AssetFolderRenamePatchModel
         {
             Value = "new folder name",
         },
-        new AssetFolderRemoveModel()
+        new AssetFolderRemovePatchModel()
     };
 }

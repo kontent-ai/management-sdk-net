@@ -18,7 +18,9 @@ internal sealed class ReferenceJsonConverter : JsonConverter<Reference>
 
         if (root.TryGetStringProperty("id", out var id))
         {
-            return Reference.ById(Guid.Parse(id));
+            return Guid.TryParse(id, out var guid)
+                ? Reference.ById(guid)
+                : throw new JsonException($"Reference 'id' value '{id}' is not a valid GUID.");
         }
 
         if (root.TryGetStringProperty("codename", out var codename))

@@ -1,10 +1,9 @@
-using Kontent.Ai.Management.Annotations;
 using Kontent.Ai.Management.Configuration;
 using Kontent.Ai.Management.Models.Content;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+using Kontent.Ai.Management.Serialization;
+using System.Buffers;
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using System.Text;
 using System.Text.Json;
 
 namespace Kontent.Ai.Management.Conversion;
@@ -111,8 +110,21 @@ internal sealed class ContentItemEnvelopeConverter
 
             if (!envelope.TryGetProperty("value", out var valueElement)) continue;
 
-            var value = ReadValue(valueElement, prop, envelope);
-            prop.Property.SetValue(instance, value);
+            try
+            {
+                var value = ReadValue(valueElement, prop, envelope);
+                prop.Property.SetValue(instance, value);
+            }
+            // Kind-mismatch failures from JsonElement accessors say what was wrong but not where — add the element.
+            // The converter's own curated errors (multiple choice, components) already carry it and pass through.
+            // STJ's InvalidOperationExceptions are told apart from ours by their exception Source, which starts with
+            // the System.Text.Json assembly name; if that marker ever changes, the failure merely surfaces unwrapped.
+            catch (Exception ex) when (ex is JsonException or FormatException or KeyNotFoundException
+                || (ex is InvalidOperationException && ex.Source?.StartsWith("System.Text.Json", StringComparison.Ordinal) is true))
+            {
+                throw new InvalidOperationException(
+                    $"Failed to read element '{prop.ElementCodename}' on '{contentType.Name}'.", ex);
+            }
         }
 
         return instance;
@@ -120,25 +132,24 @@ internal sealed class ContentItemEnvelopeConverter
 
     // ---- Typed convenience ----
 
-    public string WriteEnvelopes<T>(T item) where T : IElementsModel
+    /// <summary>Writes <paramref name="item"/>'s envelopes and reifies them as the element list an upsert model expects.</summary>
+    public IReadOnlyList<BaseElement> ToElements(IElementsModel item)
     {
         ArgumentNullException.ThrowIfNull(item);
-        using var stream = new MemoryStream();
-        using (var writer = new Utf8JsonWriter(stream))
+
+        var buffer = new ArrayBufferWriter<byte>();
+        using (var writer = new Utf8JsonWriter(buffer))
         {
             WriteEnvelopes(writer, item);
         }
-        return Encoding.UTF8.GetString(stream.ToArray());
+        return JsonSerializer.Deserialize<List<DynamicElement>>(buffer.WrittenSpan, _scalarOptions)!;
     }
 
-    public T ReadEnvelopes<T>(IEnumerable<JsonElement> envelopes) where T : IElementsModel
-        => (T)ReadEnvelopes(envelopes, typeof(T));
-
-    public T ReadEnvelopes<T>(string envelopesJson) where T : IElementsModel
-    {
-        using var doc = JsonDocument.Parse(envelopesJson);
-        return (T)ReadEnvelopes(doc.RootElement, typeof(T));
-    }
+    /// <summary>Reads element values (typically a fetched variant's <see cref="DynamicElement"/>s) into a new <typeparamref name="T"/>.</summary>
+    public T ReadEnvelopes<T>(IEnumerable<BaseElement> elements) where T : IElementsModel
+        => (T)ReadEnvelopes(
+            elements.Select(element => JsonSerializer.SerializeToElement(element, element.GetType(), _scalarOptions)),
+            typeof(T));
 
     // ---- Value writers ----
 
@@ -230,15 +241,13 @@ internal sealed class ContentItemEnvelopeConverter
 
     private void WriteComponent(Utf8JsonWriter writer, Component component)
     {
-        var contentTypeAttr = component.Content.GetType().GetCustomAttribute<KontentTypeAttribute>()
-            ?? throw new InvalidOperationException(
-                $"Component.Content type '{component.Content.GetType().FullName}' lacks [KontentType]; cannot serialize as a rich-text component.");
+        var descriptor = ContentItemTypeDescriptor.For(component.Content.GetType());
 
         writer.WriteStartObject();
         writer.WriteString("id", component.Id);
         writer.WritePropertyName("type");
         writer.WriteStartObject();
-        writer.WriteString("codename", contentTypeAttr.Codename);
+        writer.WriteString("codename", descriptor.ContentTypeCodename);
         writer.WriteEndObject();
         writer.WritePropertyName("elements");
         WriteEnvelopes(writer, component.Content);
@@ -258,7 +267,7 @@ internal sealed class ContentItemEnvelopeConverter
             ElementKind.DateTime => new DateTimeValue
             {
                 Value = value.GetDateTimeOffset(),
-                DisplayTimeZone = TryGetString(envelope, "display_timezone", out var tz) ? tz : null,
+                DisplayTimeZone = envelope.TryGetStringProperty("display_timezone", out var tz) ? tz : null,
             },
             ElementKind.UrlSlug => new UrlSlugValue
             {
@@ -270,7 +279,7 @@ internal sealed class ContentItemEnvelopeConverter
             ElementKind.Custom => new CustomValue
             {
                 Value = value.GetString(),
-                SearchableValue = TryGetString(envelope, "searchable_value", out var searchable) ? searchable : null,
+                SearchableValue = envelope.TryGetStringProperty("searchable_value", out var searchable) ? searchable : null,
             },
             ElementKind.MultipleChoice => ReadMultipleChoice(value, prop),
             ElementKind.Asset or ElementKind.Reference => value.Deserialize(prop.Property.PropertyType, _scalarOptions),
@@ -289,11 +298,11 @@ internal sealed class ContentItemEnvelopeConverter
         foreach (var entry in value.EnumerateArray())
         {
             object? member = null;
-            if (TryGetString(entry, "id", out var id))
+            if (entry.TryGetStringProperty("id", out var id))
             {
                 enumDescriptor.ByItemId.TryGetValue(id, out member);
             }
-            if (member is null && TryGetString(entry, "codename", out var codename))
+            if (member is null && entry.TryGetStringProperty("codename", out var codename))
             {
                 enumDescriptor.ByCodename.TryGetValue(codename, out member);
             }
@@ -330,10 +339,18 @@ internal sealed class ContentItemEnvelopeConverter
 
     private Component ReadComponent(JsonElement componentElem)
     {
-        var id = componentElem.GetProperty("id").GetGuid();
+        if (!componentElem.TryGetProperty("id", out var idProp)
+            || idProp.ValueKind != JsonValueKind.String
+            || !idProp.TryGetGuid(out var id))
+        {
+            throw new InvalidOperationException(
+                "Rich-text component is missing its id. Each component in a Management API response carries a GUID id; " +
+                "an entry without one cannot be projected onto a generated record.");
+        }
 
-        var typeRef = componentElem.GetProperty("type");
-        if (!typeRef.TryGetProperty("id", out var typeIdProp) || typeIdProp.ValueKind != JsonValueKind.String)
+        if (!componentElem.TryGetProperty("type", out var typeRef)
+            || !typeRef.TryGetProperty("id", out var typeIdProp)
+            || typeIdProp.ValueKind != JsonValueKind.String)
         {
             throw new InvalidOperationException(
                 "Rich-text component is missing its content type id. The Management API references component types by id; " +
@@ -356,25 +373,14 @@ internal sealed class ContentItemEnvelopeConverter
 
     private static ContentItemPropertyDescriptor? ResolveProperty(ContentItemTypeDescriptor descriptor, JsonElement elementMeta)
     {
-        if (TryGetString(elementMeta, "id", out var id) && descriptor.ByElementId.TryGetValue(id, out var byId))
+        if (elementMeta.TryGetStringProperty("id", out var id) && descriptor.ByElementId.TryGetValue(id, out var byId))
         {
             return byId;
         }
-        if (TryGetString(elementMeta, "codename", out var codename) && descriptor.ByElementCodename.TryGetValue(codename, out var byCodename))
+        if (elementMeta.TryGetStringProperty("codename", out var codename) && descriptor.ByElementCodename.TryGetValue(codename, out var byCodename))
         {
             return byCodename;
         }
         return null;
-    }
-
-    private static bool TryGetString(JsonElement element, string propertyName, [NotNullWhen(true)] out string? value)
-    {
-        if (element.TryGetProperty(propertyName, out var property) && property.ValueKind == JsonValueKind.String)
-        {
-            value = property.GetString()!;
-            return true;
-        }
-        value = null;
-        return false;
     }
 }

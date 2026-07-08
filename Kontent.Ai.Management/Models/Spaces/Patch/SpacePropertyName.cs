@@ -4,7 +4,7 @@ namespace Kontent.Ai.Management.Models.Spaces.Patch;
 /// <summary>
 /// Represents properties of the space.
 /// </summary>
-public enum PropertyName
+public enum SpacePropertyName
 {
     /// <summary>
     /// The space's codename.

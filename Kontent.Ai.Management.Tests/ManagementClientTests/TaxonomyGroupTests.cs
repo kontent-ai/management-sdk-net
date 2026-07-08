@@ -265,7 +265,7 @@ public class TaxonomyGroupTests
         },
         new TaxonomyGroupReplacePatchModel
         {
-            PropertyName = PropertyName.Terms,
+            PropertyName = TaxonomyGroupPropertyName.Terms,
             Reference = Reference.ByCodename("old"),
             Value = new List<TaxonomyTermCreateModel> {
                 new TaxonomyTermCreateModel

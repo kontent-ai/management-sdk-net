@@ -285,9 +285,7 @@ public class LanguageVariantTests
         capturedBody.Value.Should().NotBeNull();
         var sentModel = new LanguageVariantUpsertModel
         {
-            Elements = expected.Elements
-                .Select(e => JsonSerializer.Deserialize<DynamicElement>(JsonSerializer.Serialize(e, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!)
-                .ToList(),
+            Elements = expected.Elements,
             Workflow = expected.Workflow,
             DueDate = expected.DueDate,
             Note = expected.Note,

@@ -25,12 +25,12 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default)
+    public Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-        ArgumentNullException.ThrowIfNull(scheduleModel);
+        ArgumentNullException.ThrowIfNull(schedule);
 
-        return _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken).ToManagementResultAsync();
+        return _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
@@ -67,12 +67,12 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
-    public Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel, CancellationToken cancellationToken = default)
+    public Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-        ArgumentNullException.ThrowIfNull(scheduleModel);
+        ArgumentNullException.ThrowIfNull(schedule);
 
-        return _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), scheduleModel, cancellationToken).ToManagementResultAsync();
+        return _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />

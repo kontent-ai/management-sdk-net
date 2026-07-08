@@ -49,7 +49,9 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
 
     /// <summary>Resolves a wire token (or, as a fallback, the member name) to its enum value. The inverse of <see cref="ToWireValue"/>.</summary>
     public static bool TryParseWire(string value, out TEnum result)
-        => NameToValue.TryGetValue(value, out result) || Enum.TryParse(value, ignoreCase: true, out result);
+        // IsDefined gates the fallback: Enum.TryParse also accepts numeric strings, minting undefined values.
+        => NameToValue.TryGetValue(value, out result)
+            || (Enum.TryParse(value, ignoreCase: true, out result) && Enum.IsDefined(result));
 
     private static TEnum ParseString(string value)
         => TryParseWire(value, out var result)
@@ -73,7 +75,6 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
         => reader.TokenType switch
         {
             JsonTokenType.String => ParseString(reader.GetString()!),
-            JsonTokenType.Number => (TEnum)Enum.ToObject(typeof(TEnum), reader.GetInt64()),
             _ => throw new JsonException($"Unexpected token {reader.TokenType} when reading {typeof(TEnum).Name}."),
         };
 
