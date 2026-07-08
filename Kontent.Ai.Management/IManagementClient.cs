@@ -706,6 +706,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all projects on success, or the first failed page's detail.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="Configuration.ManagementOptions.SubscriptionId"/> is not configured.</exception>
     Task<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -714,6 +715,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all users on success, or the first failed page's detail.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="Configuration.ManagementOptions.SubscriptionId"/> is not configured.</exception>
     Task<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -724,6 +726,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="identifier">The identifier of the subscription user.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the <see cref="SubscriptionUserModel"/> on success, or the failure detail.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="Configuration.ManagementOptions.SubscriptionId"/> is not configured.</exception>
     Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -732,6 +735,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="identifier">The identifier of the subscription user.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result indicating success, or the failure detail.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="Configuration.ManagementOptions.SubscriptionId"/> is not configured.</exception>
     Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -740,6 +744,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="identifier">The identifier of the subscription user.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result indicating success, or the failure detail.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="Configuration.ManagementOptions.SubscriptionId"/> is not configured.</exception>
     Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>

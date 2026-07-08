@@ -5,6 +5,7 @@ using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
+using System.Net;
 
 namespace Kontent.Ai.Management.Extensions;
 
@@ -83,10 +84,14 @@ public static partial class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Configures the default resilience pipeline. Diverges from delivery-sdk-net / sync-sdk-net by omitting
-    /// <c>AddTimeout</c> — management operations include asset uploads where a per-attempt timeout would be more
-    /// hindrance than help. Consumers who want one should add it via the <c>configureResilience</c> hook on
-    /// <c>AddManagementClient</c>.
+    /// Configures the default resilience pipeline. Retries are idempotency-aware: HTTP 429 retries for every method
+    /// (the request was rejected, not processed), while other transient failures — 408/5xx and transport exceptions,
+    /// where the request may have already been applied server-side — retry only for idempotent methods. POST and
+    /// PATCH are never assumed safe: a replayed create can duplicate an entity, and the Management API PATCH grammar
+    /// includes non-idempotent <c>addInto</c>. Consumers who want different semantics (e.g. retrying the POST-based
+    /// variant-filter listing) replace the pipeline via the <c>configureResilience</c> hook. Diverges from
+    /// delivery-sdk-net / sync-sdk-net by omitting <c>AddTimeout</c> — management operations include asset uploads
+    /// where a per-attempt timeout would be more hindrance than help.
     /// </summary>
     internal static void ConfigureDefaultResilience(ResiliencePipelineBuilder<HttpResponseMessage> builder)
     {
@@ -96,33 +101,49 @@ public static partial class ServiceCollectionExtensions
             Delay = TimeSpan.FromSeconds(1),
             BackoffType = DelayBackoffType.Exponential,
             UseJitter = true,
-            ShouldHandle = args => ValueTask.FromResult(
-                IsTransientException(args.Outcome.Exception, args.Context.CancellationToken) ||
-                (args.Outcome.Result?.IsSuccessStatusCode == false &&
-                 IsRetryableStatusCode(args.Outcome.Result?.StatusCode))),
+            ShouldHandle = args => ValueTask.FromResult(ShouldRetry(args.Outcome, args.Context)),
             DelayGenerator = GetRetryAfterDelay
         });
     }
 
-    internal static ValueTask<TimeSpan?> GetRetryAfterDelay(RetryDelayGeneratorArguments<HttpResponseMessage> args)
+    internal static bool ShouldRetry(Outcome<HttpResponseMessage> outcome, ResilienceContext context)
     {
-        if (args.Outcome.Result is { StatusCode: System.Net.HttpStatusCode.TooManyRequests } response
-            && response.Headers.RetryAfter?.Delta is { } retryAfter)
+        if (outcome.Result is { } response)
         {
-            return ValueTask.FromResult<TimeSpan?>(retryAfter);
+            return !response.IsSuccessStatusCode
+                && (response.StatusCode == HttpStatusCode.TooManyRequests
+                    || (IsRetryableStatusCode(response.StatusCode) && IsIdempotent(RequestMethod(response, context))));
         }
 
-        return ValueTask.FromResult<TimeSpan?>(null);
+        return IsTransientException(outcome.Exception, context.CancellationToken)
+            && IsIdempotent(context.GetRequestMessage()?.Method);
     }
 
-    internal static bool IsRetryableStatusCode(System.Net.HttpStatusCode? statusCode)
+    // The response usually carries its request (set by the primary handler); the resilience context (populated by
+    // ResilienceHandler) is the fallback for handlers that don't set it.
+    private static HttpMethod? RequestMethod(HttpResponseMessage response, ResilienceContext context)
+        => (response.RequestMessage ?? context.GetRequestMessage())?.Method;
+
+    // An unknown method — no request message available — is treated as non-idempotent: no retry unless provably safe.
+    internal static bool IsIdempotent(HttpMethod? method)
+        => method == HttpMethod.Get
+        || method == HttpMethod.Head
+        || method == HttpMethod.Options
+        || method == HttpMethod.Put
+        || method == HttpMethod.Delete;
+
+    /// <summary>Honors a server-provided <c>Retry-After</c> delta on any retried response; otherwise the strategy's backoff applies.</summary>
+    internal static ValueTask<TimeSpan?> GetRetryAfterDelay(RetryDelayGeneratorArguments<HttpResponseMessage> args)
+        => ValueTask.FromResult(args.Outcome.Result?.Headers.RetryAfter?.Delta);
+
+    internal static bool IsRetryableStatusCode(HttpStatusCode? statusCode)
         => statusCode is
-            System.Net.HttpStatusCode.TooManyRequests or
-            System.Net.HttpStatusCode.RequestTimeout or
-            System.Net.HttpStatusCode.InternalServerError or
-            System.Net.HttpStatusCode.BadGateway or
-            System.Net.HttpStatusCode.ServiceUnavailable or
-            System.Net.HttpStatusCode.GatewayTimeout;
+            HttpStatusCode.TooManyRequests or
+            HttpStatusCode.RequestTimeout or
+            HttpStatusCode.InternalServerError or
+            HttpStatusCode.BadGateway or
+            HttpStatusCode.ServiceUnavailable or
+            HttpStatusCode.GatewayTimeout;
 
     internal static bool IsTransientException(Exception? exception, CancellationToken requestCancellationToken)
         => exception switch

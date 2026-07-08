@@ -14,13 +14,16 @@ namespace Kontent.Ai.Management;
 public sealed partial class ManagementClient : IManagementClient
 {
     private readonly IManagementApi _managementApi;
-    private readonly ISubscriptionApi _subscriptionApi;
+    private readonly ISubscriptionApi? _subscriptionApi;
     private readonly IDisposable? _ownedResources;
     private readonly Conversion.ContentItemEnvelopeConverter _contentConverter;
     // When we built the converter ourselves, auto-scan the consumer's generated-models assembly on first use so
     // rich-text component types resolve. When one was injected (tests / advanced callers), trust its registry as-is.
     private readonly bool _autoScanContentTypes;
     private int _disposed;
+
+    private ISubscriptionApi SubscriptionApi => _subscriptionApi
+        ?? throw new InvalidOperationException(ManagementOptionsExtensions.SubscriptionIdMissingMessage);
 
     /// <summary>
     /// Creates a client against the environment described by <paramref name="managementOptions"/>. The returned
@@ -51,7 +54,7 @@ public sealed partial class ManagementClient : IManagementClient
 
     internal ManagementClient(
         IManagementApi managementApi,
-        ISubscriptionApi subscriptionApi,
+        ISubscriptionApi? subscriptionApi,
         IDisposable? ownedResources = null,
         Conversion.ContentItemEnvelopeConverter? contentConverter = null)
     {
@@ -94,7 +97,7 @@ public sealed partial class ManagementClient : IManagementClient
     // Builds the env-scoped and subscription-scoped Refit clients plus the disposable bundle the ctor needs.
     // Validates options here so all standalone construction paths surface ValidationException uniformly (the DI
     // path uses ValidateOnStart, a separate mechanism with its own exception type — that's not something we control).
-    private static (IManagementApi Api, ISubscriptionApi SubscriptionApi, IDisposable OwnedResources) BuildDependencies(
+    private static (IManagementApi Api, ISubscriptionApi? SubscriptionApi, IDisposable OwnedResources) BuildDependencies(
         ManagementOptions options,
         Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience,
         Action<RefitSettings>? configureRefit)
@@ -108,9 +111,14 @@ public sealed partial class ManagementClient : IManagementClient
         configureRefit?.Invoke(refitSettings);
 
         var managementHttp = ManagementApiFactory.CreateHttpClient(options, $"projects/{options.EnvironmentId}", optionsAccessor, pipeline);
-        var subscriptionHttp = ManagementApiFactory.CreateHttpClient(options, $"subscriptions/{options.SubscriptionId}", optionsAccessor, pipeline);
-
         var api = RestService.For<IManagementApi>(managementHttp, refitSettings);
+
+        if (!options.HasSubscriptionId())
+        {
+            return (api, null, new CompositeDisposable(managementHttp));
+        }
+
+        var subscriptionHttp = ManagementApiFactory.CreateHttpClient(options, options.SubscriptionScopePath(), optionsAccessor, pipeline);
         var subscriptionApi = RestService.For<ISubscriptionApi>(subscriptionHttp, refitSettings);
 
         return (api, subscriptionApi, new CompositeDisposable(managementHttp, subscriptionHttp));

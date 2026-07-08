@@ -16,7 +16,7 @@ namespace Kontent.Ai.Management.Tests.Base;
 internal static class MockClientFactory
 {
     public const string EnvironmentId = "a9931a80-9af4-010b-0590-ecb1273cf1b8";
-    public const string SubscriptionId = "9c7b9841-ea99-48a7-a46d-65b2549d6c0";
+    public const string SubscriptionId = "9c7b9841-ea99-48a7-a46d-65b2549d6c05";
 
     // Refit composes "{BaseAddress}{relative path}", so the base must carry no trailing slash or every path
     // doubles the separator. Endpoint defaults to "https://manage.kontent.ai"; the SDK appends "/v2/projects/{id}".

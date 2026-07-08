@@ -134,7 +134,11 @@ public class ServiceCollectionExtensionsTests
     public void AddManagementClient_RegistersManagementApiAndSubscriptionApi()
     {
         var services = new ServiceCollection();
-        services.AddManagementClient(ConfigureValidOptions);
+        services.AddManagementClient(options =>
+        {
+            ConfigureValidOptions(options);
+            options.SubscriptionId = Guid.NewGuid().ToString();
+        });
 
         using var provider = services.BuildServiceProvider();
 
@@ -142,6 +146,33 @@ public class ServiceCollectionExtensionsTests
         provider.GetService<ISubscriptionApi>().Should().NotBeNull();
         provider.GetRequiredKeyedService<IManagementApi>(ManagementClientNames.Default).Should().NotBeNull();
         provider.GetRequiredKeyedService<ISubscriptionApi>(ManagementClientNames.Default).Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task AddManagementClient_WithoutSubscriptionId_ClientResolvesButSubscriptionEndpointsThrow()
+    {
+        var services = new ServiceCollection();
+        services.AddManagementClient(ConfigureValidOptions);
+
+        using var provider = services.BuildServiceProvider();
+        var client = provider.GetRequiredService<IManagementClient>();
+
+        var act = () => client.ListSubscriptionProjectsAsync();
+
+        await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SubscriptionId is not configured*");
+    }
+
+    [Fact]
+    public void AddManagementClient_WithoutSubscriptionId_ResolvingSubscriptionApiThrows()
+    {
+        var services = new ServiceCollection();
+        services.AddManagementClient(ConfigureValidOptions);
+
+        using var provider = services.BuildServiceProvider();
+
+        Action act = () => provider.GetRequiredService<ISubscriptionApi>();
+
+        act.Should().Throw<InvalidOperationException>().WithMessage("*SubscriptionId is not configured*");
     }
 
     private static void ConfigureValidOptions(ManagementOptions options)

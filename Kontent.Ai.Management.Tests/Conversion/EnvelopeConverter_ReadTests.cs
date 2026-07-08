@@ -121,7 +121,7 @@ public class EnvelopeConverter_ReadTests
     }
 
     [Fact]
-    public void MultipleChoice_UnknownOption_IsSkipped()
+    public void MultipleChoice_UnknownOption_Throws()
     {
         var json = """
             [{
@@ -133,9 +133,11 @@ public class EnvelopeConverter_ReadTests
             }]
             """;
 
-        var callout = Converter.ReadEnvelopes<Callout>(json);
+        var act = () => Converter.ReadEnvelopes<Callout>(json);
 
-        callout.Type.Should().Equal(CalloutType.Warning);
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("*unknown-option*")
+            .WithMessage("*[KontentEnumValue]*", "skipping the option would silently deselect it on the next upsert");
     }
 
     [Fact]

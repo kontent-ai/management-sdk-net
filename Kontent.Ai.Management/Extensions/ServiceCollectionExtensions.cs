@@ -3,6 +3,7 @@ using Kontent.Ai.Management.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Polly;
 
 namespace Kontent.Ai.Management.Extensions;
@@ -200,7 +201,7 @@ public static partial class ServiceCollectionExtensions
             services,
             name,
             $"{SubscriptionHttpClientPrefix}{name}",
-            o => $"subscriptions/{o.SubscriptionId}",
+            o => o.SubscriptionScopePath(),
             refitSettings,
             configureHttpClient,
             configureResilience);
@@ -222,7 +223,10 @@ public static partial class ServiceCollectionExtensions
     {
         var name = (string)key!;
         var managementApi = serviceProvider.GetRequiredKeyedService<IManagementApi>(name);
-        var subscriptionApi = serviceProvider.GetRequiredKeyedService<ISubscriptionApi>(name);
+        var options = serviceProvider.GetRequiredService<IOptionsMonitor<ManagementOptions>>().Get(name);
+        var subscriptionApi = options.HasSubscriptionId()
+            ? serviceProvider.GetRequiredKeyedService<ISubscriptionApi>(name)
+            : null;
         return new ManagementClient(managementApi, subscriptionApi);
     }
 

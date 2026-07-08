@@ -297,7 +297,14 @@ internal sealed class ContentItemEnvelopeConverter
             {
                 enumDescriptor.ByCodename.TryGetValue(codename, out member);
             }
-            if (member is not null) list.Add(member);
+            if (member is null)
+            {
+                // Skipping instead would silently deselect the option on the next upsert of the read model.
+                throw new InvalidOperationException(
+                    $"Multiple-choice option {entry.GetRawText()} on '{prop.Property.DeclaringType?.Name}.{prop.Property.Name}' " +
+                    $"has no matching [KontentEnumValue] member on '{enumType.Name}'. Regenerate the model if the type's options changed.");
+            }
+            list.Add(member);
         }
         return list;
     }

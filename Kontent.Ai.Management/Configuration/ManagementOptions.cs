@@ -57,5 +57,13 @@ public sealed class ManagementOptions : IValidatableObject
                 "EnvironmentId cannot be an empty GUID.",
                 [nameof(EnvironmentId)]);
         }
+
+        if (!string.IsNullOrWhiteSpace(SubscriptionId)
+            && (!Guid.TryParse(SubscriptionId, out var subscriptionGuid) || subscriptionGuid == Guid.Empty))
+        {
+            yield return new ValidationResult(
+                $"Provided string is not a valid subscription identifier ({SubscriptionId}).",
+                [nameof(SubscriptionId)]);
+        }
     }
 }

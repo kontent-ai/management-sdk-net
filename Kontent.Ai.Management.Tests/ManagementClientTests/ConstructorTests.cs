@@ -46,4 +46,35 @@ public class ConstructorTests
 
         act.Should().Throw<ValidationException>();
     }
+
+    [Theory]
+    [InlineData("not-a-guid")]
+    [InlineData("00000000-0000-0000-0000-000000000000")]
+    public void Ctor_InvalidSubscriptionId_ThrowsValidationException(string subscriptionId)
+    {
+        var options = new ManagementOptions
+        {
+            EnvironmentId = Guid.NewGuid().ToString(),
+            ApiKey = "key",
+            SubscriptionId = subscriptionId,
+        };
+
+        Action act = () => new ManagementClient(options);
+
+        act.Should().Throw<ValidationException>().WithMessage("*subscription identifier*");
+    }
+
+    [Fact]
+    public async Task Ctor_WithoutSubscriptionId_SubscriptionEndpointsThrow()
+    {
+        await using var client = new ManagementClient(new ManagementOptions
+        {
+            EnvironmentId = Guid.NewGuid().ToString(),
+            ApiKey = "key",
+        });
+
+        var act = () => client.ListSubscriptionProjectsAsync();
+
+        await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("*SubscriptionId is not configured*");
+    }
 }

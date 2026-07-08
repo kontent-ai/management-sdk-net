@@ -23,7 +23,7 @@ internal static class ManagementApiFactory
     public static ISubscriptionApi CreateSubscription(ManagementOptions options, HttpMessageHandler? innerHandler = null)
     {
         ArgumentNullException.ThrowIfNull(options);
-        var http = CreateHttpClient(options, $"subscriptions/{options.SubscriptionId}", new SnapshotManagementOptionsAccessor(options), primaryHandler: innerHandler);
+        var http = CreateHttpClient(options, options.SubscriptionScopePath(), new SnapshotManagementOptionsAccessor(options), primaryHandler: innerHandler);
         return RestService.For<ISubscriptionApi>(http, RefitSettingsProvider.CreateDefaultSettings());
     }
 
