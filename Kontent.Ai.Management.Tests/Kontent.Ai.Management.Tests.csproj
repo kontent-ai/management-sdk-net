@@ -4,7 +4,8 @@
 		<TargetFramework>net8.0</TargetFramework>
 
 		<IsPackable>false</IsPackable>
-		<NoWarn>CS1591</NoWarn>
+		<!-- KAIM001: the tests exercise the SDK's own experimental content-model snapshot API -->
+		<NoWarn>CS1591;KAIM001</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

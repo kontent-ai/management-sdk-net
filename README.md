@@ -735,7 +735,7 @@ Two fallbacks cover anything the factories don't model:
 - **Raw-path factories** — `AddIntoRaw`, `ReplaceRaw`, `RemoveRaw`, `MoveRawBefore` / `MoveRawAfter` take the `path` string directly, so a property the SDK has no named factory for — e.g. an element's `maximum_text_length` — is still reachable in the same fluent style: `ContentTypePatch.ReplaceRaw("/elements/codename:summary/maximum_text_length", new MaximumTextLengthModel { Value = 280, AppliesTo = TextLengthLimitType.Characters })`.
 - **The operation records** — construct `ContentModelReplacePatchModel { Path = …, Value = … }` (and its add / move / remove siblings) by hand for full control.
 
-Taxonomy groups, collections, languages, and the other patchable resources address their target by a typed `PropertyName` and `Reference` instead of a path string, so they have no grammar to encode and are edited directly with their own operation models:
+Taxonomy groups, collections, languages, and the other patchable resources address their target by a typed property-name enum and `Reference` instead of a path string, so they have no grammar to encode and are edited directly with their own operation models:
 
 ```csharp
 await client.ModifyTaxonomyGroupAsync(Reference.ByCodename("categories"), [/* TaxonomyGroupOperationBaseModel ops */]);

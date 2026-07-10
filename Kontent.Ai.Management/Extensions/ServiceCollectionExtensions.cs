@@ -23,7 +23,7 @@ public static partial class ServiceCollectionExtensions
     public static IServiceCollection AddManagementClient(
         this IServiceCollection services,
         IConfiguration configuration,
-        string configurationSectionName = "ManagementOptions")
+        string configurationSectionName = ManagementOptions.DefaultConfigurationSectionName)
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configuration);
@@ -42,7 +42,7 @@ public static partial class ServiceCollectionExtensions
         this IServiceCollection services,
         string name,
         IConfiguration configuration,
-        string configurationSectionName = "ManagementOptions")
+        string configurationSectionName = ManagementOptions.DefaultConfigurationSectionName)
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(configuration);

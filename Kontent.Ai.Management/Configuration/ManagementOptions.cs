@@ -8,6 +8,12 @@ namespace Kontent.Ai.Management.Configuration;
 public sealed class ManagementOptions : IValidatableObject
 {
     /// <summary>
+    /// The configuration section name <c>AddManagementClient</c> binds by default. Design-time tools that resolve
+    /// the SDK's configuration from the same sources (e.g. a model-pull CLI) should probe this section.
+    /// </summary>
+    public const string DefaultConfigurationSectionName = "ManagementOptions";
+
+    /// <summary>
     /// Gets or sets the base address of the Management API. Optional; defaults to <c>https://manage.kontent.ai</c>.
     /// The SDK appends the versioned, scoped path (<c>/v2/projects/{id}</c> or <c>/v2/subscriptions/{id}</c>).
     /// </summary>

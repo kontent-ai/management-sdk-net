@@ -1,4 +1,5 @@
 using Kontent.Ai.Management.Models.ContentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace Kontent.Ai.Management.Extensions;
@@ -13,13 +14,20 @@ public static class ContentModelExtensions
     /// snapshot, draining the pagination of each listing.
     /// </summary>
     /// <remarks>
+    /// <para>
+    /// <b>Experimental.</b> The snapshot feature is not yet a supported contract and may change or be removed in a
+    /// future release. Suppress the <c>KAIM001</c> diagnostic to opt in.
+    /// </para>
+    /// <para>
     /// The export is all-or-nothing: if any listing page fails, that failure is returned and no partial snapshot is
-    /// produced — a content model silently missing entries is worse than none, since it would generate an incomplete
-    /// model. Each collection is ordered by codename so a serialized snapshot diffs deterministically.
+    /// produced — a content model silently missing entries is worse than none. Each collection is ordered by codename
+    /// so a serialized snapshot diffs deterministically.
+    /// </para>
     /// </remarks>
     /// <param name="client">Content management client instance.</param>
     /// <param name="cancellationToken">Token to cancel the export.</param>
     /// <returns>A result wrapping the complete <see cref="ContentModelSnapshot"/>, or the first listing failure.</returns>
+    [Experimental("KAIM001")]
     public static async Task<IManagementResult<ContentModelSnapshot>> ExportContentModelAsync(this IManagementClient client, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(client);

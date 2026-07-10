@@ -323,6 +323,7 @@ public sealed class ManagementClientBuilder
 
 // Kontent.Ai.Management.Configuration
 public sealed class ManagementOptions : IValidatableObject
+    const String DefaultConfigurationSectionName = ManagementOptions
     String ApiKey { get; set; }
     Boolean EnableResilience { get; set; }
     String Endpoint { get; set; }
@@ -816,13 +817,17 @@ public sealed class UrlSlugValue : IEquatable`1
 
 // Kontent.Ai.Management.Models.ContentModel
 public sealed class ContentModelSnapshot : IEquatable`1
+    const Int32 CurrentVersion = 1
     IReadOnlyList<ContentTypeSnippetModel> Snippets { get; set; init; }
     IReadOnlyList<TaxonomyGroupModel> Taxonomies { get; set; init; }
     IReadOnlyList<ContentTypeModel> Types { get; set; init; }
+    Int32 Version { get; set; init; }
     ContentModelSnapshot <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ContentModelSnapshot other)
+    static ContentModelSnapshot FromJson(String json)
     Int32 GetHashCode()
+    String ToJson()
     String ToString()
 
 // Kontent.Ai.Management.Models.ContentModel.Patch
