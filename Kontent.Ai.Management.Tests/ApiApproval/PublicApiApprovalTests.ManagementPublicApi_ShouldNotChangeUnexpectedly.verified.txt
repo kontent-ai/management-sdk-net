@@ -359,6 +359,19 @@ public sealed class ManagementClientExtensions
     static Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken)
 
 // Kontent.Ai.Management.Extensions
+public sealed class ModelReferenceExtensions
+    static Reference ToReference(ContentItemModel item)
+    static Reference ToReference(AssetModel asset)
+    static Reference ToReference(ContentTypeModel contentType)
+    static Reference ToReference(ContentTypeSnippetModel snippet)
+    static Reference ToReference(TaxonomyGroupModel taxonomyGroup)
+    static Reference ToReference(LanguageModel language)
+    static Reference ToReference(WorkflowModel workflow)
+    static Reference ToReference(CollectionModel collection)
+    static Reference ToReference(SpaceModel space)
+    static Reference ToReference(WebhookModel webhook)
+
+// Kontent.Ai.Management.Extensions
 public sealed class ServiceCollectionExtensions
     static IServiceCollection AddManagementClient(IServiceCollection services, IConfigurationSection configurationSection)
     static IServiceCollection AddManagementClient(IServiceCollection services, Action<ManagementOptions> configureOptions)
