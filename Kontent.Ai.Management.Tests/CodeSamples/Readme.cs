@@ -60,19 +60,18 @@ public class Readme
         // Remove next line in codesample
         var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleLanguageVariantUpdatedResponse.json");
 
-        var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+        var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
 
         // Elements to update. Each element is identified by its codename;
         // you can also identify it by `id` or `external_id`.
-        var elements = new BaseElement[]
+        var upsertModel = new LanguageVariantUpsertModel
         {
-            new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts - changed" },
-            new DateTimeElement { Element = Reference.ByCodename("post_date"), Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero) },
+            Elements =
+            [
+                new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts - changed" },
+                new DateTimeElement { Element = Reference.ByCodename("post_date"), Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero) },
+            ]
         };
-
-        var upsertModel = new LanguageVariantUpsertModel { Elements = elements };
 
         // Upserts a language variant of a content item
         var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
@@ -86,9 +85,7 @@ public class Readme
         // Remove next line in codesample
         mock.Fallback.Respond("application/json", File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", SampleFolder, "ArticleLanguageVariantUpdatedResponse.json")));
 
-        var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+        var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
 
         // Builds the variant from the generated content-type record
         var variant = new Article
@@ -122,36 +119,27 @@ public class Readme
     public async Task CreateStronglyTypedAsset()
     {
         // Remove next line in codesample
-        var client = MockClientFactory.CreateForSample(SampleFolder, "FileReferenceResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "FileReferenceResponse.json", "AssetResponse.json");
 
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-        var fileName = "Hello.txt";
-        var contentType = "text/plain";
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world"));
 
-        // Returns a reference that you can later use to create an asset
-        var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
-
-        // Defines the content elements to create
-        var taxonomyElements = new[]
-        {
-            new Models.Assets.AssetTaxonomyElement
+        // Uploads the file and creates the asset that references it in a single call
+        var result = await client.CreateAssetAsync(
+            new FileContentSource(stream, "hello.txt", "text/plain"),
+            fileReference => new AssetCreateModel
             {
-                Element = Reference.ByCodename("taxonomy-categories"),
-                Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename).ToList()
-            }
-        };
-
-        // Defines the asset to create
-        var asset = new AssetCreateModel
-        {
-            FileReference = fileResult.Value,
-            Elements = taxonomyElements
-        };
-
-        // Remove next line in codesample
-        client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");
-        // Creates an asset
-        var response = await client.CreateAssetAsync(asset);
+                FileReference = fileReference,
+                Title = "Hello",
+                // optionally assign taxonomy terms defined on the environment's asset type
+                Elements =
+                [
+                    new AssetTaxonomyElement
+                    {
+                        Element = Reference.ByCodename("taxonomy-categories"),
+                        Value = [Reference.ByCodename("hello"), Reference.ByCodename("sdk")]
+                    }
+                ]
+            });
     }
 
     [Fact]
@@ -160,24 +148,21 @@ public class Readme
         // Remove next line in codesample
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");
 
-        // Elements to update
-        var taxonomyElements = new[]
-        {
-            new Models.Assets.AssetTaxonomyElement
-            {
-                Element = Reference.ByCodename("taxonomy-categories"),
-                Value = new[]
-                {
-                    Reference.ByCodename("hello"),
-                    Reference.ByCodename("SDK"),
-                }
-            }
-        };
-
-        // Defines the asset to update
+        // Defines the asset metadata to update
         var asset = new AssetUpsertModel
         {
-            Elements = taxonomyElements
+            Elements =
+            [
+                new AssetTaxonomyElement
+                {
+                    Element = Reference.ByCodename("taxonomy-categories"),
+                    Value =
+                    [
+                        Reference.ByCodename("hello"),
+                        Reference.ByCodename("SDK"),
+                    ]
+                }
+            ]
         };
 
         var assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
@@ -420,8 +405,8 @@ public class Readme
         {
             Name = "Article",
             Codename = "article",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Title",
@@ -433,18 +418,18 @@ public class Readme
                     Name = "Body",
                     Codename = "body"
                 }
-            }
+            ]
         });
 
         await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
         {
             Name = "Categories",
             Codename = "categories",
-            Terms = new[]
-            {
+            Terms =
+            [
                 new TaxonomyTermCreateModel { Name = "Coffee", Codename = "coffee" },
                 new TaxonomyTermCreateModel { Name = "Brewing", Codename = "brewing" }
-            }
+            ]
         });
 
         await client.ModifyContentTypeAsync(Reference.ByCodename("article"),

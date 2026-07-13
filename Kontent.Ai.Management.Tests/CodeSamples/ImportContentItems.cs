@@ -40,8 +40,8 @@ public class ImportContentItems
             Codename = "cafe",
             Name = "Cafe",
             ExternalId = "cafe",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new NumberElementMetadataModel
                 {
                     Name = "Price per unit",
@@ -92,7 +92,7 @@ public class ImportContentItems
                     Name = "Photo",
                     Codename = "photo"
                 }
-            }
+            ]
         });
     }
 
@@ -107,8 +107,8 @@ public class ImportContentItems
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new BaseElement[]
-            {
+            Elements =
+            [
                 new TextElement { Element = Reference.ByExternalId("street"), Value = "Nove Sady 25" },
                 new TextElement { Element = Reference.ByExternalId("city"), Value = "Brno" },
                 new TextElement { Element = Reference.ByExternalId("country"), Value = "Czech republic" },
@@ -116,7 +116,7 @@ public class ImportContentItems
                 new TextElement { Element = Reference.ByExternalId("zip_code"), Value = "60200" },
                 new TextElement { Element = Reference.ByExternalId("phone"), Value = "+420 555 555 555" },
                 new TextElement { Element = Reference.ByExternalId("email"), Value = "brnocafe@kontent.ai" },
-            }
+            ]
         });
     }
 }

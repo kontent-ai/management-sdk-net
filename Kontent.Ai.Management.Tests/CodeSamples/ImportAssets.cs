@@ -1,3 +1,4 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
@@ -22,31 +23,30 @@ public class ImportAssets
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        // Uses the file reference object obtained in step 1
-        var createdAssetResponse = await client.UpsertAssetAsync(Reference.ByExternalId("which-brewing-fits-you"), new AssetUpsertModel
-        {
-            // 'fileReference' is only required when creating a new asset
-            // To create a file reference, see the "Upload a binary file" endpoint
-            FileReference = new FileReference
+        var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "brno-cafe-1080px.jpg");
+        var contentType = "image/jpg";
+
+        // Uploads the file and creates or updates the asset that references it in a single call
+        var createdAssetResponse = await client.UpsertAssetAsync(
+            Reference.ByExternalId("which-brewing-fits-you"),
+            new FileContentSource(filePath, contentType),
+            new AssetUpsertModel
             {
-                Id = "8660e19c-7bbd-48a3-bb51-721934c7756c",
-                Type = FileReferenceType.Internal
-            },
-            Title = "Brno Cafe",
-            Descriptions = new AssetDescription[]
-            {
-                new AssetDescription
-                {
-                    Description = "Cafe in Brno",
-                    Language = Reference.ByCodename("en-US")
-                },
-                new AssetDescription
-                {
-                    Description = "Café en Brno",
-                    Language = Reference.ByCodename("es-ES")
-                }
-            }
-        });
+                Title = "Brno Cafe",
+                Descriptions =
+                [
+                    new AssetDescription
+                    {
+                        Description = "Cafe in Brno",
+                        Language = Reference.ByCodename("en-US")
+                    },
+                    new AssetDescription
+                    {
+                        Description = "Café en Brno",
+                        Language = Reference.ByCodename("es-ES")
+                    }
+                ]
+            });
     }
 
     // DocSection: importing_assets_upload_file
@@ -74,8 +74,8 @@ public class ImportAssets
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new BaseElement[]
-            {
+            Elements =
+            [
                 new AssetElement
                 {
                     Element = Reference.ByCodename("photo"),
@@ -84,7 +84,7 @@ public class ImportAssets
                         new AssetReference { ExternalId = "brno-cafe-image" },
                     ],
                 },
-            }
+            ]
         });
     }
 
@@ -99,14 +99,14 @@ public class ImportAssets
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new BaseElement[]
-            {
+            Elements =
+            [
                 new RichTextElement
                 {
                     Element = Reference.ByCodename("body_copy"),
                     Value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
                 },
-            }
+            ]
         });
     }
 }

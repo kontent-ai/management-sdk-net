@@ -654,14 +654,14 @@ var result = await client.CreateAssetAsync(
         FileReference = fileReference,
         Title = "Hello",
         // optionally assign taxonomy terms defined on the environment's asset type
-        Elements = new[]
-        {
+        Elements =
+        [
             new AssetTaxonomyElement
             {
                 Element = Reference.ByCodename("taxonomy-categories"),
-                Value = new[] { Reference.ByCodename("hello"), Reference.ByCodename("sdk") }
+                Value = [Reference.ByCodename("hello"), Reference.ByCodename("sdk")]
             }
-        }
+        ]
     });
 ```
 
@@ -671,12 +671,12 @@ When you need finer control — reusing one uploaded file across several assets,
 
 ```csharp
 // 1. Upload the binary file
-var fileResult = await client.UploadFileAsync(new FileContentSource(stream, "hello.txt", "text/plain"));
+var fileReference = (await client.UploadFileAsync(new FileContentSource(stream, "hello.txt", "text/plain"))).EnsureSuccess();
 
 // 2. Create the asset referencing it
 var result = await client.CreateAssetAsync(new AssetCreateModel
 {
-    FileReference = fileResult.Value,
+    FileReference = fileReference,
     Title = "Hello"
 });
 ```

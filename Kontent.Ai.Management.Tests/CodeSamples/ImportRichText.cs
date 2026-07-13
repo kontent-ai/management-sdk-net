@@ -27,8 +27,8 @@ public class ImportRichText
         {
             ExternalId = "button",
             Name = "Button",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Text",
@@ -39,7 +39,7 @@ public class ImportRichText
                     Name = "Link",
                     ExternalId = "button-link",
                 },
-            }
+            ]
         });
     }
 
@@ -68,14 +68,14 @@ public class ImportRichText
         {
             Name = "Simple Rich Text",
             Codename = "simple-rich-text",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new RichTextElementMetadataModel
                 {
                     Name = "Rich Text",
                     ExternalId = "rich-text",
                 },
-            }
+            ]
         });
     }
 
@@ -90,8 +90,8 @@ public class ImportRichText
 
         await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new BaseElement[]
-            {
+            Elements =
+            [
                 new RichTextElement
                 {
                     Element = Reference.ByExternalId("rich-text"),
@@ -110,7 +110,7 @@ public class ImportRichText
                         },
                     ],
                 },
-            },
+            ],
         });
     }
 }

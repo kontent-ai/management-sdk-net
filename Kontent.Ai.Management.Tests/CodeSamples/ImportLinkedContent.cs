@@ -49,15 +49,15 @@ public class ImportLinkedContent
 
         await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new BaseElement[]
-            {
+            Elements =
+            [
                 new TextElement { Element = Reference.ByCodename("title"), Value = "Donate with us" },
                 new LinkedItemsElement
                 {
                     Element = Reference.ByCodename("related_articles"),
                     Value = [Reference.ByExternalId("123")],
                 },
-            }
+            ]
         });
     }
 
@@ -72,15 +72,15 @@ public class ImportLinkedContent
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = new BaseElement[]
-            {
+            Elements =
+            [
                 new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
                 new LinkedItemsElement
                 {
                     Element = Reference.ByCodename("related_articles"),
                     Value = [Reference.ByExternalId("456")],
                 },
-            }
+            ]
         });
     }
 

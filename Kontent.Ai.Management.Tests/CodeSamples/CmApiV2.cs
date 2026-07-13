@@ -4,7 +4,7 @@ using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
-using Kontent.Ai.Management.Models.ContentModel.Patch;
+using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
@@ -18,7 +18,9 @@ using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
+using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Models.TypeSnippets;
+using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Models.Webhooks;
 using Kontent.Ai.Management.Models.Webhooks.Triggers;
@@ -137,12 +139,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder);
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         await client.DeleteLanguageVariantAsync(identifier);
     }
@@ -204,7 +202,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Assets.json");
 
-        IReadOnlyList<AssetModel> assets = (await client.ListAssetsAsync()).Value;
+        IReadOnlyList<AssetModel> assets = (await client.ListAssetsAsync()).EnsureSuccess();
 
         Assert.Single(assets);
     }
@@ -216,12 +214,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
-        var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
-        // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
-        var renditionReference = Reference.ById(Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
-        // var renditionReference = Reference.ByExternalId("hero-image-rendition");
-
-        var identifier = new AssetRenditionIdentifier(assetReference, renditionReference);
+        var identifier = AssetRenditionIdentifier.ByIds(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"), Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
+        // var identifier = new AssetRenditionIdentifier(Reference.ByExternalId("which-brewing-fits-you"), Reference.ByExternalId("hero-image-rendition"));
 
         var response = await client.GetAssetRenditionAsync(identifier);
 
@@ -238,8 +232,7 @@ public class CmApiV2
         var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
 
-        // Gets the first page of results
-        IReadOnlyList<AssetRenditionModel> renditions = (await client.ListAssetRenditionsAsync(assetReference)).Value;
+        IReadOnlyList<AssetRenditionModel> renditions = (await client.ListAssetRenditionsAsync(assetReference)).EnsureSuccess();
 
         Assert.Single(renditions);
     }
@@ -255,7 +248,7 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).Value;
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).EnsureSuccess();
 
         Assert.NotNull(response);
     }
@@ -267,9 +260,9 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
-        var response = await client.GetCollectionsAsync();
+        var response = (await client.GetCollectionsAsync()).EnsureSuccess();
 
-        Assert.Equal(2, response.Value.Collections.Count());
+        Assert.Equal(2, response.Collections.Count());
     }
 
     // DocSection: cm_api_v2_get_asset_folders
@@ -279,10 +272,10 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetFolders.json");
 
-        var response = await client.GetAssetFoldersAsync();
+        var response = (await client.GetAssetFoldersAsync()).EnsureSuccess();
 
-        Assert.Equal(2, response.Value.Folders.Count());
-        Assert.Single(response.Value.Folders.First().Folders!);
+        Assert.Equal(2, response.Folders.Count());
+        Assert.Single(response.Folders.First().Folders!);
     }
 
     // DocSection: cm_api_v2_get_item
@@ -309,7 +302,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItems.json");
 
-        IReadOnlyList<ContentItemModel> response = (await client.ListContentItemsAsync()).Value;
+        IReadOnlyList<ContentItemModel> response = (await client.ListContentItemsAsync()).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -337,7 +330,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Languages.json");
 
-        var count = (await client.ListLanguagesAsync()).Value.Count;
+        var count = (await client.ListLanguagesAsync()).EnsureSuccess().Count;
 
         Assert.Equal(1, count);
     }
@@ -377,7 +370,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Snippets.json");
 
-        IReadOnlyList<ContentTypeSnippetModel> response = (await client.ListContentTypeSnippetsAsync()).Value;
+        IReadOnlyList<ContentTypeSnippetModel> response = (await client.ListContentTypeSnippetsAsync()).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -405,7 +398,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroups.json");
 
-        var count = (await client.ListTaxonomyGroupsAsync()).Value.Count;
+        var count = (await client.ListTaxonomyGroupsAsync()).EnsureSuccess().Count;
 
         Assert.Equal(1, count);
     }
@@ -434,7 +427,7 @@ public class CmApiV2
         var client = MockClientFactory.CreateForSample(SampleFolder, "ContentTypes.json");
 
 
-        IReadOnlyList<ContentTypeModel> response = (await client.ListContentTypesAsync()).Value;
+        IReadOnlyList<ContentTypeModel> response = (await client.ListContentTypesAsync()).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -446,12 +439,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "es-ES");
 
         var response = await client.GetLanguageVariantAsync(identifier);
 
@@ -465,12 +454,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "es-ES");
 
         var response = await client.GetPublishedLanguageVariantAsync(identifier);
 
@@ -488,9 +473,9 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("on_roasts");
         // var identifier = Reference.ByExternalId("59713");
 
-        var response = await client.ListLanguageVariantsByItemAsync(identifier);
+        var response = (await client.ListLanguageVariantsByItemAsync(identifier)).EnsureSuccess();
 
-        Assert.Single(response.Value);
+        Assert.Single(response);
     }
 
     // DocSection: cm_api_v2_get_variants_of_type
@@ -504,7 +489,7 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsByTypeAsync(identifier)).Value;
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsByTypeAsync(identifier)).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -520,7 +505,7 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).Value;
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -546,9 +531,9 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Webhooks.json");
 
-        var response = await client.ListWebhooksAsync();
+        var response = (await client.ListWebhooksAsync()).EnsureSuccess();
 
-        Assert.Single(response.Value);
+        Assert.Single(response);
     }
 
     // DocSection: cm_api_v2_get_workflows
@@ -558,9 +543,9 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Workflows.json");
 
-        var response = await client.ListWorkflowsAsync();
+        var response = (await client.ListWorkflowsAsync()).EnsureSuccess();
 
-        Assert.Equal(2, response.Value.Count());
+        Assert.Equal(2, response.Count);
     }
 
 
@@ -586,9 +571,9 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectRoles.json");
 
-        var response = await client.ListEnvironmentRolesAsync();
+        var response = (await client.ListEnvironmentRolesAsync()).EnsureSuccess();
 
-        Assert.Equal(2, response.Value.Count());
+        Assert.Equal(2, response.Count);
     }
 
     // DocSection: cm_api_v2_get_subscription_user
@@ -613,7 +598,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUsers.json");
 
-        var count = (await client.ListSubscriptionUsersAsync()).Value.Count;
+        var count = (await client.ListSubscriptionUsersAsync()).EnsureSuccess().Count;
 
         Assert.Equal(2, count);
     }
@@ -625,7 +610,7 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionProjects.json");
 
-        var count = (await client.ListSubscriptionProjectsAsync()).Value.Count;
+        var count = (await client.ListSubscriptionProjectsAsync()).EnsureSuccess().Count;
 
         Assert.Equal(2, count);
     }
@@ -672,8 +657,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PatchAssetsFolderResponse.json");
 
-        var response = await client.ModifyAssetFoldersAsync(new AssetFolderOperationBaseModel[]
-        {
+        var response = (await client.ModifyAssetFoldersAsync(
+        [
             new AssetFolderAddIntoPatchModel
             {
                 Reference = Reference.ByExternalId("folder-with-shared-asset"),
@@ -681,7 +666,6 @@ public class CmApiV2
                 {
                     ExternalId = "folder-with-shared-assets",
                     Name = "Shared assets",
-                    Folders = [],
                 },
                 Before = Reference.ByExternalId("folder-with-downloadable-assets")
             },
@@ -694,11 +678,10 @@ public class CmApiV2
                 Reference = Reference.ByExternalId("folder-documents"),
                 Value = "Legal documents"
             }
-        });
+        ])).EnsureSuccess();
 
-        Assert.NotNull(response);
-        Assert.Equal(3, response.Value.Folders.Count());
-        Assert.Single(response.Value.Folders.Skip(1).First().Folders!);
+        Assert.Equal(3, response.Folders.Count());
+        Assert.Single(response.Folders.Skip(1).First().Folders!);
     }
 
     // DocSection: cm_api_v2_patch_content_collections
@@ -708,8 +691,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
-        var response = await client.ModifyCollectionsAsync(new CollectionOperationBaseModel[]
-        {
+        var response = (await client.ModifyCollectionsAsync(
+        [
             new CollectionAddIntoPatchModel
             {
                 Value = new CollectionCreateModel
@@ -731,13 +714,12 @@ public class CmApiV2
             },
             new CollectionReplacePatchModel
             {
-                PropertyName = Models.Collections.Patch.CollectionPropertyName.Name,
                 Value = "A new name",
                 Reference = Reference.ByCodename("second_collection")
             }
-        });
+        ])).EnsureSuccess();
 
-        Assert.Equal(2, response.Value.Collections.Count());
+        Assert.Equal(2, response.Collections.Count());
     }
 
     // DocSection: cm_api_v2_patch_language
@@ -752,19 +734,11 @@ public class CmApiV2
         // var identifier = Reference.ByExternalId("standard-german");
 
 
-        var response = await client.ModifyLanguageAsync(identifier, new[]
-        {
-            new LanguagePatchModel
-            {
-                PropertyName = LanguagePropertyName.FallbackLanguage,
-                Value = Reference.ByCodename("en-US")
-            },
-            new LanguagePatchModel
-            {
-                PropertyName = LanguagePropertyName.Name,
-                Value = "Deutsch"
-            },
-        });
+        var response = await client.ModifyLanguageAsync(identifier,
+        [
+            LanguagePatch.FallbackLanguage(Reference.ByCodename("en-US")),
+            LanguagePatch.Name("Deutsch"),
+        ]);
 
         Assert.NotNull(response);
     }
@@ -780,47 +754,30 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("my_metadata_snippet");
         // var identifier = Reference.ByExternalId("my-metadata-snippet-id");
 
-        var response = await client.ModifyContentTypeSnippetAsync(identifier, new ContentModelOperationBaseModel[]
-        {
-            new ContentModelReplacePatchModel
+        var response = await client.ModifyContentTypeSnippetAsync(identifier,
+        [
+            ContentTypeSnippetPatch.ReplaceName("A new snippet name"),
+            ContentTypeSnippetPatch.ReplaceGuidelines(
+                Reference.ByCodename("my_metadata__my_meta_description"),
+                "Length: 70-150 characters."),
+            ContentTypeSnippetPatch.AddElement(new TextElementMetadataModel
             {
-                Path = "/name",
-                Value = "A new snippet name"
-            },
-            new ContentModelReplacePatchModel
-            {
-                Path = "/elements/codename:my_metadata__my_meta_description/guidelines",
-                Value = "Length: 70-150 characters."
-            },
-            new ContentModelAddIntoPatchModel
-            {
-                Path = "/elements",
-                Value = new TextElementMetadataModel
-                {
-                    Name = "My meta title",
-                    Guidelines = "Length: 30–60 characters.",
-                    ExternalId = "my-meta-title-id"
-                },
-            },
-            new ContentModelRemovePatchModel
-            {
-                Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
-            },
-            new ContentModelRemovePatchModel
-            {
-                Path = "/elements/external_id:my-multiple-choice-id/options/codename:my_option"
-            },
-            new ContentModelMovePatchModel
-            {
-                Path = "/elements/codename:my_metadata_snippet__my_meta_title",
-                After = Reference.ByCodename("my_metadata_snippet__my_meta_description")
-            },
-            new ContentModelMovePatchModel
-            {
-                Path = "/elements/external_id:my-multiple-choice-id/options/id:8e6ec8b1-6510-4b9b-b4be-6c977f4bdfbc",
-                Before = Reference.ById(Guid.Parse("6bfe5a60-5cc2-4303-8f72-9cc53431046b"))
-            }
-        });
+                Name = "My meta title",
+                Guidelines = "Length: 30–60 characters.",
+                ExternalId = "my-meta-title-id"
+            }),
+            ContentTypeSnippetPatch.RemoveElement(Reference.ById(Guid.Parse("0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"))),
+            ContentTypeSnippetPatch.RemoveOption(
+                Reference.ByExternalId("my-multiple-choice-id"),
+                Reference.ByCodename("my_option")),
+            ContentTypeSnippetPatch.MoveElementAfter(
+                Reference.ByCodename("my_metadata_snippet__my_meta_title"),
+                Reference.ByCodename("my_metadata_snippet__my_meta_description")),
+            ContentTypeSnippetPatch.MoveOptionBefore(
+                Reference.ByExternalId("my-multiple-choice-id"),
+                Reference.ById(Guid.Parse("8e6ec8b1-6510-4b9b-b4be-6c977f4bdfbc")),
+                Reference.ById(Guid.Parse("6bfe5a60-5cc2-4303-8f72-9cc53431046b")))
+        ]);
 
         Assert.NotNull(response);
     }
@@ -836,38 +793,23 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("personas");
         // var identifier = Reference.ByExternalId("Tax-Group-123");
 
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, new TaxonomyGroupOperationBaseModel[]
-        {
-            new TaxonomyGroupReplacePatchModel
-            {
-                PropertyName = Models.TaxonomyGroups.Patch.TaxonomyGroupPropertyName.Name,
-                Value = "Categories"
-            },
-            new TaxonomyGroupReplacePatchModel
-            {
-                PropertyName = Models.TaxonomyGroups.Patch.TaxonomyGroupPropertyName.Codename,
-                Value = "category"
-            },
-            new TaxonomyGroupReplacePatchModel
-            {
-                Reference = Reference.ByCodename("first_term"),
-                PropertyName = Models.TaxonomyGroups.Patch.TaxonomyGroupPropertyName.Terms,
-                Value = new TaxonomyGroupCreateModel[]
+        var response = await client.ModifyTaxonomyGroupAsync(identifier,
+        [
+            TaxonomyGroupPatch.ReplaceName(identifier, "Categories"),
+            TaxonomyGroupPatch.ReplaceCodename(identifier, "category"),
+            TaxonomyGroupPatch.ReplaceTerms(Reference.ByCodename("first_term"),
+                new TaxonomyTermCreateModel
                 {
-                    new TaxonomyGroupCreateModel
-                    {
-                        Name = "Second-level taxonomy term",
-                        Codename = "second_term",
-                        Terms = new TaxonomyTermCreateModel[]
+                    Name = "Second-level taxonomy term",
+                    Codename = "second_term",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Third-level taxonomy term",
-                            }
+                            Name = "Third-level taxonomy term",
                         }
-                    }
-                }
-            },
+                    ]
+                }),
             new TaxonomyGroupRemovePatchModel
             {
                 Reference = Reference.ByExternalId("unused-taxonomy-term")
@@ -879,7 +821,6 @@ public class CmApiV2
                 {
                     Name = "New taxonomy term",
                     ExternalId = "my-new-term",
-                    Terms = Array.Empty<TaxonomyTermCreateModel>()
                 }
             },
             new TaxonomyGroupMovePatchModel
@@ -887,7 +828,7 @@ public class CmApiV2
                 Reference = Reference.ByExternalId("my-new-term"),
                 Before = Reference.ByCodename("first_term")
             }
-        });
+        ]);
 
         Assert.NotNull(response);
     }
@@ -903,52 +844,30 @@ public class CmApiV2
         // var identifier = Reference.ByCodename("my_article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ModifyContentTypeAsync(identifier, new ContentModelOperationBaseModel[]
-        {
-            new ContentModelReplacePatchModel
+        var response = await client.ModifyContentTypeAsync(identifier,
+        [
+            ContentTypePatch.ReplaceName("A new type name"),
+            ContentTypePatch.ReplaceGuidelines(
+                Reference.ByCodename("my_text_element"),
+                "Here you can tell users how to fill in the element."),
+            ContentTypePatch.ReplaceDefault(
+                Reference.ByCodename("my_text_element"),
+                new TextElementDefaultValueModel("This is a default value of the text element.")),
+            ContentTypePatch.AddElement(new TextElementMetadataModel
             {
-                Path = "/name",
-                Value = "A new type name"
-            },
-            new ContentModelReplacePatchModel
-            {
-                Path = "/elements/codename:my_text_element/guidelines",
-                Value = "Here you can tell users how to fill in the element."
-            },
-            new ContentModelReplacePatchModel
-            {
-                Path = "/elements/codename:my_text_element/default",
-                Value = new TextElementDefaultValueModel {
-                    Global = new() {
-                        Value = "This is a default value of the text element."
-                    }
-                }
-            },
-            new ContentModelAddIntoPatchModel
-            {
-                Path = "/elements",
-                Value = new TextElementMetadataModel
-                {
-                    Name = "My title",
-                    Guidelines = "Title of the article in plain text.",
-                    ExternalId = "my-title-id",
-                },
-            },
-            new ContentModelRemovePatchModel
-            {
-                Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
-            },
-            new ContentModelMovePatchModel
-            {
-                Path = "/elements/codename:my_text_element",
-                After = Reference.ByExternalId("my-title-id")
-            },
-            new ContentModelMovePatchModel
-            {
-                Path = "/elements/external_id:my-multiple-choice-id/options/id:d66ffa49-86ff-eeaa-c33b-e5d9eefe8b81",
-                Before = Reference.ById(Guid.Parse("523e6231-8d80-a158-3601-dffde4e64a78"))
-            }
-        });
+                Name = "My title",
+                Guidelines = "Title of the article in plain text.",
+                ExternalId = "my-title-id",
+            }),
+            ContentTypePatch.RemoveElement(Reference.ById(Guid.Parse("0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"))),
+            ContentTypePatch.MoveElementAfter(
+                Reference.ByCodename("my_text_element"),
+                Reference.ByExternalId("my-title-id")),
+            ContentTypePatch.MoveOptionBefore(
+                Reference.ByExternalId("my-multiple-choice-id"),
+                Reference.ById(Guid.Parse("d66ffa49-86ff-eeaa-c33b-e5d9eefe8b81")),
+                Reference.ById(Guid.Parse("523e6231-8d80-a158-3601-dffde4e64a78")))
+        ]);
 
         Assert.NotNull(response);
     }
@@ -960,13 +879,13 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Environment.json");
 
-        var response = await client.ModifyEnvironmentAsync(new[]
-        {
+        var response = await client.ModifyEnvironmentAsync(
+        [
             new EnvironmentRenamePatchModel
             {
                 Value = "My Little Production"
             }
-        });
+        ]);
 
         Assert.NotNull(response);
     }
@@ -982,37 +901,36 @@ public class CmApiV2
         {
             FileReference = new FileReference
             {
-                Id = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
-                Type = FileReferenceType.Internal
+                Id = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c"
             },
             Folder = Reference.ByExternalId("another-folder"),
             Title = "Coffee Brewing Techniques",
             ExternalId = "which-brewing-fits-you",
-            Descriptions = new[]
-            {
+            Descriptions =
+            [
                 new AssetDescription
                 {
                     Language = Reference.ByCodename("en-US"),
                     Description = "Coffee Brewing Techniques"
                 },
-                 new AssetDescription
+                new AssetDescription
                 {
                     Language = Reference.ByCodename("es-ES"),
                     Description = "Técnicas para hacer café"
                 }
-            },
-            Elements = new[]
-            {
-                new Models.Assets.AssetTaxonomyElement
+            ],
+            Elements =
+            [
+                new AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
-                    Value = new[]
-                    {
+                    Value =
+                    [
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
-                    }
+                    ]
                 }
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1027,23 +945,22 @@ public class CmApiV2
 
         var response = await client.CreateAssetFoldersAsync(new AssetFolderCreateModel
         {
-            Folders = new[]
-            {
+            Folders =
+            [
                 new AssetFolderHierarchy
                 {
                     Name = "Top level folder",
                     ExternalId = "top-folder",
-                    Folders = new []
-                    {
+                    Folders =
+                    [
                         new AssetFolderHierarchy
                         {
                             Name = "Second level folder",
                             ExternalId = "second-folder",
-                            Folders = [],
                         }
-                    }
+                    ]
                 }
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1104,7 +1021,7 @@ public class CmApiV2
             Name = "On Roasts",
             Codename = "my_article",
             Type = Reference.ByCodename("article"),
-            Collection = Reference.ByCodename("default"),
+            Collection = Reference.ByDefaultCodename(),
             ExternalId = "59713",
         });
 
@@ -1143,8 +1060,8 @@ public class CmApiV2
             Name = "metadata",
             Codename = "my_metadata",
             ExternalId = "snippet-item-123",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Meta title",
@@ -1159,7 +1076,7 @@ public class CmApiV2
                     Guidelines = "Length: 70-11500 characters",
                     ExternalId = "meta_description",
                 }
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1177,53 +1094,49 @@ public class CmApiV2
             Name = "Personas",
             ExternalId = "Tax-Group-123",
             Codename = "people",
-            Terms = new TaxonomyTermCreateModel[]
+            Terms =
+            [
+                new TaxonomyTermCreateModel
                 {
-                    new TaxonomyTermCreateModel
-                    {
-                        Name = "Coffee expert",
-                        Codename = "expert",
-                        ExternalId = "Tax-term-456",
-                        Terms = new TaxonomyTermCreateModel[]
+                    Name = "Coffee expert",
+                    Codename = "expert",
+                    ExternalId = "Tax-term-456",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Barista",
-                                ExternalId = "Tax-term-789",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Cafe owner",
-                                ExternalId = "Tax-term-101",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            }
-                        }
-                    },
-                    new TaxonomyTermCreateModel
-                    {
-                        Name = "Coffee enthusiast",
-                        Codename = "enthusiast",
-                        ExternalId = "Tax-term-112",
-                        Terms = new TaxonomyTermCreateModel[]
+                            Name = "Barista",
+                            ExternalId = "Tax-term-789",
+                        },
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Coffee lover",
-                                ExternalId = "Tax-term-131",
-                                Codename = "lover",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Coffee blogger",
-                                ExternalId = "Tax-term-145",
-                                Codename = "blogger",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            }
+                            Name = "Cafe owner",
+                            ExternalId = "Tax-term-101",
                         }
-                    }
+                    ]
+                },
+                new TaxonomyTermCreateModel
+                {
+                    Name = "Coffee enthusiast",
+                    Codename = "enthusiast",
+                    ExternalId = "Tax-term-112",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "Coffee lover",
+                            ExternalId = "Tax-term-131",
+                            Codename = "lover",
+                        },
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "Coffee blogger",
+                            ExternalId = "Tax-term-145",
+                            Codename = "blogger",
+                        }
+                    ]
                 }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1241,8 +1154,8 @@ public class CmApiV2
             ExternalId = "article",
             Name = "Article",
             Codename = "my_article",
-            ContentGroups = new[]
-            {
+            ContentGroups =
+            [
                 new ContentGroupModel
                 {
                     Name = "Article Copy",
@@ -1253,19 +1166,15 @@ public class CmApiV2
                     Name = "Author",
                     Codename = "author",
                 }
-            },
-            Elements = new ElementMetadataBase[]
-            {
+            ],
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Article title",
                     Codename = "title",
                     ContentGroup = Reference.ByCodename("article-copy"),
-                    DefaultValue = new TextElementDefaultValueModel {
-                        Global = new() {
-                            Value = "This is the default value of the text element."
-                        }
-                    }
+                    DefaultValue = new TextElementDefaultValueModel("This is the default value of the text element.")
                 },
                 new RichTextElementMetadataModel
                 {
@@ -1280,7 +1189,7 @@ public class CmApiV2
                     AllowedBlocks = [RichTextBlockType.Images, RichTextBlockType.Text],
                     ContentGroup = Reference.ByCodename("author"),
                 },
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1310,8 +1219,8 @@ public class CmApiV2
             Name = "Example webhook",
             Url = "https://example.com/webhook",
             Secret = "secret_key",
-            Headers = new[]
-            {
+            Headers =
+            [
                 new CustomHeaderModel
                 {
                     Key = "key1",
@@ -1322,86 +1231,78 @@ public class CmApiV2
                     Key = "key2",
                     Value = "value2"
                 }
-            },
+            ],
             DeliveryTriggers = new DeliveryTriggersModel
             {
                 ContentType = new ContentTypeTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
-                       new ContentTypeActionModel { Action = ContentTypeAction.Created },
-                       new ContentTypeActionModel { Action = ContentTypeAction.Changed },
-                       new ContentTypeActionModel { Action = ContentTypeAction.Deleted }
-                    },
+                    Actions =
+                    [
+                        new ContentTypeActionModel { Action = ContentTypeAction.Created },
+                        new ContentTypeActionModel { Action = ContentTypeAction.Changed },
+                        new ContentTypeActionModel { Action = ContentTypeAction.Deleted }
+                    ],
                     Filters = new ContentTypeFiltersModel
                     {
-                        ContentTypes = new[] {
-                            Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))
-                        }
+                        ContentTypes = [Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))]
                     }
                 },
                 ContentItem = new ContentItemTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new ContentItemActionModel
                         {
                             Action = ContentItemAction.Deleted,
-                            TransitionTo = new []
-                            {
-                                new ContentItemWorkflowTransition {
+                            TransitionTo =
+                            [
+                                new ContentItemWorkflowTransition
+                                {
                                     WorkflowReference = Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
                                     WorkflowStepReference = Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008"))
                                 }
-                            }
+                            ]
                         }
-                    },
+                    ],
                     Filters = new ContentItemFiltersModel
                     {
-                        Languages = new[]
-                        {
-                            Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))
-                        }
+                        Languages = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                     }
                 },
                 Taxonomy = new TaxonomyTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new TaxonomyActionModel { Action = TaxonomyAction.TermChanged },
                         new TaxonomyActionModel { Action = TaxonomyAction.MetadataChanged }
-                    },
+                    ],
                     Filters = new TaxonomyFiltersModel
                     {
-                        Taxonomies = new[] {
-                            Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))
-                        }
+                        Taxonomies = [Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))]
                     }
                 },
                 Asset = new AssetTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new AssetActionModel { Action = AssetAction.Created },
                         new AssetActionModel { Action = AssetAction.Changed }
-                    }
+                    ]
                 },
                 Language = new LanguageTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new LanguageActionModel { Action = LanguageAction.Created }
-                    },
+                    ],
                     Filters = new LanguageFiltersModel
                     {
-                        Languages = new[] {
-                            Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))
-                        }
+                        Languages = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                     }
                 },
                 Slot = DeliverySlot.Preview,
@@ -1422,54 +1323,49 @@ public class CmApiV2
         var response = await client.CreateWorkflowAsync(new WorkflowUpsertModel
         {
             Name = "My workflow",
-            Scopes = new List<WorkflowScopeUpsertModel>
-            {
+            Scopes =
+            [
                 new()
                 {
-                    Collections = new List<Reference>{ Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024")) },
-                    ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
+                    Collections = [Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024"))],
+                    ContentTypes = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                 }
-            },
-            Steps = new List<WorkflowStepUpsertModel>
-            {
+            ],
+            Steps =
+            [
                 new()
                 {
                     Name = "First step",
                     Codename = "first_step",
                     Color = WorkflowStepColorModel.SkyBlue,
-                    RoleIds = new List<Guid>(),
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("second_step")
                         }
-                    }
+                    ]
                 },
                 new()
                 {
                     Name = "Second step",
                     Codename = "second_step",
                     Color = WorkflowStepColorModel.Rose,
-                    RoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") },
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    RoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")],
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("published")
                         }
-                    }
+                    ]
                 }
-            },
+            ],
             PublishedStep = new WorkflowPublishedStepUpsertModel
             {
-                CreateNewVersionRoleIds = new List<Guid>(),
-                UnpublishRoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+                UnpublishRoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")]
             },
-            ArchivedStep = new WorkflowArchivedStepUpsertModel
-            {
-                RoleIds = new List<Guid>()
-            }
+            ArchivedStep = new WorkflowArchivedStepUpsertModel()
         });
 
         Assert.NotNull(response);
@@ -1485,25 +1381,25 @@ public class CmApiV2
         var response = await client.InviteUserIntoEnvironmentAsync(new UserInviteModel
         {
             Email = "user@example.com",
-            CollectionGroups = new List<UserCollectionGroup>
-            {
+            CollectionGroups =
+            [
                 new UserCollectionGroup
                 {
-                    Collections = new List<Reference>
-                    {
-                        Reference.ById(Guid.Empty),
+                    Collections =
+                    [
+                        Reference.ByDefaultId(),
                         Reference.ById(Guid.Parse("28b68213-d636-4b01-9fd1-988b93789e17"))
-                    },
-                    Roles = new List<RoleModel>
-                    {
+                    ],
+                    Roles =
+                    [
                         new RoleModel
                         {
                             Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
-                            Languages = new List<Reference>() { Reference.ById(Guid.Parse("7df9a691-cf29-402d-9598-66273e7561b7")) }
+                            Languages = [Reference.ById(Guid.Parse("7df9a691-cf29-402d-9598-66273e7561b7"))]
                         }
-                    }
+                    ]
                 }
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1519,10 +1415,7 @@ public class CmApiV2
         var response = await client.CloneEnvironmentAsync(new EnvironmentCloneModel
         {
             Name = "New environment",
-            RolesToActivate = new[]
-            {
-                Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")
-            },
+            RolesToActivate = [Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")],
             CopyDataOptions = new CopyDataOptions
             {
                 ContentItemsAssets = true,
@@ -1559,8 +1452,8 @@ public class CmApiV2
         var updatedAssetResponse = await client.UpsertAssetAsync(identifier, new AssetUpsertModel
         {
             Title = "Coffee Brewing Techniques",
-            Descriptions = new List<AssetDescription>
-            {
+            Descriptions =
+            [
                 new AssetDescription
                 {
                     Description = "Coffee Brewing Techniques",
@@ -1571,19 +1464,19 @@ public class CmApiV2
                     Description = "Técnicas para hacer café",
                     Language = Reference.ByCodename("es-ES")
                 }
-            },
-            Elements = new[]
-            {
-                new Models.Assets.AssetTaxonomyElement
+            ],
+            Elements =
+            [
+                new AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
-                    Value = new[]
-                    {
+                    Value =
+                    [
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
-                    }
+                    ]
                 }
-            }
+            ]
         });
 
         // Used when creating a new asset or updating an existing one
@@ -1593,12 +1486,11 @@ public class CmApiV2
             // To create a file reference, see the "Upload a binary file" endpoint
             FileReference = new FileReference
             {
-                Id = "ab7bdf75-781b-4bf9-aed8-501048860402",
-                Type = FileReferenceType.Internal
+                Id = "ab7bdf75-781b-4bf9-aed8-501048860402"
             },
             Title = "Coffee Brewing Techniques",
-            Descriptions = new AssetDescription[]
-            {
+            Descriptions =
+            [
                 new AssetDescription
                 {
                     Description = "Coffee Brewing Techniques",
@@ -1609,19 +1501,19 @@ public class CmApiV2
                     Description = "Técnicas para hacer café",
                     Language = Reference.ByCodename("es-ES")
                 }
-            },
-            Elements = new[]
-            {
-                new Models.Assets.AssetTaxonomyElement
+            ],
+            Elements =
+            [
+                new AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
-                    Value = new[]
-                    {
+                    Value =
+                    [
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
-                    }
+                    ]
                 }
-            }
+            ]
         });
 
         Assert.NotNull(createdAssetResponse);
@@ -1635,12 +1527,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
-        var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
-        // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
-        var renditionReference = Reference.ById(Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
-        // var renditionReference = Reference.ByExternalId("hero-image-rendition");
-
-        var identifier = new AssetRenditionIdentifier(assetReference, renditionReference);
+        var identifier = AssetRenditionIdentifier.ByIds(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"), Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
+        // var identifier = new AssetRenditionIdentifier(Reference.ByExternalId("which-brewing-fits-you"), Reference.ByExternalId("hero-image-rendition"));
 
         var response = await client.UpdateAssetRenditionAsync(identifier, new AssetRenditionUpdateModel()
         {
@@ -1673,7 +1561,7 @@ public class CmApiV2
         {
             Name = "On Roasts",
             Codename = "my_article_my_article",
-            Collection = Reference.ByCodename("default"),
+            Collection = Reference.ByDefaultCodename(),
             // 'Type' is only required when creating a new content item
             Type = Reference.ByCodename("article"),
         });
@@ -1688,19 +1576,15 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "PutLanguageVariantResponse.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var response = await client.UpsertLanguageVariantAsync(
             identifier,
             new LanguageVariantUpsertModel
             {
-                Elements = new BaseElement[]
-                {
+                Elements =
+                [
                     new MultipleChoiceElement
                     {
                         Element = Reference.ByCodename("personas"),
@@ -1735,14 +1619,14 @@ public class CmApiV2
                     new UrlSlugElement
                     {
                         Element = Reference.ByCodename("url_pattern"),
-                        Mode = Kontent.Ai.Management.Models.Content.UrlSlugMode.Autogenerated,
+                        Mode = UrlSlugMode.Autogenerated,
                     },
-                },
+                ],
                 DueDate = new DueDateModel
                 {
                     Value = DateTime.Parse("2092-01-07T06:04:00.7069564Z", CultureInfo.InvariantCulture)
                 },
-                Workflow = new WorkflowStepIdentifier(Reference.ByCodename("default"), Reference.ByCodename("review"))
+                Workflow = new WorkflowStepIdentifier(Reference.ByDefaultCodename(), Reference.ByCodename("review"))
             });
 
         Assert.NotNull(response);
@@ -1755,12 +1639,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var exception = await Record.ExceptionAsync(async () => await client.CancelPublishingOfLanguageVariantAsync(identifier));
 
@@ -1774,12 +1654,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var exception = await Record.ExceptionAsync(async () => await client.CancelUnpublishingOfLanguageVariantAsync(identifier));
 
@@ -1793,12 +1669,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var exception = await Record.ExceptionAsync(async () => await client.CreateNewVersionOfLanguageVariantAsync(identifier));
         Assert.Null(exception);
@@ -1811,12 +1683,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         // Immediate publish
         var immediateException = await Record.ExceptionAsync(async () => await client.PublishLanguageVariantAsync(identifier));
@@ -1839,12 +1707,8 @@ public class CmApiV2
     {
         var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         // Immediate unpublish
         var immediateException = await Record.ExceptionAsync(async () => await client.UnpublishLanguageVariantAsync(identifier));
@@ -1879,13 +1743,13 @@ public class CmApiV2
         var exception = await Record.ExceptionAsync(async () =>
                 await client.ChangeLanguageVariantWorkflowAsync(
                     new LanguageVariantIdentifier(itemIdentifier, languageIdentifier),
-                    new ChangeLanguageVariantWorkflowModel(Reference.ById(Guid.Empty), workflowStepIdentifier)
+                    new ChangeLanguageVariantWorkflowModel(Reference.ByDefaultId(), workflowStepIdentifier)
                     {
                         DueDate = new DueDateModel
                         {
                             Value = DateTime.UtcNow.AddDays(42)
                         },
-                        Contributors = new List<UserIdentifier> { UserIdentifier.ByEmail("user@kontent.ai") },
+                        Contributors = [UserIdentifier.ByEmail("user@kontent.ai")],
                         Note = "Moving this to the next workflow step."
                     }
                     ));
@@ -1929,54 +1793,49 @@ public class CmApiV2
         var response = await client.UpdateWorkflowAsync(identifier, new WorkflowUpsertModel
         {
             Name = "My workflow",
-            Scopes = new List<WorkflowScopeUpsertModel>
-            {
+            Scopes =
+            [
                 new()
                 {
-                    Collections = new List<Reference>{ Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024")) },
-                    ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
+                    Collections = [Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024"))],
+                    ContentTypes = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                 }
-            },
-            Steps = new List<WorkflowStepUpsertModel>
-            {
+            ],
+            Steps =
+            [
                 new()
                 {
                     Name = "First step",
                     Codename = "first_step",
                     Color = WorkflowStepColorModel.SkyBlue,
-                    RoleIds = new List<Guid>(),
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("second_step")
                         }
-                    }
+                    ]
                 },
                 new()
                 {
                     Name = "Second step",
                     Codename = "second_step",
                     Color = WorkflowStepColorModel.Rose,
-                    RoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") },
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    RoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")],
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("published")
                         }
-                    }
+                    ]
                 }
-            },
+            ],
             PublishedStep = new WorkflowPublishedStepUpsertModel
             {
-                CreateNewVersionRoleIds = new List<Guid>(),
-                UnpublishRoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+                UnpublishRoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")]
             },
-            ArchivedStep = new WorkflowArchivedStepUpsertModel
-            {
-                RoleIds = new List<Guid>()
-            }
+            ArchivedStep = new WorkflowArchivedStepUpsertModel()
         });
 
         Assert.NotNull(response);
@@ -2000,7 +1859,7 @@ public class CmApiV2
                 [
                     new UserCollectionGroup
                     {
-                        Collections = [Reference.ById(Guid.Empty)],
+                        Collections = [Reference.ByDefaultId()],
                         Roles =
                         [
                             new RoleModel

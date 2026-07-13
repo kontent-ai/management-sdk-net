@@ -27,8 +27,8 @@ public class ImportContentModel
         {
             Name = "Metadata",
             Codename = "metadata",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Title",
@@ -44,7 +44,7 @@ public class ImportContentModel
                     Name = "Description",
                     Codename = "description",
                 },
-            }
+            ]
         });
     }
 
@@ -59,61 +59,55 @@ public class ImportContentModel
         {
             Name = "Blogpost topic",
             Codename = "blog_topic",
-            Terms = new TaxonomyTermCreateModel[]
+            Terms =
+            [
+                new TaxonomyTermCreateModel
                 {
-                    new TaxonomyTermCreateModel
-                    {
-                        Name = "Sport",
-                        Codename = "sport",
-                        Terms = new TaxonomyTermCreateModel[]
+                    Name = "Sport",
+                    Codename = "sport",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Soccer",
-                                ExternalId = "soccer",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Ice hockey",
-                                ExternalId = "hockey",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Rugby",
-                                ExternalId = "rugby",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                        }
-                    },
-                    new TaxonomyTermCreateModel
-                    {
-                        Name = "Technology stack",
-                        Codename = "tech",
-                        Terms = new TaxonomyTermCreateModel[]
+                            Name = "Soccer",
+                            ExternalId = "soccer",
+                        },
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Javascript",
-                                ExternalId = "js",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "C#",
-                                ExternalId = "c",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "MVC",
-                                ExternalId = "mvc",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                        }
-                    },
-                }
+                            Name = "Ice hockey",
+                            ExternalId = "hockey",
+                        },
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "Rugby",
+                            ExternalId = "rugby",
+                        },
+                    ]
+                },
+                new TaxonomyTermCreateModel
+                {
+                    Name = "Technology stack",
+                    Codename = "tech",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "Javascript",
+                            ExternalId = "js",
+                        },
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "C#",
+                            ExternalId = "c",
+                        },
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "MVC",
+                            ExternalId = "mvc",
+                        },
+                    ]
+                },
+            ]
         });
     }
 
@@ -128,8 +122,8 @@ public class ImportContentModel
         {
             Name = "Blogpost",
             Codename = "blogpost",
-            ContentGroups = new[]
-            {
+            ContentGroups =
+            [
                 new ContentGroupModel
                 {
                     Name = "Content",
@@ -145,18 +139,14 @@ public class ImportContentModel
                     Name = "Topic",
                     ExternalId = "topic",
                 }
-            },
-            Elements = new ElementMetadataBase[]
-            {
+            ],
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Title",
                     ContentGroup = Reference.ByExternalId("content"),
-                    DefaultValue = new TextElementDefaultValueModel {
-                        Global = new() {
-                            Value = "This is the default value of the text element."
-                        }
-                    }
+                    DefaultValue = new TextElementDefaultValueModel("This is the default value of the text element.")
                 },
                 new AssetElementMetadataModel
                 {
@@ -180,7 +170,7 @@ public class ImportContentModel
                     Codename = "taxonomy",
                     ContentGroup = Reference.ByExternalId("topic")
                 }
-            }
+            ]
         });
     }
 }
