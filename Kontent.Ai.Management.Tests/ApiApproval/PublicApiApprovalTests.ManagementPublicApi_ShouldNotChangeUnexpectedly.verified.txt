@@ -2225,15 +2225,15 @@ public enum RichTextBlockType : Enum
 
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class RichTextElementMetadataModel : ContentElementMetadataBase, IEquatable`1
-    ISet<RichTextBlockType> AllowedBlocks { get; set; init; }
+    IReadOnlyList<RichTextBlockType> AllowedBlocks { get; set; init; }
     IEnumerable<Reference> AllowedContentTypes { get; set; init; }
-    ISet<RichTextFormattingType> AllowedFormatting { get; set; init; }
+    IReadOnlyList<RichTextFormattingType> AllowedFormatting { get; set; init; }
     Nullable<FileType> AllowedImageTypes { get; set; init; }
     IEnumerable<Reference> AllowedItemLinkTypes { get; set; init; }
-    ISet<RichTextTableBlockType> AllowedTableBlocks { get; set; init; }
-    ISet<RichTextFormattingType> AllowedTableFormatting { get; set; init; }
-    ISet<RichTextTextBlockType> AllowedTableTextBlocks { get; set; init; }
-    ISet<RichTextTextBlockType> AllowedTextBlocks { get; set; init; }
+    IReadOnlyList<RichTextTableBlockType> AllowedTableBlocks { get; set; init; }
+    IReadOnlyList<RichTextFormattingType> AllowedTableFormatting { get; set; init; }
+    IReadOnlyList<RichTextTextBlockType> AllowedTableTextBlocks { get; set; init; }
+    IReadOnlyList<RichTextTextBlockType> AllowedTextBlocks { get; set; init; }
     LimitModel ImageHeightLimit { get; set; init; }
     LimitModel ImageWidthLimit { get; set; init; }
     Nullable<Int64> MaximumImageSize { get; set; init; }

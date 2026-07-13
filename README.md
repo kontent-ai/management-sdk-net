@@ -663,8 +663,8 @@ var result = await client.CreateContentTypeAsync(new ContentTypeCreateModel
 {
     Name = "Article",
     Codename = "article",
-    Elements = new ElementMetadataBase[]
-    {
+    Elements =
+    [
         new TextElementMetadataModel
         {
             Name = "Title",
@@ -674,9 +674,11 @@ var result = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         new RichTextElementMetadataModel
         {
             Name = "Body",
-            Codename = "body"
+            Codename = "body",
+            AllowedBlocks = [RichTextBlockType.Text, RichTextBlockType.Images],
+            AllowedContentTypes = [Reference.ByCodename("callout")]
         }
-    }
+    ]
 });
 ```
 
@@ -687,11 +689,11 @@ await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
 {
     Name = "Categories",
     Codename = "categories",
-    Terms = new[]
-    {
+    Terms =
+    [
         new TaxonomyTermCreateModel { Name = "Coffee", Codename = "coffee" },
         new TaxonomyTermCreateModel { Name = "Brewing", Codename = "brewing" }
-    }
+    ]
 });
 ```
 

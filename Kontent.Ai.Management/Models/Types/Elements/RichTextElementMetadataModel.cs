@@ -61,37 +61,37 @@ public sealed record RichTextElementMetadataModel : ContentElementMetadataBase
     /// Block kinds allowed inside the rich text element (text, tables, images, components/items). Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_blocks")]
-    public ISet<RichTextBlockType>? AllowedBlocks { get; init; }
+    public IReadOnlyList<RichTextBlockType>? AllowedBlocks { get; init; }
 
     /// <summary>
     /// Text formatting allowed inside the rich text element. Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_formatting")]
-    public ISet<RichTextFormattingType>? AllowedFormatting { get; init; }
+    public IReadOnlyList<RichTextFormattingType>? AllowedFormatting { get; init; }
 
     /// <summary>
     /// Text-block kinds allowed inside the rich text element (paragraphs, headings, lists). Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_text_blocks")]
-    public ISet<RichTextTextBlockType>? AllowedTextBlocks { get; init; }
+    public IReadOnlyList<RichTextTextBlockType>? AllowedTextBlocks { get; init; }
 
     /// <summary>
     /// Block kinds allowed inside tables. Use <see cref="RichTextTableBlockType.Text"/> to allow only text, or leave null/empty to allow both text and images.
     /// </summary>
     [JsonPropertyName("allowed_table_blocks")]
-    public ISet<RichTextTableBlockType>? AllowedTableBlocks { get; init; }
+    public IReadOnlyList<RichTextTableBlockType>? AllowedTableBlocks { get; init; }
 
     /// <summary>
     /// Text formatting allowed inside tables. Null or empty allows all; use <see cref="RichTextFormattingType.Unstyled"/> for plaintext only.
     /// </summary>
     [JsonPropertyName("allowed_table_formatting")]
-    public ISet<RichTextFormattingType>? AllowedTableFormatting { get; init; }
+    public IReadOnlyList<RichTextFormattingType>? AllowedTableFormatting { get; init; }
 
     /// <summary>
     /// Text-block kinds allowed inside tables. Null or empty allows all.
     /// </summary>
     [JsonPropertyName("allowed_table_text_blocks")]
-    public ISet<RichTextTextBlockType>? AllowedTableTextBlocks { get; init; }
+    public IReadOnlyList<RichTextTextBlockType>? AllowedTableTextBlocks { get; init; }
 
     /// <inheritdoc/>
     [JsonPropertyName("type")]

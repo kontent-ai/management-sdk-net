@@ -1277,11 +1277,7 @@ public class CmApiV2
                 {
                     Name = "Author bio",
                     Codename = "bio",
-                    AllowedBlocks = new HashSet<RichTextBlockType>()
-                    {
-                        RichTextBlockType.Images,
-                        RichTextBlockType.Text
-                    },
+                    AllowedBlocks = [RichTextBlockType.Images, RichTextBlockType.Text],
                     ContentGroup = Reference.ByCodename("author"),
                 },
             }
