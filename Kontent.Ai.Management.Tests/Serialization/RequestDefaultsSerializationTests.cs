@@ -20,7 +20,7 @@ public class RequestDefaultsSerializationTests
         var step = new WorkflowStepUpsertModel
         {
             Name = "Draft",
-            Color = WorkflowStepColorModel.Red,
+            Color = WorkflowStepColor.Red,
             TransitionsTo = [],
         };
 
@@ -66,7 +66,7 @@ public class RequestDefaultsSerializationTests
     {
         var id = Guid.NewGuid();
 
-        Serialize(new LinkedItemsDefaultValueModel(Reference.ById(id)))
+        Serialize(new LinkedItemsElementDefaultValueModel(Reference.ById(id)))
             .Should().Be($$$"""{"global":{"value":[{"id":"{{{id}}}"}]}}""");
     }
 

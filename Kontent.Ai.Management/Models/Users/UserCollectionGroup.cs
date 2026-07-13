@@ -15,5 +15,5 @@ public sealed record UserCollectionGroup
     /// Roles the user holds in these collections.
     /// </summary>
     [JsonPropertyName("roles")]
-    public required IReadOnlyList<RoleModel> Roles { get; init; }
+    public required IReadOnlyList<UserRoleModel> Roles { get; init; }
 }

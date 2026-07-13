@@ -29,7 +29,7 @@ public sealed record MultipleChoiceElementMetadataModel : ContentElementMetadata
     /// Default value applied when authors create a new language variant.
     /// </summary>
     [JsonPropertyName("default")]
-    public MultipleChoiceDefaultValueModel? DefaultValue { get; init; }
+    public MultipleChoiceElementDefaultValueModel? DefaultValue { get; init; }
 
     /// <inheritdoc/>
     [JsonPropertyName("type")]

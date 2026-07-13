@@ -9,7 +9,7 @@ public sealed record ContentTypeSnippetElementMetadataModel : ElementMetadataBas
     /// Reference to the snippet that supplies the inlined elements.
     /// </summary>
     [JsonPropertyName("snippet")]
-    public required Reference SnippetIdentifier { get; init; }
+    public required Reference Snippet { get; init; }
 
     /// <inheritdoc/>
     [JsonPropertyName("type")]

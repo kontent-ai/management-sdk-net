@@ -10,7 +10,7 @@ public sealed record AssetFolderHierarchy
     /// The well-known value <c>00000000-0000-0000-0000-000000000000</c> represents assets that sit outside of any folder.
     /// </summary>
     [JsonPropertyName("id")]
-    public string? Id { get; init; }
+    public Guid? Id { get; init; }
 
     /// <summary>
     /// Caller-supplied external ID. Only present when specified during folder creation or modification.

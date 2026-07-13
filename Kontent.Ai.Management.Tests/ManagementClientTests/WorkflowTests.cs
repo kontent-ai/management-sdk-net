@@ -160,7 +160,7 @@ public class WorkflowTests
                 new()
                 {
                     Name = "Draft",
-                    Color = WorkflowStepColorModel.Red,
+                    Color = WorkflowStepColor.Red,
                     RoleIds = new List<Guid>(),
                     TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
                     {

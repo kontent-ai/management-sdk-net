@@ -9,7 +9,7 @@ public sealed record UrlSlugDependency
     /// Reference to the snippet that holds the dependent text element. Null when the text element lives on the same content type.
     /// </summary>
     [JsonPropertyName("snippet")]
-    public Reference? SnippetIdentifier { get; init; }
+    public Reference? Snippet { get; init; }
 
     /// <summary>
     /// Reference to the dependent text element.

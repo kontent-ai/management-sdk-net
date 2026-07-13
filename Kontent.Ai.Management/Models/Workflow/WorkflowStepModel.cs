@@ -27,7 +27,7 @@ public sealed record WorkflowStepModel
     /// UI color shown for this step.
     /// </summary>
     [JsonPropertyName("color")]
-    public required WorkflowStepColorModel Color { get; init; }
+    public required WorkflowStepColor Color { get; init; }
 
     /// <summary>
     /// Workflow steps that this step can transition to.

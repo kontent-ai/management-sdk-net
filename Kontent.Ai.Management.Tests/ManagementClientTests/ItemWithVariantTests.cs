@@ -191,8 +191,8 @@ public class ItemWithVariantTests
                 {
                     new VariantFilterWorkflowStepsModel
                     {
-                        WorkflowReference = Reference.ByCodename("default"),
-                        WorkflowStepReferences = new List<Reference>
+                        Workflow = Reference.ByCodename("default"),
+                        Steps = new List<Reference>
                         {
                             Reference.ByCodename("draft")
                         }
@@ -202,8 +202,8 @@ public class ItemWithVariantTests
                 {
                     new VariantFilterTaxonomyGroupModel
                     {
-                        TaxonomyReference = Reference.ByCodename("categories"),
-                        TermReferences = new List<Reference>
+                        TaxonomyGroup = Reference.ByCodename("categories"),
+                        Terms = new List<Reference>
                         {
                             Reference.ByCodename("tech")
                         },

@@ -9,11 +9,11 @@ public sealed record VariantFilterWorkflowStepsModel
     /// Reference to the workflow.
     /// </summary>
     [JsonPropertyName("workflow_identifier")]
-    public required Reference WorkflowReference { get; init; }
+    public required Reference Workflow { get; init; }
 
     /// <summary>
     /// Specific steps within the workflow to match. Omit to match any step.
     /// </summary>
     [JsonPropertyName("step_identifiers")]
-    public IReadOnlyList<Reference>? WorkflowStepReferences { get; init; }
+    public IReadOnlyList<Reference>? Steps { get; init; }
 }

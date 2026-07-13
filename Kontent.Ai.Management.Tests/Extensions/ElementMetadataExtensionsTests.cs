@@ -56,7 +56,7 @@ public class ElementMetadataExtensionsTests
         {
             Codename = "contenttypesnippet_codename",
             ExternalId = "contentTypeSnippet_externalId",
-            SnippetIdentifier = Reference.ByCodename("codename"),
+            Snippet = Reference.ByCodename("codename"),
         },
         new DateTimeElementMetadataModel
         {

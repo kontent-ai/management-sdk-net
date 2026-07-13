@@ -160,7 +160,7 @@ public class ImportContentModel
                 },
                 new ContentTypeSnippetElementMetadataModel
                 {
-                    SnippetIdentifier = Reference.ByCodename("metadata"),
+                    Snippet = Reference.ByCodename("metadata"),
                     Codename = "metadata",
                     ContentGroup = Reference.ByExternalId("metadata")
                 },

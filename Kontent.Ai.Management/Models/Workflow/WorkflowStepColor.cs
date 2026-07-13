@@ -4,7 +4,7 @@ namespace Kontent.Ai.Management.Models.Workflow;
 /// <summary>
 /// Workflow step colors.
 /// </summary>
-public enum WorkflowStepColorModel
+public enum WorkflowStepColor
 {
     /// <summary>
     /// Gray color

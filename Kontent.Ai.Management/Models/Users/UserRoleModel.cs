@@ -3,7 +3,7 @@ namespace Kontent.Ai.Management.Models.Users;
 /// <summary>
 /// A role assignment within a user's collection group.
 /// </summary>
-public sealed record RoleModel
+public sealed record UserRoleModel
 {
     /// <summary>
     /// Reference ID of the role.

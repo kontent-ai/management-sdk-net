@@ -13,7 +13,7 @@ public static class AssetExtensions
     /// <param name="folders">The <see cref="AssetFoldersModel.Folders"/> property retrieved from the <see cref="IManagementClient.GetAssetFoldersAsync"/> method.</param>
     /// <param name="folderId">Folder Identifier</param>
     /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given folderId. Null if not found.</returns>
-    public static AssetFolderHierarchy? GetFolderHierarchyById(this IEnumerable<AssetFolderHierarchy> folders, string folderId)
+    public static AssetFolderHierarchy? GetFolderHierarchyById(this IEnumerable<AssetFolderHierarchy> folders, Guid folderId)
         => FindRecursive(folders, folder => folder.Id == folderId, folder => folder.Folders);
 
     /// <summary>
@@ -41,7 +41,7 @@ public static class AssetExtensions
     /// <param name="folders">The <see cref="IEnumerable{AssetFolderLinkingHierarchy}"/> instance.</param>
     /// <param name="folderId">Folder Identifier</param>
     /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder identifier.</returns>
-    public static AssetFolderLinkingHierarchy? GetParentLinkedFolderHierarchyById(this IEnumerable<AssetFolderLinkingHierarchy> folders, string folderId)
+    public static AssetFolderLinkingHierarchy? GetParentLinkedFolderHierarchyById(this IEnumerable<AssetFolderLinkingHierarchy> folders, Guid folderId)
         => FindRecursive(folders, folder => folder.Id == folderId, folder => folder.Folders);
 
     /// <summary>

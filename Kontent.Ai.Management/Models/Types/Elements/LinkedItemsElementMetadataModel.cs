@@ -29,7 +29,7 @@ public sealed record LinkedItemsElementMetadataModel : ContentElementMetadataBas
     /// Default value applied when authors create a new language variant.
     /// </summary>
     [JsonPropertyName("default")]
-    public LinkedItemsDefaultValueModel? DefaultValue { get; init; }
+    public LinkedItemsElementDefaultValueModel? DefaultValue { get; init; }
 
     /// <inheritdoc/>
     [JsonPropertyName("type")]

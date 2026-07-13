@@ -9,13 +9,13 @@ public sealed record VariantFilterTaxonomyGroupModel
     /// Reference to the taxonomy group.
     /// </summary>
     [JsonPropertyName("taxonomy_identifier")]
-    public required Reference TaxonomyReference { get; init; }
+    public required Reference TaxonomyGroup { get; init; }
 
     /// <summary>
     /// Specific terms within the taxonomy to match. Omit to match any term in the group.
     /// </summary>
     [JsonPropertyName("term_identifiers")]
-    public IReadOnlyList<Reference>? TermReferences { get; init; }
+    public IReadOnlyList<Reference>? Terms { get; init; }
 
     /// <summary>
     /// When true, also include variants with no assignment in this taxonomy group.

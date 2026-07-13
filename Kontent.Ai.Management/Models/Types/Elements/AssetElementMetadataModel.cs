@@ -47,7 +47,7 @@ public sealed record AssetElementMetadataModel : ContentElementMetadataBase
     /// Default value applied when authors create a new language variant.
     /// </summary>
     [JsonPropertyName("default")]
-    public AssetDefaultValueModel? DefaultValue { get; init; }
+    public AssetElementDefaultValueModel? DefaultValue { get; init; }
 
     /// <inheritdoc/>
     [JsonPropertyName("type")]

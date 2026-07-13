@@ -9,11 +9,11 @@ public sealed record ContentItemWorkflowTransition
     /// Reference to the workflow.
     /// </summary>
     [JsonPropertyName("workflow_identifier")]
-    public required Reference WorkflowReference { get; init; }
+    public required Reference Workflow { get; init; }
 
     /// <summary>
     /// Reference to the workflow step.
     /// </summary>
     [JsonPropertyName("step_identifier")]
-    public required Reference WorkflowStepReference { get; init; }
+    public required Reference Step { get; init; }
 }

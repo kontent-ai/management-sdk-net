@@ -25,7 +25,7 @@ public class EnvironmentUserTests
                 {
                     Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
                     Roles = new[] {
-                        new RoleModel
+                        new UserRoleModel
                         {
                             Id = Guid.NewGuid(),
                             Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
@@ -68,7 +68,7 @@ public class EnvironmentUserTests
                     Collections = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())],
                     Roles =
                     [
-                        new RoleModel
+                        new UserRoleModel
                         {
                             Id = Guid.NewGuid(),
                             Languages = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())]
@@ -105,7 +105,7 @@ public class EnvironmentUserTests
                     Collections = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())],
                     Roles =
                     [
-                        new RoleModel
+                        new UserRoleModel
                         {
                             Id = Guid.NewGuid(),
                             Languages = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())]

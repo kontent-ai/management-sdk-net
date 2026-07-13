@@ -8,9 +8,9 @@ namespace Kontent.Ai.Management.Models.AssetFolders;
 public sealed class AssetFolderLinkingHierarchy
 {
     /// <summary>
-    /// The folder's ID. The zero Guid string means the asset sits outside any folder.
+    /// The folder's ID. The zero Guid means the asset sits outside any folder.
     /// </summary>
-    public string? Id { get; set; }
+    public Guid? Id { get; set; }
 
     /// <summary>
     /// The folder's external ID. Only present if specified when the folder was created.

@@ -1260,8 +1260,8 @@ public class CmApiV2
                             [
                                 new ContentItemWorkflowTransition
                                 {
-                                    WorkflowReference = Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
-                                    WorkflowStepReference = Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008"))
+                                    Workflow = Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
+                                    Step = Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008"))
                                 }
                             ]
                         }
@@ -1337,7 +1337,7 @@ public class CmApiV2
                 {
                     Name = "First step",
                     Codename = "first_step",
-                    Color = WorkflowStepColorModel.SkyBlue,
+                    Color = WorkflowStepColor.SkyBlue,
                     TransitionsTo =
                     [
                         new()
@@ -1350,7 +1350,7 @@ public class CmApiV2
                 {
                     Name = "Second step",
                     Codename = "second_step",
-                    Color = WorkflowStepColorModel.Rose,
+                    Color = WorkflowStepColor.Rose,
                     RoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")],
                     TransitionsTo =
                     [
@@ -1392,7 +1392,7 @@ public class CmApiV2
                     ],
                     Roles =
                     [
-                        new RoleModel
+                        new UserRoleModel
                         {
                             Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
                             Languages = [Reference.ById(Guid.Parse("7df9a691-cf29-402d-9598-66273e7561b7"))]
@@ -1807,7 +1807,7 @@ public class CmApiV2
                 {
                     Name = "First step",
                     Codename = "first_step",
-                    Color = WorkflowStepColorModel.SkyBlue,
+                    Color = WorkflowStepColor.SkyBlue,
                     TransitionsTo =
                     [
                         new()
@@ -1820,7 +1820,7 @@ public class CmApiV2
                 {
                     Name = "Second step",
                     Codename = "second_step",
-                    Color = WorkflowStepColorModel.Rose,
+                    Color = WorkflowStepColor.Rose,
                     RoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")],
                     TransitionsTo =
                     [
@@ -1862,7 +1862,7 @@ public class CmApiV2
                         Collections = [Reference.ByDefaultId()],
                         Roles =
                         [
-                            new RoleModel
+                            new UserRoleModel
                             {
                                 Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
                                 Languages = [Reference.ByCodename("english")]
