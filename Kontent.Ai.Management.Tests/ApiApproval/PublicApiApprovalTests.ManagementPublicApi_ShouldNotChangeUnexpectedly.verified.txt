@@ -47,6 +47,10 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
@@ -175,6 +179,10 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
     IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
@@ -1005,6 +1013,17 @@ public class CustomAppOperationBaseModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.CustomApps.Patch
+public sealed class CustomAppPatch
+    static CustomAppAddIntoPatchModel AddAllowedRole(Reference role)
+    static CustomAppRemovePatchModel RemoveAllowedRole(Reference role)
+    static CustomAppReplacePatchModel ReplaceAllowedRoles(Reference[] roles)
+    static CustomAppReplacePatchModel ReplaceCodename(String codename)
+    static CustomAppReplacePatchModel ReplaceConfig(Object config)
+    static CustomAppReplacePatchModel ReplaceDisplayMode(CustomAppDisplayMode displayMode)
+    static CustomAppReplacePatchModel ReplaceName(String name)
+    static CustomAppReplacePatchModel ReplaceSourceUrl(String sourceUrl)
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
 public enum CustomAppPropertyName : Enum
     AllowedRoles
     Codename
@@ -1342,6 +1361,13 @@ public sealed class LanguageModel : IEquatable`1
     Boolean Equals(LanguageModel other)
     Int32 GetHashCode()
     String ToString()
+
+// Kontent.Ai.Management.Models.Languages.Patch
+public sealed class LanguagePatch
+    static LanguagePatchModel Codename(String codename)
+    static LanguagePatchModel FallbackLanguage(Reference language)
+    static LanguagePatchModel IsActive(Boolean isActive)
+    static LanguagePatchModel Name(String name)
 
 // Kontent.Ai.Management.Models.Languages.Patch
 public sealed class LanguagePatchModel : IEquatable`1
@@ -1759,6 +1785,13 @@ public sealed class SpaceModel : IEquatable`1
     String ToString()
 
 // Kontent.Ai.Management.Models.Spaces.Patch
+public sealed class SpacePatch
+    static SpaceReplacePatchModel Codename(String codename)
+    static SpaceReplacePatchModel Collections(Reference[] collections)
+    static SpaceReplacePatchModel Name(String name)
+    static SpaceReplacePatchModel RootItem(Reference rootItem)
+
+// Kontent.Ai.Management.Models.Spaces.Patch
 public enum SpacePropertyName : Enum
     Codename
     Collections
@@ -1960,6 +1993,12 @@ public class TaxonomyGroupOperationBaseModel : IEquatable`1
     Boolean Equals(TaxonomyGroupOperationBaseModel other)
     Int32 GetHashCode()
     String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public sealed class TaxonomyGroupPatch
+    static TaxonomyGroupReplacePatchModel ReplaceCodename(Reference target, String codename)
+    static TaxonomyGroupReplacePatchModel ReplaceName(Reference target, String name)
+    static TaxonomyGroupReplacePatchModel ReplaceTerms(Reference target, TaxonomyTermCreateModel[] terms)
 
 // Kontent.Ai.Management.Models.TaxonomyGroups.Patch
 public enum TaxonomyGroupPropertyName : Enum

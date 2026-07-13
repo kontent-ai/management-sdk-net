@@ -263,6 +263,21 @@ if ((await client.GetContentItemAsync(Reference.ByCodename("on_roasts"))).TryGet
 
 The SDK itself never throws `ManagementException` — it surfaces only when you opt in with `EnsureSuccess()`.
 
+When composing your own multi-step helpers in the same style as the SDK's (upload → create → link), `AsFailure<T>()` re-projects a failed result onto the helper's return type, preserving the error, status code, and request URL:
+
+```csharp
+async Task<IManagementResult<AssetModel>> UploadAndCreateAsync(IManagementClient client, FileContentSource file)
+{
+    var upload = await client.UploadFileAsync(file);
+    if (!upload.IsSuccess)
+    {
+        return upload.AsFailure<AssetModel>();   // propagate the first failure
+    }
+
+    return await client.CreateAssetAsync(new AssetCreateModel { FileReference = upload.Value });
+}
+```
+
 ## Error Handling
 
 On failure, `result.Error` (an `IError`) describes what went wrong:
@@ -330,6 +345,20 @@ var variantIdentifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-U
 var mixed = new LanguageVariantIdentifier(Reference.ById(itemId), Reference.ByCodename("en-US"));
 ```
 
+Objects you have already fetched convert straight back into identifiers — `ToReference()` on the models you list and act on (`ContentItemModel`, `AssetModel`, `ContentTypeModel`, `LanguageModel`, …), and `ToIdentifier()` on a fetched variant or an items-with-variants filter result:
+
+```csharp
+await client.DeleteContentItemAsync(item.ToReference());
+
+// find variants, then act on them — no manual (item, language) reassembly:
+foreach (var found in filterResult.Value)
+{
+    await client.PublishLanguageVariantAsync(found.ToIdentifier());
+}
+```
+
+Both reference by **id**, which is environment-specific — scripts that target a different environment should build the reference explicitly (`Reference.ByCodename(...)`).
+
 > [!NOTE]
 > Not every endpoint accepts every identifier kind — some are ID-only, some forbid external IDs. Passing an unsupported kind throws an `InvalidOperationException` before any request is sent.
 
@@ -359,7 +388,7 @@ A listing is **all-or-nothing**: if any page fails, that first failure short-cir
 
 ### Streaming large listings
 
-The endpoints whose results can grow large — content items, assets, and the items-with-variants filter and bulk-get — also expose an `EnumerateXPagesAsync` overload that streams one continuation-token page at a time, so you can process the listing without buffering it all in memory (and stop early). Each iteration is one HTTP request and yields a page result; a failed page surfaces as a failed result and ends the stream:
+The endpoints whose results can grow large — content items, assets, the items-with-variants filter and bulk-get, and the language-variant listings by type, collection, and space (which scale as items × languages) — also expose an `EnumerateXPagesAsync` overload that streams one continuation-token page at a time, so you can process the listing without buffering it all in memory (and stop early). Each iteration is one HTTP request and yields a page result; a failed page surfaces as a failed result and ends the stream:
 
 ```csharp
 await foreach (var page in client.EnumerateContentItemPagesAsync())
@@ -669,7 +698,8 @@ var result = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
             Name = "Title",
             Codename = "title",
-            IsRequired = true
+            IsRequired = true,
+            DefaultValue = new TextElementDefaultValueModel("Untitled article")
         },
         new RichTextElementMetadataModel
         {
@@ -737,11 +767,30 @@ Two fallbacks cover anything the factories don't model:
 - **Raw-path factories** — `AddIntoRaw`, `ReplaceRaw`, `RemoveRaw`, `MoveRawBefore` / `MoveRawAfter` take the `path` string directly, so a property the SDK has no named factory for — e.g. an element's `maximum_text_length` — is still reachable in the same fluent style: `ContentTypePatch.ReplaceRaw("/elements/codename:summary/maximum_text_length", new MaximumTextLengthModel { Value = 280, AppliesTo = TextLengthLimitType.Characters })`.
 - **The operation records** — construct `ContentModelReplacePatchModel { Path = …, Value = … }` (and its add / move / remove siblings) by hand for full control.
 
-Taxonomy groups, collections, languages, and the other patchable resources address their target by a typed property-name enum and `Reference` instead of a path string, so they have no grammar to encode and are edited directly with their own operation models:
+Taxonomy groups, languages, spaces, and custom apps address their target by a typed property-name enum instead of a path string. Each has its own small factory class — `TaxonomyGroupPatch`, `LanguagePatch`, `SpacePatch`, `CustomAppPatch` — that names the property and takes the correctly-typed value:
 
 ```csharp
-await client.ModifyTaxonomyGroupAsync(Reference.ByCodename("categories"), [/* TaxonomyGroupOperationBaseModel ops */]);
+await client.ModifyLanguageAsync(Reference.ByCodename("de-DE"),
+[
+    LanguagePatch.Name("Deutsch"),
+    LanguagePatch.FallbackLanguage(Reference.ByCodename("en-US")),
+]);
+
+await client.ModifyTaxonomyGroupAsync(Reference.ByCodename("categories"),
+[
+    TaxonomyGroupPatch.ReplaceName(Reference.ByCodename("coffee"), "Coffee beans"),
+]);
+
+await client.ModifySpaceAsync(Reference.ByCodename("marketing"), [SpacePatch.RootItem(null)]);   // null unsets
+
+await client.ModifyCustomAppAsync(Reference.ByCodename("dashboard"),
+[
+    CustomAppPatch.ReplaceSourceUrl("https://example.org/app"),
+    CustomAppPatch.AddAllowedRole(Reference.ById(roleId)),
+]);
 ```
+
+Operations that already carry typed values — the taxonomy `addInto` / `remove` / `move` term operations — are constructed directly as their operation models.
 
 The full set of each resource is listed with `ListContentTypesAsync`, `ListContentTypeSnippetsAsync`, and `ListTaxonomyGroupsAsync`.
 

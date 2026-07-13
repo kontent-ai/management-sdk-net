@@ -425,12 +425,30 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
     Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByCollectionAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Streams the collection's language variants one continuation-token page at a time, for environments too large to materialize
+    /// in one list. Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="identifier">The identifier of the collection.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+
 
     /// <summary>Lists all language variants for the specified space.</summary>
     /// <param name="identifier">The identifier of the space.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
     Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsBySpaceAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Streams the space's language variants one continuation-token page at a time, for environments too large to materialize
+    /// in one list. Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="identifier">The identifier of the space.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+
 
     /// <summary>
     /// Returns strongly typed listing of language variants for the specified content item.
@@ -445,12 +463,30 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
     Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByTypeAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Streams the content type's language variants one continuation-token page at a time, for environments too large to materialize
+    /// in one list. Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="identifier">The identifier of the content type.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+
 
     /// <summary>Lists all language variants containing components for the specified content type.</summary>
     /// <param name="identifier">The identifier of the content type.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all language variants on success, or the first failed page's detail.</returns>
     Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// Streams the content type's component-containing language variants one continuation-token page at a time, for environments too large to materialize
+    /// in one list. Each iteration is one HTTP request; a failed page is yielded as a failed result and ends the stream.
+    /// </summary>
+    /// <param name="identifier">The identifier of the content type.</param>
+    /// <param name="cancellationToken">Token to cancel the enumeration.</param>
+    /// <returns>An async stream of pages; each yields one page's language variants on success, or that page's failure detail.</returns>
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken = default);
+
 
     /// <summary>
     /// Lists all taxonomy groups.
