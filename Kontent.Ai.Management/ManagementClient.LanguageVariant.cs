@@ -146,30 +146,21 @@ public partial class ManagementClient
     }
 
     /// <inheritdoc />
+    public Task<IManagementResult<LanguageVariantModel<T>>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new()
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        return _managementApi.GetPublishedLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync(ToTypedVariant<T>);
+    }
+
+    /// <inheritdoc />
     public Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(languageVariantUpsertModel);
 
         return _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), languageVariantUpsertModel, cancellationToken).ToManagementResultAsync();
-    }
-
-    /// <inheritdoc />
-    public async Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(identifier);
-        ArgumentNullException.ThrowIfNull(languageVariant);
-
-        var upsertModel = new LanguageVariantUpsertModel
-        {
-            Elements = languageVariant.Elements,
-            Workflow = languageVariant.Workflow,
-            DueDate = languageVariant.DueDate,
-            Note = languageVariant.Note,
-            Contributors = languageVariant.Contributors,
-        };
-
-        return await UpsertLanguageVariantAsync(identifier, upsertModel, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

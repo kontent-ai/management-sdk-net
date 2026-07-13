@@ -33,7 +33,8 @@ using Kontent.Ai.Management.Models.Workflow;
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// Represents set of Content Management API requests. The client owns its underlying HTTP resources when built
+/// The Kontent.ai Management API client — one method per API operation, each returning an
+/// <see cref="IManagementResult"/> instead of throwing on API errors. The client owns its underlying HTTP resources when built
 /// standalone (via the <see cref="ManagementClient"/> constructor or <see cref="Configuration.ManagementClientBuilder"/>),
 /// so it is <see cref="IDisposable"/> / <see cref="IAsyncDisposable"/> — dispose it (or <c>await using</c> it) to
 /// release them. For DI-managed instances disposal is a no-op; the host container owns the lifetime.
@@ -283,14 +284,14 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get the Asset Folders
+    /// Returns the asset-folder hierarchy.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the asset-folder hierarchy on success, or the failure detail.</returns>
     Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns strongly typed content item.
+    /// Returns the content item.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
@@ -322,7 +323,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns strongly typed language variant.
+    /// Returns the language variant, with untyped element values.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
@@ -349,12 +350,27 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
         where T : IElementsModel, new();
 
     /// <summary>
-    /// Returns strongly typed currently published language variant.
+    /// Returns the currently published language variant, with untyped element values.
     /// </summary>
     /// <param name="identifier">The identifier of the language variant.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the requested <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the currently published language variant and projects its elements onto the generated
+    /// content-type record <typeparamref name="T"/>.
+    /// </summary>
+    /// <remarks>
+    /// Typed read is environment-bound — see <see cref="GetLanguageVariantAsync{T}(LanguageVariantIdentifier, CancellationToken)"/>.
+    /// </remarks>
+    /// <typeparam name="T">The generated content-type record (implements <see cref="IElementsModel"/>).</typeparam>
+    /// <param name="identifier">The identifier of the language variant.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the published variant — its element values as <typeparamref name="T"/> plus the
+    /// variant metadata — on success, or the failure detail.</returns>
+    Task<IManagementResult<LanguageVariantModel<T>>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new();
 
     /// <summary>
     /// Returns environment information
@@ -451,7 +467,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
 
 
     /// <summary>
-    /// Returns strongly typed listing of language variants for the specified content item.
+    /// Lists all language variants of the specified content item.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
@@ -647,14 +663,6 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <returns>A result wrapping the inserted or updated <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Creates or updates the given content item variant.
-    /// </summary>
-    /// <param name="identifier">The identifier of the language variant.</param>
-    /// <param name="languageVariant">Represents the language variant which data will be used to create <see cref="LanguageVariantUpsertModel"/>.</param>
-    /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the created or updated <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inserts or updates a language variant from the generated content-type record <typeparamref name="T"/>.

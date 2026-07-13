@@ -36,6 +36,32 @@ public static class ManagementClientExtensions
     }
 
     /// <summary>
+    /// Creates or updates the language variant from a fetched <see cref="LanguageVariantModel"/> — its elements,
+    /// workflow, due date, note, and contributors feed the upsert; the server-owned metadata is dropped.
+    /// </summary>
+    /// <param name="client">Content management client instance.</param>
+    /// <param name="identifier">The identifier of the language variant.</param>
+    /// <param name="languageVariant">The fetched (and possibly modified) variant to upsert.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the inserted or updated <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
+    public static async Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(this IManagementClient client, LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(languageVariant);
+
+        var upsertModel = new LanguageVariantUpsertModel
+        {
+            Elements = languageVariant.Elements,
+            Workflow = languageVariant.Workflow,
+            DueDate = languageVariant.DueDate,
+            Note = languageVariant.Note,
+            Contributors = languageVariant.Contributors,
+        };
+
+        return await client.UpsertLanguageVariantAsync(identifier, upsertModel, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Uploads the file and creates an asset that references it.
     /// </summary>
     /// <param name="client">Content management client instance.</param>

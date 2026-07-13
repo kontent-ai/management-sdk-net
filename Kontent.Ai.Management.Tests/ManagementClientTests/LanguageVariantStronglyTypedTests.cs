@@ -76,6 +76,29 @@ public class LanguageVariantStronglyTypedTests
     }
 
     [Fact]
+    public async Task GetPublishedLanguageVariantAsync_StronglyTyped_ProjectsValue()
+    {
+        var (client, mock) = MockClientFactory.Create(Converter());
+        mock.Expect(HttpMethod.Get, $"{VariantUrl}/published")
+            .Respond("application/json", Fixture("StronglyTypedCalloutVariant.json"));
+
+        var result = await client.GetPublishedLanguageVariantAsync<Callout>(Identifier());
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Elements.Type.Should().Equal(CalloutType.Warning);
+    }
+
+    [Fact]
+    public async Task GetPublishedLanguageVariantAsync_StronglyTyped_IdentifierIsNull_Throws()
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.GetPublishedLanguageVariantAsync<Callout>(null!))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Fact]
     public async Task GetLanguageVariantAsync_StronglyTyped_Success_ProjectsValueAndStatus()
     {
         var (client, mock) = MockClientFactory.Create(Converter());
