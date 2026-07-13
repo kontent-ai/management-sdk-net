@@ -109,7 +109,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
-    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserRolesUpdateModel roles, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
@@ -237,7 +237,7 @@ public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDis
     Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
     Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
     Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
-    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserRolesUpdateModel roles, CancellationToken cancellationToken)
     Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
     Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
     Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
@@ -273,6 +273,7 @@ public sealed class ManagementException : Exception
 
 // Kontent.Ai.Management
 public sealed class ManagementResultExtensions
+    static IManagementResult<T> AsFailure<T>(IManagementResult result)
     static IManagementResult EnsureSuccess(IManagementResult result)
     static T EnsureSuccess<T>(IManagementResult<T> result)
     static Boolean TryGetValue<T>(IManagementResult<T> result, T& value)
@@ -380,6 +381,12 @@ public sealed class ServiceCollectionExtensions
     static IServiceCollection AddManagementClient(IServiceCollection services, String name, IConfiguration configuration, String configurationSectionName)
     static IServiceCollection AddManagementClient(IServiceCollection services, Action<ManagementOptions> configureOptions, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience)
     static IServiceCollection AddManagementClient(IServiceCollection services, String name, Action<ManagementOptions> configureOptions, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience, Action<RefitSettings> configureRefit)
+
+// Kontent.Ai.Management.Extensions
+public sealed class VariantIdentifierExtensions
+    static LanguageVariantIdentifier ToIdentifier(LanguageVariantMetadata variant)
+    static LanguageVariantIdentifier ToIdentifier(ItemWithVariantFilterResultModel model)
+    static VariantIdentifierModel ToVariantIdentifier(ItemWithVariantFilterResultModel model)
 
 // Kontent.Ai.Management.Models.AssetFolders
 public sealed class AssetFolderCreateModel : IEquatable`1
@@ -2510,6 +2517,15 @@ public sealed class UserModel : IEquatable`1
     UserModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(UserModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Users
+public sealed class UserRolesUpdateModel : IEquatable`1
+    IReadOnlyList<UserCollectionGroup> CollectionGroups { get; set; init; }
+    UserRolesUpdateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserRolesUpdateModel other)
     Int32 GetHashCode()
     String ToString()
 

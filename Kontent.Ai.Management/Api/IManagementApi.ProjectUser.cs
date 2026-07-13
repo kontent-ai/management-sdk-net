@@ -15,11 +15,11 @@ internal partial interface IManagementApi
 
     /// <summary>Replaces the roles of a user in the environment.</summary>
     /// <param name="userIdentifier">The user identifier path segment (<c>{id}</c> or <c>email/{email}</c>).</param>
-    /// <param name="user">The user with the roles to set.</param>
+    /// <param name="roles">The roles to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     [Put("/users/{**userIdentifier}/roles")]
     internal Task<IApiResponse<UserModel>> UpdateUserRolesInternalAsync(
         string userIdentifier,
-        [Body] UserModel user,
+        [Body] UserRolesUpdateModel roles,
         CancellationToken cancellationToken = default);
 }

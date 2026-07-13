@@ -1994,27 +1994,23 @@ public class CmApiV2
 
         var response = await client.UpdateUserRolesAsync(
             identifier,
-            new UserModel
+            new UserRolesUpdateModel
             {
-                Id = "usr_0vRMQhkfhH0A5azU753QPz",
-                CollectionGroups = new List<UserCollectionGroup>
-                {
+                CollectionGroups =
+                [
                     new UserCollectionGroup
                     {
-                        Collections = new List<Reference>
-                        {
-                            Reference.ById(Guid.Empty),
-                        },
-                        Roles = new List<RoleModel>
-                        {
+                        Collections = [Reference.ById(Guid.Empty)],
+                        Roles =
+                        [
                             new RoleModel
                             {
                                 Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
-                                Languages = new List<Reference>() { Reference.ByCodename("english") }
+                                Languages = [Reference.ByCodename("english")]
                             }
-                        }
+                        ]
                     }
-                }
+                ]
             });
 
         Assert.NotNull(response);

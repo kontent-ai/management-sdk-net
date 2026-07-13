@@ -59,62 +59,67 @@ public class EnvironmentUserTests
     public async Task UpdateUserRolesAsync_ByEmail_ModifiesUserRoles()
     {
         var (client, mock) = MockClientFactory.Create();
-        var user = new UserModel
+        var roles = new UserRolesUpdateModel
         {
-            CollectionGroups = new[] {
+            CollectionGroups =
+            [
                 new UserCollectionGroup
                 {
-                    Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
-                    Roles = new[] {
+                    Collections = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())],
+                    Roles =
+                    [
                         new RoleModel
                         {
                             Id = Guid.NewGuid(),
-                            Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
+                            Languages = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())]
                         }
-                    }
+                    ]
                 }
-            },
-            Id = "somethingId"
+            ]
         };
 
         var identifier = UserIdentifier.ByEmail("test@kontent.ai");
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/email/{Uri.EscapeDataString(identifier.Email!)}/roles")
+            .CaptureBody(out var body)
             .Respond("application/json", ProjectUser);
 
-        var result = await client.UpdateUserRolesAsync(identifier, user);
+        var result = await client.UpdateUserRolesAsync(identifier, roles);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
+        body.ShouldMatchSerialized(roles);
+        body.Value.Should().NotContain("user_id", "the user is identified by the URL, not the body");
     }
 
     [Fact]
     public async Task UpdateUserRolesAsync_ById_ModifiesUserRoles()
     {
         var (client, mock) = MockClientFactory.Create();
-        var user = new UserModel
+        var roles = new UserRolesUpdateModel
         {
-            CollectionGroups = new[] {
+            CollectionGroups =
+            [
                 new UserCollectionGroup
                 {
-                    Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
-                    Roles = new[] {
+                    Collections = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())],
+                    Roles =
+                    [
                         new RoleModel
                         {
                             Id = Guid.NewGuid(),
-                            Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
+                            Languages = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())]
                         }
-                    }
+                    ]
                 }
-            },
-            Id = "somethingId"
+            ]
         };
 
         var identifier = UserIdentifier.ById("userId");
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/{identifier.Id}/roles")
             .Respond("application/json", ProjectUser);
 
-        var result = await client.UpdateUserRolesAsync(identifier, user);
+        var result = await client.UpdateUserRolesAsync(identifier, roles);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
@@ -126,7 +131,7 @@ public class EnvironmentUserTests
     {
         var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.UpdateUserRolesAsync(null!, new UserModel { Id = "usr_x", CollectionGroups = [] })).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.UpdateUserRolesAsync(null!, new UserRolesUpdateModel { CollectionGroups = [] })).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]

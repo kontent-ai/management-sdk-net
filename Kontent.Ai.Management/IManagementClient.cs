@@ -693,13 +693,13 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modifies user's roles.
+    /// Replaces the user's roles.
     /// </summary>
     /// <param name="identifier">The identifier of the environment user.</param>
-    /// <param name="user">Represents an user that is to be modified.</param>
+    /// <param name="roles">The collection-to-roles assignments to set.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping the modified <see cref="UserModel"/> on success, or the failure detail.</returns>
-    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserModel user, CancellationToken cancellationToken = default);
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserRolesUpdateModel roles, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists all projects under your subscription.

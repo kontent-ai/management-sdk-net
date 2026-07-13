@@ -50,6 +50,28 @@ public class ManagementResultExtensionsTests
     }
 
     [Fact]
+    public void AsFailure_ReprojectsErrorStatusAndUrl()
+    {
+        var error = SampleError();
+        var failure = ManagementResult<string>.Failure(error, HttpStatusCode.Conflict, "https://example.org/x");
+
+        var reprojected = failure.AsFailure<int>();
+
+        reprojected.IsSuccess.Should().BeFalse();
+        reprojected.Error.Should().BeSameAs(error);
+        reprojected.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        reprojected.RequestUrl.Should().Be("https://example.org/x");
+    }
+
+    [Fact]
+    public void AsFailure_OnSuccess_Throws()
+    {
+        var act = () => ManagementResult<string>.Success("ok", HttpStatusCode.OK).AsFailure<int>();
+
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
     public void LanguageVariantIdentifier_ByCodenames_BuildsReferences()
     {
         var id = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");

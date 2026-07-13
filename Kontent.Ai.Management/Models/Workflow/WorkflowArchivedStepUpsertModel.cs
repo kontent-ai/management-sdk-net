@@ -6,8 +6,8 @@ namespace Kontent.Ai.Management.Models.Workflow;
 public sealed record WorkflowArchivedStepUpsertModel
 {
     /// <summary>
-    /// Roles allowed to work with archived variants. May be empty.
+    /// Roles allowed to work with archived variants. Defaults to empty — no role restriction.
     /// </summary>
     [JsonPropertyName("role_ids")]
-    public required IEnumerable<Guid> RoleIds { get; init; }
+    public IEnumerable<Guid> RoleIds { get; init; } = [];
 }

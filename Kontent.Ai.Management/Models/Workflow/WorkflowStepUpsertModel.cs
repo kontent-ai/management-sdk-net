@@ -36,8 +36,8 @@ public sealed record WorkflowStepUpsertModel
     public required IEnumerable<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; init; }
 
     /// <summary>
-    /// Roles allowed to work with items in this step. May be empty.
+    /// Roles allowed to work with items in this step. Defaults to empty — no role restriction.
     /// </summary>
     [JsonPropertyName("role_ids")]
-    public required IEnumerable<Guid> RoleIds { get; init; }
+    public IEnumerable<Guid> RoleIds { get; init; } = [];
 }

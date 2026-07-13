@@ -62,10 +62,6 @@ internal static class RefitApiResponseExtensions
         return MapFailureAsync(response);
     }
 
-    /// <summary>Re-projects a failed result onto a different value type, preserving its error, status, and request URL.</summary>
-    public static ManagementResult<T> AsFailure<T>(this IManagementResult source) =>
-        ManagementResult<T>.Failure(source.Error!, source.StatusCode, source.RequestUrl);
-
     private static async Task<IManagementResult<TValue>> MapFailureAsync<TValue>(IApiResponse response)
     {
         var error = await BuildErrorAsync(response).ConfigureAwait(false);

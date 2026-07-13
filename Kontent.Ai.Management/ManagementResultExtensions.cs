@@ -28,6 +28,19 @@ public static class ManagementResultExtensions
     }
 
     /// <summary>
+    /// Re-projects a failed result onto a different value type, preserving its error, status code, and request URL —
+    /// for composing multi-step helpers that return a result of another type (propagate the first failure, continue
+    /// on success). Throws <see cref="InvalidOperationException"/> when called on a successful result.
+    /// </summary>
+    public static IManagementResult<T> AsFailure<T>(this IManagementResult result)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        return result.IsSuccess
+            ? throw new InvalidOperationException("Only a failed result can be re-projected as a failure.")
+            : ManagementResult<T>.Failure(result.Error!, result.StatusCode, result.RequestUrl);
+    }
+
+    /// <summary>
     /// Gets the result value when the operation succeeded. Returns <c>true</c> and sets <paramref name="value"/> on
     /// success; returns <c>false</c> otherwise.
     /// </summary>
