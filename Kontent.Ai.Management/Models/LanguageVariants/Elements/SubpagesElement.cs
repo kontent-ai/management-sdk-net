@@ -5,5 +5,5 @@ public sealed record SubpagesElement : BaseElement
 {
     /// <summary>The linked subpages.</summary>
     [JsonPropertyName("value")]
-    public IEnumerable<Reference>? Value { get; init; }
+    public IReadOnlyList<Reference>? Value { get; init; }
 }

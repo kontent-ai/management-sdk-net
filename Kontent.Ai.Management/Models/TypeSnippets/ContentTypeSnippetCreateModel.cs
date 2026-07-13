@@ -23,7 +23,7 @@ public sealed record ContentTypeSnippetCreateModel
     /// Elements to add to the snippet. Snippets cannot contain <c>url_slug</c>, <c>subpages</c>, or <c>content_type_snippet</c> elements; including any of these returns 400. Element-level <c>content_group</c> references are also rejected — snippets have no content groups.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<ElementMetadataBase> Elements { get; init; }
+    public required IReadOnlyList<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
     /// Caller-supplied external ID. Optional.

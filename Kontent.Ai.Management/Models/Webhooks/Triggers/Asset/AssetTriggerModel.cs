@@ -15,5 +15,5 @@ public sealed record AssetTriggerModel
     /// Asset actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<AssetActionModel>? Actions { get; init; }
+    public IReadOnlyList<AssetActionModel>? Actions { get; init; }
 }

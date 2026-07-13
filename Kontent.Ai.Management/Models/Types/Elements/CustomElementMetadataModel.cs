@@ -27,7 +27,7 @@ public sealed record CustomElementMetadataModel : ContentElementMetadataBase
     /// Sibling elements that the custom element can read. Null means no elements are exposed.
     /// </summary>
     [JsonPropertyName("allowed_elements")]
-    public IEnumerable<Reference>? AllowedElements { get; init; }
+    public IReadOnlyList<Reference>? AllowedElements { get; init; }
 
     /// <inheritdoc/>
     [JsonPropertyName("type")]

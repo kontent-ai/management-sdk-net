@@ -9,5 +9,5 @@ public sealed record ContentTypeFiltersModel
     /// Restrict to these content types.
     /// </summary>
     [JsonPropertyName("content_types")]
-    public IEnumerable<Reference>? ContentTypes { get; init; }
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
 }

@@ -31,13 +31,13 @@ public sealed record RichTextElementMetadataModel : ContentElementMetadataBase
     /// Content types allowed as inline components/items. Null or empty means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_content_types")]
-    public IEnumerable<Reference>? AllowedContentTypes { get; init; }
+    public IReadOnlyList<Reference>? AllowedContentTypes { get; init; }
 
     /// <summary>
     /// Content types whose items can be linked from rich text. Null or empty means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_item_link_types")]
-    public IEnumerable<Reference>? AllowedItemLinkTypes { get; init; }
+    public IReadOnlyList<Reference>? AllowedItemLinkTypes { get; init; }
 
     /// <summary>
     /// Image width limit. Null means no width restriction.

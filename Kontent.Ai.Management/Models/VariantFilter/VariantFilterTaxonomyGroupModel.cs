@@ -15,7 +15,7 @@ public sealed record VariantFilterTaxonomyGroupModel
     /// Specific terms within the taxonomy to match. Omit to match any term in the group.
     /// </summary>
     [JsonPropertyName("term_identifiers")]
-    public IEnumerable<Reference>? TermReferences { get; init; }
+    public IReadOnlyList<Reference>? TermReferences { get; init; }
 
     /// <summary>
     /// When true, also include variants with no assignment in this taxonomy group.

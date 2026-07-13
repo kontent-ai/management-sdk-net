@@ -35,7 +35,7 @@ public sealed record ChangeLanguageVariantWorkflowModel
     /// Contributors to assign. Optional.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public IEnumerable<UserIdentifier>? Contributors { get; init; }
+    public IReadOnlyList<UserIdentifier>? Contributors { get; init; }
 
     /// <summary>
     /// Creates the payload targeting the given workflow and step; other properties are optional.

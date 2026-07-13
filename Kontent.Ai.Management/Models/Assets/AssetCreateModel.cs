@@ -15,7 +15,7 @@ public sealed record AssetCreateModel
     /// Per-language alt-text descriptions.
     /// </summary>
     [JsonPropertyName("descriptions")]
-    public IEnumerable<AssetDescription>? Descriptions { get; init; }
+    public IReadOnlyList<AssetDescription>? Descriptions { get; init; }
 
     /// <summary>
     /// Display title.
@@ -45,7 +45,7 @@ public sealed record AssetCreateModel
     /// Taxonomy assignments from the environment's asset type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<AssetTaxonomyElement>? Elements { get; init; }
+    public IReadOnlyList<AssetTaxonomyElement>? Elements { get; init; }
 
     /// <summary>
     /// Caller-supplied codename. When omitted, the CMS generates one from the title (or file name).

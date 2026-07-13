@@ -15,7 +15,7 @@ public sealed record ContentTypeTriggerModel
     /// Content type actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<ContentTypeActionModel>? Actions { get; init; }
+    public IReadOnlyList<ContentTypeActionModel>? Actions { get; init; }
 
     /// <summary>
     /// Filters narrowing which content types fire the webhook.

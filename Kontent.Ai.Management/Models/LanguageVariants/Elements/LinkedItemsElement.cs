@@ -5,5 +5,5 @@ public sealed record LinkedItemsElement : BaseElement
 {
     /// <summary>The linked content items.</summary>
     [JsonPropertyName("value")]
-    public IEnumerable<Reference>? Value { get; init; }
+    public IReadOnlyList<Reference>? Value { get; init; }
 }

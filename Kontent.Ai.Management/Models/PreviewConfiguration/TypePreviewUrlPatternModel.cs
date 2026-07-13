@@ -15,5 +15,5 @@ public sealed record TypePreviewUrlPatternModel
     /// Preview URL patterns for the content type.
     /// </summary>
     [JsonPropertyName("url_patterns")]
-    public required IEnumerable<PreviewUrlPatternModel> UrlPatterns { get; init; }
+    public required IReadOnlyList<PreviewUrlPatternModel> UrlPatterns { get; init; }
 }

@@ -23,7 +23,7 @@ public sealed record ContentTypeCreateModel
     /// Elements that make up this content type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public required IEnumerable<ElementMetadataBase> Elements { get; init; }
+    public required IReadOnlyList<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
     /// Caller-supplied external ID.
@@ -35,5 +35,5 @@ public sealed record ContentTypeCreateModel
     /// Content groups to define on the type.
     /// </summary>
     [JsonPropertyName("content_groups")]
-    public IEnumerable<ContentGroupModel>? ContentGroups { get; init; }
+    public IReadOnlyList<ContentGroupModel>? ContentGroups { get; init; }
 }

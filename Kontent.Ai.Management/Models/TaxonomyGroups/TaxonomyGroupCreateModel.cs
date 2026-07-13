@@ -9,5 +9,5 @@ public sealed record TaxonomyGroupCreateModel : TaxonomyBaseModel
     /// Initial root-level terms. Optional; omit to create an empty group.
     /// </summary>
     [JsonPropertyName("terms")]
-    public IEnumerable<TaxonomyTermCreateModel>? Terms { get; init; }
+    public IReadOnlyList<TaxonomyTermCreateModel>? Terms { get; init; }
 }

@@ -10,5 +10,5 @@ public sealed record RichTextElement : BaseElement
 
     /// <summary>Components embedded in the rich text; omitted when null.</summary>
     [JsonPropertyName("components")]
-    public IEnumerable<ComponentModel>? Components { get; init; }
+    public IReadOnlyList<ComponentModel>? Components { get; init; }
 }

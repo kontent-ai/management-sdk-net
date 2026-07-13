@@ -23,7 +23,7 @@ public sealed record LinkedItemsElementMetadataModel : ContentElementMetadataBas
     /// Content types allowed as linked items. Null means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_content_types")]
-    public IEnumerable<Reference>? AllowedContentTypes { get; init; }
+    public IReadOnlyList<Reference>? AllowedContentTypes { get; init; }
 
     /// <summary>
     /// Default value applied when authors create a new language variant.

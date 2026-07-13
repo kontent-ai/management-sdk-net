@@ -5,5 +5,5 @@ public sealed record TaxonomyElement : BaseElement
 {
     /// <summary>The assigned taxonomy terms.</summary>
     [JsonPropertyName("value")]
-    public IEnumerable<Reference>? Value { get; init; }
+    public IReadOnlyList<Reference>? Value { get; init; }
 }

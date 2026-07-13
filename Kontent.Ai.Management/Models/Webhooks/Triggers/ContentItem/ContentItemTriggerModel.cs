@@ -15,7 +15,7 @@ public sealed record ContentItemTriggerModel
     /// Content item actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<ContentItemActionModel>? Actions { get; init; }
+    public IReadOnlyList<ContentItemActionModel>? Actions { get; init; }
 
     /// <summary>
     /// Filters narrowing which content items fire the webhook.

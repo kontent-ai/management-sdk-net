@@ -9,17 +9,17 @@ public sealed record ContentItemFiltersModel
     /// Restrict to these collections.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference>? Collections { get; init; }
+    public IReadOnlyList<Reference>? Collections { get; init; }
 
     /// <summary>
     /// Restrict to these content types.
     /// </summary>
     [JsonPropertyName("content_types")]
-    public IEnumerable<Reference>? ContentTypes { get; init; }
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
 
     /// <summary>
     /// Restrict to these languages.
     /// </summary>
     [JsonPropertyName("languages")]
-    public IEnumerable<Reference>? Languages { get; init; }
+    public IReadOnlyList<Reference>? Languages { get; init; }
 }

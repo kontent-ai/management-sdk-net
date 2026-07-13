@@ -15,5 +15,5 @@ public sealed record ContentItemActionModel
     /// Workflow/step transitions that fire the webhook. Only relevant for the workflow-step-changed action.
     /// </summary>
     [JsonPropertyName("transition_to")]
-    public IEnumerable<ContentItemWorkflowTransition>? TransitionTo { get; init; }
+    public IReadOnlyList<ContentItemWorkflowTransition>? TransitionTo { get; init; }
 }

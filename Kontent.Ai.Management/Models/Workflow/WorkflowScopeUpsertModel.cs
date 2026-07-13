@@ -9,11 +9,11 @@ public sealed record WorkflowScopeUpsertModel
     /// Collections this scope applies to. Optional — omit to default to none.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference>? Collections { get; init; }
+    public IReadOnlyList<Reference>? Collections { get; init; }
 
     /// <summary>
     /// Content types this scope applies to. Optional — omit to default to none.
     /// </summary>
     [JsonPropertyName("content_types")]
-    public IEnumerable<Reference>? ContentTypes { get; init; }
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
 }

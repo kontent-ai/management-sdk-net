@@ -37,5 +37,5 @@ public sealed record LanguageVariantUpsertModel
     /// Contributors to assign. Optional.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public IEnumerable<UserIdentifier>? Contributors { get; init; }
+    public IReadOnlyList<UserIdentifier>? Contributors { get; init; }
 }

@@ -5,5 +5,5 @@ public sealed record MultipleChoiceElement : BaseElement
 {
     /// <summary>The selected options.</summary>
     [JsonPropertyName("value")]
-    public IEnumerable<Reference>? Value { get; init; }
+    public IReadOnlyList<Reference>? Value { get; init; }
 }

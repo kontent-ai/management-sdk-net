@@ -9,7 +9,7 @@ public sealed record AssetUpsertModel
     /// Per-language alt-text descriptions. Omit to leave existing descriptions unchanged; passing an empty array also retains existing descriptions server-side.
     /// </summary>
     [JsonPropertyName("descriptions")]
-    public IEnumerable<AssetDescription>? Descriptions { get; init; }
+    public IReadOnlyList<AssetDescription>? Descriptions { get; init; }
 
     /// <summary>
     /// Display title.
@@ -33,7 +33,7 @@ public sealed record AssetUpsertModel
     /// Taxonomy assignments from the environment's asset type.
     /// </summary>
     [JsonPropertyName("elements")]
-    public IEnumerable<AssetTaxonomyElement>? Elements { get; init; }
+    public IReadOnlyList<AssetTaxonomyElement>? Elements { get; init; }
 
     /// <summary>
     /// Reference to the previously uploaded binary file. Omit when upserting metadata only — the existing binary stays attached.

@@ -9,5 +9,5 @@ public sealed record ItemWithVariantBulkGetRequestModel
     /// Variant identifiers (item + language pairs).
     /// </summary>
     [JsonPropertyName("variants")]
-    public required IEnumerable<VariantIdentifierModel> Variants { get; init; }
+    public required IReadOnlyList<VariantIdentifierModel> Variants { get; init; }
 }

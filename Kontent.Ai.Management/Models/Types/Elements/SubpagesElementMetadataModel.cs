@@ -21,7 +21,7 @@ public sealed record SubpagesElementMetadataModel : ContentElementMetadataBase
     /// Content types allowed as linked subpages. Null means no restriction.
     /// </summary>
     [JsonPropertyName("allowed_content_types")]
-    public IEnumerable<Reference>? AllowedContentTypes { get; init; }
+    public IReadOnlyList<Reference>? AllowedContentTypes { get; init; }
 
     /// <inheritdoc/>
     [JsonPropertyName("type")]

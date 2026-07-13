@@ -9,5 +9,5 @@ public sealed record WorkflowArchivedStepUpsertModel
     /// Roles allowed to work with archived variants. Defaults to empty — no role restriction.
     /// </summary>
     [JsonPropertyName("role_ids")]
-    public IEnumerable<Guid> RoleIds { get; init; } = [];
+    public IReadOnlyList<Guid> RoleIds { get; init; } = [];
 }

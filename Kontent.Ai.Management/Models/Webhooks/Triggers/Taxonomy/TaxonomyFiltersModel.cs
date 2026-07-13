@@ -9,5 +9,5 @@ public sealed record TaxonomyFiltersModel
     /// Restrict to these taxonomies.
     /// </summary>
     [JsonPropertyName("taxonomies")]
-    public IEnumerable<Reference>? Taxonomies { get; init; }
+    public IReadOnlyList<Reference>? Taxonomies { get; init; }
 }

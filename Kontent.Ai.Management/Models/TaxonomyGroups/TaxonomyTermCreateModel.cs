@@ -9,5 +9,5 @@ public sealed record TaxonomyTermCreateModel : TaxonomyBaseModel
     /// Initial child terms. Optional; omit to create a leaf term.
     /// </summary>
     [JsonPropertyName("terms")]
-    public IEnumerable<TaxonomyTermCreateModel>? Terms { get; init; }
+    public IReadOnlyList<TaxonomyTermCreateModel>? Terms { get; init; }
 }

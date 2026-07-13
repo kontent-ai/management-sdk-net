@@ -21,13 +21,13 @@ public sealed record VariantFilterFiltersModel
     /// Restrict results to items of these content types.
     /// </summary>
     [JsonPropertyName("content_types")]
-    public IEnumerable<Reference>? ContentTypes { get; init; }
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
 
     /// <summary>
     /// Restrict results to variants with these contributors.
     /// </summary>
     [JsonPropertyName("contributors")]
-    public IEnumerable<UserIdentifier>? Contributors { get; init; }
+    public IReadOnlyList<UserIdentifier>? Contributors { get; init; }
 
     /// <summary>
     /// When true, restricts to variants without any assigned contributor.
@@ -39,41 +39,41 @@ public sealed record VariantFilterFiltersModel
     /// Restrict to variants with these completion statuses.
     /// </summary>
     [JsonPropertyName("completion_statuses")]
-    public IEnumerable<VariantFilterCompletionStatus>? CompletionStatuses { get; init; }
+    public IReadOnlyList<VariantFilterCompletionStatus>? CompletionStatuses { get; init; }
 
     /// <summary>
     /// Restrict to variants currently in these workflow steps.
     /// </summary>
     [JsonPropertyName("workflow_steps")]
-    public IEnumerable<VariantFilterWorkflowStepsModel>? WorkflowSteps { get; init; }
+    public IReadOnlyList<VariantFilterWorkflowStepsModel>? WorkflowSteps { get; init; }
 
     /// <summary>
     /// Restrict to variants tagged with these taxonomy terms.
     /// </summary>
     [JsonPropertyName("taxonomy_groups")]
-    public IEnumerable<VariantFilterTaxonomyGroupModel>? TaxonomyGroups { get; init; }
+    public IReadOnlyList<VariantFilterTaxonomyGroupModel>? TaxonomyGroups { get; init; }
 
     /// <summary>
     /// Restrict to items assigned to these spaces.
     /// </summary>
     [JsonPropertyName("spaces")]
-    public IEnumerable<Reference>? Spaces { get; init; }
+    public IReadOnlyList<Reference>? Spaces { get; init; }
 
     /// <summary>
     /// Restrict to items in these collections.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference>? Collections { get; init; }
+    public IReadOnlyList<Reference>? Collections { get; init; }
 
     /// <summary>
     /// Restrict to variants in these publishing states.
     /// </summary>
     [JsonPropertyName("publishing_states")]
-    public IEnumerable<VariantFilterPublishingState>? PublishingStates { get; init; }
+    public IReadOnlyList<VariantFilterPublishingState>? PublishingStates { get; init; }
 
     /// <summary>
     /// Restrict to variants containing components of these content types.
     /// </summary>
     [JsonPropertyName("component_types")]
-    public IEnumerable<Reference>? ComponentTypes { get; init; }
+    public IReadOnlyList<Reference>? ComponentTypes { get; init; }
 }

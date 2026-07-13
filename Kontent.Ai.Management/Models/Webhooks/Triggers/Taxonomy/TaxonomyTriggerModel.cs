@@ -15,7 +15,7 @@ public sealed record TaxonomyTriggerModel
     /// Taxonomy actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<TaxonomyActionModel>? Actions { get; init; }
+    public IReadOnlyList<TaxonomyActionModel>? Actions { get; init; }
 
     /// <summary>
     /// Filters narrowing which taxonomies fire the webhook.

@@ -23,7 +23,7 @@ public sealed record MultipleChoiceElementMetadataModel : ContentElementMetadata
     /// Options shown to authors. Must contain at least one option.
     /// </summary>
     [JsonPropertyName("options")]
-    public required IEnumerable<MultipleChoiceOptionModel> Options { get; init; }
+    public required IReadOnlyList<MultipleChoiceOptionModel> Options { get; init; }
 
     /// <summary>
     /// Default value applied when authors create a new language variant.

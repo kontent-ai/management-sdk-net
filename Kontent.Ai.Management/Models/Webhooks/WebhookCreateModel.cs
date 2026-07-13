@@ -29,7 +29,7 @@ public sealed record WebhookCreateModel
     /// Custom HTTP headers sent with each notification. Optional.
     /// </summary>
     [JsonPropertyName("headers")]
-    public IEnumerable<CustomHeaderModel>? Headers { get; init; }
+    public IReadOnlyList<CustomHeaderModel>? Headers { get; init; }
 
     /// <summary>
     /// Whether the webhook is enabled. Leave null to use the server default (enabled). A non-null value is sent verbatim.

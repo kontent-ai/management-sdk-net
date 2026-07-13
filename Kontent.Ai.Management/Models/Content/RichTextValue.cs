@@ -15,5 +15,5 @@ public sealed record RichTextValue
 
     /// <summary>Inline components, when present.</summary>
     [JsonPropertyName("components")]
-    public IEnumerable<Component>? Components { get; init; }
+    public IReadOnlyList<Component>? Components { get; init; }
 }

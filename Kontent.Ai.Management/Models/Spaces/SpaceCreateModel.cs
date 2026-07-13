@@ -27,5 +27,5 @@ public sealed record SpaceCreateModel
     /// Collections belonging to the space. Optional.
     /// </summary>
     [JsonPropertyName("collections")]
-    public IEnumerable<Reference>? Collections { get; init; }
+    public IReadOnlyList<Reference>? Collections { get; init; }
 }

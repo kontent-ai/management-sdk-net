@@ -15,7 +15,7 @@ public sealed record LanguageTriggerModel
     /// Language actions that fire the webhook.
     /// </summary>
     [JsonPropertyName("actions")]
-    public IEnumerable<LanguageActionModel>? Actions { get; init; }
+    public IReadOnlyList<LanguageActionModel>? Actions { get; init; }
 
     /// <summary>
     /// Filters narrowing which languages fire the webhook.

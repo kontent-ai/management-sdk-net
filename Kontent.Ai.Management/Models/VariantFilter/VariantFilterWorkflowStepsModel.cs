@@ -15,5 +15,5 @@ public sealed record VariantFilterWorkflowStepsModel
     /// Specific steps within the workflow to match. Omit to match any step.
     /// </summary>
     [JsonPropertyName("step_identifiers")]
-    public IEnumerable<Reference>? WorkflowStepReferences { get; init; }
+    public IReadOnlyList<Reference>? WorkflowStepReferences { get; init; }
 }

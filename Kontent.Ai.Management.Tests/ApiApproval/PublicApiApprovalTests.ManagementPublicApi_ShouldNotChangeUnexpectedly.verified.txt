@@ -572,8 +572,8 @@ public sealed class AssetCollectionReference : IEquatable`1
 public sealed class AssetCreateModel : IEquatable`1
     String Codename { get; set; init; }
     AssetCollectionReference Collection { get; set; init; }
-    IEnumerable<AssetDescription> Descriptions { get; set; init; }
-    IEnumerable<AssetTaxonomyElement> Elements { get; set; init; }
+    IReadOnlyList<AssetDescription> Descriptions { get; set; init; }
+    IReadOnlyList<AssetTaxonomyElement> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     FileReference FileReference { get; set; init; }
     Reference Folder { get; set; init; }
@@ -632,8 +632,8 @@ public sealed class AssetTaxonomyElement : IEquatable`1
 public sealed class AssetUpsertModel : IEquatable`1
     String Codename { get; set; init; }
     AssetCollectionReference Collection { get; set; init; }
-    IEnumerable<AssetDescription> Descriptions { get; set; init; }
-    IEnumerable<AssetTaxonomyElement> Elements { get; set; init; }
+    IReadOnlyList<AssetDescription> Descriptions { get; set; init; }
+    IReadOnlyList<AssetTaxonomyElement> Elements { get; set; init; }
     FileReference FileReference { get; set; init; }
     Reference Folder { get; set; init; }
     String Title { get; set; init; }
@@ -764,7 +764,7 @@ public sealed class AssetReference : IEquatable`1
     String Codename { get; set; init; }
     String ExternalId { get; set; init; }
     Nullable<Guid> Id { get; set; init; }
-    IEnumerable<RenditionReference> Renditions { get; set; init; }
+    IReadOnlyList<RenditionReference> Renditions { get; set; init; }
     AssetReference <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(AssetReference other)
@@ -821,7 +821,7 @@ public sealed class RichTextBuilder
 
 // Kontent.Ai.Management.Models.Content
 public sealed class RichTextValue : IEquatable`1
-    IEnumerable<Component> Components { get; set; init; }
+    IReadOnlyList<Component> Components { get; set; init; }
     String Value { get; set; init; }
     RichTextValue <Clone>$()
     Boolean Equals(Object obj)
@@ -960,7 +960,7 @@ public sealed class ContentModelReplacePatchModel : ContentModelOperationBaseMod
 
 // Kontent.Ai.Management.Models.CustomApps
 public sealed class CustomAppCreateModel : IEquatable`1
-    IEnumerable<Reference> AllowedRoles { get; set; init; }
+    IReadOnlyList<Reference> AllowedRoles { get; set; init; }
     String Codename { get; set; init; }
     String Config { get; set; init; }
     Nullable<CustomAppDisplayMode> DisplayMode { get; set; init; }
@@ -1117,7 +1117,7 @@ public sealed class EnvironmentClonedModel : IEquatable`1
 public sealed class EnvironmentCloneModel : IEquatable`1
     CopyDataOptions CopyDataOptions { get; set; init; }
     String Name { get; set; init; }
-    IEnumerable<Guid> RolesToActivate { get; set; init; }
+    IReadOnlyList<Guid> RolesToActivate { get; set; init; }
     EnvironmentCloneModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(EnvironmentCloneModel other)
@@ -1298,7 +1298,7 @@ public sealed class ContentItemWithVariantModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.ItemWithVariant
 public sealed class ItemWithVariantBulkGetRequestModel : IEquatable`1
-    IEnumerable<VariantIdentifierModel> Variants { get; set; init; }
+    IReadOnlyList<VariantIdentifierModel> Variants { get; set; init; }
     ItemWithVariantBulkGetRequestModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ItemWithVariantBulkGetRequestModel other)
@@ -1390,7 +1390,7 @@ public enum LanguagePropertyName : Enum
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class ChangeLanguageVariantWorkflowModel : IEquatable`1
-    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
     DueDateModel DueDate { get; set; init; }
     String Note { get; set; init; }
     Reference Step { get; set; init; }
@@ -1472,7 +1472,7 @@ public sealed class LanguageVariantModel`1<TModel> : LanguageVariantMetadata, IE
 
 // Kontent.Ai.Management.Models.LanguageVariants
 public sealed class LanguageVariantUpsertModel : IEquatable`1
-    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
     DueDateModel DueDate { get; set; init; }
     IReadOnlyList<BaseElement> Elements { get; set; init; }
     String Note { get; set; init; }
@@ -1485,7 +1485,7 @@ public sealed class LanguageVariantUpsertModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class AssetElement : BaseElement, IEquatable`1
-    IEnumerable<AssetReference> Value { get; set; init; }
+    IReadOnlyList<AssetReference> Value { get; set; init; }
     AssetElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
@@ -1537,7 +1537,7 @@ public sealed class DynamicElement : BaseElement, IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class LinkedItemsElement : BaseElement, IEquatable`1
-    IEnumerable<Reference> Value { get; set; init; }
+    IReadOnlyList<Reference> Value { get; set; init; }
     LinkedItemsElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
@@ -1547,7 +1547,7 @@ public sealed class LinkedItemsElement : BaseElement, IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class MultipleChoiceElement : BaseElement, IEquatable`1
-    IEnumerable<Reference> Value { get; set; init; }
+    IReadOnlyList<Reference> Value { get; set; init; }
     MultipleChoiceElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
@@ -1567,7 +1567,7 @@ public sealed class NumberElement : BaseElement, IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class RichTextElement : BaseElement, IEquatable`1
-    IEnumerable<ComponentModel> Components { get; set; init; }
+    IReadOnlyList<ComponentModel> Components { get; set; init; }
     String Value { get; set; init; }
     RichTextElement <Clone>$()
     Boolean Equals(Object obj)
@@ -1578,7 +1578,7 @@ public sealed class RichTextElement : BaseElement, IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class SubpagesElement : BaseElement, IEquatable`1
-    IEnumerable<Reference> Value { get; set; init; }
+    IReadOnlyList<Reference> Value { get; set; init; }
     SubpagesElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
@@ -1588,7 +1588,7 @@ public sealed class SubpagesElement : BaseElement, IEquatable`1
 
 // Kontent.Ai.Management.Models.LanguageVariants.Elements
 public sealed class TaxonomyElement : BaseElement, IEquatable`1
-    IEnumerable<Reference> Value { get; set; init; }
+    IReadOnlyList<Reference> Value { get; set; init; }
     TaxonomyElement <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(BaseElement other)
@@ -1619,8 +1619,8 @@ public sealed class UrlSlugElement : BaseElement, IEquatable`1
 
 // Kontent.Ai.Management.Models.PreviewConfiguration
 public sealed class PreviewConfigurationModel : IEquatable`1
-    IEnumerable<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
-    IEnumerable<SpaceDomainModel> SpaceDomains { get; set; init; }
+    IReadOnlyList<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
+    IReadOnlyList<SpaceDomainModel> SpaceDomains { get; set; init; }
     PreviewConfigurationModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(PreviewConfigurationModel other)
@@ -1650,7 +1650,7 @@ public sealed class SpaceDomainModel : IEquatable`1
 // Kontent.Ai.Management.Models.PreviewConfiguration
 public sealed class TypePreviewUrlPatternModel : IEquatable`1
     Reference ContentType { get; set; init; }
-    IEnumerable<PreviewUrlPatternModel> UrlPatterns { get; set; init; }
+    IReadOnlyList<PreviewUrlPatternModel> UrlPatterns { get; set; init; }
     TypePreviewUrlPatternModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TypePreviewUrlPatternModel other)
@@ -1763,7 +1763,7 @@ public sealed class UserIdentifier : IEquatable`1
 // Kontent.Ai.Management.Models.Spaces
 public sealed class SpaceCreateModel : IEquatable`1
     String Codename { get; set; init; }
-    IEnumerable<Reference> Collections { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
     String Name { get; set; init; }
     Reference RootItem { get; set; init; }
     SpaceCreateModel <Clone>$()
@@ -1918,7 +1918,7 @@ public class TaxonomyBaseModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.TaxonomyGroups
 public sealed class TaxonomyGroupCreateModel : TaxonomyBaseModel, IEquatable`1
-    IEnumerable<TaxonomyTermCreateModel> Terms { get; set; init; }
+    IReadOnlyList<TaxonomyTermCreateModel> Terms { get; set; init; }
     TaxonomyGroupCreateModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TaxonomyBaseModel other)
@@ -1940,7 +1940,7 @@ public sealed class TaxonomyGroupModel : TaxonomyBaseModel, IEquatable`1
 
 // Kontent.Ai.Management.Models.TaxonomyGroups
 public sealed class TaxonomyTermCreateModel : TaxonomyBaseModel, IEquatable`1
-    IEnumerable<TaxonomyTermCreateModel> Terms { get; set; init; }
+    IReadOnlyList<TaxonomyTermCreateModel> Terms { get; set; init; }
     TaxonomyTermCreateModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TaxonomyBaseModel other)
@@ -2044,8 +2044,8 @@ public sealed class ContentGroupModel : IEquatable`1
 // Kontent.Ai.Management.Models.Types
 public sealed class ContentTypeCreateModel : IEquatable`1
     String Codename { get; set; init; }
-    IEnumerable<ContentGroupModel> ContentGroups { get; set; init; }
-    IEnumerable<ElementMetadataBase> Elements { get; set; init; }
+    IReadOnlyList<ContentGroupModel> ContentGroups { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     String Name { get; set; init; }
     ContentTypeCreateModel <Clone>$()
@@ -2127,7 +2127,7 @@ public sealed class ContentTypeSnippetElementMetadataModel : ElementMetadataBase
 
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class CustomElementMetadataModel : ContentElementMetadataBase, IEquatable`1
-    IEnumerable<Reference> AllowedElements { get; set; init; }
+    IReadOnlyList<Reference> AllowedElements { get; set; init; }
     String JsonParameters { get; set; init; }
     String Name { get; set; init; }
     String SourceUrl { get; set; init; }
@@ -2198,7 +2198,7 @@ public sealed class GuidelinesElementMetadataModel : ElementMetadataBase, IEquat
 
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class LinkedItemsElementMetadataModel : ContentElementMetadataBase, IEquatable`1
-    IEnumerable<Reference> AllowedContentTypes { get; set; init; }
+    IReadOnlyList<Reference> AllowedContentTypes { get; set; init; }
     LinkedItemsDefaultValueModel DefaultValue { get; set; init; }
     LimitModel ItemCountLimit { get; set; init; }
     String Name { get; set; init; }
@@ -2225,7 +2225,7 @@ public sealed class MultipleChoiceElementMetadataModel : ContentElementMetadataB
     MultipleChoiceDefaultValueModel DefaultValue { get; set; init; }
     MultipleChoiceMode Mode { get; set; init; }
     String Name { get; set; init; }
-    IEnumerable<MultipleChoiceOptionModel> Options { get; set; init; }
+    IReadOnlyList<MultipleChoiceOptionModel> Options { get; set; init; }
     ElementMetadataType Type { get; }
     MultipleChoiceElementMetadataModel <Clone>$()
     Boolean Equals(Object obj)
@@ -2273,10 +2273,10 @@ public enum RichTextBlockType : Enum
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class RichTextElementMetadataModel : ContentElementMetadataBase, IEquatable`1
     IReadOnlyList<RichTextBlockType> AllowedBlocks { get; set; init; }
-    IEnumerable<Reference> AllowedContentTypes { get; set; init; }
+    IReadOnlyList<Reference> AllowedContentTypes { get; set; init; }
     IReadOnlyList<RichTextFormattingType> AllowedFormatting { get; set; init; }
     Nullable<FileType> AllowedImageTypes { get; set; init; }
-    IEnumerable<Reference> AllowedItemLinkTypes { get; set; init; }
+    IReadOnlyList<Reference> AllowedItemLinkTypes { get; set; init; }
     IReadOnlyList<RichTextTableBlockType> AllowedTableBlocks { get; set; init; }
     IReadOnlyList<RichTextFormattingType> AllowedTableFormatting { get; set; init; }
     IReadOnlyList<RichTextTextBlockType> AllowedTableTextBlocks { get; set; init; }
@@ -2323,7 +2323,7 @@ public enum RichTextTextBlockType : Enum
 
 // Kontent.Ai.Management.Models.Types.Elements
 public sealed class SubpagesElementMetadataModel : ContentElementMetadataBase, IEquatable`1
-    IEnumerable<Reference> AllowedContentTypes { get; set; init; }
+    IReadOnlyList<Reference> AllowedContentTypes { get; set; init; }
     LimitModel ItemCountLimit { get; set; init; }
     String Name { get; set; init; }
     ElementMetadataType Type { get; }
@@ -2406,7 +2406,7 @@ public sealed class ValidationRegexModel : IEquatable`1
 public sealed class AssetDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     AssetDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<IEnumerable<AssetReference>> other)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<AssetReference>> other)
     Boolean Equals(AssetDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2442,7 +2442,7 @@ public sealed class ElementDefaultValueEnvelope`1<TValue> : IEquatable`1
 public sealed class LinkedItemsDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     LinkedItemsDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<IEnumerable<Reference>> other)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<Reference>> other)
     Boolean Equals(LinkedItemsDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2451,7 +2451,7 @@ public sealed class LinkedItemsDefaultValueModel : ElementDefaultValue`1, IEquat
 public sealed class MultipleChoiceDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     MultipleChoiceDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<IEnumerable<Reference>> other)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<Reference>> other)
     Boolean Equals(MultipleChoiceDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2469,7 +2469,7 @@ public sealed class NumberElementDefaultValueModel : ElementDefaultValue`1, IEqu
 public sealed class TaxonomyElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
     TaxonomyElementDefaultValueModel <Clone>$()
     Boolean Equals(Object obj)
-    Boolean Equals(ElementDefaultValue<IEnumerable<Reference>> other)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<Reference>> other)
     Boolean Equals(TaxonomyElementDefaultValueModel other)
     Int32 GetHashCode()
     String ToString()
@@ -2494,7 +2494,7 @@ public sealed class ContentTypePatch : ContentModelPatchBase
 // Kontent.Ai.Management.Models.TypeSnippets
 public sealed class ContentTypeSnippetCreateModel : IEquatable`1
     String Codename { get; set; init; }
-    IEnumerable<ElementMetadataBase> Elements { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
     String ExternalId { get; set; init; }
     String Name { get; set; init; }
     ContentTypeSnippetCreateModel <Clone>$()
@@ -2578,18 +2578,18 @@ public enum VariantFilterCompletionStatus : Enum
 
 // Kontent.Ai.Management.Models.VariantFilter
 public sealed class VariantFilterFiltersModel : IEquatable`1
-    IEnumerable<Reference> Collections { get; set; init; }
-    IEnumerable<VariantFilterCompletionStatus> CompletionStatuses { get; set; init; }
-    IEnumerable<Reference> ComponentTypes { get; set; init; }
-    IEnumerable<Reference> ContentTypes { get; set; init; }
-    IEnumerable<UserIdentifier> Contributors { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<VariantFilterCompletionStatus> CompletionStatuses { get; set; init; }
+    IReadOnlyList<Reference> ComponentTypes { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
     Nullable<Boolean> HasNoContributors { get; set; init; }
     Reference Language { get; set; init; }
-    IEnumerable<VariantFilterPublishingState> PublishingStates { get; set; init; }
+    IReadOnlyList<VariantFilterPublishingState> PublishingStates { get; set; init; }
     String SearchPhrase { get; set; init; }
-    IEnumerable<Reference> Spaces { get; set; init; }
-    IEnumerable<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; set; init; }
-    IEnumerable<VariantFilterWorkflowStepsModel> WorkflowSteps { get; set; init; }
+    IReadOnlyList<Reference> Spaces { get; set; init; }
+    IReadOnlyList<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; set; init; }
+    IReadOnlyList<VariantFilterWorkflowStepsModel> WorkflowSteps { get; set; init; }
     VariantFilterFiltersModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(VariantFilterFiltersModel other)
@@ -2627,7 +2627,7 @@ public enum VariantFilterPublishingState : Enum
 public sealed class VariantFilterTaxonomyGroupModel : IEquatable`1
     Boolean IncludeUncategorized { get; set; init; }
     Reference TaxonomyReference { get; set; init; }
-    IEnumerable<Reference> TermReferences { get; set; init; }
+    IReadOnlyList<Reference> TermReferences { get; set; init; }
     VariantFilterTaxonomyGroupModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(VariantFilterTaxonomyGroupModel other)
@@ -2637,7 +2637,7 @@ public sealed class VariantFilterTaxonomyGroupModel : IEquatable`1
 // Kontent.Ai.Management.Models.VariantFilter
 public sealed class VariantFilterWorkflowStepsModel : IEquatable`1
     Reference WorkflowReference { get; set; init; }
-    IEnumerable<Reference> WorkflowStepReferences { get; set; init; }
+    IReadOnlyList<Reference> WorkflowStepReferences { get; set; init; }
     VariantFilterWorkflowStepsModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(VariantFilterWorkflowStepsModel other)
@@ -2658,7 +2658,7 @@ public sealed class CustomHeaderModel : IEquatable`1
 public sealed class WebhookCreateModel : IEquatable`1
     DeliveryTriggersModel DeliveryTriggers { get; set; init; }
     Nullable<Boolean> Enabled { get; set; init; }
-    IEnumerable<CustomHeaderModel> Headers { get; set; init; }
+    IReadOnlyList<CustomHeaderModel> Headers { get; set; init; }
     String Name { get; set; init; }
     String Secret { get; set; init; }
     String Url { get; set; init; }
@@ -2735,7 +2735,7 @@ public sealed class AssetActionModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Asset
 public sealed class AssetTriggerModel : IEquatable`1
-    IEnumerable<AssetActionModel> Actions { get; set; init; }
+    IReadOnlyList<AssetActionModel> Actions { get; set; init; }
     Nullable<Boolean> Enabled { get; set; init; }
     AssetTriggerModel <Clone>$()
     Boolean Equals(Object obj)
@@ -2756,7 +2756,7 @@ public enum ContentItemAction : Enum
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
 public sealed class ContentItemActionModel : IEquatable`1
     ContentItemAction Action { get; set; init; }
-    IEnumerable<ContentItemWorkflowTransition> TransitionTo { get; set; init; }
+    IReadOnlyList<ContentItemWorkflowTransition> TransitionTo { get; set; init; }
     ContentItemActionModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ContentItemActionModel other)
@@ -2765,9 +2765,9 @@ public sealed class ContentItemActionModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
 public sealed class ContentItemFiltersModel : IEquatable`1
-    IEnumerable<Reference> Collections { get; set; init; }
-    IEnumerable<Reference> ContentTypes { get; set; init; }
-    IEnumerable<Reference> Languages { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    IReadOnlyList<Reference> Languages { get; set; init; }
     ContentItemFiltersModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ContentItemFiltersModel other)
@@ -2776,7 +2776,7 @@ public sealed class ContentItemFiltersModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
 public sealed class ContentItemTriggerModel : IEquatable`1
-    IEnumerable<ContentItemActionModel> Actions { get; set; init; }
+    IReadOnlyList<ContentItemActionModel> Actions { get; set; init; }
     Nullable<Boolean> Enabled { get; set; init; }
     ContentItemFiltersModel Filters { get; set; init; }
     ContentItemTriggerModel <Clone>$()
@@ -2812,7 +2812,7 @@ public sealed class ContentTypeActionModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
 public sealed class ContentTypeFiltersModel : IEquatable`1
-    IEnumerable<Reference> ContentTypes { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
     ContentTypeFiltersModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ContentTypeFiltersModel other)
@@ -2821,7 +2821,7 @@ public sealed class ContentTypeFiltersModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
 public sealed class ContentTypeTriggerModel : IEquatable`1
-    IEnumerable<ContentTypeActionModel> Actions { get; set; init; }
+    IReadOnlyList<ContentTypeActionModel> Actions { get; set; init; }
     Nullable<Boolean> Enabled { get; set; init; }
     ContentTypeFiltersModel Filters { get; set; init; }
     ContentTypeTriggerModel <Clone>$()
@@ -2847,7 +2847,7 @@ public sealed class LanguageActionModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Language
 public sealed class LanguageFiltersModel : IEquatable`1
-    IEnumerable<Reference> Languages { get; set; init; }
+    IReadOnlyList<Reference> Languages { get; set; init; }
     LanguageFiltersModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(LanguageFiltersModel other)
@@ -2856,7 +2856,7 @@ public sealed class LanguageFiltersModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Language
 public sealed class LanguageTriggerModel : IEquatable`1
-    IEnumerable<LanguageActionModel> Actions { get; set; init; }
+    IReadOnlyList<LanguageActionModel> Actions { get; set; init; }
     Nullable<Boolean> Enabled { get; set; init; }
     LanguageFiltersModel Filters { get; set; init; }
     LanguageTriggerModel <Clone>$()
@@ -2886,7 +2886,7 @@ public sealed class TaxonomyActionModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
 public sealed class TaxonomyFiltersModel : IEquatable`1
-    IEnumerable<Reference> Taxonomies { get; set; init; }
+    IReadOnlyList<Reference> Taxonomies { get; set; init; }
     TaxonomyFiltersModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(TaxonomyFiltersModel other)
@@ -2895,7 +2895,7 @@ public sealed class TaxonomyFiltersModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
 public sealed class TaxonomyTriggerModel : IEquatable`1
-    IEnumerable<TaxonomyActionModel> Actions { get; set; init; }
+    IReadOnlyList<TaxonomyActionModel> Actions { get; set; init; }
     Nullable<Boolean> Enabled { get; set; init; }
     TaxonomyFiltersModel Filters { get; set; init; }
     TaxonomyTriggerModel <Clone>$()
@@ -2918,7 +2918,7 @@ public sealed class WorkflowArchivedStepModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowArchivedStepUpsertModel : IEquatable`1
-    IEnumerable<Guid> RoleIds { get; set; init; }
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
     WorkflowArchivedStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowArchivedStepUpsertModel other)
@@ -2956,8 +2956,8 @@ public sealed class WorkflowPublishedStepModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowPublishedStepUpsertModel : IEquatable`1
-    IEnumerable<Guid> CreateNewVersionRoleIds { get; set; init; }
-    IEnumerable<Guid> UnpublishRoleIds { get; set; init; }
+    IReadOnlyList<Guid> CreateNewVersionRoleIds { get; set; init; }
+    IReadOnlyList<Guid> UnpublishRoleIds { get; set; init; }
     WorkflowPublishedStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowPublishedStepUpsertModel other)
@@ -2987,8 +2987,8 @@ public sealed class WorkflowScopeModel : IEquatable`1
 
 // Kontent.Ai.Management.Models.Workflow
 public sealed class WorkflowScopeUpsertModel : IEquatable`1
-    IEnumerable<Reference> Collections { get; set; init; }
-    IEnumerable<Reference> ContentTypes { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
     WorkflowScopeUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowScopeUpsertModel other)
@@ -3062,8 +3062,8 @@ public sealed class WorkflowStepUpsertModel : IEquatable`1
     WorkflowStepColorModel Color { get; set; init; }
     Nullable<Guid> Id { get; set; init; }
     String Name { get; set; init; }
-    IEnumerable<Guid> RoleIds { get; set; init; }
-    IEnumerable<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; set; init; }
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
+    IReadOnlyList<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; set; init; }
     WorkflowStepUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowStepUpsertModel other)
@@ -3076,8 +3076,8 @@ public sealed class WorkflowUpsertModel : IEquatable`1
     String Codename { get; set; init; }
     String Name { get; set; init; }
     WorkflowPublishedStepUpsertModel PublishedStep { get; set; init; }
-    IEnumerable<WorkflowScopeUpsertModel> Scopes { get; set; init; }
-    IEnumerable<WorkflowStepUpsertModel> Steps { get; set; init; }
+    IReadOnlyList<WorkflowScopeUpsertModel> Scopes { get; set; init; }
+    IReadOnlyList<WorkflowStepUpsertModel> Steps { get; set; init; }
     WorkflowUpsertModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(WorkflowUpsertModel other)

@@ -9,5 +9,5 @@ public sealed record LanguageFiltersModel
     /// Restrict to these languages.
     /// </summary>
     [JsonPropertyName("languages")]
-    public IEnumerable<Reference>? Languages { get; init; }
+    public IReadOnlyList<Reference>? Languages { get; init; }
 }
