@@ -4,113 +4,107 @@ Guidance for Claude Code agents working in this repository.
 
 ## Overview
 
-Official Kontent.ai **Management SDK for .NET**. The ground-up modernization that mirrors the two sibling SDKs has **landed** — the repo is now in **beta hardening**, not mid-migration.
+Official Kontent.ai **Management SDK for .NET** — a client for the [Management API v2](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) (a *write* API: content items, variants, assets, content model, workflows, environment administration). The `9.x` line is a ground-up modernization of `8.x`; the architecture below is settled — treat it as canonical.
 
-- `../delivery-sdk-net` — the primary architecture reference.
-- `../sync-sdk-net` — the secondary reference, same patterns at smaller scale.
+The pillars:
 
-What's already in place on `vnext`: Refit-backed transport (`IManagementApi`, split per-domain), `System.Text.Json` serialization, the result pattern (`IManagementResult<T>` over throw-on-4xx/5xx), DI extensions with keyed clients, a fluent non-DI builder, a Polly resilience pipeline, and an auth `DelegatingHandler`. **Treat the current shape as canonical** unless a `beta-improvements*.md` entry explicitly supersedes it. The legacy architecture (hand-rolled `ActionInvoker`/`ManagementHttpClient`/`EndpointUrlBuilder`, Newtonsoft.Json) is gone — do not reintroduce it.
+- **Result pattern.** Public calls return `IManagementResult<T>` (success flag, value, `IError` with the API's error detail, status code, request URL) instead of throwing on 4xx/5xx. Transport-level failures throw by design — the result wraps the HTTP response only. `EnsureSuccess()` / `TryGetValue()` / `AsFailure<T>()` are the opt-in conveniences.
+- **Refit transport.** The public `ManagementClient` (partial per domain) wraps the internal `IManagementApi` Refit interface (partial per domain under `Api/`); `ISubscriptionApi` covers the subscription scope. Everything public funnels through `RefitApiResponseExtensions.ToManagementResultAsync` — no endpoint bypasses it, no hand-rolled HTTP.
+- **`System.Text.Json`** with a small set of converters encoding real MAPI quirks (polymorphic elements, codename-out/id-in mapping, string-encoded numbers). Newtonsoft is gone; do not reintroduce it.
+- **Materialized listings.** Every listing is `List{Plural}Async` → `IManagementResult<IReadOnlyList<T>>`, drained internally via `PageEnumerator` (all-or-nothing: first failed page short-circuits). Unbounded listings additionally expose `Enumerate{X}PagesAsync` page streams.
+- **Resilience by default** (`Microsoft.Extensions.Http.Resilience`/Polly), outermost in the handler chain, with **idempotency-aware retries**: 429 retries every method; transient failures/5xx retry idempotent methods only. This is a write API — never weaken that invariant. Auth and tracking are `DelegatingHandler`s under it.
+- **Two entry points**: `services.AddManagementClient(...)` (DI, keyed/named clients, options validation) and `ManagementClientBuilder` (fluent, container-free — owns its `HttpClient`s). The plain constructor also works and is disposable.
 
-This doc is an **evergreen description of how the SDK is built and the conventions to follow**. It is not a progress tracker. Active refactoring work, decisions, and task state live in the uncommitted `beta-improvements*.md` scratch files — keep them out of here so this doc doesn't rot.
+## Current phase
 
-## Working stance (beta hardening)
-
-- **This is still pre-1.0 beta. Breaking changes are acceptable when justified.** No backward-compat shims, no legacy code paths "just in case", no obsolete types kept past their natural lifetime.
-- **But public-API breaks must clear a bar:** does the change enable a clearly better architecture, fix a real defect, or remove real friction? Renaming a stable, sensible type or method purely to "modernize naming" does **not** clear it. Familiarity has value.
-- **The transport is Refit.** The `IManagementApi` Refit interface is the transport layer; everything public wraps it. Do not hand-roll HTTP composition.
-- **Model generation is coordinated.** `../model-generator-net` will re-introduce Management-model generation (it currently emits Delivery models only — v19+ records). Request/response model shapes here must stay generator-friendly: record-based, immutable, `System.Text.Json`-serializable.
+Late `9.0` beta. GA is planned together with a coordinated `net8.0` → `net10.0` bump across the whole Kontent.ai .NET stack (see `net-10-updates.md` while it exists). **The window for casual breaking changes is closing**: a break now needs a real defect or a clearly better architecture behind it, an entry in the release notes *and* the upgrade guide, and an approval-snapshot update. Renaming stable, sensible API purely to modernize naming does not clear the bar — familiarity has value.
 
 ## Sibling repos are canonical references
 
-`../delivery-sdk-net` and `../sync-sdk-net` sit next to this repo in the filesystem. You may read anything in them freely — source, tests, build files, `CLAUDE.md` — to answer architecture, style, or convention questions. When a design question comes up, **read the sibling first** and only diverge with a stated reason.
-
-Concrete anchors to consult:
-
-| Concern                          | Canonical file(s)                                                                  |
-|----------------------------------|------------------------------------------------------------------------------------|
-| Refit interface layout           | `../delivery-sdk-net/Kontent.Ai.Delivery/Api/IDeliveryApi.*.cs` (partial per-domain) · here: `Kontent.Ai.Management/Api/IManagementApi.*.cs` |
-| DI extensions + keyed clients    | `../delivery-sdk-net/Kontent.Ai.Delivery/Extensions/ServiceCollectionExtensions*.cs` · here: `Kontent.Ai.Management/Extensions/ServiceCollectionExtensions*.cs` |
-| Fluent non-DI builder            | `../delivery-sdk-net/Kontent.Ai.Delivery/DeliveryClientBuilder.cs`, `../sync-sdk-net/Kontent.Ai.Sync/Configuration/SyncClientBuilder.cs` · here: `Kontent.Ai.Management/Configuration/ManagementClientBuilder.cs` |
-| Refit settings + `System.Text.Json` | `ServiceCollectionExtensions.HttpClient.cs` in delivery-sdk-net (`SystemTextJsonContentSerializer`) |
-| Resilience pipeline, auth handler | `../sync-sdk-net/Kontent.Ai.Sync/Handlers/`, its `ServiceCollectionExtensions.cs` · here: `Kontent.Ai.Management/Handlers/` |
-| Verify-based API approval tests  | `../delivery-sdk-net/Kontent.Ai.Delivery.Abstractions.Tests/`                       |
-| Build infra                      | `Directory.Build.props`, `Directory.Packages.props`, `global.json` in either sibling |
-
-If a sibling's convention and your instinct disagree, defer to the sibling unless you can articulate why this SDK genuinely needs to differ.
+`../delivery-sdk-net` (primary) and `../sync-sdk-net` (secondary) sit next to this repo. Read them freely for architecture, style, or convention questions; when a design question comes up, **read the sibling first** and only diverge with a stated reason (documented divergences: no default per-attempt timeout, idempotency-aware retries — both because this SDK writes).
 
 ## Target framework and language
 
-- **.NET 8 today.** Single target — no multi-targeting, no `netstandard`.
-- **Planned bump to .NET 10 at the production (GA) release.** The whole Kontent.ai .NET stack (management + delivery + sync) moves together: stay on `net8.0` through beta, then bump straight to `net10.0` at GA (skipping 9, LTS→LTS), coordinated across the sibling SDKs and landed before the .NET 8 EOL window. Until that coordinated bump, keep targeting `net8.0` here.
-- Centralize `LangVersion=latest`, `Nullable=enable`, `ImplicitUsings=enable`, analyzers, and deterministic-build settings in the root `Directory.Build.props` — not per-project.
-- Central Package Management via `Directory.Packages.props`. SDK pinned via `global.json`.
-- **Use modern C# actively**, not grudgingly: primary constructors, file-scoped namespaces, `sealed` by default on non-abstract types, `record` / `readonly record struct` for DTOs and value objects, `required` members, collection expressions, `init`-only setters, `ArgumentNullException.ThrowIfNull`.
-- **Prefer pattern matching** over `if`/cast chains: switch expressions for mapping, property patterns for shape checks, `is not null`, list patterns where they apply. Reach for `if` only when pattern matching would be strained.
-- Serialization is `System.Text.Json` (matching the siblings' `SystemTextJsonContentSerializer` Refit configuration). Newtonsoft is out.
+- **.NET 8 today; .NET 10 at GA** (skip 9, LTS→LTS), coordinated across management + delivery + sync before the .NET 8 EOL window. Until that bump, keep `net8.0`.
+- `LangVersion=latest`, `Nullable=enable`, `ImplicitUsings=enable`, analyzers, deterministic build — centralized in `Directory.Build.props`. Central Package Management via `Directory.Packages.props`; SDK pinned via `global.json`.
+- **Use modern C# actively**: primary constructors, file-scoped namespaces, `sealed` by default, `record` for DTOs, `required` members, collection expressions, `init`-only setters, pattern matching over `if`/cast chains, `ArgumentNullException.ThrowIfNull`.
 
-## Architecture (as built)
+## API surface conventions
 
-- **Refit-backed HTTP.** The public `ManagementClient` wraps an internal `IManagementApi` Refit interface, split into partial files per domain under `Api/` (`IManagementApi.Asset.cs`, `IManagementApi.ContentItem.cs`, `IManagementApi.Language.cs`, …), mirroring `IDeliveryApi.*.cs`. `ISubscriptionApi` covers the subscription scope.
-- **Two entry points, same as the siblings:**
-  - `ManagementClientBuilder` (`Configuration/`) — fluent, no-DI bootstrap for scripts and simple consumers. It is client-first / container-free: it owns its `HttpClient`s directly rather than spinning a private `ServiceCollection`.
-  - `services.AddManagementClient(...)` (`Extensions/ServiceCollectionExtensions*.cs`) — DI extension with keyed-services support for multiple named clients.
-- **Result pattern for API calls.** Public calls return `IManagementResult<T>` (status / success flag / value / request URL) rather than throwing on 4xx/5xx. The result wraps the **HTTP response only**.
-- **Transport errors throw by design.** Network-level / transport failures throw — they are not projected into a failure result (the sibling SDKs do the same). The result pattern covers API-level non-success status codes, not dead sockets.
-- **Listings are materialized.** Every listing endpoint is exposed as `List{Plural}Async` returning `IManagementResult<IReadOnlyList<T>>`. There is no streaming/`IAsyncEnumerable` public surface — pagination is collected internally via `PageEnumerator`.
-- **Resilience via `Microsoft.Extensions.Http.Resilience`** (Polly pipelines), with resilience as the outermost handler in both the DI and standalone paths. Authentication via a `DelegatingHandler` (`Handlers/`) that attaches the Management API key. Pipeline shape copied from `sync-sdk-net`.
-- **Generated-model mapping attributes.** `KontentTypeAttribute` / `KontentElementAttribute` / `KontentEnumValueAttribute` encode the asymmetric wire mapping (codename out / id in) that STJ can't express on its own; they are read at runtime by the converters. Validation/constraint attributes and the local `ContentItemValidator` have been removed — the MAPI is the source of truth for validation.
+- **Verbs**: `Get` (single or envelope model), `List{Plural}` (materialized `IReadOnlyList`), `Enumerate{X}PagesAsync` (page stream), `Create` (POST), `Upsert`/`Update` (PUT), `Modify` (PATCH — only PATCH), `Delete`. Parameter order is `(identifier, payload, cancellationToken = default)` everywhere.
+- **The interface is one method per API operation** (plus typed `<T>` projections of the same operation). Conveniences that *compose or adapt* — fetched-model→request adapters, multi-call helpers — live in the extensions tier (`Extensions/ManagementClientExtensions` and friends), never on `IManagementClient`.
+- **Identifiers**: `Reference` is factory-only (`ById`/`ByCodename`/`ByExternalId`) and stays explicit — no implicit conversions (decided; `ToReference()`/`ToIdentifier()` extensions are the sanctioned ergonomic path). URL segments are left **raw** in `ToUrlSegment` — Refit's `{**}` catch-all percent-encodes exactly once; pre-escaping double-encodes.
+- **Patch factories** are the curated way through patch grammars: `ContentTypePatch`/`ContentTypeSnippetPatch` (JSON-pointer paths), `LanguagePatch`/`SpacePatch`/`TaxonomyGroupPatch`/`CustomAppPatch` (property-name enums). Raw operation records remain the escape hatch.
+- **Experimental surface** carries `[Experimental("KAIM001")]` (currently the content-model snapshot). New not-yet-contractual features follow the same pattern.
+
+## Model conventions
+
+- Sealed, immutable `record`s; `required` for what the API always returns/demands; nullability mirrors the wire contract exactly ("encode API learnings in the type system, not in prose").
+- Explicit `[JsonPropertyName]` on **every** property — the serializer options deliberately have no naming policy.
+- **All collection properties are `IReadOnlyList<T>`** (never `IEnumerable`, `ISet`, or concrete types). Method *parameters* may accept `IEnumerable<T>`.
+- Names mirror Kontent.ai API terminology; request and response shapes are separate records when the wire shapes differ (a response model with a fake-`required` field forced into a request body is a defect — see `UserRolesUpdateModel`).
+- Models must stay **generator-friendly** (record-based, immutable, STJ-serializable) — the shape is coordinated with `../model-generator-net`.
+- Generated/typed content models map via `KontentTypeAttribute`/`KontentElementAttribute`/`KontentEnumValueAttribute`; the converters read them at runtime (typed *reads* match by id — environment-bound; *writes* key by codename — portable).
+
+## Adding or changing an endpoint — the playbook
+
+1. **Refit method** in the matching `Api/IManagementApi.{Domain}.cs` partial (`internal`, suffix `InternalAsync`, returns `IApiResponse<T>`; identifiers travel as pre-rendered `{**segment}` catch-all strings).
+2. **Implementation** in `ManagementClient.{Domain}.cs`: null-check args, `identifier.ToUrlSegment()`, `.ToManagementResultAsync()`. Listings go through `PageEnumerator.CollectAsync`/`EnumerateAsync`.
+3. **Declaration + XML docs** in `IManagementClient.cs` (docs describe the operation and the result; typed overloads cross-reference the environment-bound caveat).
+4. **Tests** in `Kontent.Ai.Management.Tests/ManagementClientTests/{Domain}Tests.cs`: MockHttp `Expect` on the exact URL, JSON fixture under `Data/{Domain}/`, `CaptureBody` + `ShouldMatchSerialized` for write bodies, `PagedFixtures.ConcatPages` for listings, null-guard tests.
+5. **Approval snapshot**: the Verify test fails on any public-surface change; review the `.received.txt` diff line-by-line, then copy it over `.verified.txt` — only for intended changes.
+6. **Docs**: README section for the new surface, release-notes entry, upgrade-guide entry if breaking. *A public-surface change without a README touch is an incomplete change.*
+7. Wire contract in doubt? Verify against the OpenAPI reference or the JS SDK's contracts (`kontent-ai/management-sdk-js`, `lib/models`/`lib/contracts`) — and say what you verified against.
+
+## Testing conventions
+
+- xUnit + `RichardSzalay.MockHttp` (wired as the primary handler through `ManagementApiFactory`, so tests exercise the real Refit + handler chain) + Verify for the public-API approval snapshot. JSON fixtures per domain under `Data/`.
+- `MockClientFactory.Create()` for domain tests; inject a scoped `ContentItemEnvelopeConverter` for typed-model tests (auto-scan trips the deliberate test-assembly codename collision).
+- **CodeSamples are tests** (`CodeSamples/*.cs`) and double as documentation-grade example code — keep them modern and idiomatic (result handling via `EnsureSuccess()`, identifier factories, patch facades). `CreateForSample`'s fallback returns an empty 200, which maps to a *failure* for value-returning calls — samples that unwrap need a real fixture, and listing fixtures must carry a `null` continuation token or pagination loops forever.
+- Wire-level guarantees get explicit serialization tests (e.g. `RequestDefaultsSerializationTests` pins that ergonomic defaults keep the payload byte-identical). Zero-regression on the wire is the standing bar for "ergonomics" changes.
 
 ## Coding and commenting standards
 
-- **KISS — favor the simplest thing that works.** Don't overengineer: no speculative abstraction layers, no extensibility hooks nobody asked for, no patterns applied for their own sake. Keep code concise and readable; the best change is often a smaller one. A clever solution that a future reader has to decode loses to a plain one.
-- **Avoid reflection unless genuinely necessary.** Prefer compile-time, statically-checkable code (generics, pattern matching, direct dispatch, source generation). Reflection is acceptable only where there's no static alternative (e.g. the attribute-driven wire mapping the converters already depend on) — not as a convenience shortcut.
-- **Good code is self-explanatory. Do not document every bit of code.** XML doc comments belong on the public consumer-facing surface so consumers get IntelliSense. Private implementation does not need method-by-method narration.
-- **Only comment the non-obvious.** A hidden API constraint, a subtle invariant, a workaround for a specific server-side quirk, a decision whose rationale would surprise a future reader. If removing the comment would not confuse anyone, do not write it.
-- **Encode API learnings in the type system, not in prose.** "Always populated", "verified by live test" and similar are noise once the type (e.g. a non-nullable property) already reflects the fact.
-- **Do not annotate corrections.** When the user corrects your approach, fix the code and move on. No `// changed from X because Y` / `// previously used Z` — that history belongs in the commit message at most, usually nowhere.
-- **Do not add defensive code for impossible scenarios.** Trust framework and internal guarantees. Validate only at external boundaries (public API entry points, deserialized payloads from the network).
-- **No referencing of development markdown files in comments.** The `beta-improvements*.md` and similar planning/notes files are dev-only scratch, not committed, and must not be referenced by any code comment.
-- **No dead code, no `// TODO` drifting across PRs, no commented-out blocks.**
-- **Prefer pattern matching.** See above.
+- **KISS — favor the simplest thing that works.** No speculative abstraction layers, no extensibility hooks nobody asked for. A clever solution a future reader has to decode loses to a plain one.
+- **Avoid reflection unless genuinely necessary.** The attribute-driven wire mapping in `Conversion/` is the sanctioned exception; cache anything reflective.
+- **Good code is self-explanatory.** XML docs belong on the public consumer-facing surface (IntelliSense); private implementation does not need narration.
+- **Only comment the non-obvious**: a hidden API constraint, a subtle invariant, a server-side quirk workaround, a decision whose rationale would surprise. If removing the comment would confuse nobody, don't write it.
+- **Do not annotate corrections or history** in code — no "changed from X" comments; that belongs in the commit message at most.
+- **No dead code, no drifting `// TODO`s, no commented-out blocks. No references to dev-only notes/planning files from committed code or comments.**
+- **Do not add defensive code for impossible scenarios.** Validate at external boundaries only (public API entry points, deserialized network payloads).
 
 ## Collaboration stance
 
-- **Be critical, not compliant.** If a request conflicts with the principles above, the sibling SDKs' conventions, or good design in general, push back with reasoning **before** implementing. "The user asked for it" is not sufficient justification for a poor design.
-- **No flattery.** Do not open responses with "great question", "excellent point", or similar. Acknowledge, analyze, recommend. The user wants correct, considered work, not praise.
-- **Surface trade-offs the user may not have weighed** — especially around public API breakage, divergence from sibling SDKs, and coupling with `model-generator-net`.
-- **When uncertain about a convention, read the sibling repo** before asking or assuming.
+- **Be critical, not compliant.** If a request conflicts with these principles, the siblings' conventions, or good design, push back with reasoning before implementing.
+- **No flattery.** Acknowledge, analyze, recommend.
+- **Surface trade-offs the user may not have weighed** — public API breakage, sibling divergence, `model-generator-net` coupling, wire-contract risk.
+- When uncertain about a convention, read the sibling repo before asking or assuming.
 
 ## Project structure
 
-- `Kontent.Ai.Management/` — Refit interface (`Api/`), builder (`Configuration/`), DI extensions (`Extensions/`), handlers (`Handlers/`), converters (`Conversion/`, `Serialization/`), mapping attributes (`Annotations/`), source-tracking attribute (`Attributes/`), and the models (`Models/`).
-- `Kontent.Ai.Management.Tests/` — xUnit + `RichardSzalay.MockHttp` for HTTP, Verify for public-API approval snapshots. JSON fixtures stay for request/response bodies.
-- Root: `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `Kontent.Ai.Management.sln`.
-
-There is **no** separate Abstractions project and **no** Helpers project — both were considered and dropped. Public contracts live alongside the implementation in `Kontent.Ai.Management`.
+- `Kontent.Ai.Management/` — `Api/` (Refit partials), `Configuration/` (options, builder, Refit settings), `Extensions/` (DI registration, client conveniences, `PageEnumerator`, result mapping), `Handlers/` (auth, tracking), `Conversion/` + `Serialization/` (typed-model envelope converter, STJ converters), `Annotations/` (generated-model mapping attributes), `Models/` (per-domain DTOs), root-level result types and error catalog (`ManagementErrorCodes` — curated, not exhaustive; MAPI codes are not unique).
+- `Kontent.Ai.Management.Tests/` — mirrors the above; `Base/` holds the shared test infrastructure.
+- Root: `Directory.Build.props`, `Directory.Packages.props`, `global.json`, solution. No Abstractions or Helpers project — considered and dropped; public contracts live with the implementation.
+- `docs/` — per-release notes and the `8.x` → `9.x` upgrade guide. Keep both current with every user-visible change.
 
 ## Development commands
 
 ```bash
-# Build
 dotnet build
-
-# Test
 dotnet test
-
-# Run one test project
-dotnet test Kontent.Ai.Management.Tests/Kontent.Ai.Management.Tests.csproj
 ```
 
 Prefer commands without explicit paths so they keep working if layout shifts.
 
 ## Commits and versioning
 
-- Commit messages follow `TICKET-ID - Description` (e.g. `EN-713 - Add component_types filter`). Branch names follow `TICKET-ID_Short_description`.
-- Keep each PR scoped: framework/infra changes separate from per-domain rewrites separate from model regeneration.
+- Commit messages follow `TICKET-ID - Description` when a ticket exists (e.g. `EN-713 - Add component_types filter`); otherwise a concise lowercase summary matching the branch history. Branch names follow `TICKET-ID_Short_description`.
+- Keep each PR scoped: infra separate from per-domain work separate from model changes.
 - Package version comes from the release git tag: `.github/workflows/release.yml` strips the `v` prefix and passes it as `/p:Version` and `/p:PackageVersion` at build/pack time — no version property in any project file.
 
 ## Open questions (do not invent answers)
 
-- **Coordination point with `model-generator-net`** for Management-model regeneration — the generated model shape (records, mapping attributes) must be agreed jointly before DTOs stabilize here. This is the main remaining cross-repo dependency.
+- **Coordination with `model-generator-net`** for Management-model generation — the generated model shape (records, mapping attributes, collection types) must be agreed jointly before DTOs are declared final. This is the main remaining cross-repo dependency.
+- **Webhook trigger switches** (`Enabled`/`Events`/`Slot` nullability) and the **webhook update endpoint** need live-API verification before changing.
 
-When you hit this, ask rather than guess.
+When you hit these, ask rather than guess.
