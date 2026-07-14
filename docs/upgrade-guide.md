@@ -37,6 +37,7 @@ dotnet add package Kontent.Ai.Management --prerelease
 | Transport | Mostly internal | Hand-rolled HTTP (`ActionInvoker` / `ManagementHttpClient` / `EndpointUrlBuilder`) replaced by a Refit interface. Visible only if you customized the HTTP layer. |
 | Listings | Breaking | `IListingResponseModel<T>` with `HasNextPage()` / `GetNextPage()` / `GetAllAsync()` replaced by materialized `List…Async` methods, plus a streaming `Enumerate…PagesAsync` option for large continuation-paged sets. |
 | Strongly-typed models | Breaking | Element properties are plain values or `*Value` records (e.g. `string Title`, `RichTextValue Content`) instead of mutable element wrappers (`TextElement { Value }`). Models are immutable records. |
+| Method names | Breaking | A focused set of renames — `Modify…` now consistently means PATCH, so the PUT-based ones became `Update…`; see [§10.1](#10-model-and-dto-changes). |
 | Untyped element authoring | Breaking | `ElementBuilder.GetElementsAsDynamic(...)` and anonymous `dynamic[]` removed. Author with typed `BaseElement` records; `DynamicElement` is the escape hatch. |
 | Rich text | New helper | `RichTextBuilder` keeps inline `<object>` placeholders and the `components` array in sync. |
 | DI & bootstrap | Additive | New `services.AddManagementClient(...)` and `ManagementClientBuilder`, alongside the existing `new ManagementClient(options)` constructor. |
@@ -60,6 +61,7 @@ The package name is unchanged — `Kontent.Ai.Management`. The modernized API is
 - [ ] Update asset creation from `AssetCreateModel<T>` + `ElementBuilder` to `AssetCreateModel` with a typed `Elements` list (and consider the one-call `CreateAssetAsync(FileContentSource, factory)` extension).
 - [ ] Remove any custom Newtonsoft `JsonConverter`s / `[JsonProperty]` attributes targeting SDK models.
 - [ ] Remove Web Spotlight activation calls.
+- [ ] Follow the compiler through the method and type renames ([§10](#10-model-and-dto-changes)) — most are one-to-one name substitutions.
 - [ ] Add the now-`required` members to your object initializers, and add null checks where reads became nullable ([§10](#10-model-and-dto-changes)).
 - [ ] Dispose standalone clients (`await using`) — `IManagementClient` is now `IDisposable` / `IAsyncDisposable`.
 
@@ -255,7 +257,7 @@ foreach (var item in result.Value)   // result.Value is IReadOnlyList<ContentIte
 
 ### 3.1 Streaming large listings
 
-The endpoints whose results can grow large — content items, assets, and the items-with-variants filter / bulk-get — expose an `Enumerate…PagesAsync` overload that streams one continuation-token page at a time (and lets you stop early), replacing the old manual `GetNextPage()` loop where memory matters:
+The endpoints whose results can grow large — content items, assets, the items-with-variants filter / bulk-get, and the language-variant listings by type, collection, and space — expose an `Enumerate…PagesAsync` overload that streams one continuation-token page at a time (and lets you stop early), replacing the old manual `GetNextPage()` loop where memory matters:
 
 ```csharp
 await foreach (var page in client.EnumerateContentItemPagesAsync())
@@ -501,7 +503,7 @@ The DTOs are now immutable records with `[JsonPropertyName]` attributes, designe
 
 The legacy hand-rolled HTTP composition was replaced by a Refit interface plus a `Microsoft.Extensions.Http.Resilience` (Polly) pipeline. For most consumers this is internal. What's visible:
 
-- **Built-in resilience is on by default** — retries on transient failures and `429`, exponential backoff with jitter, `Retry-After` handling. Set `EnableResilience = false` to make it a passthrough.
+- **Built-in resilience is on by default** — exponential backoff with jitter, `Retry-After` handling, and **idempotency-aware retries**: `429` is retried for every method (the request was rejected, not applied), but transient failures and `5xx` are retried only for idempotent methods (`GET` / `HEAD` / `OPTIONS` / `PUT` / `DELETE`) — a `POST` that fails mid-flight is never blindly replayed into a duplicate entity. Set `EnableResilience = false` to make it a passthrough. If you ported an 8.x Polly policy that retried everything, this default is deliberately stricter.
 - **Replace the pipeline** via the `configureResilience` hook on the DI overload, or `WithResilience(...)` on the builder:
 
 ```csharp
@@ -530,7 +532,17 @@ The DTO modernization brought every public DTO into agreement with the actual Ma
 
 The highlights you're most likely to hit:
 
-### 10.1 Renames
+### 10.1 Method renames
+
+| Old | New | Notes |
+|-----|-----|-------|
+| `ModifyUsersRolesAsync(id, UserModel)` | `UpdateUserRolesAsync(id, UserRolesUpdateModel)` | PUT, so `Update…`; the body is a dedicated request model carrying only `CollectionGroups` — the fake `Id` the old body demanded is gone (the URL identifies the user). |
+| `ModifyPreviewConfigurationAsync` | `UpdatePreviewConfigurationAsync` | PUT, so `Update…` — `Modify…` now consistently means PATCH. |
+| `ModifyCollectionAsync` | `ModifyCollectionsAsync` | Plural — it PATCHes the whole collection set, like `ModifyAssetFoldersAsync`. |
+| `ListCollectionsAsync` | `GetCollectionsAsync` | `List…` is reserved for materialized `IReadOnlyList` results; this returns the `CollectionsModel` envelope, like `GetAssetFoldersAsync`. |
+| `UpsertLanguageVariantAsync(id, LanguageVariantModel)` | unchanged name — now an **extension method** | The fetched-model convenience overload moved to `Kontent.Ai.Management.Extensions` (the interface carries one method per API operation). Call syntax is identical; add the `using` if you don't have it. |
+
+### 10.2 DTO renames
 
 | Old | New | Notes |
 |-----|-----|-------|
@@ -544,15 +556,27 @@ The highlights you're most likely to hit:
 | `SpaceModel.WebSpotlightRootItem` / `SpaceCreateModel.WebSpotlightRootItem` | `.RootItem` | Wire key `web_spotlight_root_item` → `root_item`. |
 | `SubscriptionColletionGroupModel` | `SubscriptionCollectionGroupModel` | Misspelling. |
 | `SubscriptionUserRoleLangaugeModel` | `SubscriptionUserRoleLanguageModel` | Misspelling. |
+| `PropertyName` (Collections / Spaces / CustomApps / TaxonomyGroups patch enums) | `CollectionPropertyName` / `SpacePropertyName` / `CustomAppPropertyName` / `TaxonomyGroupPropertyName` | Four colliding enum names, now domain-prefixed. Members and wire values unchanged. Each domain also gained a typed factory (`LanguagePatch`, `SpacePatch`, `TaxonomyGroupPatch`, `CustomAppPatch`) so you rarely construct these models by hand. |
+| `AssetFolderAddIntoModel` / `AssetFolderRemoveModel` / `AssetFolderRenameModel` | `…PatchModel` | The suffix every other patch domain uses. |
+| `RoleModel` | `UserRoleModel` | Was overly generic next to `EnvironmentRoleModel` / `SubscriptionUserRoleModel`. |
+| `WorkflowStepColorModel` | `WorkflowStepColor` | It's an enum, not a model. |
+| `ContentItemWorkflowTransition.WorkflowReference` / `.WorkflowStepReference` | `.Workflow` / `.Step` | Identifier-pair properties unified to the bare style used by `WorkflowStepIdentifier`. Wire keys unchanged. |
+| `VariantFilterWorkflowStepsModel.WorkflowReference` / `.WorkflowStepReferences` | `.Workflow` / `.Steps` | Same unification. |
+| `VariantFilterTaxonomyGroupModel.TaxonomyReference` / `.TermReferences` | `.TaxonomyGroup` / `.Terms` | Same unification. |
+| `ContentTypeSnippetElementMetadataModel.SnippetIdentifier` / `UrlSlugDependency.SnippetIdentifier` | `.Snippet` | Same unification. |
+| `AssetDefaultValueModel` / `LinkedItemsDefaultValueModel` / `MultipleChoiceDefaultValueModel` | `…ElementDefaultValueModel` | Default-value models unified on one naming pattern. |
+| `DateElementDefaultValueModel` | `DateTimeElementDefaultValueModel` | Matches `DateTimeElementMetadataModel`. |
 
-### 10.2 Removals
+### 10.3 Removals
 
 - **`AssetWithRenditionsReference`** (and its converter) — collapsed onto `Models.Content.AssetReference`. A rendition is now a `RenditionReference` (`id` / `external_id` only — renditions have no codename). Migrate `new AssetWithRenditionsReference(Reference.ById(asset), Reference.ById(rendition))` to `new AssetReference { Id = asset, Renditions = [new RenditionReference { Id = rendition }] }`. Leave `Renditions` `null` to keep existing renditions, `[]` to remove them.
 - **`ContentItemUpsertModel.ExternalId`** — the upsert addresses the item by external ID in the URL path; the body field was silently ignored.
 
-### 10.3 Default-value and type-change footguns
+### 10.4 Default-value and type-change footguns
 
-- `ElementDefaultValue<TContainer, TValue>` collapsed to `ElementDefaultValue<TValue>`, and `Global` / `ElementDefaultValueEnvelope.Value` became `required`. Constructing an empty default-value object used to silently produce `{ "global": { "value": 0 } }`; the API now rejects an empty/null default. To express "no default", leave the parent element's `DefaultValue` as `null` — don't construct an empty default-value model.
+- **Every model collection property is `IReadOnlyList<T>`** (8.x used `IEnumerable<T>` widely). Collection expressions (`[a, b]`) and arrays/lists assign directly; the one pattern that stops compiling is assigning a deferred LINQ query — materialize it (`[.. items.Select(…)]`), which also prevents the query being re-enumerated if a retry re-serializes the request.
+- **Asset-folder ids are `Guid`** — `AssetFolder.Id`, `AssetFolderHierarchy.Id`, and `AssetFolderLinkingHierarchy.Id` were `string`s holding GUID values; the `AssetExtensions` folder-lookup helpers take `Guid` accordingly. The zero GUID still means "outside any folder".
+- `ElementDefaultValue<TContainer, TValue>` collapsed to `ElementDefaultValue<TValue>`, and `Global` / `ElementDefaultValueEnvelope.Value` became `required`. Constructing an empty default-value object used to silently produce `{ "global": { "value": 0 } }`; the API now rejects an empty/null default. To express "no default", leave the parent element's `DefaultValue` as `null` — don't construct an empty default-value model. Each default-value model also has a convenience constructor now: `new TextElementDefaultValueModel("Untitled")`.
 - Several `bool` flags became `bool?` so that omission lets the server apply its default instead of silently sending `false`: `WebhookCreateModel.Enabled` and `MarkAsProductionModel.EnableWebhooks`.
 - `SubscriptionUserRoleLanguageModel.IsActive` changed from `string` to `bool` (the API sends it as a quoted string; an internal converter now exposes a real `bool`).
 - `last_modified` is now `required DateTime` (was `DateTime?`) across response models — it is always populated.
