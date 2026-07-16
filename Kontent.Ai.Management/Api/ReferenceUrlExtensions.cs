@@ -8,10 +8,9 @@ internal static class ReferenceUrlExtensions
     /// <summary>
     /// Renders a <see cref="Reference"/> as the path segment the Management API expects after a resource collection:
     /// the bare <c>id</c>, <c>codename/{codename}</c>, or <c>external-id/{externalId}</c>. The codename / external id
-    /// are left raw — they route through a Refit <c>{**}</c> catch-all that percent-encodes them once; pre-escaping
-    /// here would double-encode (a space would reach the wire as <c>%2520</c>). A literal <c>/</c> in an external id
-    /// cannot round-trip through the catch-all (it is treated as a path separator); codenames are <c>[a-z0-9_]</c> and
-    /// unaffected.
+    /// are validated (see <see cref="EnsureSingleSegment"/>) but not escaped: they route through a Refit <c>{**}</c>
+    /// catch-all that percent-encodes reserved data characters itself, so pre-escaping here would double-encode
+    /// (a space would reach the wire as <c>%2520</c>).
     /// </summary>
     public static string ToUrlSegment(this Reference reference)
     {
@@ -20,8 +19,8 @@ internal static class ReferenceUrlExtensions
         return reference switch
         {
             { Id: { } id } => id.ToString(),
-            { Codename: { } codename } => $"codename/{codename}",
-            { ExternalId: { } externalId } => $"external-id/{externalId}",
+            { Codename: { } codename } => $"codename/{EnsureSingleSegment(codename)}",
+            { ExternalId: { } externalId } => $"external-id/{EnsureSingleSegment(externalId)}",
             _ => throw new ArgumentException("Reference must have an id, codename, or external id set.", nameof(reference)),
         };
     }
@@ -48,7 +47,8 @@ internal static class ReferenceUrlExtensions
 
     /// <summary>
     /// Renders a user identifier as the path segment the Management API expects: the bare <c>id</c>, or
-    /// <c>email/{email}</c>. The email is left raw — it routes through a <c>{**}</c> catch-all that percent-encodes it.
+    /// <c>email/{email}</c>. The id / email are validated (see <see cref="EnsureSingleSegment"/>) but not escaped —
+    /// the <c>{**}</c> catch-all percent-encodes reserved data characters itself.
     /// </summary>
     public static string ToUrlSegment(this UserIdentifier identifier)
     {
@@ -56,9 +56,28 @@ internal static class ReferenceUrlExtensions
 
         return identifier switch
         {
-            { Id: { } id } => id,
-            { Email: { } email } => $"email/{email}",
+            { Id: { } id } => EnsureSingleSegment(id),
+            { Email: { } email } => $"email/{EnsureSingleSegment(email)}",
             _ => throw new ArgumentException("You must provide user id or email.", nameof(identifier)),
         };
+    }
+
+    /// <summary>
+    /// Guards a caller-supplied identifier value that is interpolated into a Refit <c>{**}</c> catch-all route.
+    /// The catch-all percent-encodes reserved data characters (<c>?</c>, <c>#</c>, <c>%</c>, spaces, <c>\</c>, control
+    /// characters) but passes <c>/</c> and the dot-segments <c>.</c> / <c>..</c> through as path structure — so an
+    /// unchecked value could retarget the request to a different Management API endpoint under the same token (the
+    /// surrounding <c>codename/</c> / <c>email/</c> prefix supplies the leading slash even for a lone <c>..</c>).
+    /// These are the only characters that survive the catch-all as structure; rejecting them closes the traversal.
+    /// </summary>
+    private static string EnsureSingleSegment(string value)
+    {
+        if (value.Contains('/') || value.Contains('\\') || value is "." or "..")
+        {
+            throw new ArgumentException(
+                $"'{value}' is not a valid identifier: it must not contain '/' or '\\', or be '.' or '..'.", nameof(value));
+        }
+
+        return value;
     }
 }
