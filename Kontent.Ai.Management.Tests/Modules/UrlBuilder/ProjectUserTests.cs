@@ -20,7 +20,7 @@ public partial class EndpointUrlBuilderTests
     public void BuildModifyUsersRoleUrl_WithEmail_ReturnsExpectedUrl()
     {
         var email = "test@test.test";
-        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/users/email/{email}/roles";
+        var expectedResult = $"{ENDPOINT}/projects/{ENVIRONMENT_ID}/users/email/{System.Uri.EscapeDataString(email)}/roles";
         var actualResult = _builder.BuildModifyUsersRoleUrl(UserIdentifier.ByEmail(email));
 
         Assert.Equal(expectedResult, actualResult);

@@ -165,7 +165,7 @@ internal sealed class EndpointUrlBuilder
 
     public string BuildAssetsUrl(Reference identifier) => GetEnvironmentUrl(_assetTemplate.GetIdentifierUrlSegment(identifier));
 
-    public string BuildUploadFileUrl(string fileName) => GetEnvironmentUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, fileName));
+    public string BuildUploadFileUrl(string fileName) => GetEnvironmentUrl(string.Format(URL_TEMPLATE_FILE_FILENAME, UrlTemplateExtensions.ToSafePathSegment(fileName)));
 
     public string BuildAssetRenditionsUrl(Reference assetIdentifier) => GetEnvironmentUrl(
         string.Concat(
