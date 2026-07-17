@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Company>Kontent s.r.o.</Company>
 		<Description>Kontent.ai Management SDK</Description>
-		<PackageTags>kontent-ai;sdk;mvc;aspnet;aspnetmvc</PackageTags>
+		<PackageTags>kontent-ai;kontent;sdk;management-api;content-management;cms;headless-cms</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
