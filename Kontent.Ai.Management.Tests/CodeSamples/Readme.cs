@@ -143,7 +143,7 @@ public class Readme
     }
 
     [Fact]
-    public async Task UpdateAssetWithElementBuilder()
+    public async Task UpdateAssetMetadata()
     {
         // Remove next line in codesample
         var client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");

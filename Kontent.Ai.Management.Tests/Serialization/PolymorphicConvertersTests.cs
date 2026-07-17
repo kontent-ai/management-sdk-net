@@ -7,14 +7,12 @@ using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.Serialization;
 
-// The snake_case naming policy stands in for the per-property name attributes the models will carry
-// once the serializer flips; these tests cover the converters' dispatch and recursion guard in
-// isolation, not full model fidelity.
+// These tests cover the converters' dispatch and recursion guard in isolation, not full model fidelity —
+// the models carry explicit [JsonPropertyName] on every property, so no naming policy is involved.
 public class PolymorphicConvertersTests
 {
     private static JsonSerializerOptions Options(System.Text.Json.Serialization.JsonConverter converter) => new()
     {
-        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
         Converters = { converter },
     };
 

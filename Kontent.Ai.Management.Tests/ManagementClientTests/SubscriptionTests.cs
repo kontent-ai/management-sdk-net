@@ -130,7 +130,7 @@ public class SubscriptionTests
     }
 
     [Fact]
-    public async Task DeactivateSubscriptionUserAsync_ById_ActivatesUser()
+    public async Task DeactivateSubscriptionUserAsync_ById_DeactivatesUser()
     {
         var (client, mock) = MockClientFactory.Create();
         var identifier = UserIdentifier.ById("some_id");
@@ -144,7 +144,7 @@ public class SubscriptionTests
     }
 
     [Fact]
-    public async Task DeactivateSubscriptionUserAsync_ByEmail_ActivatesUser()
+    public async Task DeactivateSubscriptionUserAsync_ByEmail_DeactivatesUser()
     {
         var (client, mock) = MockClientFactory.Create();
         var identifier = UserIdentifier.ByEmail("some_email");

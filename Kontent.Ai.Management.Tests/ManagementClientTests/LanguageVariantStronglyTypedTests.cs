@@ -19,8 +19,8 @@ namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 // Strongly-typed (generated-record) language-variant coverage: the result-pattern contract (success projection,
 // validation short-circuit, HTTP-failure→result) plus arg guards. The identifier→URL matrix stays covered by the
-// non-generic *_DynamicallyTyped_* theories in LanguageVariantTests, which exercise the same ToUrlSegment + Refit
-// endpoint the generics call — deliberately not re-matrixed here.
+// non-generic theories in LanguageVariantTests, which exercise the same ToUrlSegment + Refit endpoint the
+// generics call — deliberately not re-matrixed here.
 public class LanguageVariantStronglyTypedTests
 {
     private static string Fixture(string name)

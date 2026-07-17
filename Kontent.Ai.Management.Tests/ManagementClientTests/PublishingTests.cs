@@ -168,7 +168,7 @@ public class PublishingTests
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async Task CancelPublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task CancelPublishingOfLanguageVariantAsync_CancelsScheduledPublish(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/cancel-scheduled-publish")
@@ -190,7 +190,7 @@ public class PublishingTests
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async Task UnpublishLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task UnpublishLanguageVariantAsync_UnpublishesAndArchivesVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/unpublish-and-archive")
@@ -212,7 +212,7 @@ public class PublishingTests
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async Task CancelUnpublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task CancelUnpublishingOfLanguageVariantAsync_CancelsScheduledUnpublish(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/cancel-scheduled-unpublish")
@@ -234,7 +234,7 @@ public class PublishingTests
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async Task ScheduleUnpublishingOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task ScheduleUnpublishingOfLanguageVariantAsync_SchedulesUnpublishingOfVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
         var schedule = new ScheduleModel
@@ -282,7 +282,7 @@ public class PublishingTests
 
     [Theory]
     [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
-    public async Task CreateNewVersionOfLanguageVariantAsync_SchedulesPublishingVariant(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
+    public async Task CreateNewVersionOfLanguageVariantAsync_CreatesNewVersion(LanguageVariantIdentifier variantIdentifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/new-version")
