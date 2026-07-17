@@ -136,6 +136,8 @@ await using var client = ManagementClientBuilder
 
 `ManagementOptions` keeps `EnvironmentId`, `ApiKey`, and `SubscriptionId`. The new `EnableResilience` flag (default `true`) toggles the built-in retry pipeline. Options now validate on use — a missing/malformed `EnvironmentId` or `ApiKey` surfaces as a `ValidationException` from the constructor/builder, or an `OptionsValidationException` when DI options validation runs during host startup.
 
+The endpoint override was renamed **`EndpointV2` → `Endpoint`** (the SDK appends the versioned, scoped path itself). This matters especially for **configuration binding**: a config file carrying an `EndpointV2` key binds to nothing and silently falls back to the production endpoint — rename the key when migrating.
+
 ---
 
 ## 2. Response Handling: Exceptions → Result Pattern

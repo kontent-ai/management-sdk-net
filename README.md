@@ -219,7 +219,7 @@ services.AddManagementClient(
 | `ApiKey` | Yes | — | A Management API key, or a Subscription API key for subscription-scoped endpoints. |
 | `SubscriptionId` | No | — | The subscription GUID. Required only for subscription-scoped endpoints (such as user management). |
 | `EnableResilience` | No | `true` | Toggles the built-in retry/backoff pipeline without uninstalling it. |
-| `EndpointV2` | No | Production URL | Override only when targeting a non-production endpoint. |
+| `Endpoint` | No | `https://manage.kontent.ai` | The Management API base address; the SDK appends the versioned, scoped path. Override only when targeting a non-production endpoint. |
 
 `ManagementOptions` validates on use: a missing or malformed `EnvironmentId`/`ApiKey` surfaces as a `ValidationException` from the constructor/builder, or an `OptionsValidationException` when DI options validation runs during host startup.
 
