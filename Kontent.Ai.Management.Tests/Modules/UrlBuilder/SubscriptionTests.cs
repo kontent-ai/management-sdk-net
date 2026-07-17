@@ -42,7 +42,7 @@ public partial class EndpointUrlBuilderTests
         var userIdentifier = UserIdentifier.ByEmail("test@test.test");
 
         var actualUrl = _builder.BuildSubscriptionUserUrl(userIdentifier);
-        var expectedUrl = $"{ENDPOINT}/subscriptions/{SUBSCRIPTION_ID}/users/email/{userIdentifier.Email}";
+        var expectedUrl = $"{ENDPOINT}/subscriptions/{SUBSCRIPTION_ID}/users/email/{System.Uri.EscapeDataString(userIdentifier.Email)}";
 
         Assert.Equal(expectedUrl, actualUrl);
     }
