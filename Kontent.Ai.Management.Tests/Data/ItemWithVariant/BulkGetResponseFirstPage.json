@@ -1,0 +1,63 @@
+{
+  "data": [
+    {
+      "item": {
+        "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515",
+        "name": "Sample Article",
+        "codename": "sample_article",
+        "type": {
+          "id": "ba5cd79d-6d4b-5bed-a681-6aa3a366c8f7"
+        },
+        "collection": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "spaces": [],
+        "sitemap_locations": [],
+        "last_modified": "2024-01-15T10:30:00.0000000Z"
+      },
+      "variant": {
+        "elements": [
+          {
+            "element": {
+              "id": "ba7c8840-bcbc-5e3b-b292-24d0d7f4c394"
+            },
+            "value": "Sample Article Title"
+          }
+        ],
+        "workflow_step": {
+          "id": "c199950d-99f0-4983-b711-6c4c91624b22"
+        },
+        "workflow": {
+          "workflow_identifier": {
+            "id": "00000000-0000-0000-0000-000000000000"
+          },
+          "step_identifier": {
+            "id": "c199950d-99f0-4983-b711-6c4c91624b22"
+          }
+        },
+        "contributors": [],
+        "due_date": {
+          "value": null
+        },
+        "note": null,
+        "schedule": {
+          "publish_time": null,
+          "publish_display_timezone": null,
+          "unpublish_time": null,
+          "unpublish_display_timezone": null
+        },
+        "item": {
+          "id": "4b628214-e4fe-4fe0-b1ff-955df33e1515"
+        },
+        "language": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "last_modified": "2024-01-15T10:30:00.0000000Z"
+      }
+    }
+  ],
+  "pagination": {
+    "continuation_token": "K9SBHDUj2jh2xR9nNCdZsdRQxCFDDrySLHTCROmHSWZk4DIG6ShwJSSSIwys",
+    "next_page": "https://manage.kontent.ai/v2/projects/bb6882a0-3088-405c-a6ac-4a0da46810b0/items-with-variant/bulk-get"
+  }
+}

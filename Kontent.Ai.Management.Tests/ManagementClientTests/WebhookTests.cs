@@ -5,7 +5,6 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Net;
-using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -107,25 +106,17 @@ public class WebhookTests
             },
         };
 
-        WebhookCreateModel? sentBody = null;
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/webhooks-vnext")
-            .With(r =>
-            {
-                var body = r.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
-                sentBody = JsonSerializer.Deserialize<WebhookCreateModel>(body, SharedTestJsonOptions.Default);
-                return true;
-            })
-            .Respond("application/json", Webhook);
+            .CaptureBody(out var capturedBody)
+            .Respond(HttpStatusCode.Created, "application/json", Webhook);
 
         var result = await client.CreateWebhookAsync(request);
 
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.StatusCode.Should().Be(HttpStatusCode.Created);
         AssertIsAllTriggersWebhook(result.Value);
-
-        // The body the SDK sent round-trips back to the model the caller passed.
-        sentBody.Should().BeEquivalentTo(request);
+        capturedBody.ShouldMatchSerialized(request);
     }
 
     [Fact]

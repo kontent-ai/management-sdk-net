@@ -3,6 +3,7 @@ using Kontent.Ai.Management.Models.ItemWithVariant;
 using Kontent.Ai.Management.Models.VariantFilter;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
+using System.Text.Json.Nodes;
 
 using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
@@ -10,14 +11,19 @@ namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class ItemWithVariantTests
 {
+    // Must match "pagination.continuation_token" in the corresponding *FirstPage.json fixture.
+    private const string FilterContinuationToken = "G5QAGBSh0hf0vP7kLAbXqbPOvADBBpwQJFRAPNkFQUYi2BGE4QfuHRQQGuwq";
+    private const string BulkGetContinuationToken = "K9SBHDUj2jh2xR9nNCdZsdRQxCFDDrySLHTCROmHSWZk4DIG6ShwJSSSIwys";
+
     private static string Fixture(string name)
         => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ItemWithVariant", name));
 
     [Fact]
-    public async Task ListItemsWithVariantsByFilterAsync_WithValidRequest_ReturnsFilterResults()
+    public async Task ListItemsWithVariantsByFilterAsync_WithAllFilterFacets_SendsFilterBodyAndReturnsResults()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Fixture("FilterResponse.json"));
 
         var request = new ItemWithVariantFilterRequestModel
@@ -26,16 +32,67 @@ public class ItemWithVariantTests
             {
                 SearchPhrase = "test",
                 Language = Reference.ByCodename("en-US"),
-                ContentTypes = new List<Reference>
-                {
-                    Reference.ByCodename("article")
-                },
-                CompletionStatuses = new List<VariantFilterCompletionStatus> { VariantFilterCompletionStatus.Ready }
+                ContentTypes =
+                [
+                    Reference.ByCodename("article"),
+                    Reference.ByCodename("blog_post")
+                ],
+                Contributors =
+                [
+                    UserIdentifier.ByEmail("user@example.com"),
+                    UserIdentifier.ById("d94bc87a-c066-48a1-87ac-8dbb9f28ba86")
+                ],
+                HasNoContributors = false,
+                CompletionStatuses =
+                [
+                    VariantFilterCompletionStatus.Unfinished,
+                    VariantFilterCompletionStatus.Ready,
+                    VariantFilterCompletionStatus.NotTranslated,
+                    VariantFilterCompletionStatus.AllDone
+                ],
+                WorkflowSteps =
+                [
+                    new VariantFilterWorkflowStepsModel
+                    {
+                        Workflow = Reference.ByCodename("default"),
+                        Steps = [Reference.ByCodename("draft")]
+                    }
+                ],
+                TaxonomyGroups =
+                [
+                    new VariantFilterTaxonomyGroupModel
+                    {
+                        TaxonomyGroup = Reference.ByCodename("categories"),
+                        Terms = [Reference.ByCodename("tech")],
+                        IncludeUncategorized = true
+                    }
+                ],
+                Spaces =
+                [
+                    Reference.ByCodename("default"),
+                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
+                ],
+                Collections =
+                [
+                    Reference.ByCodename("default"),
+                    Reference.ByExternalId("external-collection-1")
+                ],
+                PublishingStates =
+                [
+                    VariantFilterPublishingState.Published,
+                    VariantFilterPublishingState.Unpublished,
+                    VariantFilterPublishingState.NotPublishedYet
+                ],
+                ComponentTypes =
+                [
+                    Reference.ByCodename("banner"),
+                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
+                ]
             },
             Order = new VariantFilterOrderModel
             {
-                By = VariantFilterOrderColumn.Name,
-                Direction = VariantFilterOrderDirection.Ascending
+                By = VariantFilterOrderColumn.LastModified,
+                Direction = VariantFilterOrderDirection.Descending
             }
         };
 
@@ -44,6 +101,8 @@ public class ItemWithVariantTests
         IReadOnlyList<ItemWithVariantFilterResultModel> items = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
+        capturedBody.ShouldMatchSerialized(request);
+
         items.Should().HaveCount(2);
 
         items[0].Item.Should().NotBeNull();
@@ -55,6 +114,28 @@ public class ItemWithVariantTests
         items[1].Item.Id.Should().Be(new Guid("6a8b4d04-7d3e-4d3c-8b9a-4c7e8f9a1b2c"));
         items[1].Language.Should().NotBeNull();
         items[1].Language.Id.Should().Be(new Guid("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+    }
+
+    [Fact]
+    public async Task ListItemsWithVariantsByFilterAsync_WithMinimalFilter_OmitsUnsetFacetsFromBody()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Fixture("FilterResponse.json"));
+
+        var request = new ItemWithVariantFilterRequestModel
+        {
+            Filters = new VariantFilterFiltersModel { Language = Reference.ByCodename("en-US") }
+        };
+
+        var listResult = await client.ListItemsWithVariantsByFilterAsync(request);
+        listResult.IsSuccess.Should().BeTrue();
+
+        mock.VerifyNoOutstandingExpectation();
+        var body = JsonNode.Parse(capturedBody.Value!)!.AsObject();
+        body.Select(p => p.Key).Should().Equal("filters");
+        body["filters"]!.AsObject().Select(p => p.Key).Should().Equal("language");
     }
 
     [Fact]
@@ -74,6 +155,7 @@ public class ItemWithVariantTests
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
             .Respond("application/json", firstPage);
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .WithHeaders("x-continuation", FilterContinuationToken)
             .Respond("application/json", lastPage);
 
         var request = new ItemWithVariantFilterRequestModel
@@ -101,6 +183,7 @@ public class ItemWithVariantTests
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
             .Respond("application/json", firstPage);
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
+            .WithHeaders("x-continuation", FilterContinuationToken)
             .Respond("application/json", lastPage);
 
         var request = new ItemWithVariantFilterRequestModel
@@ -130,15 +213,6 @@ public class ItemWithVariantTests
     }
 
     [Fact]
-    public void EnumerateItemsWithVariantsByBulkGetPagesAsync_WithNullRequest_ThrowsArgumentNullException()
-    {
-        var (client, _) = MockClientFactory.Create();
-
-        client.Invoking(x => x.EnumerateItemsWithVariantsByBulkGetPagesAsync(null!))
-            .Should().ThrowExactly<ArgumentNullException>();
-    }
-
-    [Fact]
     public async Task ListItemsWithVariantsByFilterAsync_LastPage_StopsAfterOnePage()
     {
         var (client, mock) = MockClientFactory.Create();
@@ -162,230 +236,17 @@ public class ItemWithVariantTests
     }
 
     [Fact]
-    public async Task ListItemsWithVariantsByFilterAsync_WithComplexFilters_ReturnsResults()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
-            .Respond("application/json", Fixture("FilterResponse.json"));
-
-        var request = new ItemWithVariantFilterRequestModel
-        {
-            Filters = new VariantFilterFiltersModel
-            {
-                Language = Reference.ByCodename("en-US"),
-                ContentTypes = new List<Reference>
-                {
-                    Reference.ByCodename("article"),
-                    Reference.ByCodename("blog_post")
-                },
-                Contributors = new List<UserIdentifier>
-                {
-                    UserIdentifier.ByEmail("user@example.com")
-                },
-                CompletionStatuses = new List<VariantFilterCompletionStatus>
-                {
-                    VariantFilterCompletionStatus.Ready,
-                    VariantFilterCompletionStatus.Unfinished
-                },
-                WorkflowSteps = new List<VariantFilterWorkflowStepsModel>
-                {
-                    new VariantFilterWorkflowStepsModel
-                    {
-                        Workflow = Reference.ByCodename("default"),
-                        Steps = new List<Reference>
-                        {
-                            Reference.ByCodename("draft")
-                        }
-                    }
-                },
-                TaxonomyGroups = new List<VariantFilterTaxonomyGroupModel>
-                {
-                    new VariantFilterTaxonomyGroupModel
-                    {
-                        TaxonomyGroup = Reference.ByCodename("categories"),
-                        Terms = new List<Reference>
-                        {
-                            Reference.ByCodename("tech")
-                        },
-                        IncludeUncategorized = false
-                    }
-                }
-            },
-            Order = new VariantFilterOrderModel
-            {
-                By = VariantFilterOrderColumn.LastModified,
-                Direction = VariantFilterOrderDirection.Descending
-            }
-        };
-
-        var listResult = await client.ListItemsWithVariantsByFilterAsync(request);
-        listResult.IsSuccess.Should().BeTrue();
-        IReadOnlyList<ItemWithVariantFilterResultModel> items = listResult.Value;
-
-        mock.VerifyNoOutstandingExpectation();
-        items.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task ListItemsWithVariantsByFilterAsync_WithSpacesFilter_ReturnsResults()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
-            .Respond("application/json", Fixture("FilterResponse.json"));
-
-        var request = new ItemWithVariantFilterRequestModel
-        {
-            Filters = new VariantFilterFiltersModel
-            {
-                Language = Reference.ByCodename("en-US"),
-                Spaces = new List<Reference>
-                {
-                    Reference.ByCodename("default"),
-                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
-                }
-            }
-        };
-
-        var listResult = await client.ListItemsWithVariantsByFilterAsync(request);
-        listResult.IsSuccess.Should().BeTrue();
-        IReadOnlyList<ItemWithVariantFilterResultModel> items = listResult.Value;
-
-        mock.VerifyNoOutstandingExpectation();
-        items.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task ListItemsWithVariantsByFilterAsync_WithCollectionsFilter_ReturnsResults()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
-            .Respond("application/json", Fixture("FilterResponse.json"));
-
-        var request = new ItemWithVariantFilterRequestModel
-        {
-            Filters = new VariantFilterFiltersModel
-            {
-                Language = Reference.ByCodename("en-US"),
-                Collections = new List<Reference>
-                {
-                    Reference.ByCodename("default"),
-                    Reference.ByExternalId("external-collection-1")
-                }
-            }
-        };
-
-        var listResult = await client.ListItemsWithVariantsByFilterAsync(request);
-        listResult.IsSuccess.Should().BeTrue();
-        IReadOnlyList<ItemWithVariantFilterResultModel> items = listResult.Value;
-
-        mock.VerifyNoOutstandingExpectation();
-        items.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task ListItemsWithVariantsByFilterAsync_WithPublishingStatesFilter_ReturnsResults()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
-            .Respond("application/json", Fixture("FilterResponse.json"));
-
-        var request = new ItemWithVariantFilterRequestModel
-        {
-            Filters = new VariantFilterFiltersModel
-            {
-                Language = Reference.ByCodename("en-US"),
-                PublishingStates = new List<VariantFilterPublishingState>
-                {
-                    VariantFilterPublishingState.Published,
-                    VariantFilterPublishingState.Unpublished
-                }
-            }
-        };
-
-        var listResult = await client.ListItemsWithVariantsByFilterAsync(request);
-        listResult.IsSuccess.Should().BeTrue();
-        IReadOnlyList<ItemWithVariantFilterResultModel> items = listResult.Value;
-
-        mock.VerifyNoOutstandingExpectation();
-        items.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task ListItemsWithVariantsByFilterAsync_WithAllNewFilters_ReturnsResults()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
-            .Respond("application/json", Fixture("FilterResponse.json"));
-
-        var request = new ItemWithVariantFilterRequestModel
-        {
-            Filters = new VariantFilterFiltersModel
-            {
-                Language = Reference.ByCodename("en-US"),
-                Spaces = new List<Reference>
-                {
-                    Reference.ByCodename("default")
-                },
-                Collections = new List<Reference>
-                {
-                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
-                },
-                PublishingStates = new List<VariantFilterPublishingState>
-                {
-                    VariantFilterPublishingState.Published,
-                    VariantFilterPublishingState.Unpublished,
-                    VariantFilterPublishingState.NotPublishedYet
-                }
-            }
-        };
-
-        var listResult = await client.ListItemsWithVariantsByFilterAsync(request);
-        listResult.IsSuccess.Should().BeTrue();
-        IReadOnlyList<ItemWithVariantFilterResultModel> items = listResult.Value;
-
-        mock.VerifyNoOutstandingExpectation();
-        items.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task ListItemsWithVariantsByFilterAsync_WithComponentTypesFilter_ReturnsResults()
-    {
-        var (client, mock) = MockClientFactory.Create();
-        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/filter")
-            .Respond("application/json", Fixture("FilterResponse.json"));
-
-        var request = new ItemWithVariantFilterRequestModel
-        {
-            Filters = new VariantFilterFiltersModel
-            {
-                Language = Reference.ByCodename("en-US"),
-                ComponentTypes = new List<Reference>
-                {
-                    Reference.ByCodename("banner"),
-                    Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515"))
-                }
-            }
-        };
-
-        var listResult = await client.ListItemsWithVariantsByFilterAsync(request);
-        listResult.IsSuccess.Should().BeTrue();
-        IReadOnlyList<ItemWithVariantFilterResultModel> items = listResult.Value;
-
-        mock.VerifyNoOutstandingExpectation();
-        items.Should().HaveCount(2);
-    }
-
-    [Fact]
-    public async Task ListItemsWithVariantsByBulkGetAsync_WithValidRequest_ReturnsItemsWithVariants()
+    public async Task ListItemsWithVariantsByBulkGetAsync_WithValidRequest_SendsIdentifiersAndReturnsItemsWithVariants()
     {
         var (client, mock) = MockClientFactory.Create();
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Fixture("BulkGetResponse.json"));
 
         var request = new ItemWithVariantBulkGetRequestModel
         {
-            Variants = new List<VariantIdentifierModel>
-            {
+            Variants =
+            [
                 new VariantIdentifierModel
                 {
                     Item = Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515")),
@@ -396,7 +257,7 @@ public class ItemWithVariantTests
                     Item = Reference.ById(new Guid("6a8b4d04-7d3e-4d3c-8b9a-4c7e8f9a1b2c")),
                     Language = Reference.ByCodename("en-US")
                 }
-            }
+            ]
         };
 
         var listResult = await client.ListItemsWithVariantsByBulkGetAsync(request);
@@ -404,6 +265,8 @@ public class ItemWithVariantTests
         IReadOnlyList<ContentItemWithVariantModel> items = listResult.Value;
 
         mock.VerifyNoOutstandingExpectation();
+        capturedBody.ShouldMatchSerialized(request);
+
         items.Should().HaveCount(2);
 
         items[0].Item.Should().NotBeNull();
@@ -436,8 +299,8 @@ public class ItemWithVariantTests
 
         var request = new ItemWithVariantBulkGetRequestModel
         {
-            Variants = new List<VariantIdentifierModel>
-            {
+            Variants =
+            [
                 new VariantIdentifierModel
                 {
                     Item = Reference.ByCodename("sample_article"),
@@ -448,7 +311,7 @@ public class ItemWithVariantTests
                     Item = Reference.ByCodename("another_article"),
                     Language = Reference.ByCodename("en-US")
                 }
-            }
+            ]
         };
 
         var listResult = await client.ListItemsWithVariantsByBulkGetAsync(request);
@@ -461,5 +324,81 @@ public class ItemWithVariantTests
         items[0].Item.Name.Should().Be("Sample Article");
         items[1].Item.Should().NotBeNull();
         items[1].Item.Name.Should().Be("Another Article");
+    }
+
+    [Fact]
+    public async Task ListItemsWithVariantsByBulkGetAsync_WithPagination_PagesThroughAllPages()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var firstPage = Fixture("BulkGetResponseFirstPage.json");
+        var lastPage = Fixture("BulkGetResponseLastPage.json");
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
+            .Respond("application/json", firstPage);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
+            .WithHeaders("x-continuation", BulkGetContinuationToken)
+            .Respond("application/json", lastPage);
+
+        var request = new ItemWithVariantBulkGetRequestModel
+        {
+            Variants =
+            [
+                new VariantIdentifierModel
+                {
+                    Item = Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515")),
+                    Language = Reference.ById(Guid.Empty)
+                }
+            ]
+        };
+
+        var listResult = await client.ListItemsWithVariantsByBulkGetAsync(request);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<ContentItemWithVariantModel> items = listResult.Value;
+
+        mock.VerifyNoOutstandingExpectation();
+        items.ShouldEqualAsJson(ConcatPages<ContentItemWithVariantModel>(firstPage, lastPage));
+    }
+
+    [Fact]
+    public async Task EnumerateItemsWithVariantsByBulkGetPagesAsync_StreamsAllPages()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var firstPage = Fixture("BulkGetResponseFirstPage.json");
+        var lastPage = Fixture("BulkGetResponseLastPage.json");
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
+            .Respond("application/json", firstPage);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/items-with-variant/bulk-get")
+            .WithHeaders("x-continuation", BulkGetContinuationToken)
+            .Respond("application/json", lastPage);
+
+        var request = new ItemWithVariantBulkGetRequestModel
+        {
+            Variants =
+            [
+                new VariantIdentifierModel
+                {
+                    Item = Reference.ById(new Guid("4b628214-e4fe-4fe0-b1ff-955df33e1515")),
+                    Language = Reference.ById(Guid.Empty)
+                }
+            ]
+        };
+
+        var items = new List<ContentItemWithVariantModel>();
+        await foreach (var page in client.EnumerateItemsWithVariantsByBulkGetPagesAsync(request))
+        {
+            page.IsSuccess.Should().BeTrue();
+            items.AddRange(page.Value);
+        }
+
+        mock.VerifyNoOutstandingExpectation();
+        items.ShouldEqualAsJson(ConcatPages<ContentItemWithVariantModel>(firstPage, lastPage));
+    }
+
+    [Fact]
+    public void EnumerateItemsWithVariantsByBulkGetPagesAsync_WithNullRequest_ThrowsArgumentNullException()
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        client.Invoking(x => x.EnumerateItemsWithVariantsByBulkGetPagesAsync(null!))
+            .Should().ThrowExactly<ArgumentNullException>();
     }
 }

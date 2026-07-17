@@ -1,11 +1,13 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
+using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
@@ -169,6 +171,7 @@ public class AssetTests
         };
 
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/assets")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Asset);
 
         var result = await client.CreateAssetAsync(createModel);
@@ -176,6 +179,7 @@ public class AssetTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(createModel);
     }
 
     [Fact]
@@ -201,6 +205,7 @@ public class AssetTests
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/files/Hello.txt")
             .Respond("application/json", File_);
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/assets")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Asset);
 
         var result = await client.CreateAssetAsync(content, fileReference => new AssetCreateModel
@@ -213,6 +218,12 @@ public class AssetTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(new AssetCreateModel
+        {
+            FileReference = JsonSerializer.Deserialize<FileReference>(File_, SharedTestJsonOptions.Default)!,
+            Title = expected.Title,
+            Elements = expected.Elements,
+        });
     }
 
     [Fact]
@@ -250,6 +261,7 @@ public class AssetTests
         var upsertModel = new AssetUpsertModel { Title = expected.Title, Elements = expected.Elements };
 
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Asset);
 
         var result = await client.UpsertAssetAsync(Reference.ById(expected.Id), upsertModel);
@@ -257,6 +269,7 @@ public class AssetTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
@@ -268,6 +281,7 @@ public class AssetTests
         var upsertModel = new AssetUpsertModel { Title = expected.Title, Elements = expected.Elements };
 
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/codename/{expected.Codename}")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Asset);
 
         var result = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), upsertModel);
@@ -275,6 +289,7 @@ public class AssetTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
@@ -285,6 +300,7 @@ public class AssetTests
         var upsertModel = new AssetUpsertModel { Title = "Chemex Paper Filters" };
 
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/external-id/my-external-id")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Asset);
 
         var result = await client.UpsertAssetAsync(Reference.ByExternalId("my-external-id"), upsertModel);
@@ -292,6 +308,7 @@ public class AssetTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(ExpectedAsset());
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
@@ -327,6 +344,7 @@ public class AssetTests
         mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/files/Hello.txt")
             .Respond("application/json", File_);
         mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
+            .CaptureBody(out var capturedBody)
             .Respond("application/json", Asset);
 
         var result = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, upsertModel);
@@ -334,6 +352,10 @@ public class AssetTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(upsertModel with
+        {
+            FileReference = JsonSerializer.Deserialize<FileReference>(File_, SharedTestJsonOptions.Default)!,
+        });
     }
 
     [Fact]
@@ -369,6 +391,27 @@ public class AssetTests
 
         await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("ex"), content, null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void AssetReference_RenditionsNull_OmitsRenditionsOnWire()
+    {
+        var reference = new AssetReference { Id = Guid.NewGuid() };
+
+        var json = JsonNode.Parse(JsonSerializer.Serialize(reference, SharedTestJsonOptions.Default))!.AsObject();
+
+        json.ContainsKey("renditions").Should().BeFalse();
+    }
+
+    [Fact]
+    public void AssetReference_RenditionsEmpty_SerializesEmptyRenditionsArray()
+    {
+        var reference = new AssetReference { Id = Guid.NewGuid(), Renditions = [] };
+
+        var json = JsonNode.Parse(JsonSerializer.Serialize(reference, SharedTestJsonOptions.Default))!.AsObject();
+
+        json.ContainsKey("renditions").Should().BeTrue();
+        json["renditions"]!.AsArray().Should().BeEmpty();
     }
 
     [Fact]
