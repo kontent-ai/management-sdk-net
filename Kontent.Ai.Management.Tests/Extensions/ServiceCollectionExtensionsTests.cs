@@ -179,6 +179,35 @@ public class ServiceCollectionExtensionsTests
     }
 
     [Fact]
+    public async Task AddManagementClient_FromConfigurationSection_AppliesHttpClientAndResilienceHooks()
+    {
+        var stub = new RecordingPrimaryHandler(_ => TooManyRequestsResponse());
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Management:EnvironmentId"] = ValidEnvironmentId,
+                ["Management:ApiKey"] = ValidApiKey,
+            })
+            .Build();
+
+        var services = new ServiceCollection();
+        services.AddManagementClient(
+            configuration.GetSection("Management"),
+            configureHttpClient: httpClientBuilder => httpClientBuilder.ConfigurePrimaryHttpMessageHandler(() => stub),
+            configureResilience: _ => { });
+
+        using var provider = services.BuildServiceProvider();
+        var client = provider.GetRequiredService<IManagementClient>();
+
+        var result = await client.GetEnvironmentInformationAsync();
+
+        // The empty pipeline replaced the default one: a 429 that the default retries surfaces after one attempt.
+        result.IsSuccess.Should().BeFalse();
+        result.StatusCode.Should().Be(HttpStatusCode.TooManyRequests);
+        stub.Attempts.Should().HaveCount(1);
+    }
+
+    [Fact]
     public async Task AddManagementClient_DefaultResilience_RetriesGet429AndReappliesAuthAndTrackingHandlers()
     {
         var stub = new RecordingPrimaryHandler(attempt => attempt == 1

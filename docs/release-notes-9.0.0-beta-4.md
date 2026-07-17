@@ -15,6 +15,10 @@ Fourth beta of the modernized Management SDK — a **security** release. It hard
 
 - **Empty identifiers are rejected instead of silently hitting a different endpoint.** An empty codename, external id, user id, or email collapses a single-resource route onto its parent collection route — `GetSubscriptionUserAsync(UserIdentifier.ById(""))` would have called the *list users* endpoint instead of failing. `Reference.ByCodename` / `ByExternalId` and `UserIdentifier.ById` / `ByEmail` now throw an `ArgumentException` for null, empty, or whitespace-only values, and the URL boundary rejects them as defense in depth.
 
+## Improvements
+
+- **Configuration-based registration accepts the customization hooks.** The `AddManagementClient` overloads that bind from `IConfiguration` / `IConfigurationSection` now take the same optional `configureHttpClient` / `configureResilience` / `configureRefit` hooks as the action-based overloads, so config-bound clients can customize the HTTP pipeline too.
+
 ## Fixes
 
 - **Retried requests no longer accumulate duplicate tracking headers.** The resilience layer re-dispatches the same request message on retry; the `X-KC-SDKID` / `X-KC-SOURCE` headers were appended per attempt, so a retried request carried repeated values. The headers are now set idempotently.
