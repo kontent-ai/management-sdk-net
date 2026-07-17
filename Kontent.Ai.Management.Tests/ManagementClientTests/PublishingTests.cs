@@ -86,7 +86,7 @@ public class PublishingTests
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
-            ScheduleTo = DateTimeOffset.UtcNow
+            ScheduledTo = DateTimeOffset.UtcNow
         };
 
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/publish")
@@ -107,7 +107,7 @@ public class PublishingTests
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
-            ScheduleTo = DateTimeOffset.UtcNow
+            ScheduledTo = DateTimeOffset.UtcNow
         };
 
         await client.Invoking(x => x.SchedulePublishingOfLanguageVariantAsync(null!, schedule)).Should().ThrowAsync<ArgumentNullException>();
@@ -239,7 +239,7 @@ public class PublishingTests
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
-            ScheduleTo = DateTimeOffset.UtcNow
+            ScheduledTo = DateTimeOffset.UtcNow
         };
 
         mock.Expect(HttpMethod.Put, $"{expectedUrl}/unpublish-and-archive")
@@ -260,7 +260,7 @@ public class PublishingTests
         var schedule = new ScheduleModel
         {
             DisplayTimeZone = "prague",
-            ScheduleTo = DateTimeOffset.UtcNow
+            ScheduledTo = DateTimeOffset.UtcNow
         };
 
         await client.Invoking(x => x.ScheduleUnpublishingOfLanguageVariantAsync(null!, schedule)).Should().ThrowAsync<ArgumentNullException>();

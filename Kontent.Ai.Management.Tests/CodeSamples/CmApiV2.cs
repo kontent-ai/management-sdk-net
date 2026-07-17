@@ -1692,7 +1692,7 @@ public class CmApiV2
         // Scheduled publish
         var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
+            ScheduledTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
             DisplayTimeZone = "Europe/London"
         }));
 
@@ -1716,7 +1716,7 @@ public class CmApiV2
         // Scheduled unpublish
         var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
+            ScheduledTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
             DisplayTimeZone = "Europe/London"
         }));
 

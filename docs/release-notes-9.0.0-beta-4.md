@@ -15,6 +15,10 @@ Fourth beta of the modernized Management SDK — a **security** release. It hard
 
 - **Empty identifiers are rejected instead of silently hitting a different endpoint.** An empty codename, external id, user id, or email collapses a single-resource route onto its parent collection route — `GetSubscriptionUserAsync(UserIdentifier.ById(""))` would have called the *list users* endpoint instead of failing. `Reference.ByCodename` / `ByExternalId` and `UserIdentifier.ById` / `ByEmail` now throw an `ArgumentException` for null, empty, or whitespace-only values, and the URL boundary rejects them as defense in depth.
 
+## Breaking changes
+
+- **`ScheduleModel.ScheduleTo` → `ScheduledTo`.** The property now mirrors its wire key (`scheduled_to`) and matches `SchedulePublishAndUnpublishModel.PublishScheduledTo` / `.UnpublishScheduledTo` — the same concept was spelled two ways within the Publishing domain. It is a `required` init property, so the compiler points at every affected call site; the fix is renaming the initializer.
+
 ## Improvements
 
 - **Configuration-based registration accepts the customization hooks.** The `AddManagementClient` overloads that bind from `IConfiguration` / `IConfigurationSection` now take the same optional `configureHttpClient` / `configureResilience` / `configureRefit` hooks as the action-based overloads, so config-bound clients can customize the HTTP pipeline too.

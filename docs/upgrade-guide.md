@@ -564,6 +564,7 @@ The highlights you're most likely to hit:
 | `WorkflowStepColorModel` | `WorkflowStepColor` | It's an enum, not a model. |
 | `ContentItemWorkflowTransition.WorkflowReference` / `.WorkflowStepReference` | `.Workflow` / `.Step` | Identifier-pair properties unified to the bare style used by `WorkflowStepIdentifier`. Wire keys unchanged. |
 | `VariantFilterWorkflowStepsModel.WorkflowReference` / `.WorkflowStepReferences` | `.Workflow` / `.Steps` | Same unification. |
+| `ScheduleModel.ScheduleTo` | `.ScheduledTo` | Mirrors the wire key `scheduled_to` and aligns with `SchedulePublishAndUnpublishModel.PublishScheduledTo` / `.UnpublishScheduledTo`. |
 | `VariantFilterTaxonomyGroupModel.TaxonomyReference` / `.TermReferences` | `.TaxonomyGroup` / `.Terms` | Same unification. |
 | `ContentTypeSnippetElementMetadataModel.SnippetIdentifier` / `UrlSlugDependency.SnippetIdentifier` | `.Snippet` | Same unification. |
 | `AssetDefaultValueModel` / `LinkedItemsDefaultValueModel` / `MultipleChoiceDefaultValueModel` | `…ElementDefaultValueModel` | Default-value models unified on one naming pattern. |

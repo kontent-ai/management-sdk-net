@@ -1660,7 +1660,7 @@ public sealed class TypePreviewUrlPatternModel : IEquatable`1
 // Kontent.Ai.Management.Models.Publishing
 public sealed class ScheduleModel : IEquatable`1
     String DisplayTimeZone { get; set; init; }
-    DateTimeOffset ScheduleTo { get; set; init; }
+    DateTimeOffset ScheduledTo { get; set; init; }
     ScheduleModel <Clone>$()
     Boolean Equals(Object obj)
     Boolean Equals(ScheduleModel other)

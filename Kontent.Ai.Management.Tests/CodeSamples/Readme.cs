@@ -387,7 +387,7 @@ public class Readme
 
         await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = new DateTimeOffset(2038, 1, 19, 4, 14, 8, TimeSpan.Zero),
+            ScheduledTo = new DateTimeOffset(2038, 1, 19, 4, 14, 8, TimeSpan.Zero),
             DisplayTimeZone = "Europe/London"
         });
 

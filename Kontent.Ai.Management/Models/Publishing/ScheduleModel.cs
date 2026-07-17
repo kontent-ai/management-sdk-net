@@ -9,7 +9,7 @@ public sealed record ScheduleModel
     /// ISO-8601 date-time at which the variant should be (un)published.
     /// </summary>
     [JsonPropertyName("scheduled_to")]
-    public required DateTimeOffset ScheduleTo { get; init; }
+    public required DateTimeOffset ScheduledTo { get; init; }
 
     /// <summary>
     /// IANA time zone name used to display the scheduled date's offset in the UI. Optional.
