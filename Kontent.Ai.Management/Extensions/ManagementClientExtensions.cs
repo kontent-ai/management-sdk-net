@@ -11,13 +11,14 @@ namespace Kontent.Ai.Management.Extensions;
 public static class ManagementClientExtensions
 {
     /// <summary>
-    /// Updates the given content item.
+    /// Creates or updates the content item from a fetched <see cref="ContentItemModel"/> — the server-owned
+    /// metadata is dropped. Addressing by external id creates the item when it does not exist yet.
     /// </summary>
     /// <param name="client">Content management client instance.</param>
-    /// <param name="identifier">Identifies which content item will be updated.</param>
-    /// <param name="contentItem">Specifies data for updated content item.</param>
+    /// <param name="identifier">Identifies which content item will be created or updated.</param>
+    /// <param name="contentItem">The fetched (and possibly modified) content item to upsert.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
+    /// <returns>A result wrapping the created or updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
     public static async Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(client);

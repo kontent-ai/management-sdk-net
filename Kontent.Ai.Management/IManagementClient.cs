@@ -73,12 +73,12 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the given asset.
+    /// Creates or updates the given asset. Addressing by external id creates the asset when it does not exist yet.
     /// </summary>
     /// <param name="identifier">The identifier of the asset.</param>
-    /// <param name="asset">Represents the updated asset.</param>
+    /// <param name="asset">Represents the created or updated asset.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the updated <see cref="AssetModel"/> on success, or the failure detail.</returns>
+    /// <returns>A result wrapping the created or updated <see cref="AssetModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -123,7 +123,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Modify a rendition of the asset.
+    /// Updates a rendition of the asset.
     /// </summary>
     /// <param name="identifier">The identifier of the asset rendition.</param>
     /// <param name="updateModel">Represents the updated asset rendition.</param>
@@ -646,12 +646,12 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates the given content item.
+    /// Creates or updates the given content item. Addressing by external id creates the item when it does not exist yet.
     /// </summary>
     /// <param name="identifier">The identifier of the content item.</param>
-    /// <param name="contentItem">Represents the updated content item.</param>
+    /// <param name="contentItem">Represents the created or updated content item.</param>
     /// <param name="cancellationToken">Token to cancel the request.</param>
-    /// <returns>A result wrapping the updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
+    /// <returns>A result wrapping the created or updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
     Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -669,6 +669,13 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
     /// <c>null</c> properties are omitted from the payload (partial update). HTTP 4xx/5xx failures are surfaced
     /// through the returned result rather than thrown; network-level and serialization failures still propagate as exceptions.
     /// </summary>
+    /// <remarks>
+    /// The write keys off codenames and stays portable across environments, but the typed response projection is
+    /// environment-bound: like <see cref="GetLanguageVariantAsync{T}(LanguageVariantIdentifier, CancellationToken)"/>,
+    /// it matches the response's element and rich-text-component ids against the ids on <typeparamref name="T"/>'s
+    /// annotations — generate <typeparamref name="T"/> against the environment you write to, or the returned record's
+    /// elements may be silently unpopulated.
+    /// </remarks>
     /// <typeparam name="T">The generated content-type record (implements <see cref="IElementsModel"/>).</typeparam>
     /// <param name="identifier">The identifier of the language variant.</param>
     /// <param name="variant">The content-type record carrying the elements to set.</param>
@@ -755,7 +762,7 @@ public interface IManagementClient : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Lists all users under your subscription — including their assignment to projects, environments,
-    /// collections, roles, and languages — one continuation-token page at a time.
+    /// collections, roles, and languages.
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the request.</param>
     /// <returns>A result wrapping all users on success, or the first failed page's detail.</returns>
