@@ -3,7 +3,6 @@ using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
-using System.Collections;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
@@ -300,31 +299,5 @@ public class PublishingTests
         var (client, _) = MockClientFactory.Create();
 
         await client.Invoking(x => x.CreateNewVersionOfLanguageVariantAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
-    }
-
-    private class CombinationOfVariantIdentifiersAndUrl : IEnumerable<object[]>
-    {
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public IEnumerator<object[]> GetEnumerator()
-        {
-            foreach (var (Identifier, Url) in GetPermutation())
-            {
-                yield return new object[] { Identifier, Url };
-            }
-        }
-
-        public static IEnumerable<(LanguageVariantIdentifier Identifier, string Url)> GetPermutation()
-        {
-            var items = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename, IdentifierPermutations.ByExternalId };
-            var languages = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename };
-
-            foreach (var (item, itemSegment, language, languageSegment) in IdentifierPermutations.Pairs(items, languages))
-            {
-                var identifier = new LanguageVariantIdentifier(item, language);
-                var url = $"{MockClientFactory.BaseUrl}/items/{itemSegment}/variants/{languageSegment}";
-                yield return (identifier, url);
-            }
-        }
     }
 }

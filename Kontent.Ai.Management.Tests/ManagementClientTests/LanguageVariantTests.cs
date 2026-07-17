@@ -168,7 +168,7 @@ public class LanguageVariantTests
     }
 
     [Theory]
-    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
     public async Task GetLanguageVariantAsync_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
@@ -195,7 +195,7 @@ public class LanguageVariantTests
     }
 
     [Theory]
-    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
     public async Task GetPublishedLanguageVariantAsync_GetsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
@@ -222,7 +222,7 @@ public class LanguageVariantTests
     }
 
     [Theory]
-    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
     public async Task UpsertLanguageVariantAsync_ByLanguageVariantUpsertModel_UpsertsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
@@ -242,9 +242,7 @@ public class LanguageVariantTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
-        capturedBody.Value.Should().NotBeNull();
-        JsonSerializer.Deserialize<LanguageVariantUpsertModel>(capturedBody.Value!, SharedTestJsonOptions.Default)
-            .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguageVariantUpsertModel>(JsonSerializer.Serialize(upsertModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
@@ -267,7 +265,7 @@ public class LanguageVariantTests
     }
 
     [Theory]
-    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
     public async Task UpsertLanguageVariantAsync_ByLanguageVariantModel_UpsertsVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
@@ -283,7 +281,6 @@ public class LanguageVariantTests
         mock.VerifyNoOutstandingExpectation();
         result.IsSuccess.Should().BeTrue();
         result.Value.ShouldEqualAsJson(expected);
-        capturedBody.Value.Should().NotBeNull();
         var sentModel = new LanguageVariantUpsertModel
         {
             Elements = expected.Elements,
@@ -292,8 +289,7 @@ public class LanguageVariantTests
             Note = expected.Note,
             Contributors = expected.Contributors,
         };
-        JsonSerializer.Deserialize<LanguageVariantUpsertModel>(capturedBody.Value!, SharedTestJsonOptions.Default)
-            .ShouldEqualAsJson(JsonSerializer.Deserialize<LanguageVariantUpsertModel>(JsonSerializer.Serialize(sentModel, SharedTestJsonOptions.Default), SharedTestJsonOptions.Default)!);
+        capturedBody.ShouldMatchSerialized(sentModel);
     }
 
     [Fact]
@@ -317,7 +313,7 @@ public class LanguageVariantTests
     }
 
     [Theory]
-    [ClassData(typeof(CombinationOfIdentifiersAndUrl))]
+    [ClassData(typeof(CombinationOfVariantIdentifiersAndUrl))]
     public async Task DeleteLanguageVariantAsync_DeletesVariant(LanguageVariantIdentifier identifier, string expectedUrl)
     {
         var (client, mock) = MockClientFactory.Create();
@@ -330,44 +326,28 @@ public class LanguageVariantTests
         result.IsSuccess.Should().BeTrue();
     }
 
-    private class CombinationOfIdentifiersAndUrl : IEnumerable<object[]>
+    [Fact]
+    public async Task DeleteLanguageVariantAsync_IdentifierIsNull_Throws()
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(x => x.DeleteLanguageVariantAsync(null!))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    private sealed class CombinationOfIdentifiers : IEnumerable<object[]>
     {
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public IEnumerator<object[]> GetEnumerator()
         {
-            foreach (var (Identifier, Url) in GetPermutation())
+            foreach (var (identifier, _) in CombinationOfVariantIdentifiersAndUrl.GetPermutation())
             {
-                yield return new object[] { Identifier, Url };
-            }
-        }
-
-        public static IEnumerable<(LanguageVariantIdentifier Identifier, string Url)> GetPermutation()
-        {
-            var items = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename, IdentifierPermutations.ByExternalId };
-            var languages = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename };
-
-            foreach (var (item, itemSegment, language, languageSegment) in IdentifierPermutations.Pairs(items, languages))
-            {
-                var identifier = new LanguageVariantIdentifier(item, language);
-                var url = $"{MockClientFactory.BaseUrl}/items/{itemSegment}/variants/{languageSegment}";
-                yield return (identifier, url);
+                yield return [identifier];
             }
         }
     }
 
-    private class CombinationOfIdentifiers : CombinationOfIdentifiersAndUrl, IEnumerable<object[]>
-    {
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public new IEnumerator<object[]> GetEnumerator()
-        {
-            foreach (var (Identifier, _) in GetPermutation())
-            {
-                yield return new object[] { Identifier };
-            }
-        }
-    }
     [Fact]
     public async Task EnumerateLanguageVariantsByTypePagesAsync_StreamsAllPages()
     {

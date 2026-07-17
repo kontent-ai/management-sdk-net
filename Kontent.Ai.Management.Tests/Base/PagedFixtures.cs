@@ -11,7 +11,18 @@ internal static class PagedFixtures
     /// Pass a single page for a non-paged listing.
     /// </summary>
     public static List<T> ConcatPages<T>(params string[] pages)
-        => pages
-            .SelectMany(p => JsonSerializer.Deserialize<List<T>>(JsonNode.Parse(p)!.AsObject().GetAt(0).Value!.ToString(), SharedTestJsonOptions.Default)!)
-            .ToList();
+        => pages.SelectMany(DeserializePageItems<T>).ToList();
+
+    private static List<T> DeserializePageItems<T>(string page)
+    {
+        var envelope = JsonNode.Parse(page)!.AsObject();
+        var itemProperties = envelope.Where(property => property.Key != "pagination").ToList();
+        if (itemProperties.Count != 1)
+        {
+            throw new InvalidOperationException(
+                $"A page fixture must contain exactly one items property besides \"pagination\", but this one has: {string.Join(", ", envelope.Select(property => $"\"{property.Key}\""))}.");
+        }
+
+        return JsonSerializer.Deserialize<List<T>>(itemProperties[0].Value!.ToString(), SharedTestJsonOptions.Default)!;
+    }
 }

@@ -1,3 +1,6 @@
+using Kontent.Ai.Management.Models.LanguageVariants;
+using System.Collections;
+
 namespace Kontent.Ai.Management.Tests.Base;
 
 /// <summary>
@@ -26,6 +29,36 @@ internal static class IdentifierPermutations
             {
                 yield return (f.Identifier, f.UrlSegment, s.Identifier, s.UrlSegment);
             }
+        }
+    }
+}
+
+/// <summary>
+/// ClassData provider yielding every item×language <see cref="LanguageVariantIdentifier"/> permutation
+/// paired with the variant endpoint URL it renders to.
+/// </summary>
+internal sealed class CombinationOfVariantIdentifiersAndUrl : IEnumerable<object[]>
+{
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public IEnumerator<object[]> GetEnumerator()
+    {
+        foreach (var (identifier, url) in GetPermutation())
+        {
+            yield return [identifier, url];
+        }
+    }
+
+    public static IEnumerable<(LanguageVariantIdentifier Identifier, string Url)> GetPermutation()
+    {
+        var items = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename, IdentifierPermutations.ByExternalId };
+        var languages = new[] { IdentifierPermutations.ById, IdentifierPermutations.ByCodename };
+
+        foreach (var (item, itemSegment, language, languageSegment) in IdentifierPermutations.Pairs(items, languages))
+        {
+            var identifier = new LanguageVariantIdentifier(item, language);
+            var url = $"{MockClientFactory.BaseUrl}/items/{itemSegment}/variants/{languageSegment}";
+            yield return (identifier, url);
         }
     }
 }
