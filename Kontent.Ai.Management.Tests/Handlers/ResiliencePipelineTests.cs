@@ -2,7 +2,6 @@ using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
-using Polly.Retry;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
@@ -99,36 +98,33 @@ public class ResiliencePipelineTests
         ServiceCollectionExtensions.IsTransientException(new InvalidOperationException(), CancellationToken.None).Should().BeFalse();
     }
 
+    // Retry-After handling is deliberately left to HttpRetryStrategyOptions' built-in ShouldRetryAfterHeader default
+    // (it honors both delta and HTTP-date forms); these pin that the default pipeline actually applies it.
     [Fact]
-    public async Task GetRetryAfterDelay_Returns429RetryAfterDelta()
+    public async Task ConfigureDefaultResilience_HonorsRetryAfterDeltaForm()
     {
-        var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
-        response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.FromSeconds(7));
+        var (invoker, stub) = CreateDefaultResilienceInvoker(attempt => attempt < 2
+            ? WithRetryAfter(new HttpResponseMessage(HttpStatusCode.TooManyRequests), TimeSpan.Zero)
+            : new HttpResponseMessage(HttpStatusCode.OK));
 
-        var delay = await InvokeGetRetryAfterDelay(response);
+        var response = await invoker.SendAsync(new HttpRequestMessage(HttpMethod.Get, "https://example.test/"), CancellationToken.None);
 
-        delay.Should().Be(TimeSpan.FromSeconds(7));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        stub.Attempts.Should().Be(2);
     }
 
     [Fact]
-    public async Task GetRetryAfterDelay_429WithoutHeader_ReturnsNull()
+    public async Task ConfigureDefaultResilience_HonorsRetryAfterDateForm()
     {
-        var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
+        // A date in the past resolves to a zero delay — the retry happens immediately instead of stalling the test.
+        var (invoker, stub) = CreateDefaultResilienceInvoker(attempt => attempt < 2
+            ? WithRetryAfterDate(new HttpResponseMessage(HttpStatusCode.TooManyRequests), DateTimeOffset.UtcNow.AddSeconds(-30))
+            : new HttpResponseMessage(HttpStatusCode.OK));
 
-        var delay = await InvokeGetRetryAfterDelay(response);
+        var response = await invoker.SendAsync(new HttpRequestMessage(HttpMethod.Get, "https://example.test/"), CancellationToken.None);
 
-        delay.Should().BeNull();
-    }
-
-    [Fact]
-    public async Task GetRetryAfterDelay_503WithHeader_ReturnsDelta()
-    {
-        var response = new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
-        response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.FromSeconds(7));
-
-        var delay = await InvokeGetRetryAfterDelay(response);
-
-        delay.Should().Be(TimeSpan.FromSeconds(7));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        stub.Attempts.Should().Be(2);
     }
 
     [Theory]
@@ -292,6 +288,28 @@ public class ResiliencePipelineTests
         stub.Attempts.Should().Be(2);
     }
 
+    // The resilience layer re-dispatches the same HttpRequestMessage instance on retry, so the tracking handler's
+    // header writes must be idempotent — this pins that a retried request carries exactly one value per header.
+    [Fact]
+    public async Task TrackingHandler_ThroughResilienceRetries_DoesNotDuplicateHeaders()
+    {
+        var builder = new ResiliencePipelineBuilder<HttpResponseMessage>();
+        ServiceCollectionExtensions.ConfigureDefaultResilience(builder);
+        var stub = new StubHandler(attempt => attempt < 3
+            ? WithRetryAfter(new HttpResponseMessage(HttpStatusCode.TooManyRequests), TimeSpan.Zero)
+            : new HttpResponseMessage(HttpStatusCode.OK));
+        var invoker = new HttpMessageInvoker(new ResilienceHandler(builder.Build())
+        {
+            InnerHandler = new Kontent.Ai.Management.Handlers.TrackingHandler { InnerHandler = stub },
+        });
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/");
+
+        await invoker.SendAsync(request, CancellationToken.None);
+
+        stub.Attempts.Should().Be(3);
+        request.Headers.GetValues("X-KC-SDKID").Should().HaveCount(1);
+    }
+
     private static (HttpMessageInvoker Invoker, StubHandler Stub) CreateDefaultResilienceInvoker(Func<int, HttpResponseMessage> responder)
     {
         var builder = new ResiliencePipelineBuilder<HttpResponseMessage>();
@@ -319,6 +337,12 @@ public class ResiliencePipelineTests
         return response;
     }
 
+    private static HttpResponseMessage WithRetryAfterDate(HttpResponseMessage response, DateTimeOffset date)
+    {
+        response.Headers.RetryAfter = new RetryConditionHeaderValue(date);
+        return response;
+    }
+
     private static bool InvokeShouldRetry(Outcome<HttpResponseMessage> outcome, HttpRequestMessage? request)
     {
         var context = ResilienceContextPool.Shared.Get();
@@ -336,21 +360,4 @@ public class ResiliencePipelineTests
         }
     }
 
-    private static async Task<TimeSpan?> InvokeGetRetryAfterDelay(HttpResponseMessage response)
-    {
-        var context = ResilienceContextPool.Shared.Get();
-        try
-        {
-            var args = new RetryDelayGeneratorArguments<HttpResponseMessage>(
-                context,
-                Outcome.FromResult(response),
-                attemptNumber: 0);
-
-            return await ServiceCollectionExtensions.GetRetryAfterDelay(args);
-        }
-        finally
-        {
-            ResilienceContextPool.Shared.Return(context);
-        }
-    }
 }

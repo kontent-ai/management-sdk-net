@@ -46,7 +46,9 @@ internal sealed class ContentItemTypeDescriptor
             Type = type,
             ContentTypeCodename = typeAttr.Codename,
             Properties = properties,
-            ByElementId = properties.ToDictionary(p => p.ElementId),
+            // Ids are GUID strings — match them case-insensitively, like ContentTypeRegistry; codenames are
+            // case-sensitive data and stay exact.
+            ByElementId = properties.ToDictionary(p => p.ElementId, StringComparer.OrdinalIgnoreCase),
             ByElementCodename = properties.ToDictionary(p => p.ElementCodename),
         };
     }
@@ -125,7 +127,7 @@ internal sealed class EnumDescriptor
         }
 
         var byCodename = new Dictionary<string, object>();
-        var byItemId = new Dictionary<string, object>();
+        var byItemId = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         var codenameByValue = new Dictionary<object, string>();
 
         foreach (var field in enumType.GetFields(BindingFlags.Public | BindingFlags.Static))

@@ -14,7 +14,11 @@ public static class AssetExtensions
     /// <param name="folderId">Folder Identifier</param>
     /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given folderId. Null if not found.</returns>
     public static AssetFolderHierarchy? GetFolderHierarchyById(this IEnumerable<AssetFolderHierarchy> folders, Guid folderId)
-        => FindRecursive(folders, folder => folder.Id == folderId, folder => folder.Folders);
+    {
+        ArgumentNullException.ThrowIfNull(folders);
+
+        return FindRecursive(folders, folder => folder.Id == folderId, folder => folder.Folders);
+    }
 
     /// <summary>
     /// Gets folder hierarchy for a given folder externalId
@@ -23,7 +27,11 @@ public static class AssetExtensions
     /// <param name="externalId">Folder externalId</param>
     /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given externalId. Null if not found.</returns>
     public static AssetFolderHierarchy? GetFolderHierarchyByExternalId(this IEnumerable<AssetFolderHierarchy> folders, string externalId)
-        => FindRecursive(folders, folder => folder.ExternalId == externalId, folder => folder.Folders);
+    {
+        ArgumentNullException.ThrowIfNull(folders);
+
+        return FindRecursive(folders, folder => folder.ExternalId == externalId, folder => folder.Folders);
+    }
 
     /// <summary>
     /// Gets folder hierarchy for a given folder codename
@@ -32,7 +40,11 @@ public static class AssetExtensions
     /// <param name="codename">Folder codename</param>
     /// <returns>The <see cref="AssetFolderHierarchy"/> instance that represents the folder found for a given folder codename. Null if not found.</returns>
     public static AssetFolderHierarchy? GetFolderHierarchyByCodename(this IEnumerable<AssetFolderHierarchy> folders, string codename)
-        => FindRecursive(folders, folder => folder.Codename == codename, folder => folder.Folders);
+    {
+        ArgumentNullException.ThrowIfNull(folders);
+
+        return FindRecursive(folders, folder => folder.Codename == codename, folder => folder.Folders);
+    }
 
     /// <summary>
     /// Gets the folder hierarchy for a given folder identifier.
@@ -42,7 +54,11 @@ public static class AssetExtensions
     /// <param name="folderId">Folder Identifier</param>
     /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder identifier.</returns>
     public static AssetFolderLinkingHierarchy? GetParentLinkedFolderHierarchyById(this IEnumerable<AssetFolderLinkingHierarchy> folders, Guid folderId)
-        => FindRecursive(folders, folder => folder.Id == folderId, folder => folder.Folders);
+    {
+        ArgumentNullException.ThrowIfNull(folders);
+
+        return FindRecursive(folders, folder => folder.Id == folderId, folder => folder.Folders);
+    }
 
     /// <summary>
     /// Gets the folder hierarchy for a given folder external id.
@@ -52,7 +68,11 @@ public static class AssetExtensions
     /// <param name="externalId">Folder external id</param>
     /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder external id.</returns>
     public static AssetFolderLinkingHierarchy? GetParentLinkedFolderHierarchyByExternalId(this IEnumerable<AssetFolderLinkingHierarchy> folders, string externalId)
-        => FindRecursive(folders, folder => folder.ExternalId == externalId, folder => folder.Folders);
+    {
+        ArgumentNullException.ThrowIfNull(folders);
+
+        return FindRecursive(folders, folder => folder.ExternalId == externalId, folder => folder.Folders);
+    }
 
     /// <summary>
     /// Gets the folder hierarchy for a given folder codename.
@@ -62,7 +82,11 @@ public static class AssetExtensions
     /// <param name="codename">Folder codename</param>
     /// <returns>Returns the <see cref="AssetFolderLinkingHierarchy"/> instance found via a given folder codename.</returns>
     public static AssetFolderLinkingHierarchy? GetParentLinkedFolderHierarchyByCodename(this IEnumerable<AssetFolderLinkingHierarchy> folders, string codename)
-        => FindRecursive(folders, folder => folder.Codename == codename, folder => folder.Folders);
+    {
+        ArgumentNullException.ThrowIfNull(folders);
+
+        return FindRecursive(folders, folder => folder.Codename == codename, folder => folder.Folders);
+    }
 
     /// <summary>
     /// Gets the full folder path string
@@ -71,6 +95,8 @@ public static class AssetExtensions
     /// <returns>Folder path string containing backslashes (\)</returns>
     public static string GetFullFolderPath(this AssetFolderLinkingHierarchy folder)
     {
+        ArgumentNullException.ThrowIfNull(folder);
+
         var segments = new List<string>();
         if (folder.Parent is not null)
         {
@@ -92,6 +118,8 @@ public static class AssetExtensions
     public static IReadOnlyList<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(this IEnumerable<AssetFolderHierarchy> folders,
         AssetFolderLinkingHierarchy? parentLinked = null)
     {
+        ArgumentNullException.ThrowIfNull(folders);
+
         var folderList = new List<AssetFolderLinkingHierarchy>();
         foreach (var folder in folders)
         {

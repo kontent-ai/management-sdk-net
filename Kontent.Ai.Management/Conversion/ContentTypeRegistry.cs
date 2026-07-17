@@ -17,7 +17,7 @@ namespace Kontent.Ai.Management.Conversion;
 internal sealed class ContentTypeRegistry
 {
     private readonly ConcurrentDictionary<string, Type> _byId = new(StringComparer.OrdinalIgnoreCase);
-    private readonly ConcurrentDictionary<Assembly, byte> _scannedAssemblies = new();
+    private readonly ConcurrentDictionary<Assembly, Lazy<bool>> _scannedAssemblies = new();
 
     /// <summary>
     /// Indexes every <see cref="IElementsModel"/>-implementing type in <paramref name="assembly"/> that carries
@@ -26,12 +26,17 @@ internal sealed class ContentTypeRegistry
     public void Scan(Assembly assembly)
     {
         ArgumentNullException.ThrowIfNull(assembly);
-        if (!_scannedAssemblies.TryAdd(assembly, 0)) return;
 
-        foreach (var type in assembly.GetTypes())
+        // The Lazy makes concurrent first-scanners block until registration completes — marking the assembly
+        // scanned before populating would let the loser proceed against a half-populated registry.
+        _ = _scannedAssemblies.GetOrAdd(assembly, a => new Lazy<bool>(() =>
         {
-            TryRegister(type);
-        }
+            foreach (var type in a.GetTypes())
+            {
+                TryRegister(type);
+            }
+            return true;
+        })).Value;
     }
 
     /// <summary>

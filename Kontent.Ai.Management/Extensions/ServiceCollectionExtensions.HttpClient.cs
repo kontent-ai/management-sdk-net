@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Options;
 using Polly;
-using Polly.Retry;
 using System.Net;
 
 namespace Kontent.Ai.Management.Extensions;
@@ -95,6 +94,8 @@ public static partial class ServiceCollectionExtensions
     /// </summary>
     internal static void ConfigureDefaultResilience(ResiliencePipelineBuilder<HttpResponseMessage> builder)
     {
+        // No DelayGenerator override: the options' default (ShouldRetryAfterHeader) already honors a server-provided
+        // Retry-After in both delta and HTTP-date form, falling back to the backoff below when absent.
         builder.AddRetry(new HttpRetryStrategyOptions
         {
             MaxRetryAttempts = 3,
@@ -102,7 +103,6 @@ public static partial class ServiceCollectionExtensions
             BackoffType = DelayBackoffType.Exponential,
             UseJitter = true,
             ShouldHandle = args => ValueTask.FromResult(ShouldRetry(args.Outcome, args.Context)),
-            DelayGenerator = GetRetryAfterDelay
         });
     }
 
@@ -131,10 +131,6 @@ public static partial class ServiceCollectionExtensions
         || method == HttpMethod.Options
         || method == HttpMethod.Put
         || method == HttpMethod.Delete;
-
-    /// <summary>Honors a server-provided <c>Retry-After</c> delta on any retried response; otherwise the strategy's backoff applies.</summary>
-    internal static ValueTask<TimeSpan?> GetRetryAfterDelay(RetryDelayGeneratorArguments<HttpResponseMessage> args)
-        => ValueTask.FromResult(args.Outcome.Result?.Headers.RetryAfter?.Delta);
 
     internal static bool IsRetryableStatusCode(HttpStatusCode? statusCode)
         => statusCode is

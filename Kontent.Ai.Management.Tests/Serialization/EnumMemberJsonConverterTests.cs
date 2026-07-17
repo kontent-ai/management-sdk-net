@@ -30,6 +30,15 @@ public class EnumMemberJsonConverterTests
     }
 
     [Fact]
+    public void Write_UndefinedValue_Throws()
+    {
+        // This is a write API — a cast like (ElementMetadataType)999 must fail fast, not ship "999" as a wire token.
+        var act = () => JsonSerializer.Serialize((ElementMetadataType)999, Options());
+
+        act.Should().Throw<ArgumentException>().WithMessage("*999*");
+    }
+
+    [Fact]
     public void Read_NumberToken_Throws()
     {
         // The Management API is a string-token API; a bare number would mint an unchecked enum value.

@@ -23,43 +23,52 @@ internal static class RefitApiResponseExtensions
     public static async Task<IManagementResult> ToManagementResultAsync(this Task<IApiResponse> responseTask) =>
         await (await responseTask.ConfigureAwait(false)).ToManagementResultAsync().ConfigureAwait(false);
 
-    public static Task<IManagementResult<TValue>> ToManagementResultAsync<TResponse, TValue>(
+    // Disposing after mapping is safe on both paths: Refit fully buffers the response (the deserialized Content and
+    // the ApiException's body-as-string outlive the HttpResponseMessage), and without it every response message
+    // lingers until finalization.
+    public static async Task<IManagementResult<TValue>> ToManagementResultAsync<TResponse, TValue>(
         this IApiResponse<TResponse> response,
         Func<TResponse, TValue> selector)
     {
-        if (response.IsSuccessStatusCode)
+        using (response)
         {
-            if (response.Content is null)
+            if (response.IsSuccessStatusCode)
             {
-                return Task.FromResult<IManagementResult<TValue>>(ManagementResult<TValue>.Failure(
-                    new Error
-                    {
-                        Message = "The Management API returned a success status but no readable response body.",
-                        Exception = response.Error,
-                    },
+                if (response.Content is null)
+                {
+                    return ManagementResult<TValue>.Failure(
+                        new Error
+                        {
+                            Message = "The Management API returned a success status but no readable response body.",
+                            Exception = response.Error,
+                        },
+                        response.StatusCode,
+                        RequestUrl(response));
+                }
+
+                return ManagementResult<TValue>.Success(
+                    selector(response.Content),
                     response.StatusCode,
-                    RequestUrl(response)));
+                    RequestUrl(response));
             }
 
-            return Task.FromResult<IManagementResult<TValue>>(ManagementResult<TValue>.Success(
-                selector(response.Content),
-                response.StatusCode,
-                RequestUrl(response)));
+            return await MapFailureAsync<TValue>(response).ConfigureAwait(false);
         }
-
-        return MapFailureAsync<TValue>(response);
     }
 
-    public static Task<IManagementResult> ToManagementResultAsync(this IApiResponse response)
+    public static async Task<IManagementResult> ToManagementResultAsync(this IApiResponse response)
     {
-        if (response.IsSuccessStatusCode)
+        using (response)
         {
-            return Task.FromResult<IManagementResult>(ManagementResult.Success(
-                response.StatusCode,
-                RequestUrl(response)));
-        }
+            if (response.IsSuccessStatusCode)
+            {
+                return ManagementResult.Success(
+                    response.StatusCode,
+                    RequestUrl(response));
+            }
 
-        return MapFailureAsync(response);
+            return await MapFailureAsync(response).ConfigureAwait(false);
+        }
     }
 
     private static async Task<IManagementResult<TValue>> MapFailureAsync<TValue>(IApiResponse response)
@@ -101,8 +110,8 @@ internal static class RefitApiResponseExtensions
         }
     }
 
-    private static string RequestUrl(IApiResponse response) =>
-        response.RequestMessage?.RequestUri?.ToString() ?? string.Empty;
+    private static string? RequestUrl(IApiResponse response) =>
+        response.RequestMessage?.RequestUri?.ToString();
 
     private static string Truncate(string body) =>
         body.Length > MaxRawBodyLength ? body[..MaxRawBodyLength] + "... (truncated)" : body;

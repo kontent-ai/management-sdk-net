@@ -175,6 +175,20 @@ public class ElementSerializationTests
         wire.GetProperty("value").GetString().Should().Be("anything");
     }
 
+    // DynamicElement is the raw re-upsert carrier: a fetched "value": null (an unset element) must survive the
+    // round trip as an explicit null, not silently degrade to an omitted property under the global omit-null default.
+    [Fact]
+    public void DynamicElement_NullValue_RoundTripsAsExplicitNull()
+    {
+        var fetched = JsonSerializer.Deserialize<DynamicElement>(
+            """{"element":{"codename":"release_date"},"value":null}""", Options)!;
+
+        var wire = Wire(fetched);
+
+        wire.TryGetProperty("value", out var value).Should().BeTrue();
+        value.ValueKind.Should().Be(JsonValueKind.Null);
+    }
+
     [Fact]
     public void UpsertModel_SerializesEachElementByItsRuntimeType()
     {

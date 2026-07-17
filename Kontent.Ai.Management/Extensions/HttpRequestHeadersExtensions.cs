@@ -15,13 +15,20 @@ internal static class HttpRequestHeadersExtensions
     private static readonly Lazy<string> Sdk = new(GetSdk);
     private static readonly Lazy<string?> Source = new(GetSource);
 
-    internal static void AddSdkTrackingHeader(this HttpRequestHeaders headers) => headers.Add(SdkTrackingHeaderName, Sdk.Value);
+    // Resilience retries re-dispatch the same HttpRequestMessage instance, so header writes must be idempotent —
+    // a plain Add would accumulate one duplicate value per attempt.
+    internal static void AddSdkTrackingHeader(this HttpRequestHeaders headers)
+    {
+        headers.Remove(SdkTrackingHeaderName);
+        headers.Add(SdkTrackingHeaderName, Sdk.Value);
+    }
 
     internal static void AddSourceTrackingHeader(this HttpRequestHeaders headers)
     {
         var source = Source.Value;
         if (source is not null)
         {
+            headers.Remove(SourceTrackingHeaderName);
             headers.Add(SourceTrackingHeaderName, source);
         }
     }
@@ -55,16 +62,25 @@ internal static class HttpRequestHeadersExtensions
         return $"{PackageRepositoryHost};{assembly.GetName().Name};{assembly.GetProductVersion()}";
     }
 
+    // Must never throw: the result is cached in a Lazy, so a thrown exception would be cached and rethrown on
+    // every subsequent request for the process lifetime — hence the blanket catch; the header is simply omitted.
     private static string? GetSource()
     {
-        var originatingAssembly = GetOriginatingAssembly();
-        if (originatingAssembly is null)
+        try
+        {
+            var originatingAssembly = GetOriginatingAssembly();
+            if (originatingAssembly is null)
+            {
+                return null;
+            }
+
+            var attribute = originatingAssembly.GetCustomAttributes<SourceTrackingHeaderAttribute>().FirstOrDefault();
+            return attribute is null ? null : GenerateSourceTrackingHeaderValue(originatingAssembly, attribute);
+        }
+        catch
         {
             return null;
         }
-
-        var attribute = originatingAssembly.GetCustomAttributes<SourceTrackingHeaderAttribute>().FirstOrDefault();
-        return attribute is null ? null : GenerateSourceTrackingHeaderValue(originatingAssembly, attribute);
     }
 
     private static string GenerateSourceTrackingHeaderValue(Assembly originatingAssembly, SourceTrackingHeaderAttribute attribute)
@@ -82,8 +98,7 @@ internal static class HttpRequestHeadersExtensions
     // Best-effort: walks the synchronous call stack for the outermost assembly that references this SDK, so a
     // package built on the SDK can be attributed via its [assembly: SourceTrackingHeader]. Returns null when no
     // such frame is present (e.g. first invoked from an async continuation) — the source header is then simply
-    // omitted. Never throws: the result is cached in a Lazy, and a thrown exception would be cached and rethrown
-    // on every subsequent request.
+    // omitted.
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static Assembly? GetOriginatingAssembly()
     {

@@ -43,9 +43,15 @@ internal sealed class EnumMemberJsonConverter<TEnum> : JsonConverter<TEnum> wher
         return map;
     }
 
-    /// <summary>The wire token for <paramref name="value"/> from the cached map — same resolution as the writer, for non-JSON callers (e.g. PATCH path segments).</summary>
+    /// <summary>
+    /// The wire token for <paramref name="value"/> from the cached map — same resolution as the writer, for non-JSON
+    /// callers (e.g. PATCH path segments). Throws for values not defined on the enum (a cast like <c>(TEnum)99</c>):
+    /// this is a write API, and the value would otherwise ship to the wire as its numeric string.
+    /// </summary>
     public static string ToWireValue(TEnum value)
-        => ValueToName.TryGetValue(value, out var mapped) ? mapped : value.ToString();
+        => ValueToName.TryGetValue(value, out var mapped)
+            ? mapped
+            : throw new ArgumentException($"'{value}' is not a defined {typeof(TEnum).Name} member.", nameof(value));
 
     /// <summary>Resolves a wire token (or, as a fallback, the member name) to its enum value. The inverse of <see cref="ToWireValue"/>.</summary>
     public static bool TryParseWire(string value, out TEnum result)

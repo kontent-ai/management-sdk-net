@@ -26,7 +26,8 @@ public interface IManagementResult
     HttpStatusCode StatusCode { get; }
 
     /// <summary>
-    /// The request URL, for diagnostics. <c>null</c> when no request was sent.
+    /// The request URL, for diagnostics. <c>null</c> when no single request URL applies — e.g. for operations that
+    /// aggregate multiple requests into one result.
     /// </summary>
     string? RequestUrl { get; }
 }

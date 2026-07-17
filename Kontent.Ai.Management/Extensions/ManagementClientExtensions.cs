@@ -20,6 +20,7 @@ public static class ManagementClientExtensions
     /// <returns>A result wrapping the updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
     public static async Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(contentItem);
 
@@ -46,6 +47,7 @@ public static class ManagementClientExtensions
     /// <returns>A result wrapping the inserted or updated <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
     public static async Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(this IManagementClient client, LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(languageVariant);
 
@@ -71,6 +73,7 @@ public static class ManagementClientExtensions
     /// <returns>A result wrapping the created asset, or the failure detail of the file upload or the create.</returns>
     public static async Task<IManagementResult<AssetModel>> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, Func<FileReference, AssetCreateModel> createModel, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(fileContent);
         ArgumentNullException.ThrowIfNull(createModel);
 
@@ -94,6 +97,7 @@ public static class ManagementClientExtensions
     /// <returns>A result wrapping the upserted asset, or the failure detail of the file upload or the upsert.</returns>
     public static async Task<IManagementResult<AssetModel>> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(fileContent);
         ArgumentNullException.ThrowIfNull(upsertModel);
@@ -123,6 +127,7 @@ public static class ManagementClientExtensions
     /// <returns>A result wrapping the upserted variant, or the failure detail of the item creation or the variant upsert.</returns>
     public static async Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(this IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(item);
         ArgumentNullException.ThrowIfNull(language);
         ArgumentNullException.ThrowIfNull(variant);
@@ -158,6 +163,7 @@ public static class ManagementClientExtensions
     public static async Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(this IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier? workflow = null, CancellationToken cancellationToken = default)
         where T : IElementsModel, new()
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(item);
         ArgumentNullException.ThrowIfNull(language);
         ArgumentNullException.ThrowIfNull(variant);

@@ -9,8 +9,13 @@ namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 /// </summary>
 public sealed record DynamicElement : BaseElement
 {
-    /// <summary>The element's <c>value</c> payload, serialized by its runtime type.</summary>
+    /// <summary>
+    /// The element's <c>value</c> payload, serialized by its runtime type. A <c>null</c> is written as an explicit
+    /// JSON <c>null</c> (exempt from the serializer's omit-null default) so a fetched <c>"value": null</c> — an unset
+    /// element — survives the re-upsert round trip instead of silently degrading to an omitted property.
+    /// </summary>
     [JsonPropertyName("value")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public object? Value { get; init; }
 
     /// <summary>Wire properties other than <c>element</c> and <c>value</c> (e.g. <c>display_timezone</c>, <c>components</c>), preserved verbatim.</summary>
