@@ -36,14 +36,24 @@ public sealed record Reference
     /// <summary>
     /// Creates the reference by codename.
     /// </summary>
-    /// <param name="codename">The codename of the identifier.</param>
-    public static Reference ByCodename(string codename) => new() { Codename = codename };
+    /// <param name="codename">The codename of the identifier; must be non-empty.</param>
+    public static Reference ByCodename(string codename)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(codename);
+
+        return new() { Codename = codename };
+    }
 
     /// <summary>
     /// Creates the reference by external id.
     /// </summary>
-    /// <param name="externalId">The external id of the identifier.</param>
-    public static Reference ByExternalId(string externalId) => new() { ExternalId = externalId };
+    /// <param name="externalId">The external id of the identifier; must be non-empty.</param>
+    public static Reference ByExternalId(string externalId)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(externalId);
+
+        return new() { ExternalId = externalId };
+    }
 
     /// <summary>
     /// Creates a reference to the default object by id — the zero GUID (<see cref="Guid.Empty"/>), which the MAPI

@@ -22,12 +22,22 @@ public sealed record UserIdentifier
     /// <summary>
     /// Creates the identifier by user ID.
     /// </summary>
-    /// <param name="id">The user ID.</param>
-    public static UserIdentifier ById(string id) => new() { Id = id };
+    /// <param name="id">The user ID; must be non-empty.</param>
+    public static UserIdentifier ById(string id)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(id);
+
+        return new() { Id = id };
+    }
 
     /// <summary>
     /// Creates the identifier by email.
     /// </summary>
-    /// <param name="email">The user email.</param>
-    public static UserIdentifier ByEmail(string email) => new() { Email = email };
+    /// <param name="email">The user email; must be non-empty.</param>
+    public static UserIdentifier ByEmail(string email)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(email);
+
+        return new() { Email = email };
+    }
 }

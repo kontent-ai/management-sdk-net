@@ -36,4 +36,21 @@ public class ReferenceWireEncodingTests
 
         wire.Should().EndWith("/assets/external-id/user%40kontent.ai");
     }
+
+    // The traversal guard (EnsureSingleSegment) rejects literal dot-segments but deliberately lets '%' through — its
+    // safety against *percent-encoded* dot-segments ("%2e%2e") rests entirely on the catch-all encoding '%' itself,
+    // so the payload reaches the wire inert as "%252e%252e". This test pins that Refit behavior: if an upgrade ever
+    // stops encoding '%', the guard is bypassable and this fails.
+    [Fact]
+    public async Task GetAsset_ByExternalIdWithEncodedDotSegments_ReachesWireDoubleEncoded()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        string? wire = null;
+        mock.When("*").With(r => { wire = r.RequestUri!.AbsoluteUri; return true; })
+            .Respond(HttpStatusCode.InternalServerError, "application/json", "{}");
+
+        await client.GetAssetAsync(Reference.ByExternalId("%2e%2e%2fwebhooks-vnext"));
+
+        wire.Should().EndWith("/assets/external-id/%252e%252e%252fwebhooks-vnext");
+    }
 }

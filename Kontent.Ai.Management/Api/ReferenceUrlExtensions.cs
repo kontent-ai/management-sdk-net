@@ -1,5 +1,6 @@
 using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.LanguageVariants;
+using System.Runtime.CompilerServices;
 
 namespace Kontent.Ai.Management.Api;
 
@@ -63,19 +64,23 @@ internal static class ReferenceUrlExtensions
     }
 
     /// <summary>
-    /// Guards a caller-supplied identifier value that is interpolated into a Refit <c>{**}</c> catch-all route.
-    /// The catch-all percent-encodes reserved data characters (<c>?</c>, <c>#</c>, <c>%</c>, spaces, <c>\</c>, control
-    /// characters) but passes <c>/</c> and the dot-segments <c>.</c> / <c>..</c> through as path structure — so an
-    /// unchecked value could retarget the request to a different Management API endpoint under the same token (the
-    /// surrounding <c>codename/</c> / <c>email/</c> prefix supplies the leading slash even for a lone <c>..</c>).
-    /// These are the only characters that survive the catch-all as structure; rejecting them closes the traversal.
+    /// Guards a caller-supplied value that is interpolated into a URL route as a single path segment.
+    /// A Refit <c>{**}</c> catch-all percent-encodes reserved data characters (<c>?</c>, <c>#</c>, <c>%</c>, spaces,
+    /// <c>\</c>, control characters) but passes <c>/</c> and the dot-segments <c>.</c> / <c>..</c> through as path
+    /// structure — so an unchecked value could retarget the request to a different Management API endpoint under the
+    /// same token (the surrounding <c>codename/</c> / <c>email/</c> prefix supplies the leading slash even for a lone
+    /// <c>..</c>). An empty or whitespace-only value also survives as structure: it collapses a single-resource route
+    /// onto its parent collection route (<c>…/users/{id}</c> with an empty id becomes the list-users endpoint).
+    /// These are the only shapes that survive encoding as structure; rejecting them closes the retargeting.
     /// </summary>
-    private static string EnsureSingleSegment(string value)
+    internal static string EnsureSingleSegment(string value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(value, paramName);
+
         if (value.Contains('/') || value.Contains('\\') || value is "." or "..")
         {
             throw new ArgumentException(
-                $"'{value}' is not a valid identifier: it must not contain '/' or '\\', or be '.' or '..'.", nameof(value));
+                $"'{value}' is not a valid URL path segment: it must not contain '/' or '\\', and must not be '.' or '..'.", paramName);
         }
 
         return value;

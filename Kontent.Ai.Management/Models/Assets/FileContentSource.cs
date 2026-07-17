@@ -1,3 +1,5 @@
+using Kontent.Ai.Management.Api;
+
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
@@ -49,16 +51,15 @@ public sealed class FileContentSource
     /// Creates content source file.
     /// </summary>
     /// <param name="data">Binary data of the file.</param>
-    /// <param name="fileName">Name of the file.</param>
+    /// <param name="fileName">Name of the file; must be a bare file name without path separators.</param>
     /// <param name="contentType">The media type of the asset, for example: "image/jpeg".</param>
     public FileContentSource(byte[] data, string fileName, string contentType)
     {
         ArgumentNullException.ThrowIfNull(data);
-        ArgumentException.ThrowIfNullOrEmpty(fileName);
         ArgumentException.ThrowIfNullOrEmpty(contentType);
 
         _data = data;
-        FileName = fileName;
+        FileName = ReferenceUrlExtensions.EnsureSingleSegment(fileName);
         ContentType = contentType;
         CreatesNewStream = true;
     }
@@ -74,7 +75,7 @@ public sealed class FileContentSource
         ArgumentException.ThrowIfNullOrEmpty(contentType);
 
         _filePath = filePath;
-        FileName = Path.GetFileName(filePath);
+        FileName = ReferenceUrlExtensions.EnsureSingleSegment(Path.GetFileName(filePath));
         ContentType = contentType;
         CreatesNewStream = true;
     }
@@ -83,16 +84,15 @@ public sealed class FileContentSource
     /// Creates content source file.
     /// </summary>
     /// <param name="stream">Stream of the input data</param>
-    /// <param name="fileName">Name of the file.</param>
+    /// <param name="fileName">Name of the file; must be a bare file name without path separators.</param>
     /// <param name="contentType">The media type of the asset, for example: "image/jpeg".</param>
     public FileContentSource(Stream stream, string fileName, string contentType)
     {
         ArgumentNullException.ThrowIfNull(stream);
-        ArgumentException.ThrowIfNullOrEmpty(fileName);
         ArgumentException.ThrowIfNullOrEmpty(contentType);
 
         _stream = stream;
-        FileName = fileName;
+        FileName = ReferenceUrlExtensions.EnsureSingleSegment(fileName);
         ContentType = contentType;
     }
 }

@@ -1,6 +1,7 @@
 using AwesomeAssertions;
 using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Models.AssetRenditions;
+using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Tests.Base;
 using RichardSzalay.MockHttp;
@@ -72,7 +73,81 @@ public class IdentifierSegmentSafetyTests
     public void ToUrlSegment_Composite_Rendition_RejectsTraversalInEitherPart()
     {
         var badAsset = new AssetRenditionIdentifier(Reference.ByCodename("a/b"), Reference.ByCodename("r"));
+        var badRendition = new AssetRenditionIdentifier(Reference.ByCodename("a"), Reference.ByCodename(".."));
+
         badAsset.Invoking(i => i.ToUrlSegment()).Should().Throw<ArgumentException>();
+        badRendition.Invoking(i => i.ToUrlSegment()).Should().Throw<ArgumentException>();
+    }
+
+    // An empty segment retargets a single-resource route onto its parent collection route (…/users/{id} with an
+    // empty id becomes the list-users endpoint), so empty identifiers are rejected eagerly at the factories.
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void IdentifierFactories_RejectEmptyAndWhitespace(string payload)
+    {
+        FluentActions.Invoking(() => Reference.ByCodename(payload)).Should().Throw<ArgumentException>();
+        FluentActions.Invoking(() => Reference.ByExternalId(payload)).Should().Throw<ArgumentException>();
+        FluentActions.Invoking(() => UserIdentifier.ById(payload)).Should().Throw<ArgumentException>();
+        FluentActions.Invoking(() => UserIdentifier.ByEmail(payload)).Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void IdentifierFactories_RejectNull()
+    {
+        FluentActions.Invoking(() => Reference.ByCodename(null!)).Should().Throw<ArgumentNullException>();
+        FluentActions.Invoking(() => Reference.ByExternalId(null!)).Should().Throw<ArgumentNullException>();
+        FluentActions.Invoking(() => UserIdentifier.ById(null!)).Should().Throw<ArgumentNullException>();
+        FluentActions.Invoking(() => UserIdentifier.ByEmail(null!)).Should().Throw<ArgumentNullException>();
+    }
+
+    // Defense in depth: even a value that bypassed the factories (e.g. via deserialization) is rejected at the URL boundary.
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("..")]
+    [InlineData("a/b")]
+    public void EnsureSingleSegment_RejectsStructuralValues(string payload)
+        => FluentActions.Invoking(() => ReferenceUrlExtensions.EnsureSingleSegment(payload)).Should().Throw<ArgumentException>();
+
+    // The upload file name travels as a plain Refit route parameter, where dot-segments survive escaping and URI
+    // normalization retargets the request (".." reaches the environment root). The guard sits on FileContentSource.
+    public static IEnumerable<object[]> TraversalFileNames =>
+    [
+        [".."],
+        ["."],
+        ["a/b.png"],
+        ["a\\b.png"],
+        ["../asset.png"],
+        [""],
+        ["   "],
+    ];
+
+    [Theory]
+    [MemberData(nameof(TraversalFileNames))]
+    public void FileContentSource_ByteArray_RejectsTraversalFileName(string fileName)
+        => FluentActions.Invoking(() => new FileContentSource([1], fileName, "image/png"))
+            .Should().Throw<ArgumentException>();
+
+    [Theory]
+    [MemberData(nameof(TraversalFileNames))]
+    public void FileContentSource_Stream_RejectsTraversalFileName(string fileName)
+        => FluentActions.Invoking(() => new FileContentSource(new MemoryStream([1]), fileName, "image/png"))
+            .Should().Throw<ArgumentException>();
+
+    [Theory]
+    [InlineData("dir/..")]
+    [InlineData("dir/")]
+    public void FileContentSource_FilePath_RejectsPathsWithNoSafeFileName(string filePath)
+        => FluentActions.Invoking(() => new FileContentSource(filePath, "image/png"))
+            .Should().Throw<ArgumentException>();
+
+    [Fact]
+    public void FileContentSource_FilePath_DerivesBareFileName()
+    {
+        var source = new FileContentSource(Path.Combine("some", "dir", "photo.png"), "image/png");
+
+        source.FileName.Should().Be("photo.png");
     }
 
     [Theory]
