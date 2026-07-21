@@ -1,39 +1,34 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Archived workflow step response model. If a variant is in this step, it indicated that it might have
-/// been published at some point, however, it is not needed anymore. Such variants are read-only.
+/// The Archived system step on a workflow (response shape). Variants in this step are read-only and outside the publishing lifecycle.
 /// </summary>
 /// <remarks>
-/// All <c>Id</c>, <c>Name</c>, and <c>Codename</c> properties are predefined by the system and cannot be changed.
+/// <see cref="Id"/>, <see cref="Name"/>, and <see cref="Codename"/> are platform-defined and cannot be changed.
 /// </remarks>
-public class WorkflowArchivedStepModel
+public sealed record WorkflowArchivedStepModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Server-generated step ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's codename.
+    /// Codename.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the roles which can work with an item in this step.
+    /// Roles allowed to work with archived variants. May be empty.
     /// </summary>
-    [JsonProperty("role_ids")]
-    public IReadOnlyCollection<Guid> RoleIds { get; set; }
+    [JsonPropertyName("role_ids")]
+    public required IReadOnlyList<Guid> RoleIds { get; init; }
 }

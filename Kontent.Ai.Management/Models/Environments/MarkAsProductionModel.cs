@@ -1,15 +1,13 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Environments;
 
 /// <summary>
-/// Represents settings of marking environment as production.
+/// Settings applied when marking an environment as production.
 /// </summary>
-public class MarkAsProductionModel
+public sealed record MarkAsProductionModel
 {
     /// <summary>
-    /// Gets or sets a flag determining whether webhooks on the new production environment should be enabled.
+    /// Whether webhooks on the new production environment are enabled. Leave null to use the server default (enabled); a non-null value is sent verbatim.
     /// </summary>
-    [JsonProperty("enable_webhooks")]
-    public bool EnableWebhooks { get; set; }
+    [JsonPropertyName("enable_webhooks")]
+    public bool? EnableWebhooks { get; init; }
 }

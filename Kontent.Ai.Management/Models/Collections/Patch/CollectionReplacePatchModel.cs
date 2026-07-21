@@ -1,13 +1,10 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
+﻿
 namespace Kontent.Ai.Management.Models.Collections.Patch;
 
 /// <summary>
-/// Represents the replace operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+/// Patch operation that updates a property on an existing collection (today, only the name).
 /// </summary>
-public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel
+public sealed record CollectionReplacePatchModel : CollectionOperationBaseModel
 {
     /// <summary>
     /// Represents the replace operation.
@@ -15,22 +12,20 @@ public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel
     public override string Op => "replace";
 
     /// <summary>
-    /// Gets or sets the reference of the collection which should be replaced.
+    /// Reference to the collection being updated.
     /// </summary>
-    [JsonProperty("reference")]
-    public Reference Reference { get; set; }
+    [JsonPropertyName("reference")]
+    public required Reference Reference { get; init; }
 
     /// <summary>
-    /// Gets or sets the new value of the property specified in PropertyName.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-collections
+    /// New value for the property identified by <see cref="PropertyName"/>.
     /// </summary>
-    [JsonProperty("value")]
-    public string Value { get; set; }
+    [JsonPropertyName("value")]
+    public required string Value { get; init; }
 
     /// <summary>
-    /// Gets or sets the property of the collection that you want to replace.
-    /// Use name to change the name of the collection. Changes of other properties are currently not supported.
+    /// The property to update. Defaults to <see cref="CollectionPropertyName.Name"/> — today the only supported property.
     /// </summary>
-    [JsonProperty("property_name")]
-    public PropertyName PropertyName { get; set; }
+    [JsonPropertyName("property_name")]
+    public CollectionPropertyName PropertyName { get; init; } = CollectionPropertyName.Name;
 }

@@ -1,16 +1,13 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
 /// <summary>
-/// Represents the taxonomy group create model.
+/// Payload for creating a taxonomy group.
 /// </summary>
-public class TaxonomyGroupCreateModel : TaxonomyBaseModel
+public sealed record TaxonomyGroupCreateModel : TaxonomyBaseModel
 {
     /// <summary>
-    /// Gets or sets terms in the taxonomy group.
+    /// Initial root-level terms. Optional; omit to create an empty group.
     /// </summary>
-    [JsonProperty("terms", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IEnumerable<TaxonomyTermCreateModel> Terms { get; set; }
+    [JsonPropertyName("terms")]
+    public IReadOnlyList<TaxonomyTermCreateModel>? Terms { get; init; }
 }

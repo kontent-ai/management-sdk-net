@@ -1,66 +1,61 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Items;
+﻿namespace Kontent.Ai.Management.Models.Items;
 
 /// <summary>
-/// Represents content item model.
+/// A single content item, as returned by the Management API.
 /// </summary>
-public sealed class ContentItemModel
+public sealed record ContentItemModel
 {
     /// <summary>
-    /// Gets or sets the id of the content item.
+    /// Content item ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the content item.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the content item.
+    /// Codename. Auto-generated from the name when not supplied on create.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the type of the content item.
+    /// Reference to the content type the item belongs to.
     /// </summary>
-    [JsonProperty("type")]
-    public Reference Type { get; set; }
+    [JsonPropertyName("type")]
+    public required Reference Type { get; init; }
 
     /// <summary>
-    /// Gets or sets the collection of the content item.
+    /// Reference to the collection the item is assigned to. When the item has no explicit collection, this references the default collection (id <c>00000000-0000-0000-0000-000000000000</c>).
     /// </summary>
-    [JsonProperty("collection")]
-    public Reference Collection { get; set; }
+    [JsonPropertyName("collection")]
+    public required Reference Collection { get; init; }
 
     /// <summary>
-    /// Gets or sets the spaces of the content item
+    /// Spaces the item is assigned to. Empty when none.
     /// </summary>
-    [JsonProperty("spaces")]
-    public IReadOnlyCollection<Reference> Spaces { get; set; }
+    [JsonPropertyName("spaces")]
+    public required IReadOnlyList<Reference> Spaces { get; init; }
 
     /// <summary>
-    /// Gets or sets sitemap locations of the content item.
+    /// Sitemap locations. Deprecated — sitemap is being phased out.
     /// </summary>
-    [JsonProperty("sitemap_locations")]
-    public IEnumerable<Reference> SitemapLocations { get; set; }
+    [JsonPropertyName("sitemap_locations")]
+    public IReadOnlyList<Reference>? SitemapLocations { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content item.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets the last modified timestamp of the content item.
+    /// ISO-8601 timestamp of the most recent change.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    [JsonPropertyName("last_modified")]
+    public required DateTime LastModified { get; init; }
 }

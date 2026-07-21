@@ -1,16 +1,13 @@
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents the request model for bulk-getting items with variants.
+/// Request payload for the bulk-get items-with-variants endpoint.
 /// </summary>
-public class ItemWithVariantBulkGetRequestModel
+public sealed record ItemWithVariantBulkGetRequestModel
 {
     /// <summary>
-    /// Gets or sets the variant identifiers (item + language pairs).
+    /// Variant identifiers (item + language pairs).
     /// </summary>
-    [JsonProperty("variants")]
-    public IEnumerable<VariantIdentifierModel> Variants { get; set; }
+    [JsonPropertyName("variants")]
+    public required IReadOnlyList<VariantIdentifierModel> Variants { get; init; }
 }

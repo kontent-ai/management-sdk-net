@@ -1,21 +1,19 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Types;
 
 /// <summary>
-/// Represents the limitation for the number of items.
+/// Numeric limit configuration shared by elements that constrain item counts or asset sizes.
 /// </summary>
-public class LimitModel
+public sealed record LimitModel
 {
     /// <summary>
-    /// Specifies the image size or how many times something can be used within the element.
+    /// The numeric threshold.
     /// </summary>
-    [JsonProperty("value")]
-    public int Value { get; set; }
+    [JsonPropertyName("value")]
+    public required int Value { get; init; }
 
     /// <summary>
-    /// Specifies how to apply the <see cref="Value"/>.
+    /// How <see cref="Value"/> is compared (at most, at least, exactly).
     /// </summary>
-    [JsonProperty("condition")]
-    public LimitType Condition { get; set; }
+    [JsonPropertyName("condition")]
+    public required LimitType Condition { get; init; }
 }

@@ -1,53 +1,49 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
-/// Represents an asset upsert model.
+/// Request payload for upserting an asset by external ID.
 /// </summary>
-public sealed class AssetUpsertModel
+public sealed record AssetUpsertModel
 {
     /// <summary>
-    /// Gets or sets the description for the asset.
+    /// Per-language alt-text descriptions. Omit to leave existing descriptions unchanged; passing an empty array also retains existing descriptions server-side.
     /// </summary>
-    [JsonProperty("descriptions")]
-    public IEnumerable<AssetDescription> Descriptions { get; set; }
+    [JsonPropertyName("descriptions")]
+    public IReadOnlyList<AssetDescription>? Descriptions { get; init; }
 
     /// <summary>
-    /// Gets or sets the title for the asset.
+    /// Display title.
     /// </summary>
-    [JsonProperty("title")]
-    public string Title { get; set; }
+    [JsonPropertyName("title")]
+    public string? Title { get; init; }
 
     /// <summary>
-    /// Folder of the asset. If outside of all folders use "id" : "00000000-0000-0000-0000-000000000000".
+    /// Folder to place the asset in. Use <c>00000000-0000-0000-0000-000000000000</c> as the ID to place at the top level.
     /// </summary>
-    [JsonProperty("folder")]
-    public Reference Folder { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the Collection for the asset.
-    /// </summary>
-    [JsonProperty("collection")]
-    public AssetCollectionReference Collection { get; set; }
+    [JsonPropertyName("folder")]
+    public Reference? Folder { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the asset.
+    /// Asset collection to assign the asset to.
     /// </summary>
-    [JsonProperty("elements")]
-    public IEnumerable<dynamic> Elements { get; set; }
+    [JsonPropertyName("collection")]
+    public AssetCollectionReference? Collection { get; init; }
 
     /// <summary>
-    /// Gets or sets the file reference for the asset.
+    /// Taxonomy assignments from the environment's asset type.
     /// </summary>
-    [JsonProperty("file_reference")]
-    public FileReference FileReference { get; set; }
+    [JsonPropertyName("elements")]
+    public IReadOnlyList<AssetTaxonomyElement>? Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the asset.
+    /// Reference to the previously uploaded binary file. Omit when upserting metadata only — the existing binary stays attached.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { set; get; }
+    [JsonPropertyName("file_reference")]
+    public FileReference? FileReference { get; init; }
+
+    /// <summary>
+    /// Caller-supplied codename. When omitted, the CMS generates one from the title (or file name).
+    /// </summary>
+    [JsonPropertyName("codename")]
+    public string? Codename { get; init; }
 }

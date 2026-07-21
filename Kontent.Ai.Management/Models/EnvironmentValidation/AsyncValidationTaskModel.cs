@@ -1,28 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Kontent.Ai.Management.Models.EnvironmentValidation;
+﻿namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
 /// Async validation task.
 /// </summary>
-public sealed class AsyncValidationTaskModel
+public sealed record AsyncValidationTaskModel
 {
     /// <summary>
-    /// Gets or sets the id of the task.
+    /// Gets the id of the task.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the status of the task.
+    /// Gets the status of the task.
     /// </summary>
-    [JsonProperty("status")]
-    public AsyncValidationTaskStatus Status { get; set; }
+    [JsonPropertyName("status")]
+    public required AsyncValidationTaskStatus Status { get; init; }
 
     /// <summary>
-    /// Gets or sets the validation result of the task.
+    /// Gets the validation result of the task.
     /// </summary>
-    [JsonProperty("validation_result")]
-    public AsyncValidationTaskResult ValidationResult { get; set; }
+    [JsonPropertyName("validation_result")]
+    public required AsyncValidationTaskResult ValidationResult { get; init; }
 }

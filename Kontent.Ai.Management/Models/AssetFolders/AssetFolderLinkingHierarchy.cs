@@ -1,48 +1,39 @@
-﻿using Kontent.Ai.Management.Extensions;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using Kontent.Ai.Management.Extensions;
 
 namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
-/// Represents the Asset Folder Hierarchy with parent folder traversal links. 
-/// This class is a derivation of the <see cref="AssetFolderHierarchy"/> class. To receive an instance of this class call <see cref="AssetExtensions.GetParentLinkedFolderHierarchy"/>
+/// Asset folder hierarchy with parent-folder traversal links. Built client-side from <see cref="AssetFolderHierarchy"/> by <see cref="AssetExtensions.GetParentLinkedFolderHierarchy"/>; the parent links make this a mutable, self-referential tree rather than a wire DTO.
 /// </summary>
 public sealed class AssetFolderLinkingHierarchy
 {
     /// <summary>
-    /// The referenced folder's ID. Not present if the asset is not in a folder. "00000000-0000-0000-0000-000000000000" means outside of any folder.
+    /// The folder's ID. The zero Guid means the asset sits outside any folder.
     /// </summary>
-    [JsonProperty("id")]
-    public string Id { get; set; }
+    public Guid? Id { get; set; }
 
     /// <summary>
-    /// Gets external id of the identifier. The folder's external ID. Only present if specified when adding folders or modifying the folders collection to add new folders.
+    /// The folder's external ID. Only present if specified when the folder was created.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the folder's codename.
-    /// </summary>
-    [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string Codename { get; set; }
+    public string? ExternalId { get; set; }
 
     /// <summary>
-    /// Name of the folder
+    /// The folder's codename.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    public string? Codename { get; set; }
 
     /// <summary>
-    /// Nested folders
+    /// The folder's name.
     /// </summary>
-    [JsonProperty("folders")]
-    public IEnumerable<AssetFolderLinkingHierarchy> Folders { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
-    /// Reference to the parent folder
+    /// Nested folders. Null or empty for a leaf folder.
     /// </summary>
-    [JsonIgnore()]
-    public AssetFolderLinkingHierarchy Parent { get; set; }
+    public IReadOnlyList<AssetFolderLinkingHierarchy>? Folders { get; set; }
+
+    /// <summary>
+    /// Reference to the parent folder. Null for a root folder.
+    /// </summary>
+    public AssetFolderLinkingHierarchy? Parent { get; set; }
 }

@@ -1,52 +1,49 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents a change language variant workflow model.
+/// Payload for the change-workflow operation on a language variant. The API applies <see cref="DueDate"/>, <see cref="Note"/>, and <see cref="Contributors"/> alongside the workflow change when supplied.
 /// </summary>
-public sealed class ChangeLanguageVariantWorkflowModel
+public sealed record ChangeLanguageVariantWorkflowModel
 {
     /// <summary>
-    /// Represents the identifier of the workflow.
+    /// Reference to the target workflow.
     /// </summary>
-    [JsonProperty("workflow_identifier")]
-    public Reference Workflow { get; set; }
+    [JsonPropertyName("workflow_identifier")]
+    public required Reference Workflow { get; init; }
 
     /// <summary>
-    /// Represents the identifier of the step in the workflow.
+    /// Reference to the target step within the workflow.
     /// </summary>
-    [JsonProperty("step_identifier")]
-    public Reference Step { get; set; }
+    [JsonPropertyName("step_identifier")]
+    public required Reference Step { get; init; }
 
     /// <summary>
-    /// Gets or sets due date.
+    /// Due date to set. Optional.
     /// </summary>
-    [JsonProperty("due_date")]
-    public DueDateModel DueDate { get; set; }
+    [JsonPropertyName("due_date")]
+    public DueDateModel? DueDate { get; init; }
 
     /// <summary>
-    /// Gets or sets a note.
+    /// Free-form note to set. Optional.
     /// </summary>
-    [JsonProperty("note")]
-    public string Note { get; set; }
+    [JsonPropertyName("note")]
+    public string? Note { get; init; }
 
     /// <summary>
-    /// Gets or sets the contributors.
+    /// Contributors to assign. Optional.
     /// </summary>
-    [JsonProperty("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; set; }
+    [JsonPropertyName("contributors")]
+    public IReadOnlyList<UserIdentifier>? Contributors { get; init; }
 
     /// <summary>
-    /// Creates an instance of the change language variant workflow model.
+    /// Creates the payload targeting the given workflow and step; other properties are optional.
     /// </summary>
-    /// <param name="workflowIdentifier">The identifier of the workflow.</param>
-    /// <param name="stepIdentifier">The identifier of the workflow step.</param>
-    public ChangeLanguageVariantWorkflowModel(Reference workflowIdentifier, Reference stepIdentifier)
+    [SetsRequiredMembers]
+    public ChangeLanguageVariantWorkflowModel(Reference workflow, Reference step)
     {
-        Workflow = workflowIdentifier;
-        Step = stepIdentifier;
+        Workflow = workflow;
+        Step = step;
     }
 }

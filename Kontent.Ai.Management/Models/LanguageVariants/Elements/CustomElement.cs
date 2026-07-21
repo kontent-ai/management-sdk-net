@@ -1,30 +1,14 @@
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
-/// <summary>
-/// Represents the strongly typed custom element.
-/// </summary>
-public class CustomElement : BaseElement
+/// <summary>Value of a custom element: the opaque payload plus its searchable plaintext companion.</summary>
+/// <remarks>Use this to set a custom element by hand in the untyped element array; <c>Element</c> says which element it targets. With a generated content-type record, set the element via <see cref="Content.CustomValue"/> instead.</remarks>
+public sealed record CustomElement : BaseElement
 {
-    /// <summary>
-    /// Gets or sets the value of the custom element.
-    /// </summary>
-    [JsonProperty("value")]
-    public string Value { get; set; }
+    /// <summary>The opaque value owned by the custom element.</summary>
+    [JsonPropertyName("value")]
+    public string? Value { get; init; }
 
-    /// <summary>
-    /// Gets or sets the searchable value of the custom element.
-    /// </summary>
-    [JsonProperty("searchable_value")]
-    public string SearchableValue { get; set; }
-
-    /// <summary>
-    /// Coverts the custom element to the dynamic object.
-    /// </summary>
-    public override dynamic ToDynamic() => new {
-        element = Element.ToDynamic(),
-        value = Value,
-        searchable_value = SearchableValue
-    };
+    /// <summary>Plaintext used for search; omitted when null.</summary>
+    [JsonPropertyName("searchable_value")]
+    public string? SearchableValue { get; init; }
 }

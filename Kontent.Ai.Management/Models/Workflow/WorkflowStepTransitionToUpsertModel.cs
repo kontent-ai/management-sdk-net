@@ -1,16 +1,13 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow step's 'transition to' upsert model.
+/// A single allowed transition from a workflow step (upsert shape).
 /// </summary>
-public class WorkflowStepTransitionToUpsertModel
+public sealed record WorkflowStepTransitionToUpsertModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Reference to the destination step.
     /// </summary>
-    [JsonProperty("step")]
-    public Reference Step { get; set; }
+    [JsonPropertyName("step")]
+    public required Reference Step { get; init; }
 }

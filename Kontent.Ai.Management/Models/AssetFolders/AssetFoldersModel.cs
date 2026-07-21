@@ -1,23 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.AssetFolders;
+﻿namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
-/// Represents the asset folder list.
+/// Response shape for retrieving or modifying the asset folder hierarchy of an environment.
 /// </summary>
-public sealed class AssetFoldersModel
+public sealed record AssetFoldersModel
 {
     /// <summary>
-    /// Folder listing (recursive)
+    /// The recursive asset folder hierarchy.
     /// </summary>
-    [JsonProperty("folders")]
-    public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+    [JsonPropertyName("folders")]
+    public required IReadOnlyList<AssetFolderHierarchy> Folders { get; init; }
 
     /// <summary>
-    /// Gets or sets the last modified timestamp of the asset.
+    /// Timestamp of the most recent folder modification. Populated by the PATCH response; absent in the GET response.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    [JsonPropertyName("last_modified")]
+    public DateTime? LastModified { get; init; }
 }

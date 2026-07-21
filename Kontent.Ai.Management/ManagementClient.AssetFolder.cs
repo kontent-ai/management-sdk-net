@@ -1,42 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System;
-using Kontent.Ai.Management.Models.AssetFolders.Patch;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.AssetFolders;
+using Kontent.Ai.Management.Models.AssetFolders.Patch;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<AssetFoldersModel> GetAssetFoldersAsync()
+    public Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetFoldersModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetAssetFoldersInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetFoldersModel> CreateAssetFoldersAsync(AssetFolderCreateModel folder)
+    public Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folders, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(folder);
+        ArgumentNullException.ThrowIfNull(folders);
 
-        var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<AssetFolderCreateModel, AssetFoldersModel>(endpointUrl, HttpMethod.Post, folder);
-
-        return response;
+        return _managementApi.CreateAssetFoldersInternalAsync(folders, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetFoldersModel> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes)
+    public Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildAssetFoldersUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<IEnumerable<AssetFolderOperationBaseModel>, AssetFoldersModel>(endpointUrl, HttpMethod.Patch, changes);
-
-        return response;
+        return _managementApi.ModifyAssetFoldersInternalAsync(changes, cancellationToken).ToManagementResultAsync();
     }
 }

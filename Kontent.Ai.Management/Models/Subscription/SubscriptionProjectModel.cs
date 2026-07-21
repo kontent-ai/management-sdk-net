@@ -1,35 +1,31 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
-/// Represents the subscription project object.
+/// A project in the subscription (response shape).
 /// </summary>
-public sealed class SubscriptionProjectModel
+public sealed record SubscriptionProjectModel
 {
     /// <summary>
-    /// Gets or sets the id of the project.
+    /// Project ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the project's name.
+    /// Project name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the project is active.
+    /// Whether the project is active.
     /// </summary>
-    [JsonProperty("is_active")]
-    public bool IsActive { get; set; }
+    [JsonPropertyName("is_active")]
+    public required bool IsActive { get; init; }
 
     /// <summary>
-    /// Gets or sets the project's environments.
+    /// The project's environments.
     /// </summary>
-    [JsonProperty("environments")]
-    public IEnumerable<SubscriptionProjectEnvironmentModel> Environments { get; set; }
+    [JsonPropertyName("environments")]
+    public required IReadOnlyList<SubscriptionProjectEnvironmentModel> Environments { get; init; }
 }

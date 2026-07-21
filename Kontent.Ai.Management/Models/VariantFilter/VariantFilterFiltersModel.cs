@@ -1,83 +1,79 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
 /// <summary>
-/// Represents the variant filter filters model.
+/// Filter criteria for the items-with-variants filter endpoint. Any combination of fields can be supplied; omit a field to skip that filter.
 /// </summary>
-public class VariantFilterFiltersModel
+public sealed record VariantFilterFiltersModel
 {
     /// <summary>
-    /// Gets or sets the search phrase.
+    /// Free-text search phrase matched against item content.
     /// </summary>
-    [JsonProperty("search_phrase")]
-    public string SearchPhrase { get; set; }
+    [JsonPropertyName("search_phrase")]
+    public string? SearchPhrase { get; init; }
 
     /// <summary>
-    /// Gets or sets the language.
+    /// Restrict results to a specific language.
     /// </summary>
-    [JsonProperty("language")]
-    public Reference Language { get; set; }
+    [JsonPropertyName("language")]
+    public Reference? Language { get; init; }
 
     /// <summary>
-    /// Gets or sets the content types.
+    /// Restrict results to items of these content types.
     /// </summary>
-    [JsonProperty("content_types")]
-    public IEnumerable<Reference> ContentTypes { get; set; }
+    [JsonPropertyName("content_types")]
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
 
     /// <summary>
-    /// Gets or sets the contributors.
+    /// Restrict results to variants with these contributors.
     /// </summary>
-    [JsonProperty("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; set; }
+    [JsonPropertyName("contributors")]
+    public IReadOnlyList<UserIdentifier>? Contributors { get; init; }
 
     /// <summary>
-    /// Gets or sets whether to filter items with no contributors.
+    /// When true, restricts to variants without any assigned contributor.
     /// </summary>
-    [JsonProperty("has_no_contributors")]
-    public bool? HasNoContributors { get; set; }
+    [JsonPropertyName("has_no_contributors")]
+    public bool? HasNoContributors { get; init; }
 
     /// <summary>
-    /// Gets or sets the completion statuses.
+    /// Restrict to variants with these completion statuses.
     /// </summary>
-    [JsonProperty("completion_statuses")]
-    public IEnumerable<VariantFilterCompletionStatus> CompletionStatuses { get; set; }
+    [JsonPropertyName("completion_statuses")]
+    public IReadOnlyList<VariantFilterCompletionStatus>? CompletionStatuses { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow steps.
+    /// Restrict to variants currently in these workflow steps.
     /// </summary>
-    [JsonProperty("workflow_steps")]
-    public IEnumerable<VariantFilterWorkflowStepsModel> WorkflowSteps { get; set; }
+    [JsonPropertyName("workflow_steps")]
+    public IReadOnlyList<VariantFilterWorkflowStepsModel>? WorkflowSteps { get; init; }
 
     /// <summary>
-    /// Gets or sets the taxonomy groups.
+    /// Restrict to variants tagged with these taxonomy terms.
     /// </summary>
-    [JsonProperty("taxonomy_groups")]
-    public IEnumerable<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; set; }
+    [JsonPropertyName("taxonomy_groups")]
+    public IReadOnlyList<VariantFilterTaxonomyGroupModel>? TaxonomyGroups { get; init; }
 
     /// <summary>
-    /// Gets or sets the spaces.
+    /// Restrict to items assigned to these spaces.
     /// </summary>
-    [JsonProperty("spaces")]
-    public IEnumerable<Reference> Spaces { get; set; }
+    [JsonPropertyName("spaces")]
+    public IReadOnlyList<Reference>? Spaces { get; init; }
 
     /// <summary>
-    /// Gets or sets the collections.
+    /// Restrict to items in these collections.
     /// </summary>
-    [JsonProperty("collections")]
-    public IEnumerable<Reference> Collections { get; set; }
+    [JsonPropertyName("collections")]
+    public IReadOnlyList<Reference>? Collections { get; init; }
 
     /// <summary>
-    /// Gets or sets the publishing states.
+    /// Restrict to variants in these publishing states.
     /// </summary>
-    [JsonProperty("publishing_states")]
-    public IEnumerable<VariantFilterPublishingState> PublishingStates { get; set; }
+    [JsonPropertyName("publishing_states")]
+    public IReadOnlyList<VariantFilterPublishingState>? PublishingStates { get; init; }
 
     /// <summary>
-    /// Gets or sets the component types.
+    /// Restrict to variants containing components of these content types.
     /// </summary>
-    [JsonProperty("component_types")]
-    public IEnumerable<Reference> ComponentTypes { get; set; }
+    [JsonPropertyName("component_types")]
+    public IReadOnlyList<Reference>? ComponentTypes { get; init; }
 }

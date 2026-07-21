@@ -1,40 +1,31 @@
-﻿using FluentAssertions;
-using Kontent.Ai.Management.Models.Shared;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.Users;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
+using RichardSzalay.MockHttp;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
+public class EnvironmentUserTests
 {
-    private readonly Scenario _scenario;
+    private static string ProjectUser => Fixture("ProjectUser.json");
 
-    public EnvironmentUserTests()
-    {
-        _scenario = new Scenario(folder: "ProjectUser");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ProjectUser", name));
 
     [Fact]
     public async Task InviteUserIntoProjectAsync_InvitesUser()
     {
-        var client = _scenario
-            .WithResponses("ProjectUser.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var invitation = new UserInviteModel
         {
             Email = "test@kontent.ai",
-            CollectionGroup = new[] { 
+            CollectionGroups = new[] {
                 new UserCollectionGroup
                 {
                     Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
                     Roles = new[] {
-                        new RoleModel
+                        new UserRoleModel
                         {
                             Id = Guid.NewGuid(),
                             Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
@@ -44,112 +35,110 @@ public class EnvironmentUserTests : IClassFixture<FileSystemFixture>
             }
         };
 
-        var response = await client.InviteUserIntoEnvironmentAsync(invitation);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/users")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", ProjectUser);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(invitation)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users")
-            .Validate();
+        var result = await client.InviteUserIntoEnvironmentAsync(invitation);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(invitation);
     }
 
-    
     [Fact]
     public async Task InviteUserIntoProjectAsync_UserInvitationModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.InviteUserIntoEnvironmentAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.InviteUserIntoEnvironmentAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
-    
     [Fact]
-    public async Task ModifyUsersRolesAsync_ByEmail_ModifiesUserRoles()
+    public async Task UpdateUserRolesAsync_ByEmail_ModifiesUserRoles()
     {
-        var client = _scenario
-            .WithResponses("ProjectUser.json")
-            .CreateManagementClient();
-
-        var user = new UserModel
+        var (client, mock) = MockClientFactory.Create();
+        var roles = new UserRolesUpdateModel
         {
-            CollectionGroup = new[] {
+            CollectionGroups =
+            [
                 new UserCollectionGroup
                 {
-                    Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
-                    Roles = new[] {
-                        new RoleModel
+                    Collections = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())],
+                    Roles =
+                    [
+                        new UserRoleModel
                         {
                             Id = Guid.NewGuid(),
-                            Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
+                            Languages = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())]
                         }
-                    }
+                    ]
                 }
-            },
-            Id = "somethingId"
+            ]
         };
 
         var identifier = UserIdentifier.ByEmail("test@kontent.ai");
-        var response = await client.ModifyUsersRolesAsync(identifier, user);
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/email/{Uri.EscapeDataString(identifier.Email!)}/roles")
+            .CaptureBody(out var body)
+            .Respond("application/json", ProjectUser);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/email/{System.Uri.EscapeDataString(identifier.Email)}/roles")
-            .Validate();
+        var result = await client.UpdateUserRolesAsync(identifier, roles);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
+        body.ShouldMatchSerialized(roles);
+        body.Value.Should().NotContain("user_id", "the user is identified by the URL, not the body");
     }
 
     [Fact]
-    public async Task ModifyUsersRolesAsync_ById_ModifiesUserRoles()
+    public async Task UpdateUserRolesAsync_ById_ModifiesUserRoles()
     {
-        var client = _scenario
-        .WithResponses("ProjectUser.json")
-        .CreateManagementClient();
-
-        var user = new UserModel
+        var (client, mock) = MockClientFactory.Create();
+        var roles = new UserRolesUpdateModel
         {
-            CollectionGroup = new[] {
+            CollectionGroups =
+            [
                 new UserCollectionGroup
                 {
-                    Collections = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) },
-                    Roles = new[] {
-                        new RoleModel
+                    Collections = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())],
+                    Roles =
+                    [
+                        new UserRoleModel
                         {
                             Id = Guid.NewGuid(),
-                            Languages = new [] { Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid()) }
+                            Languages = [Reference.ById(Guid.NewGuid()), Reference.ById(Guid.NewGuid())]
                         }
-                    }
+                    ]
                 }
-            },
-            Id = "somethingId"
+            ]
         };
 
         var identifier = UserIdentifier.ById("userId");
-        var response = await client.ModifyUsersRolesAsync(identifier, user);
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/users/{identifier.Id}/roles")
+            .Respond("application/json", ProjectUser);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/users/{identifier.Id}/roles")
-            .Validate();
+        var result = await client.UpdateUserRolesAsync(identifier, roles);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<UserModel>(ProjectUser, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async Task ModifyUsersRolesAsync_IdentifierIsNull_Throws()
+    public async Task UpdateUserRolesAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyUsersRolesAsync(null, new UserModel())).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.UpdateUserRolesAsync(null!, new UserRolesUpdateModel { CollectionGroups = [] })).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task ModifyUsersRolesAsync_UserModelIsNull_Throws()
+    public async Task UpdateUserRolesAsync_UserModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyUsersRolesAsync(UserIdentifier.ById("userId"), null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.UpdateUserRolesAsync(UserIdentifier.ById("userId"), null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }

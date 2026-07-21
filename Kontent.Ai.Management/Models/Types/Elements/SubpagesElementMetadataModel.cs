@@ -1,52 +1,29 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents the subpages element.
+/// A subpages element on a content type. Lets authors link sibling/child content items that form a sitemap branch.
 /// </summary>
-public class SubpagesElementMetadataModel : ElementMetadataBase
+public sealed record SubpagesElementMetadataModel : ContentElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the element must be filled in.
+    /// Limits the number of items authors can link. Null means no count restriction.
     /// </summary>
-    [JsonProperty("is_required")]
-    public bool IsRequired { get; set; }
+    [JsonPropertyName("item_count_limit")]
+    public LimitModel? ItemCountLimit { get; init; }
 
     /// <summary>
-    /// Gets or sets element is non-localizable
+    /// Content types allowed as linked subpages. Null means no restriction.
     /// </summary>
-    [JsonProperty("is_non_localizable")]
-    public bool IsNonLocalizable { get; set; }
+    [JsonPropertyName("allowed_content_types")]
+    public IReadOnlyList<Reference>? AllowedContentTypes { get; init; }
 
-    /// <summary>
-    /// Gets or sets the element's guidelines, providing instructions on what to fill in.
-    /// </summary>
-    [JsonProperty("guidelines")]
-    public string Guidelines { get; set; }
-
-    /// <summary>
-    /// Specifies the limitation for the number of items allowed within the element.
-    /// </summary>
-    [JsonProperty("item_count_limit")]
-    public LimitModel ItemCountLimit { get; set; }
-
-    /// <summary>
-    /// Specifies allowed file types as an array of references to the content types.
-    /// </summary>
-    [JsonProperty("allowed_content_types")]
-    public IEnumerable<Reference> AllowedContentTypes { get; set; }
-
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Subpages;
 }

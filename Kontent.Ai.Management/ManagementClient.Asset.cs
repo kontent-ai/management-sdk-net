@@ -1,138 +1,68 @@
-﻿using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.StronglyTyped;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.Assets;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AssetModel>> ListAssetsAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildAssetsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<AssetModel>(
-            GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Assets);
-    }
+    public Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<AssetListingResponseServerModel, AssetModel>(
+            _managementApi.ListAssetsInternalAsync,
+            page => page.Assets,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AssetModel<T>>> ListAssetsAsync<T>() where T : new()
-    {
-        var endpointUrl = _urlBuilder.BuildAssetsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseMappedModel<AssetModel, AssetModel<T>>(
-            GetNextListingPageAsync<AssetListingResponseServerModel, AssetModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Assets,
-            _modelProvider.GetAssetModel<T>);
-    }
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<AssetListingResponseServerModel, AssetModel>(
+            _managementApi.ListAssetsInternalAsync,
+            page => page.Assets,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<AssetModel> GetAssetAsync(Reference identifier)
+    public Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetModel<T>> GetAssetAsync<T>(Reference identifier) where T : new()
+    public Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken = default)
     {
-        var response = await GetAssetAsync(identifier);
+        ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(asset);
 
-        return _modelProvider.GetAssetModel<T>(response);
+        return _managementApi.UpsertAssetInternalAsync(identifier.ToUrlSegment(), asset, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetModel> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset)
+    public Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(asset);
+
+        return _managementApi.CreateAssetInternalAsync(asset, cancellationToken).ToManagementResultAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        ArgumentNullException.ThrowIfNull(asset);
-
-        var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-        var response = await _actionInvoker.InvokeMethodAsync<AssetUpsertModel, AssetModel>(endpointUrl, HttpMethod.Put, asset);
-
-        return response;
+        return _managementApi.DeleteAssetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetModel<T>> UpsertAssetAsync<T>(Reference identifier, AssetUpsertModel<T> asset) where T : new()
-    {
-        ArgumentNullException.ThrowIfNull(asset);
-
-        var result = await UpsertAssetAsync(identifier, _modelProvider.GetAssetUpsertModel(asset));
-
-        return _modelProvider.GetAssetModel<T>(result);
-    }
-
-    /// <inheritdoc />
-    public async Task<AssetModel> CreateAssetAsync(AssetCreateModel asset)
-    {
-        ArgumentNullException.ThrowIfNull(asset);
-
-        var endpointUrl = _urlBuilder.BuildAssetsUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<AssetCreateModel, AssetModel>(endpointUrl, HttpMethod.Post, asset);
-
-        return response;
-    }
-
-    /// <inheritdoc />
-    public async Task<AssetModel<T>> CreateAssetAsync<T>(AssetCreateModel<T> asset) where T : new()
-    {
-        ArgumentNullException.ThrowIfNull(asset);
-
-        var result = await CreateAssetAsync(_modelProvider.GetAssetCreateModel(asset));
-
-        return _modelProvider.GetAssetModel<T>(result);
-    }
-
-    /// <inheritdoc />
-    public async Task DeleteAssetAsync(Reference identifier)
-    {
-        ArgumentNullException.ThrowIfNull(identifier);
-
-        var endpointUrl = _urlBuilder.BuildAssetsUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
-    }
-
-    /// <inheritdoc />
-    public async Task<FileReference> UploadFileAsync(FileContentSource fileContent)
+    public async Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(fileContent);
 
-        var stream = fileContent.OpenReadStream();
-        try
-        {
-            if (stream.Length > MAX_FILE_SIZE_MB * 1024 * 1024)
-            {
-                throw new ArgumentException($"Maximum supported file size is {MAX_FILE_SIZE_MB} MB.", nameof(stream));
-            }
-
-            var endpointUrl = _urlBuilder.BuildUploadFileUrl(fileContent.FileName);
-            var response = await _actionInvoker.UploadFileAsync<FileReference>(endpointUrl, stream, fileContent.ContentType);
-
-            return response;
-        }
-        finally
-        {
-            // Dispose the stream only in case new stream was created
-            if (fileContent.CreatesNewStream)
-            {
-                stream.Dispose();
-            }
-        }
+        // Must stay async: `using` in a non-async Task-returning method disposes the content the instant the task is
+        // returned, racing the send and defeating the retry-driven re-reads FileUploadContent exists for.
+        using var content = new FileUploadContent(fileContent);
+        return await _managementApi.UploadFileInternalAsync(fileContent.FileName, content, cancellationToken).ToManagementResultAsync().ConfigureAwait(false);
     }
 }

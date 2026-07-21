@@ -1,9 +1,16 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 /// <summary>
-/// The default value model for the taxonomy element
+/// Default value for the taxonomy element.
 /// </summary>
-public class TaxonomyElementDefaultValueModel : ElementDefaultValue<TypeValue<List<Reference>>, List<Reference>> { }
+public sealed record TaxonomyElementDefaultValueModel : ElementDefaultValue<IReadOnlyList<Reference>>
+{
+    /// <summary>Creates an empty instance for object-initializer construction.</summary>
+    public TaxonomyElementDefaultValueModel() { }
+
+    /// <summary>Creates a default of the given terms.</summary>
+    [SetsRequiredMembers]
+    public TaxonomyElementDefaultValueModel(params Reference[] values) => Global = new() { Value = values };
+}

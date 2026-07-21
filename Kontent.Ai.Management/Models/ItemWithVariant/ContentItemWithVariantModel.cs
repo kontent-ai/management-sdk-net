@@ -1,23 +1,22 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
-using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents a content item together with its language variant.
+/// A content item paired with one of its language variants.
 /// </summary>
-public class ContentItemWithVariantModel
+public sealed record ContentItemWithVariantModel
 {
     /// <summary>
-    /// Gets or sets the content item.
+    /// The content item.
     /// </summary>
-    [JsonProperty("item")]
-    public ContentItemModel Item { get; set; }
+    [JsonPropertyName("item")]
+    public required ContentItemModel Item { get; init; }
 
     /// <summary>
-    /// Gets or sets the language variant.
+    /// The language variant. May be absent in list responses when the item exists but has no variant in the targeted language.
     /// </summary>
-    [JsonProperty("variant", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public LanguageVariantModel Variant { get; set; }
+    [JsonPropertyName("variant")]
+    public LanguageVariantModel? Variant { get; init; }
 }

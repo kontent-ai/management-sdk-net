@@ -1,46 +1,43 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
-/// Represents subscription user object.
+/// A subscription user (response shape).
 /// </summary>
-public sealed class SubscriptionUserModel
+public sealed record SubscriptionUserModel
 {
     /// <summary>
-    /// Gets or sets the user's internal ID.
+    /// User ID. A prefixed string (e.g. <c>usr_...</c>), not a Guid.
     /// </summary>
-    [JsonProperty("id")]
-    public string Id { get; set; }
+    [JsonPropertyName("id")]
+    public required string Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the user's first name.
+    /// First name. Null for users with a pending invitation who have not yet registered.
     /// </summary>
-    [JsonProperty("first_name")]
-    public string FirstName { get; set; }
+    [JsonPropertyName("first_name")]
+    public string? FirstName { get; init; }
 
     /// <summary>
-    /// Gets or sets the user's last name.
+    /// Last name. Null for users with a pending invitation who have not yet registered.
     /// </summary>
-    [JsonProperty("last_name")]
-    public string LastName { get; set; }
+    [JsonPropertyName("last_name")]
+    public string? LastName { get; init; }
 
     /// <summary>
-    /// Gets or sets the user's email address.
+    /// Email address.
     /// </summary>
-    [JsonProperty("email")]
-    public string Email { get; set; }
+    [JsonPropertyName("email")]
+    public required string Email { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the user has any pending invitation to a project.
+    /// Whether the user has any pending project invitation.
     /// </summary>
-    [JsonProperty("has_pending_invitation")]
-    public bool HasPendingInvitation { get; set; }
+    [JsonPropertyName("has_pending_invitation")]
+    public required bool HasPendingInvitation { get; init; }
 
     /// <summary>
-    /// Gets or sets the projects to which the user has been invited.
+    /// Projects the user belongs to or has been invited to.
     /// </summary>
-    [JsonProperty("projects")]
-    public IEnumerable<SubscriptionUserProjectModel> Projects { get; set; }
+    [JsonPropertyName("projects")]
+    public required IReadOnlyList<SubscriptionUserProjectModel> Projects { get; init; }
 }

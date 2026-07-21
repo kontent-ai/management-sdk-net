@@ -1,59 +1,55 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow response model.
+/// A workflow definition (response shape).
 /// </summary>
-public class WorkflowModel
+public sealed record WorkflowModel
 {
     /// <summary>
-    /// Gets or sets the workflow's internal ID.
+    /// Server-generated workflow ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's codename.
+    /// Codename.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's scopes.
+    /// Scopes this workflow applies to. May be empty (workflow scoped to nothing).
     /// </summary>
-    [JsonProperty("scopes")]
-    public IReadOnlyList<WorkflowScopeModel> Scopes { get; set; }
+    [JsonPropertyName("scopes")]
+    public required IReadOnlyList<WorkflowScopeModel> Scopes { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's steps.
+    /// Custom workflow steps.
     /// </summary>
-    [JsonProperty("steps")]
-    public IReadOnlyList<WorkflowStepModel> Steps { get; set; }
+    [JsonPropertyName("steps")]
+    public required IReadOnlyList<WorkflowStepModel> Steps { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Published step.
+    /// The Published system step.
     /// </summary>
-    [JsonProperty("published_step")]
-    public WorkflowPublishedStepModel PublishedStep { get; set; }
+    [JsonPropertyName("published_step")]
+    public required WorkflowPublishedStepModel PublishedStep { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Scheduled step.
+    /// The Scheduled system step.
     /// </summary>
-    [JsonProperty("scheduled_step")]
-    public WorkflowScheduledStepModel ScheduledStep { get; set; }
+    [JsonPropertyName("scheduled_step")]
+    public required WorkflowScheduledStepModel ScheduledStep { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow's Archived step.
+    /// The Archived system step.
     /// </summary>
-    [JsonProperty("archived_step")]
-    public WorkflowArchivedStepModel ArchivedStep { get; set; }
+    [JsonPropertyName("archived_step")]
+    public required WorkflowArchivedStepModel ArchivedStep { get; init; }
 }

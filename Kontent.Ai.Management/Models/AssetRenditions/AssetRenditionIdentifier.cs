@@ -1,30 +1,39 @@
-using Kontent.Ai.Management.Models.Shared;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 
 /// <summary>
 /// Represents the identifier of the asset rendition.
 /// </summary>
-public sealed class AssetRenditionIdentifier
+public sealed record AssetRenditionIdentifier
 {
     /// <summary>
-    /// Represents the identifier of the asset rendition.
+    /// The identifier of the asset.
     /// </summary>
-    public Reference AssetIdentifier { get; private set; }
+    public required Reference AssetIdentifier { get; init; }
 
     /// <summary>
-    /// Represents the identifier of the language.
+    /// The identifier of the rendition.
     /// </summary>
-    public Reference RenditionIdentifier { get; private set; }
+    public required Reference RenditionIdentifier { get; init; }
 
     /// <summary>
-    /// Creates an instance of asset rendition identifier.
+    /// Creates an identifier from the asset and rendition references.
     /// </summary>
     /// <param name="assetIdentifier">The identifier of the asset.</param>
     /// <param name="renditionIdentifier">The identifier of the rendition.</param>
+    [SetsRequiredMembers]
     public AssetRenditionIdentifier(Reference assetIdentifier, Reference renditionIdentifier)
     {
         AssetIdentifier = assetIdentifier;
         RenditionIdentifier = renditionIdentifier;
     }
+
+    /// <summary>
+    /// Creates an identifier from the asset and rendition IDs. Renditions are addressed by id server-side.
+    /// </summary>
+    /// <param name="assetId">The id of the asset.</param>
+    /// <param name="renditionId">The id of the rendition.</param>
+    public static AssetRenditionIdentifier ByIds(Guid assetId, Guid renditionId)
+        => new(Reference.ById(assetId), Reference.ById(renditionId));
 }

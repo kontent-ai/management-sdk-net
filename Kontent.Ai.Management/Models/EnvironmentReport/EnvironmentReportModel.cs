@@ -1,29 +1,27 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+using Kontent.Ai.Management.Models.Environments;
 
 namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
-/// Represents environment report model
+/// The validation report for an environment (response shape).
 /// </summary>
-public sealed class EnvironmentReportModel
+public sealed record EnvironmentReportModel
 {
     /// <summary>
-    /// Gets or sets information about the specified environment
+    /// Information about the validated environment.
     /// </summary>
-    [JsonProperty("project")]
-    public Environment Environment { get; set; }
+    [JsonPropertyName("project")]
+    public required EnvironmentInformationModel Environment { get; init; }
 
     /// <summary>
-    /// Gets or sets reports of the problems found in the environment's content
+    /// Problems found in the environment's content. May be empty.
     /// </summary>
-    [JsonProperty("variant_issues")]
-    public List<VariantIssue> VariantIssues { get; set; }
+    [JsonPropertyName("variant_issues")]
+    public required IReadOnlyList<VariantIssue> VariantIssues { get; init; }
 
     /// <summary>
-    /// Gets or sets reports of the problems found in the environment's content types
+    /// Problems found in the environment's content types. May be empty.
     /// </summary>
-    [JsonProperty("type_issues")]
-    public List<TypeIssue> TypeIssues { get; set; }
+    [JsonPropertyName("type_issues")]
+    public required IReadOnlyList<TypeIssue> TypeIssues { get; init; }
 }
-

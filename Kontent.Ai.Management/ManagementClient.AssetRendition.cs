@@ -1,55 +1,47 @@
-﻿using Kontent.Ai.Management.Models.AssetRenditions;
-using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.AssetRenditions;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<AssetRenditionModel>> ListAssetRenditionsAsync(Reference assetIdentifier)
+    public Task<IManagementResult<IReadOnlyList<AssetRenditionModel>>> ListAssetRenditionsAsync(Reference assetIdentifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(assetIdentifier);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<AssetRenditionModel>(
-            GetNextListingPageAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.AssetRenditions);
+        var assetSegment = assetIdentifier.ToUrlSegment();
+        return PageEnumerator.CollectAsync<AssetRenditionsListingResponseServerModel, AssetRenditionModel>(
+            (token, ct) => _managementApi.ListAssetRenditionsInternalAsync(assetSegment, token, ct),
+            page => page.AssetRenditions,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<AssetRenditionModel> GetAssetRenditionAsync(AssetRenditionIdentifier identifier)
+    public Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<AssetRenditionModel>(endpointUrl, HttpMethod.Get);
+        return _managementApi.GetAssetRenditionInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetRenditionModel> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel)
+    public Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(updateModel);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<AssetRenditionUpdateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Put, updateModel);
+        return _managementApi.UpdateAssetRenditionInternalAsync(identifier.ToUrlSegment(), updateModel, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<AssetRenditionModel> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel)
+    public Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(assetIdentifier);
-
         ArgumentNullException.ThrowIfNull(createModel);
 
-        var endpointUrl = _urlBuilder.BuildAssetRenditionsUrl(assetIdentifier);
-        return await _actionInvoker.InvokeMethodAsync<AssetRenditionCreateModel, AssetRenditionModel>(endpointUrl, HttpMethod.Post, createModel);
+        return _managementApi.CreateAssetRenditionInternalAsync(assetIdentifier.ToUrlSegment(), createModel, cancellationToken).ToManagementResultAsync();
     }
 }

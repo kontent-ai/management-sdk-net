@@ -1,26 +1,9 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
-/// <summary>
-/// Represents the strongly typed linked items element.
-/// </summary>
-public class LinkedItemsElement : BaseElement
+/// <summary>Value of a modular content (linked items) element: the linked items, referenced by id or codename.</summary>
+public sealed record LinkedItemsElement : BaseElement
 {
-    /// <summary>
-    /// Gets or sets the value of linked items element.
-    /// </summary>
-    [JsonProperty("value")]
-    public IEnumerable<Reference> Value { get; set; }
-
-    /// <summary>
-    /// Coverts the linked items element to the dynamic object.
-    /// </summary>
-    public override dynamic ToDynamic() => new {
-        element = Element.ToDynamic(),
-        value = Value?.Select(v => v.ToDynamic()),
-    };
+    /// <summary>The linked content items.</summary>
+    [JsonPropertyName("value")]
+    public IReadOnlyList<Reference>? Value { get; init; }
 }

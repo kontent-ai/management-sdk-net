@@ -44,11 +44,11 @@
           "action": "deleted",
           "transition_to": [
             {
-              "workflow_identifier" : {
-                "id" : "88ac5e6e-1c5c-4638-96e1-0d61221ad5bf"
+              "workflow_identifier": {
+                "id": "88ac5e6e-1c5c-4638-96e1-0d61221ad5bf"
               },
-              "step_identifier": { 
-                "id" :  "b4363ccd-8f21-45fd-a840-5843d7b7f008"
+              "step_identifier": {
+                "id": "b4363ccd-8f21-45fd-a840-5843d7b7f008"
               }
             }
           ]
@@ -108,5 +108,6 @@
     },
     "slot": "published",
     "events": "all"
-  }
+  },
+  "health_status": "working"
 }

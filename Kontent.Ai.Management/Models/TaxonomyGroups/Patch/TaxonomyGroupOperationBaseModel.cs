@@ -1,25 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 
 /// <summary>
-/// Represents the operation on the taxonomy group.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
+/// Base shape for a taxonomy group PATCH operation. Concrete subtypes specialize the verb (<c>addInto</c>, <c>replace</c>, <c>move</c>, <c>remove</c>).
 /// </summary>
-public abstract class TaxonomyGroupOperationBaseModel
+public abstract record TaxonomyGroupOperationBaseModel
 {
     /// <summary>
-    /// Gets specification of the operation to perform.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
+    /// Operation verb. Pinned by each concrete subtype.
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets or sets the reference to existing taxonomy terms you want to modify.
+    /// Reference to the target. Required for <c>replace</c>, <c>move</c>, and <c>remove</c>. On <c>addInto</c> it points at the parent term that should receive the new child; omit it to add at the root of the taxonomy group.
     /// </summary>
-    [JsonProperty("reference")]
-    public Reference Reference { get; set; }
-
+    [JsonPropertyName("reference")]
+    public Reference? Reference { get; init; }
 }

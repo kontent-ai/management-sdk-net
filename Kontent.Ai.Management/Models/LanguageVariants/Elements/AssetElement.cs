@@ -1,26 +1,11 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
+using Kontent.Ai.Management.Models.Content;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
-/// <summary>
-/// Represents the strongly typed assets element.
-/// </summary>
-public class AssetElement : BaseElement
+/// <summary>Value of an asset element: the referenced assets, optionally with renditions.</summary>
+public sealed record AssetElement : BaseElement
 {
-    /// <summary>
-    /// Gets or sets the value of the asset element.
-    /// </summary>
-    [JsonProperty("value")]
-    public IEnumerable<AssetWithRenditionsReference> Value { get; set; }
-
-    /// <summary>
-    /// Transforms the asset element to the dynamic object.
-    /// </summary>
-    public override dynamic ToDynamic() => new {
-        element = Element.ToDynamic(),
-        value = Value?.Select(v => v.ToDynamic()),
-    };
+    /// <summary>The referenced assets.</summary>
+    [JsonPropertyName("value")]
+    public IReadOnlyList<AssetReference>? Value { get; init; }
 }

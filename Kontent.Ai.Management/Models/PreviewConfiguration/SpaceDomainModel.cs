@@ -1,22 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents space domain model.
+/// Maps a space to the domain its preview URLs are served from.
 /// </summary>
-public class SpaceDomainModel
+public sealed record SpaceDomainModel
 {
     /// <summary>
-    /// Gets or sets the space reference.
+    /// Reference to the space.
     /// </summary>
-    [JsonProperty("space")]
-    public Reference Space { get; set; }
+    [JsonPropertyName("space")]
+    public required Reference Space { get; init; }
 
     /// <summary>
-    /// Gets or sets the space domain.
+    /// Domain serving the space's preview URLs.
     /// </summary>
-    [JsonProperty("domain")]
-    public string Domain { get; set; }
+    [JsonPropertyName("domain")]
+    public required string Domain { get; init; }
 }

@@ -1,49 +1,45 @@
-﻿using Kontent.Ai.Management.Models.Webhooks.Triggers;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using Kontent.Ai.Management.Models.Webhooks.Triggers;
 
 namespace Kontent.Ai.Management.Models.Webhooks;
 
 /// <summary>
-/// Represents the webhook create model.
+/// Payload for creating a webhook.
 /// </summary>
-public class WebhookCreateModel
+public sealed record WebhookCreateModel
 {
     /// <summary>
-    /// Gets or sets the webhook's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
-    
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
+
     /// <summary>
-    /// Gets or sets the URL to which the webhook notification will be sent.
+    /// URL the webhook notification is sent to.
     /// </summary>
-    [JsonProperty("url")]
-    public string Url { get; set; }
-    
+    [JsonPropertyName("url")]
+    public required string Url { get; init; }
+
     /// <summary>
-    /// Gets or sets the webhook's secret key, used to authenticate that the webhook was sent by Kontent.
+    /// Secret used to sign notifications. Required — unlike the UI, the API does not auto-generate one.
     /// </summary>
-    [JsonProperty("secret")]
-    public string Secret { get; set; }
-    
+    [JsonPropertyName("secret")]
+    public required string Secret { get; init; }
+
     /// <summary>
-    /// Gets or sets webhook's custom HTTP headers, used to send extra information in webhook notifications.
+    /// Custom HTTP headers sent with each notification. Optional.
     /// </summary>
-    [JsonProperty("headers")]
-    public IEnumerable<CustomHeaderModel> Headers { get; set; }
-    
+    [JsonPropertyName("headers")]
+    public IReadOnlyList<CustomHeaderModel>? Headers { get; init; }
+
     /// <summary>
-    /// Determines if the webhook is enabled. By default, the enabled property is set to true.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether the webhook is enabled. Leave null to use the server default (enabled). A non-null value is sent verbatim.
     /// </summary>
-    [JsonProperty("enabled")]
-    public bool Enabled { get; set; }
-    
+    [JsonPropertyName("enabled")]
+    public bool? Enabled { get; init; }
+
     /// <summary>
-    /// Gets or sets the specific events that trigger the webhook.
-    /// The events can be set for the published or preview data in Delivery API.
+    /// Events that trigger the webhook.
     /// </summary>
-    [JsonProperty("delivery_triggers")]
-    public DeliveryTriggersModel DeliveryTriggers { get; set; }
+    [JsonPropertyName("delivery_triggers")]
+    public required DeliveryTriggersModel DeliveryTriggers { get; init; }
 }

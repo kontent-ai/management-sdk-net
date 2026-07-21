@@ -1,21 +1,19 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Specifies the maximum text length.
+/// Maximum text length configuration for a text element.
 /// </summary>
-public class MaximumTextLengthModel
+public sealed record MaximumTextLengthModel
 {
     /// <summary>
-    /// Gets or sets the maximum number of characters or words.
+    /// Maximum number of characters or words.
     /// </summary>
-    [JsonProperty("value")]
-    public int Value { get; set; }
+    [JsonPropertyName("value")]
+    public required int Value { get; init; }
 
     /// <summary>
-    /// Determines whether the value applies to characters or words.
+    /// Whether <see cref="Value"/> counts characters or words.
     /// </summary>
-    [JsonProperty("applies_to")]
-    public TextLengthLimitType AppliesTo { get; set; }
+    [JsonPropertyName("applies_to")]
+    public required TextLengthLimitType AppliesTo { get; init; }
 }

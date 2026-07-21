@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-
+﻿
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers;
 
 /// <summary>
@@ -12,7 +11,7 @@ public enum DeliverySlot
     /// </summary>
     [EnumMember(Value = "published")]
     Published,
-    
+
     /// <summary>
     /// Preview data.
     /// </summary>

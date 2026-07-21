@@ -1,76 +1,55 @@
-﻿using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
-using Newtonsoft.Json;
+using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents asset element in type.
+/// An asset element on a content type.
 /// </summary>
-public class AssetElementMetadataModel : ElementMetadataBase
+public sealed record AssetElementMetadataModel : ContentElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Determines whether the element must be filled in.
+    /// Limits the number of assets authors can attach. Null means no count restriction.
     /// </summary>
-    [JsonProperty("is_required")]
-    public bool IsRequired { get; set; }
+    [JsonPropertyName("asset_count_limit")]
+    public LimitModel? AssetCountLimit { get; init; }
 
     /// <summary>
-    /// Gets or sets element is non-localizable
+    /// Maximum allowed file size in bytes. Null means no size restriction.
     /// </summary>
-    [JsonProperty("is_non_localizable")]
-    public bool IsNonLocalizable { get; set; }
+    [JsonPropertyName("maximum_file_size")]
+    public long? MaximumFileSize { get; init; }
 
     /// <summary>
-    /// Gets or sets the element's guidelines.
-    /// Guidelines are used to providing instructions on what to fill in.
+    /// File-type restriction (all, images only, ...). Null means no restriction.
     /// </summary>
-    [JsonProperty("guidelines")]
-    public string Guidelines { get; set; }
+    [JsonPropertyName("allowed_file_types")]
+    public FileType? AllowedFileTypes { get; init; }
 
     /// <summary>
-    /// Gets or sets the specification of the limitation for the number of assets allowed within the element.
+    /// Limits image width. Null means no width restriction.
     /// </summary>
-    [JsonProperty("asset_count_limit")]
-    public LimitModel AssetCountLimit { get; set; }
+    [JsonPropertyName("image_width_limit")]
+    public LimitModel? ImageWidthLimit { get; init; }
 
     /// <summary>
-    /// Gets or sets the specification of the maximum file size in bytes.
+    /// Limits image height. Null means no height restriction.
     /// </summary>
-    [JsonProperty("maximum_file_size")]
-    public long? MaximumFileSize { get; set; }
+    [JsonPropertyName("image_height_limit")]
+    public LimitModel? ImageHeightLimit { get; init; }
 
     /// <summary>
-    /// Gets or sets the specification of the allowed file types.
+    /// Default value applied when authors create a new language variant.
     /// </summary>
-    [JsonProperty("allowed_file_types")]
-    public FileType AllowedFileTypes { get; set; }
+    [JsonPropertyName("default")]
+    public AssetElementDefaultValueModel? DefaultValue { get; init; }
 
-    /// <summary>
-    /// Gets or sets the specification of the width limitation for the asset.
-    /// </summary>
-    [JsonProperty("image_width_limit")]
-    public LimitModel ImageWidthLimit { get; set; }
-
-    /// <summary>
-    /// Gets or sets the specification of the height limitation for the asset.
-    /// </summary>
-    [JsonProperty("image_height_limit")]
-    public LimitModel ImageHeightLimit { get; set; }
-
-    /// <summary>
-    /// Specifies the default value for the element value.
-    /// </summary>
-    [JsonProperty("default")]
-    public AssetDefaultValueModel DefaultValue { get; set; }
-
-    /// <summary>
-    /// Gets the element's type.
-    /// </summary>
+    /// <inheritdoc/>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Asset;
 }

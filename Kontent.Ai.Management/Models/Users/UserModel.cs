@@ -1,22 +1,19 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
-/// Represents the project user model.
+/// An environment user (response shape).
 /// </summary>
-public class UserModel
+public sealed record UserModel
 {
     /// <summary>
-    /// Gets or sets the user's ID.
+    /// User ID. A prefixed string (e.g. <c>usr_...</c>), not a Guid.
     /// </summary>
-    [JsonProperty("user_id")]
-    public string Id { get; set; }
+    [JsonPropertyName("user_id")]
+    public required string Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the language's display name.
+    /// The user's collection-to-roles assignments.
     /// </summary>
-    [JsonProperty("collection_groups")]
-    public IEnumerable<UserCollectionGroup> CollectionGroup { get; set; }
+    [JsonPropertyName("collection_groups")]
+    public required IReadOnlyList<UserCollectionGroup> CollectionGroups { get; init; }
 }

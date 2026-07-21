@@ -1,88 +1,79 @@
-﻿using Kontent.Ai.Management.Extensions;
+using AwesomeAssertions;
+using Kontent.Ai.Management.Models.EnvironmentReport;
+using Kontent.Ai.Management.Models.EnvironmentValidation;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
-using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
+using RichardSzalay.MockHttp;
+using System.Text.Json;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class EnvironmentValidationTests : IClassFixture<FileSystemFixture>
+public class EnvironmentValidationTests
 {
-    private readonly Scenario _scenario;
+    private static string ProjectValidation => Fixture("ProjectValidation.json");
+    private static string AsyncValidationTask => Fixture("AsyncValidationTask.json");
+    private static string AsyncValidationTaskIssues => Fixture("AsyncValidationTaskIssues.json");
 
-    public EnvironmentValidationTests()
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(System.Environment.CurrentDirectory, "Data", "ProjectValidation", name));
+
+    [Fact]
+    public async Task ValidateEnvironment_ReturnsEnvironmentReportModel()
     {
-        _scenario = new Scenario(folder: "ProjectValidation");
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/validate")
+            .Respond("application/json", ProjectValidation);
+
+        var result = await client.ValidateEnvironmentAsync();
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentReportModel>(ProjectValidation, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async void ValidateEnvironment_ReturnsEnvironmentReportModel()
+    public async Task InitiateEnvironmentAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
     {
-        var client = _scenario
-            .WithResponses("ProjectValidation.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/validate-async")
+            .Respond("application/json", AsyncValidationTask);
 
-        var response = await client.ValidateEnvironmentAsync();
+        var result = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async void InitiateEnvironmentAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
+    public async Task GetAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
     {
-        var client = _scenario
-            .WithResponses("AsyncValidationTask.json")
-            .CreateManagementClient();
-
-        var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
-
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async")
-            .Validate();
-    }
- 
-    [Fact]
-    public async void GetAsyncValidationTaskAsync_ReturnsAsyncValidationTask()
-    {
-        var client = _scenario
-            .WithResponses("AsyncValidationTask.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var taskIdentifier = Guid.Empty;
-        var response = await client.GetAsyncValidationTaskAsync(taskIdentifier);
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}")
+            .Respond("application/json", AsyncValidationTask);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskIdentifier}")
-            .Validate();
+        var result = await client.GetAsyncValidationTaskAsync(taskIdentifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<AsyncValidationTaskModel>(AsyncValidationTask, SharedTestJsonOptions.Default));
     }
- 
+
     [Fact]
-    public async void GetAsyncValidationTaskIssuesAsync_ReturnsAsyncValidationTask()
+    public async Task ListAsyncValidationTaskIssuesAsync_PagesThroughAllIssues()
     {
-        var client = _scenario
-            .WithResponses("AsyncValidationTaskIssues.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var taskIdentifier = Guid.Empty;
-        var response = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier).GetAllAsync();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/validate-async/tasks/{taskIdentifier}/issues")
+            .Respond("application/json", AsyncValidationTaskIssues);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/validate-async/tasks/{taskIdentifier}/issues")
-            .Validate();
+        var listResult = await client.ListAsyncValidationTaskIssuesAsync(taskIdentifier);
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<AsyncValidationTaskIssueModel> issues = listResult.Value;
+
+        mock.VerifyNoOutstandingExpectation();
+        issues.Should().BeEquivalentTo(ConcatPages<AsyncValidationTaskIssueModel>(AsyncValidationTaskIssues));
     }
 }

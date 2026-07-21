@@ -1,34 +1,31 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Kontent.Ai.Management.Models.Collections;
+﻿namespace Kontent.Ai.Management.Models.Collections;
 
 /// <summary>
-/// Represents collection model.
+/// A single content collection within an environment.
 /// </summary>
-public class CollectionModel
+public sealed record CollectionModel
 {
     /// <summary>
-    /// Gets or sets the id of the content collection.
+    /// Collection ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the content collection.
+    /// Collection name.
     /// </summary>
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the collection.
+    /// Collection codename. Auto-generated from the name when not supplied on create.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content collection.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 }

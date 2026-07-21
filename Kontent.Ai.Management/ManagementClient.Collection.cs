@@ -1,27 +1,22 @@
-﻿using Kontent.Ai.Management.Models.Collections;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<CollectionsModel> ListCollectionsAsync()
+    public Task<IManagementResult<CollectionsModel>> GetCollectionsAsync(CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildCollectionsUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<CollectionsModel>(endpointUrl, HttpMethod.Get);
+        return _managementApi.GetCollectionsInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<CollectionsModel> ModifyCollectionAsync(IEnumerable<CollectionOperationBaseModel> changes)
+    public Task<IManagementResult<CollectionsModel>> ModifyCollectionsAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildCollectionsUrl();
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<CollectionOperationBaseModel>, CollectionsModel>(endpointUrl, HttpMethod.Patch, changes);
+        return _managementApi.ModifyCollectionsInternalAsync(changes, cancellationToken).ToManagementResultAsync();
     }
 }

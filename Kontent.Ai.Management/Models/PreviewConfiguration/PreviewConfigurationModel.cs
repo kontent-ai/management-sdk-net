@@ -1,22 +1,19 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents the preview configuration model.
+/// The environment's preview configuration. Used as both the GET response and the PUT (full-replace) request body.
 /// </summary>
-public class PreviewConfigurationModel
+public sealed record PreviewConfigurationModel
 {
     /// <summary>
-    /// Gets or sets space domains.
+    /// Space-to-domain mappings. Always present; may be empty.
     /// </summary>
-    [JsonProperty("space_domains")]
-    public IReadOnlyCollection<SpaceDomainModel> SpaceDomains { get; set; }
+    [JsonPropertyName("space_domains")]
+    public required IReadOnlyList<SpaceDomainModel> SpaceDomains { get; init; }
 
     /// <summary>
-    /// Gets or sets preview URL patterns.
+    /// Preview URL patterns per content type. Always present; may be empty.
     /// </summary>
-    [JsonProperty("preview_url_patterns")]
-    public IReadOnlyCollection<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; }
+    [JsonPropertyName("preview_url_patterns")]
+    public required IReadOnlyList<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; init; }
 }

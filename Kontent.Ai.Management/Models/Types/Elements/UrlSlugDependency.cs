@@ -1,24 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents the text element that provides the default value to the URL slug element.
-/// The dependent text element can be part of a content type snippet.
+/// Points a URL slug element at the text element that feeds its default value.
 /// </summary>
-public class UrlSlugDependency
+public sealed record UrlSlugDependency
 {
     /// <summary>
-    /// Gets or sets the content type snippet, specified as a reference, that contains the dependent text element.
-    /// Note: The snippet property is not present if the text element is in the same content type.
+    /// Reference to the snippet that holds the dependent text element. Null when the text element lives on the same content type.
     /// </summary>
-    [JsonProperty("snippet", NullValueHandling = NullValueHandling.Ignore)]
-    public Reference SnippetIdentifier { get; set; }
+    [JsonPropertyName("snippet")]
+    public Reference? Snippet { get; init; }
 
     /// <summary>
-    /// Gets or sets the dependent text element specified as a reference.
+    /// Reference to the dependent text element.
     /// </summary>
-    [JsonProperty("element")]
-    public Reference Element { get; set; }
+    [JsonPropertyName("element")]
+    public required Reference Element { get; init; }
 }

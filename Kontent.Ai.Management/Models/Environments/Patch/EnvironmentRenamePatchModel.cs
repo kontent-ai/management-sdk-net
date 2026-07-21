@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Environments.Patch;
 
 /// <summary>
 /// Represents the rename operation.
 /// </summary>
-public sealed class EnvironmentRenamePatchModel : EnvironmentOperationBaseModel
+public sealed record EnvironmentRenamePatchModel : EnvironmentOperationBaseModel
 {
     /// <summary>
     /// Represents the rename_environment operation.
@@ -13,8 +12,8 @@ public sealed class EnvironmentRenamePatchModel : EnvironmentOperationBaseModel
     public override string Op => "rename_environment";
 
     /// <summary>
-    /// Gets or sets the environment name.
+    /// New environment name.
     /// </summary>
-    [JsonProperty("value")]
-    public string Value { get; set; }
+    [JsonPropertyName("value")]
+    public required string Value { get; init; }
 }

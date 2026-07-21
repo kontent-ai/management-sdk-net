@@ -1,51 +1,37 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Spaces;
 
 /// <summary>
-/// Represents the space model.
+/// A space (response shape).
 /// </summary>
-public class SpaceModel
+public sealed record SpaceModel
 {
     /// <summary>
-    /// Gets or sets the space's internal ID.
+    /// Server-generated space ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the space's codename.
+    /// Codename.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the space's name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the space's root item.
-    /// Both <see cref="RootItem"/> and <see cref="WebSpotlightRootItem"/> are returned and carry the same value.
+    /// Reference to the content item that acts as the space's root for preview. Null when no root item is set.
     /// </summary>
-    [JsonProperty("root_item")]
-    public Reference RootItem { get; set; }
+    [JsonPropertyName("root_item")]
+    public Reference? RootItem { get; init; }
 
     /// <summary>
-    /// Gets or sets the space's root item.
-    /// Both <see cref="RootItem"/> and <see cref="WebSpotlightRootItem"/> are returned and carry the same value.
+    /// Collections belonging to the space. Always present; may be empty.
     /// </summary>
-    [Obsolete("Use root_item instead.")]
-    [JsonProperty("web_spotlight_root_item")]
-    public Reference WebSpotlightRootItem { get; set; }
-
-    /// <summary>
-    /// Gets or sets the space's collections
-    /// </summary>
-    [JsonProperty("collections")]
-    public IEnumerable<Reference> Collections { get; set; }
+    [JsonPropertyName("collections")]
+    public required IReadOnlyList<Reference> Collections { get; init; }
 }

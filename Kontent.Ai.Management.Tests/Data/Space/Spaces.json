@@ -6,9 +6,7 @@
     "root_item": {
       "id": "1024356f-858f-421a-b804-07c6bfe10ce5"
     },
-    "web_spotlight_root_item": {
-      "id": "1024356f-858f-421a-b804-07c6bfe10ce5"
-    }
+    "collections": []
   },
   {
     "id": "191bdf9f-c885-44e5-83de-6ea5131f9c86",
@@ -17,15 +15,13 @@
     "root_item": {
       "id": "ce25965c-337f-4bd3-a68b-5870eeade9e5"
     },
-    "web_spotlight_root_item": {
-      "id": "ce25965c-337f-4bd3-a68b-5870eeade9e5"
-    }
+    "collections": []
   },
   {
     "id": "191bdf9f-c885-44e5-83de-6ea5131f9c86",
     "codename": "space_3",
     "name": "Space 3",
     "root_item": null,
-    "web_spotlight_root_item": null
+    "collections": []
   }
 ]

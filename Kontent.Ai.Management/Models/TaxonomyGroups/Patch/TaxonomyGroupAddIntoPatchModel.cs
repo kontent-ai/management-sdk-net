@@ -1,36 +1,28 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 
 /// <summary>
-/// Represents the addInto operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
+/// <c>addInto</c> operation. Inserts a new term into the taxonomy group. <see cref="TaxonomyGroupOperationBaseModel.Reference"/> points at the parent term (or is null to add at the root).
 /// </summary>
-public class TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBaseModel
+public sealed record TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBaseModel
 {
-    /// <summary>
-    /// Represents the addInto operation.
-    /// </summary>
+    /// <inheritdoc/>
     public override string Op => "addInto";
 
     /// <summary>
-    /// Gets or sets taxonomy term object you want to add.
+    /// New term to insert.
     /// </summary>
-    [JsonProperty("value")]
-    public TaxonomyTermCreateModel Value { get; set; }
+    [JsonPropertyName("value")]
+    public required TaxonomyTermCreateModel Value { get; init; }
 
     /// <summary>
-    /// Gets or sets reference of the existing taxonomy term before which you want to add the new taxonomy term.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Position the new term before this sibling. Mutually exclusive with <see cref="After"/>. When both are null the new term is appended.
     /// </summary>
-    [JsonProperty("before")]
-    public Reference Before { get; set; }
+    [JsonPropertyName("before")]
+    public Reference? Before { get; init; }
 
     /// <summary>
-    /// Gets or sets reference of the existing taxonomy term after which you want to add the new taxonomy term.
-    /// Note: The before and after properties are mutually exclusive.
+    /// Position the new term after this sibling. Mutually exclusive with <see cref="Before"/>. When both are null the new term is appended.
     /// </summary>
-    [JsonProperty("after")]
-    public Reference After { get; set; }
+    [JsonPropertyName("after")]
+    public Reference? After { get; init; }
 }

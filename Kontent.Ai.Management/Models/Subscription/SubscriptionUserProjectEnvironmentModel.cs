@@ -1,41 +1,37 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
-/// Represents projects to which the user has been invited.
+/// A subscription user's membership in a single environment.
 /// </summary>
-public sealed class SubscriptionUserProjectEnvironmentModel
+public sealed record SubscriptionUserProjectEnvironmentModel
 {
     /// <summary>
-    /// Gets or sets he environment's internal ID.
+    /// Environment ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the environment's display name.
+    /// Environment display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the user is active in this environment.
+    /// Whether the user is active in this environment.
     /// </summary>
-    [JsonProperty("is_user_active")]
-    public bool IsUserActive { get; set; }
+    [JsonPropertyName("is_user_active")]
+    public required bool IsUserActive { get; init; }
 
     /// <summary>
-    /// Gets or sets the timestamp of the last user's activity in the environment.
+    /// Timestamp of the user's last activity in the environment. Null when the user has never been active.
     /// </summary>
-    [JsonProperty("last_activity_at")]
-    public DateTime LastActivityAt { get; set; }
+    [JsonPropertyName("last_activity_at")]
+    public DateTime? LastActivityAt { get; init; }
 
     /// <summary>
-    /// Gets or sets collections user is assigned to with a set of roles.
+    /// The user's collection-to-roles assignments in this environment.
     /// </summary>
-    [JsonProperty("collection_groups")]
-    public IEnumerable<SubscriptionColletionGroupModel> CollectionGroups { get; set; }
+    [JsonPropertyName("collection_groups")]
+    public required IReadOnlyList<SubscriptionCollectionGroupModel> CollectionGroups { get; init; }
 }

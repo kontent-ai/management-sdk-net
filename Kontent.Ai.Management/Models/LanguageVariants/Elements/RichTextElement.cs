@@ -1,31 +1,14 @@
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
-/// <summary>
-/// Represents the strongly typed rich text element.
-/// </summary>
-public class RichTextElement : BaseElement
+/// <summary>Value of a rich_text element: the markup plus any inline components.</summary>
+/// <remarks>Use this to set a rich_text element by hand in the untyped element array; <c>Element</c> says which element it targets. With a generated content-type record, set the element via <see cref="Content.RichTextValue"/> instead.</remarks>
+public sealed record RichTextElement : BaseElement
 {
-    /// <summary>
-    /// Gets or sets the value of rich text element components.
-    /// </summary>
-    [JsonProperty("components")]
-    public IEnumerable<ComponentModel> Components { get; set; }
+    /// <summary>The rich-text markup.</summary>
+    [JsonPropertyName("value")]
+    public string? Value { get; init; }
 
-    /// <summary>
-    /// Gets or sets the value of the rich text element.
-    /// </summary>
-    [JsonProperty("value")]
-    public string Value { get; set; }
-
-    /// <summary>
-    /// Coverts the rich text element to the dynamic object.
-    /// </summary>
-    public override dynamic ToDynamic() => new {
-        element = Element.ToDynamic(),
-        value = Value,
-        components = Components
-    };
+    /// <summary>Components embedded in the rich text; omitted when null.</summary>
+    [JsonPropertyName("components")]
+    public IReadOnlyList<ComponentModel>? Components { get; init; }
 }

@@ -1,58 +1,41 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Workflow;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents language variant upsert model.
+/// Payload for creating or replacing a language variant.
 /// </summary>
-public sealed class LanguageVariantUpsertModel
+public sealed record LanguageVariantUpsertModel
 {
     /// <summary>
-    /// Gets or sets elements of the variant.
+    /// Element values to set. Use a typed <see cref="BaseElement"/> subtype per element kind, or
+    /// <see cref="DynamicElement"/> for kinds the SDK does not model.
     /// </summary>
-    [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<dynamic> Elements { get; set; }
+    [JsonPropertyName("elements")]
+    public required IReadOnlyList<BaseElement> Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets workflow step identifier to update.
+    /// Workflow and step to move the variant into. Optional — omit to leave the workflow unchanged.
     /// </summary>
-    [JsonProperty("workflow")]
-    public WorkflowStepIdentifier Workflow { get; set; }
+    [JsonPropertyName("workflow")]
+    public WorkflowStepIdentifier? Workflow { get; init; }
 
     /// <summary>
-    /// Gets or sets due date to update.
+    /// Due date to set. Optional.
     /// </summary>
-    [JsonProperty("due_date")]
-    public DueDateModel DueDate { get; set; }
+    [JsonPropertyName("due_date")]
+    public DueDateModel? DueDate { get; init; }
 
     /// <summary>
-    /// Gets or sets a note.
+    /// Free-form note to set. Optional.
     /// </summary>
-    [JsonProperty("note")]
-    public string Note { get; set; }
+    [JsonPropertyName("note")]
+    public string? Note { get; init; }
 
     /// <summary>
-    /// Gets or sets the contributors.
+    /// Contributors to assign. Optional.
     /// </summary>
-    [JsonProperty("contributors")]
-    public IEnumerable<UserIdentifier> Contributors { get; set; }
-
-    /// <summary>
-    /// Creates an instance of the language variant upsert model.
-    /// </summary>
-    public LanguageVariantUpsertModel()
-    {
-    }
-
-    internal LanguageVariantUpsertModel(LanguageVariantModel languageVariant)
-    {
-        Elements = languageVariant.Elements;
-        Workflow = languageVariant.Workflow;
-        DueDate = languageVariant.DueDate;
-        Note = languageVariant.Note;
-        Contributors = languageVariant.Contributors;
-    }
+    [JsonPropertyName("contributors")]
+    public IReadOnlyList<UserIdentifier>? Contributors { get; init; }
 }

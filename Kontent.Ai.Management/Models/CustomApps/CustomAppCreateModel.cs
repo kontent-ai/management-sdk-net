@@ -1,47 +1,43 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.CustomApps;
 
 /// <summary>
-/// Represents the custom app create model.
+/// Payload for creating a custom app.
 /// </summary>
-public class CustomAppCreateModel
+public sealed record CustomAppCreateModel
 {
     /// <summary>
-    /// Gets or sets the custom app's name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; init; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the custom app's codename.
+    /// Codename. Required on create — the API does not auto-generate it for custom apps.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; init; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the custom app's source url.
+    /// URL that hosts the custom app's UI.
     /// </summary>
-    [JsonProperty("source_url")]
-    public string SourceUrl { get; init; }
+    [JsonPropertyName("source_url")]
+    public required string SourceUrl { get; init; }
 
     /// <summary>
-    /// Gets or sets the custom app's config.
+    /// Stringified JSON configuration passed to the custom app. Optional.
     /// </summary>
-    [JsonProperty("config")]
-    public string Config { get; init; }
+    [JsonPropertyName("config")]
+    public string? Config { get; init; }
 
     /// <summary>
-    /// Gets or sets the custom app's allowed roles.
+    /// Roles allowed to use the custom app. Optional.
     /// </summary>
-    [JsonProperty("allowed_roles")]
-    public IReadOnlyCollection<Reference> AllowedRoles { get; set; }
+    [JsonPropertyName("allowed_roles")]
+    public IReadOnlyList<Reference>? AllowedRoles { get; init; }
 
     /// <summary>
-    /// Gets or sets the custom app's display mode.
+    /// How the custom app is displayed in the UI. Optional — omit to use the server default.
     /// </summary>
-    [JsonProperty("display_mode")]
-    public CustomAppDisplayMode DisplayMode { get; init; }
+    [JsonPropertyName("display_mode")]
+    public CustomAppDisplayMode? DisplayMode { get; init; }
 }

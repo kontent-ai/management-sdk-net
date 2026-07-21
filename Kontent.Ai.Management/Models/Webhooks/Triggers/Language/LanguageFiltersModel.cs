@@ -1,17 +1,13 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 
 /// <summary>
-/// Represents the language filters model.
+/// Filters narrowing which languages fire a webhook.
 /// </summary>
-public class LanguageFiltersModel
+public sealed record LanguageFiltersModel
 {
     /// <summary>
-    /// References to languages
+    /// Restrict to these languages.
     /// </summary>
-    [JsonProperty("languages")]
-    public IEnumerable<Reference> Languages { get; set; }
+    [JsonPropertyName("languages")]
+    public IReadOnlyList<Reference>? Languages { get; init; }
 }

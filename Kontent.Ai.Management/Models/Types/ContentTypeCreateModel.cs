@@ -1,41 +1,39 @@
 ﻿using Kontent.Ai.Management.Models.Types.Elements;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Types;
 
 /// <summary>
-/// Represents the content type create model.
+/// Request payload for creating a new content type.
 /// </summary>
-public class ContentTypeCreateModel
+public sealed record ContentTypeCreateModel
 {
     /// <summary>
-    /// Gets or sets the codename of the content type.
+    /// Caller-supplied codename. When omitted, the CMS generates one from the name.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public string? Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the content type.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the content type.
+    /// Elements that make up this content type.
     /// </summary>
-    [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<ElementMetadataBase> Elements { get; set; }
+    [JsonPropertyName("elements")]
+    public required IReadOnlyList<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content type.
+    /// Caller-supplied external ID.
     /// </summary>
-    [JsonProperty("external_id")]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets content groups of the content type.
+    /// Content groups to define on the type.
     /// </summary>
-    [JsonProperty("content_groups")]
-    public IEnumerable<ContentGroupModel> ContentGroups { get; set; }
+    [JsonPropertyName("content_groups")]
+    public IReadOnlyList<ContentGroupModel>? ContentGroups { get; init; }
 }

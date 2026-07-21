@@ -1,53 +1,42 @@
-﻿using Kontent.Ai.Management.Models.Languages;
-using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages.Patch;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<LanguageModel>> ListLanguagesAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguagesListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<LanguageModel>(
-            GetNextListingPageAsync<LanguagesListingResponseServerModel, LanguageModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Languages);
-    }
+    public Task<IManagementResult<IReadOnlyList<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<LanguagesListingResponseServerModel, LanguageModel>(
+            _managementApi.ListLanguagesInternalAsync,
+            page => page.Languages,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<LanguageModel> GetLanguageAsync(Reference identifier)
+    public Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetLanguageInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<LanguageModel> CreateLanguageAsync(LanguageCreateModel language)
+    public Task<IManagementResult<LanguageModel>> CreateLanguageAsync(LanguageCreateModel language, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(language);
 
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl();
-        return await _actionInvoker.InvokeMethodAsync<LanguageCreateModel, LanguageModel>(endpointUrl, HttpMethod.Post, language);
+        return _managementApi.CreateLanguageInternalAsync(language, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<LanguageModel> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes)
+    public Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildLanguagesUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<LanguagePatchModel>, LanguageModel>(endpointUrl, HttpMethod.Patch, changes);
+        return _managementApi.ModifyLanguageInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ToManagementResultAsync();
     }
 }

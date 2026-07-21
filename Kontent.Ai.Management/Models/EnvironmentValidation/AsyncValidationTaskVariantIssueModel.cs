@@ -1,21 +1,19 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
-/// Async validation task variant issue.
+/// A language variant issue found by an async validation task.
 /// </summary>
-public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel
+public sealed record AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel
 {
     /// <summary>
-    /// Gets or sets item reference.
+    /// The content item the variant belongs to.
     /// </summary>
-    [JsonProperty("item")]
-    public Metadata Item { get; set; }
+    [JsonPropertyName("item")]
+    public required NamedReference Item { get; init; }
 
     /// <summary>
-    /// Gets or sets language reference.
+    /// The variant's language.
     /// </summary>
-    [JsonProperty("language")]
-    public Metadata Language { get; set; }
+    [JsonPropertyName("language")]
+    public required NamedReference Language { get; init; }
 }

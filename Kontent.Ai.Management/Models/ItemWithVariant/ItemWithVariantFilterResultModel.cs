@@ -1,22 +1,20 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents a single result from the items with variant filter endpoint.
+/// A single result from the items-with-variants filter endpoint: the (item, language) identifier of a matched variant.
 /// </summary>
-public class ItemWithVariantFilterResultModel
+public sealed record ItemWithVariantFilterResultModel
 {
     /// <summary>
-    /// Gets or sets the item reference.
+    /// Reference to the matched content item.
     /// </summary>
-    [JsonProperty("item")]
-    public Reference Item { get; set; }
+    [JsonPropertyName("item")]
+    public required Reference Item { get; init; }
 
     /// <summary>
-    /// Gets or sets the language reference.
+    /// Reference to the matched language.
     /// </summary>
-    [JsonProperty("language")]
-    public Reference Language { get; set; }
+    [JsonPropertyName("language")]
+    public required Reference Language { get; init; }
 }

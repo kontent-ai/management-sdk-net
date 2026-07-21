@@ -1,23 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow scope upsert model.
+/// A scope binding for a workflow (upsert shape). Both arrays are field-optional — if omitted, the server fills the missing side with <c>[]</c> and echoes both on the response.
 /// </summary>
-public class WorkflowScopeUpsertModel
+public sealed record WorkflowScopeUpsertModel
 {
     /// <summary>
-    /// Gets or sets the workflow scope's collections.
+    /// Collections this scope applies to. Optional — omit to default to none.
     /// </summary>
-    [JsonProperty("collections")]
-    public IReadOnlyList<Reference> Collections { get; set; }
-    
+    [JsonPropertyName("collections")]
+    public IReadOnlyList<Reference>? Collections { get; init; }
+
     /// <summary>
-    /// Gets or sets the workflow scope's content types.
+    /// Content types this scope applies to. Optional — omit to default to none.
     /// </summary>
-    [JsonProperty("content_types")]
-    public IReadOnlyList<Reference> ContentTypes { get; set; }
+    [JsonPropertyName("content_types")]
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
 }

@@ -1,22 +1,20 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents an item and language reference pair used to identify a specific variant.
+/// An (item, language) pair that uniquely identifies a content item variant.
 /// </summary>
-public class VariantIdentifierModel
+public sealed record VariantIdentifierModel
 {
     /// <summary>
-    /// Gets or sets the item reference.
+    /// Reference to the content item.
     /// </summary>
-    [JsonProperty("item")]
-    public Reference Item { get; set; }
+    [JsonPropertyName("item")]
+    public required Reference Item { get; init; }
 
     /// <summary>
-    /// Gets or sets the language reference.
+    /// Reference to the language.
     /// </summary>
-    [JsonProperty("language")]
-    public Reference Language { get; set; }
+    [JsonPropertyName("language")]
+    public required Reference Language { get; init; }
 }

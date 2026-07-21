@@ -1,57 +1,37 @@
-﻿using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types.Elements.DefaultValues;
-using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a taxonomy element in content types.
+/// A taxonomy element on a content type. Authors tag the content item with terms from a taxonomy group.
 /// </summary>
-public class TaxonomyElementMetadataModel : ElementMetadataBase
+public sealed record TaxonomyElementMetadataModel : ContentElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's display name.
+    /// Display name. Defaults to the taxonomy group's name when omitted on create.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
-    /// <summary>
-    /// Gets or sets a flag determining whether the element must be filled in.
-    /// </summary>
-    [JsonProperty("is_required")]
-    public bool IsRequired { get; set; }
+    [JsonPropertyName("name")]
+    public string? Name { get; init; }
 
     /// <summary>
-    /// Gets or sets element is non-localizable
+    /// Reference to the taxonomy group whose terms this element exposes.
     /// </summary>
-    [JsonProperty("is_non_localizable")]
-    public bool IsNonLocalizable { get; set; }
+    [JsonPropertyName("taxonomy_group")]
+    public required Reference TaxonomyGroup { get; init; }
 
     /// <summary>
-    /// Gets or sets the element's guidelines, providing instructions on what to fill in.
+    /// Limits the number of terms authors can select. Null means no count restriction.
     /// </summary>
-    [JsonProperty("guidelines")]
-    public string Guidelines { get; set; }
+    [JsonPropertyName("term_count_limit")]
+    public LimitModel? TermCountLimit { get; init; }
 
     /// <summary>
-    /// Specifies a reference to the taxonomy group that the element uses.
+    /// Default value applied when authors create a new language variant.
     /// </summary>
-    [JsonProperty("taxonomy_group")]
-    public Reference TaxonomyGroup { get; set; }
+    [JsonPropertyName("default")]
+    public TaxonomyElementDefaultValueModel? DefaultValue { get; init; }
 
-    /// <summary>
-    /// Specifies the limitation for the number of terms that can be selected in the element.
-    /// </summary>
-    [JsonProperty("term_count_limit")]
-    public LimitModel TermCountLimit { get; set; }
-
-    /// <summary>
-    /// Specifies the default value for the element value.
-    /// </summary>
-    [JsonProperty("default")]
-    public TaxonomyElementDefaultValueModel DefaultValue { get; set; }
-
-    /// <summary>
-    /// Gets or sets terms in the taxonomy group.
-    /// </summary>
+    /// <inheritdoc/>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Taxonomy;
 }

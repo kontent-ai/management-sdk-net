@@ -1,21 +1,10 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Types;
-
-[JsonObject]
-internal class ContentTypeListingResponseServerModel : IListingResponse<ContentTypeModel>
+internal sealed record ContentTypeListingResponseServerModel
 {
-    [JsonProperty("types")]
-    public IEnumerable<ContentTypeModel> Types { get; set; }
+    [JsonPropertyName("types")]
+    public required IReadOnlyList<ContentTypeModel> Types { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<ContentTypeModel> GetEnumerator() => Types.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }
 

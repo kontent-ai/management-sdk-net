@@ -1,22 +1,21 @@
 using Kontent.Ai.Management.Models.VariantFilter;
-using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
 
 /// <summary>
-/// Represents the request model for filtering items with variants.
+/// Request payload for the items-with-variants filter endpoint.
 /// </summary>
-public class ItemWithVariantFilterRequestModel
+public sealed record ItemWithVariantFilterRequestModel
 {
     /// <summary>
-    /// Gets or sets the filters.
+    /// Filter criteria. Omit to match all variants in the environment.
     /// </summary>
-    [JsonProperty("filters")]
-    public VariantFilterFiltersModel Filters { get; set; }
+    [JsonPropertyName("filters")]
+    public VariantFilterFiltersModel? Filters { get; init; }
 
     /// <summary>
-    /// Gets or sets the order.
+    /// Result ordering. Omit for the server's default order.
     /// </summary>
-    [JsonProperty("order")]
-    public VariantFilterOrderModel Order { get; set; }
+    [JsonPropertyName("order")]
+    public VariantFilterOrderModel? Order { get; init; }
 }

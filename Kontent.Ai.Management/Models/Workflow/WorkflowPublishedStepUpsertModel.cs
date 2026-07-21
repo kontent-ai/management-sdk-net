@@ -1,23 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Published workflow step upsert model.
+/// Payload for the Published system step inside a workflow upsert.
 /// </summary>
-public class WorkflowPublishedStepUpsertModel
+public sealed record WorkflowPublishedStepUpsertModel
 {
     /// <summary>
-    /// Gets or sets the roles which can create new version from published variant.
+    /// Roles allowed to create a new version from a published variant. Defaults to empty — no role restriction.
     /// </summary>
-    [JsonProperty("create_new_version_role_ids")]
-    public IReadOnlyCollection<Guid> RoleCreateNewVersionIds { get; set; }
+    [JsonPropertyName("create_new_version_role_ids")]
+    public IReadOnlyList<Guid> CreateNewVersionRoleIds { get; init; } = [];
 
     /// <summary>
-    /// Gets or sets the roles which can unpublish the item's variant.
+    /// Roles allowed to unpublish variants in this step. Defaults to empty — no role restriction.
     /// </summary>
-    [JsonProperty("unpublish_role_ids")]
-    public IReadOnlyCollection<Guid> RolesUnpublishArchivedCancelSchedulingIds { get; set; }
+    [JsonPropertyName("unpublish_role_ids")]
+    public IReadOnlyList<Guid> UnpublishRoleIds { get; init; } = [];
 }

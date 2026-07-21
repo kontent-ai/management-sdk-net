@@ -1,70 +1,60 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.IO;
-using Xunit;
+using AssetReference = Kontent.Ai.Management.Models.Content.AssetReference;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-assets
 /// </summary>
-public class ImportAssets : IClassFixture<FileSystemFixture>
+public class ImportAssets
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportAssets(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: importing_assets_create_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateAsset()
+    public async Task CreateAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        // Uses the file reference object obtained in step 1
-        var createdAssetResponse = await client.UpsertAssetAsync(Reference.ByExternalId("which-brewing-fits-you"), new AssetUpsertModel
-        {
-            // 'fileReference' is only required when creating a new asset
-            // To create a file reference, see the "Upload a binary file" endpoint
-            FileReference = new FileReference
+        var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "brno-cafe-1080px.jpg");
+        var contentType = "image/jpg";
+
+        // Uploads the file and creates or updates the asset that references it in a single call
+        var createdAssetResponse = await client.UpsertAssetAsync(
+            Reference.ByExternalId("which-brewing-fits-you"),
+            new FileContentSource(filePath, contentType),
+            new AssetUpsertModel
             {
-                Id = "8660e19c-7bbd-48a3-bb51-721934c7756c",
-                Type = FileReferenceTypeEnum.Internal
-            },
-            Title = "Brno Cafe",
-            Descriptions = new AssetDescription[]
-            {
-                new AssetDescription
-                {
-                    Description = "Cafe in Brno",
-                    Language = Reference.ByCodename("en-US")
-                },
-                new AssetDescription
-                {
-                    Description = "Café en Brno",
-                    Language = Reference.ByCodename("es-ES")
-                }
-            }
-        });
+                Title = "Brno Cafe",
+                Descriptions =
+                [
+                    new AssetDescription
+                    {
+                        Description = "Cafe in Brno",
+                        Language = Reference.ByCodename("en-US")
+                    },
+                    new AssetDescription
+                    {
+                        Description = "Café en Brno",
+                        Language = Reference.ByCodename("es-ES")
+                    }
+                ]
+            });
     }
 
     // DocSection: importing_assets_upload_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UploadingFiles()
+    public async Task UploadingFiles()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "brno-cafe-1080px.jpg");
         var contentType = "image/jpg";
@@ -76,47 +66,47 @@ public class ImportAssets : IClassFixture<FileSystemFixture>
     // DocSection: importing_assets_upload_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UseAsset()
+    public async Task UseAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("ext-cafe-brno"), Reference.ByCodename("en-US"));
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-            {
+            Elements =
+            [
                 new AssetElement
                 {
                     Element = Reference.ByCodename("photo"),
-                    Value = new[]
-                    {
-                        new AssetWithRenditionsReference(Reference.ByExternalId("brno-cafe-image"))
-                    }
-                }
-            })
+                    Value =
+                    [
+                        new AssetReference { ExternalId = "brno-cafe-image" },
+                    ],
+                },
+            ]
         });
     }
 
     // DocSection: importing_assets_upload_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UseAssetRichText()
+    public async Task UseAssetRichText()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("new-cafes"), Reference.ByCodename("en-US"));
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-            {
+            Elements =
+            [
                 new RichTextElement
                 {
                     Element = Reference.ByCodename("body_copy"),
                     Value = "<p>...</p> <figure data-asset-external-id=\"brno-cafe-image\"></figure>",
-                }
-            })
+                },
+            ]
         });
     }
 }

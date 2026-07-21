@@ -1,29 +1,25 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
 /// <summary>
-/// Represents the variant filter taxonomy group model.
+/// Taxonomy-based filter: restrict results to variants tagged in a specific taxonomy group, optionally narrowing to specific terms.
 /// </summary>
-public class VariantFilterTaxonomyGroupModel
+public sealed record VariantFilterTaxonomyGroupModel
 {
     /// <summary>
-    /// Gets or sets the taxonomy reference.
+    /// Reference to the taxonomy group.
     /// </summary>
-    [JsonProperty("taxonomy_identifier")]
-    public Reference TaxonomyReference { get; set; }
+    [JsonPropertyName("taxonomy_identifier")]
+    public required Reference TaxonomyGroup { get; init; }
 
     /// <summary>
-    /// Gets or sets the term references.
+    /// Specific terms within the taxonomy to match. Omit to match any term in the group.
     /// </summary>
-    [JsonProperty("term_identifiers")]
-    public IEnumerable<Reference> TermReferences { get; set; }
+    [JsonPropertyName("term_identifiers")]
+    public IReadOnlyList<Reference>? Terms { get; init; }
 
     /// <summary>
-    /// Gets or sets whether to include uncategorized items.
+    /// When true, also include variants with no assignment in this taxonomy group.
     /// </summary>
-    [JsonProperty("include_uncategorized")]
-    public bool IncludeUncategorized { get; set; }
+    [JsonPropertyName("include_uncategorized")]
+    public bool IncludeUncategorized { get; init; }
 }

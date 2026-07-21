@@ -1,61 +1,48 @@
-using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Spaces;
 using Kontent.Ai.Management.Models.Spaces.Patch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
-/// <summary>
-/// Executes requests against the Kontent.ai Management API.
-/// </summary>
 public partial class ManagementClient
 {
-
     /// <inheritdoc />
-    public async Task<SpaceModel> CreateSpaceAsync(SpaceCreateModel space)
+    public Task<IManagementResult<SpaceModel>> CreateSpaceAsync(SpaceCreateModel space, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(space);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl();
-        return await _actionInvoker.InvokeMethodAsync<SpaceCreateModel, SpaceModel>(endpointUrl, HttpMethod.Post, space);
+        return _managementApi.CreateSpaceInternalAsync(space, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<SpaceModel> GetSpaceAsync(Reference identifier)
+    public Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<SpaceModel>(endpointUrl, HttpMethod.Get);
+        return _managementApi.GetSpaceInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<SpaceModel>> ListSpacesAsync()
+    public Task<IManagementResult<IReadOnlyList<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildSpacesUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<SpaceModel>>(endpointUrl, HttpMethod.Get);
+        return _managementApi.ListSpacesInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<SpaceModel> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceOperationReplaceModel> changes)
+    public Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<SpaceOperationReplaceModel>, SpaceModel>(endpointUrl, HttpMethod.Patch, changes);
+        return _managementApi.ModifySpaceInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteSpaceAsync(Reference identifier)
+    public Task<IManagementResult> DeleteSpaceAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSpacesUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _managementApi.DeleteSpaceInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

@@ -1,94 +1,68 @@
-﻿using FluentAssertions;
-using Kontent.Ai.Management.Models.Shared;
+using AwesomeAssertions;
+using Kontent.Ai.Management.Models.Roles;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
+using RichardSzalay.MockHttp;
+using System.Text.Json;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class EnvironmentRoleTests : IClassFixture<FileSystemFixture>
+public class EnvironmentRoleTests
 {
-    private readonly Scenario _scenario;
+    private static string ProjectRole => Fixture("ProjectRole.json");
+    private static string ProjectRoles => Fixture("ProjectRoles.json");
 
-    public EnvironmentRoleTests()
-    {
-        _scenario = new Scenario(folder: "ProjectRole");
-    }
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ProjectRole", name));
 
     [Fact]
-    public async void ListEnvironmentRolesAsync_ListsEnvironmentRoles()
+    public async Task ListEnvironmentRolesAsync_ListsEnvironmentRoles()
     {
-        var client = _scenario
-            .WithResponses("ProjectRoles.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/roles")
+            .Respond("application/json", ProjectRoles);
 
-        var response = await client.ListEnvironmentRolesAsync();
+        var result = await client.ListEnvironmentRolesAsync();
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/roles")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRolesModel>(ProjectRoles, SharedTestJsonOptions.Default)!.Roles);
     }
 
     [Fact]
     public async Task GetEnvironmentRoleAsync_ById_GetsEnvironmentRole()
     {
-        var client = _scenario
-            .WithResponses("ProjectRole.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
-        var response = await client.GetEnvironmentRoleAsync(identifier);
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/roles/{identifier.Id}")
+            .Respond("application/json", ProjectRole);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/roles/{identifier.Id}")
-            .Validate();
+        var result = await client.GetEnvironmentRoleAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
     }
 
     [Fact]
     public async Task GetEnvironmentRoleAsync_ByCodename_GetsEnvironmentRole()
     {
-        var client = _scenario
-            .WithResponses("ProjectRole.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("codename");
-        var response = await client.GetEnvironmentRoleAsync(identifier);
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/roles/codename/{identifier.Codename}")
+            .Respond("application/json", ProjectRole);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/roles/codename/{identifier.Codename}")
-            .Validate();
+        var result = await client.GetEnvironmentRoleAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<EnvironmentRoleModel>(ProjectRole, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async Task GetEnvironmentRoleAsync_ByExternalId_Throws()
+    public async Task GetEnvironmentRoleAsync_InvalidIdentifier_Throws()
     {
-        var client = _scenario
-            .WithResponses("ProjectRole.json")
-            .CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        var identifier = Reference.ByExternalId("externalId");
-        await client.Invoking(x => x.GetEnvironmentRoleAsync(identifier)).Should().ThrowAsync<Exception>();
-    }
-
-    [Fact]
-    public async Task GetEnvironmentRoleAsync_IdentifierIsNull_Throws()
-    {
-        var client = _scenario
-            .WithResponses("ProjectRole.json")
-            .CreateManagementClient();
-
-        await client.Invoking(x => x.GetEnvironmentRoleAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(x => x.GetEnvironmentRoleAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 }

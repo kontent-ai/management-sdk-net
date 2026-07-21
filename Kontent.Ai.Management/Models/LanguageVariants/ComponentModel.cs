@@ -1,30 +1,28 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants;
 
 /// <summary>
-/// Represents a rich text component model.
+/// An inline content component embedded in a rich text element.
 /// </summary>
-public class ComponentModel
+public sealed record ComponentModel
 {
     /// <summary>
-    /// Gets or sets the id of the content component.
+    /// Component ID. Threads the component to its placeholder in the rich text via the matching <c>data-id</c> attribute.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the type of the component.
+    /// Reference to the content type the component is based on.
     /// </summary>
-    [JsonProperty("type", Required = Required.Always)]
-    public Reference Type { get; set; }
+    [JsonPropertyName("type")]
+    public required Reference Type { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the component.
+    /// Element values of the component. Use a typed <see cref="BaseElement"/> subtype per element kind, or
+    /// <see cref="DynamicElement"/> for kinds the SDK does not model.
     /// </summary>
-    [JsonProperty("elements", Required = Required.Always)]
-    public IEnumerable<dynamic> Elements { get; set; }
+    [JsonPropertyName("elements")]
+    public required IReadOnlyList<BaseElement> Elements { get; init; }
 }

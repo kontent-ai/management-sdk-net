@@ -1,45 +1,40 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Published workflow step response model. If a variant is in this step, it indicated that it has been
-/// published and is (soon to be) available as Published content in Delivery APIs. Such variants are read-only.
+/// The Published system step on a workflow (response shape). Variants in this step are read-only and visible via the Delivery APIs.
 /// </summary>
 /// <remarks>
-/// All <c>Id</c>, <c>Name</c>, and <c>Codename</c> properties are predefined by the system and cannot be changed.
+/// <see cref="Id"/>, <see cref="Name"/>, and <see cref="Codename"/> are platform-defined and cannot be changed.
 /// </remarks>
-public class WorkflowPublishedStepModel
+public sealed record WorkflowPublishedStepModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Server-generated step ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step's codename.
+    /// Codename.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the roles which can unpublish the item's variant.
+    /// Roles allowed to unpublish variants in this step. May be empty.
     /// </summary>
-    [JsonProperty("unpublish_role_ids")]
-    public IReadOnlyCollection<Guid> UnpublishRoleIds { get; set; }
+    [JsonPropertyName("unpublish_role_ids")]
+    public required IReadOnlyList<Guid> UnpublishRoleIds { get; init; }
 
     /// <summary>
-    /// Gets or sets the roles which can create new version from published variant.
+    /// Roles allowed to create a new version from a published variant. May be empty.
     /// </summary>
-    [JsonProperty("create_new_version_role_ids")]
-    public IReadOnlyCollection<Guid> CreateNewVersionRoleIds { get; set; }
+    [JsonPropertyName("create_new_version_role_ids")]
+    public required IReadOnlyList<Guid> CreateNewVersionRoleIds { get; init; }
 }

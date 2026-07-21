@@ -1,20 +1,9 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
-
-[JsonObject]
-internal class TaxonomyGroupListingResponseServerModel : IListingResponse<TaxonomyGroupModel>
+internal sealed record TaxonomyGroupListingResponseServerModel
 {
-    [JsonProperty("taxonomies")]
-    public IEnumerable<TaxonomyGroupModel> Taxonomies { get; set; }
+    [JsonPropertyName("taxonomies")]
+    public required IReadOnlyList<TaxonomyGroupModel> Taxonomies { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<TaxonomyGroupModel> GetEnumerator() => Taxonomies.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }

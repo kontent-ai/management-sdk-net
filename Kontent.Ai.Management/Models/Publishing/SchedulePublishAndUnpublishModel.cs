@@ -1,36 +1,31 @@
-using Newtonsoft.Json;
-using System;
-
 namespace Kontent.Ai.Management.Models.Publishing;
 
 /// <summary>
-/// Represents the schedule interval model.
+/// Payload for scheduling publishing and later unpublishing of a language variant in a single request. Each side is optional — omit a side to leave that part of the schedule unchanged.
 /// </summary>
-public class SchedulePublishAndUnpublishModel
+public sealed record SchedulePublishAndUnpublishModel
 {
     /// <summary>
-    /// Gets or sets ISO-8601 formatted date-time for scheduled publishing.
-    /// If you do not provide this property, the publishing schedule won't be updated
+    /// ISO-8601 date-time of scheduled publishing. Omit to leave the publishing schedule unchanged.
     /// </summary>
-    [JsonProperty(PropertyName = "publish_scheduled_to")]
-    public DateTimeOffset? PublishScheduledTo { get; set; }
-    
-    /// <summary>
-    /// IANA time zone name used to display time offset of the scheduled publish date in the UI.
-    /// </summary>
-    [JsonProperty(PropertyName = "publish_display_timezone")]
-    public string PublishDisplayTimeZone { get; set; }
+    [JsonPropertyName("publish_scheduled_to")]
+    public DateTimeOffset? PublishScheduledTo { get; init; }
 
     /// <summary>
-    /// Gets or sets ISO-8601 formatted date-time for scheduled unpublishing.
-    /// If you do not provide this property, the unpublishing schedule won't be updated
+    /// IANA time zone name used to display the scheduled publish date's offset in the UI. Optional.
     /// </summary>
-    [JsonProperty(PropertyName = "unpublish_scheduled_to")]
-    public DateTimeOffset? UnpublishScheduledTo { get; set; }
+    [JsonPropertyName("publish_display_timezone")]
+    public string? PublishDisplayTimeZone { get; init; }
 
     /// <summary>
-    /// IANA time zone name used to display time offset of the scheduled publish date in the UI.
+    /// ISO-8601 date-time of scheduled unpublishing. Omit to leave the unpublishing schedule unchanged.
     /// </summary>
-    [JsonProperty(PropertyName = "unpublish_display_timezone")]
-    public string UnpublishDisplayTimeZone { get; set; }
+    [JsonPropertyName("unpublish_scheduled_to")]
+    public DateTimeOffset? UnpublishScheduledTo { get; init; }
+
+    /// <summary>
+    /// IANA time zone name used to display the scheduled unpublish date's offset in the UI. Optional.
+    /// </summary>
+    [JsonPropertyName("unpublish_display_timezone")]
+    public string? UnpublishDisplayTimeZone { get; init; }
 }

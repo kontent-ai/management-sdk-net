@@ -1,20 +1,9 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Languages;
-
-[JsonObject]
-internal class LanguagesListingResponseServerModel : IListingResponse<LanguageModel>
+internal sealed record LanguagesListingResponseServerModel
 {
-    [JsonProperty("languages")]
-    public IEnumerable<LanguageModel> Languages { get; set; }
+    [JsonPropertyName("languages")]
+    public required IReadOnlyList<LanguageModel> Languages { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<LanguageModel> GetEnumerator() => Languages.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }

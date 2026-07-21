@@ -1,22 +1,20 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
+﻿
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
-/// Represents the language specific description for the asset.
+/// Language-specific alt-text description for an asset.
 /// </summary>
-public sealed class AssetDescription
+public sealed record AssetDescription
 {
     /// <summary>
-    /// Gets or sets the identifier of the language.
+    /// Language reference.
     /// </summary>
-    [JsonProperty("language", Required = Required.Always)]
-    public Reference Language { get; set; }
+    [JsonPropertyName("language")]
+    public required Reference Language { get; init; }
 
     /// <summary>
-    /// Gets or sets the description of the asset.
+    /// Description text. Null in responses for languages without an assigned description.
     /// </summary>
-    [JsonProperty("description", Required = Required.AllowNull)]
-    public string Description { get; set; }
+    [JsonPropertyName("description")]
+    public string? Description { get; init; }
 }

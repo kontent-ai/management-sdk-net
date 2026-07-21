@@ -1,29 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Environments;
 
 /// <summary>
-/// Represents environment clone settings.
+/// Settings for cloning an environment.
 /// </summary>
-public class EnvironmentCloneModel
+public sealed record EnvironmentCloneModel
 {
     /// <summary>
-    /// Gets or sets the name of the new environment.
+    /// Name of the new environment.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a collection of RoleIds. All users assigned to these roles will be activated in the cloned environment.
+    /// Role IDs whose assigned users are activated in the cloned environment. Optional.
     /// </summary>
-    [JsonProperty("roles_to_activate")]
-    public ICollection<Guid> RolesToActivate { get; set; }
-    
-    /// <sumary>
-    /// Gets or sets <see cref="Kontent.Ai.Management.Models.Environments.CopyDataOptions"/> for copying entities.
-    /// </sumary>
-    [JsonProperty("copy_data_options")]
-    public CopyDataOptions CopyDataOptions { get; set; }
+    [JsonPropertyName("roles_to_activate")]
+    public IReadOnlyList<Guid>? RolesToActivate { get; init; }
+
+    /// <summary>
+    /// Options controlling which data is copied into the clone. Optional.
+    /// </summary>
+    [JsonPropertyName("copy_data_options")]
+    public CopyDataOptions? CopyDataOptions { get; init; }
 }

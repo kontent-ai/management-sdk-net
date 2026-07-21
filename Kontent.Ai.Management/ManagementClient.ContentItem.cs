@@ -1,68 +1,57 @@
-﻿using Kontent.Ai.Management.Models.Items;
-using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.Items;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<ContentItemModel>> ListContentItemsAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildItemsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<ContentItemModel>(
-            GetNextListingPageAsync<ContentItemListingResponseServerModel, ContentItemModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Items);
-    }
+    public Task<IManagementResult<IReadOnlyList<ContentItemModel>>> ListContentItemsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<ContentItemListingResponseServerModel, ContentItemModel>(
+            _managementApi.ListContentItemsInternalAsync,
+            page => page.Items,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<ContentItemModel> GetContentItemAsync(Reference identifier)
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.EnumerateAsync<ContentItemListingResponseServerModel, ContentItemModel>(
+            _managementApi.ListContentItemsInternalAsync,
+            page => page.Items,
+            page => page.Pagination?.Token,
+            cancellationToken);
+
+    /// <inheritdoc />
+    public Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentItemModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentItemModel> CreateContentItemAsync(ContentItemCreateModel contentItem)
+    public Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        var endpointUrl = _urlBuilder.BuildItemsUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ContentItemCreateModel, ContentItemModel>(endpointUrl, HttpMethod.Post, contentItem);
-
-        return response;
+        return _managementApi.CreateContentItemInternalAsync(contentItem, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentItemModel> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem)
+    public Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(contentItem);
 
-        var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-        var response = await _actionInvoker.InvokeMethodAsync<ContentItemUpsertModel, ContentItemModel>(endpointUrl, HttpMethod.Put, contentItem);
-
-        return response;
+        return _managementApi.UpsertContentItemInternalAsync(identifier.ToUrlSegment(), contentItem, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteContentItemAsync(Reference identifier)
+    public Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildItemUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _managementApi.DeleteContentItemInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

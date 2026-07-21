@@ -1,31 +1,17 @@
-using Newtonsoft.Json;
-using System;
+using Kontent.Ai.Management.Serialization.Converters;
 
 namespace Kontent.Ai.Management.Models.LanguageVariants.Elements;
 
-/// <summary>
-/// Represents the strongly typed date and time element.
-/// </summary>
-public class DateTimeElement : BaseElement
+/// <summary>Value of a date_time element: an instant plus the optional display time zone.</summary>
+/// <remarks>Use this to set a date_time element by hand in the untyped element array; <c>Element</c> says which element it targets. With a generated content-type record, set the element via <see cref="Content.DateTimeValue"/> instead.</remarks>
+public sealed record DateTimeElement : BaseElement
 {
-    /// <summary>
-    /// Gets or sets the value of the datetime element.
-    /// </summary>
-    [JsonProperty("value")]
-    public DateTime Value { get; set; }
+    /// <summary>The instant, serialized as a UTC "Z" value to match the API's storage.</summary>
+    [JsonPropertyName("value")]
+    [JsonConverter(typeof(UtcDateTimeOffsetJsonConverter))]
+    public DateTimeOffset? Value { get; init; }
 
-    /// <summary>
-    /// IANA time zone name used to display time offset of datetime element in the UI.
-    /// </summary>
-    [JsonProperty("display_timezone")]
-    public string DisplayTimeZone { get; set; }
-
-    /// <summary>
-    /// Coverts the datetime element to the dynamic object.
-    /// </summary>
-    public override dynamic ToDynamic() => new {
-        element = Element.ToDynamic(),
-        value = Value,
-        display_timezone = DisplayTimeZone
-    };
+    /// <summary>IANA zone name shown in the UI (e.g. "Europe/Prague"); omitted when null.</summary>
+    [JsonPropertyName("display_timezone")]
+    public string? DisplayTimeZone { get; init; }
 }

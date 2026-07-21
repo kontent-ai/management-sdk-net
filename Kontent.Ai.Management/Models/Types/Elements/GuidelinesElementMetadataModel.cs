@@ -1,20 +1,17 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a guidelines element in content types.
+/// A guidelines element. Carries authoring instructions only; has no value at the content-item level.
 /// </summary>
-public class GuidelinesElementMetadataModel : ElementMetadataBase
+public sealed record GuidelinesElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's guidelines, providing instructions on what to fill in.
+    /// HTML guidelines shown to authors. Required.
     /// </summary>
-    [JsonProperty("guidelines", Required = Required.Always)]
-    public string Guidelines { get; set; }
+    [JsonPropertyName("guidelines")]
+    public required string Guidelines { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Guidelines;
 }

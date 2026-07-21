@@ -1,23 +1,19 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
 /// <summary>
-/// Represents the variant filter workflow steps model.
+/// Workflow-based filter: restrict results to variants currently in specific steps of a workflow.
 /// </summary>
-public class VariantFilterWorkflowStepsModel
+public sealed record VariantFilterWorkflowStepsModel
 {
     /// <summary>
-    /// Gets or sets the workflow reference.
+    /// Reference to the workflow.
     /// </summary>
-    [JsonProperty("workflow_identifier")]
-    public Reference WorkflowReference { get; set; }
+    [JsonPropertyName("workflow_identifier")]
+    public required Reference Workflow { get; init; }
 
     /// <summary>
-    /// Gets or sets the workflow step references.
+    /// Specific steps within the workflow to match. Omit to match any step.
     /// </summary>
-    [JsonProperty("step_identifiers")]
-    public IEnumerable<Reference> WorkflowStepReferences { get; set; }
+    [JsonPropertyName("step_identifiers")]
+    public IReadOnlyList<Reference>? Steps { get; init; }
 }

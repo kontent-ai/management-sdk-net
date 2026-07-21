@@ -4,14 +4,15 @@ using Kontent.Ai.Management.Models.AssetRenditions;
 using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Collections;
 using Kontent.Ai.Management.Models.Collections.Patch;
+using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.Languages;
+using Kontent.Ai.Management.Models.Languages.Patch;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Publishing;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Models.Types;
@@ -29,22 +30,15 @@ using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 using Kontent.Ai.Management.Models.Workflow;
-using Kontent.Ai.Management.Modules.HttpClient;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Xunit;
+using System.Globalization;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/management-api-v2
 /// </summary>
-public class CmApiV2 : IClassFixture<FileSystemFixture>
+public class CmApiV2
 {
 
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
@@ -66,20 +60,14 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // await client.DeleteAssetAsync(identifier);
     // EndDocSection
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public CmApiV2(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: cm_api_v2_delete_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteAsset()
+    public async Task DeleteAsset()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var identifier = Reference.ByExternalId("which-brewing-fits-you");
@@ -91,9 +79,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteItem()
+    public async Task DeleteItem()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var identifier = Reference.ByCodename("my_article");
@@ -105,9 +93,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteSnippet()
+    public async Task DeleteSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
         // var identifier = Reference.ByCodename("metadata");
@@ -119,9 +107,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteTaxonomyGroup()
+    public async Task DeleteTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("personas");
@@ -133,9 +121,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteType()
+    public async Task DeleteType()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0"));
         // var identifier = Reference.ByCodename("hosted_video");
@@ -147,16 +135,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteLanguageVariant()
+    public async Task DeleteLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         await client.DeleteLanguageVariantAsync(identifier);
     }
@@ -164,9 +148,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteWebhook()
+    public async Task DeleteWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("d53360f7-79e1-42f4-a524-1b53a417d03e"));
 
@@ -176,9 +160,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteWorkflow()
+    public async Task DeleteWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = Reference.ById(Guid.Parse("8bfdb62d-7aa1-473b-9d80-311ef93db108"));
         // var identifier = Reference.ByCodename("my_workflow");
@@ -189,9 +173,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_delete_environment
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void DeleteEnvironment()
+    public async Task DeleteEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClient(Substitute.For<IManagementHttpClient>());
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         await client.DeleteEnvironmentAsync();
     }
@@ -199,9 +183,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetAsset()
+    public async Task GetAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Asset.json");
 
         var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var identifier = Reference.ByCodename("which-brewing-fits-you");
@@ -214,28 +198,24 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_assets
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetAssets()
+    public async Task GetAssets()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Assets.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Assets.json");
 
-        var response = await client.ListAssetsAsync();
+        IReadOnlyList<AssetModel> assets = (await client.ListAssetsAsync()).EnsureSuccess();
 
-        Assert.Single(response);
+        Assert.Single(assets);
     }
 
     // DocSection: cm_api_v2_get_rendition
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRendition()
+    public async Task GetRendition()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
-        var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
-        // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
-        var renditionReference = Reference.ById(Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
-        // var renditionReference = Reference.ByExternalId("hero-image-rendition");
-
-        var identifier = new AssetRenditionIdentifier(assetReference, renditionReference);
+        var identifier = AssetRenditionIdentifier.ByIds(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"), Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
+        // var identifier = new AssetRenditionIdentifier(Reference.ByExternalId("which-brewing-fits-you"), Reference.ByExternalId("hero-image-rendition"));
 
         var response = await client.GetAssetRenditionAsync(identifier);
 
@@ -245,31 +225,30 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_renditions
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRenditions()
+    public async Task GetRenditions()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRenditions.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRenditions.json");
 
         var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
 
-        // Gets the first page of results
-        var response = await client.ListAssetRenditionsAsync(assetReference);
+        IReadOnlyList<AssetRenditionModel> renditions = (await client.ListAssetRenditionsAsync(assetReference)).EnsureSuccess();
 
-        Assert.Single(response);
+        Assert.Single(renditions);
     }
 
     // DocSection: cm_api_v2_get_components_of_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetComponentsOfType()
+    public async Task GetComponentsOfType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItemsWithComponents.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItemsWithComponents.json");
 
         var identifier = Reference.ById(Guid.Parse("6434e475-5a29-4866-9fd1-6d1ca873f5be"));
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).EnsureSuccess();
 
         Assert.NotNull(response);
     }
@@ -277,11 +256,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_content_collections
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetContentCollections()
+    public async Task GetContentCollections()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
-        var response = await client.ListCollectionsAsync();
+        var response = (await client.GetCollectionsAsync()).EnsureSuccess();
 
         Assert.Equal(2, response.Collections.Count());
     }
@@ -289,22 +268,22 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_asset_folders
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetFolders()
+    public async Task GetFolders()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetFolders.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetFolders.json");
 
-        var response = await client.GetAssetFoldersAsync();
+        var response = (await client.GetAssetFoldersAsync()).EnsureSuccess();
 
         Assert.Equal(2, response.Folders.Count());
-        Assert.Single(response.Folders.First().Folders);
+        Assert.Single(response.Folders.First().Folders!);
     }
 
     // DocSection: cm_api_v2_get_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetItem()
+    public async Task GetItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItem.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItem.json");
 
         var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var identifier = Reference.ByCodename("my_article");
@@ -319,11 +298,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_items
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetItems()
+    public async Task GetItems()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentItems.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentItems.json");
 
-        var response = await client.ListContentItemsAsync();
+        IReadOnlyList<ContentItemModel> response = (await client.ListContentItemsAsync()).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -331,9 +310,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_language
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguage()
+    public async Task GetLanguage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Language.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Language.json");
 
         var identifier = Reference.ById(Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d"));
         // var identifier = Reference.ByCodename("de-DE");
@@ -347,21 +326,21 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_languages
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguages()
+    public async Task GetLanguages()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Languages.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Languages.json");
 
-        var response = await client.ListLanguagesAsync();
+        var count = (await client.ListLanguagesAsync()).EnsureSuccess().Count;
 
-        Assert.Single(response);
+        Assert.Equal(1, count);
     }
 
     // DocSection: cm_api_v2_get_project_information
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetProjectInformation()
+    public async Task GetProjectInformation()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Project.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Project.json");
 
         var response = await client.GetEnvironmentInformationAsync();
 
@@ -371,9 +350,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetSnippet()
+    public async Task GetSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Snippet.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Snippet.json");
 
         var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
         // var identifier = Reference.ByCodename("metadata");
@@ -387,11 +366,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_snippets
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetSnippets()
+    public async Task GetSnippets()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Snippets.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Snippets.json");
 
-        var response = await client.ListContentTypeSnippetsAsync();
+        IReadOnlyList<ContentTypeSnippetModel> response = (await client.ListContentTypeSnippetsAsync()).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -399,9 +378,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetTaxonomyGroup()
+    public async Task GetTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroup.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroup.json");
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("personas");
@@ -415,22 +394,21 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_taxonomy_groups
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetTaxonomyGroups()
+    public async Task GetTaxonomyGroups()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("TaxonomyGroups.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "TaxonomyGroups.json");
 
+        var count = (await client.ListTaxonomyGroupsAsync()).EnsureSuccess().Count;
 
-        var response = await client.ListTaxonomyGroupsAsync();
-
-        Assert.Single(response);
+        Assert.Equal(1, count);
     }
 
     // DocSection: cm_api_v2_get_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetContentType()
+    public async Task GetContentType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentType.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentType.json");
 
         var identifier = Reference.ById(Guid.Parse("269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0"));
         // var identifier = Reference.ByCodename("new_article");
@@ -444,12 +422,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_types
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetContentTypes()
+    public async Task GetContentTypes()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ContentTypes.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ContentTypes.json");
 
 
-        var response = await client.ListContentTypesAsync();
+        IReadOnlyList<ContentTypeModel> response = (await client.ListContentTypesAsync()).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -457,16 +435,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguageVariant()
+    public async Task GetLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "es-ES");
 
         var response = await client.GetLanguageVariantAsync(identifier);
 
@@ -476,16 +450,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_published_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetPublishedLanguageVariant()
+    public async Task GetPublishedLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariant.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariant.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("on_roasts"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "es-ES");
 
         var response = await client.GetPublishedLanguageVariantAsync(identifier);
 
@@ -495,15 +465,15 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_variants
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguageVariants()
+    public async Task GetLanguageVariants()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariants.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariants.json");
 
         var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var identifier = Reference.ByCodename("on_roasts");
         // var identifier = Reference.ByExternalId("59713");
 
-        var response = await client.ListLanguageVariantsByItemAsync(identifier);
+        var response = (await client.ListLanguageVariantsByItemAsync(identifier)).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -511,15 +481,15 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_variants_of_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetLanguageVariantsByType()
+    public async Task GetLanguageVariantsByType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsOfType.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariantsOfType.json");
 
         var identifier = Reference.ById(Guid.Parse("b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89"));
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ListLanguageVariantsByTypeAsync(identifier);
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsByTypeAsync(identifier)).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -527,15 +497,15 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_components_of_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetVariantsWithComponentsOfType()
+    public async Task GetVariantsWithComponentsOfType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("LanguageVariantsOfType.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "LanguageVariantsOfType.json");
 
         var identifier = Reference.ById(Guid.Parse("6434e475-5a29-4866-9fd1-6d1ca873f5be"));
         // var identifier = Reference.ByCodename("article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier);
+        IReadOnlyList<LanguageVariantModel> response = (await client.ListLanguageVariantsOfContentTypeWithComponentsAsync(identifier)).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -543,9 +513,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetWebhook()
+    public async Task GetWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Webhook.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Webhook.json");
 
         var identifier = Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"));
 
@@ -557,11 +527,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_webhooks
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetWebhooks()
+    public async Task GetWebhooks()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Webhooks.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Webhooks.json");
 
-        var response = await client.ListWebhooksAsync();
+        var response = (await client.ListWebhooksAsync()).EnsureSuccess();
 
         Assert.Single(response);
     }
@@ -569,22 +539,22 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_workflows
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetWorkflows()
+    public async Task GetWorkflows()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflows.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Workflows.json");
 
-        var response = await client.ListWorkflowsAsync();
+        var response = (await client.ListWorkflowsAsync()).EnsureSuccess();
 
-        Assert.Equal(2, response.Count());
+        Assert.Equal(2, response.Count);
     }
 
 
     // DocSection: cm_api_v2_get_role
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRole()
+    public async Task GetRole()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRole.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectRole.json");
 
         var identifier = Reference.ById(Guid.Parse("a23d3727-3b16-4d94-9eb0-85225d29cfef"));
         //var identifier = Reference.ByCodename("project-manager");
@@ -597,21 +567,21 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_roles
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetRoles()
+    public async Task GetRoles()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectRoles.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectRoles.json");
 
-        var response = await client.ListEnvironmentRolesAsync();
+        var response = (await client.ListEnvironmentRolesAsync()).EnsureSuccess();
 
-        Assert.Equal(2, response.Roles.Count());
+        Assert.Equal(2, response.Count);
     }
 
     // DocSection: cm_api_v2_get_subscription_user
     // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
     [Fact]
-    public async void GetSubscriptionUser()
+    public async Task GetSubscriptionUser()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUser.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUser.json");
 
         var identifier = UserIdentifier.ByEmail("Joe.Joe@kontent.ai");
         //var identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
@@ -624,33 +594,33 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_get_subscription_users
     // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
     [Fact]
-    public async void GetSubscriptionUsers()
+    public async Task GetSubscriptionUsers()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionUsers.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionUsers.json");
 
-        var response = await client.ListSubscriptionUsersAsync();
+        var count = (await client.ListSubscriptionUsersAsync()).EnsureSuccess().Count;
 
-        Assert.Equal(2, response.Count());
+        Assert.Equal(2, count);
     }
 
     // DocSection: cm_api_v2_get_subscription_projects
     // Tip: Find more about .NET SDKs at https://docs.kontent.ai/net
     [Fact]
-    public async void GetSubscriptionProjects()
+    public async Task GetSubscriptionProjects()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("SubscriptionProjects.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "SubscriptionProjects.json");
 
-        var response = await client.ListSubscriptionProjectsAsync();
+        var count = (await client.ListSubscriptionProjectsAsync()).EnsureSuccess().Count;
 
-        Assert.Equal(2, response.Count());
+        Assert.Equal(2, count);
     }
 
     // DocSection: cm_api_v2_get_environment_status
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetEnvironmentCloningState()
+    public async Task GetEnvironmentCloningState()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("EnvironmentCloningState.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "EnvironmentCloningState.json");
 
         var response = await client.GetEnvironmentCloningStateAsync();
 
@@ -660,9 +630,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: mapi_v2_get_validation_task
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetValidationTask()
+    public async Task GetValidationTask()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTask.json");
 
         var response = await client.GetAsyncValidationTaskAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
 
@@ -672,60 +642,57 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: mapi_v2_get_validation_issues
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void GetValidationIssues()
+    public async Task GetValidationIssues()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTaskIssues.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTaskIssues.json");
 
-        var response = await client.ListAsyncValidationTaskIssuesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
-
-        Assert.NotNull(response);
+        var result = await client.ListAsyncValidationTaskIssuesAsync(Guid.Parse("88d94fed-4899-4944-9b4b-c919b11a9db0"));
+        Assert.True(result.IsSuccess);
     }
 
     // DocSection: cm_api_v2_patch_asset_folders
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchAssetFolders()
+    public async Task PatchAssetFolders()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchAssetsFolderResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchAssetsFolderResponse.json");
 
-        var response = await client.ModifyAssetFoldersAsync(new AssetFolderOperationBaseModel[]
-        {
-            new AssetFolderAddIntoModel
+        var response = (await client.ModifyAssetFoldersAsync(
+        [
+            new AssetFolderAddIntoPatchModel
             {
                 Reference = Reference.ByExternalId("folder-with-shared-asset"),
                 Value = new AssetFolderHierarchy
                 {
                     ExternalId = "folder-with-shared-assets",
                     Name = "Shared assets",
-                    Folders = Enumerable.Empty<AssetFolderHierarchy>(),
                 },
                 Before = Reference.ByExternalId("folder-with-downloadable-assets")
             },
-            new AssetFolderRemoveModel
+            new AssetFolderRemovePatchModel
             {
                 Reference = Reference.ByExternalId("folder-with-archived-assets")
             },
-            new AssetFolderRenameModel
+            new AssetFolderRenamePatchModel
             {
                 Reference = Reference.ByExternalId("folder-documents"),
                 Value = "Legal documents"
             }
-        });
+        ])).EnsureSuccess();
 
-        Assert.NotNull(response);
         Assert.Equal(3, response.Folders.Count());
-        Assert.Single(response.Folders.Skip(1).First().Folders);
+        Assert.Single(response.Folders.Skip(1).First().Folders!);
     }
 
     // DocSection: cm_api_v2_patch_content_collections
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchContentCollections()
+    public async Task PatchContentCollections()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Collections.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Collections.json");
 
-        var response = await client.ModifyCollectionAsync(new CollectionOperationBaseModel[]
-        {
+        var response = (await client.ModifyCollectionsAsync(
+        [
             new CollectionAddIntoPatchModel
             {
                 Value = new CollectionCreateModel
@@ -743,15 +710,14 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             },
             new CollectionRemovePatchModel
             {
-                CollectionIdentifier = Reference.ByCodename("extra_collection")
+                Reference = Reference.ByCodename("extra_collection")
             },
             new CollectionReplacePatchModel
             {
-                PropertyName = Models.Collections.Patch.PropertyName.Name,
                 Value = "A new name",
                 Reference = Reference.ByCodename("second_collection")
             }
-        });
+        ])).EnsureSuccess();
 
         Assert.Equal(2, response.Collections.Count());
     }
@@ -759,28 +725,20 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_patch_language
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchLanguage()
+    public async Task PatchLanguage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchLanguageResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchLanguageResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("2ea66788-d3b8-5ff5-b37e-258502e4fd5d"));
         // var identifier = Reference.ByCodename("de-DE");
         // var identifier = Reference.ByExternalId("standard-german");
 
 
-        var response = await client.ModifyLanguageAsync(identifier, new[]
-        {
-            new LanguagePatchModel
-            {
-                PropertyName = LanguagePropertyName.FallbackLanguage,
-                Value = Reference.ByCodename("en-US")
-            },
-            new LanguagePatchModel
-            {
-                PropertyName = LanguagePropertyName.Name,
-                Value = "Deutsch"
-            },
-        });
+        var response = await client.ModifyLanguageAsync(identifier,
+        [
+            LanguagePatch.FallbackLanguage(Reference.ByCodename("en-US")),
+            LanguagePatch.Name("Deutsch"),
+        ]);
 
         Assert.NotNull(response);
     }
@@ -788,55 +746,38 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_patch_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchSnippet()
+    public async Task PatchSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchSnippetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchSnippetResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("baf884be-531f-441f-ae88-64205efdd0f6"));
         // var identifier = Reference.ByCodename("my_metadata_snippet");
         // var identifier = Reference.ByExternalId("my-metadata-snippet-id");
 
-        var response = await client.ModifyContentTypeSnippetAsync(identifier, new ContentTypeSnippetOperationBaseModel[]
-        {
-            new ContentTypeSnippetPatchReplaceModel
+        var response = await client.ModifyContentTypeSnippetAsync(identifier,
+        [
+            ContentTypeSnippetPatch.ReplaceName("A new snippet name"),
+            ContentTypeSnippetPatch.ReplaceGuidelines(
+                Reference.ByCodename("my_metadata__my_meta_description"),
+                "Length: 70-150 characters."),
+            ContentTypeSnippetPatch.AddElement(new TextElementMetadataModel
             {
-                Path = "/name",
-                Value = "A new snippet name"
-            },
-            new ContentTypeSnippetPatchReplaceModel
-            {
-                Path = "/elements/codename:my_metadata__my_meta_description/guidelines",
-                Value = "Length: 70-150 characters."
-            },
-            new ContentTypeSnippetAddIntoPatchModel
-            {
-                Path = "/elements",
-                Value = new TextElementMetadataModel
-                {
-                    Name = "My meta title",
-                    Guidelines = "Length: 30–60 characters.",
-                    ExternalId = "my-meta-title-id"
-                },
-            },
-            new ContentTypeSnippetPatchRemoveModel
-            {
-                Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
-            },
-            new ContentTypeSnippetPatchRemoveModel
-            {
-                Path = "/elements/external_id:my-multiple-choice-id/options/codename:my_option"
-            },
-            new ContentTypeSnippetPatchMoveModel
-            {
-                Path = "/elements/codename:my_metadata_snippet__my_meta_title",
-                After = Reference.ByCodename("my_metadata_snippet__my_meta_description")
-            },
-            new ContentTypeSnippetPatchMoveModel
-            {
-                Path = "/elements/external_id:my-multiple-choice-id/options/id:8e6ec8b1-6510-4b9b-b4be-6c977f4bdfbc",
-                Before = Reference.ById(Guid.Parse("6bfe5a60-5cc2-4303-8f72-9cc53431046b"))
-            }
-        });
+                Name = "My meta title",
+                Guidelines = "Length: 30–60 characters.",
+                ExternalId = "my-meta-title-id"
+            }),
+            ContentTypeSnippetPatch.RemoveElement(Reference.ById(Guid.Parse("0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"))),
+            ContentTypeSnippetPatch.RemoveOption(
+                Reference.ByExternalId("my-multiple-choice-id"),
+                Reference.ByCodename("my_option")),
+            ContentTypeSnippetPatch.MoveElementAfter(
+                Reference.ByCodename("my_metadata_snippet__my_meta_title"),
+                Reference.ByCodename("my_metadata_snippet__my_meta_description")),
+            ContentTypeSnippetPatch.MoveOptionBefore(
+                Reference.ByExternalId("my-multiple-choice-id"),
+                Reference.ById(Guid.Parse("8e6ec8b1-6510-4b9b-b4be-6c977f4bdfbc")),
+                Reference.ById(Guid.Parse("6bfe5a60-5cc2-4303-8f72-9cc53431046b")))
+        ]);
 
         Assert.NotNull(response);
     }
@@ -844,46 +785,31 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_patch_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchTaxonomyGroup()
+    public async Task PatchTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchTaxonomyGroupResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchTaxonomyGroupResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("personas");
         // var identifier = Reference.ByExternalId("Tax-Group-123");
 
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, new TaxonomyGroupOperationBaseModel[]
-        {
-            new TaxonomyGroupReplacePatchModel
-            {
-                PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Name,
-                Value = "Categories"
-            },
-            new TaxonomyGroupReplacePatchModel
-            {
-                PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Codename,
-                Value = "category"
-            },
-            new TaxonomyGroupReplacePatchModel
-            {
-                Reference = Reference.ByCodename("first_term"),
-                PropertyName = Models.TaxonomyGroups.Patch.PropertyName.Terms,
-                Value = new TaxonomyGroupCreateModel[]
+        var response = await client.ModifyTaxonomyGroupAsync(identifier,
+        [
+            TaxonomyGroupPatch.ReplaceName(identifier, "Categories"),
+            TaxonomyGroupPatch.ReplaceCodename(identifier, "category"),
+            TaxonomyGroupPatch.ReplaceTerms(Reference.ByCodename("first_term"),
+                new TaxonomyTermCreateModel
                 {
-                    new TaxonomyGroupCreateModel
-                    {
-                        Name = "Second-level taxonomy term",
-                        Codename = "second_term",
-                        Terms = new TaxonomyTermCreateModel[]
+                    Name = "Second-level taxonomy term",
+                    Codename = "second_term",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Third-level taxonomy term",
-                            }
+                            Name = "Third-level taxonomy term",
                         }
-                    }
-                }
-            },
+                    ]
+                }),
             new TaxonomyGroupRemovePatchModel
             {
                 Reference = Reference.ByExternalId("unused-taxonomy-term")
@@ -895,7 +821,6 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 {
                     Name = "New taxonomy term",
                     ExternalId = "my-new-term",
-                    Terms = Array.Empty<TaxonomyTermCreateModel>()
                 }
             },
             new TaxonomyGroupMovePatchModel
@@ -903,7 +828,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 Reference = Reference.ByExternalId("my-new-term"),
                 Before = Reference.ByCodename("first_term")
             }
-        });
+        ]);
 
         Assert.NotNull(response);
     }
@@ -911,60 +836,38 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_patch_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchContentType()
+    public async Task PatchContentType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PatchContentTypeResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PatchContentTypeResponse.json");
 
         var identifier = Reference.ById(Guid.Parse("0be13600-e57c-577d-8108-c8d860330985"));
         // var identifier = Reference.ByCodename("my_article");
         // var identifier = Reference.ByExternalId("my-article-id");
 
-        var response = await client.ModifyContentTypeAsync(identifier, new ContentTypeOperationBaseModel[]
-        {
-            new ContentTypeReplacePatchModel
+        var response = await client.ModifyContentTypeAsync(identifier,
+        [
+            ContentTypePatch.ReplaceName("A new type name"),
+            ContentTypePatch.ReplaceGuidelines(
+                Reference.ByCodename("my_text_element"),
+                "Here you can tell users how to fill in the element."),
+            ContentTypePatch.ReplaceDefault(
+                Reference.ByCodename("my_text_element"),
+                new TextElementDefaultValueModel("This is a default value of the text element.")),
+            ContentTypePatch.AddElement(new TextElementMetadataModel
             {
-                Path = "/name",
-                Value = "A new type name"
-            },
-            new ContentTypeReplacePatchModel
-            {
-                Path = "/elements/codename:my_text_element/guidelines",
-                Value = "Here you can tell users how to fill in the element."
-            },
-            new ContentTypeReplacePatchModel
-            {
-                Path = "/elements/codename:my_text_element/default",
-                Value = new TextElementDefaultValueModel {
-                    Global = new() {
-                        Value = "This is a default value of the text element."
-                    }
-                }
-            },
-            new ContentTypeAddIntoPatchModel
-            {
-                Path = "/elements",
-                Value = new TextElementMetadataModel
-                {
-                    Name = "My title",
-                    Guidelines = "Title of the article in plain text.",
-                    ExternalId = "my-title-id",
-                },
-            },
-            new ContentTypeRemovePatchModel
-            {
-                Path = "/elements/id:0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"
-            },
-            new ContentTypeMovePatchModel
-            {
-                Path = "/elements/codename:my_text_element",
-                After = Reference.ByExternalId("my-title-id")
-            },
-            new ContentTypeMovePatchModel
-            {
-                Path = "/elements/external_id:my-multiple-choice-id/options/id:d66ffa49-86ff-eeaa-c33b-e5d9eefe8b81",
-                Before = Reference.ById(Guid.Parse("523e6231-8d80-a158-3601-dffde4e64a78"))
-            }
-        });
+                Name = "My title",
+                Guidelines = "Title of the article in plain text.",
+                ExternalId = "my-title-id",
+            }),
+            ContentTypePatch.RemoveElement(Reference.ById(Guid.Parse("0b2015d0-16ae-414a-85f9-7e1a4b3a3eae"))),
+            ContentTypePatch.MoveElementAfter(
+                Reference.ByCodename("my_text_element"),
+                Reference.ByExternalId("my-title-id")),
+            ContentTypePatch.MoveOptionBefore(
+                Reference.ByExternalId("my-multiple-choice-id"),
+                Reference.ById(Guid.Parse("d66ffa49-86ff-eeaa-c33b-e5d9eefe8b81")),
+                Reference.ById(Guid.Parse("523e6231-8d80-a158-3601-dffde4e64a78")))
+        ]);
 
         Assert.NotNull(response);
     }
@@ -972,17 +875,17 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_patch_environment
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PatchEnvironment()
+    public async Task PatchEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Environment.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Environment.json");
 
-        var response = await client.ModifyEnvironmentAsync(new[]
-        {
+        var response = await client.ModifyEnvironmentAsync(
+        [
             new EnvironmentRenamePatchModel
             {
                 Value = "My Little Production"
             }
-        });
+        ]);
 
         Assert.NotNull(response);
     }
@@ -990,43 +893,44 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostAsset()
+    public async Task PostAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostAssetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostAssetResponse.json");
 
         var response = await client.CreateAssetAsync(new AssetCreateModel
         {
             FileReference = new FileReference
             {
-                Id = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
-                Type = FileReferenceTypeEnum.Internal
+                Id = "fcbb12e6-66a3-4672-85d9-d502d16b8d9c"
             },
             Folder = Reference.ByExternalId("another-folder"),
             Title = "Coffee Brewing Techniques",
             ExternalId = "which-brewing-fits-you",
-            Descriptions = new[]
-            {
+            Descriptions =
+            [
                 new AssetDescription
                 {
                     Language = Reference.ByCodename("en-US"),
                     Description = "Coffee Brewing Techniques"
                 },
-                 new AssetDescription
+                new AssetDescription
                 {
                     Language = Reference.ByCodename("es-ES"),
                     Description = "Técnicas para hacer café"
                 }
-            },
-            Elements = ElementBuilder.GetElementsAsDynamic(
-                new TaxonomyElement
+            ],
+            Elements =
+            [
+                new AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
-                    Value = new[]
-                    {
+                    Value =
+                    [
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
-                    }
-                })
+                    ]
+                }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1035,29 +939,28 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_asset_folders
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostAssetFolders()
+    public async Task PostAssetFolders()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostAssetFoldersResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostAssetFoldersResponse.json");
 
         var response = await client.CreateAssetFoldersAsync(new AssetFolderCreateModel
         {
-            Folders = new[]
-            {
+            Folders =
+            [
                 new AssetFolderHierarchy
                 {
                     Name = "Top level folder",
                     ExternalId = "top-folder",
-                    Folders = new []
-                    {
+                    Folders =
+                    [
                         new AssetFolderHierarchy
                         {
                             Name = "Second level folder",
                             ExternalId = "second-folder",
-                            Folders = Enumerable.Empty<AssetFolderHierarchy>(),
                         }
-                    }
+                    ]
                 }
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1066,9 +969,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_rendition
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostAssetRendition()
+    public async Task PostAssetRendition()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
         var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
         // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
@@ -1093,9 +996,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_file
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostFile()
+    public async Task PostFile()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostFileResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostFileResponse.json");
 
         var filePath = Path.Combine(Environment.CurrentDirectory, "Data", "which-brewing-fits-you-1080px.jpg");
         var contentType = "image/jpeg";
@@ -1109,16 +1012,16 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostItem()
+    public async Task PostItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostItemResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostItemResponse.json");
 
         var response = await client.CreateContentItemAsync(new ContentItemCreateModel
         {
             Name = "On Roasts",
             Codename = "my_article",
             Type = Reference.ByCodename("article"),
-            Collection = Reference.ByCodename("default"),
+            Collection = Reference.ByDefaultCodename(),
             ExternalId = "59713",
         });
 
@@ -1129,9 +1032,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_language
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostLanguage()
+    public async Task PostLanguage()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostLanguageResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostLanguageResponse.json");
 
         var response = await client.CreateLanguageAsync(new LanguageCreateModel
         {
@@ -1148,17 +1051,17 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_snippet
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostSnippet()
+    public async Task PostSnippet()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostSnippetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostSnippetResponse.json");
 
         var response = await client.CreateContentTypeSnippetAsync(new ContentTypeSnippetCreateModel
         {
             Name = "metadata",
             Codename = "my_metadata",
             ExternalId = "snippet-item-123",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Meta title",
@@ -1173,7 +1076,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Guidelines = "Length: 70-11500 characters",
                     ExternalId = "meta_description",
                 }
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1182,62 +1085,58 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_taxonomy_group
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostTaxonomyGroup()
+    public async Task PostTaxonomyGroup()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostTaxonomyGroupResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostTaxonomyGroupResponse.json");
 
         var response = await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
         {
             Name = "Personas",
             ExternalId = "Tax-Group-123",
             Codename = "people",
-            Terms = new TaxonomyTermCreateModel[]
+            Terms =
+            [
+                new TaxonomyTermCreateModel
                 {
-                    new TaxonomyTermCreateModel
-                    {
-                        Name = "Coffee expert",
-                        Codename = "expert",
-                        ExternalId = "Tax-term-456",
-                        Terms = new TaxonomyTermCreateModel[]
+                    Name = "Coffee expert",
+                    Codename = "expert",
+                    ExternalId = "Tax-term-456",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Barista",
-                                ExternalId = "Tax-term-789",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Cafe owner",
-                                ExternalId = "Tax-term-101",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            }
-                        }
-                    },
-                    new TaxonomyTermCreateModel
-                    {
-                        Name = "Coffee enthusiast",
-                        Codename = "enthusiast",
-                        ExternalId = "Tax-term-112",
-                        Terms = new TaxonomyTermCreateModel[]
+                            Name = "Barista",
+                            ExternalId = "Tax-term-789",
+                        },
+                        new TaxonomyTermCreateModel
                         {
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Coffee lover",
-                                ExternalId = "Tax-term-131",
-                                Codename = "lover",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            },
-                            new TaxonomyTermCreateModel
-                            {
-                                Name = "Coffee blogger",
-                                ExternalId = "Tax-term-145",
-                                Codename = "blogger",
-                                Terms = Enumerable.Empty<TaxonomyTermCreateModel>()
-                            }
+                            Name = "Cafe owner",
+                            ExternalId = "Tax-term-101",
                         }
-                    }
+                    ]
+                },
+                new TaxonomyTermCreateModel
+                {
+                    Name = "Coffee enthusiast",
+                    Codename = "enthusiast",
+                    ExternalId = "Tax-term-112",
+                    Terms =
+                    [
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "Coffee lover",
+                            ExternalId = "Tax-term-131",
+                            Codename = "lover",
+                        },
+                        new TaxonomyTermCreateModel
+                        {
+                            Name = "Coffee blogger",
+                            ExternalId = "Tax-term-145",
+                            Codename = "blogger",
+                        }
+                    ]
                 }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1246,17 +1145,17 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostType()
+    public async Task PostType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostTypeResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostTypeResponse.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
             ExternalId = "article",
             Name = "Article",
             Codename = "my_article",
-            ContentGroups = new[]
-            {
+            ContentGroups =
+            [
                 new ContentGroupModel
                 {
                     Name = "Article Copy",
@@ -1265,21 +1164,17 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 new ContentGroupModel
                 {
                     Name = "Author",
-                    CodeName = "author",
+                    Codename = "author",
                 }
-            },
-            Elements = new ElementMetadataBase[]
-            {
+            ],
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Article title",
                     Codename = "title",
                     ContentGroup = Reference.ByCodename("article-copy"),
-                    DefaultValue = new TextElementDefaultValueModel {
-                        Global = new() {
-                            Value = "This is the default value of the text element."
-                        }
-                    }
+                    DefaultValue = new TextElementDefaultValueModel("This is the default value of the text element.")
                 },
                 new RichTextElementMetadataModel
                 {
@@ -1291,14 +1186,10 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                 {
                     Name = "Author bio",
                     Codename = "bio",
-                    AllowedBlocks = new HashSet<RichTextBlockType>()
-                    {
-                        RichTextBlockType.Images,
-                        RichTextBlockType.Text
-                    },
+                    AllowedBlocks = [RichTextBlockType.Images, RichTextBlockType.Text],
                     ContentGroup = Reference.ByCodename("author"),
                 },
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1307,9 +1198,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_validate
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostValidate()
+    public async Task PostValidate()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostValidateResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostValidateResponse.json");
 
         var response = await client.ValidateEnvironmentAsync();
 
@@ -1319,17 +1210,17 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostWebhook()
+    public async Task PostWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PostWebhookResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PostWebhookResponse.json");
 
         var response = await client.CreateWebhookAsync(new WebhookCreateModel
         {
             Name = "Example webhook",
             Url = "https://example.com/webhook",
             Secret = "secret_key",
-            Headers = new[]
-            {
+            Headers =
+            [
                 new CustomHeaderModel
                 {
                     Key = "key1",
@@ -1340,86 +1231,78 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Key = "key2",
                     Value = "value2"
                 }
-            },
+            ],
             DeliveryTriggers = new DeliveryTriggersModel
             {
                 ContentType = new ContentTypeTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
-                       new ContentTypeActionModel { Action = ContentTypeAction.Created },
-                       new ContentTypeActionModel { Action = ContentTypeAction.Changed },
-                       new ContentTypeActionModel { Action = ContentTypeAction.Deleted }
-                    },
+                    Actions =
+                    [
+                        new ContentTypeActionModel { Action = ContentTypeAction.Created },
+                        new ContentTypeActionModel { Action = ContentTypeAction.Changed },
+                        new ContentTypeActionModel { Action = ContentTypeAction.Deleted }
+                    ],
                     Filters = new ContentTypeFiltersModel
                     {
-                        ContentTypes = new[] {
-                            Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))
-                        }
+                        ContentTypes = [Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))]
                     }
                 },
                 ContentItem = new ContentItemTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new ContentItemActionModel
                         {
                             Action = ContentItemAction.Deleted,
-                            TransitionTo = new []
-                            {
-                                new ContentItemWorkflowTransition {
-                                    WorkflowReference = Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
-                                    WorkflowStepReference = Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008"))
+                            TransitionTo =
+                            [
+                                new ContentItemWorkflowTransition
+                                {
+                                    Workflow = Reference.ById(Guid.Parse("88ac5e6e-1c5c-4638-96e1-0d61221ad5bf")),
+                                    Step = Reference.ById(Guid.Parse("b4363ccd-8f21-45fd-a840-5843d7b7f008"))
                                 }
-                            }
+                            ]
                         }
-                    },
+                    ],
                     Filters = new ContentItemFiltersModel
                     {
-                        Languages = new[]
-                        {
-                            Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))
-                        }
+                        Languages = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                     }
                 },
                 Taxonomy = new TaxonomyTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new TaxonomyActionModel { Action = TaxonomyAction.TermChanged },
                         new TaxonomyActionModel { Action = TaxonomyAction.MetadataChanged }
-                    },
+                    ],
                     Filters = new TaxonomyFiltersModel
                     {
-                        Taxonomies = new[] {
-                            Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))
-                        }
+                        Taxonomies = [Reference.ById(Guid.Parse("dd1439d5-4ee2-4895-a4e4-5b0d9d8c754e"))]
                     }
                 },
                 Asset = new AssetTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new AssetActionModel { Action = AssetAction.Created },
                         new AssetActionModel { Action = AssetAction.Changed }
-                    }
+                    ]
                 },
                 Language = new LanguageTriggerModel
                 {
                     Enabled = true,
-                    Actions = new[]
-                    {
+                    Actions =
+                    [
                         new LanguageActionModel { Action = LanguageAction.Created }
-                    },
+                    ],
                     Filters = new LanguageFiltersModel
                     {
-                        Languages = new[] {
-                            Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))
-                        }
+                        Languages = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                     }
                 },
                 Slot = DeliverySlot.Preview,
@@ -1433,61 +1316,56 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostWorkflow()
+    public async Task PostWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflow.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Workflow.json");
 
         var response = await client.CreateWorkflowAsync(new WorkflowUpsertModel
         {
             Name = "My workflow",
-            Scopes = new List<WorkflowScopeUpsertModel>
-            {
+            Scopes =
+            [
                 new()
                 {
-                    Collections = new List<Reference>{ Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024")) },
-                    ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
+                    Collections = [Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024"))],
+                    ContentTypes = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                 }
-            },
-            Steps = new List<WorkflowStepUpsertModel>
-            {
+            ],
+            Steps =
+            [
                 new()
                 {
                     Name = "First step",
                     Codename = "first_step",
-                    Color = WorkflowStepColorModel.SkyBlue,
-                    RoleIds = new List<Guid>(),
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    Color = WorkflowStepColor.SkyBlue,
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("second_step")
                         }
-                    }
+                    ]
                 },
                 new()
                 {
                     Name = "Second step",
                     Codename = "second_step",
-                    Color = WorkflowStepColorModel.Rose,
-                    RoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") },
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    Color = WorkflowStepColor.Rose,
+                    RoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")],
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("published")
                         }
-                    }
+                    ]
                 }
-            },
+            ],
             PublishedStep = new WorkflowPublishedStepUpsertModel
             {
-                RoleCreateNewVersionIds = new List<Guid>(),
-                RolesUnpublishArchivedCancelSchedulingIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+                UnpublishRoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")]
             },
-            ArchivedStep = new WorkflowArchivedStepUpsertModel
-            {
-                RoleIds = new List<Guid>()
-            }
+            ArchivedStep = new WorkflowArchivedStepUpsertModel()
         });
 
         Assert.NotNull(response);
@@ -1496,31 +1374,32 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_post_user
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostUser()
+    public async Task PostUser()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectUser.json");
 
         var response = await client.InviteUserIntoEnvironmentAsync(new UserInviteModel
         {
-            CollectionGroup = new List<UserCollectionGroup>
-            {
+            Email = "user@example.com",
+            CollectionGroups =
+            [
                 new UserCollectionGroup
                 {
-                    Collections = new List<Reference>
-                    {
-                        Reference.ById(Guid.Empty),
+                    Collections =
+                    [
+                        Reference.ByDefaultId(),
                         Reference.ById(Guid.Parse("28b68213-d636-4b01-9fd1-988b93789e17"))
-                    },
-                    Roles = new List<RoleModel>
-                    {
-                        new RoleModel
+                    ],
+                    Roles =
+                    [
+                        new UserRoleModel
                         {
                             Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
-                            Languages = new List<Reference>() { Reference.ById(Guid.Parse("7df9a691-cf29-402d-9598-66273e7561b7")) }
+                            Languages = [Reference.ById(Guid.Parse("7df9a691-cf29-402d-9598-66273e7561b7"))]
                         }
-                    }
+                    ]
                 }
-            }
+            ]
         });
 
         Assert.NotNull(response);
@@ -1529,17 +1408,14 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_clone_environment
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostCloneEnvironment()
+    public async Task PostCloneEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ClonedEnvironment.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ClonedEnvironment.json");
 
         var response = await client.CloneEnvironmentAsync(new EnvironmentCloneModel
         {
             Name = "New environment",
-            RolesToActivate = new[]
-            {
-                Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")
-            },
+            RolesToActivate = [Guid.Parse("2f925111-1457-49d4-a595-0958feae8ae4")],
             CopyDataOptions = new CopyDataOptions
             {
                 ContentItemsAssets = true,
@@ -1553,9 +1429,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: mapi_v2_post_validate_async
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostValidateEnvironment()
+    public async Task PostValidateEnvironment()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AsyncValidationTask.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AsyncValidationTask.json");
 
         var response = await client.InitiateEnvironmentAsyncValidationTaskAsync();
 
@@ -1565,9 +1441,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_asset
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutAsset()
+    public async Task PutAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PutAssetResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PutAssetResponse.json");
 
         var identifier = Reference.ByExternalId("which-brewing-fits-you");
         // var identifier = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
@@ -1576,8 +1452,8 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         var updatedAssetResponse = await client.UpsertAssetAsync(identifier, new AssetUpsertModel
         {
             Title = "Coffee Brewing Techniques",
-            Descriptions = new List<AssetDescription>
-            {
+            Descriptions =
+            [
                 new AssetDescription
                 {
                     Description = "Coffee Brewing Techniques",
@@ -1588,17 +1464,19 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Description = "Técnicas para hacer café",
                     Language = Reference.ByCodename("es-ES")
                 }
-            },
-            Elements = ElementBuilder.GetElementsAsDynamic(
-                new TaxonomyElement
+            ],
+            Elements =
+            [
+                new AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
-                    Value = new[]
-                    {
+                    Value =
+                    [
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
-                    }
-                })
+                    ]
+                }
+            ]
         });
 
         // Used when creating a new asset or updating an existing one
@@ -1608,12 +1486,11 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
             // To create a file reference, see the "Upload a binary file" endpoint
             FileReference = new FileReference
             {
-                Id = "ab7bdf75-781b-4bf9-aed8-501048860402",
-                Type = FileReferenceTypeEnum.Internal
+                Id = "ab7bdf75-781b-4bf9-aed8-501048860402"
             },
             Title = "Coffee Brewing Techniques",
-            Descriptions = new AssetDescription[]
-            {
+            Descriptions =
+            [
                 new AssetDescription
                 {
                     Description = "Coffee Brewing Techniques",
@@ -1624,17 +1501,19 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
                     Description = "Técnicas para hacer café",
                     Language = Reference.ByCodename("es-ES")
                 }
-            },
-            Elements = ElementBuilder.GetElementsAsDynamic(
-                new TaxonomyElement
+            ],
+            Elements =
+            [
+                new AssetTaxonomyElement
                 {
                     Element = Reference.ByCodename("taxonomy-categories"),
-                    Value = new[]
-                    {
+                    Value =
+                    [
                         Reference.ByCodename("coffee"),
                         Reference.ByCodename("brewing"),
-                    }
-                })
+                    ]
+                }
+            ]
         });
 
         Assert.NotNull(createdAssetResponse);
@@ -1644,16 +1523,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_rendition
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutAssetRendition()
+    public async Task PutAssetRendition()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetRendition.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetRendition.json");
 
-        var assetReference = Reference.ById(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"));
-        // var assetReference = Reference.ByExternalId("which-brewing-fits-you");
-        var renditionReference = Reference.ById(Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
-        // var renditionReference = Reference.ByExternalId("hero-image-rendition");
-
-        var identifier = new AssetRenditionIdentifier(assetReference, renditionReference);
+        var identifier = AssetRenditionIdentifier.ByIds(Guid.Parse("fcbb12e6-66a3-4672-85d9-d502d16b8d9c"), Guid.Parse("ce559491-0fc1-494b-96f3-244bc095de57"));
+        // var identifier = new AssetRenditionIdentifier(Reference.ByExternalId("which-brewing-fits-you"), Reference.ByExternalId("hero-image-rendition"));
 
         var response = await client.UpdateAssetRenditionAsync(identifier, new AssetRenditionUpdateModel()
         {
@@ -1674,9 +1549,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutItem()
+    public async Task PutItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PutItemResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PutItemResponse.json");
 
         var identifier = Reference.ByExternalId("59713");
         // var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
@@ -1686,7 +1561,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         {
             Name = "On Roasts",
             Codename = "my_article_my_article",
-            Collection = Reference.ByCodename("default"),
+            Collection = Reference.ByDefaultCodename(),
             // 'Type' is only required when creating a new content item
             Type = Reference.ByCodename("article"),
         });
@@ -1697,74 +1572,62 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutLanguageVariant()
+    public async Task PutLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("PutLanguageVariantResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "PutLanguageVariantResponse.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var response = await client.UpsertLanguageVariantAsync(
             identifier,
             new LanguageVariantUpsertModel
             {
-                Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-                {
-                    new TaxonomyElement
+                Elements =
+                [
+                    new MultipleChoiceElement
                     {
                         Element = Reference.ByCodename("personas"),
-                        Value = new []
-                        {
-                            Reference.ByCodename("barista"),
-                            Reference.ByCodename("coffee_blogger"),
-                        }
+                        Value = [Reference.ByCodename("barista"), Reference.ByCodename("coffee_blogger")],
                     },
                     new DateTimeElement
                     {
                         Element = Reference.ByCodename("post_date"),
-                        Value = DateTime.Parse("2014-11-07T00:00:00Z"),
-                        DisplayTimeZone = "Australia/Sydney"
+                        Value = new DateTimeOffset(2014, 11, 7, 0, 0, 0, TimeSpan.Zero),
+                        DisplayTimeZone = "Australia/Sydney",
                     },
                     new TextElement
                     {
                         Element = Reference.ByCodename("summary"),
-                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ..."
+                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ...",
                     },
                     new LinkedItemsElement
                     {
                         Element = Reference.ByCodename("related_articles"),
-                        Value = new []
-                        {
-                            Reference.ByCodename("coffee_processing_techniques"),
-                            Reference.ByCodename("origins_of_arabica_bourbon"),
-                        }
+                        Value = [Reference.ByCodename("coffee_processing_techniques"), Reference.ByCodename("origins_of_arabica_bourbon")],
                     },
                     new TextElement
                     {
                         Element = Reference.ByCodename("meta_keywords"),
-                        Value = "asados, café"
+                        Value = "asados, café",
                     },
                     new TextElement
                     {
                         Element = Reference.ByCodename("meta_description"),
-                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ..."
+                        Value = "Tostar granos de café puede tardar de 6 a 13 minutos. ...",
                     },
                     new UrlSlugElement
                     {
                         Element = Reference.ByCodename("url_pattern"),
-                        Mode = "autogenerated"
+                        Mode = UrlSlugMode.Autogenerated,
                     },
-                }),
+                ],
                 DueDate = new DueDateModel
                 {
-                    Value = DateTime.Parse("2092-01-07T06:04:00.7069564Z")
-                }
-            },
-            new WorkflowStepIdentifier(Reference.ByCodename("default"), Reference.ByCodename("review")));
+                    Value = DateTime.Parse("2092-01-07T06:04:00.7069564Z", CultureInfo.InvariantCulture)
+                },
+                Workflow = new WorkflowStepIdentifier(Reference.ByDefaultCodename(), Reference.ByCodename("review"))
+            });
 
         Assert.NotNull(response);
     }
@@ -1772,16 +1635,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_variant_cancel_schedule
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutLanguageVariantCancelSchedule()
+    public async Task PutLanguageVariantCancelSchedule()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var exception = await Record.ExceptionAsync(async () => await client.CancelPublishingOfLanguageVariantAsync(identifier));
 
@@ -1791,16 +1650,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_var_cancel_sched_unpublish
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutCancelUnpublishingOfLanguageVariant()
+    public async Task PutCancelUnpublishingOfLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var exception = await Record.ExceptionAsync(async () => await client.CancelUnpublishingOfLanguageVariantAsync(identifier));
 
@@ -1810,16 +1665,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_variant_create_new_version
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutLanguageVariantNewVersion()
+    public async Task PutLanguageVariantNewVersion()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         var exception = await Record.ExceptionAsync(async () => await client.CreateNewVersionOfLanguageVariantAsync(identifier));
         Assert.Null(exception);
@@ -1828,16 +1679,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_variant_publish_or_schedule
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutPublishLanguageVariant()
+    public async Task PutPublishLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         // Immediate publish
         var immediateException = await Record.ExceptionAsync(async () => await client.PublishLanguageVariantAsync(identifier));
@@ -1845,7 +1692,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         // Scheduled publish
         var scheduledPublishException = await Record.ExceptionAsync(async () => await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08"),
+            ScheduledTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
             DisplayTimeZone = "Europe/London"
         }));
 
@@ -1856,16 +1703,12 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_variant_unpublish_archive
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutUnpublishLanguageVariant()
+    public async Task PutUnpublishLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
-        var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474")), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByCodename("my_article"), Reference.ByCodename("es-ES"));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ById(Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8")));
-        // var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("59713"), Reference.ByCodename("es-ES"));
+        var identifier = LanguageVariantIdentifier.ByIds(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"), Guid.Parse("d1f95fde-af02-b3b5-bd9e-f232311ccab8"));
+        // var identifier = LanguageVariantIdentifier.ByCodenames("my_article", "es-ES");
 
         // Immediate unpublish
         var immediateException = await Record.ExceptionAsync(async () => await client.UnpublishLanguageVariantAsync(identifier));
@@ -1873,7 +1716,7 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         // Scheduled unpublish
         var scheduledUnpublishException = await Record.ExceptionAsync(async () => await client.ScheduleUnpublishingOfLanguageVariantAsync(identifier, new ScheduleModel
         {
-            ScheduleTo = DateTime.Parse("2038-01-19T04:14:08"),
+            ScheduledTo = DateTime.Parse("2038-01-19T04:14:08", CultureInfo.InvariantCulture),
             DisplayTimeZone = "Europe/London"
         }));
 
@@ -1884,9 +1727,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_variant_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutVariantWorkflow()
+    public async Task PutVariantWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var itemIdentifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
         // var itemIdentifier = Reference.ByCodename("my_article");
@@ -1900,13 +1743,13 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         var exception = await Record.ExceptionAsync(async () =>
                 await client.ChangeLanguageVariantWorkflowAsync(
                     new LanguageVariantIdentifier(itemIdentifier, languageIdentifier),
-                    new ChangeLanguageVariantWorkflowModel(Reference.ById(Guid.Empty), workflowStepIdentifier)
+                    new ChangeLanguageVariantWorkflowModel(Reference.ByDefaultId(), workflowStepIdentifier)
                     {
                         DueDate = new DueDateModel
                         {
                             Value = DateTime.UtcNow.AddDays(42)
                         },
-                        Contributors = new List<UserIdentifier> { UserIdentifier.ByEmail("user@kontent.ai") },
+                        Contributors = [UserIdentifier.ByEmail("user@kontent.ai")],
                         Note = "Moving this to the next workflow step."
                     }
                     ));
@@ -1916,9 +1759,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: mapi_v2_disable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutDisableWebhook()
+    public async Task PutDisableWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var exception = await Record.ExceptionAsync(async () =>
             await client.DisableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
@@ -1928,9 +1771,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: mapi_v2_enable_webhook
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutEnableWebhook()
+    public async Task PutEnableWebhook()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var exception = await Record.ExceptionAsync(async () =>
             await client.EnableWebhookAsync(Reference.ById(Guid.Parse("5df74e27-1213-484e-b9ae-bcbe90bd5990"))));
@@ -1940,9 +1783,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_workflow
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutWorkflow()
+    public async Task PutWorkflow()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Workflow.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Workflow.json");
 
         var identifier = Reference.ByCodename("my_workflow");
         // var identifier = Reference.ById(Guid.Parse("f4b3fc05-e988-4dae-9ac1-a94aba566474"));
@@ -1950,54 +1793,49 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
         var response = await client.UpdateWorkflowAsync(identifier, new WorkflowUpsertModel
         {
             Name = "My workflow",
-            Scopes = new List<WorkflowScopeUpsertModel>
-            {
+            Scopes =
+            [
                 new()
                 {
-                    Collections = new List<Reference>{ Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024")) },
-                    ContentTypes = new List<Reference>{ Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80")) }
+                    Collections = [Reference.ById(Guid.Parse("d29d1904-9011-45ca-8ed3-0f2737a28024"))],
+                    ContentTypes = [Reference.ById(Guid.Parse("1aeb9220-f167-4f8e-a7db-1bfec365fa80"))]
                 }
-            },
-            Steps = new List<WorkflowStepUpsertModel>
-            {
+            ],
+            Steps =
+            [
                 new()
                 {
                     Name = "First step",
                     Codename = "first_step",
-                    Color = WorkflowStepColorModel.SkyBlue,
-                    RoleIds = new List<Guid>(),
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    Color = WorkflowStepColor.SkyBlue,
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("second_step")
                         }
-                    }
+                    ]
                 },
                 new()
                 {
                     Name = "Second step",
                     Codename = "second_step",
-                    Color = WorkflowStepColorModel.Rose,
-                    RoleIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") },
-                    TransitionsTo = new List<WorkflowStepTransitionToUpsertModel>
-                    {
+                    Color = WorkflowStepColor.Rose,
+                    RoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")],
+                    TransitionsTo =
+                    [
                         new()
                         {
                             Step = Reference.ByCodename("published")
                         }
-                    }
+                    ]
                 }
-            },
+            ],
             PublishedStep = new WorkflowPublishedStepUpsertModel
             {
-                RoleCreateNewVersionIds = new List<Guid>(),
-                RolesUnpublishArchivedCancelSchedulingIds = new List<Guid> { Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b") }
+                UnpublishRoleIds = [Guid.Parse("e796887c-38a1-4ab2-a999-c40861bb7a4b")]
             },
-            ArchivedStep = new WorkflowArchivedStepUpsertModel
-            {
-                RoleIds = new List<Guid>()
-            }
+            ArchivedStep = new WorkflowArchivedStepUpsertModel()
         });
 
         Assert.NotNull(response);
@@ -2006,35 +1844,32 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_user
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutUser()
+    public async Task PutUser()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ProjectUser.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ProjectUser.json");
 
-        var identifier = UserIdentifier.ByEmail("user@kontentai");
+        var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
 
-        var response = await client.ModifyUsersRolesAsync(
+        var response = await client.UpdateUserRolesAsync(
             identifier,
-            new UserModel
+            new UserRolesUpdateModel
             {
-                CollectionGroup = new List<UserCollectionGroup>
-                {
+                CollectionGroups =
+                [
                     new UserCollectionGroup
                     {
-                        Collections = new List<Reference>
-                        {
-                            Reference.ById(Guid.Empty),
-                        },
-                        Roles = new List<RoleModel>
-                        {
-                            new RoleModel
+                        Collections = [Reference.ByDefaultId()],
+                        Roles =
+                        [
+                            new UserRoleModel
                             {
                                 Id = Guid.Parse("f58733b9-520b-406b-9d45-eb15a2baee96"),
-                                Languages = new List<Reference>() { Reference.ByCodename("english") }
+                                Languages = [Reference.ByCodename("english")]
                             }
-                        }
+                        ]
                     }
-                }
+                ]
             });
 
         Assert.NotNull(response);
@@ -2043,9 +1878,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_subscription_user_activate
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutSubscriptionUserActivate()
+    public async Task PutSubscriptionUserActivate()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
@@ -2059,9 +1894,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_put_subscription_user_deactivate
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutSubscriptionUserDeactivate()
+    public async Task PutSubscriptionUserDeactivate()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var identifier = UserIdentifier.ByEmail("user@kontent.ai");
         //var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
@@ -2075,9 +1910,9 @@ public class CmApiV2 : IClassFixture<FileSystemFixture>
     // DocSection: cm_api_v2_mark_environment_as_production
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PutMarkEnvironmentAsProduction()
+    public async Task PutMarkEnvironmentAsProduction()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var client = MockClientFactory.CreateForSample(SampleFolder);
 
         var exception = await Record.ExceptionAsync(
             async () => await client.MarkEnvironmentAsProductionAsync(new MarkAsProductionModel

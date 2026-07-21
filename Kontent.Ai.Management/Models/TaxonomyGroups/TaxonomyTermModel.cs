@@ -1,23 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
 /// <summary>
-/// Represents the taxonomy term model.
+/// A taxonomy term (response shape). Recursive: a term may contain child terms.
 /// </summary>
-public class TaxonomyTermModel : TaxonomyBaseModel
+public sealed record TaxonomyTermModel : TaxonomyBaseModel
 {
     /// <summary>
-    /// Gets or sets the taxonomy group's internal ID.
+    /// Server-generated term ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets terms in the taxonomy group.
+    /// Child terms. Always present; may be empty for leaf terms.
     /// </summary>
-    [JsonProperty("terms")]
-    public IEnumerable<TaxonomyTermModel> Terms { get; set; }
+    [JsonPropertyName("terms")]
+    public required IReadOnlyList<TaxonomyTermModel> Terms { get; init; }
 }

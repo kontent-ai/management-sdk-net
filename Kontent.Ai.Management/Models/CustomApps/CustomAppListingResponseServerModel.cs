@@ -1,20 +1,9 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.CustomApps;
-
-[JsonObject]
-internal class CustomAppListingResponseServerModel : IListingResponse<CustomAppModel>
+internal sealed record CustomAppListingResponseServerModel
 {
-    [JsonProperty("custom_apps")]
-    public IEnumerable<CustomAppModel> CustomApps { get; set; }
+    [JsonPropertyName("custom_apps")]
+    public required IReadOnlyList<CustomAppModel> CustomApps { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<CustomAppModel> GetEnumerator() => CustomApps.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }

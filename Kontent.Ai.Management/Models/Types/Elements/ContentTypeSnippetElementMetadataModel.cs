@@ -1,21 +1,17 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a content type snippet element in content types.
+/// A content type snippet placeholder. Inlines a reusable group of elements into a content type.
 /// </summary>
-public class ContentTypeSnippetElementMetadataModel : ElementMetadataBase
+public sealed record ContentTypeSnippetElementMetadataModel : ElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's reference to a specific content type snippet.
+    /// Reference to the snippet that supplies the inlined elements.
     /// </summary>
-    [JsonProperty("snippet")]
-    public Reference SnippetIdentifier { get; set; }
+    [JsonPropertyName("snippet")]
+    public required Reference Snippet { get; init; }
 
-    /// <summary>
-    /// Represents the type of the content element.
-    /// </summary>
+    /// <inheritdoc/>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.ContentTypeSnippet;
 }

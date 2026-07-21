@@ -1,23 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow scope response model.
+/// A scope binding for a workflow (response shape). Always emits both <see cref="Collections"/> and <see cref="ContentTypes"/> as arrays — the server normalizes any missing side to an empty array.
 /// </summary>
-public class WorkflowScopeModel
+public sealed record WorkflowScopeModel
 {
     /// <summary>
-    /// Gets or sets the workflow scope's collections.
+    /// Collections this scope applies to. May be empty.
     /// </summary>
-    [JsonProperty("collections")]
-    public IReadOnlyList<Reference> Collections { get; set; }
-    
+    [JsonPropertyName("collections")]
+    public required IReadOnlyList<Reference> Collections { get; init; }
+
     /// <summary>
-    /// Gets or sets the workflow scope's content types.
+    /// Content types this scope applies to. May be empty.
     /// </summary>
-    [JsonProperty("content_types")]
-    public IReadOnlyList<Reference> ContentTypes { get; set; }
+    [JsonPropertyName("content_types")]
+    public required IReadOnlyList<Reference> ContentTypes { get; init; }
 }

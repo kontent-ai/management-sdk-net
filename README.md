@@ -1,536 +1,866 @@
-# Kontent.ai Management .NET SDK
+# Kontent.ai Management SDK for .NET
 
-[![Build & Test](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml/badge.svg)](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml)
-[![codecov](https://codecov.io/gh/kontent-ai/management-sdk-net/branch/master/graph/badge.svg?token=xhM2JrUuA4)](https://codecov.io/gh/kontent-ai/management-sdk-net)
-[![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kontent-ai)
-[![Discord](https://img.shields.io/discord/821885171984891914?color=%237289DA&label=Kontent.ai%20Discord&logo=discord)](https://discord.gg/SKCxwPtevJ)
+![Last commit][last-commit-shield]
+[![Issues][issues-shield]][issues-url]
+[![Contributors][contributors-shield]][contributors-url]
+[![MIT License][license-shield]][license-url]
+[![codecov][codecov-shield]][codecov-url]
+[![NuGet][nuget-shield]][nuget-url]
+[![Stack Overflow][stack-shield]](https://stackoverflow.com/tags/kontent-ai)
 
-| Package                       |                                                                    Version                                                                    |                                                                  Downloads                                                                  |                        Compatibility                         |           Documentation           |
-| ----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------: | :-------------------------------: |
-| Management SDK                |         [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         |         [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.svg)](https://www.nuget.org/packages/Kontent.Ai.Management)         | [`net8.0`](https://dotnet.microsoft.com/download/dotnet/8.0) | [📖](#using-the-managementclient) |
-| Content Item Edit-URL Builder | [![NuGet](https://img.shields.io/nuget/vpre/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [![NuGet](https://img.shields.io/nuget/dt/Kontent.Ai.Management.Helpers.svg)](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers) | [`net8.0`](https://dotnet.microsoft.com/download/dotnet/8.0) |       [📖](#helper-methods)       |
+> [!WARNING]
+> **This is a beta release.** The SDK is undergoing a ground-up modernization, and this README documents the new, **modernized API** — result-based return types, materialized listings, `System.Text.Json` serialization, and strongly-typed content models. While in beta it is published as a **prerelease**, and **breaking changes may land between prereleases** until the first stable major version ships. Pin an exact version if you need stability during the beta.
+>
+> **For production, use the latest stable release** — the `8.x` line, which exposes the previous API and is installed without the `--prerelease` flag. See the [package on NuGet][nuget-url] for the current stable version.
+>
+> Migrating from `8.x`? Start with the [upgrade guide](./docs/upgrade-guide.md).
 
-## Summary
+The official .NET SDK for the [Kontent.ai Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) — programmatic read/write access to your Kontent.ai projects and environments: content items, language variants, content models, assets, taxonomies, workflows, environments, and more.
 
-The Kontent.ai Management .NET SDK is a client library used for managing content in Kontent.ai. It provides read/write access to your Kontent.ai projects and environments.
+## Table of Contents
 
-You can use the SDK in the form of a [NuGet package](https://www.nuget.org/packages/Kontent.Ai.Management) to migrate existing content into your Kontent.ai project or update your content model.
+- [Installation](#installation)
+- [Upgrade Guide](#upgrade-guide)
+- [Quick Start](#quick-start)
+- [Creating the Client](#creating-the-client)
+  - [With Dependency Injection](#with-dependency-injection)
+  - [Standalone](#standalone)
+  - [Fluent Builder](#fluent-builder)
+  - [From Configuration](#from-configuration)
+  - [Multiple Named Clients](#multiple-named-clients)
+  - [Resilience and the HTTP Pipeline](#resilience-and-the-http-pipeline)
+- [Configuration Options](#configuration-options)
+- [The Result Pattern](#the-result-pattern)
+- [Error Handling](#error-handling)
+- [Identifiers](#identifiers)
+- [Listings](#listings)
+- [Content Items](#content-items)
+- [Language Variants](#language-variants)
+- [Strongly-Typed Models](#strongly-typed-models)
+- [Publishing and Scheduling](#publishing-and-scheduling)
+- [Assets](#assets)
+- [Content Model](#content-model)
+- [Workflows](#workflows)
+- [Environment and Administration](#environment-and-administration)
+- [Further Information](#further-information)
+- [Contributing](#contributing)
+- [License](#license)
 
-The Management SDK does not provide any content filtering options and is not optimized for content delivery. If you need to deliver larger amounts of content we recommend using the [Delivery SDK](https://github.com/kontent-ai/delivery-sdk-net) instead.
+## Installation
 
-💡 If you want to see all .NET related resources including REST API reference with .NET code samples for every endpoint, check out the ["Develop .NET apps" overview page](https://kontent.ai/learn/develop/develop-with-kontent-ai/net).
+Install the SDK via the NuGet Package Manager. The modernized API documented here ships as a **prerelease** during the beta, so include the `--prerelease` flag — without it you get the previous stable API, which these examples do not match:
 
-## Prerequisites
+```bash
+dotnet add package Kontent.Ai.Management --prerelease
+```
 
-To manage content in a Kontent.ai project via the Management API, you first need to activate it for the project environment in question. See our documentation on how you can [activate the Management API](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Making-requests).
+The SDK targets `net8.0`.
 
-## Using the ManagementClient
+## Upgrade Guide
 
-The `ManagementClient` class is the main class of the SDK. Using it, you can import, update, view and delete content items, language variants, and other objects in your Kontent.ai environments.
+If you are moving from the stable `8.x` SDK to the modernized prerelease, read the [upgrade guide](./docs/upgrade-guide.md). It covers the result pattern, listing changes, strongly-typed model changes, `System.Text.Json`, and removed legacy surfaces.
 
-To create an instance of the class, you need to provide:
+## Quick Start
 
-- [EnvironmentId](https://kontent.ai/learn/docs/environments#a-get-your-environment-id): the ID of your Kontent.ai environment. This parameter must always be set.
-- [SubscriptionId](https://kontent.ai/learn/docs/apis/openapi/subscription-api/): the ID of your subscription. Set it up if you need to manage users and their permissions.
-- [ApiKey](https://kontent.ai/learn/docs/apis/openapi/subscription-api/): either Management or Subscription API key.
-  - Subscription API key can be used for all endpoints but is limited to subscription admins
-  - Management API key can be used with environment-specific endpoints and is limited to users with the Manage APIs permission.
+The fastest path to a first call — a standalone client, ideal for scripts and simple apps. For applications, prefer [dependency injection](#with-dependency-injection).
 
 ```csharp
-// Initializes an instance of the ManagementClient client with specified options.
-var client = new ManagementClient(new ManagementOptions
+using Kontent.Ai.Management;
+using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Models.Shared;
+
+await using var client = new ManagementClient(new ManagementOptions
 {
-    EnvironmentId = "cbbe2d5c-17c6-0128-be26-e997ba7c1619",
-    SubscriptionId = "a27b9841-fc99-48a7-a46d-65b2549d6c0"
-    ApiKey = "ew0...1eo"
+    EnvironmentId = "<YOUR_ENVIRONMENT_ID>",
+    ApiKey = "<YOUR_API_KEY>"
+});
+
+var result = await client.GetContentItemAsync(Reference.ByCodename("on_roasts"));
+
+if (result.IsSuccess)
+{
+    Console.WriteLine(result.Value.Name);
+}
+else
+{
+    Console.WriteLine($"{result.StatusCode}: {result.Error?.Message}");
+}
+```
+
+> [!NOTE]
+> The Management API must be activated for your environment, and you need a Management API key. See [Making requests](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Making-requests).
+
+## Creating the Client
+
+There are three entry points, in order of preference: **dependency injection** for applications, the **standalone constructor** for scripts and simple consumers, and the **fluent builder** when a non-DI consumer needs to customize the HTTP pipeline.
+
+### With Dependency Injection
+
+Register the client on your `IServiceCollection`:
+
+```csharp
+services.AddManagementClient(options =>
+{
+    options.EnvironmentId = "<YOUR_ENVIRONMENT_ID>";
+    options.ApiKey = "<YOUR_API_KEY>";
 });
 ```
 
-Once you create a `ManagementClient`, you can start managing content in your environment by calling methods on the client instance.
+`IManagementClient` is then resolvable from the container — inject it into your own services. This is the recommended approach: the container owns the client's lifetime and its underlying `HttpClient` pipeline (via `IHttpClientFactory`).
 
-### Codename vs. ID vs. External ID
+> [!NOTE]
+> A DI-resolved client is owned by the container — do **not** dispose it yourself. Disposal is a no-op on DI-managed instances; the container releases the underlying HTTP resources.
 
-The SDK uses an _Reference_ object representation identifying an entity you want to perform the given operation on. There are 3 types of identification you can use to create the identifier:
+### Standalone
 
-```csharp
-var codenameIdentifier = Reference.ByCodename("on_roasts");
-var idIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-var externalIdIdentifier = Reference.ByExternalId("Ext-Item-456-Brno");
-```
-
-- **Codenames** are generated automatically by Kontent.ai based on the object's name. They can make your code more readable but are not guaranteed to be unique. Use them only when there is no chance of naming conflicts.
-  - Unless set while creating a content item, the codename is initially generated from the item's name. When updating an item without specifying its codename, the codename gets autogenerated based on the name's value.
-- (internal) **IDs** are random [GUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) assigned to objects by Kontent.ai at the moment of import/creation. They are unique and generated by the system for existing objects. This means you cannot use them to refer to content that is not imported yet. **This identification is used for all responses from Management API**
-- **External IDs** are string-based custom identifiers defined by you. Use them when importing a batch of cross-referencing content. See [Import content items guide](https://kontent.ai/learn/tutorials/set-up-kontent-ai/import-content/content-items/?tech=dotnet) for more details.
-
-> The set of identification types varies based on the entity. The SDK does not check whether, for example, webhooks allows only ID for identification. This is being handled by the API itself. To check what identification types are allowed for a given entity, see the [API documentation](https://kontent.ai/learn/reference/management-api-v2/).
-
-### User identifier
-
-The SDK also supports endpoints that require either user ID or email. _UserIdentifier_ object represents identification of a user. See the following example for more detail:
+For scripts and simple consumers, construct the client directly:
 
 ```csharp
-UserIdentifier identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
-UserIdentifier identifier = UserIdentifier.ByEmail("user@email.com");
-```
-
-### Handling Kontent.ai **errors**
-
-You can catch Kontent.ai errors (more in [error section in Management API reference](https://kontent.ai/learn/reference/management-api-v2#section/Errors)) by using `try-catch` block and catching `Kontent.Ai.Management.Exceptions.ManagementException`.
-
-```csharp
-try
+await using var client = new ManagementClient(new ManagementOptions
 {
-    var response = await client.UpsertLanguageVariantAsync(identifier, elements);
-}
-catch (ManagementException ex)
-{
-    Console.WriteLine(ex.StatusCode);
-    Console.WriteLine(ex.Message);
-}
+    EnvironmentId = "<YOUR_ENVIRONMENT_ID>",
+    ApiKey = "<YOUR_API_KEY>"
+});
 ```
 
-### Working with language variants
+A standalone client owns its `HttpClient` instances — dispose it when you are done (it implements both `IDisposable` and `IAsyncDisposable`, hence the `await using` above).
 
-The `ManagementClient` supports working with strongly-typed models. You can generate strongly-typed models from your content types using the Kontent.ai [model generator utility](https://github.com/kontent-ai/model-generator-net) and then be able to retrieve the data in a strongly typed form.
+### Fluent Builder
 
-```csharp
-// Retrieve strongly-typed content item
-var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-var languageIdentifier = Reference.ByCodename("en-US");
-var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-var response = await client.GetLanguageVariantAsync<ArticleModel>(identifier);
-
-response.Elements.Title = new TextElement() { Value = "On Roasts - changed" };
-response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) };
-
-var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
-```
-
-You can also construct an instance of strongly type model and provide values for the elements you want to change, without the necessity to retrieve the data from Kontent.ai. If a property is not initialized (is `null`) the SDK won't include it in the payload.
+When you are **not** using DI but still need to customize the resilience pipeline or Refit settings, use `ManagementClientBuilder`:
 
 ```csharp
-// Defines the content elements to update
-var stronglyTypedElements = new ArticleModel
-{
-    Title = new TextElement() { Value = "On Roasts - changed" },
-    PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4) },
-};
-
-// Specifies the content item and the language variant
-var itemIdentifier = Reference.ByCodename("on_roasts");
-var languageIdentifier = Reference.ByCodename("en-US");
-var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-// Upserts a language variant of a content item
-var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
-```
-
-You can also use anonymous dynamic objects to work with language variants. For upsert operations, you need to provide element identification - `element.id`/`element.codename` (optionally load element's ID or codename from generated content model):
-
-```csharp
-var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-var languageIdentifier = Reference.ByCodename("en-US");
-var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-// Elements to update
-var elements = new dynamic[]
-{
-    new
+await using var client = ManagementClientBuilder
+    .WithOptions(options =>
     {
-        element = new
-        {
-            // You can use `Reference.ById` if you don't have the model
-            id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
-        },
-        value = "On Roasts - changed",
-    },
-    new
+        options.EnvironmentId = "<YOUR_ENVIRONMENT_ID>";
+        options.ApiKey = "<YOUR_API_KEY>";
+    })
+    .WithResilience(pipeline => /* customize the Polly pipeline */ pipeline.AddTimeout(TimeSpan.FromSeconds(30)))
+    .Build();
+```
+
+The builder is a thin wrapper over the resource-owning constructor — it does not spin up a private service provider. The built client owns its HTTP resources, so dispose it as with the standalone constructor.
+
+### From Configuration
+
+Bind the options from an `IConfiguration` section — `ManagementOptions` by default:
+
+```json
+{
+  "ManagementOptions": {
+    "EnvironmentId": "<YOUR_ENVIRONMENT_ID>",
+    "ApiKey": "<YOUR_API_KEY>"
+  }
+}
+```
+
+```csharp
+services.AddManagementClient(configuration);
+// or bind a differently-named section:
+services.AddManagementClient(configuration, "MyManagementSection");
+```
+
+The configuration-based overloads accept the same optional `configureHttpClient` / `configureResilience` / `configureRefit` hooks as the action-based ones.
+
+### Multiple Named Clients
+
+Register more than one client by giving each a unique name:
+
+```csharp
+services.AddManagementClient("production", options =>
+{
+    options.EnvironmentId = "<PRODUCTION_ENVIRONMENT_ID>";
+    options.ApiKey = "<PRODUCTION_API_KEY>";
+});
+
+services.AddManagementClient("staging", options =>
+{
+    options.EnvironmentId = "<STAGING_ENVIRONMENT_ID>";
+    options.ApiKey = "<STAGING_API_KEY>";
+});
+```
+
+Resolve a named client through `IManagementClientFactory`:
+
+```csharp
+public class ContentMigrator(IManagementClientFactory clientFactory)
+{
+    public async Task RunAsync()
     {
-        element = new
-        {
-            // You can use `Reference.ByCodename` if you don't have the model
-            codename = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementCodename()
-        },
-        value = new DateTime(2018, 7, 4),
+        var production = clientFactory.Get("production");
+        var staging = clientFactory.Get("staging");
+        // ...
     }
-};
-
-var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
-
-// Upserts a language variant of a content item
-var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
+}
 ```
 
-You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. That is **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
+### Resilience and the HTTP Pipeline
+
+Every client comes with a built-in resilience pipeline (powered by [`Microsoft.Extensions.Http.Resilience`](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience)): retries on transient failures and `429` responses, exponential backoff with jitter, and `Retry-After` handling. Set `EnableResilience = false` to turn it into a passthrough.
+
+To replace the pipeline wholesale, use the `configureResilience` hook on the DI overload, or `WithResilience(...)` on the builder:
 
 ```csharp
-var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-var languageIdentifier = Reference.ByCodename("en-US");
-var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+services.AddManagementClient(
+    options => { options.EnvironmentId = "..."; options.ApiKey = "..."; },
+    configureHttpClient: null,
+    configureResilience: pipeline => pipeline
+        .AddRetry(new HttpRetryStrategyOptions { MaxRetryAttempts = 5 })
+        .AddTimeout(TimeSpan.FromSeconds(30)));
+```
 
-// Elements to update
-var elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
+> [!NOTE]
+> Unlike the sibling Delivery and Sync SDKs, the Management pipeline has **no default per-attempt timeout** — asset and file uploads can legitimately run long, and a blind retry would just re-upload. Add one via the hooks above if you need it.
+
+## Configuration Options
+
+| Option | Required | Default | Description |
+|--------|----------|---------|-------------|
+| `EnvironmentId` | Yes | — | The GUID of your Kontent.ai environment. |
+| `ApiKey` | Yes | — | A Management API key, or a Subscription API key for subscription-scoped endpoints. |
+| `SubscriptionId` | No | — | The subscription GUID. Required only for subscription-scoped endpoints (such as user management). |
+| `EnableResilience` | No | `true` | Toggles the built-in retry/backoff pipeline without uninstalling it. |
+| `Endpoint` | No | `https://manage.kontent.ai` | The Management API base address; the SDK appends the versioned, scoped path. Override only when targeting a non-production endpoint. |
+
+`ManagementOptions` validates on use: a missing or malformed `EnvironmentId`/`ApiKey` surfaces as a `ValidationException` from the constructor/builder, or an `OptionsValidationException` when DI options validation runs during host startup.
+
+## The Result Pattern
+
+Every `IManagementClient` method returns an `IManagementResult` (for void operations) or an `IManagementResult<T>` (for operations that yield a value). The SDK **does not throw** on Management API `4xx`/`5xx` responses — inspect the result instead. Network-level and serialization failures still propagate as exceptions.
+
+```csharp
+var result = await client.CreateContentItemAsync(new ContentItemCreateModel
 {
-    new TextElement()
-    {
-        // You can use `Reference.ById` if you don't have the model
-        Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()),
-        Value = "On Roasts - changed"
-    },
-    new DateTimeElement()
-    {
-        // You can use `Reference.ByCodename` if you don't have the model
-        Element = Reference.ByCodename(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementCodename()),
-        Value = new DateTime(2018, 7, 4)
-    },
+    Name = "On Roasts",
+    Codename = "on_roasts",
+    Type = Reference.ByCodename("article")
 });
 
-var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
-
-// Upserts a language variant of a content item
-var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
+if (result.IsSuccess)
+{
+    ContentItemModel item = result.Value;
+}
 ```
 
-### Working with assets
+A result carries:
 
-The Kontent.ai [model generator utility](https://github.com/kontent-ai/model-generators-net) currently does not support generating a strongly-typed model from your asset type, however, you can construct an instance of a strongly-typed model yourself. Simply provide the elements you want to change:
+- `IsSuccess` — whether the operation succeeded.
+- `Value` — the returned value, on success (`IManagementResult<T>` only).
+- `Error` — the failure detail, on failure (see [Error Handling](#error-handling)).
+- `StatusCode`, `RequestUrl` — response diagnostics from the HTTP response.
+
+For call sites that would rather not branch, two opt-in conveniences live on the result:
 
 ```csharp
-var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-var fileName = "Hello.txt";
-var contentType = "text/plain";
+// Throw on failure (the thrown ManagementException carries the IError) and get the value:
+var item = (await client.GetContentItemAsync(Reference.ByCodename("on_roasts"))).EnsureSuccess();
 
-// Returns a reference that you can later use to create an asset
-var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
-
-// Defines the content elements to create
-var stronglyTypedTaxonomyElements = new AssetMetadataModel
+// Or the Try pattern:
+if ((await client.GetContentItemAsync(Reference.ByCodename("on_roasts"))).TryGetValue(out var value))
 {
-    TaxonomyCategories = new TaxonomyElement()
-    {
-        Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
-    },
-};
-
-// Defines the asset to create
-var asset = new AssetCreateModel<AssetMetadataModel>
-{
-    FileReference = fileResult,
-    Elements = stronglyTypedTaxonomyElements
-};
-
-// Creates an asset
-var response = await client.CreateAssetAsync(asset);
+    Console.WriteLine(value.Name);
+}
 ```
 
-You can also build your dynamic object representations of the elements from strongly typed elements models with `ElementBuilder`. This is a **recommended approach when you don't need to work with strongly typed models** because it ensures you provided the element identification - `element.id`/`element.codename`.
+The SDK itself never throws `ManagementException` — it surfaces only when you opt in with `EnsureSuccess()`.
+
+When composing your own multi-step helpers in the same style as the SDK's (upload → create → link), `AsFailure<T>()` re-projects a failed result onto the helper's return type, preserving the error, status code, and request URL:
 
 ```csharp
- // Elements to update
-var taxonomyElements = ElementBuilder.GetElementsAsDynamic(
-    new TaxonomyElement
-    {
-        Element = Reference.ByCodename("taxonomy-categories"),
-        Value = new[]
-        {
-            Reference.ByCodename("hello"),
-            Reference.ByCodename("SDK"),
-        }
-    });
-
-// Defines the asset to update
-var asset = new AssetUpsertModel
+async Task<IManagementResult<AssetModel>> UploadAndCreateAsync(IManagementClient client, FileContentSource file)
 {
-    Elements = taxonomyElements
-};
+    var upload = await client.UploadFileAsync(file);
+    if (!upload.IsSuccess)
+    {
+        return upload.AsFailure<AssetModel>();   // propagate the first failure
+    }
 
-var assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
-
-// Updates asset metadata
-var response = await client.UpsertAssetAsync(assetReference, asset);
+    return await client.CreateAssetAsync(new AssetCreateModel { FileReference = upload.Value });
+}
 ```
 
-You can also use anonymous dynamic objects to work with assets, same as with language variants.
+## Error Handling
 
-## Quick start
-
-### Retrieving content items
-
-Responses from Kontent.ai API are paginated. To retrieve all of content items, you need to go page by page. Here's how:
+On failure, `result.Error` (an `IError`) describes what went wrong:
 
 ```csharp
-var items = new List<ContentItemModel>();
+var result = await client.CreateContentItemAsync(model);
 
-var response = await _client.ListContentItemsAsync();
-
-while (true)
+if (!result.IsSuccess)
 {
-    items.AddRange(response);
+    Console.WriteLine($"Request failed ({result.StatusCode}): {result.Error?.Message}");
+    Console.WriteLine($"Request ID: {result.Error?.RequestId}");   // quote this when reporting an issue
 
-    if (!response.HasNextPage())
+    foreach (var validationError in result.Error?.ValidationErrors ?? [])
     {
+        Console.WriteLine(validationError.Message);
+    }
+
+    return;
+}
+```
+
+`IError` exposes `Message`, `RequestId`, `ErrorCode` (Kontent.ai's diagnostic code, not the HTTP status), `ValidationErrors`, and the underlying `Exception` when a response could not be parsed as a standard Management API error envelope.
+
+When you need to branch on a specific failure, compare `ErrorCode` against the `ManagementErrorCodes` catalog rather than a magic number:
+
+```csharp
+var result = await client.UpsertLanguageVariantAsync(identifier, article);
+
+if (!result.IsSuccess && result.Error?.ErrorCode == ManagementErrorCodes.PublishedOrScheduledVariantCannotBeUpdated)
+{
+    // The variant is published; create a new version, then retry the edit.
+    await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+    result = await client.UpsertLanguageVariantAsync(identifier, article);
+}
+```
+
+`ManagementErrorCodes` is a curated set of the codes callers commonly act on — variant workflow-state conflicts, duplicate external IDs, concurrency, and rate limits. The codes are not unique (the API reuses some across unrelated conditions), so inspect `Message` as well when the distinction matters.
+
+> [!IMPORTANT]
+> Exceptions are reserved for **programmer errors** (for example, a `null` argument), **invalid configuration**, and **network/serialization failures** — not for API errors. A `404` or an API validation rejection comes back as `IsSuccess == false`, never as a thrown exception.
+
+## Identifiers
+
+Most operations target an entity through a `Reference`, which can be built from a codename, an internal ID, or an external ID:
+
+```csharp
+var byCodename = Reference.ByCodename("on_roasts");
+var byId = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
+var byExternalId = Reference.ByExternalId("Ext-Item-456-Brno");
+```
+
+User-management endpoints use a `UserIdentifier`:
+
+```csharp
+var byEmail = UserIdentifier.ByEmail("user@example.com");
+var byUserId = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
+```
+
+A language variant is identified by the pairing of its content item and its language. The `ByCodenames` / `ByIds` / `ByExternalIds` factories cover the common case; the constructor takes any two `Reference`s when you need to mix kinds:
+
+```csharp
+var variantIdentifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
+
+// mix identifier kinds via the constructor:
+var mixed = new LanguageVariantIdentifier(Reference.ById(itemId), Reference.ByCodename("en-US"));
+```
+
+Objects you have already fetched convert straight back into identifiers — `ToReference()` on the models you list and act on (`ContentItemModel`, `AssetModel`, `ContentTypeModel`, `LanguageModel`, …), and `ToIdentifier()` on a fetched variant or an items-with-variants filter result:
+
+```csharp
+await client.DeleteContentItemAsync(item.ToReference());
+
+// find variants, then act on them — no manual (item, language) reassembly:
+foreach (var found in filterResult.Value)
+{
+    await client.PublishLanguageVariantAsync(found.ToIdentifier());
+}
+```
+
+Both reference by **id**, which is environment-specific — scripts that target a different environment should build the reference explicitly (`Reference.ByCodename(...)`).
+
+> [!NOTE]
+> Not every endpoint accepts every identifier kind — some are ID-only, some forbid external IDs. Passing an unsupported kind throws an `InvalidOperationException` before any request is sent.
+
+## Listings
+
+Paged listing endpoints return the whole set in one result — typically `Task<IManagementResult<IReadOnlyList<T>>>`. Continuation-token paging is handled internally: the SDK walks every page and merges them, so you never deal with pages yourself.
+
+```csharp
+var result = await client.ListContentItemsAsync();
+
+if (!result.IsSuccess)
+{
+    Console.WriteLine($"Failed to list content items: {result.Error?.Message}");
+    return;
+}
+
+foreach (var item in result.Value)   // result.Value is IReadOnlyList<ContentItemModel>
+{
+    Console.WriteLine(item.Name);
+}
+```
+
+A listing is **all-or-nothing**: if any page fails, that first failure short-circuits and is returned as the result, so you never receive a silently truncated set.
+
+> [!NOTE]
+> Because every page is fetched and buffered before the result returns, a listing materializes the full set in memory. For the Management API's configuration data (types, languages, taxonomies, …) that's a non-issue.
+
+### Streaming large listings
+
+The endpoints whose results can grow large — content items, assets, the items-with-variants filter and bulk-get, and the language-variant listings by type, collection, and space (which scale as items × languages) — also expose an `EnumerateXPagesAsync` overload that streams one continuation-token page at a time, so you can process the listing without buffering it all in memory (and stop early). Each iteration is one HTTP request and yields a page result; a failed page surfaces as a failed result and ends the stream:
+
+```csharp
+await foreach (var page in client.EnumerateContentItemPagesAsync())
+{
+    if (!page.IsSuccess)
+    {
+        Console.WriteLine($"A page failed: {page.Error?.Message}");
         break;
     }
 
-    response = await response.GetNextPage();
+    foreach (var item in page.Value)   // one page's worth
+    {
+        Console.WriteLine(item.Name);
+    }
 }
 ```
 
-If you need all content items you can use `GetAllAsync`:
+The next page is fetched only when you iterate past the current one, so breaking early leaves later pages unrequested. Reach for this only when a listing is genuinely large; everywhere else, `ListXAsync` is simpler.
+
+## Content Items
+
+A content item is the language-agnostic wrapper; the actual content lives in its [language variants](#language-variants).
 
 ```csharp
-var response = await _client.ListContentItemsAsync().GetAllAsync();
-```
+// Get
+var item = await client.GetContentItemAsync(Reference.ByCodename("on_roasts"));
 
-### Importing content items
-
-Importing content items is a 2-step process, using 2 separate methods:
-
-1. Creating an empty content item which serves as a wrapper for your content.
-1. Adding content into a language variant of the content item.
-
-Each content item can consist of several localized variants. **The content itself is always part of a specific language variant, even if your environment only uses one language**. See our tutorial on [Importing to Kontent.ai](https://kontent.ai/learn/tutorials/set-up-kontent/import-content/overview) for a more detailed explanation.
-
-#### 1. Creating a content item
-
-```csharp
-// Creates an instance of the ManagementClient
-var client = new ManagementClient(options);
-
-var item = new ContentItemCreateModel
+// Create
+var created = await client.CreateContentItemAsync(new ContentItemCreateModel
 {
-    Codename = "on_roasts",
     Name = "On Roasts",
-    Type = Reference.ByCodename("article")
-};
+    Codename = "on_roasts",
+    Type = Reference.ByCodename("article"),
+    Collection = Reference.ByDefaultCodename()   // optional
+});
 
-var responseItem = await client.CreateContentItemAsync(item);
+// Create or update by external ID
+var upserted = await client.UpsertContentItemAsync(
+    Reference.ByExternalId("59713"),
+    new ContentItemUpsertModel
+    {
+        Name = "On Roasts",
+        Type = Reference.ByCodename("article")
+    });
+
+// Delete
+await client.DeleteContentItemAsync(Reference.ByCodename("on_roasts"));
 ```
 
-Kontent.ai will generate an internal ID for the (new and empty) content item and include it in the response. If you do not specify a codename, it will be generated based on name. In the next step, we will add the actual (localized) content.
-
-#### 2. Adding language variants
-
-To add localized content, you have to specify:
-
-- The content item you are importing into.
-- The language variant of the content item.
-- The language variant elements you want to add or update. Omitted elements will remain unchanged.
+To create an item and set its first variant in one call, use the `CreateContentItemWithVariantAsync` extension (a `<T>` overload takes a strongly-typed model instead):
 
 ```csharp
-var componentId = "04bc8d32-97ab-431a-abaa-83102fc4c198";
-var contentTypeCodename = "article";
-var relatedArticle1Guid = Guid.Parse("b4e7bfaa-593c-4ae4-a231-5136b10757b8");
-var relatedArticle2Guid = Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea");
-var taxonomyTermGuid1 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
-var taxonomyTermGuid2 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
+using Kontent.Ai.Management.Extensions;
 
-// Defines the content elements to update
-var stronglyTypedElements = new ArticleModel
+var result = await client.CreateContentItemWithVariantAsync(
+    new ContentItemCreateModel { Name = "On Roasts", Type = Reference.ByCodename("article") },
+    Reference.ByCodename("en-US"),
+    new LanguageVariantUpsertModel { Elements = [/* … */] });
+```
+
+> [!NOTE]
+> This is a two-call composite. On a partial failure — the item is created but the variant upsert fails — the item is left in place (no rollback) and the returned failure carries the variant call's detail. Set an `ExternalId` on the item so a retry reuses it rather than creating a duplicate.
+
+## Language Variants
+
+> [!TIP]
+> The most type-safe way to author a variant is a **[strongly-typed model](#strongly-typed-models)** — `await client.UpsertLanguageVariantAsync(id, typedModel)`. When you have generated content-type records that's the recommended path; the typed element records shown here cover the same ground without a generator.
+
+A language variant holds the actual content for one language of a content item. Set its elements with a typed record per element kind — each locates its target element by `codename`, `id`, or `external_id` and carries a value shaped for that kind; omitted elements are left unchanged:
+
+```csharp
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+
+var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
+
+var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
 {
-    Title = new TextElement() { Value = "On Roasts" },
-    PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
-    BodyCopy = new RichTextElement
+    Elements =
+    [
+        new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
+        new DateTimeElement { Element = Reference.ByCodename("post_date"), Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero) }
+    ]
+});
+```
+
+Retrieve a single variant, or list every variant of an item:
+
+```csharp
+var variant = await client.GetLanguageVariantAsync(identifier);
+
+var allVariants = await client.ListLanguageVariantsByItemAsync(Reference.ByCodename("on_roasts"));
+// allVariants.Value is an IReadOnlyList<LanguageVariantModel>
+```
+
+You can also enumerate variants across a whole collection, space, or content type — see the `ListLanguageVariantsByCollectionAsync`, `…BySpaceAsync`, and `…ByTypeAsync` methods.
+
+> [!TIP]
+> These typed element records are the type-safe way to author a variant without a generated content type. When you do have generated content-type records, pass one directly — see [strongly-typed models](#strongly-typed-models).
+
+### Element kinds
+
+There is one record per element kind — `TextElement`, `NumberElement`, `DateTimeElement`, `MultipleChoiceElement`, `AssetElement`, `LinkedItemsElement`, `TaxonomyElement`, `SubpagesElement`, `UrlSlugElement`, `CustomElement`, and `RichTextElement` — each pairing an `Element` reference with a value typed for that kind. Some carry more than a bare value:
+
+```csharp
+using Kontent.Ai.Management.Models.Content;            // UrlSlugMode
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
+
+Elements =
+[
+    new DateTimeElement
     {
-        Value = $"<p>Rich Text</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{componentId}\"></object>",
-        Components = new ComponentModel[]
-        {
-            new ComponentModel
+        Element = Reference.ByCodename("post_date"),
+        Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+        DisplayTimeZone = "Europe/Prague"
+    },
+    new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom }
+]
+```
+
+For an element kind the SDK doesn't model — or to replay a variant you fetched as raw JSON — use `DynamicElement`, whose `Value` is written to the wire as-is:
+
+```csharp
+new DynamicElement { Element = Reference.ByCodename("widget"), Value = "<opaque payload>" }
+```
+
+## Strongly-Typed Models
+
+Instead of anonymous element objects, you can work with strongly-typed records that mirror your content types. Pass a generated model directly to `UpsertLanguageVariantAsync` — only the properties you set are sent (partial update):
+
+```csharp
+var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
+
+var article = new Article
+{
+    Title = "On Roasts",
+    PublishingDate = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero)
+};
+
+var result = await client.UpsertLanguageVariantAsync(identifier, article);
+```
+
+Retrieve a variant the same way with the generic overload. The generic get and upsert return a `LanguageVariantModel<T>`: the strongly-typed `Elements` plus the variant metadata it shares with the untyped `LanguageVariantModel` — item, language, workflow, schedule, last-modified, due date, note, contributors (every property except `Elements`):
+
+```csharp
+var result = await client.GetLanguageVariantAsync<Article>(identifier);
+LanguageVariantModel<Article> variant = result.Value;
+
+Article elements = variant.Elements;   // the strongly-typed element values
+// every other property is variant metadata, shared with the untyped LanguageVariantModel:
+Reference item = variant.Item;
+Reference language = variant.Language;
+DateTime lastModified = variant.LastModified;
+```
+
+### Element value types
+
+These value types are the strongly-typed-record counterpart to the raw [element kinds](#element-kinds), and the two are deliberately distinct rather than duplicated: a raw `*Element` (e.g. `CustomElement`) carries its own `Element` reference because it lives in the untyped `Elements[]` array, whereas a `*Value` (e.g. `CustomValue`) is *just* the value — on a generated record the property already identifies which element it is. Pick the family that matches your authoring path; you don't mix them.
+
+Many elements map directly to a single value, with nothing carried beside it — `string` for text, `decimal?` for number, `IEnumerable<Reference>` for linked items, taxonomy, and subpages, and `IEnumerable<AssetReference>` for assets. The rest carry a companion field beside the value, so each uses a small record that pairs the two. Rich text is the canonical case — `RichTextValue` holds the HTML `Value` plus its inline `Components` (see [Rich text and inline components](#rich-text-and-inline-components)). Three more follow the same shape — date & time, URL slug, and custom:
+
+```csharp
+var article = new Article
+{
+    // Date & time — an instant plus an optional IANA zone for how the UI displays it
+    PublishingDate = new DateTimeValue
+    {
+        Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+        DisplayTimeZone = "Europe/Prague"
+    },
+
+    // URL slug — the slug plus whether it is custom or regenerated from its source element
+    Slug = new UrlSlugValue { Value = "on-roasts", Mode = UrlSlugMode.Custom },
+
+    // Custom element — the opaque value plus the plaintext used for search and filtering
+    Rating = new CustomValue { Value = "{\"stars\":5}", SearchableValue = "5 stars" }
+};
+```
+
+Each wrapper has an implicit conversion for the common case, so `PublishingDate = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero)`, `Slug = "on-roasts"` (custom mode), and `Rating = "{\"stars\":5}"` all work when you don't need the extra field.
+
+> [!IMPORTANT]
+> A date & time value is stored as a **UTC instant**; `DisplayTimeZone` is only a hint for how the editor renders it and never changes the instant. The element accepts a `DateTimeOffset` (not a `DateTime`) so the moment is unambiguous — a bare `DateTime` would be resolved against the machine's local zone. Whatever offset you supply is normalized to UTC on the wire.
+
+> [!TIP]
+> You don't have to hand-write these models. The [**Kontent.ai model generator**](https://github.com/kontent-ai/model-generator-net) generates strongly-typed records from your content model. Management-model generation is currently in active development — watch the repository for its release.
+
+### Rich text and inline components
+
+Rich text is authored as an HTML **string**. The SDK intentionally has no structured rich-text model on the write path — in a write-primary SDK that would mean a heavyweight tree builder for little gain. What it *does* provide is `RichTextBuilder`, which removes the one genuinely error-prone part of hand-authoring rich text: keeping each inline `<object data-id="…">` placeholder in the HTML in sync with the matching entry in the `components` array.
+
+You interpolate helper calls directly into the HTML string. The builder mints the shared GUID, emits the placeholder, and records the matching component — both sides stay consistent and you never handle the GUID yourself:
+
+```csharp
+using Kontent.Ai.Management.Models.Content;
+
+var rt = new RichTextBuilder();
+
+var content = rt.Build($"""
+    <h1>On Roasts</h1>
+    <p>See {rt.ItemLink(Reference.ByCodename("intro"), "the introduction")} first.</p>
+    {rt.Component(new Callout { Type = [CalloutType.Warning] })}
+    {rt.Asset(new AssetReference { Codename = "roasting_chart" })}
+    """);
+
+var article = new Article { Title = "On Roasts", Content = content };
+await client.UpsertLanguageVariantAsync(identifier, article);
+```
+
+`Build` returns a `RichTextValue` — the verbatim HTML plus the recorded components — ready to assign to a generated model's rich-text property. The helpers:
+
+| Helper | Emits | Use for |
+|--------|-------|---------|
+| `Component(IElementsModel item)` | `<object data-type="component" data-id="…">` **and** records the component object | Embedding a generated content-type record as an inline component |
+| `LinkedItem(Reference)` | `<object data-type="item" data-…="…">` | Referencing an existing content item inline |
+| `ItemLink(Reference, linkText)` | `<a data-item-…="…">…</a>` | A hyperlink to a content item (link text is HTML-encoded) |
+| `Asset(AssetReference)` | `<figure data-asset-…="…">` | Embedding an asset |
+
+`Component` accepts any generated record (it must carry `[KontentType]`). Interpolation evaluates left-to-right, so the order you call the helpers is the order the components are recorded. `Build` snapshots and resets the builder, so one instance can produce several elements in turn; builders nested inside a component's own rich-text body are independent of the outer one.
+
+> [!NOTE]
+> The HTML is passed through verbatim — the builder does not sanitize or validate the markup; it is intended for trusted, code-authored content such as migration scripts. Helper attribute values and link text are HTML-encoded.
+
+## Publishing and Scheduling
+
+```csharp
+var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
+
+// Publish now
+await client.PublishLanguageVariantAsync(identifier);
+
+// Schedule publishing
+await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
+{
+    ScheduledTo = new DateTimeOffset(2038, 1, 19, 4, 14, 8, TimeSpan.Zero),
+    DisplayTimeZone = "Europe/London"
+});
+
+// Unpublish, and create a new draft version of a published variant
+await client.UnpublishLanguageVariantAsync(identifier);
+await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+
+// Move a variant to a different workflow step
+await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVariantWorkflowModel(
+    workflow: Reference.ByDefaultCodename(),
+    step: Reference.ByCodename("review")));
+```
+
+`SchedulePublishingAndUnpublishingOfLanguageVariantAsync` sets both ends of a publish window in one call.
+
+## Assets
+
+An asset is a binary file plus its metadata. Creating one is a two-step operation under the hood — upload the file, then create the asset that references it — but the `CreateAssetAsync(FileContentSource, Func<FileReference, AssetCreateModel>)` extension does both in a single call: it uploads the file and hands the resulting `FileReference` to your factory so you can build the asset around it.
+
+```csharp
+using Kontent.Ai.Management.Extensions;
+
+var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world"));
+
+var result = await client.CreateAssetAsync(
+    new FileContentSource(stream, "hello.txt", "text/plain"),
+    fileReference => new AssetCreateModel
+    {
+        FileReference = fileReference,
+        Title = "Hello",
+        // optionally assign taxonomy terms defined on the environment's asset type
+        Elements =
+        [
+            new AssetTaxonomyElement
             {
-                Id = Guid.Parse(componentId),
-                Type = Reference.ByCodename(contentTypeCodename),
-                Elements = new dynamic[]
-                {
-                    new
-                    {
-                        element = new
-                        {
-                            id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
-                        },
-                        value = "Article component title",
-                    }
-                }
+                Element = Reference.ByCodename("taxonomy-categories"),
+                Value = [Reference.ByCodename("hello"), Reference.ByCodename("sdk")]
             }
+        ]
+    });
+```
+
+The matching `UpsertAssetAsync(identifier, FileContentSource, AssetUpsertModel)` overload does the same for create-or-update. If the file upload fails, no asset is created and the upload's failure is returned.
+
+When you need finer control — reusing one uploaded file across several assets, or separating the upload from the create — call the two steps yourself:
+
+```csharp
+// 1. Upload the binary file
+var fileReference = (await client.UploadFileAsync(new FileContentSource(stream, "hello.txt", "text/plain"))).EnsureSuccess();
+
+// 2. Create the asset referencing it
+var result = await client.CreateAssetAsync(new AssetCreateModel
+{
+    FileReference = fileReference,
+    Title = "Hello"
+});
+```
+
+Assets are enumerated with `ListAssetsAsync`, updated with `UpsertAssetAsync`, and deleted with `DeleteAssetAsync`. Renditions (`CreateAssetRenditionAsync`, `ListAssetRenditionsAsync`) and the asset-folder hierarchy (`GetAssetFoldersAsync`, `CreateAssetFoldersAsync`, `ModifyAssetFoldersAsync`) are managed through their own methods.
+
+## Content Model
+
+Content types, snippets, and taxonomy groups can all be created and modified through the SDK. Elements of a content type are described by `ElementMetadataBase` subtypes — one per element kind (`TextElementMetadataModel`, `RichTextElementMetadataModel`, `NumberElementMetadataModel`, `AssetElementMetadataModel`, and so on):
+
+```csharp
+var result = await client.CreateContentTypeAsync(new ContentTypeCreateModel
+{
+    Name = "Article",
+    Codename = "article",
+    Elements =
+    [
+        new TextElementMetadataModel
+        {
+            Name = "Title",
+            Codename = "title",
+            IsRequired = true,
+            DefaultValue = new TextElementDefaultValueModel("Untitled article")
+        },
+        new RichTextElementMetadataModel
+        {
+            Name = "Body",
+            Codename = "body",
+            AllowedBlocks = [RichTextBlockType.Text, RichTextBlockType.Images],
+            AllowedContentTypes = [Reference.ByCodename("callout")]
         }
-    },
-    RelatedArticles = new LinkedItemsElement
-    {
-        Value = new[] { relatedArticle1Guid, relatedArticle2Guid }.Select(Reference.ById)
-    },
-    Personas = new TaxonomyElement
-    {
-        Value = new[] { taxonomyTermGuid1, taxonomyTermGuid2 }.Select(Reference.ById)
-    },
-    UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
-};
-
-// Specifies the content item and the language variant
-var itemIdentifier = Reference.ByCodename("on_roasts");
-var languageIdentifier = Reference.ByCodename("en-US");
-var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-// Upserts a language variant of your content item
-var response = await client.UpsertLanguageVariantAsync<ArticleModel>(identifier, stronglyTypedElements);
+    ]
+});
 ```
 
-### Helper Methods
-
-Methods for building links to content items and their elements in Kontent.ai. Available as a [separate NuGet package](https://www.nuget.org/packages/Kontent.Ai.Management.Helpers/).
-
-#### Getting an edit link for a content item
+A taxonomy group is created with its terms (terms nest recursively):
 
 ```csharp
-var options = new ManagementHelpersOptions
+await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
 {
-    EnvironmentId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
-};
-
-string itemId = "8ceeb2d8-9676-48ae-887d-47ccb0f54a79";
-string languageCodename = "en-US";
-
-var linkBuilder = new EditLinkBuilder(options);
-var result = linkBuilder.BuildEditItemUrl(languageCodename, itemId);
-
-// Result is "https://app.kontent.ai/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
-// variant-codename/en-US/item/8ceeb2d8-9676-48ae-887d-47ccb0f54a79"
+    Name = "Categories",
+    Codename = "categories",
+    Terms =
+    [
+        new TaxonomyTermCreateModel { Name = "Coffee", Codename = "coffee" },
+        new TaxonomyTermCreateModel { Name = "Brewing", Codename = "brewing" }
+    ]
+});
 ```
 
-#### Getting an edit link for a specific content element
+Content type snippets work the same way via `CreateContentTypeSnippetAsync` (a `ContentTypeSnippetCreateModel` carries `Name`, `Codename`, and `Elements`).
+
+### Editing types and snippets with patch operations
+
+Existing types, snippets, and taxonomy groups are changed with a list of **patch operations** rather than a full replace. Content-type and snippet operations address their target — an element, an option, a content group, or a per-element property — through a JSON-Pointer `path`. Rather than hand-write that wire grammar, use the `ContentTypePatch` and `ContentTypeSnippetPatch` factories: each method bundles the path, the correctly-typed value, and the operation verb, and returns a `ContentModelOperationBaseModel` so the operations compose into one list you can mix freely.
 
 ```csharp
-var options = new ManagementHelpersOptions
-{
-    EnvironmentId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
-};
+using Kontent.Ai.Management.Models.Types.Patch;
+using Kontent.Ai.Management.Models.Types.Elements;
 
-string itemId = "8ceeb2d8-9676-48ae-887d-47ccb0f54a79";
-string languageCodename = "en-US";
-var elementIdentifier = new ElementIdentifier(itemId, "single-Element-Codename");
+await client.ModifyContentTypeAsync(Reference.ByCodename("article"),
+[
+    // add a new element
+    ContentTypePatch.AddElement(new TextElementMetadataModel { Name = "Subtitle", Codename = "subtitle" }),
 
-var linkBuilder = new EditLinkBuilder(options);
-var result = linkBuilder.BuildEditItemUrl(languageCodename, elementIdentifier);
+    // replace a scalar property of an existing element
+    ContentTypePatch.ReplaceGuidelines(Reference.ByCodename("body"), "Keep it under 300 words."),
+    ContentTypePatch.ReplaceIsRequired(Reference.ByCodename("title"), true),
 
-// Result is "https://app.kontent.ai/goto/edit-item/project/bb6882a0-3088-405c-a6ac-4a0da46810b0/
-// variant-codename/en-US/item/8ceeb2d8-9676-48ae-887d-47ccb0f54a79/element/single-Element-Codename"
+    // set a rich-text / linked-items element's allowed content types (whole set at once) …
+    ContentTypePatch.ReplaceAllowedContentTypes(Reference.ByCodename("related"),
+        [Reference.ByCodename("article"), Reference.ByCodename("blog_post")]),
+
+    // … or toggle a single allowed rich-text block
+    ContentTypePatch.RemoveAllowedBlock(Reference.ByCodename("body"), RichTextBlockType.Tables),
+
+    // reorder, reassign to a content group, remove
+    ContentTypePatch.MoveElementAfter(Reference.ByCodename("subtitle"), Reference.ByCodename("title")),
+    ContentTypePatch.ReplaceContentGroup(Reference.ByCodename("title"), Reference.ByCodename("metadata")),
+    ContentTypePatch.RemoveElement(Reference.ByCodename("legacy_field")),
+]);
 ```
 
-#### Getting an edit link for multiple content elements
+`ContentTypeSnippetPatch` mirrors the same surface for `ModifyContentTypeSnippetAsync`, minus the content-group operations (snippets have none). The factories are the discoverable way through a finite but irregular grammar — some collections (allowed content types / item-link types / elements) are set as a whole array, while rich-text blocks are added and removed one at a time — and the method names reflect which is which.
+
+Two fallbacks cover anything the factories don't model:
+
+- **Raw-path factories** — `AddIntoRaw`, `ReplaceRaw`, `RemoveRaw`, `MoveRawBefore` / `MoveRawAfter` take the `path` string directly, so a property the SDK has no named factory for — e.g. an element's `maximum_text_length` — is still reachable in the same fluent style: `ContentTypePatch.ReplaceRaw("/elements/codename:summary/maximum_text_length", new MaximumTextLengthModel { Value = 280, AppliesTo = TextLengthLimitType.Characters })`.
+- **The operation records** — construct `ContentModelReplacePatchModel { Path = …, Value = … }` (and its add / move / remove siblings) by hand for full control.
+
+Taxonomy groups, languages, spaces, and custom apps address their target by a typed property-name enum instead of a path string. Each has its own small factory class — `TaxonomyGroupPatch`, `LanguagePatch`, `SpacePatch`, `CustomAppPatch` — that names the property and takes the correctly-typed value:
 
 ```csharp
-var options = new ManagementHelpersOptions
+await client.ModifyLanguageAsync(Reference.ByCodename("de-DE"),
+[
+    LanguagePatch.Name("Deutsch"),
+    LanguagePatch.FallbackLanguage(Reference.ByCodename("en-US")),
+]);
+
+await client.ModifyTaxonomyGroupAsync(Reference.ByCodename("categories"),
+[
+    TaxonomyGroupPatch.ReplaceName(Reference.ByCodename("coffee"), "Coffee beans"),
+]);
+
+await client.ModifySpaceAsync(Reference.ByCodename("marketing"), [SpacePatch.RootItem(null)]);   // null unsets
+
+await client.ModifyCustomAppAsync(Reference.ByCodename("dashboard"),
+[
+    CustomAppPatch.ReplaceSourceUrl("https://example.org/app"),
+    CustomAppPatch.AddAllowedRole(Reference.ById(roleId)),
+]);
+```
+
+Operations that already carry typed values — the taxonomy `addInto` / `remove` / `move` term operations — are constructed directly as their operation models.
+
+The full set of each resource is listed with `ListContentTypesAsync`, `ListContentTypeSnippetsAsync`, and `ListTaxonomyGroupsAsync`.
+
+## Workflows
+
+```csharp
+// List
+var workflows = await client.ListWorkflowsAsync();
+
+// Create / update / delete
+var created = await client.CreateWorkflowAsync(new WorkflowUpsertModel { /* steps, scopes … */ });
+await client.UpdateWorkflowAsync(Reference.ByDefaultCodename(), updatedWorkflow);
+await client.DeleteWorkflowAsync(Reference.ByCodename("editorial"));
+```
+
+## Environment and Administration
+
+The client also covers environment-level configuration and administration. These follow the same result-pattern and identifier conventions as the sections above; the full request/response shapes are in the [Management API reference](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/).
+
+| Area | Key methods |
+|------|-------------|
+| **Languages** | `GetLanguageAsync`, `CreateLanguageAsync`, `ModifyLanguageAsync`, `ListLanguagesAsync` |
+| **Collections** | `GetCollectionsAsync`, `ModifyCollectionsAsync` |
+| **Spaces** | `ListSpacesAsync`, `GetSpaceAsync`, `CreateSpaceAsync`, `ModifySpaceAsync`, `DeleteSpaceAsync` |
+| **Webhooks** | `ListWebhooksAsync`, `GetWebhookAsync`, `CreateWebhookAsync`, `EnableWebhookAsync`, `DisableWebhookAsync`, `DeleteWebhookAsync` |
+| **Preview** | `GetPreviewConfigurationAsync`, `UpdatePreviewConfigurationAsync` |
+| **Custom apps** | `ListCustomAppsAsync`, `GetCustomAppAsync`, `CreateCustomAppAsync`, `ModifyCustomAppAsync`, `DeleteCustomAppAsync` |
+| **Roles** | `ListEnvironmentRolesAsync`, `GetEnvironmentRoleAsync` |
+| **Environment users** | `InviteUserIntoEnvironmentAsync`, `UpdateUserRolesAsync` |
+| **Environment lifecycle** | `GetEnvironmentInformationAsync`, `CloneEnvironmentAsync`, `GetEnvironmentCloningStateAsync`, `MarkEnvironmentAsProductionAsync`, `ModifyEnvironmentAsync`, `DeleteEnvironmentAsync` |
+| **Validation** | `ValidateEnvironmentAsync`, `InitiateEnvironmentAsyncValidationTaskAsync`, `GetAsyncValidationTaskAsync`, `ListAsyncValidationTaskIssuesAsync` |
+
+For example, creating a language:
+
+```csharp
+await client.CreateLanguageAsync(new LanguageCreateModel
 {
-    EnvironmentId = "bb6882a0-3088-405c-a6ac-4a0da46810b0",
-};
-
-string languageCodename = "en-US";
-var elements = new ElementIdentifier[]
-{
-    new ElementIdentifier("76c06b74-bae9-4732-b629-1a59395e893d", "some-Element-Codename-1"),
-    new ElementIdentifier("326c63aa-ae71-40b7-a6a8-56455b0b9751", "some-Element-Codename-2"),
-    new ElementIdentifier("ffcd0436-8274-40ee-aaae-86fee1966fce", "some-Element-Codename-3"),
-    new ElementIdentifier("d31d27cf-ddf6-4040-ab67-2f70edc0d46b", "some-Element-Codename-4"),
-};
-
-var linkBuilder = new EditLinkBuilder(options);
-var result = linkBuilder.BuildEditItemUrl(languageCodename, elements);
-
-// Result is "https://app.kontent.ai/goto/edit-item/"
-//    project/bb6882a0-3088-405c-a6ac-4a0da46810b0/variant-codename/en-US/
-//    item/76c06b74-bae9-4732-b629-1a59395e893d/element/some-Element-Codename-1/
-//    item/326c63aa-ae71-40b7-a6a8-56455b0b9751/element/some-Element-Codename-2/
-//    item/ffcd0436-8274-40ee-aaae-86fee1966fce/element/some-Element-Codename-3/
-//    item/d31d27cf-ddf6-4040-ab67-2f70edc0d46b/element/some-Element-Codename-4"
+    Name = "German",
+    Codename = "de-DE",
+    IsActive = true,
+    FallbackLanguage = Reference.ByCodename("en-US")
+});
 ```
 
-## Add source tracking header 
+> [!NOTE]
+> Subscription-scoped endpoints — `ListSubscriptionProjectsAsync`, `ListSubscriptionUsersAsync`, `GetSubscriptionUserAsync`, `ActivateSubscriptionUserAsync`, `DeactivateSubscriptionUserAsync` — require `SubscriptionId` to be set in the options and an API key with subscription scope.
 
-Are you developing a plugin or a tool based on this SDK? Great! Then please include the source tracking header in your code. This way, we'll be able to identify that the traffic to Kontent.ai APIs is originating from your plugin and share its statistics with you!
+## Further Information
 
-You can either attach it to the **AssemblyInfo.cs**
-```c#
-[assembly: SourceTrackingHeaderAttribute()]
-```
+For migration details, see the [upgrade guide](./docs/upgrade-guide.md). For more developer resources, see the [Management API reference](https://kontent.ai/learn/docs/apis/openapi/management-api-v2/) and the [.NET development overview](https://kontent.ai/learn/develop/develop-with-kontent-ai/net) on Kontent.ai Learn.
 
-Or to the **.csproj**:
+## Contributing
 
-```xml
-  <ItemGroup>
-    <AssemblyAttribute Include="Kontent.Ai.Management.Attributes.SourceTrackingHeader" />
-  </ItemGroup>
-```
+See the [contributing](./CONTRIBUTING.md) page for the best places to file issues, start discussions, and begin contributing.
 
-By default, it will load the necessary info (package name + version) from your assembly. If you want to customize it, please use one of the constructors:
+## License
 
-```c#
-// You specify the name, the version is extracted from the assembly
-public SourceTrackingHeaderAttribute(string packageName)
+Distributed under the MIT License — see [`LICENSE.md`](./LICENSE.md) for details.
 
-// Or you specify the name and the version
-public SourceTrackingHeaderAttribute(string packageName, int majorVersion, int minorVersion, int patchVersion, string preReleaseLabel = null)
-```
-
-If you use the **.csproj**:
-```xml
-<AssemblyAttribute Include="Kontent.Ai.Management.Attributes.SourceTrackingHeader">
-	<_Parameter1>My.Module</_Parameter1>
-	<_Parameter2>1</_Parameter2>
-	<_Parameter2_IsLiteral>true</_Parameter2_IsLiteral>
-	<_Parameter3>2</_Parameter3>
-	<_Parameter3_IsLiteral>true</_Parameter3_IsLiteral>
-	<_Parameter4>3</_Parameter4>
-	<_Parameter4_IsLiteral>true</_Parameter4_IsLiteral>
-	<_Parameter5>beta</_Parameter5>
-</AssemblyAttribute>
-```
-
-## How to use [SourceLink](https://github.com/dotnet/sourcelink/) for debugging
-
-This repository is configured to generate SourceLink tag in the Nuget package, allowing to debug its source code when it is referenced as a Nuget package. Source code is downloaded directly from github to Visual Studio.
-
-### How to configure SourceLink
-
-1. Open a solution with a project referencing the Kontent.Ai.Management Nuget package.
-1. Open Tools -> Options -> Debugging -> General.
-
-   - Clear **Enable Just My Code**.
-   - Select **Enable Source Link Support**.
-   - (Optional) Clear **Require source files to exactly match the original version**.
-
-1. Build your solution.
-1. [Add a symbol server `https://symbols.nuget.org/download/symbols`](https://blog.nuget.org/20181116/Improved-debugging-experience-with-the-NuGet-org-symbol-server-and-snupkg.html)
-
-   - ![Add a symbol server in VS](/.github/assets/vs-nuget-symbol-server.PNG)
-
-1. Run a debugging session and try to step into the Kontent.Ai.Management code.
-1. Allow Visual Studio to download the source code from GitHub.
-
-- ![SourceLink confirmation dialog](/.github/assets/allow_sourcelink_download.png)
-
-**Now you are able to debug the source code of our library without having to download it manually!**
-
-## Further information
-
-For more developer resources, visit the [overview of .NET tools](https://kontent.ai/learn/tutorials/develop-apps/overview?tech=dotnet) and [API references](https://kontent.ai/learn/reference) at Kontent.ai Learn.
-
-### Building the sources
-
-Prerequisites:
-
-**Required:**
-[.NET](https://dotnet.microsoft.com/en-us/download/dotnet).
-
-Optional:
-
-- [Visual Studio](https://visualstudio.microsoft.com/vs/) for full experience
-- or [Visual Studio Code](https://code.visualstudio.com/)
-
-### Creating a new release
-
-- [**Release & version management**](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Release-%26-version-management-of-.NET-projects.md)
-- [Kontent.ai's best practices for .csproj files](https://github.com/kontent-ai/kontent-ai.github.io/blob/main/docs/articles/Kontent.ai-best-practices-for-.csproj-files.md)
-
-## Feedback & Contributing
-
-Check out the [contributing](./CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
+[last-commit-shield]: https://img.shields.io/github/last-commit/kontent-ai/management-sdk-net?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/kontent-ai/management-sdk-net?style=for-the-badge
+[issues-url]: https://github.com/kontent-ai/management-sdk-net/issues
+[contributors-shield]: https://img.shields.io/github/contributors/kontent-ai/management-sdk-net?style=for-the-badge
+[contributors-url]: https://github.com/kontent-ai/management-sdk-net/graphs/contributors
+[license-shield]: https://img.shields.io/github/license/kontent-ai/management-sdk-net?style=for-the-badge
+[license-url]: https://github.com/kontent-ai/management-sdk-net/blob/master/LICENSE.md
+[codecov-shield]: https://img.shields.io/codecov/c/github/kontent-ai/management-sdk-net?style=for-the-badge
+[codecov-url]: https://codecov.io/gh/kontent-ai/management-sdk-net
+[nuget-shield]: https://img.shields.io/nuget/v/Kontent.Ai.Management?style=for-the-badge
+[nuget-url]: https://www.nuget.org/packages/Kontent.Ai.Management
+[stack-shield]: https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16?style=for-the-badge&logo=stackoverflow&logoColor=white

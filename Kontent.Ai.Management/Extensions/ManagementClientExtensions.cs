@@ -1,28 +1,28 @@
-﻿using Kontent.Ai.Management.Models.Assets;
+using Kontent.Ai.Management.Models.Assets;
 using Kontent.Ai.Management.Models.Items;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.StronglyTyped;
-using System;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.Workflow;
 
 namespace Kontent.Ai.Management.Extensions;
 
 /// <summary>
-/// Extra simplifying methods available for ManagementClient
+/// Extra simplifying methods available for <see cref="IManagementClient"/>.
 /// </summary>
 public static class ManagementClientExtensions
 {
     /// <summary>
-    /// Updates the given content item.
+    /// Creates or updates the content item from a fetched <see cref="ContentItemModel"/> — the server-owned
+    /// metadata is dropped. Addressing by external id creates the item when it does not exist yet.
     /// </summary>
     /// <param name="client">Content management client instance.</param>
-    /// <param name="identifier">Identifies which content item will be updated. </param>
-    /// <param name="contentItem">Specifies data for updated content item.</param>
-    /// <returns>The <see cref="ContentItemModel"/> instance that represents updated content item.</returns>
-    public async static Task<ContentItemModel> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem)
+    /// <param name="identifier">Identifies which content item will be created or updated.</param>
+    /// <param name="contentItem">The fetched (and possibly modified) content item to upsert.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created or updated <see cref="ContentItemModel"/> on success, or the failure detail.</returns>
+    public static async Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(this IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(contentItem);
 
         var contentItemUpdateModel = new ContentItemUpsertModel
@@ -30,101 +30,153 @@ public static class ManagementClientExtensions
             Name = contentItem.Name,
             Codename = contentItem.Codename,
             Collection = contentItem.Collection,
-            ExternalId = contentItem.ExternalId,
             SitemapLocations = contentItem.SitemapLocations,
             Type = contentItem.Type
         };
 
-        return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel);
+        return await client.UpsertContentItemAsync(identifier, contentItemUpdateModel, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates asset.
+    /// Creates or updates the language variant from a fetched <see cref="LanguageVariantModel"/> — its elements,
+    /// workflow, due date, note, and contributors feed the upsert; the server-owned metadata is dropped.
     /// </summary>
-    /// <param name="client"></param>
-    /// <param name="fileContent">Represents the content of the file.</param>
-    /// <param name="assetCreateModel">Updated values for the asset.</param>
-    public async static Task<AssetModel> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, AssetCreateModel assetCreateModel)
+    /// <param name="client">Content management client instance.</param>
+    /// <param name="identifier">The identifier of the language variant.</param>
+    /// <param name="languageVariant">The fetched (and possibly modified) variant to upsert.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the inserted or updated <see cref="LanguageVariantModel"/> on success, or the failure detail.</returns>
+    public static async Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(this IManagementClient client, LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(fileContent);
-        ArgumentNullException.ThrowIfNull(assetCreateModel);
+        ArgumentNullException.ThrowIfNull(client);
+        ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(languageVariant);
 
-        var fileResult = await client.UploadFileAsync(fileContent);
+        var upsertModel = new LanguageVariantUpsertModel
+        {
+            Elements = languageVariant.Elements,
+            Workflow = languageVariant.Workflow,
+            DueDate = languageVariant.DueDate,
+            Note = languageVariant.Note,
+            Contributors = languageVariant.Contributors,
+        };
 
-        assetCreateModel.FileReference = fileResult;
-
-        var response = await client.CreateAssetAsync(assetCreateModel);
-
-        return response;
+        return await client.UpsertLanguageVariantAsync(identifier, upsertModel, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates asset.
+    /// Uploads the file and creates an asset that references it.
     /// </summary>
-    /// <param name="client"></param>
+    /// <param name="client">Content management client instance.</param>
     /// <param name="fileContent">Represents the content of the file.</param>
-    /// <param name="assetCreateModel">Updated values for the strongly typed asset.</param>
-    public async static Task<AssetModel<T>> CreateAssetAsync<T>(this IManagementClient client, FileContentSource fileContent, AssetCreateModel<T> assetCreateModel) where T : new()
+    /// <param name="createModel">Builds the asset to create from the reference of the uploaded file.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the created asset, or the failure detail of the file upload or the create.</returns>
+    public static async Task<IManagementResult<AssetModel>> CreateAssetAsync(this IManagementClient client, FileContentSource fileContent, Func<FileReference, AssetCreateModel> createModel, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(fileContent);
-        ArgumentNullException.ThrowIfNull(assetCreateModel);
+        ArgumentNullException.ThrowIfNull(createModel);
 
-        var fileResult = await client.UploadFileAsync(fileContent);
+        var fileResult = await client.UploadFileAsync(fileContent, cancellationToken).ConfigureAwait(false);
+        if (!fileResult.IsSuccess)
+        {
+            return fileResult.AsFailure<AssetModel>();
+        }
 
-        assetCreateModel.FileReference = fileResult;
-
-        var response = await client.CreateAssetAsync(assetCreateModel);
-
-        return response;
+        return await client.CreateAssetAsync(createModel(fileResult.Value), cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates or updates the given asset.
+    /// Uploads the file and creates or updates the asset that references it.
     /// </summary>
     /// <param name="client">Content management client instance.</param>
     /// <param name="identifier">The identifier of the asset.</param>
     /// <param name="fileContent">Represents the content of the file.</param>
-    /// <param name="upsertModel">Updated values for the asset.</param>
-    /// <returns>The <see cref="AssetModel"/> instance that represents created or updated asset.</returns>
-    public async static Task<AssetModel> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel)
+    /// <param name="upsertModel">Values for the upserted asset; its <see cref="AssetUpsertModel.FileReference"/> is set from the uploaded file.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the upserted asset, or the failure detail of the file upload or the upsert.</returns>
+    public static async Task<IManagementResult<AssetModel>> UpsertAssetAsync(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(client);
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(fileContent);
-
         ArgumentNullException.ThrowIfNull(upsertModel);
 
-        var fileResult = await client.UploadFileAsync(fileContent);
+        var fileResult = await client.UploadFileAsync(fileContent, cancellationToken).ConfigureAwait(false);
+        if (!fileResult.IsSuccess)
+        {
+            return fileResult.AsFailure<AssetModel>();
+        }
 
-        upsertModel.FileReference = fileResult;
-
-        var response = await client.UpsertAssetAsync(identifier, upsertModel);
-
-        return response;
+        return await client.UpsertAssetAsync(identifier, upsertModel with { FileReference = fileResult.Value }, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates or updates the given asset.
+    /// Creates a content item and upserts one of its language variants in a single call.
     /// </summary>
+    /// <remarks>
+    /// On a partial failure — the item is created but the variant upsert fails — the created item is left in place
+    /// (no rollback) and the returned failure carries the variant call's detail. Set
+    /// <see cref="ContentItemCreateModel.ExternalId"/> so a retry reuses the same item instead of creating a duplicate.
+    /// </remarks>
     /// <param name="client">Content management client instance.</param>
-    /// <param name="identifier">The identifier of the asset.</param>
-    /// <param name="fileContent">Represents the content of the file.</param>
-    /// <param name="upsertModel">Updated values for the asset.</param>
-    /// <returns>The <see cref="AssetModel{T}"/> instance that represents created or updated strongly typed asset.</returns>
-    public async static Task<AssetModel<T>> UpsertAssetAsync<T>(this IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel<T> upsertModel) where T : new()
+    /// <param name="item">The content item to create.</param>
+    /// <param name="language">The language of the variant to upsert on the created item.</param>
+    /// <param name="variant">The variant data to upsert.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the upserted variant, or the failure detail of the item creation or the variant upsert.</returns>
+    public static async Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(this IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(client);
+        ArgumentNullException.ThrowIfNull(item);
+        ArgumentNullException.ThrowIfNull(language);
+        ArgumentNullException.ThrowIfNull(variant);
 
-        ArgumentNullException.ThrowIfNull(fileContent);
+        var itemResult = await client.CreateContentItemAsync(item, cancellationToken).ConfigureAwait(false);
+        if (!itemResult.IsSuccess)
+        {
+            return itemResult.AsFailure<LanguageVariantModel>();
+        }
 
-        ArgumentNullException.ThrowIfNull(upsertModel);
-
-        var fileResult = await client.UploadFileAsync(fileContent);
-
-        upsertModel.FileReference = fileResult;
-
-        var response = await client.UpsertAssetAsync(identifier, upsertModel);
-
-        return response;
+        var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
+        return await client.UpsertLanguageVariantAsync(identifier, variant, cancellationToken).ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// Creates a content item and upserts one of its language variants from the generated content-type record
+    /// <typeparamref name="T"/> in a single call.
+    /// </summary>
+    /// <remarks>
+    /// On a partial failure — the item is created but the variant upsert fails — the created item is left in place
+    /// (no rollback) and the returned failure carries the variant call's detail. Set
+    /// <see cref="ContentItemCreateModel.ExternalId"/> so a retry reuses the same item instead of creating a duplicate.
+    /// </remarks>
+    /// <typeparam name="T">The generated content-type record (implements <see cref="IElementsModel"/>).</typeparam>
+    /// <param name="client">Content management client instance.</param>
+    /// <param name="item">The content item to create.</param>
+    /// <param name="language">The language of the variant to upsert on the created item.</param>
+    /// <param name="variant">The content-type record carrying the elements to set.</param>
+    /// <param name="workflow">Optional workflow step to set on the variant.</param>
+    /// <param name="cancellationToken">Token to cancel the request.</param>
+    /// <returns>A result wrapping the upserted variant — its element values as <typeparamref name="T"/> plus the item,
+    /// language, workflow and other variant metadata — or the failure detail of the item creation or the variant upsert.</returns>
+    public static async Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(this IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier? workflow = null, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new()
+    {
+        ArgumentNullException.ThrowIfNull(client);
+        ArgumentNullException.ThrowIfNull(item);
+        ArgumentNullException.ThrowIfNull(language);
+        ArgumentNullException.ThrowIfNull(variant);
+
+        var itemResult = await client.CreateContentItemAsync(item, cancellationToken).ConfigureAwait(false);
+        if (!itemResult.IsSuccess)
+        {
+            return itemResult.AsFailure<LanguageVariantModel<T>>();
+        }
+
+        var identifier = new LanguageVariantIdentifier(Reference.ById(itemResult.Value.Id), language);
+        return await client.UpsertLanguageVariantAsync(identifier, variant, workflow, cancellationToken).ConfigureAwait(false);
+    }
+
 }

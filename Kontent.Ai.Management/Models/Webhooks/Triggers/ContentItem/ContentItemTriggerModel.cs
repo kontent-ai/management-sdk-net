@@ -1,31 +1,25 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
-/// Represents the content item trigger model. 
+/// Content item event trigger for a webhook.
 /// </summary>
-public class ContentItemTriggerModel
+public sealed record ContentItemTriggerModel
 {
     /// <summary>
-    /// Determines if content item trigger is enabled.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether this trigger is enabled.
     /// </summary>
-    [JsonProperty("enabled")]
-    public bool? Enabled { get; set; }
-    
+    [JsonPropertyName("enabled")]
+    public bool? Enabled { get; init; }
+
     /// <summary>
-    /// Represents content item actions.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Content item actions that fire the webhook.
     /// </summary>
-    [JsonProperty("actions")]
-    public IEnumerable<ContentItemActionModel> Actions { get; set; }
-    
+    [JsonPropertyName("actions")]
+    public IReadOnlyList<ContentItemActionModel>? Actions { get; init; }
+
     /// <summary>
-    /// Represents content item filters.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Filters narrowing which content items fire the webhook.
     /// </summary>
-    [JsonProperty("filters")]
-    public ContentItemFiltersModel Filters { get; set; }
+    [JsonPropertyName("filters")]
+    public ContentItemFiltersModel? Filters { get; init; }
 }

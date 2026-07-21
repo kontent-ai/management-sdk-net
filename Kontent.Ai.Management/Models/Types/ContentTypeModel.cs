@@ -1,54 +1,51 @@
 ﻿using Kontent.Ai.Management.Models.Types.Elements;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace Kontent.Ai.Management.Models.Types;
 
 /// <summary>
-/// Content type.
+/// A content type definition.
 /// </summary>
-public class ContentTypeModel
+public sealed record ContentTypeModel
 {
     /// <summary>
-    /// Gets or sets the id of the content type.
+    /// Content type ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the content type.
+    /// Codename. Auto-generated from the name when not supplied on create.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the last modified timestamp of the content type.
+    /// ISO-8601 timestamp of the most recent change.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    [JsonPropertyName("last_modified")]
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the content type.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the content type.
+    /// Elements that make up this content type.
     /// </summary>
-    [JsonProperty("elements")]
-    public IEnumerable<ElementMetadataBase> Elements { get; set; }
+    [JsonPropertyName("elements")]
+    public required IReadOnlyList<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content type.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets content groups of the content type.
+    /// Content groups defined on this type. Empty when none.
     /// </summary>
-    [JsonProperty("content_groups", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IEnumerable<ContentGroupModel> ContentGroups { get; set; }
+    [JsonPropertyName("content_groups")]
+    public required IReadOnlyList<ContentGroupModel> ContentGroups { get; init; }
 }

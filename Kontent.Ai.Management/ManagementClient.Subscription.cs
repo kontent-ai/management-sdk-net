@@ -1,66 +1,48 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Subscription;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<SubscriptionProjectModel>> ListSubscriptionProjectsAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildSubscriptionProjectsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionProjectListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<SubscriptionProjectModel>(
-            GetNextListingPageAsync<SubscriptionProjectListingResponseServerModel, SubscriptionProjectModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Projects);
-    }
+    public Task<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<SubscriptionProjectListingResponseServerModel, SubscriptionProjectModel>(
+            SubscriptionApi.ListSubscriptionProjectsInternalAsync,
+            page => page.Projects,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<SubscriptionUserModel>> ListSubscriptionUsersAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildSubscriptionUsersUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionUserListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<SubscriptionUserModel>(
-            GetNextListingPageAsync<SubscriptionUserListingResponseServerModel, SubscriptionUserModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Users);
-    }
+    public Task<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<SubscriptionUserListingResponseServerModel, SubscriptionUserModel>(
+            SubscriptionApi.ListSubscriptionUsersInternalAsync,
+            page => page.Users,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<SubscriptionUserModel> GetSubscriptionUserAsync(UserIdentifier identifier)
+    public Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSubscriptionUserUrl(identifier);
-
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<SubscriptionUserModel>(endpointUrl, HttpMethod.Get);
+        return SubscriptionApi.GetSubscriptionUserInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task ActivateSubscriptionUserAsync(UserIdentifier identifier)
+    public Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSubscriptionUserActivateUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        return SubscriptionApi.ActivateSubscriptionUserInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeactivateSubscriptionUserAsync(UserIdentifier identifier)
+    public Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSubscriptionUserDeactivateDisableUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        return SubscriptionApi.DeactivateSubscriptionUserInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

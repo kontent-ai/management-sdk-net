@@ -1,18 +1,16 @@
-﻿using System;
-
-namespace Kontent.Ai.Management.Attributes;
+﻿namespace Kontent.Ai.Management.Attributes;
 
 /// <summary>
 /// An attribute allowing library authors to set a custom tracking header in order to be able to gather analytics about their plug-ins.
 /// See https://github.com/Kentico/Home/wiki/Guidelines-for-Kontent-related-tools#analytics for more info.
 /// </summary>
 [AttributeUsage(AttributeTargets.Assembly)]
-public class SourceTrackingHeaderAttribute : Attribute
+public sealed class SourceTrackingHeaderAttribute : Attribute
 {
     /// <summary>
     /// Name of the package (e.g. Acme.KenticoKontent.AwesomeTool)
     /// </summary>
-    public string PackageName { get; }
+    public string? PackageName { get; }
 
     /// <summary>
     /// Major version according to https://semver.org/
@@ -32,7 +30,7 @@ public class SourceTrackingHeaderAttribute : Attribute
     /// <summary>
     /// Pre-release label according to https://semver.org/ (will be appended with a hyphen)
     /// </summary>
-    public string PreReleaseLabel { get; }
+    public string? PreReleaseLabel { get; }
 
     /// <summary>
     /// Determines whether or not to load the version from the calling assembly.
@@ -65,7 +63,7 @@ public class SourceTrackingHeaderAttribute : Attribute
     /// <param name="minorVersion">Minor version according to https://semver.org/</param>
     /// <param name="patchVersion">Patch version according to https://semver.org/</param>
     /// <param name="preReleaseLabel">Pre-release label according to https://semver.org/ (will be appended with a hyphen)</param>
-    public SourceTrackingHeaderAttribute(string packageName, int majorVersion, int minorVersion, int patchVersion, string preReleaseLabel = null)
+    public SourceTrackingHeaderAttribute(string packageName, int majorVersion, int minorVersion, int patchVersion, string? preReleaseLabel = null)
     {
         LoadFromAssembly = false;
         PackageName = packageName;

@@ -1,23 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
-/// Represents user's colection group.
+/// Pairs a set of collections with the roles a user holds in them.
 /// </summary>
-public class UserCollectionGroup
+public sealed record UserCollectionGroup
 {
     /// <summary>
-    /// Gets or sets user's collection.
+    /// Collections this group applies to. An empty array assigns the user to all collections.
     /// </summary>
-    [JsonProperty("collections")]
-    public IEnumerable<Reference> Collections { get; set; }
+    [JsonPropertyName("collections")]
+    public required IReadOnlyList<Reference> Collections { get; init; }
 
     /// <summary>
-    /// Gets or sets user's roles.
+    /// Roles the user holds in these collections.
     /// </summary>
-    [JsonProperty("roles")]
-    public IEnumerable<RoleModel> Roles { get; set; }
+    [JsonPropertyName("roles")]
+    public required IReadOnlyList<UserRoleModel> Roles { get; init; }
 }

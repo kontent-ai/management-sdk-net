@@ -1,65 +1,55 @@
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.ItemWithVariant;
-using Kontent.Ai.Management.Models.Shared;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
-public sealed partial class ManagementClient
+public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<ItemWithVariantFilterResultModel>> FilterItemsWithVariantsAsync(ItemWithVariantFilterRequestModel filterRequest)
+    public Task<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> ListItemsWithVariantsByFilterAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(filterRequest);
 
-        var endpointUrl = _urlBuilder.BuildItemsWithVariantFilterUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantFilterRequestModel, ItemWithVariantFilterListingResponseServerModel>(endpointUrl, HttpMethod.Post, filterRequest);
-
-        return new ListingResponseModel<ItemWithVariantFilterResultModel>(
-            (continuationToken, url) => GetNextFilterItemsWithVariantsPageAsync(continuationToken, url, filterRequest),
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Variants);
+        return PageEnumerator.CollectAsync<ItemWithVariantFilterListingResponseServerModel, ItemWithVariantFilterResultModel>(
+            (token, ct) => _managementApi.FilterItemsWithVariantsInternalAsync(filterRequest, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<ContentItemWithVariantModel>> BulkGetItemsWithVariantsAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest)
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(filterRequest);
+
+        return PageEnumerator.EnumerateAsync<ItemWithVariantFilterListingResponseServerModel, ItemWithVariantFilterResultModel>(
+            (token, ct) => _managementApi.FilterItemsWithVariantsInternalAsync(filterRequest, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public Task<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> ListItemsWithVariantsByBulkGetAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(bulkGetRequest);
 
-        var endpointUrl = _urlBuilder.BuildItemsWithVariantBulkGetUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantBulkGetRequestModel, ContentItemsWithVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Post, bulkGetRequest);
-
-        return new ListingResponseModel<ContentItemWithVariantModel>(
-            (continuationToken, url) => GetNextBulkGetItemsWithVariantsPageAsync(continuationToken, url, bulkGetRequest),
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Data);
+        return PageEnumerator.CollectAsync<ContentItemsWithVariantsListingResponseServerModel, ContentItemWithVariantModel>(
+            (token, ct) => _managementApi.BulkGetItemsWithVariantsInternalAsync(bulkGetRequest, token, ct),
+            page => page.Data,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
-    private async Task<IListingResponse<ItemWithVariantFilterResultModel>> GetNextFilterItemsWithVariantsPageAsync(string continuationToken, string url, ItemWithVariantFilterRequestModel filterRequest)
+    /// <inheritdoc />
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken = default)
     {
-        var headers = new Dictionary<string, string>
-        {
-            { "x-continuation", continuationToken }
-        };
+        ArgumentNullException.ThrowIfNull(bulkGetRequest);
 
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantFilterRequestModel, ItemWithVariantFilterListingResponseServerModel>(url, HttpMethod.Post, filterRequest, headers);
-
-        return response;
-    }
-
-    private async Task<IListingResponse<ContentItemWithVariantModel>> GetNextBulkGetItemsWithVariantsPageAsync(string continuationToken, string url, ItemWithVariantBulkGetRequestModel bulkGetRequest)
-    {
-        var headers = new Dictionary<string, string>
-        {
-            { "x-continuation", continuationToken }
-        };
-
-        var response = await _actionInvoker.InvokeMethodAsync<ItemWithVariantBulkGetRequestModel, ContentItemsWithVariantsListingResponseServerModel>(url, HttpMethod.Post, bulkGetRequest, headers);
-
-        return response;
+        return PageEnumerator.EnumerateAsync<ContentItemsWithVariantsListingResponseServerModel, ContentItemWithVariantModel>(
+            (token, ct) => _managementApi.BulkGetItemsWithVariantsInternalAsync(bulkGetRequest, token, ct),
+            page => page.Data,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 }

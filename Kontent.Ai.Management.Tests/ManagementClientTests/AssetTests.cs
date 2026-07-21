@@ -1,710 +1,468 @@
-﻿using FluentAssertions;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.StronglyTyped;
+using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Tests.Base;
-using Kontent.Ai.Management.Tests.Data;
-using System;
-using System.IO;
-using System.Linq;
+using RichardSzalay.MockHttp;
+using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
-public class AssetTests : IClassFixture<FileSystemFixture>
+public class AssetTests
 {
-    private readonly FileSystemFixture _fileSystemFixture;
+    private static string Asset => Fixture("Asset.json");
+    private static string File_ => Fixture("File.json");
 
-    public AssetTests(FileSystemFixture fileSystemFixture)
+    private static string Fixture(string name)
+        => System.IO.File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Asset", name));
+
+    private static AssetModel ExpectedAsset()
+        => JsonSerializer.Deserialize<AssetModel>(Asset, SharedTestJsonOptions.Default)!;
+
+    [Fact]
+    public async Task ListAssetsAsync_PagesThroughAllAssets()
     {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("Asset");
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("AssetsPage1.json");
+        var page2 = Fixture("AssetsPage2.json");
+        var page3 = Fixture("AssetsPage3.json");
+        var url = $"{MockClientFactory.BaseUrl}/assets";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
+        var listResult = await client.ListAssetsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<AssetModel> assets = listResult.Value;
+
+        mock.VerifyNoOutstandingExpectation();
+        assets.ShouldEqualAsJson(ConcatPages<AssetModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async Task ListAssetsAsync_DynamicallyTyped_WithMorePages_ListsAssets()
+    public async Task EnumerateAssetPagesAsync_StreamsAllPages()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetsPage1.json", "AssetsPage2.json", "AssetsPage3.json");
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("AssetsPage1.json");
+        var page2 = Fixture("AssetsPage2.json");
+        var page3 = Fixture("AssetsPage3.json");
+        var url = $"{MockClientFactory.BaseUrl}/assets";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var expected = new[] {
-            "00000000-0000-0000-0000-000000000000",
-            "10000000-0000-0000-0000-000000000000",
-            "20000000-0000-0000-0000-000000000000"
-        }.Select(GetExpectedDynamicAssetModel);
-
-        var response = await client.ListAssetsAsync().GetAllAsync();
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task ListAssetsAsync_StronglyTyped_WithMorePages_ListsAssets()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetsPage1.json", "AssetsPage2.json", "AssetsPage3.json");
-
-        var expected = new[] {
-            "00000000-0000-0000-0000-000000000000",
-            "10000000-0000-0000-0000-000000000000",
-            "20000000-0000-0000-0000-000000000000"
-        }.Select(GetExpectedStronglyTypedAssetModel);
-
-        var response = await client.ListAssetsAsync<ComplexTestModel>().GetAllAsync();
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_StronglyTyped_ById_GetsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedStronglyTypedAssetModel();
-
-        var response = await client.GetAssetAsync<ComplexTestModel>(Reference.ById(expected.Id));
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_StronglyTyped_ByCodename_GetsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedStronglyTypedAssetModel();
-
-        var response = await client.GetAssetAsync<ComplexTestModel>(Reference.ByCodename(expected.Codename));
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_StronglyTyped_ByExternalId_GetsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedStronglyTypedAssetModel();
-
-        var response = await client.GetAssetAsync<ComplexTestModel>(Reference.ByExternalId(expected.ExternalId));
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_StronglyTyped_IdentifierIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        await client.Invoking(c => c.GetAssetAsync<ComplexTestModel>(null))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_DynamicallyTyped_ById_GetsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var response = await client.GetAssetAsync(Reference.ById(expected.Id));
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_DynamicallyTyped_ByCodename_GetsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var response = await client.GetAssetAsync(Reference.ByCodename(expected.Codename));
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_DynamicallyTyped_ByExternalId_GetsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var response = await client.GetAssetAsync(Reference.ByExternalId(expected.ExternalId));
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetAssetAsync_DynamicallyTyped_IdentifierIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        await client.Invoking(c => c.GetAssetAsync(null))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task CreateAssetAsync_StronglyTyped_CreatesAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedStronglyTypedAssetModel();
-
-        var createModel = new AssetCreateModel<ComplexTestModel>
+        var assets = new List<AssetModel>();
+        await foreach (var page in client.EnumerateAssetPagesAsync())
         {
-            Title = expected.Title,
-            ExternalId = expected.ExternalId,
-            Elements = expected.Elements
-        };
+            page.IsSuccess.Should().BeTrue();
+            assets.AddRange(page.Value);
+        }
 
-        var response = await client.CreateAssetAsync(createModel);
-
-        response.Should().BeEquivalentTo(expected);
+        mock.VerifyNoOutstandingExpectation();
+        assets.ShouldEqualAsJson(ConcatPages<AssetModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async Task CreateAssetAsync_StronglyTyped_IdentifierIsNull_Throws()
+    public async Task GetAssetAsync_ById_GetsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
+            .Respond("application/json", Asset);
 
-        await client.Invoking(c => c.CreateAssetAsync<ComplexTestModel>(null))
+        var result = await client.GetAssetAsync(Reference.ById(expected.Id));
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Value.ShouldEqualAsJson(expected);
+    }
+
+    [Fact]
+    public async Task GetAssetAsync_ByCodename_GetsAsset()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/codename/{expected.Codename}")
+            .Respond("application/json", Asset);
+
+        var result = await client.GetAssetAsync(Reference.ByCodename(expected.Codename));
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(expected);
+    }
+
+    [Fact]
+    public async Task GetAssetAsync_ByExternalId_GetsAsset()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/external-id/my-external-id")
+            .Respond("application/json", Asset);
+
+        var result = await client.GetAssetAsync(Reference.ByExternalId("my-external-id"));
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(ExpectedAsset());
+    }
+
+    [Fact]
+    public async Task GetAssetAsync_TaxonomyElements_BindAsAssetElements()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
+            .Respond("application/json", Asset);
+
+        var result = await client.GetAssetAsync(Reference.ById(expected.Id));
+
+        mock.VerifyNoOutstandingExpectation();
+        var elements = result.Value.Elements.ToList();
+        elements.Should().HaveCount(2);
+        elements[0].Element.Id.Should().Be("7ef2ebb4-c480-42b7-ba35-a3078d6cce3f");
+        elements[0].Value.Select(t => t.Id).Should().Equal(
+            Guid.Parse("4a4f8cb0-e7fe-40ad-9943-66f395e58571"),
+            Guid.Parse("96e493ab-45c4-4505-a3d0-b46192dd179e"));
+        elements[1].Element.Id.Should().Be("70dfa72d-4599-40cb-aa27-7597470d5e2e");
+        elements[1].Value.Select(t => t.Id).Should().Equal(Guid.Parse("16d27bf1-e0f4-8646-0e54-1b71efc6947f"));
+    }
+
+    [Fact]
+    public async Task GetAssetAsync_IdentifierIsNull_Throws()
+    {
+        var (client, _) = MockClientFactory.Create();
+
+        await client.Invoking(c => c.GetAssetAsync(null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task CreateAssetAsync_DynamicallyTyped_CreatesAsset()
+    public async Task GetAssetAsync_SuccessStatusWithoutBody_ReturnsFailureInsteadOfThrowing()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+        var (client, mock) = MockClientFactory.Create();
+        var id = Guid.NewGuid();
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/assets/{id}")
+            .Respond("application/json", "null");
 
-        var expected = GetExpectedDynamicAssetModel();
+        var result = await client.GetAssetAsync(Reference.ById(id));
+
+        result.IsSuccess.Should().BeFalse();
+        result.Value.Should().BeNull();
+        result.Error!.Message.Should().Contain("success status");
+    }
+
+    [Fact]
+    public async Task CreateAssetAsync_CreatesAsset()
+    {
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
 
         var createModel = new AssetCreateModel
         {
+            FileReference = new FileReference { Id = expected.FileReference.Id, Type = FileReferenceType.Internal },
             Title = expected.Title,
-            ExternalId = expected.ExternalId,
-            Elements = expected.Elements
+            Elements = expected.Elements,
         };
 
-        var response = await client.CreateAssetAsync(createModel);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/assets")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Asset);
 
-        response.Should().BeEquivalentTo(expected);
+        var result = await client.CreateAssetAsync(createModel);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(createModel);
     }
 
     [Fact]
-    public async Task CreateAssetAsync_DynamicallyTyped_IdentifierIsNull_Throws()
+    public async Task CreateAssetAsync_ModelIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.CreateAssetAsync(null))
+        await client.Invoking(c => c.CreateAssetAsync((AssetCreateModel)null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task CreateAssetAsync_StronglyTyped_WithFileContent_CreatesAsset()
+    public async Task CreateAssetAsync_WithFileContent_CreatesAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
-
-        var expected = GetExpectedStronglyTypedAssetModel();
-
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-        var fileName = "Hello.txt";
-        var contentType = "text/plain";
-
-        var updateModel = new AssetCreateModel<ComplexTestModel>
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
-
-        var content = new FileContentSource(stream, fileName, contentType);
-
-        var response = await client.CreateAssetAsync(content, updateModel);
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task CreateAssetAsync_StronglyTyped_WithFileContent_FileContentIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        var updateModel = new AssetCreateModel<ComplexTestModel> { Title = "xxx" };
-
-        await client.Invoking(c => c.CreateAssetAsync(null, updateModel))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task CreateAssetAsync_StronglyTyped_WithFileContent_UpsertModelIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
 
         var content = new FileContentSource(
             new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
             "Hello.txt",
             "text/plain");
 
-        await client.Invoking(c => c.CreateAssetAsync<ComplexTestModel>(content, null))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/files/Hello.txt")
+            .Respond("application/json", File_);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/assets")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Asset);
 
-    [Fact]
-    public async Task CreateAssetAsync_DynamicallyTyped_WithFileContent_CreatesAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-        var fileName = "Hello.txt";
-        var contentType = "text/plain";
-
-        var updateModel = new AssetCreateModel
+        var result = await client.CreateAssetAsync(content, fileReference => new AssetCreateModel
         {
+            FileReference = fileReference,
             Title = expected.Title,
-            Elements = expected.Elements
-        };
+            Elements = expected.Elements,
+        });
 
-        var content = new FileContentSource(stream, fileName, contentType);
-
-        var response = await client.CreateAssetAsync(content, updateModel);
-
-        response.Should().BeEquivalentTo(expected);
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(new AssetCreateModel
+        {
+            FileReference = JsonSerializer.Deserialize<FileReference>(File_, SharedTestJsonOptions.Default)!,
+            Title = expected.Title,
+            Elements = expected.Elements,
+        });
     }
 
     [Fact]
-    public async Task CreateAssetAsync_DynamicallyTyped_WithFileContent_FileContentIsNull_Throws()
+    public async Task CreateAssetAsync_WithFileContent_FileContentIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, _) = MockClientFactory.Create();
 
-        var updateModel = new AssetCreateModel { Title = "xxx" };
-
-        await client.Invoking(c => c.CreateAssetAsync(null, updateModel))
+        await client.Invoking(c => c.CreateAssetAsync(null!, fileReference => new AssetCreateModel
+        {
+            FileReference = fileReference,
+            Title = "x",
+        }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task CreateAssetAsync_DynamicallyTyped_WithFileContent_UpsertModelIsNull_Throws()
+    public async Task CreateAssetAsync_WithFileContent_CreateModelIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
+        var (client, _) = MockClientFactory.Create();
         var content = new FileContentSource(
             new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
             "Hello.txt",
             "text/plain");
 
-        await client.Invoking(c => c.CreateAssetAsync(content, null))
+        await client.Invoking(c => c.CreateAssetAsync(content, null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_ById_UpsertsAsset()
+    public async Task UpsertAssetAsync_ById_UpsertsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
 
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var upsertModel = new AssetUpsertModel { Title = expected.Title, Elements = expected.Elements };
 
-        var updateModel = new AssetUpsertModel<ComplexTestModel>
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Asset);
 
-        var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), updateModel);
+        var result = await client.UpsertAssetAsync(Reference.ById(expected.Id), upsertModel);
 
-        response.Should().BeEquivalentTo(expected);
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_ByCodename_UpsertsAsset()
+    public async Task UpsertAssetAsync_ByCodename_UpsertsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
 
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var upsertModel = new AssetUpsertModel { Title = expected.Title, Elements = expected.Elements };
 
-        var updateModel = new AssetUpsertModel<ComplexTestModel>
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/codename/{expected.Codename}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Asset);
 
-        var response = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), updateModel);
+        var result = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), upsertModel);
 
-        response.Should().BeEquivalentTo(expected);
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_ByExternalId_UpsertsAsset()
+    public async Task UpsertAssetAsync_ByExternalId_UpsertsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
+        var (client, mock) = MockClientFactory.Create();
 
-        var expected = GetExpectedStronglyTypedAssetModel();
+        var upsertModel = new AssetUpsertModel { Title = "Chemex Paper Filters" };
 
-        var updateModel = new AssetUpsertModel<ComplexTestModel>
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/external-id/my-external-id")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Asset);
 
-        var response = await client.UpsertAssetAsync(Reference.ByExternalId(expected.ExternalId), updateModel);
+        var result = await client.UpsertAssetAsync(Reference.ByExternalId("my-external-id"), upsertModel);
 
-        response.Should().BeEquivalentTo(expected);
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(ExpectedAsset());
+        capturedBody.ShouldMatchSerialized(upsertModel);
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_IdentifierIsNull_Throws()
+    public async Task UpsertAssetAsync_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, _) = MockClientFactory.Create();
 
-        var updateModel = new AssetUpsertModel<ComplexTestModel>
-        {
-            Title = "xxx"
-        };
-
-        await client.Invoking(c => c.UpsertAssetAsync(null, updateModel))
+        await client.Invoking(c => c.UpsertAssetAsync(null!, new AssetUpsertModel { Title = "x" }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_UpsertModelIsNull_Throws()
+    public async Task UpsertAssetAsync_UpsertModelIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.UpsertAssetAsync<ComplexTestModel>(Reference.ByExternalId("ex"), null))
+        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("ex"), (AssetUpsertModel)null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_ById_UpsertsAsset()
+    public async Task UpsertAssetAsync_WithFileContent_UpsertsAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var updateModel = new AssetUpsertModel
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
-
-        var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), updateModel);
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_ByCodename_UpsertsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var updateModel = new AssetUpsertModel
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
-
-        var response = await client.UpsertAssetAsync(Reference.ByCodename(expected.Codename), updateModel);
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_ByExternalId_UpsertsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var updateModel = new AssetUpsertModel
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
-
-        var response = await client.UpsertAssetAsync(Reference.ByExternalId(expected.ExternalId), updateModel);
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_IdentifierIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        var updateModel = new AssetUpsertModel
-        {
-            Title = "xxx"
-        };
-
-        await client.Invoking(c => c.UpsertAssetAsync(null, updateModel))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_UpsertModelIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("ex"), null))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_UpsertsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
-
-        var expected = GetExpectedStronglyTypedAssetModel();
-
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-        var fileName = "Hello.txt";
-        var contentType = "text/plain";
-
-        var updateModel = new AssetUpsertModel<ComplexTestModel>
-        {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
-
-        var content = new FileContentSource(stream, fileName, contentType);
-
-        var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, updateModel);
-
-        response.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_IdentifierIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, mock) = MockClientFactory.Create();
+        var expected = ExpectedAsset();
 
         var content = new FileContentSource(
             new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
             "Hello.txt",
             "text/plain");
+        var upsertModel = new AssetUpsertModel { Title = expected.Title, Elements = expected.Elements };
 
-        var updateModel = new AssetUpsertModel<ComplexTestModel> { Title = "xxx" };
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/files/Hello.txt")
+            .Respond("application/json", File_);
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.BaseUrl}/assets/{expected.Id}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Asset);
 
-        await client.Invoking(c => c.UpsertAssetAsync(null, content, updateModel))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
+        var result = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, upsertModel);
 
-    [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_FileContentIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        var updateModel = new AssetUpsertModel<ComplexTestModel> { Title = "xxx" };
-
-        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("externalId"), null, updateModel))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_StronglyTyped_WithFileContent_UpsertModelIsNull_Throws()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        var content = new FileContentSource(
-            new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
-            "Hello.txt",
-            "text/plain");
-
-        await client.Invoking(c => c.UpsertAssetAsync<ComplexTestModel>(Reference.ByExternalId("externalId"), content, null))
-            .Should().ThrowExactlyAsync<ArgumentNullException>();
-    }
-
-    [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_UpsertsAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("File.json", "Asset.json");
-
-        var expected = GetExpectedDynamicAssetModel();
-
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-        var fileName = "Hello.txt";
-        var contentType = "text/plain";
-
-        var updateModel = new AssetUpsertModel
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.ShouldEqualAsJson(expected);
+        capturedBody.ShouldMatchSerialized(upsertModel with
         {
-            Title = expected.Title,
-            Elements = expected.Elements
-        };
-
-        var content = new FileContentSource(stream, fileName, contentType);
-
-        var response = await client.UpsertAssetAsync(Reference.ById(expected.Id), content, updateModel);
-
-        response.Should().BeEquivalentTo(expected);
+            FileReference = JsonSerializer.Deserialize<FileReference>(File_, SharedTestJsonOptions.Default)!,
+        });
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_IdentifierIsNull_Throws()
+    public async Task UpsertAssetAsync_WithFileContent_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
+        var (client, _) = MockClientFactory.Create();
         var content = new FileContentSource(
             new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
             "Hello.txt",
             "text/plain");
 
-        var updateModel = new AssetUpsertModel { Title = "xxx" };
-
-        await client.Invoking(c => c.UpsertAssetAsync(null, content, updateModel))
+        await client.Invoking(c => c.UpsertAssetAsync(null!, content, new AssetUpsertModel { Title = "x" }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_FileContentIsNull_Throws()
+    public async Task UpsertAssetAsync_WithFileContent_FileContentIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, _) = MockClientFactory.Create();
 
-        var updateModel = new AssetUpsertModel { Title = "xxx" };
-
-        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("externalId"), null, updateModel))
+        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("ex"), null!, new AssetUpsertModel { Title = "x" }))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async Task UpsertAssetAsync_DynamicallyTyped_WithFileContent_UpsertModelIsNull_Throws()
+    public async Task UpsertAssetAsync_WithFileContent_UpsertModelIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
+        var (client, _) = MockClientFactory.Create();
         var content = new FileContentSource(
             new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
             "Hello.txt",
             "text/plain");
 
-        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("externalId"), content, null))
+        await client.Invoking(c => c.UpsertAssetAsync(Reference.ByExternalId("ex"), content, null!))
             .Should().ThrowExactlyAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void AssetReference_RenditionsNull_OmitsRenditionsOnWire()
+    {
+        var reference = new AssetReference { Id = Guid.NewGuid() };
+
+        var json = JsonNode.Parse(JsonSerializer.Serialize(reference, SharedTestJsonOptions.Default))!.AsObject();
+
+        json.ContainsKey("renditions").Should().BeFalse();
+    }
+
+    [Fact]
+    public void AssetReference_RenditionsEmpty_SerializesEmptyRenditionsArray()
+    {
+        var reference = new AssetReference { Id = Guid.NewGuid(), Renditions = [] };
+
+        var json = JsonNode.Parse(JsonSerializer.Serialize(reference, SharedTestJsonOptions.Default))!.AsObject();
+
+        json.ContainsKey("renditions").Should().BeTrue();
+        json["renditions"]!.AsArray().Should().BeEmpty();
     }
 
     [Fact]
     public async Task DeleteAssetAsync_ById_DeletesAsset()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, mock) = MockClientFactory.Create();
+        var identifier = Reference.ById(Guid.Empty);
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/assets/{identifier.Id}")
+            .Respond(HttpStatusCode.OK);
 
+        var result = await client.DeleteAssetAsync(identifier);
 
-        await client.Invoking(c => c.DeleteAssetAsync(Reference.ById(Guid.Empty)))
-            .Should().NotThrowAsync();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async Task DeleteAssetAsync_ByCodename_DeletesAsset()
+    public async Task DeleteAssetAsync_IdentifierIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.DeleteAssetAsync(Reference.ByCodename("c")))
-            .Should().NotThrowAsync();
-    }
-
-    [Fact]
-    public async Task DeleteAssetAsync_ByExternalId_DeletesAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        await client.Invoking(c => c.DeleteAssetAsync(Reference.ByExternalId("externalId")))
-            .Should().NotThrowAsync();
-    }
-
-    [Fact]
-    public async Task DeleteAssetAsync_IdentifierIsNull_DeletesAsset()
-    {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
-
-        await client.Invoking(c => c.DeleteAssetAsync(null))
-            .Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(c => c.DeleteAssetAsync(null!))
+            .Should().ThrowExactlyAsync<ArgumentNullException>();
     }
 
     [Fact]
     public async Task UploadFileAsync_UploadsFile()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("File.json");
+        var (client, mock) = MockClientFactory.Create();
+        var expected = JsonSerializer.Deserialize<FileReference>(File_, SharedTestJsonOptions.Default);
 
-        var expected = _fileSystemFixture.GetExpectedResponse<FileReference>("File.json");
+        var content = new FileContentSource(
+            new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK")),
+            "Hello.txt",
+            "text/plain");
 
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-        var fileName = "Hello.txt";
-        var contentType = "text/plain";
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/files/Hello.txt")
+            .Respond("application/json", File_);
 
-        var content = new FileContentSource(stream, fileName, contentType);
+        var result = await client.UploadFileAsync(content);
 
-        var response = await client.UploadFileAsync(content);
-
-        response.Should().BeEquivalentTo(expected);
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
     public async Task UploadFileAsync_ContentIsNull_Throws()
     {
-        var client = _fileSystemFixture.CreateMockClientWithoutResponse();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(c => c.UploadFileAsync(null)).Should().ThrowExactlyAsync<ArgumentNullException>();
+        await client.Invoking(c => c.UploadFileAsync(null!)).Should().ThrowExactlyAsync<ArgumentNullException>();
     }
-
-    private static AssetModel GetExpectedDynamicAssetModel(string assetId = "01647205-c8c4-4b41-b524-1a98a7b12750")
-    {
-        var stronglyTyped = GetExpectedStronglyTypedAssetModel(assetId);
-
-        return new AssetModel
-        {
-            Id = stronglyTyped.Id,
-            Codename = stronglyTyped.Codename,
-            ExternalId = stronglyTyped.ExternalId,
-            FileName = stronglyTyped.FileName,
-            Title = stronglyTyped.Title,
-            Size = stronglyTyped.Size,
-            Type = stronglyTyped.Type,
-            Url = stronglyTyped.Url,
-            ImageWidth = stronglyTyped.ImageWidth,
-            ImageHeight = stronglyTyped.ImageHeight,
-            FileReference = stronglyTyped.FileReference,
-            LastModified = stronglyTyped.LastModified,
-            Descriptions = stronglyTyped.Descriptions,
-            Collection = stronglyTyped.Collection,
-            Elements = ElementsData.GetExpectedDynamicElements(),
-        };
-    }
-
-    private static AssetModel<ComplexTestModel> GetExpectedStronglyTypedAssetModel(string assetId = "01647205-c8c4-4b41-b524-1a98a7b12750") => new()
-    {
-        Id = Guid.Parse(assetId),
-        Codename = "my_super_asset",
-        ExternalId = "asset-1",
-        FileName = "our-story.jpg",
-        Title = "My super asset",
-        Size = 69518,
-        Type = "image/jpeg",
-        Url = "https://assets-eu-01.kc-usercontent.com/a9931a80-9af4-010b-0590-ecb1273cf1b8/36f361fa-7f65-446f-b16e-170455766f3e/our-story.jpg",
-        ImageWidth = 2160,
-        ImageHeight = 1000,
-        FileReference = new FileReference
-        {
-            Id = "36f361fa-7f65-446f-b16e-170455766f3e",
-            Type = FileReferenceTypeEnum.Internal,
-        },
-        LastModified = DateTimeOffset.Parse("2021-11-06T13:57:51.3425375Z").UtcDateTime,
-        Descriptions = new[]
-        {
-            new AssetDescription
-            {
-                Language = Reference.ById(Guid.Empty),
-                Description = "Dancing Goat Café - Los Angeles"
-            },
-            new AssetDescription
-            {
-                Language = Reference.ById(Guid.Parse("78dbefe8-831b-457e-9352-f4c4eacd5024")),
-                Description = "Bolso de cafe en grano"
-            }
-        },
-        Collection = new AssetCollectionReference {
-            Reference = Reference.ById(Guid.Empty)
-        },
-        Elements = ElementsData.GetExpectedStronglyTypedElementsModel(),
-    };
 }

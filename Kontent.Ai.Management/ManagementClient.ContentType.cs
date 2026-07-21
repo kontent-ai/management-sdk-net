@@ -1,72 +1,50 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types;
-using Kontent.Ai.Management.Models.Types.Patch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<ContentTypeModel>> ListContentTypesAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildTypeUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<ContentTypeModel>(
-            GetNextListingPageAsync<ContentTypeListingResponseServerModel, ContentTypeModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Types);
-    }
+    public Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<ContentTypeListingResponseServerModel, ContentTypeModel>(
+            _managementApi.ListContentTypesInternalAsync,
+            page => page.Types,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<ContentTypeModel> GetContentTypeAsync(Reference identifier)
+    public Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetContentTypeInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentTypeModel> CreateContentTypeAsync(ContentTypeCreateModel contentType)
+    public Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(contentType);
 
-        var endpointUrl = _urlBuilder.BuildTypeUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ContentTypeCreateModel, ContentTypeModel>(endpointUrl, HttpMethod.Post, contentType);
-
-        return response;
+        return _managementApi.CreateContentTypeInternalAsync(contentType, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteContentTypeAsync(Reference identifier)
+    public Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _managementApi.DeleteContentTypeInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentTypeModel> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentTypeOperationBaseModel> changes)
+    public Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
-        if (changes == null || !changes.Any())
-        {
-            throw new ArgumentException("Please provide at least one operation.", nameof(changes));
-        }
-
-        var endpointUrl = _urlBuilder.BuildTypeUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeOperationBaseModel>, ContentTypeModel>(endpointUrl, HttpMethod.Patch, changes);
+        return _managementApi.ModifyContentTypeInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ToManagementResultAsync();
     }
 }

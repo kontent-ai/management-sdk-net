@@ -1,55 +1,49 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System;
-
 namespace Kontent.Ai.Management.Models.Languages;
 
 /// <summary>
-/// Represents the language model.
+/// A project language (response shape).
 /// </summary>
-public class LanguageModel
+public sealed record LanguageModel
 {
     /// <summary>
-    /// Gets or sets the language's internal ID.
+    /// Server-generated language ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the language's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the language's codename.
+    /// Codename.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the language's external id.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the language is active.
+    /// Whether the language is active.
     /// </summary>
-    [JsonProperty("is_active")]
-    public bool IsActive { get; set; }
+    [JsonPropertyName("is_active")]
+    public required bool IsActive { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the language is the default language.
+    /// Whether this is the project's default language. Read-only — set by the platform, cannot be patched.
     /// </summary>
-    [JsonProperty("is_default")]
-    public bool IsDefault { get; set; }
+    [JsonPropertyName("is_default")]
+    public required bool IsDefault { get; init; }
 
     /// <summary>
-    /// Gets or sets the language to use when the current language contains no content. With multiple languages you can create fallback chains.
+    /// Language to use when this language has no content.
     /// </summary>
-    [JsonProperty("fallback_language")]
-    public Reference FallbackLanguage { get; set; }
-
-
+    [JsonPropertyName("fallback_language")]
+    public required Reference FallbackLanguage { get; init; }
 }

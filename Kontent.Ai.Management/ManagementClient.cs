@@ -1,85 +1,176 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Api;
 using Kontent.Ai.Management.Configuration;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Modules.ActionInvoker;
-using Kontent.Ai.Management.Modules.HttpClient;
-using Kontent.Ai.Management.Modules.ModelBuilders;
-using Kontent.Ai.Management.Modules.ResiliencePolicy;
-using Kontent.Ai.Management.Modules.UrlBuilder;
+using Kontent.Ai.Management.Extensions;
+using Polly;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kontent.Ai.Management;
 
 /// <summary>
-/// Executes requests against the Kontent.ai Management API.
+/// Executes requests against the Kontent.ai Management API. Implements <see cref="IDisposable"/> /
+/// <see cref="IAsyncDisposable"/> so non-DI consumers can release the underlying <see cref="HttpClient"/> instances;
+/// DI-managed instances pass <c>null</c> for <c>ownedResources</c> and Dispose becomes a no-op.
 /// </summary>
 public sealed partial class ManagementClient : IManagementClient
 {
-    private const int MAX_FILE_SIZE_MB = 100;
+    private readonly IManagementApi _managementApi;
+    private readonly ISubscriptionApi? _subscriptionApi;
+    private readonly IDisposable? _ownedResources;
+    private readonly Conversion.ContentItemEnvelopeConverter _contentConverter;
+    // When we built the converter ourselves, auto-scan the consumer's generated-models assembly on first use so
+    // rich-text component types resolve. When one was injected (tests / advanced callers), trust its registry as-is.
+    private readonly bool _autoScanContentTypes;
+    private int _disposed;
 
-    private readonly ActionInvoker _actionInvoker;
-    private readonly EndpointUrlBuilder _urlBuilder;
-    private readonly IModelProvider _modelProvider;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified environment.
-    /// </summary>
-    /// <param name="ManagementOptions">The settings of the Kontent.ai environment.</param>
-    public ManagementClient(ManagementOptions ManagementOptions)
-        : this(ManagementOptions, new System.Net.Http.HttpClient())
-    {
-    }
+    private ISubscriptionApi SubscriptionApi => _subscriptionApi
+        ?? throw new InvalidOperationException(ManagementOptionsExtensions.SubscriptionIdMissingMessage);
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ManagementClient"/> class for managing content of the specified environment.
+    /// Creates a client against the environment described by <paramref name="managementOptions"/>. The returned
+    /// instance owns its <see cref="HttpClient"/>s — dispose it when you're done. Throws
+    /// <see cref="ValidationException"/> if the options fail validation. For DI scenarios prefer
+    /// <c>services.AddManagementClient(...)</c>, which hands lifetime management to the container.
     /// </summary>
-    /// <param name="ManagementOptions">The settings of the Kontent.ai environment.</param>
-    /// <param name="httpClient">Custom HttpClient instance to use for HTTP requests.</param>
-    public ManagementClient(ManagementOptions ManagementOptions, System.Net.Http.HttpClient httpClient)
+    public ManagementClient(ManagementOptions managementOptions)
+        : this(managementOptions, configureResilience: null, configureRefit: null)
     {
-        ArgumentNullException.ThrowIfNull(ManagementOptions);
-
-        if (string.IsNullOrEmpty(ManagementOptions.EnvironmentId))
-        {
-            throw new ArgumentException("Kontent.ai environment identifier is not specified.", nameof(ManagementOptions.EnvironmentId));
-        }
-
-        if (!Guid.TryParse(ManagementOptions.EnvironmentId, out _))
-        {
-            throw new ArgumentException($"Provided string is not a valid environment identifier ({ManagementOptions.EnvironmentId}). Haven't you accidentally passed the API key instead of the environment identifier?", nameof(ManagementOptions.EnvironmentId));
-        }
-
-        if (string.IsNullOrEmpty(ManagementOptions.ApiKey))
-        {
-            throw new ArgumentException("The API key is not specified.", nameof(ManagementOptions.ApiKey));
-        }
-
-
-        _urlBuilder = new EndpointUrlBuilder(ManagementOptions);
-        _actionInvoker = new ActionInvoker(
-            new ManagementHttpClient(new Modules.HttpClient.HttpClient(httpClient), new DefaultResiliencePolicyProvider(ManagementOptions.MaxRetryAttempts), ManagementOptions.EnableResilienceLogic),
-            new MessageCreator(ManagementOptions.ApiKey));
-        _modelProvider = ManagementOptions.ModelProvider ?? new ModelProvider();
     }
 
-    internal ManagementClient(EndpointUrlBuilder urlBuilder, ActionInvoker actionInvoker, IModelProvider modelProvider = null)
+    // Standalone construction with the optional hooks the ManagementClientBuilder exposes. The public ctor above
+    // delegates here with nulls, so its behaviour is unchanged.
+    internal ManagementClient(
+        ManagementOptions managementOptions,
+        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience,
+        Action<RefitSettings>? configureRefit)
     {
-        _urlBuilder = urlBuilder ?? throw new ArgumentNullException(nameof(urlBuilder));
-        _actionInvoker = actionInvoker ?? throw new ArgumentNullException(nameof(actionInvoker));
-        _modelProvider = modelProvider ?? new ModelProvider();
+        var (api, subscriptionApi, ownedResources) = BuildDependencies(managementOptions, configureResilience, configureRefit);
+
+        _managementApi = api;
+        _subscriptionApi = subscriptionApi;
+        _ownedResources = ownedResources;
+        _contentConverter = new Conversion.ContentItemEnvelopeConverter();
+        _autoScanContentTypes = true;
     }
 
-    private async Task<IListingResponse<TModel>> GetNextListingPageAsync<TListingResponse, TModel>(string continuationToken, string url)
-        where TListingResponse : IListingResponse<TModel>
+    internal ManagementClient(
+        IManagementApi managementApi,
+        ISubscriptionApi? subscriptionApi,
+        IDisposable? ownedResources = null,
+        Conversion.ContentItemEnvelopeConverter? contentConverter = null)
     {
-        var headers = new Dictionary<string, string>
-        {
-            { "x-continuation", continuationToken }
-        };
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TListingResponse>(url, HttpMethod.Get, headers);
+        _managementApi = managementApi;
+        _subscriptionApi = subscriptionApi;
+        _ownedResources = ownedResources;
+        _contentConverter = contentConverter ?? new Conversion.ContentItemEnvelopeConverter();
+        _autoScanContentTypes = contentConverter is null;
+    }
 
-        return response;
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (Interlocked.Exchange(ref _disposed, 1) != 0)
+        {
+            return;
+        }
+
+        _ownedResources?.Dispose();
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        if (Interlocked.Exchange(ref _disposed, 1) != 0)
+        {
+            return;
+        }
+
+        if (_ownedResources is IAsyncDisposable asyncDisposable)
+        {
+            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+        }
+        else
+        {
+            _ownedResources?.Dispose();
+        }
+    }
+
+    // Builds the env-scoped and subscription-scoped Refit clients plus the disposable bundle the ctor needs.
+    // Validates options here so all standalone construction paths surface ValidationException uniformly (the DI
+    // path uses ValidateOnStart, a separate mechanism with its own exception type — that's not something we control).
+    private static (IManagementApi Api, ISubscriptionApi? SubscriptionApi, IDisposable OwnedResources) BuildDependencies(
+        ManagementOptions options,
+        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience,
+        Action<RefitSettings>? configureRefit)
+    {
+        ArgumentNullException.ThrowIfNull(options);
+        Validator.ValidateObject(options, new ValidationContext(options), validateAllProperties: true);
+
+        var optionsAccessor = new SnapshotManagementOptionsAccessor(options);
+        var pipeline = BuildResiliencePipeline(options, configureResilience);
+        var refitSettings = Configuration.RefitSettingsProvider.CreateDefaultSettings();
+        configureRefit?.Invoke(refitSettings);
+
+        var managementHttp = ManagementApiFactory.CreateHttpClient(options, $"projects/{options.EnvironmentId}", optionsAccessor, pipeline);
+        var api = RestService.For<IManagementApi>(managementHttp, refitSettings);
+
+        if (!options.HasSubscriptionId())
+        {
+            return (api, null, new CompositeDisposable(managementHttp));
+        }
+
+        var subscriptionHttp = ManagementApiFactory.CreateHttpClient(options, options.SubscriptionScopePath(), optionsAccessor, pipeline);
+        var subscriptionApi = RestService.For<ISubscriptionApi>(subscriptionHttp, refitSettings);
+
+        return (api, subscriptionApi, new CompositeDisposable(managementHttp, subscriptionHttp));
+    }
+
+    private static ResiliencePipeline<HttpResponseMessage> BuildResiliencePipeline(
+        ManagementOptions options,
+        Action<ResiliencePipelineBuilder<HttpResponseMessage>>? configureResilience)
+    {
+        var builder = new ResiliencePipelineBuilder<HttpResponseMessage>();
+        if (options.EnableResilience)
+        {
+            // Mirrors the DI path's ConfigureResilienceHandler: a supplied hook fully replaces the default pipeline.
+            if (configureResilience is not null)
+            {
+                configureResilience(builder);
+            }
+            else
+            {
+                ServiceCollectionExtensions.ConfigureDefaultResilience(builder);
+            }
+        }
+        return builder.Build();
+    }
+
+    private sealed class CompositeDisposable(params IDisposable[] items) : IDisposable, IAsyncDisposable
+    {
+        private int _disposed;
+
+        public void Dispose()
+        {
+            if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+            foreach (var item in items)
+            {
+                item.Dispose();
+            }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (Interlocked.Exchange(ref _disposed, 1) != 0) return;
+            foreach (var item in items)
+            {
+                if (item is IAsyncDisposable a)
+                {
+                    await a.DisposeAsync().ConfigureAwait(false);
+                }
+                else
+                {
+                    item.Dispose();
+                }
+            }
+        }
     }
 }

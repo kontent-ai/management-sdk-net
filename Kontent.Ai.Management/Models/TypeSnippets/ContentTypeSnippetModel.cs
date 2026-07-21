@@ -1,48 +1,45 @@
-﻿using Kontent.Ai.Management.Models.Types.Elements;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+using Kontent.Ai.Management.Models.Types.Elements;
 
 namespace Kontent.Ai.Management.Models.TypeSnippets;
 
 /// <summary>
-/// Represents content snippet type model.
+/// A content type snippet (response shape). Snippets are reusable groups of elements that can be inlined into content types.
 /// </summary>
-public class ContentTypeSnippetModel
+public sealed record ContentTypeSnippetModel
 {
     /// <summary>
-    /// Gets or sets the id of the content snippet type.
+    /// Server-generated snippet ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the content snippet type.
+    /// Codename.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the last modified timestamp of the content snippet type.
+    /// ISO-8601 timestamp of the last change to the snippet.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    [JsonPropertyName("last_modified")]
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the content snippet type.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the content snippet type.
+    /// Elements defined on the snippet. Snippets cannot contain <c>url_slug</c>, <c>subpages</c>, or <c>content_type_snippet</c> elements — those are rejected by the API.
     /// </summary>
-    [JsonProperty("elements")]
-    public IEnumerable<ElementMetadataBase> Elements { get; set; }
+    [JsonPropertyName("elements")]
+    public required IReadOnlyList<ElementMetadataBase> Elements { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content snippet type.
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 }

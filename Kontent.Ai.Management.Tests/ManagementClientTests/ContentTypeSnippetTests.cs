@@ -1,118 +1,101 @@
-﻿using FluentAssertions;
-using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Shared;
+using AwesomeAssertions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.Types.Elements;
 using Kontent.Ai.Management.Models.TypeSnippets;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
+using RichardSzalay.MockHttp;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class ContentTypeSnippetTests
 {
-    private readonly Scenario _scenario;
+    private static string Snippet => Fixture("Snippet.json");
 
-    public ContentTypeSnippetTests()
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "ContentTypeSnippet", name));
+
+    [Fact]
+    public async Task ListContentTypeSnippetsAsync_PagesThroughAllSnippets()
     {
-        _scenario = new Scenario(folder: "ContentTypeSnippet");
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("SnippetsPage1.json");
+        var page2 = Fixture("SnippetsPage2.json");
+        var page3 = Fixture("SnippetsPage3.json");
+        var url = $"{MockClientFactory.BaseUrl}/snippets";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
+        var listResult = await client.ListContentTypeSnippetsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<ContentTypeSnippetModel> snippets = listResult.Value;
+
+        mock.VerifyNoOutstandingExpectation();
+        snippets.Should().BeEquivalentTo(ConcatPages<ContentTypeSnippetModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async Task ListContentTypeSnippetsAsync_WithContinuation_ListsSnippets()
+    public async Task GetContentTypeSnippetAsync_ById_GetsContentTypeSnippet()
     {
-        var client = _scenario
-            .WithResponses("SnippetsPage1.json", "SnippetsPage2.json", "SnippetsPage3.json")
-            .CreateManagementClient();
-
-        var response = await client.ListContentTypeSnippetsAsync().GetAllAsync();
-
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets")
-            .Validate();
-    }
-
-    [Fact]
-    public async Task GetContentTypeSnippetAsync_ById_GetsContentTypeSnippetAsync()
-    {
-        var client = _scenario
-            .WithResponses("Snippet.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.Parse("5482e7b6-9c79-5e81-8c4b-90e172e7ab48"));
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/snippets/{identifier.Id}")
+            .Respond("application/json", Snippet);
 
-        var response = await client.GetContentTypeSnippetAsync(identifier);
+        var result = await client.GetContentTypeSnippetAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/{identifier.Id}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeSnippetModel>(Snippet, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async Task GetContentTypeSnippetAsync_ByCodename_GetsContentTypeSnippetAsync()
+    public async Task GetContentTypeSnippetAsync_ByCodename_GetsContentTypeSnippet()
     {
-        var client = _scenario
-            .WithResponses("Snippet.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("metadata");
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/snippets/codename/{identifier.Codename}")
+            .Respond("application/json", Snippet);
 
-        var response = await client.GetContentTypeSnippetAsync(identifier);
+        var result = await client.GetContentTypeSnippetAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/codename/{identifier.Codename}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeSnippetModel>(Snippet, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async Task GetContentTypeSnippetAsync_ByExternalId_GetsContentTypeSnippetAsync()
+    public async Task GetContentTypeSnippetAsync_ByExternalId_GetsContentTypeSnippet()
     {
-        var client = _scenario
-            .WithResponses("Snippet.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByExternalId("metadata");
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/snippets/external-id/{identifier.ExternalId}")
+            .Respond("application/json", Snippet);
 
-        var response = await client.GetContentTypeSnippetAsync(identifier);
+        var result = await client.GetContentTypeSnippetAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/external-id/{identifier.ExternalId}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeSnippetModel>(Snippet, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async void GetContentTypeSnippetAsync_IdentifierIsNull_Throws()
+    public async Task GetContentTypeSnippetAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetContentTypeSnippetAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.GetContentTypeSnippetAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void CreateContentTypeSnippetAsync_CreatesContentTypeSnippetAsync()
+    public async Task CreateContentTypeSnippetAsync_CreatesContentTypeSnippet()
     {
-        var client = _scenario
-            .WithResponses("Snippet.json")
-            .CreateManagementClient();
-
-        var expected = _scenario.GetExpectedResponse<ContentTypeSnippetCreateModel>();
+        var (client, mock) = MockClientFactory.Create();
+        var expected = JsonSerializer.Deserialize<ContentTypeSnippetCreateModel>(Snippet, SharedTestJsonOptions.Default)!;
 
         var createModel = new ContentTypeSnippetCreateModel
         {
@@ -122,176 +105,172 @@ public class ContentTypeSnippetTests
             Name = expected.Name
         };
 
-        var response = await client.CreateContentTypeSnippetAsync(createModel);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/snippets")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Snippet);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(createModel)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets")
-            .Validate();
+        var result = await client.CreateContentTypeSnippetAsync(createModel);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeSnippetModel>(Snippet, SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(createModel);
     }
 
-
     [Fact]
-    public async void CreateContentTypeSnippetAsync_CreateModelIsNull_Throws()
+    public async Task CreateContentTypeSnippetAsync_CreateModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.CreateContentTypeSnippetAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CreateContentTypeSnippetAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
-
     [Fact]
-    public async void DeleteContentTypeSnippetAsync_ById_DeletesContentTypeSnippetAsync()
+    public async Task DeleteContentTypeSnippetAsync_ById_DeletesContentTypeSnippet()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
-        await client.DeleteContentTypeSnippetAsync(identifier);
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/snippets/{identifier.Id}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/{identifier.Id}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        var result = await client.DeleteContentTypeSnippetAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeleteContentTypeSnippetAsync_ByCodename_DeletesContentTypeSnippetAsync()
+    public async Task DeleteContentTypeSnippetAsync_ByCodename_DeletesContentTypeSnippet()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("codename");
-        await client.DeleteContentTypeSnippetAsync(identifier);
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/snippets/codename/{identifier.Codename}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/codename/{identifier.Codename}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        var result = await client.DeleteContentTypeSnippetAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeleteContentTypeSnippetAsync_ByExternalId_DeletesContentTypeSnippetAsync()
+    public async Task DeleteContentTypeSnippetAsync_ByExternalId_DeletesContentTypeSnippet()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByExternalId("externalId");
-        await client.DeleteContentTypeSnippetAsync(identifier);
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/snippets/external-id/{identifier.ExternalId}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/external-id/{identifier.ExternalId}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        var result = await client.DeleteContentTypeSnippetAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeleteContentTypeSnippetAsync_IdentifierIsNull_Throws()
+    public async Task DeleteContentTypeSnippetAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeleteContentTypeSnippetAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.DeleteContentTypeSnippetAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ModifyContentTypeSnippetAsync_ById_ModifiesContentTypeSnippet()
+    public async Task ModifyContentTypeSnippetAsync_ById_ModifiesContentTypeSnippet()
     {
-        var client = _scenario
-            .WithResponses("Snippet.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
         var identifier = Reference.ById(Guid.NewGuid());
-        var response = await client.ModifyContentTypeSnippetAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/{identifier.Id}")
-            .Validate();
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/snippets/{identifier.Id}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Snippet);
+
+        var result = await client.ModifyContentTypeSnippetAsync(identifier, changes);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeSnippetModel>(Snippet, SharedTestJsonOptions.Default));
+        capturedBody.Value.Should().NotBeNull();
+        // Heterogeneous polymorphic operation list: assert the converter-free, behaviourally meaningful part — the
+        // ordered sequence of operation kinds (PATCH order matters), via each element's stable "op" discriminator.
+        var sentOps = JsonNode.Parse(capturedBody.Value!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
+        sentOps.Should().Equal(expectedOps);
     }
 
     [Fact]
-    public async void ModifyContentTypeSnippetAsync_ByCodename_ModifiesContentTypeSnippet()
+    public async Task ModifyContentTypeSnippetAsync_ByCodename_ModifiesContentTypeSnippet()
     {
-        var client = _scenario
-            .WithResponses("Snippet.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
         var identifier = Reference.ByCodename("codename");
-        var response = await client.ModifyContentTypeSnippetAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/codename/{identifier.Codename}")
-            .Validate();
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/snippets/codename/{identifier.Codename}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Snippet);
+
+        var result = await client.ModifyContentTypeSnippetAsync(identifier, changes);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeSnippetModel>(Snippet, SharedTestJsonOptions.Default));
+        capturedBody.Value.Should().NotBeNull();
+        var sentOps = JsonNode.Parse(capturedBody.Value!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
+        sentOps.Should().Equal(expectedOps);
     }
 
     [Fact]
-    public async void ModifyContentTypeSnippetAsync_ByExternalId_ModifiesContentTypeSnippet()
+    public async Task ModifyContentTypeSnippetAsync_ByExternalId_ModifiesContentTypeSnippet()
     {
-        var client = _scenario
-            .WithResponses("Snippet.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
         var identifier = Reference.ByExternalId("externalId");
-        var response = await client.ModifyContentTypeSnippetAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/snippets/external-id/{identifier.ExternalId}")
-            .Validate();
-    }
-    [Fact]
-    public async void ModifyContentTypeSnippetAsync_IdentifierIsNull_Throws()
-    {
-        var client = _scenario.CreateManagementClient();
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/snippets/external-id/{identifier.ExternalId}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", Snippet);
 
-        await client.Invoking(x => x.ModifyContentTypeSnippetAsync(null, GetChanges())).Should().ThrowAsync<ArgumentNullException>();
+        var result = await client.ModifyContentTypeSnippetAsync(identifier, changes);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<ContentTypeSnippetModel>(Snippet, SharedTestJsonOptions.Default));
+        capturedBody.Value.Should().NotBeNull();
+        var sentOps = JsonNode.Parse(capturedBody.Value!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
+        sentOps.Should().Equal(expectedOps);
     }
 
     [Fact]
-    public async void ModifyContentTypeSnippetAsync_ChangesAreNull_Throws()
+    public async Task ModifyContentTypeSnippetAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyContentTypeSnippetAsync(Reference.ByCodename("metadata"), null)).Should().ThrowAsync<ArgumentException>();
+        await client.Invoking(x => x.ModifyContentTypeSnippetAsync(null!, GetChanges())).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ModifyContentTypeSnippetAsync_NoChanges_Throws()
+    public async Task ModifyContentTypeSnippetAsync_ChangesAreNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ModifyContentTypeSnippetAsync(Reference.ByCodename("tweet"), new List<ContentTypeSnippetOperationBaseModel> { }))
-            .Should().ThrowAsync<ArgumentException>();
+        await client.Invoking(x => x.ModifyContentTypeSnippetAsync(Reference.ByCodename("metadata"), null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
-    private static List<ContentTypeSnippetOperationBaseModel> GetChanges() => new()
+    private static List<ContentModelOperationBaseModel> GetChanges() => new()
     {
-        new ContentTypeSnippetPatchRemoveModel
+        new ContentModelRemovePatchModel
         {
             Path = $"/elements/codename:none"
         },
-        new ContentTypeSnippetPatchReplaceModel
+        new ContentModelReplacePatchModel
         {
             Value = "Provide all personas for which this article is relevant.",
             Path = $"/elements/codename:personas/guidelines"
         },
-        new ContentTypeSnippetAddIntoPatchModel
+        new ContentModelAddIntoPatchModel
         {
             Value = new TextElementMetadataModel
             {
@@ -305,16 +284,9 @@ public class ContentTypeSnippetTests
             After = Reference.ByCodename("personas"),
             Path = "/elements"
         },
-        new ContentTypeSnippetPatchMoveModel {
+        new ContentModelMovePatchModel {
             Path = "/elements/codename:summary",
             After = Reference.ByCodename("personas")
         }
     };
-
-    public static IEnumerable<object[]> GetIdentifers()
-    {
-        yield return new object[] { Reference.ById(Guid.Parse("4b628214-e4fe-4fe0-b1ff-955df33e1515")) };
-        yield return new object[] { Reference.ByCodename("codename") };
-        yield return new object[] { Reference.ByExternalId("external-id") };
-    }
 }

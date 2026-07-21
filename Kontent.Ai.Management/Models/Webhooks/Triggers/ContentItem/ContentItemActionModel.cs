@@ -1,22 +1,19 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
-/// Represents content item action.
+/// A content item action that fires the webhook.
 /// </summary>
-public class ContentItemActionModel
+public sealed record ContentItemActionModel
 {
     /// <summary>
-    /// The action performed on a content item.
+    /// The action performed on the content item.
     /// </summary>
-    [JsonProperty("action")]
-    public ContentItemAction Action { get; set; }
-    
+    [JsonPropertyName("action")]
+    public required ContentItemAction Action { get; init; }
+
     /// <summary>
-    /// Specifies a workflow and its workflow step. 
+    /// Workflow/step transitions that fire the webhook. Only relevant for the workflow-step-changed action.
     /// </summary>
-    [JsonProperty("transition_to")]
-    public IEnumerable<ContentItemWorkflowTransition> TransitionTo { get; set; }
+    [JsonPropertyName("transition_to")]
+    public IReadOnlyList<ContentItemWorkflowTransition>? TransitionTo { get; init; }
 }

@@ -1,207 +1,220 @@
-﻿using Kontent.Ai.Management.Models.LanguageVariants;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.StronglyTyped;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Models.LanguageVariants.Elements;
 using Kontent.Ai.Management.Models.Workflow;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IEnumerable<LanguageVariantModel>> ListLanguageVariantsByItemAsync(Reference identifier)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.ListLanguageVariantsByItemInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByTypeAsync(Reference identifier)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByTypeAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildListVariantsByTypeUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<LanguageVariantModel>(
-                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
-                response.Pagination?.Token,
-                endpointUrl,
-                response.Variants);
+        var typeSegment = identifier.ToUrlSegment();
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsByTypeInternalAsync(typeSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<LanguageVariantModel<T>>> ListLanguageVariantsByTypeAsync<T>(Reference identifier) where T : new()
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildListVariantsByTypeUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseMappedModel<LanguageVariantModel, LanguageVariantModel<T>>(
-                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
-                response.Pagination?.Token,
-                endpointUrl,
-                response.Variants,
-                _modelProvider.GetLanguageVariantModel<T>);
+        var typeSegment = identifier.ToUrlSegment();
+        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsByTypeInternalAsync(typeSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildListVariantsByComponentUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<LanguageVariantModel>(
-                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
-                response.Pagination?.Token,
-                endpointUrl,
-                response.Variants);
+        var typeSegment = identifier.ToUrlSegment();
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsOfContentTypeWithComponentsInternalAsync(typeSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsByCollectionAsync(Reference identifier)
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildListVariantsByCollectionUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<LanguageVariantModel>(
-                GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
-                response.Pagination?.Token,
-                endpointUrl,
-                response.Variants);
+        var typeSegment = identifier.ToUrlSegment();
+        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsOfContentTypeWithComponentsInternalAsync(typeSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<IListingResponseModel<LanguageVariantModel>> ListLanguageVariantsBySpaceAsync(Reference identifier)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByCollectionAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildListVariantsBySpaceUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantsListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<LanguageVariantModel>(
-            GetNextListingPageAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Variants);
+        var collectionSegment = identifier.ToUrlSegment();
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsByCollectionInternalAsync(collectionSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<List<LanguageVariantModel<T>>> ListLanguageVariantsByItemAsync<T>(Reference identifier) where T : new()
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildListVariantsByItemUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<List<LanguageVariantModel>>(endpointUrl, HttpMethod.Get);
-
-        return response.Select(_modelProvider.GetLanguageVariantModel<T>).ToList();
+        var collectionSegment = identifier.ToUrlSegment();
+        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsByCollectionInternalAsync(collectionSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel> GetLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsBySpaceAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        var spaceSegment = identifier.ToUrlSegment();
+        return PageEnumerator.CollectAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsBySpaceInternalAsync(spaceSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel<T>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
+    public IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
-
-        return _modelProvider.GetLanguageVariantModel<T>(response);
+        var spaceSegment = identifier.ToUrlSegment();
+        return PageEnumerator.EnumerateAsync<LanguageVariantsListingResponseServerModel, LanguageVariantModel>(
+            (token, ct) => _managementApi.ListLanguageVariantsBySpaceInternalAsync(spaceSegment, token, ct),
+            page => page.Variants,
+            page => page.Pagination?.Token,
+            cancellationToken);
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildPublishedVariantsUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel<T>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier) where T : new()
+    public Task<IManagementResult<LanguageVariantModel<T>>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new()
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildPublishedVariantsUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<LanguageVariantModel>(endpointUrl, HttpMethod.Get);
-
-        return _modelProvider.GetLanguageVariantModel<T>(response);
+        return _managementApi.GetLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync(ToTypedVariant<T>);
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel)
+    public Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
+        return _managementApi.GetPublishedLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<IManagementResult<LanguageVariantModel<T>>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+        where T : IElementsModel, new()
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        return _managementApi.GetPublishedLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync(ToTypedVariant<T>);
+    }
+
+    /// <inheritdoc />
+    public Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
         ArgumentNullException.ThrowIfNull(languageVariantUpsertModel);
 
-        var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-        var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, languageVariantUpsertModel);
-
-        return response;
+        return _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), languageVariantUpsertModel, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<LanguageVariantModel> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant)
+    public Task<IManagementResult<LanguageVariantModel<T>>> UpsertLanguageVariantAsync<T>(
+        LanguageVariantIdentifier identifier,
+        T variant,
+        WorkflowStepIdentifier? workflow = null,
+        CancellationToken cancellationToken = default)
+        where T : IElementsModel, new()
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(variant);
 
-        ArgumentNullException.ThrowIfNull(languageVariant);
-
-        var languageVariantUpsertModel = new LanguageVariantUpsertModel(languageVariant);
-
-        return await UpsertLanguageVariantAsync(identifier, languageVariantUpsertModel);
-    }
-
-    /// <inheritdoc />
-    public async Task<LanguageVariantModel<T>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variantElements, WorkflowStepIdentifier workflow = null) where T : new()
-    {
-        ArgumentNullException.ThrowIfNull(identifier);
-
-        if (variantElements == null)
+        var upsertModel = new LanguageVariantUpsertModel
         {
-            throw new ArgumentNullException(nameof(variantElements));
+            Elements = _contentConverter.ToElements(variant),
+            Workflow = workflow,
+        };
+
+        return _managementApi.UpsertLanguageVariantInternalAsync(identifier.ToUrlSegment(), upsertModel, cancellationToken).ToManagementResultAsync(ToTypedVariant<T>);
+    }
+
+    /// <inheritdoc />
+    public Task<IManagementResult> DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+
+        return _managementApi.DeleteLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
+    }
+
+    // Projects a fetched variant onto the typed wrapper: raw elements become the generated record, the variant
+    // metadata (item, language, workflow, …) that the response carries is preserved rather than discarded.
+    private LanguageVariantModel<T> ToTypedVariant<T>(LanguageVariantModel variant) where T : IElementsModel, new()
+        => new()
+        {
+            Item = variant.Item,
+            Elements = ProjectElements<T>(variant.Elements),
+            Language = variant.Language,
+            LastModified = variant.LastModified,
+            Schedule = variant.Schedule,
+            Workflow = variant.Workflow,
+            DueDate = variant.DueDate,
+            Note = variant.Note,
+            Contributors = variant.Contributors,
+        };
+
+    // Projects a variant's element envelopes into a generated record via the content converter.
+    private T ProjectElements<T>(IReadOnlyList<BaseElement> elements) where T : IElementsModel, new()
+    {
+        if (_autoScanContentTypes)
+        {
+            _contentConverter.Registry.Scan(typeof(T).Assembly);
         }
 
-        var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-        var variantUpsertModel = _modelProvider.GetLanguageVariantUpsertModel(variantElements, workflow);
-        var response = await _actionInvoker.InvokeMethodAsync<LanguageVariantUpsertModel, LanguageVariantModel>(endpointUrl, HttpMethod.Put, variantUpsertModel);
-
-        return _modelProvider.GetLanguageVariantModel<T>(response);
-    }
-
-    /// <inheritdoc />
-    public async Task DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier)
-    {
-        ArgumentNullException.ThrowIfNull(identifier);
-
-        var endpointUrl = _urlBuilder.BuildVariantsUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _contentConverter.ReadEnvelopes<T>(elements);
     }
 }

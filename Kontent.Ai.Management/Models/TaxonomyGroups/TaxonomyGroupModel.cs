@@ -1,29 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.TaxonomyGroups;
 
 /// <summary>
-/// Represents the taxonomy group model.
+/// A taxonomy group (response shape). Contains the root-level terms of the group.
 /// </summary>
-public class TaxonomyGroupModel : TaxonomyBaseModel
+public sealed record TaxonomyGroupModel : TaxonomyBaseModel
 {
     /// <summary>
-    /// Gets or sets the taxonomy group's internal ID.
+    /// Server-generated taxonomy group ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets ISO-8601 formatted date/time of the last change to the taxonomy group or its terms.
+    /// ISO-8601 timestamp of the last change to the taxonomy group or any of its terms.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    [JsonPropertyName("last_modified")]
+    public required DateTime LastModified { get; init; }
 
     /// <summary>
-    /// Gets or sets terms in the taxonomy group.
+    /// Root-level terms. Always present; may be empty.
     /// </summary>
-    [JsonProperty("terms")]
-    public IEnumerable<TaxonomyTermModel> Terms { get; set; }
+    [JsonPropertyName("terms")]
+    public required IReadOnlyList<TaxonomyTermModel> Terms { get; init; }
 }

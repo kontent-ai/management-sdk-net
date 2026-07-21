@@ -1,52 +1,44 @@
-﻿using Kontent.Ai.Management.Models.Environments;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.Environments;
 using Kontent.Ai.Management.Models.Environments.Patch;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<EnvironmentClonedModel> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel)
+    public Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(cloneEnvironmentModel);
 
-        var endpointUrl = _urlBuilder.BuildCloneEnvironmentUrl();
-        return await _actionInvoker.InvokeMethodAsync<EnvironmentCloneModel, EnvironmentClonedModel>(endpointUrl, HttpMethod.Post, cloneEnvironmentModel);
+        return _managementApi.CloneEnvironmentInternalAsync(cloneEnvironmentModel, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<EnvironmentCloningStateModel> GetEnvironmentCloningStateAsync()
+    public Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildGetEnvironmentCloningStateUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<EnvironmentCloningStateModel>(endpointUrl, HttpMethod.Get);
+        return _managementApi.GetEnvironmentCloningStateInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteEnvironmentAsync()
+    public Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildEnvironmentUrl();
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _managementApi.DeleteEnvironmentInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel)
+    public Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(markAsProductionModel);
 
-        var endpointUrl = _urlBuilder.BuildMarkEnvironmentAsProductionUrl();
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, markAsProductionModel);
+        return _managementApi.MarkEnvironmentAsProductionInternalAsync(markAsProductionModel, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<EnvironmentModel> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes)
+    public Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildEnvironmentUrl();
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<EnvironmentOperationBaseModel>, EnvironmentModel>(endpointUrl, HttpMethod.Patch, changes);
+        return _managementApi.ModifyEnvironmentInternalAsync(changes, cancellationToken).ToManagementResultAsync();
     }
 }

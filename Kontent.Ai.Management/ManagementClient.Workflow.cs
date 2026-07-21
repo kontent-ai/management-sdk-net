@@ -1,50 +1,39 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Workflow;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
-/// <summary>
-/// Executes requests against the Kontent.ai Management API.
-/// </summary>
-public sealed partial class ManagementClient
+public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IEnumerable<WorkflowModel>> ListWorkflowsAsync()
+    public Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<IEnumerable<WorkflowModel>>(endpointUrl, HttpMethod.Get);
+        return _managementApi.ListWorkflowsInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<WorkflowModel> CreateWorkflowAsync(WorkflowUpsertModel workflow)
+    public Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(workflow);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl();
-        return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Post, workflow);
+        return _managementApi.CreateWorkflowInternalAsync(workflow, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<WorkflowModel> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow)
+    public Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(workflow);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<WorkflowUpsertModel, WorkflowModel>(endpointUrl, HttpMethod.Put, workflow);
+        return _managementApi.UpdateWorkflowInternalAsync(identifier.ToUrlSegment(), workflow, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteWorkflowAsync(Reference identifier)
+    public Task<IManagementResult> DeleteWorkflowAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowsUrl(identifier);
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _managementApi.DeleteWorkflowInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

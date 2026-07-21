@@ -1,22 +1,19 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Users;
 
 /// <summary>
-/// Represents user's invitation model.
+/// Payload for inviting a user into an environment.
 /// </summary>
-public class UserInviteModel
+public sealed record UserInviteModel
 {
     /// <summary>
-    /// Gets or sets the email of user that is to be invited.
+    /// Email address of the user to invite.
     /// </summary>
-    [JsonProperty("email")]
-    public string Email { get; set; }
+    [JsonPropertyName("email")]
+    public required string Email { get; init; }
 
     /// <summary>
-    /// Gets or sets the language's display name.
+    /// Collection-to-roles assignments for the invited user. Must contain at least one group.
     /// </summary>
-    [JsonProperty("collection_groups")]
-    public IEnumerable<UserCollectionGroup> CollectionGroup { get; set; }
+    [JsonPropertyName("collection_groups")]
+    public required IReadOnlyList<UserCollectionGroup> CollectionGroups { get; init; }
 }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-
+﻿
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers;
 
 /// <summary>
@@ -12,7 +11,7 @@ public enum WebhookEvents
     /// </summary>
     [EnumMember(Value = "all")]
     All,
-    
+
     /// <summary>
     /// Only a specific subset of events triggers the webhook.
     /// </summary>

@@ -1,21 +1,20 @@
-using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.VariantFilter;
 
 /// <summary>
-/// Represents the variant filter order model.
+/// Ordering specification for the items-with-variants filter endpoint.
 /// </summary>
-public class VariantFilterOrderModel
+public sealed record VariantFilterOrderModel
 {
     /// <summary>
-    /// Gets or sets the order by column.
+    /// Column to order by.
     /// </summary>
-    [JsonProperty("by")]
-    public string By { get; set; }
+    [JsonPropertyName("by")]
+    public required VariantFilterOrderColumn By { get; init; }
 
     /// <summary>
-    /// Gets or sets the order direction.
+    /// Sort direction. Defaults to ascending.
     /// </summary>
-    [JsonProperty("direction")]
-    public VariantFilterOrderDirection Direction { get; set; }
+    [JsonPropertyName("direction")]
+    public VariantFilterOrderDirection Direction { get; init; } = VariantFilterOrderDirection.Ascending;
 }

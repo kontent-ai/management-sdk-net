@@ -1,27 +1,26 @@
-﻿using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Collections;
 
 /// <summary>
-/// Represents collection the create model.
+/// Payload for adding a new content collection (used as the <c>value</c> of an <c>addInto</c> patch operation).
 /// </summary>
-public class CollectionCreateModel
+public sealed record CollectionCreateModel
 {
     /// <summary>
-    /// Gets or sets the name of the content collection.
+    /// Collection name.
     /// </summary>
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the collection.
+    /// Collection codename. Auto-generated from the name when omitted.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public string? Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the content collection.
+    /// Caller-supplied external ID.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 }

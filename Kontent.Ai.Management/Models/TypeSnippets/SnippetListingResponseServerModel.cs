@@ -1,20 +1,9 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.TypeSnippets;
-
-[JsonObject]
-internal class SnippetListingResponseServerModel : IListingResponse<ContentTypeSnippetModel>
+internal sealed record SnippetListingResponseServerModel
 {
-    [JsonProperty("snippets")]
-    public IEnumerable<ContentTypeSnippetModel> Snippets { get; set; }
+    [JsonPropertyName("snippets")]
+    public required IReadOnlyList<ContentTypeSnippetModel> Snippets { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<ContentTypeSnippetModel> GetEnumerator() => Snippets.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }

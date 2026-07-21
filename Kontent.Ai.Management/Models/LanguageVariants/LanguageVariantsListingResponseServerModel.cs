@@ -1,20 +1,9 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.LanguageVariants;
-
-[JsonObject]
-internal class LanguageVariantsListingResponseServerModel : IListingResponse<LanguageVariantModel>
+internal sealed record LanguageVariantsListingResponseServerModel
 {
-    [JsonProperty("variants")]
-    public IEnumerable<LanguageVariantModel> Variants { get; set; }
+    [JsonPropertyName("variants")]
+    public required IReadOnlyList<LanguageVariantModel> Variants { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<LanguageVariantModel> GetEnumerator() => Variants.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }

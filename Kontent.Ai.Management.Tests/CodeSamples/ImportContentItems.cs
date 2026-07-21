@@ -1,36 +1,27 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-content-items
 /// </summary>
-public class ImportContentItems : IClassFixture<FileSystemFixture>
+public class ImportContentItems
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportContentItems(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: importing_create_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateContentItem()
+    public async Task CreateContentItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         await client.UpsertContentItemAsync(
             Reference.ByExternalId("ext-cafe-brno"),
@@ -40,20 +31,20 @@ public class ImportContentItems : IClassFixture<FileSystemFixture>
     // DocSection: importing_create_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateContentType()
+    public async Task CreateContentType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
             Codename = "cafe",
             Name = "Cafe",
             ExternalId = "cafe",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new NumberElementMetadataModel
                 {
-                    Name = "Price per uni",
+                    Name = "Price per unit",
                     Codename = "price_per_unit",
                 },
                 new GuidelinesElementMetadataModel
@@ -101,59 +92,31 @@ public class ImportContentItems : IClassFixture<FileSystemFixture>
                     Name = "Photo",
                     Codename = "photo"
                 }
-            }
+            ]
         });
     }
 
     // DocSection: importing_upsert_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UpsertLanguageVariant()
+    public async Task UpsertLanguageVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("ext-cafe-brno"), Reference.ByCodename("en-US"));
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-            {
-                new TextElement
-                {
-                    Element = Reference.ByExternalId("street"),
-                    Value = "Nove Sady 25",
-                },
-                new TextElement
-                {
-                    Element = Reference.ByExternalId("city"),
-                    Value = "Brno",
-                },
-                new TextElement
-                {
-                    Element = Reference.ByExternalId("country"),
-                    Value = "Czech republic",
-                },
-                new TextElement
-                {
-                    Element = Reference.ByExternalId("state"),
-                    Value = "Jihomoravsky kraj",
-                },
-                new TextElement
-                {
-                    Element = Reference.ByExternalId("zip_code"),
-                    Value = "60200",
-                },
-                new TextElement
-                {
-                    Element = Reference.ByExternalId("phone"),
-                    Value = "+420 555 555 555",
-                },
-                new TextElement
-                {
-                    Element = Reference.ByExternalId("email"),
-                    Value = "brnocafe@kontent.ai",
-                },
-            })
+            Elements =
+            [
+                new TextElement { Element = Reference.ByExternalId("street"), Value = "Nove Sady 25" },
+                new TextElement { Element = Reference.ByExternalId("city"), Value = "Brno" },
+                new TextElement { Element = Reference.ByExternalId("country"), Value = "Czech republic" },
+                new TextElement { Element = Reference.ByExternalId("state"), Value = "Jihomoravsky kraj" },
+                new TextElement { Element = Reference.ByExternalId("zip_code"), Value = "60200" },
+                new TextElement { Element = Reference.ByExternalId("phone"), Value = "+420 555 555 555" },
+                new TextElement { Element = Reference.ByExternalId("email"), Value = "brnocafe@kontent.ai" },
+            ]
         });
     }
 }

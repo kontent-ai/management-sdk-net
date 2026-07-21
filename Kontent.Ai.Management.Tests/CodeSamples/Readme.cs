@@ -1,69 +1,39 @@
 using Kontent.Ai.Management.Configuration;
+using Kontent.Ai.Management.Conversion;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.Assets;
+using Kontent.Ai.Management.Models.Content;
 using Kontent.Ai.Management.Models.Items;
+using Kontent.Ai.Management.Models.Languages;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Models.StronglyTyped;
-using Kontent.Ai.Management.Modules.Extensions;
-using Kontent.Ai.Management.Modules.ModelBuilders;
+using Kontent.Ai.Management.Models.Publishing;
+using Kontent.Ai.Management.Models.TaxonomyGroups;
+using Kontent.Ai.Management.Models.Types;
+using Kontent.Ai.Management.Models.Types.Elements;
+using Kontent.Ai.Management.Models.Types.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
+using MyProject.Models;
+using Polly;
+using RichardSzalay.MockHttp;
 using System.Text;
-using Xunit;
+
+// The parameterized members below are compile-only mirrors of README snippets, not runnable tests.
+// xUnit1013's code fix would otherwise add an invalid [Theory] to each, breaking the build under `dotnet format`.
+#pragma warning disable xUnit1013 // Public test method should be marked as test
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
-
-internal class ArticleModel
-{
-    [JsonProperty("title")]
-    [KontentElementId("35a9faae-e502-4e26-a824-26b90b9b2ecd")]
-    public TextElement Title { get; set; }
-
-    [JsonProperty("post_date")]
-    [KontentElementId("abe785d6-9146-4cab-8096-cba555d3840f")]
-    public DateTimeElement PostDate { get; set; }
-
-    [JsonProperty("body_copy")]
-    [KontentElementId("bc872953-8507-4c98-9bb7-e9e2a546edb9")]
-    public RichTextElement BodyCopy { get; set; }
-
-    [JsonProperty("related_articles")]
-    [KontentElementId("3ba9d793-c544-4336-925d-69c3dc485445")]
-    public LinkedItemsElement RelatedArticles { get; set; }
-
-    [JsonProperty("personas")]
-    [KontentElementId("9ec81a7d-c93a-4d62-adbb-c28fd8a9f3c8")]
-    public TaxonomyElement Personas { get; set; }
-
-    [JsonProperty("url_pattern")]
-    [KontentElementId("b76e39e8-d3b4-4ed4-87d8-56fb90e0e342")]
-    public UrlSlugElement UrlPattern { get; set; }
-}
-
-internal class AssetMetadataModel
-{
-    [JsonProperty("taxonomy_categories")]
-    [KontentElementId("c76e39e8-d3b4-4ed4-87d8-56fb90e0e342")]
-    public TaxonomyElement TaxonomyCategories { get; set; }
-}
 
 /// <summary>
 /// Source for Code examples being store in README.md
 /// </summary>
-public class Readme : IClassFixture<FileSystemFixture>
+public class Readme
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE README OF THIS REPO
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public Readme(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples/Readme");
-    }
+    private const string SampleFolder = "CodeSamples/Readme";
 
     [Fact]
     public void CreateManagementClient()
@@ -85,126 +55,55 @@ public class Readme : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void RetrieveAndUpsertStronglyTypedModel()
+    public async Task UpsertDynamicLanguageVariant()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleLanguageVariantUpdatedResponse.json");
 
-        var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
+        var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
 
-        var response = await client.GetLanguageVariantAsync<ArticleModel>(identifier);
-
-        response.Elements.Title = new TextElement() { Value = "On Roasts - changed" };
-        response.Elements.PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4), DisplayTimeZone = "Europe/Prague" };
-
-        // Remove next line in codesample
-        client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
-        var responseVariant = await client.UpsertLanguageVariantAsync(identifier, response.Elements);
-    }
-
-    [Fact]
-    public async void UpsertDynamicLanguageVariant()
-    {
-        // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
-
-        var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-        // Elements to update
-        var elements = new dynamic[]
+        // Elements to update. Each element is identified by its codename;
+        // you can also identify it by `id` or `external_id`.
+        var upsertModel = new LanguageVariantUpsertModel
         {
-            new
-            {
-                element = new
-                {
-                    // You can use `Reference.ById` if you don't have the model
-                    id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
-                },
-                value = "On Roasts - changed",
-            },
-            new
-            {
-                element = new
-                {
-                    // You can use `Reference.ById` if you don't have the model
-                    id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()
-                },
-                value = new DateTime(2018, 7, 4),
-            }
+            Elements =
+            [
+                new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts - changed" },
+                new DateTimeElement { Element = Reference.ByCodename("post_date"), Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero) },
+            ]
         };
-
-        var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
 
         // Upserts a language variant of a content item
         var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
     }
 
     [Fact]
-    public async void UpsertLanguageVariantWithElementBuilder()
+    public async Task UpsertStronglyTypedLanguageVariant()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
-
-        var itemIdentifier = Reference.ById(Guid.Parse("9539c671-d578-4fd3-aa5c-b2d8e486c9b8"));
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-        // Elements to update
-        var elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-        {
-            new TextElement()
-            {
-                // You can use `Reference.ById` if you don't have the model
-                Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()),
-                Value = "On Roasts - changed"
-            },
-            new DateTimeElement()
-            {
-                // You can use `Reference.ById` if you don't have the model
-                Element = Reference.ById(typeof(ArticleModel).GetProperty(nameof(ArticleModel.PostDate)).GetKontentElementId()),
-                Value = new DateTime(2018, 7, 4),
-                DisplayTimeZone = "Europe/Prague"
-            },
-        });
-
-        var upsertModel = new LanguageVariantUpsertModel() { Elements = elements };
-
-        // Upserts a language variant of a content item
-        var response = await client.UpsertLanguageVariantAsync(identifier, upsertModel);
-    }
-
-
-    [Fact]
-    public async void UpsertStronglyTypedLanguageVariant()
-    {
+        var (client, mock) = MockClientFactory.Create(ArticleConverter());
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantUpdatedResponse.json");
+        mock.Fallback.Respond("application/json", File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", SampleFolder, "ArticleLanguageVariantUpdatedResponse.json")));
 
-        // Defines the content elements to update
-        var stronglyTypedElements = new ArticleModel
+        var identifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
+
+        // Builds the variant from the generated content-type record
+        var variant = new Article
         {
-            Title = new TextElement() { Value = "On Roasts - changed" },
-            PostDate = new DateTimeElement() { Value = new DateTime(2018, 7, 4), DisplayTimeZone = "Europe/London" },
+            Title = "On Roasts - changed",
+            PublishingDate = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
         };
 
-        // Specifies the content item and the language variant
-        var itemIdentifier = Reference.ByCodename("on_roasts");
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
         // Upserts a language variant of a content item
-        var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
+        var response = await client.UpsertLanguageVariantAsync(identifier, variant);
     }
 
+
     [Fact]
-    public async void QuickStartCreateContentItem()
+    public async Task QuickStartCreateContentItem()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleContentItemResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "ArticleContentItemResponse.json");
 
         var item = new ContentItemCreateModel
         {
@@ -217,128 +116,410 @@ public class Readme : IClassFixture<FileSystemFixture>
     }
 
     [Fact]
-    public async void QuickStartAddLanguageVariant()
+    public async Task CreateStronglyTypedAsset()
     {
         // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("ArticleLanguageVariantResponse.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "FileReferenceResponse.json", "AssetResponse.json");
 
-        var componentId = "04bc8d32-97ab-431a-abaa-83102fc4c198";
-        var contentTypeCodename = "article";
-        var relatedArticle1Guid = Guid.Parse("b4e7bfaa-593c-4ae4-a231-5136b10757b8");
-        var relatedArticle2Guid = Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea");
-        var taxonomyTermGuid1 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
-        var taxonomyTermGuid2 = Guid.Parse("5c060bf3-ed38-4c77-acfa-9868e6e2b5dd");
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world"));
 
-        // Defines the content elements to update
-        var stronglyTypedElements = new ArticleModel
-        {
-            Title = new TextElement() { Value = "On Roasts" },
-            PostDate = new DateTimeElement() { Value = new DateTime(2017, 7, 4) },
-            BodyCopy = new RichTextElement
+        // Uploads the file and creates the asset that references it in a single call
+        var result = await client.CreateAssetAsync(
+            new FileContentSource(stream, "hello.txt", "text/plain"),
+            fileReference => new AssetCreateModel
             {
-                Value = $"<p>Rich Text</p><object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"{componentId}\"></object>",
-                Components = new ComponentModel[]
-                {
-                    new ComponentModel
+                FileReference = fileReference,
+                Title = "Hello",
+                // optionally assign taxonomy terms defined on the environment's asset type
+                Elements =
+                [
+                    new AssetTaxonomyElement
                     {
-                        Id = Guid.Parse(componentId),
-                        Type = Reference.ByCodename(contentTypeCodename),
-                        Elements = new dynamic[]
-                        {
-                            new
-                            {
-                                element = new
-                                {
-                                    id = typeof(ArticleModel).GetProperty(nameof(ArticleModel.Title)).GetKontentElementId()
-                                },
-                                value = "Article component title",
-                            }
-                        }
+                        Element = Reference.ByCodename("taxonomy-categories"),
+                        Value = [Reference.ByCodename("hello"), Reference.ByCodename("sdk")]
                     }
-                }
-            },
-            RelatedArticles = new LinkedItemsElement
-            {
-                Value = new[] { relatedArticle1Guid, relatedArticle2Guid }.Select(Reference.ById)
-            },
-            Personas = new TaxonomyElement
-            {
-                Value = new[] { taxonomyTermGuid1, taxonomyTermGuid2 }.Select(Reference.ById)
-            },
-            UrlPattern = new UrlSlugElement { Value = "on-roasts", Mode = "custom" },
-        };
-
-        // Specifies the content item and the language variant
-        var itemIdentifier = Reference.ByCodename("on_roasts");
-        var languageIdentifier = Reference.ByCodename("en-US");
-        var identifier = new LanguageVariantIdentifier(itemIdentifier, languageIdentifier);
-
-        // Upserts a language variant of your content item
-        var response = await client.UpsertLanguageVariantAsync(identifier, stronglyTypedElements);
-    }
-
-    [Fact]
-    public async void CreateStronglyTypedAsset()
-    {
-        // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("FileReferenceResponse.json");
-
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes("Hello world from CM API .NET SDK"));
-        var fileName = "Hello.txt";
-        var contentType = "text/plain";
-
-        // Returns a reference that you can later use to create an asset
-        var fileResult = await client.UploadFileAsync(new FileContentSource(stream, fileName, contentType));
-
-        // Defines the content elements to create
-        var stronglyTypedTaxonomyElements = new AssetMetadataModel
-        {
-            TaxonomyCategories = new TaxonomyElement()
-            {
-                Value = new[] { "hello", "SDK" }.Select(Reference.ByCodename)
-            },
-        };
-
-        // Defines the asset to create
-        var asset = new AssetCreateModel<AssetMetadataModel>
-        {
-            FileReference = fileResult,
-            Elements = stronglyTypedTaxonomyElements
-        };
-
-        // Remove next line in codesample
-        client = _fileSystemFixture.CreateMockClientWithResponse("AssetResponse.json");
-        // Creates an asset
-        var response = await client.CreateAssetAsync(asset);
-    }
-
-    [Fact]
-    public async void UpdateAssetWithElementBuilder()
-    {
-        // Remove next line in codesample
-        var client = _fileSystemFixture.CreateMockClientWithResponse("AssetResponse.json");
-
-        // Elements to update
-        var taxonomyElements = ElementBuilder.GetElementsAsDynamic(
-            new TaxonomyElement
-            {
-                Element = Reference.ByCodename("taxonomy-categories"),
-                Value = new[]
-                {
-                    Reference.ByCodename("hello"),
-                    Reference.ByCodename("SDK"),
-                }
+                ]
             });
+    }
 
-        // Defines the asset to update
+    [Fact]
+    public async Task UpdateAssetMetadata()
+    {
+        // Remove next line in codesample
+        var client = MockClientFactory.CreateForSample(SampleFolder, "AssetResponse.json");
+
+        // Defines the asset metadata to update
         var asset = new AssetUpsertModel
         {
-            Elements = taxonomyElements
+            Elements =
+            [
+                new AssetTaxonomyElement
+                {
+                    Element = Reference.ByCodename("taxonomy-categories"),
+                    Value =
+                    [
+                        Reference.ByCodename("hello"),
+                        Reference.ByCodename("SDK"),
+                    ]
+                }
+            ]
         };
 
         var assetReference = Reference.ById(Guid.Parse("6d1c8ee9-76bc-474f-b09f-8a54a98f06ea"));
 
         // Updates asset metadata
         var response = await client.UpsertAssetAsync(assetReference, asset);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // The members below mirror the remaining README.md code blocks for compile-time safety only: if a model shape or
+    // client signature drifts, the build breaks here. They are intentionally not [Fact]s and are never executed —
+    // they take the dependencies each snippet assumes already exist.
+    // ---------------------------------------------------------------------------------------------------------------
+
+    public async Task QuickStart(IManagementClient client)
+    {
+        var result = await client.GetContentItemAsync(Reference.ByCodename("on_roasts"));
+
+        if (result.IsSuccess)
+        {
+            Console.WriteLine(result.Value.Name);
+        }
+        else
+        {
+            Console.WriteLine($"{result.StatusCode}: {result.Error?.Message}");
+        }
+    }
+
+    public void RegisterWithDependencyInjection(IServiceCollection services)
+    {
+        services.AddManagementClient(options =>
+        {
+            options.EnvironmentId = "<YOUR_ENVIRONMENT_ID>";
+            options.ApiKey = "<YOUR_API_KEY>";
+        });
+    }
+
+    public async Task BuildStandalone()
+    {
+        await using var client = new ManagementClient(new ManagementOptions
+        {
+            EnvironmentId = "<YOUR_ENVIRONMENT_ID>",
+            ApiKey = "<YOUR_API_KEY>"
+        });
+    }
+
+    public async Task BuildWithBuilder()
+    {
+        await using var client = ManagementClientBuilder
+            .WithOptions(options =>
+            {
+                options.EnvironmentId = "<YOUR_ENVIRONMENT_ID>";
+                options.ApiKey = "<YOUR_API_KEY>";
+            })
+            .WithResilience(pipeline => pipeline.AddTimeout(TimeSpan.FromSeconds(30)))
+            .Build();
+    }
+
+    public void RegisterFromConfiguration(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddManagementClient(configuration);
+        services.AddManagementClient(configuration, "MyManagementSection");
+    }
+
+    public void RegisterNamedClients(IServiceCollection services)
+    {
+        services.AddManagementClient("production", options =>
+        {
+            options.EnvironmentId = "<PRODUCTION_ENVIRONMENT_ID>";
+            options.ApiKey = "<PRODUCTION_API_KEY>";
+        });
+
+        services.AddManagementClient("staging", options =>
+        {
+            options.EnvironmentId = "<STAGING_ENVIRONMENT_ID>";
+            options.ApiKey = "<STAGING_API_KEY>";
+        });
+    }
+
+    public void RegisterWithResilience(IServiceCollection services)
+    {
+        services.AddManagementClient(
+            options => { options.EnvironmentId = "..."; options.ApiKey = "..."; },
+            configureHttpClient: null,
+            configureResilience: pipeline => pipeline
+                .AddRetry(new HttpRetryStrategyOptions { MaxRetryAttempts = 5 })
+                .AddTimeout(TimeSpan.FromSeconds(30)));
+    }
+
+    public async Task ResultPattern(IManagementClient client)
+    {
+        var result = await client.CreateContentItemAsync(new ContentItemCreateModel
+        {
+            Name = "On Roasts",
+            Codename = "on_roasts",
+            Type = Reference.ByCodename("article")
+        });
+
+        if (result.IsSuccess)
+        {
+            ContentItemModel item = result.Value;
+        }
+    }
+
+    public async Task ErrorHandling(IManagementClient client, ContentItemCreateModel model)
+    {
+        var result = await client.CreateContentItemAsync(model);
+
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine($"Request failed ({result.StatusCode}): {result.Error?.Message}");
+            Console.WriteLine($"Request ID: {result.Error?.RequestId}");
+
+            foreach (var validationError in result.Error?.ValidationErrors ?? [])
+            {
+                Console.WriteLine(validationError.Message);
+            }
+        }
+    }
+
+    public void Identifiers()
+    {
+        var byEmail = UserIdentifier.ByEmail("user@example.com");
+        var byUserId = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
+
+        var variantIdentifier = LanguageVariantIdentifier.ByCodenames("on_roasts", "en-US");
+    }
+
+    public async Task Pagination(IManagementClient client)
+    {
+        var result = await client.ListContentItemsAsync();
+
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine($"Failed to list content items: {result.Error?.Message}");
+            return;
+        }
+
+        IReadOnlyList<ContentItemModel> all = result.Value;
+        Console.WriteLine($"{all.Count} items");
+        foreach (var item in all)
+        {
+            Console.WriteLine(item.Name);
+        }
+    }
+
+    public async Task StreamLargeListing(IManagementClient client)
+    {
+        await foreach (var page in client.EnumerateContentItemPagesAsync())
+        {
+            if (!page.IsSuccess)
+            {
+                Console.WriteLine($"A page failed: {page.Error?.Message}");
+                break;
+            }
+
+            foreach (var item in page.Value)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
+    }
+
+    public async Task ContentItems(IManagementClient client)
+    {
+        var item = await client.GetContentItemAsync(Reference.ByCodename("on_roasts"));
+
+        var created = await client.CreateContentItemAsync(new ContentItemCreateModel
+        {
+            Name = "On Roasts",
+            Codename = "on_roasts",
+            Type = Reference.ByCodename("article"),
+            Collection = Reference.ByDefaultCodename()
+        });
+
+        var upserted = await client.UpsertContentItemAsync(
+            Reference.ByExternalId("59713"),
+            new ContentItemUpsertModel
+            {
+                Name = "On Roasts",
+                Type = Reference.ByCodename("article")
+            });
+
+        await client.DeleteContentItemAsync(Reference.ByCodename("on_roasts"));
+    }
+
+    public async Task StronglyTypedGet(IManagementClient client, LanguageVariantIdentifier identifier)
+    {
+        var result = await client.GetLanguageVariantAsync<Article>(identifier);
+        LanguageVariantModel<Article> variant = result.Value;
+
+        Article elements = variant.Elements;    // the strongly-typed element values
+        // every other property is variant metadata, shared with the untyped LanguageVariantModel:
+        Reference item = variant.Item;
+        Reference language = variant.Language;
+        DateTime lastModified = variant.LastModified;
+    }
+
+    public void ElementValueTypes()
+    {
+        var article = new Article
+        {
+            PublishingDate = new DateTimeValue
+            {
+                Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+                DisplayTimeZone = "Europe/Prague"
+            },
+            Slug = new UrlSlugValue { Value = "on-roasts", Mode = UrlSlugMode.Custom },
+            Rating = new CustomValue { Value = "{\"stars\":5}", SearchableValue = "5 stars" }
+        };
+
+        var shorthand = new Article
+        {
+            Slug = "on-roasts",
+            Rating = "{\"stars\":5}"
+        };
+    }
+
+    public async Task PublishingAndScheduling(IManagementClient client, LanguageVariantIdentifier identifier)
+    {
+        await client.PublishLanguageVariantAsync(identifier);
+
+        await client.SchedulePublishingOfLanguageVariantAsync(identifier, new ScheduleModel
+        {
+            ScheduledTo = new DateTimeOffset(2038, 1, 19, 4, 14, 8, TimeSpan.Zero),
+            DisplayTimeZone = "Europe/London"
+        });
+
+        await client.UnpublishLanguageVariantAsync(identifier);
+        await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+
+        await client.ChangeLanguageVariantWorkflowAsync(identifier, new ChangeLanguageVariantWorkflowModel(
+            workflow: Reference.ByDefaultCodename(),
+            step: Reference.ByCodename("review")));
+    }
+
+    public async Task ContentModel(IManagementClient client)
+    {
+        await client.CreateContentTypeAsync(new ContentTypeCreateModel
+        {
+            Name = "Article",
+            Codename = "article",
+            Elements =
+            [
+                new TextElementMetadataModel
+                {
+                    Name = "Title",
+                    Codename = "title",
+                    IsRequired = true
+                },
+                new RichTextElementMetadataModel
+                {
+                    Name = "Body",
+                    Codename = "body"
+                }
+            ]
+        });
+
+        await client.CreateTaxonomyGroupAsync(new TaxonomyGroupCreateModel
+        {
+            Name = "Categories",
+            Codename = "categories",
+            Terms =
+            [
+                new TaxonomyTermCreateModel { Name = "Coffee", Codename = "coffee" },
+                new TaxonomyTermCreateModel { Name = "Brewing", Codename = "brewing" }
+            ]
+        });
+
+        await client.ModifyContentTypeAsync(Reference.ByCodename("article"),
+        [
+            // add a new element
+            ContentTypePatch.AddElement(new TextElementMetadataModel { Name = "Subtitle", Codename = "subtitle" }),
+
+            // replace a scalar property of an existing element
+            ContentTypePatch.ReplaceGuidelines(Reference.ByCodename("body"), "Keep it under 300 words."),
+            ContentTypePatch.ReplaceIsRequired(Reference.ByCodename("title"), true),
+
+            // set a rich-text / linked-items element's allowed content types (whole set at once) …
+            ContentTypePatch.ReplaceAllowedContentTypes(Reference.ByCodename("related"),
+                [Reference.ByCodename("article"), Reference.ByCodename("blog_post")]),
+
+            // … or toggle a single allowed rich-text block
+            ContentTypePatch.RemoveAllowedBlock(Reference.ByCodename("body"), RichTextBlockType.Tables),
+
+            // reorder, reassign to a content group, remove
+            ContentTypePatch.MoveElementAfter(Reference.ByCodename("subtitle"), Reference.ByCodename("title")),
+            ContentTypePatch.ReplaceContentGroup(Reference.ByCodename("title"), Reference.ByCodename("metadata")),
+            ContentTypePatch.RemoveElement(Reference.ByCodename("legacy_field")),
+
+            // escape hatch: a property the SDK has no named factory for, via a raw path
+            ContentTypePatch.ReplaceRaw("/elements/codename:summary/maximum_text_length",
+                new MaximumTextLengthModel { Value = 280, AppliesTo = TextLengthLimitType.Characters }),
+        ]);
+    }
+
+    public async Task Workflows(IManagementClient client)
+    {
+        var workflows = await client.ListWorkflowsAsync();
+        await client.DeleteWorkflowAsync(Reference.ByCodename("editorial"));
+    }
+
+    public async Task EnvironmentAdmin(IManagementClient client)
+    {
+        await client.CreateLanguageAsync(new LanguageCreateModel
+        {
+            Name = "German",
+            Codename = "de-DE",
+            IsActive = true,
+            FallbackLanguage = Reference.ByCodename("en-US")
+        });
+    }
+
+    public async Task TypedElements(IManagementClient client, LanguageVariantIdentifier identifier)
+    {
+        var result = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
+        {
+            Elements =
+            [
+                new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
+                new DateTimeElement
+                {
+                    Element = Reference.ByCodename("post_date"),
+                    Value = new DateTimeOffset(2018, 7, 4, 0, 0, 0, TimeSpan.Zero),
+                    DisplayTimeZone = "Europe/Prague"
+                },
+                new UrlSlugElement { Element = Reference.ByCodename("slug"), Value = "on-roasts", Mode = UrlSlugMode.Custom },
+            ]
+        });
+    }
+
+    public async Task ErrorCodeBranching(IManagementClient client, LanguageVariantIdentifier identifier, Article article)
+    {
+        var result = await client.UpsertLanguageVariantAsync(identifier, article);
+
+        if (!result.IsSuccess && result.Error?.ErrorCode == ManagementErrorCodes.PublishedOrScheduledVariantCannotBeUpdated)
+        {
+            await client.CreateNewVersionOfLanguageVariantAsync(identifier);
+            result = await client.UpsertLanguageVariantAsync(identifier, article);
+        }
+    }
+
+    public async Task CreateItemWithVariant(IManagementClient client)
+    {
+        var result = await client.CreateContentItemWithVariantAsync(
+            new ContentItemCreateModel { Name = "On Roasts", Type = Reference.ByCodename("article") },
+            Reference.ByCodename("en-US"),
+            new LanguageVariantUpsertModel { Elements = [] });
+    }
+
+    // The test assembly carries deliberately colliding generated-model fixtures; scope the converter to the single
+    // record under test so its construction doesn't trip the codename collision. Real consumers don't need this —
+    // the client auto-scans the consumer's own models assembly.
+    private static ContentItemEnvelopeConverter ArticleConverter()
+    {
+        var registry = new ContentTypeRegistry();
+        registry.Register(typeof(Article));
+        return new ContentItemEnvelopeConverter(registry);
     }
 }

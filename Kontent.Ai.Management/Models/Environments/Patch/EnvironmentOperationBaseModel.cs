@@ -1,15 +1,14 @@
-﻿using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Environments.Patch;
 
 /// <summary>
 /// Represents the operation on environment.
 /// </summary>
-public abstract class EnvironmentOperationBaseModel
+public abstract record EnvironmentOperationBaseModel
 {
     /// <summary>
     /// Gets specification of the operation to perform.
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 }

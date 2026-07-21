@@ -1,30 +1,25 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.EnvironmentReport;
 
 /// <summary>
-/// Represents information necessary to identify 
-/// the language variant and lists the content elements
+/// Problems found in a single language variant.
 /// </summary>
-public sealed class VariantIssue
+public sealed record VariantIssue
 {
     /// <summary>
-    /// Gets or sets information about the content item
+    /// The content item the variant belongs to.
     /// </summary>
-    [JsonProperty("item")]
-    public Metadata Item { get; set; }
+    [JsonPropertyName("item")]
+    public required NamedReference Item { get; init; }
 
     /// <summary>
-    /// Gets or sets information about environment language
+    /// The variant's language.
     /// </summary>
-    [JsonProperty("language")]
-    public Metadata Language { get; set; }
+    [JsonPropertyName("language")]
+    public required NamedReference Language { get; init; }
 
     /// <summary>
-    /// Gets or sets information about issues
-    /// found in specific content elements
+    /// Issues found in the variant's elements.
     /// </summary>
-    [JsonProperty("issues")]
-    public List<ElementIssue> Issues { get; set; }
+    [JsonPropertyName("issues")]
+    public required IReadOnlyList<ElementIssue> Issues { get; init; }
 }

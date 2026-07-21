@@ -1,17 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the Archived workflow step upsert model.
+/// Payload for the Archived system step inside a workflow upsert.
 /// </summary>
-public class WorkflowArchivedStepUpsertModel
+public sealed record WorkflowArchivedStepUpsertModel
 {
     /// <summary>
-    /// Gets or sets the roles which can work with an item in this step.
+    /// Roles allowed to work with archived variants. Defaults to empty — no role restriction.
     /// </summary>
-    [JsonProperty("role_ids")]
-    public IReadOnlyCollection<Guid> RoleIds { get; set; }
+    [JsonPropertyName("role_ids")]
+    public IReadOnlyList<Guid> RoleIds { get; init; } = [];
 }

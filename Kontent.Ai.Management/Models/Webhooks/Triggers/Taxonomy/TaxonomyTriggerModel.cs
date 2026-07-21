@@ -1,31 +1,25 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
 /// <summary>
-/// Represents the taxonomy trigger model. 
+/// Taxonomy event trigger for a webhook.
 /// </summary>
-public class TaxonomyTriggerModel
+public sealed record TaxonomyTriggerModel
 {
     /// <summary>
-    /// Determines if taxonomy trigger is enabled.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether this trigger is enabled.
     /// </summary>
-    [JsonProperty("enabled")]
-    public bool? Enabled { get; set; }
-    
-    /// <summary>
-    /// Represents taxonomy actions.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
-    /// </summary>
-    [JsonProperty("actions")]
-    public IEnumerable<TaxonomyActionModel> Actions { get; set; }
+    [JsonPropertyName("enabled")]
+    public bool? Enabled { get; init; }
 
     /// <summary>
-    /// Represents taxonomy filters.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Taxonomy actions that fire the webhook.
     /// </summary>
-    [JsonProperty("filters")]
-    public TaxonomyFiltersModel Filters { get; set; }
+    [JsonPropertyName("actions")]
+    public IReadOnlyList<TaxonomyActionModel>? Actions { get; init; }
+
+    /// <summary>
+    /// Filters narrowing which taxonomies fire the webhook.
+    /// </summary>
+    [JsonPropertyName("filters")]
+    public TaxonomyFiltersModel? Filters { get; init; }
 }

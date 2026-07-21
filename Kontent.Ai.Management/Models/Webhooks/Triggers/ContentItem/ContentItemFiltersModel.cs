@@ -1,29 +1,25 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
-/// Represents the content item filters model.
+/// Filters narrowing which content items fire a webhook. Each facet is optional.
 /// </summary>
-public class ContentItemFiltersModel
+public sealed record ContentItemFiltersModel
 {
     /// <summary>
-    /// References to collections
+    /// Restrict to these collections.
     /// </summary>
-    [JsonProperty("collections")]
-    public IEnumerable<Reference> Collections { get; set; }
-    
+    [JsonPropertyName("collections")]
+    public IReadOnlyList<Reference>? Collections { get; init; }
+
     /// <summary>
-    /// References to content types
+    /// Restrict to these content types.
     /// </summary>
-    [JsonProperty("content_types")]
-    public IEnumerable<Reference> ContentTypes { get; set; }
-    
+    [JsonPropertyName("content_types")]
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
+
     /// <summary>
-    /// References to languages
+    /// Restrict to these languages.
     /// </summary>
-    [JsonProperty("languages")]
-    public IEnumerable<Reference> Languages { get; set; }
+    [JsonPropertyName("languages")]
+    public IReadOnlyList<Reference>? Languages { get; init; }
 }

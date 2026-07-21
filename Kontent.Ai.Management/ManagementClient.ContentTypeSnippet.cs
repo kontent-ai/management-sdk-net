@@ -1,72 +1,50 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.ContentModel.Patch;
 using Kontent.Ai.Management.Models.TypeSnippets;
-using Kontent.Ai.Management.Models.TypeSnippets.Patch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<ContentTypeSnippetModel>> ListContentTypeSnippetsAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildSnippetsUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<SnippetListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<ContentTypeSnippetModel>(
-            GetNextListingPageAsync<SnippetListingResponseServerModel, ContentTypeSnippetModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Snippets);
-    }
+    public Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<SnippetListingResponseServerModel, ContentTypeSnippetModel>(
+            _managementApi.ListContentTypeSnippetsInternalAsync,
+            page => page.Snippets,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<ContentTypeSnippetModel> GetContentTypeSnippetAsync(Reference identifier)
+    public Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<ContentTypeSnippetModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentTypeSnippetModel> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet)
+    public Task<IManagementResult<ContentTypeSnippetModel>> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(contentTypeSnippet);
 
-        var endpointUrl = _urlBuilder.BuildSnippetsUrl();
-        var response = await _actionInvoker.InvokeMethodAsync<ContentTypeSnippetCreateModel, ContentTypeSnippetModel>(endpointUrl, HttpMethod.Post, contentTypeSnippet);
-
-        return response;
+        return _managementApi.CreateContentTypeSnippetInternalAsync(contentTypeSnippet, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteContentTypeSnippetAsync(Reference identifier)
+    public Task<IManagementResult> DeleteContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _managementApi.DeleteContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<ContentTypeSnippetModel> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentTypeSnippetOperationBaseModel> changes)
+    public Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
-        if (changes == null || !changes.Any())
-        {
-            throw new ArgumentException("Please provide at least one operation.", nameof(changes));
-        }
-
-        var endpointUrl = _urlBuilder.BuildSnippetsUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<ContentTypeSnippetOperationBaseModel>, ContentTypeSnippetModel>(endpointUrl, HttpMethod.Patch, changes);
+        return _managementApi.ModifyContentTypeSnippetInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ToManagementResultAsync();
     }
 }

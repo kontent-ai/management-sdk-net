@@ -1,33 +1,31 @@
-﻿using Kontent.Ai.Management.Extensions;
-using Newtonsoft.Json;
-using System;
-
 namespace Kontent.Ai.Management.Models.Shared;
 
 /// <summary>
-/// Represents general identifier of object.
+/// Represents general identifier of object. Construction is factory-only (<see cref="ById"/> / <see cref="ByCodename"/> /
+/// <see cref="ByExternalId"/>) so exactly one identifier is ever set — the invalid zero/multiple-identifier states the
+/// MAPI rejects are unrepresentable.
 /// </summary>
-public sealed class Reference
+public sealed record Reference
 {
     private Reference() { }
 
     /// <summary>
     /// Gets the id of the identifier.
     /// </summary>
-    [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Guid? Id { get; private set; }
+    [JsonPropertyName("id")]
+    public Guid? Id { get; private init; }
 
     /// <summary>
-    /// Gets the codename of the identifier.
+    /// Gets the codename of the identifier; <c>null</c> unless this reference was created by codename.
     /// </summary>
-    [JsonProperty("codename", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string Codename { get; private set; }
+    [JsonPropertyName("codename")]
+    public string? Codename { get; private init; }
 
     /// <summary>
-    /// Gets the external id of the identifier.
+    /// Gets the external id of the identifier; <c>null</c> unless this reference was created by external id.
     /// </summary>
-    [JsonProperty("external_id", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string ExternalId { get; private set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; private init; }
 
     /// <summary>
     /// Creates the reference by id.
@@ -38,75 +36,33 @@ public sealed class Reference
     /// <summary>
     /// Creates the reference by codename.
     /// </summary>
-    /// <param name="codename">The codename of the identifier.</param>
-    public static Reference ByCodename(string codename) => new() { Codename = codename };
+    /// <param name="codename">The codename of the identifier; must be non-empty.</param>
+    public static Reference ByCodename(string codename)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(codename);
+
+        return new() { Codename = codename };
+    }
 
     /// <summary>
     /// Creates the reference by external id.
     /// </summary>
-    /// <param name="externalId">The external id of the identifier.</param>
-    public static Reference ByExternalId(string externalId) => new() { ExternalId = externalId };
-
-    /// <summary>
-    /// Transforms the dynamic object to the <see cref="Reference"/>
-    /// </summary>
-    public static Reference FromDynamic(dynamic source)
+    /// <param name="externalId">The external id of the identifier; must be non-empty.</param>
+    public static Reference ByExternalId(string externalId)
     {
-        try
-        {
-            if (DynamicExtensions.HasProperty(source, "id"))
-            {
-                var id = source.id.GetType() == typeof(string) ? Guid.Parse(source.id) : source.id;
+        ArgumentException.ThrowIfNullOrWhiteSpace(externalId);
 
-                return ById(id);
-            }
-
-            if (DynamicExtensions.HasProperty(source, "codename"))
-            {
-                return ByCodename(source.codename);
-            }
-
-            if (DynamicExtensions.HasProperty(source, "external_id"))
-            {
-                return ByExternalId(source.external_id);
-            }
-        }
-        catch (Exception exception)
-        {
-            throw new DataMisalignedException(
-                "Object could not be converted to the strongly-typed reference. Please check if it has expected properties with expected type",
-                exception);
-        }
-
-        throw new DataMisalignedException("Dynamic element reference does not contain any identifier.");
+        return new() { ExternalId = externalId };
     }
 
     /// <summary>
-    /// Transforms the <see cref="Reference"/> to the dynamic object.
+    /// Creates a reference to the default object by id — the zero GUID (<see cref="Guid.Empty"/>), which the MAPI
+    /// treats as the default (e.g. the default language / variant).
     /// </summary>
-    public dynamic ToDynamic()
-    {
-        if (Id != null)
-        {
-            return new {
-                id = Id,
-            };
-        }
+    public static Reference ByDefaultId() => ById(Guid.Empty);
 
-        if (Codename != null)
-        {
-            return new {
-                codename = Codename,
-            };
-        }
-
-        if (ExternalId != null)
-        {
-            return new {
-                external_id = ExternalId,
-            };
-        }
-
-        throw new DataMisalignedException("Element reference does not contain any identifier.");
-    }
+    /// <summary>
+    /// Creates a reference to the default object by the reserved <c>"default"</c> codename (e.g. the default language / variant).
+    /// </summary>
+    public static Reference ByDefaultCodename() => ByCodename("default");
 }

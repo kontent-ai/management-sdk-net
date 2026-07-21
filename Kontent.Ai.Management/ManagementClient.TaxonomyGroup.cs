@@ -1,63 +1,50 @@
-﻿using Kontent.Ai.Management.Models.Shared;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
+
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<IListingResponseModel<TaxonomyGroupModel>> ListTaxonomyGroupsAsync()
-    {
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupListingResponseServerModel>(endpointUrl, HttpMethod.Get);
-
-        return new ListingResponseModel<TaxonomyGroupModel>(
-            GetNextListingPageAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>,
-            response.Pagination?.Token,
-            endpointUrl,
-            response.Taxonomies);
-    }
+    public Task<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken = default)
+        => PageEnumerator.CollectAsync<TaxonomyGroupListingResponseServerModel, TaxonomyGroupModel>(
+            _managementApi.ListTaxonomyGroupsInternalAsync,
+            page => page.Taxonomies,
+            page => page.Pagination?.Token,
+            cancellationToken);
 
     /// <inheritdoc />
-    public async Task<TaxonomyGroupModel> GetTaxonomyGroupAsync(Reference identifier)
+    public Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
-        var response = await _actionInvoker.InvokeReadOnlyMethodAsync<TaxonomyGroupModel>(endpointUrl, HttpMethod.Get);
-
-        return response;
+        return _managementApi.GetTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<TaxonomyGroupModel> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup)
+    public Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(taxonomyGroup);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl();
-        return await _actionInvoker.InvokeMethodAsync<TaxonomyGroupCreateModel, TaxonomyGroupModel>(endpointUrl, HttpMethod.Post, taxonomyGroup);
+        return _managementApi.CreateTaxonomyGroupInternalAsync(taxonomyGroup, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<TaxonomyGroupModel> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes)
+    public Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(changes);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
-        return await _actionInvoker.InvokeMethodAsync<IEnumerable<TaxonomyGroupOperationBaseModel>, TaxonomyGroupModel>(endpointUrl, HttpMethod.Patch, changes);
+        return _managementApi.ModifyTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), changes, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task DeleteTaxonomyGroupAsync(Reference identifier)
+    public Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildTaxonomyUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Delete);
+        return _managementApi.DeleteTaxonomyGroupInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

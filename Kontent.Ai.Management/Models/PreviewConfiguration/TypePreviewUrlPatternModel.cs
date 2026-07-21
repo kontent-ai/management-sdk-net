@@ -1,23 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents content type preview URL patterns model.
+/// Preview URL patterns for a single content type.
 /// </summary>
-public class TypePreviewUrlPatternModel
+public sealed record TypePreviewUrlPatternModel
 {
     /// <summary>
-    /// Gets or sets the content type reference.
+    /// Reference to the content type these patterns apply to.
     /// </summary>
-    [JsonProperty("content_type")]
-    public Reference ContentType { get; set; }
+    [JsonPropertyName("content_type")]
+    public required Reference ContentType { get; init; }
 
     /// <summary>
-    /// Gets or sets content type's url patterns.
+    /// Preview URL patterns for the content type.
     /// </summary>
-    [JsonProperty("url_patterns")]
-    public IReadOnlyCollection<PreviewUrlPatternModel> UrlPatterns { get; set; }
+    [JsonPropertyName("url_patterns")]
+    public required IReadOnlyList<PreviewUrlPatternModel> UrlPatterns { get; init; }
 }

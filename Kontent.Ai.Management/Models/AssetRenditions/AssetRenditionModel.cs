@@ -1,49 +1,37 @@
-using Newtonsoft.Json;
-using System;
-
 namespace Kontent.Ai.Management.Models.AssetRenditions;
 
 /// <summary>
-/// Represents asset rendition model.
+/// An asset rendition — a server-stored transformation of an underlying asset image.
 /// </summary>
-public class AssetRenditionModel
+public sealed record AssetRenditionModel
 {
     /// <summary>
-    /// Gets or sets the rendition's ID.
+    /// Server-generated rendition ID.
     /// </summary>
-    [JsonProperty("rendition_id")]
-    public Guid RenditionId { get; set; }
+    [JsonPropertyName("rendition_id")]
+    public required Guid RenditionId { get; init; }
 
     /// <summary>
-    /// Gets or sets the id of the asset this rendition belongs to.
+    /// ID of the asset this rendition belongs to.
     /// </summary>
-    [JsonProperty("asset_id")]
-    public Guid AssetId { get; set; }
+    [JsonPropertyName("asset_id")]
+    public required Guid AssetId { get; init; }
 
     /// <summary>
-    /// Gets or sets the rendition's external ID. 
+    /// Caller-supplied external ID. Only present when one was specified on create.
     /// </summary>
-    [JsonProperty("external_id")]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets the image transformation.
-    /// The transformation specifies how to transform the original image asset.
-    /// 
-    /// The image area to use for the transformation is determined by the x, y, width, and height properties.
-    /// The custom_width and custom_height properties set the dimensions of the output image.
-    /// 
-    /// The x and y coordinates define a point in the original image.
-    /// The point is specified as the distance from the top-left corner of the original image asset in pixels.
-    /// The whole area must be within the borders of the original image.
-    /// Upscaling, that is setting the custom_width and custom_height greater than width and height, is not allowed.
+    /// Specifies how the original image is transformed to produce this rendition.
     /// </summary>
-    [JsonProperty("transformation")]
-    public ImageTransformation Transformation { get; set; }
+    [JsonPropertyName("transformation")]
+    public required ImageTransformation Transformation { get; init; }
 
     /// <summary>
-    /// Gets or sets the ISO-8601 formatted date/time of the last change to the rendition.
+    /// ISO-8601 timestamp of the last change to the rendition.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    [JsonPropertyName("last_modified")]
+    public required DateTime LastModified { get; init; }
 }

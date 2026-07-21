@@ -1,112 +1,97 @@
-﻿using FluentAssertions;
-using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Shared;
+using AwesomeAssertions;
 using Kontent.Ai.Management.Models.TaxonomyGroups;
 using Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
+using RichardSzalay.MockHttp;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class TaxonomyGroupTests
 {
-    private readonly Scenario _scenario;
+    private static string TaxonomyGroup => Fixture("TaxonomyGroup.json");
 
-    public TaxonomyGroupTests()
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "TaxonomyGroup", name));
+
+    [Fact]
+    public async Task ListTaxonomyGroupsAsync_PagesThroughAllTaxonomyGroups()
     {
-        _scenario = new Scenario(folder: "TaxonomyGroup");
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("TaxonomyGroupsPage1.json");
+        var page2 = Fixture("TaxonomyGroupsPage2.json");
+        var url = $"{MockClientFactory.BaseUrl}/taxonomies";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+
+        var listResult = await client.ListTaxonomyGroupsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<TaxonomyGroupModel> taxonomyGroups = listResult.Value;
+
+        mock.VerifyNoOutstandingExpectation();
+        taxonomyGroups.Should().BeEquivalentTo(ConcatPages<TaxonomyGroupModel>(page1, page2));
     }
 
     [Fact]
-    public async void ListTaxonomyGroupsAsync_ListsTaxonomyGroups()
+    public async Task GetTaxonomyGroupAsync_ById_GetsTaxonomyGroup()
     {
-        var client = _scenario
-            .WithResponses("TaxonomyGroupsPage1.json", "TaxonomyGroupsPage2.json")
-            .CreateManagementClient();
-
-        var response = await client.ListTaxonomyGroupsAsync().GetAllAsync();
-
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .ListingResponse(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies")
-            .Validate();
-    }
-
-    [Fact]
-    public async void GetTaxonomyGroupAsync_ById_GetsTaxonomyGroup()
-    {
-        var client = _scenario
-            .WithResponses("TaxonomyGroup.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
-        var response = await client.GetTaxonomyGroupAsync(identifier);
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/taxonomies/{identifier.Id}")
+            .Respond("application/json", TaxonomyGroup);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/{identifier.Id}")
-            .Validate();
+        var result = await client.GetTaxonomyGroupAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async void GetTaxonomyGroupAsync_ByCodename_GetsTaxonomyGroup()
+    public async Task GetTaxonomyGroupAsync_ByCodename_GetsTaxonomyGroup()
     {
-        var client = _scenario
-            .WithResponses("TaxonomyGroup.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("codename");
-        var response = await client.GetTaxonomyGroupAsync(identifier);
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/taxonomies/codename/{identifier.Codename}")
+            .Respond("application/json", TaxonomyGroup);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/codename/{identifier.Codename}")
-            .Validate();
+        var result = await client.GetTaxonomyGroupAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async void GetTaxonomyGroupAsync_ByExternalId_GetsTaxonomyGroup()
+    public async Task GetTaxonomyGroupAsync_ByExternalId_GetsTaxonomyGroup()
     {
-        var client = _scenario
-            .WithResponses("TaxonomyGroup.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByExternalId("external");
-        var response = await client.GetTaxonomyGroupAsync(identifier);
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.BaseUrl}/taxonomies/external-id/{identifier.ExternalId}")
+            .Respond("application/json", TaxonomyGroup);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/external-id/{identifier.ExternalId}")
-            .Validate();
+        var result = await client.GetTaxonomyGroupAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async void GetTaxonomyGroupAsync_IdentifierIsNull_Throws()
+    public async Task GetTaxonomyGroupAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetTaxonomyGroupAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.GetTaxonomyGroupAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void CreateTaxonomyGroupAsync_CreatesTaxonomyGroup()
+    public async Task CreateTaxonomyGroupAsync_CreatesTaxonomyGroup()
     {
-        var client = _scenario
-            .WithResponses("TaxonomyGroup.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var createModel = new TaxonomyGroupCreateModel
         {
             Codename = "manufacturer",
@@ -123,147 +108,153 @@ public class TaxonomyGroupTests
             }
         };
 
-        var response = await client.CreateTaxonomyGroupAsync(createModel);
+        mock.Expect(HttpMethod.Post, $"{MockClientFactory.BaseUrl}/taxonomies")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", TaxonomyGroup);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Post)
-            .RequestPayload(createModel)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies")
-            .Validate();
+        var result = await client.CreateTaxonomyGroupAsync(createModel);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        capturedBody.ShouldMatchSerialized(createModel);
     }
 
     [Fact]
-    public async void CreateTaxonomyGroupAsync_CreateModelIsNull_Throws()
+    public async Task CreateTaxonomyGroupAsync_CreateModelIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.CreateTaxonomyGroupAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.CreateTaxonomyGroupAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void DeleteTaxonomyGroupAsync_ById_DeletesTaxonomyGroup()
+    public async Task DeleteTaxonomyGroupAsync_ById_DeletesTaxonomyGroup()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByCodename("codename");
-        await client.DeleteTaxonomyGroupAsync(identifier);
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/taxonomies/codename/{identifier.Codename}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/codename/{identifier.Codename}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        var result = await client.DeleteTaxonomyGroupAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeleteTaxonomyGroupAsync_ByCodename_DeletesTaxonomyGroup()
+    public async Task DeleteTaxonomyGroupAsync_ByCodename_DeletesTaxonomyGroup()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ById(Guid.NewGuid());
-        await client.DeleteTaxonomyGroupAsync(identifier);
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/taxonomies/{identifier.Id}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/{identifier.Id}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        var result = await client.DeleteTaxonomyGroupAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeleteTaxonomyGroupAsync_ByExternalId_DeletesTaxonomyGroup()
+    public async Task DeleteTaxonomyGroupAsync_ByExternalId_DeletesTaxonomyGroup()
     {
-        var client = _scenario.CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = Reference.ByExternalId("external");
-        await client.DeleteTaxonomyGroupAsync(identifier);
+        mock.Expect(HttpMethod.Delete, $"{MockClientFactory.BaseUrl}/taxonomies/external-id/{identifier.ExternalId}")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        _scenario
-            .CreateExpectations()
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/external-id/{identifier.ExternalId}")
-            .HttpMethod(HttpMethod.Delete)
-            .Validate();
+        var result = await client.DeleteTaxonomyGroupAsync(identifier);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeleteTaxonomyGroupAsync_IdentifierIsNull_Throws()
+    public async Task DeleteTaxonomyGroupAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeleteTaxonomyGroupAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.DeleteTaxonomyGroupAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ModifyTaxonomyGroupAsync_ById_ModifiesTaxonomyGroup()
+    public async Task ModifyTaxonomyGroupAsync_ById_ModifiesTaxonomyGroup()
     {
-        var client = _scenario
-            .WithResponses("TaxonomyGroup.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
         var identifier = Reference.ById(Guid.NewGuid());
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/{identifier.Id}")
-            .Validate();
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/taxonomies/{identifier.Id}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", TaxonomyGroup);
+
+        var result = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        capturedBody.Value.Should().NotBeNull();
+        // Heterogeneous polymorphic operation list: deep per-field equivalence needed the demolished test-only
+        // converter. Assert the part that's behaviourally meaningful and converter-free — the ordered sequence of
+        // operation kinds (PATCH order matters), via each element's stable "op" discriminator.
+        var sentOps = JsonNode.Parse(capturedBody.Value!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
+        sentOps.Should().Equal(expectedOps);
     }
 
-
     [Fact]
-    public async void ModifyTaxonomyGroupAsync_ByCodename_ModifiesTaxonomyGroup()
+    public async Task ModifyTaxonomyGroupAsync_ByCodename_ModifiesTaxonomyGroup()
     {
-        var client = _scenario
-            .WithResponses("TaxonomyGroup.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
         var identifier = Reference.ByCodename("codename");
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/codename/{identifier.Codename}")
-            .Validate();
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/taxonomies/codename/{identifier.Codename}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", TaxonomyGroup);
+
+        var result = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        capturedBody.Value.Should().NotBeNull();
+        var sentOps = JsonNode.Parse(capturedBody.Value!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
+        sentOps.Should().Equal(expectedOps);
     }
 
     [Fact]
-    public async void ModifyTaxonomyGroupAsync_ByExternalId_ModifiesTaxonomyGroup()
+    public async Task ModifyTaxonomyGroupAsync_ByExternalId_ModifiesTaxonomyGroup()
     {
-        var client = _scenario
-            .WithResponses("TaxonomyGroup.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var changes = GetChanges();
         var identifier = Reference.ByExternalId("external");
-        var response = await client.ModifyTaxonomyGroupAsync(identifier, changes);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(new HttpMethod("PATCH"))
-            .RequestPayload(changes)
-            .Response(response)
-            .Url($"{Endpoint}/projects/{ENVIRONMENT_ID}/taxonomies/external-id/{identifier.ExternalId}")
-            .Validate();
+        mock.Expect(new HttpMethod("PATCH"), $"{MockClientFactory.BaseUrl}/taxonomies/external-id/{identifier.ExternalId}")
+            .CaptureBody(out var capturedBody)
+            .Respond("application/json", TaxonomyGroup);
+
+        var result = await client.ModifyTaxonomyGroupAsync(identifier, changes);
+
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<TaxonomyGroupModel>(TaxonomyGroup, SharedTestJsonOptions.Default));
+        capturedBody.Value.Should().NotBeNull();
+        var sentOps = JsonNode.Parse(capturedBody.Value!)!.AsArray().Select(t => (string?)t!["op"]);
+        var expectedOps = JsonNode.Parse(JsonSerializer.Serialize(changes, SharedTestJsonOptions.Default))!.AsArray().Select(t => (string?)t!["op"]);
+        sentOps.Should().Equal(expectedOps);
     }
 
     [Fact]
-    public async void ModifyTaxonomyGroupAsync_IdentifierIsNull_Throws()
+    public async Task ModifyTaxonomyGroupAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
         List<TaxonomyGroupOperationBaseModel> changes = new();
 
-        await client.Invoking(x => x.ModifyTaxonomyGroupAsync(null, changes)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ModifyTaxonomyGroupAsync(null!, changes)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     private static List<TaxonomyGroupOperationBaseModel> GetChanges() => new()
@@ -274,7 +265,7 @@ public class TaxonomyGroupTests
         },
         new TaxonomyGroupReplacePatchModel
         {
-            PropertyName = PropertyName.Terms,
+            PropertyName = TaxonomyGroupPropertyName.Terms,
             Reference = Reference.ByCodename("old"),
             Value = new List<TaxonomyTermCreateModel> {
                 new TaxonomyTermCreateModel

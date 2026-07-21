@@ -1,30 +1,25 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.CustomApps.Patch;
 
 /// <summary>
-/// Represents the operation on the custom app.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
+/// Base shape for a custom app PATCH operation. Concrete subtypes specialize the verb (<c>replace</c>, <c>addInto</c>, <c>remove</c>).
 /// </summary>
-public abstract class CustomAppOperationBaseModel
+public abstract record CustomAppOperationBaseModel
 {
     /// <summary>
-    /// Gets specification of the operation to perform.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
+    /// Operation verb. Pinned by each concrete subtype.
     /// </summary>
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public abstract string Op { get; }
 
     /// <summary>
-    /// Gets or sets the name of the property to modify.
+    /// Property to operate on. <c>addInto</c> / <c>remove</c> target the <c>allowed_roles</c> collection; <c>replace</c> applies to any property.
     /// </summary>
-    [JsonProperty("property_name", Required = Required.Always)]
-    public PropertyName PropertyName { get; set; }
+    [JsonPropertyName("property_name")]
+    public required CustomAppPropertyName PropertyName { get; init; }
 
     /// <summary>
-    /// Gets or sets the value to replace into the property specified in the path where the format depends on the specific property.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
+    /// Value for the operation. Type depends on <see cref="PropertyName"/>. May be <c>null</c> when replacing a nullable property (e.g. clearing <c>config</c>).
     /// </summary>
-    [JsonProperty("value")]
-    public dynamic Value { get; set; }
+    [JsonPropertyName("value")]
+    public required object? Value { get; init; }
 }

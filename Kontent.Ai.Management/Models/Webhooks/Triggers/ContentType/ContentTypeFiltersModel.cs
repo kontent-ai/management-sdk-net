@@ -1,17 +1,13 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 
 /// <summary>
-/// Represents the content type filters model.
+/// Filters narrowing which content types fire a webhook.
 /// </summary>
-public class ContentTypeFiltersModel
+public sealed record ContentTypeFiltersModel
 {
     /// <summary>
-    /// References to content types
+    /// Restrict to these content types.
     /// </summary>
-    [JsonProperty("content_types")]
-    public IEnumerable<Reference> ContentTypes { get; set; }
+    [JsonPropertyName("content_types")]
+    public IReadOnlyList<Reference>? ContentTypes { get; init; }
 }

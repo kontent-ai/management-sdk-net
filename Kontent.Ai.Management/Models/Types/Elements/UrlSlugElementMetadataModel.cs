@@ -1,50 +1,29 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a url slug element in content types.
+/// A URL slug element on a content type.
 /// </summary>
-public class UrlSlugElementMetadataModel : ElementMetadataBase
+public sealed record UrlSlugElementMetadataModel : ContentElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the element must be filled in.
+    /// Reference to the text element that feeds the slug's default value. The text element may live in a snippet.
     /// </summary>
-    [JsonProperty("is_required")]
-    public bool IsRequired { get; set; }
+    [JsonPropertyName("depends_on")]
+    public required UrlSlugDependency DependsOn { get; init; }
 
     /// <summary>
-    /// Gets or sets element is non-localizable
+    /// Regex used to validate the generated slug.
     /// </summary>
-    [JsonProperty("is_non_localizable")]
-    public bool IsNonLocalizable { get; set; }
+    [JsonPropertyName("validation_regex")]
+    public ValidationRegexModel? ValidationRegex { get; init; }
 
-    /// <summary>
-    /// Gets or sets the element's guidelines, providing instructions on what to fill in.
-    /// </summary>
-    [JsonProperty("guidelines")]
-    public string Guidelines { get; set; }
-
-    /// <summary>
-    /// Specifies the text element that provides the default value to the URL slug element. The dependent text element can be part of a content type snippet.
-    /// </summary>
-    [JsonProperty("depends_on")]
-    public UrlSlugDependency DependsOn { get; set; }
-
-    /// <summary>
-    /// Specifies a regular expression pattern used to validate the text element's value.
-    /// </summary>
-    [JsonProperty("validation_regex")]
-    public ValidationRegexModel ValidationRegex { get; set; }
-
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.UrlSlug;
 }

@@ -1,16 +1,13 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Workflow;
 
 /// <summary>
-/// Represents the workflow step's 'transition to' response model.
+/// A single allowed transition from a workflow step (response shape).
 /// </summary>
-public class WorkflowStepTransitionToModel
+public sealed record WorkflowStepTransitionToModel
 {
     /// <summary>
-    /// Gets or sets the workflow step's internal ID.
+    /// Reference to the destination step.
     /// </summary>
-    [JsonProperty("step")]
-    public Reference Step { get; set; }
+    [JsonPropertyName("step")]
+    public required Reference Step { get; init; }
 }

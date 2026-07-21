@@ -1,20 +1,9 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Assets;
-
-[JsonObject]
-internal sealed class AssetListingResponseServerModel : IListingResponse<AssetModel>
+internal sealed record AssetListingResponseServerModel
 {
-    [JsonProperty("assets")]
-    public IEnumerable<AssetModel> Assets { get; set; }
+    [JsonPropertyName("assets")]
+    public required IReadOnlyList<AssetModel> Assets { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<AssetModel> GetEnumerator() => Assets.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }

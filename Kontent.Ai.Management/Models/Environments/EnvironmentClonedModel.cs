@@ -1,34 +1,31 @@
-﻿using Newtonsoft.Json;
-using System;
-
 namespace Kontent.Ai.Management.Models.Environments;
 
 /// <summary>
-/// Represents result of environment cloning.
+/// Result of cloning an environment.
 /// </summary>
-public class EnvironmentClonedModel
+public sealed record EnvironmentClonedModel
 {
     /// <summary>
-    /// Gets or sets the ID of the cloned environment.
+    /// ID of the cloned environment.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the Management API key.
+    /// Management API key for the cloned environment.
     /// </summary>
-    [JsonProperty("management_api_key")]
-    public string ManagementApiKey { get; set; }
+    [JsonPropertyName("management_api_key")]
+    public required string ManagementApiKey { get; init; }
 
     /// <summary>
-    /// Gets or sets the Delivery preview API key.
+    /// Delivery preview API key. Null when the project has no preview Delivery API key (the key type is deprecated in favor of scoped Delivery API keys).
     /// </summary>
-    [JsonProperty("delivery_preview_api_key")]
-    public string DeliveryPreviewApiKey { get; set; }
+    [JsonPropertyName("delivery_preview_api_key")]
+    public string? DeliveryPreviewApiKey { get; init; }
 
     /// <summary>
-    /// Gets or sets the Secured delivery API key.
+    /// Secured delivery API key. Null when the project has no secured Delivery API key (the key type is deprecated in favor of scoped Delivery API keys).
     /// </summary>
-    [JsonProperty("secured_delivery_api_key")]
-    public string SecuredDeliveryApiKey { get; set; }
+    [JsonPropertyName("secured_delivery_api_key")]
+    public string? SecuredDeliveryApiKey { get; init; }
 }

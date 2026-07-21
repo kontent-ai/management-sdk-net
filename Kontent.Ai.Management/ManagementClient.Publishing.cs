@@ -1,111 +1,85 @@
-﻿using Kontent.Ai.Management.Models.LanguageVariants;
+using Kontent.Ai.Management.Api;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.Publishing;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Kontent.Ai.Management;
 
-/// <summary>
-/// Executes requests against the Kontent.ai Management API.
-/// </summary>
-public sealed partial class ManagementClient
+public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel)
+    public Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
         ArgumentNullException.ThrowIfNull(changeModel);
 
-        var endpointUrl = _urlBuilder.BuildWorkflowChangeUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, changeModel);
+        return _managementApi.ChangeLanguageVariantWorkflowInternalAsync(identifier.ToUrlSegment(), changeModel, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task PublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        return _managementApi.PublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+    public Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
-
-        ArgumentNullException.ThrowIfNull(scheduleModel);
-
-        var endpointUrl = _urlBuilder.BuildPublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
-    }
-    
-    /// <inheritdoc />
-    public async Task SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule) 
-    {
-        ArgumentNullException.ThrowIfNull(identifier);
-        
         ArgumentNullException.ThrowIfNull(schedule);
 
-        var endpointUrl = _urlBuilder.BuildSchedulePublishAndUnpublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, schedule);
+        return _managementApi.SchedulePublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(schedule);
 
-        var endpointUrl = _urlBuilder.BuildCancelPublishingVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        return _managementApi.SchedulePublishingAndUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        return _managementApi.CancelPublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildCancelUnpublishingVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        return _managementApi.UnpublishLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel scheduleModel)
+    public Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        ArgumentNullException.ThrowIfNull(scheduleModel);
-
-        var endpointUrl = _urlBuilder.BuildUnpublishVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put, scheduleModel);
+        return _managementApi.CancelUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier)
+    public Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(identifier);
+        ArgumentNullException.ThrowIfNull(schedule);
+
+        return _managementApi.ScheduleUnpublishingOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), schedule, cancellationToken).ToManagementResultAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<IManagementResult> CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(identifier);
 
-        var endpointUrl = _urlBuilder.BuildNewVersionVariantUrl(identifier);
-
-        await _actionInvoker.InvokeMethodAsync(endpointUrl, HttpMethod.Put);
+        return _managementApi.CreateNewVersionOfLanguageVariantInternalAsync(identifier.ToUrlSegment(), cancellationToken).ToManagementResultAsync();
     }
 }

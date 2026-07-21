@@ -1,20 +1,9 @@
-using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.ItemWithVariant;
-
-[JsonObject]
-internal class ItemWithVariantFilterListingResponseServerModel : IListingResponse<ItemWithVariantFilterResultModel>
+internal sealed record ItemWithVariantFilterListingResponseServerModel
 {
-    [JsonProperty("variants")]
-    public IEnumerable<ItemWithVariantFilterResultModel> Variants { get; set; }
+    [JsonPropertyName("variants")]
+    public required IReadOnlyList<ItemWithVariantFilterResultModel> Variants { get; init; }
 
-    [JsonProperty("pagination")]
-    public PaginationResponseModel Pagination { get; set; }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    public IEnumerator<ItemWithVariantFilterResultModel> GetEnumerator() => Variants.GetEnumerator();
+    [JsonPropertyName("pagination")]
+    public required PaginationResponseModel Pagination { get; init; }
 }

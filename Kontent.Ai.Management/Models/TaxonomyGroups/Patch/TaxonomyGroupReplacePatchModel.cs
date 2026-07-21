@@ -1,28 +1,22 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.TaxonomyGroups.Patch;
 
 /// <summary>
-/// Represents the replace operation.
-/// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
+/// <c>replace</c> operation. Replaces a property of the taxonomy group or one of its terms. The targeted object is identified by <see cref="TaxonomyGroupOperationBaseModel.Reference"/>; <see cref="PropertyName"/> selects which of its properties to replace.
 /// </summary>
-public class TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseModel
+public sealed record TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseModel
 {
-    /// <summary>
-    /// Represents the replace operation.
-    /// </summary>
+    /// <inheritdoc/>
     public override string Op => "replace";
 
     /// <summary>
-    /// Specifies the property of the taxonomy group or term that you want to replace.
+    /// Property to replace. Valid values are <see cref="TaxonomyGroupPropertyName.Codename"/>, <see cref="TaxonomyGroupPropertyName.Name"/>, and <see cref="TaxonomyGroupPropertyName.Terms"/>.
     /// </summary>
-    [JsonProperty("property_name")]
-    public PropertyName PropertyName { get; set; }
+    [JsonPropertyName("property_name")]
+    public required TaxonomyGroupPropertyName PropertyName { get; init; }
 
     /// <summary>
-    /// Gets or sets the new value. Based on the value of PropertyName, the value can be either string or an array of taxonomy terms.
-    /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-taxonomy-group
+    /// New value. Type depends on <see cref="PropertyName"/>: <c>string</c> for <c>codename</c> / <c>name</c>, <c>IEnumerable&lt;TaxonomyTermCreateModel&gt;</c> for <c>terms</c>.
     /// </summary>
-    [JsonProperty("value")]
-    public dynamic Value { get; set; }
+    [JsonPropertyName("value")]
+    public required object Value { get; init; }
 }

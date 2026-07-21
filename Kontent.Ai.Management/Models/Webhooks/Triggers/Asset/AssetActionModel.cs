@@ -1,15 +1,13 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
 
 /// <summary>
-/// Represents asset action.
+/// An asset action that fires the webhook.
 /// </summary>
-public class AssetActionModel
+public sealed record AssetActionModel
 {
     /// <summary>
-    /// Asset action.
+    /// The action performed on the asset.
     /// </summary>
-    [JsonProperty("action")]
-    public AssetAction Action { get; set; }
+    [JsonPropertyName("action")]
+    public required AssetAction Action { get; init; }
 }

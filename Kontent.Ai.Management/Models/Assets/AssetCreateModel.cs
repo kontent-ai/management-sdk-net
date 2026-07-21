@@ -1,60 +1,55 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
-/// Represents an asset create model.
+/// Request payload for creating an asset (after the binary file has been uploaded).
 /// </summary>
-public sealed class AssetCreateModel
+public sealed record AssetCreateModel
 {
     /// <summary>
-    /// Gets or sets the file reference for the asset.
+    /// Reference to the previously uploaded binary file.
     /// </summary>
-    [JsonProperty("file_reference")]
-    public FileReference FileReference { get; set; }
+    [JsonPropertyName("file_reference")]
+    public required FileReference FileReference { get; init; }
 
     /// <summary>
-    /// Gets or sets the description for the asset.
+    /// Per-language alt-text descriptions.
     /// </summary>
-    [JsonProperty("descriptions")]
-    public IEnumerable<AssetDescription> Descriptions { get; set; } = Enumerable.Empty<AssetDescription>();
+    [JsonPropertyName("descriptions")]
+    public IReadOnlyList<AssetDescription>? Descriptions { get; init; }
 
     /// <summary>
-    /// Gets or sets the title for the asset.
+    /// Display title.
     /// </summary>
-    [JsonProperty("title")]
-    public string Title { get; set; }
+    [JsonPropertyName("title")]
+    public string? Title { get; init; }
 
     /// <summary>
-    /// Folder of the asset. If outside of all folders use "id" : "00000000-0000-0000-0000-000000000000".
+    /// Folder to place the asset in. Use <c>00000000-0000-0000-0000-000000000000</c> as the ID to place at the top level.
     /// </summary>
-    [JsonProperty("folder")]
-    public Reference Folder { get; set; }
-    
-    /// <summary>
-    /// Gets or sets the Collection for the asset.
-    /// </summary>
-    [JsonProperty("collection")]
-    public AssetCollectionReference Collection { get; set; }
+    [JsonPropertyName("folder")]
+    public Reference? Folder { get; init; }
 
     /// <summary>
-    /// Gets or sets the external identifier of the asset.
+    /// Asset collection to assign the asset to. Defaults server-side to the project's default collection when omitted.
     /// </summary>
-    [JsonProperty("external_id")]
-    public string ExternalId { get; set; }
+    [JsonPropertyName("collection")]
+    public AssetCollectionReference? Collection { get; init; }
 
     /// <summary>
-    /// Gets or sets elements of the asset.
+    /// Caller-supplied external ID for the asset.
     /// </summary>
-    [JsonProperty("elements")]
-    public IEnumerable<dynamic> Elements { get; set; }
+    [JsonPropertyName("external_id")]
+    public string? ExternalId { get; init; }
 
     /// <summary>
-    /// Gets or sets the codename of the asset.
+    /// Taxonomy assignments from the environment's asset type.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { set; get; }
+    [JsonPropertyName("elements")]
+    public IReadOnlyList<AssetTaxonomyElement>? Elements { get; init; }
+
+    /// <summary>
+    /// Caller-supplied codename. When omitted, the CMS generates one from the title (or file name).
+    /// </summary>
+    [JsonPropertyName("codename")]
+    public string? Codename { get; init; }
 }

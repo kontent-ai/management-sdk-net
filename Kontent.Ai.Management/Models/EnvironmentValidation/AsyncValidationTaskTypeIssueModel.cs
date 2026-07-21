@@ -1,15 +1,13 @@
-﻿using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.EnvironmentValidation;
 
 /// <summary>
-/// Async validation task type issue.
+/// A content type issue found by an async validation task.
 /// </summary>
-public sealed class AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel
+public sealed record AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel
 {
     /// <summary>
-    /// Gets or sets item reference.
+    /// The content type the issues belong to.
     /// </summary>
-    [JsonProperty("type")]
-    public Metadata Type { get; set; }
+    [JsonPropertyName("type")]
+    public required NamedReference Type { get; init; }
 }

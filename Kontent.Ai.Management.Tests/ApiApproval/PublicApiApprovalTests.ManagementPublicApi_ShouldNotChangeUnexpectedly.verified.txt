@@ -1,0 +1,3086 @@
+﻿// Kontent.Ai.Management
+public interface IElementsModel
+
+// Kontent.Ai.Management
+public interface IError
+    Nullable<Int32> ErrorCode { get; }
+    Exception Exception { get; }
+    String Message { get; }
+    String RequestId { get; }
+    IReadOnlyList<ValidationError> ValidationErrors { get; }
+
+// Kontent.Ai.Management
+public interface IManagementClient : IDisposable, IAsyncDisposable
+    Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folders, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet, CancellationToken cancellationToken)
+    Task<IManagementResult<CustomAppModel>> CreateCustomAppAsync(CustomAppCreateModel customApp, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageModel>> CreateLanguageAsync(LanguageCreateModel language, CancellationToken cancellationToken)
+    Task<IManagementResult> CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> CreateSpaceAsync(SpaceCreateModel space, CancellationToken cancellationToken)
+    Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken)
+    Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken)
+    Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken)
+    Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteSpaceAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteWorkflowAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DisableWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> GetCollectionsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentInformationModel>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<AssetRenditionModel>>> ListAssetRenditionsAsync(Reference assetIdentifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentItemModel>>> ListContentItemsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<EnvironmentRoleModel>>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> ListItemsWithVariantsByBulkGetAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> ListItemsWithVariantsByFilterAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByCollectionAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsBySpaceAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByTypeAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> ModifyCollectionsAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
+    Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserRolesUpdateModel roles, CancellationToken cancellationToken)
+    Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
+    Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken)
+
+// Kontent.Ai.Management
+public interface IManagementClientFactory
+    IManagementClient Get()
+    IManagementClient Get(String name)
+
+// Kontent.Ai.Management
+public interface IManagementResult
+    IError Error { get; }
+    Boolean IsSuccess { get; }
+    String RequestUrl { get; }
+    HttpStatusCode StatusCode { get; }
+
+// Kontent.Ai.Management
+public interface IManagementResult`1<T> : IManagementResult
+    T Value { get; }
+
+// Kontent.Ai.Management
+public sealed class ManagementClient : IManagementClient, IDisposable, IAsyncDisposable
+    Task<IManagementResult> ActivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> CancelPublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> CancelUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> ChangeLanguageVariantWorkflowAsync(LanguageVariantIdentifier identifier, ChangeLanguageVariantWorkflowModel changeModel, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentClonedModel>> CloneEnvironmentAsync(EnvironmentCloneModel cloneEnvironmentModel, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> CreateAssetAsync(AssetCreateModel asset, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> CreateAssetFoldersAsync(AssetFolderCreateModel folders, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> CreateAssetRenditionAsync(Reference assetIdentifier, AssetRenditionCreateModel createModel, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentItemModel>> CreateContentItemAsync(ContentItemCreateModel contentItem, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> CreateContentTypeAsync(ContentTypeCreateModel contentType, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> CreateContentTypeSnippetAsync(ContentTypeSnippetCreateModel contentTypeSnippet, CancellationToken cancellationToken)
+    Task<IManagementResult<CustomAppModel>> CreateCustomAppAsync(CustomAppCreateModel customApp, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageModel>> CreateLanguageAsync(LanguageCreateModel language, CancellationToken cancellationToken)
+    Task<IManagementResult> CreateNewVersionOfLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> CreateSpaceAsync(SpaceCreateModel space, CancellationToken cancellationToken)
+    Task<IManagementResult<TaxonomyGroupModel>> CreateTaxonomyGroupAsync(TaxonomyGroupCreateModel taxonomyGroup, CancellationToken cancellationToken)
+    Task<IManagementResult<WebhookModel>> CreateWebhookAsync(WebhookCreateModel webhook, CancellationToken cancellationToken)
+    Task<IManagementResult<WorkflowModel>> CreateWorkflowAsync(WorkflowUpsertModel workflow, CancellationToken cancellationToken)
+    Task<IManagementResult> DeactivateSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteAssetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteContentItemAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteEnvironmentAsync(CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteSpaceAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DeleteWorkflowAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> DisableWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    Void Dispose()
+    ValueTask DisposeAsync()
+    Task<IManagementResult> EnableWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<AssetModel>>> EnumerateAssetPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemModel>>> EnumerateContentItemPagesAsync(CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> EnumerateItemsWithVariantsByBulkGetPagesAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> EnumerateItemsWithVariantsByFilterPagesAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByCollectionPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsBySpacePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsByTypePagesAsync(Reference identifier, CancellationToken cancellationToken)
+    IAsyncEnumerable<IManagementResult<IReadOnlyList<LanguageVariantModel>>> EnumerateLanguageVariantsOfContentTypeWithComponentsPagesAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> GetAssetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> GetAssetFoldersAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> GetAssetRenditionAsync(AssetRenditionIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AsyncValidationTaskModel>> GetAsyncValidationTaskAsync(Guid taskId, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> GetCollectionsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<ContentItemModel>> GetContentItemAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> GetContentTypeAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> GetContentTypeSnippetAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<CustomAppModel>> GetCustomAppAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentCloningStateModel>> GetEnvironmentCloningStateAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentInformationModel>> GetEnvironmentInformationAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentRoleModel>> GetEnvironmentRoleAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageModel>> GetLanguageAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> GetLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> GetLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> GetPublishedLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> GetPublishedLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> GetSpaceAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<SubscriptionUserModel>> GetSubscriptionUserAsync(UserIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<TaxonomyGroupModel>> GetTaxonomyGroupAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<WebhookModel>> GetWebhookAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AsyncValidationTaskModel>> InitiateEnvironmentAsyncValidationTaskAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> InviteUserIntoEnvironmentAsync(UserInviteModel invitation, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<AssetRenditionModel>>> ListAssetRenditionsAsync(Reference assetIdentifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<AssetModel>>> ListAssetsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<AsyncValidationTaskIssueModel>>> ListAsyncValidationTaskIssuesAsync(Guid taskId, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentItemModel>>> ListContentItemsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentTypeModel>>> ListContentTypesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentTypeSnippetModel>>> ListContentTypeSnippetsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<CustomAppModel>>> ListCustomAppsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<EnvironmentRoleModel>>> ListEnvironmentRolesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ContentItemWithVariantModel>>> ListItemsWithVariantsByBulkGetAsync(ItemWithVariantBulkGetRequestModel bulkGetRequest, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<ItemWithVariantFilterResultModel>>> ListItemsWithVariantsByFilterAsync(ItemWithVariantFilterRequestModel filterRequest, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageModel>>> ListLanguagesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByCollectionAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByItemAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsBySpaceAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsByTypeAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<LanguageVariantModel>>> ListLanguageVariantsOfContentTypeWithComponentsAsync(Reference identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<SpaceModel>>> ListSpacesAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<SubscriptionProjectModel>>> ListSubscriptionProjectsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<SubscriptionUserModel>>> ListSubscriptionUsersAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<TaxonomyGroupModel>>> ListTaxonomyGroupsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<WebhookModel>>> ListWebhooksAsync(CancellationToken cancellationToken)
+    Task<IManagementResult<IReadOnlyList<WorkflowModel>>> ListWorkflowsAsync(CancellationToken cancellationToken)
+    Task<IManagementResult> MarkEnvironmentAsProductionAsync(MarkAsProductionModel markAsProductionModel, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetFoldersModel>> ModifyAssetFoldersAsync(IEnumerable<AssetFolderOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<CollectionsModel>> ModifyCollectionsAsync(IEnumerable<CollectionOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeModel>> ModifyContentTypeAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentTypeSnippetModel>> ModifyContentTypeSnippetAsync(Reference identifier, IEnumerable<ContentModelOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<CustomAppModel>> ModifyCustomAppAsync(Reference identifier, IEnumerable<CustomAppOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentModel>> ModifyEnvironmentAsync(IEnumerable<EnvironmentOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageModel>> ModifyLanguageAsync(Reference identifier, IEnumerable<LanguagePatchModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<SpaceModel>> ModifySpaceAsync(Reference identifier, IEnumerable<SpaceReplacePatchModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult<TaxonomyGroupModel>> ModifyTaxonomyGroupAsync(Reference identifier, IEnumerable<TaxonomyGroupOperationBaseModel> changes, CancellationToken cancellationToken)
+    Task<IManagementResult> PublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingAndUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, SchedulePublishAndUnpublishModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> SchedulePublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> ScheduleUnpublishingOfLanguageVariantAsync(LanguageVariantIdentifier identifier, ScheduleModel schedule, CancellationToken cancellationToken)
+    Task<IManagementResult> UnpublishLanguageVariantAsync(LanguageVariantIdentifier identifier, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetRenditionModel>> UpdateAssetRenditionAsync(AssetRenditionIdentifier identifier, AssetRenditionUpdateModel updateModel, CancellationToken cancellationToken)
+    Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken)
+    Task<IManagementResult<UserModel>> UpdateUserRolesAsync(UserIdentifier identifier, UserRolesUpdateModel roles, CancellationToken cancellationToken)
+    Task<IManagementResult<WorkflowModel>> UpdateWorkflowAsync(Reference identifier, WorkflowUpsertModel workflow, CancellationToken cancellationToken)
+    Task<IManagementResult<FileReference>> UploadFileAsync(FileContentSource fileContent, CancellationToken cancellationToken)
+    Task<IManagementResult<AssetModel>> UpsertAssetAsync(Reference identifier, AssetUpsertModel asset, CancellationToken cancellationToken)
+    Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(Reference identifier, ContentItemUpsertModel contentItem, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(LanguageVariantIdentifier identifier, LanguageVariantUpsertModel languageVariantUpsertModel, CancellationToken cancellationToken)
+    Task<IManagementResult<LanguageVariantModel<T>>> UpsertLanguageVariantAsync<T>(LanguageVariantIdentifier identifier, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
+    Task<IManagementResult<EnvironmentReportModel>> ValidateEnvironmentAsync(CancellationToken cancellationToken)
+
+// Kontent.Ai.Management
+public sealed class ManagementErrorCodes
+    const Int32 ArchivedVariantCannotBeUpdated = 223
+    const Int32 DuplicateAssetExternalId = 208
+    const Int32 DuplicateAssetRenditionExternalId = 234
+    const Int32 DuplicateContentTypeExternalId = 211
+    const Int32 DuplicateContentTypeSnippetExternalId = 217
+    const Int32 DuplicateLanguageExternalId = 219
+    const Int32 DuplicateTaxonomyExternalId = 210
+    const Int32 FileSizeExceeded = 206
+    const Int32 InvalidContinuationToken = 1007
+    const Int32 NewVersionOfPublishedVariantCannotBeArchived = 222
+    const Int32 OptimisticConcurrencyConflict = 12
+    const Int32 PublishedOrScheduledVariantCannotBeUpdated = 204
+    const Int32 RateLimitExceeded = 10000
+    const Int32 VariantNotPublishedCannotBeUnpublished = 213
+    const Int32 VariantNotPublishedCannotCreateNewVersion = 214
+
+// Kontent.Ai.Management
+public sealed class ManagementException : Exception
+    IError Error { get; }
+    String RequestUrl { get; }
+    HttpStatusCode StatusCode { get; }
+
+// Kontent.Ai.Management
+public sealed class ManagementResultExtensions
+    static IManagementResult<T> AsFailure<T>(IManagementResult result)
+    static IManagementResult EnsureSuccess(IManagementResult result)
+    static T EnsureSuccess<T>(IManagementResult<T> result)
+    static Boolean TryGetValue<T>(IManagementResult<T> result, T& value)
+
+// Kontent.Ai.Management
+public sealed class ValidationError : IEquatable`1
+    Nullable<Int32> Line { get; set; init; }
+    String Message { get; set; init; }
+    String Path { get; set; init; }
+    Nullable<Int32> Position { get; set; init; }
+    ValidationError <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ValidationError other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Annotations
+public sealed class KontentElementAttribute : Attribute
+    String Codename { get; }
+    String Id { get; }
+
+// Kontent.Ai.Management.Annotations
+public sealed class KontentEnumValueAttribute : Attribute
+    String Codename { get; }
+    String Id { get; }
+
+// Kontent.Ai.Management.Annotations
+public sealed class KontentTypeAttribute : Attribute
+    String Codename { get; }
+    String Id { get; }
+
+// Kontent.Ai.Management.Attributes
+public sealed class SourceTrackingHeaderAttribute : Attribute
+    Boolean LoadFromAssembly { get; }
+    Int32 MajorVersion { get; }
+    Int32 MinorVersion { get; }
+    String PackageName { get; }
+    Int32 PatchVersion { get; }
+    String PreReleaseLabel { get; }
+
+// Kontent.Ai.Management.Configuration
+public sealed class ManagementClientBuilder
+    IManagementClient Build()
+    ManagementClientBuilder ConfigureRefit(Action<RefitSettings> configureRefit)
+    static ManagementClientBuilder WithOptions(Action<ManagementOptions> configureOptions)
+    static ManagementClientBuilder WithOptions(ManagementOptions options)
+    ManagementClientBuilder WithResilience(Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience)
+
+// Kontent.Ai.Management.Configuration
+public sealed class ManagementOptions : IValidatableObject
+    const String DefaultConfigurationSectionName = ManagementOptions
+    String ApiKey { get; set; }
+    Boolean EnableResilience { get; set; }
+    String Endpoint { get; set; }
+    String EnvironmentId { get; set; }
+    String SubscriptionId { get; set; }
+    IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+
+// Kontent.Ai.Management.Extensions
+public sealed class AssetExtensions
+    static AssetFolderHierarchy GetFolderHierarchyByCodename(IEnumerable<AssetFolderHierarchy> folders, String codename)
+    static AssetFolderHierarchy GetFolderHierarchyByExternalId(IEnumerable<AssetFolderHierarchy> folders, String externalId)
+    static AssetFolderHierarchy GetFolderHierarchyById(IEnumerable<AssetFolderHierarchy> folders, Guid folderId)
+    static String GetFullFolderPath(AssetFolderLinkingHierarchy folder)
+    static IReadOnlyList<AssetFolderLinkingHierarchy> GetParentLinkedFolderHierarchy(IEnumerable<AssetFolderHierarchy> folders, AssetFolderLinkingHierarchy parentLinked)
+    static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyByCodename(IEnumerable<AssetFolderLinkingHierarchy> folders, String codename)
+    static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyByExternalId(IEnumerable<AssetFolderLinkingHierarchy> folders, String externalId)
+    static AssetFolderLinkingHierarchy GetParentLinkedFolderHierarchyById(IEnumerable<AssetFolderLinkingHierarchy> folders, Guid folderId)
+
+// Kontent.Ai.Management.Extensions
+public sealed class ContentModelExtensions
+    static Task<IManagementResult<ContentModelSnapshot>> ExportContentModelAsync(IManagementClient client, CancellationToken cancellationToken)
+
+// Kontent.Ai.Management.Extensions
+public sealed class ElementMetadataExtensions
+    static T ToElement<T>(ElementMetadataBase source)
+
+// Kontent.Ai.Management.Extensions
+public sealed class ManagementClientExtensions
+    static Task<IManagementResult<AssetModel>> CreateAssetAsync(IManagementClient client, FileContentSource fileContent, Func<FileReference, AssetCreateModel> createModel, CancellationToken cancellationToken)
+    static Task<IManagementResult<LanguageVariantModel>> CreateContentItemWithVariantAsync(IManagementClient client, ContentItemCreateModel item, Reference language, LanguageVariantUpsertModel variant, CancellationToken cancellationToken)
+    static Task<IManagementResult<LanguageVariantModel<T>>> CreateContentItemWithVariantAsync<T>(IManagementClient client, ContentItemCreateModel item, Reference language, T variant, WorkflowStepIdentifier workflow, CancellationToken cancellationToken)
+    static Task<IManagementResult<AssetModel>> UpsertAssetAsync(IManagementClient client, Reference identifier, FileContentSource fileContent, AssetUpsertModel upsertModel, CancellationToken cancellationToken)
+    static Task<IManagementResult<ContentItemModel>> UpsertContentItemAsync(IManagementClient client, Reference identifier, ContentItemModel contentItem, CancellationToken cancellationToken)
+    static Task<IManagementResult<LanguageVariantModel>> UpsertLanguageVariantAsync(IManagementClient client, LanguageVariantIdentifier identifier, LanguageVariantModel languageVariant, CancellationToken cancellationToken)
+
+// Kontent.Ai.Management.Extensions
+public sealed class ModelReferenceExtensions
+    static Reference ToReference(ContentItemModel item)
+    static Reference ToReference(AssetModel asset)
+    static Reference ToReference(ContentTypeModel contentType)
+    static Reference ToReference(ContentTypeSnippetModel snippet)
+    static Reference ToReference(TaxonomyGroupModel taxonomyGroup)
+    static Reference ToReference(LanguageModel language)
+    static Reference ToReference(WorkflowModel workflow)
+    static Reference ToReference(CollectionModel collection)
+    static Reference ToReference(SpaceModel space)
+    static Reference ToReference(WebhookModel webhook)
+
+// Kontent.Ai.Management.Extensions
+public sealed class ServiceCollectionExtensions
+    static IServiceCollection AddManagementClient(IServiceCollection services, Action<ManagementOptions> configureOptions)
+    static IServiceCollection AddManagementClient(IServiceCollection services, Action<ManagementOptions> configureOptions, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience)
+    static IServiceCollection AddManagementClient(IServiceCollection services, IConfigurationSection configurationSection, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience, Action<RefitSettings> configureRefit)
+    static IServiceCollection AddManagementClient(IServiceCollection services, IConfiguration configuration, String configurationSectionName, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience, Action<RefitSettings> configureRefit)
+    static IServiceCollection AddManagementClient(IServiceCollection services, String name, IConfigurationSection configurationSection, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience, Action<RefitSettings> configureRefit)
+    static IServiceCollection AddManagementClient(IServiceCollection services, String name, Action<ManagementOptions> configureOptions, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience, Action<RefitSettings> configureRefit)
+    static IServiceCollection AddManagementClient(IServiceCollection services, String name, IConfiguration configuration, String configurationSectionName, Action<IHttpClientBuilder> configureHttpClient, Action<ResiliencePipelineBuilder<HttpResponseMessage>> configureResilience, Action<RefitSettings> configureRefit)
+
+// Kontent.Ai.Management.Extensions
+public sealed class VariantIdentifierExtensions
+    static LanguageVariantIdentifier ToIdentifier(LanguageVariantMetadata variant)
+    static LanguageVariantIdentifier ToIdentifier(ItemWithVariantFilterResultModel model)
+    static VariantIdentifierModel ToVariantIdentifier(ItemWithVariantFilterResultModel model)
+
+// Kontent.Ai.Management.Models.AssetFolders
+public sealed class AssetFolderCreateModel : IEquatable`1
+    IReadOnlyList<AssetFolderHierarchy> Folders { get; set; init; }
+    AssetFolderCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetFolders
+public sealed class AssetFolderHierarchy : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    IReadOnlyList<AssetFolderHierarchy> Folders { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    String Name { get; set; init; }
+    AssetFolderHierarchy <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderHierarchy other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetFolders
+public sealed class AssetFolderLinkingHierarchy
+    String Codename { get; set; }
+    String ExternalId { get; set; }
+    IReadOnlyList<AssetFolderLinkingHierarchy> Folders { get; set; }
+    Nullable<Guid> Id { get; set; }
+    String Name { get; set; }
+    AssetFolderLinkingHierarchy Parent { get; set; }
+
+// Kontent.Ai.Management.Models.AssetFolders
+public sealed class AssetFoldersModel : IEquatable`1
+    IReadOnlyList<AssetFolderHierarchy> Folders { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    AssetFoldersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFoldersModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetFolders.Patch
+public sealed class AssetFolderAddIntoPatchModel : AssetFolderOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    AssetFolderHierarchy Value { get; set; init; }
+    AssetFolderAddIntoPatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Boolean Equals(AssetFolderAddIntoPatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetFolders.Patch
+public class AssetFolderOperationBaseModel : IEquatable`1
+    String Op { get; }
+    Reference Reference { get; set; init; }
+    AssetFolderOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetFolders.Patch
+public sealed class AssetFolderRemovePatchModel : AssetFolderOperationBaseModel, IEquatable`1
+    String Op { get; }
+    AssetFolderRemovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Boolean Equals(AssetFolderRemovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetFolders.Patch
+public sealed class AssetFolderRenamePatchModel : AssetFolderOperationBaseModel, IEquatable`1
+    String Op { get; }
+    String Value { get; set; init; }
+    AssetFolderRenamePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolderOperationBaseModel other)
+    Boolean Equals(AssetFolderRenamePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public sealed class AssetRenditionCreateModel : IEquatable`1
+    String ExternalId { get; set; init; }
+    ImageTransformation Transformation { get; set; init; }
+    AssetRenditionCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public sealed class AssetRenditionIdentifier : IEquatable`1
+    Reference AssetIdentifier { get; set; init; }
+    Reference RenditionIdentifier { get; set; init; }
+    AssetRenditionIdentifier <Clone>$()
+    static AssetRenditionIdentifier ByIds(Guid assetId, Guid renditionId)
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionIdentifier other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public sealed class AssetRenditionModel : IEquatable`1
+    Guid AssetId { get; set; init; }
+    String ExternalId { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    Guid RenditionId { get; set; init; }
+    ImageTransformation Transformation { get; set; init; }
+    AssetRenditionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public sealed class AssetRenditionUpdateModel : IEquatable`1
+    ImageTransformation Transformation { get; set; init; }
+    AssetRenditionUpdateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetRenditionUpdateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public class ImageTransformation : IEquatable`1
+    ImageTransformationMode Mode { get; }
+    ImageTransformation <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ImageTransformation other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public enum ImageTransformationFit : Enum
+    Clip
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public enum ImageTransformationMode : Enum
+    Rect
+
+// Kontent.Ai.Management.Models.AssetRenditions
+public sealed class RectangleResizeTransformation : ImageTransformation, IEquatable`1
+    Int32 CustomHeight { get; set; init; }
+    Int32 CustomWidth { get; set; init; }
+    ImageTransformationFit Fit { get; set; init; }
+    Int32 Height { get; set; init; }
+    ImageTransformationMode Mode { get; }
+    Int32 Width { get; set; init; }
+    Int32 X { get; set; init; }
+    Int32 Y { get; set; init; }
+    RectangleResizeTransformation <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ImageTransformation other)
+    Boolean Equals(RectangleResizeTransformation other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class AssetCollectionReference : IEquatable`1
+    Reference Reference { get; set; init; }
+    AssetCollectionReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetCollectionReference other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class AssetCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    AssetCollectionReference Collection { get; set; init; }
+    IReadOnlyList<AssetDescription> Descriptions { get; set; init; }
+    IReadOnlyList<AssetTaxonomyElement> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    FileReference FileReference { get; set; init; }
+    Reference Folder { get; set; init; }
+    String Title { get; set; init; }
+    AssetCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class AssetDescription : IEquatable`1
+    String Description { get; set; init; }
+    Reference Language { get; set; init; }
+    AssetDescription <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetDescription other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class AssetModel : IEquatable`1
+    String Codename { get; set; init; }
+    AssetCollectionReference Collection { get; set; init; }
+    IReadOnlyList<AssetDescription> Descriptions { get; set; init; }
+    IReadOnlyList<AssetTaxonomyElement> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    String FileName { get; set; init; }
+    FileReference FileReference { get; set; init; }
+    AssetFolder Folder { get; set; init; }
+    Guid Id { get; set; init; }
+    Nullable<Int32> ImageHeight { get; set; init; }
+    Nullable<Int32> ImageWidth { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    Int64 Size { get; set; init; }
+    String Title { get; set; init; }
+    String Type { get; set; init; }
+    String Url { get; set; init; }
+    AssetModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class AssetTaxonomyElement : IEquatable`1
+    Reference Element { get; set; init; }
+    IReadOnlyList<Reference> Value { get; set; init; }
+    AssetTaxonomyElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetTaxonomyElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class AssetUpsertModel : IEquatable`1
+    String Codename { get; set; init; }
+    AssetCollectionReference Collection { get; set; init; }
+    IReadOnlyList<AssetDescription> Descriptions { get; set; init; }
+    IReadOnlyList<AssetTaxonomyElement> Elements { get; set; init; }
+    FileReference FileReference { get; set; init; }
+    Reference Folder { get; set; init; }
+    String Title { get; set; init; }
+    AssetUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class FileContentSource
+    String ContentType { get; }
+    String FileName { get; }
+    Stream OpenReadStream()
+
+// Kontent.Ai.Management.Models.Assets
+public sealed class FileReference : IEquatable`1
+    String Id { get; set; init; }
+    FileReferenceType Type { get; set; init; }
+    FileReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(FileReference other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Assets
+public enum FileReferenceType : Enum
+    Internal
+
+// Kontent.Ai.Management.Models.Collections
+public sealed class CollectionCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    CollectionCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Collections
+public sealed class CollectionModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    CollectionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Collections
+public sealed class CollectionsModel : IEquatable`1
+    IReadOnlyList<CollectionModel> Collections { get; set; init; }
+    Nullable<DateTime> LastModified { get; set; init; }
+    CollectionsModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionsModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Collections.Patch
+public sealed class CollectionAddIntoPatchModel : CollectionOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    CollectionCreateModel Value { get; set; init; }
+    CollectionAddIntoPatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionAddIntoPatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Collections.Patch
+public sealed class CollectionMovePatchModel : CollectionOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    Reference Reference { get; set; init; }
+    CollectionMovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionMovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Collections.Patch
+public class CollectionOperationBaseModel : IEquatable`1
+    String Op { get; }
+    CollectionOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Collections.Patch
+public enum CollectionPropertyName : Enum
+    Name
+
+// Kontent.Ai.Management.Models.Collections.Patch
+public sealed class CollectionRemovePatchModel : CollectionOperationBaseModel, IEquatable`1
+    String Op { get; }
+    Reference Reference { get; set; init; }
+    CollectionRemovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionRemovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Collections.Patch
+public sealed class CollectionReplacePatchModel : CollectionOperationBaseModel, IEquatable`1
+    String Op { get; }
+    CollectionPropertyName PropertyName { get; set; init; }
+    Reference Reference { get; set; init; }
+    String Value { get; set; init; }
+    CollectionReplacePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CollectionOperationBaseModel other)
+    Boolean Equals(CollectionReplacePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public sealed class AssetReference : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    IReadOnlyList<RenditionReference> Renditions { get; set; init; }
+    AssetReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetReference other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public sealed class Component : IEquatable`1
+    IElementsModel Content { get; set; init; }
+    Guid Id { get; set; init; }
+    Component <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(Component other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public sealed class CustomValue : IEquatable`1
+    String SearchableValue { get; set; init; }
+    String Value { get; set; init; }
+    CustomValue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomValue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public sealed class DateTimeValue : IEquatable`1
+    String DisplayTimeZone { get; set; init; }
+    DateTimeOffset Value { get; set; init; }
+    DateTimeValue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(DateTimeValue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public sealed class RenditionReference : IEquatable`1
+    String ExternalId { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    RenditionReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(RenditionReference other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public sealed class RichTextBuilder
+    String Asset(AssetReference asset)
+    RichTextValue Build(String html)
+    String Component(IElementsModel item)
+    String ItemLink(Reference reference, String linkText)
+    String LinkedItem(Reference reference)
+
+// Kontent.Ai.Management.Models.Content
+public sealed class RichTextValue : IEquatable`1
+    IReadOnlyList<Component> Components { get; set; init; }
+    String Value { get; set; init; }
+    RichTextValue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(RichTextValue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Content
+public enum UrlSlugMode : Enum
+    Autogenerated
+    Custom
+
+// Kontent.Ai.Management.Models.Content
+public sealed class UrlSlugValue : IEquatable`1
+    UrlSlugMode Mode { get; set; init; }
+    String Value { get; set; init; }
+    UrlSlugValue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UrlSlugValue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel
+public sealed class ContentModelSnapshot : IEquatable`1
+    const Int32 CurrentVersion = 1
+    IReadOnlyList<ContentTypeSnippetModel> Snippets { get; set; init; }
+    IReadOnlyList<TaxonomyGroupModel> Taxonomies { get; set; init; }
+    IReadOnlyList<ContentTypeModel> Types { get; set; init; }
+    Int32 Version { get; set; init; }
+    ContentModelSnapshot <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelSnapshot other)
+    static ContentModelSnapshot FromJson(String json)
+    Int32 GetHashCode()
+    String ToJson()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelAddIntoPatchModel : ContentModelOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    Object Value { get; set; init; }
+    ContentModelAddIntoPatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelAddIntoPatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelMovePatchModel : ContentModelOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    ContentModelMovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelMovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public class ContentModelOperationBaseModel : IEquatable`1
+    String Op { get; }
+    String Path { get; set; init; }
+    ContentModelOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public class ContentModelPatchBase
+    static ContentModelOperationBaseModel AddAllowedBlock(Reference element, RichTextBlockType block)
+    static ContentModelOperationBaseModel AddAllowedContentType(Reference element, Reference type)
+    static ContentModelOperationBaseModel AddAllowedElement(Reference element, Reference allowedElement)
+    static ContentModelOperationBaseModel AddAllowedFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel AddAllowedItemLinkType(Reference element, Reference type)
+    static ContentModelOperationBaseModel AddAllowedTableBlock(Reference element, RichTextTableBlockType block)
+    static ContentModelOperationBaseModel AddAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel AddAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel AddAllowedTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel AddElement(ElementMetadataBase element, Reference before, Reference after)
+    static ContentModelOperationBaseModel AddIntoRaw(String path, Object value, Reference before, Reference after)
+    static ContentModelOperationBaseModel AddOption(Reference element, MultipleChoiceOptionModel option, Reference before, Reference after)
+    static ContentModelOperationBaseModel MoveElementAfter(Reference element, Reference target)
+    static ContentModelOperationBaseModel MoveElementBefore(Reference element, Reference target)
+    static ContentModelOperationBaseModel MoveOptionAfter(Reference element, Reference option, Reference target)
+    static ContentModelOperationBaseModel MoveOptionBefore(Reference element, Reference option, Reference target)
+    static ContentModelOperationBaseModel MoveRawAfter(String path, Reference target)
+    static ContentModelOperationBaseModel MoveRawBefore(String path, Reference target)
+    static ContentModelOperationBaseModel RemoveAllowedBlock(Reference element, RichTextBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedContentType(Reference element, Reference type)
+    static ContentModelOperationBaseModel RemoveAllowedElement(Reference element, Reference allowedElement)
+    static ContentModelOperationBaseModel RemoveAllowedFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel RemoveAllowedItemLinkType(Reference element, Reference type)
+    static ContentModelOperationBaseModel RemoveAllowedTableBlock(Reference element, RichTextTableBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedTableFormatting(Reference element, RichTextFormattingType formatting)
+    static ContentModelOperationBaseModel RemoveAllowedTableTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel RemoveAllowedTextBlock(Reference element, RichTextTextBlockType block)
+    static ContentModelOperationBaseModel RemoveElement(Reference element)
+    static ContentModelOperationBaseModel RemoveOption(Reference element, Reference option)
+    static ContentModelOperationBaseModel RemoveRaw(String path)
+    static ContentModelOperationBaseModel ReplaceAllowedContentTypes(Reference element, IEnumerable<Reference> types)
+    static ContentModelOperationBaseModel ReplaceAllowedElements(Reference element, IEnumerable<Reference> allowedElements)
+    static ContentModelOperationBaseModel ReplaceAllowedItemLinkTypes(Reference element, IEnumerable<Reference> types)
+    static ContentModelOperationBaseModel ReplaceDefault(Reference element, Object value)
+    static ContentModelOperationBaseModel ReplaceElementName(Reference element, String name)
+    static ContentModelOperationBaseModel ReplaceGuidelines(Reference element, String guidelines)
+    static ContentModelOperationBaseModel ReplaceIsNonLocalizable(Reference element, Boolean isNonLocalizable)
+    static ContentModelOperationBaseModel ReplaceIsRequired(Reference element, Boolean isRequired)
+    static ContentModelOperationBaseModel ReplaceName(String name)
+    static ContentModelOperationBaseModel ReplaceRaw(String path, Object value)
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelRemovePatchModel : ContentModelOperationBaseModel, IEquatable`1
+    String Op { get; }
+    ContentModelRemovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelRemovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ContentModel.Patch
+public sealed class ContentModelReplacePatchModel : ContentModelOperationBaseModel, IEquatable`1
+    String Op { get; }
+    Object Value { get; set; init; }
+    ContentModelReplacePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentModelOperationBaseModel other)
+    Boolean Equals(ContentModelReplacePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.CustomApps
+public sealed class CustomAppCreateModel : IEquatable`1
+    IReadOnlyList<Reference> AllowedRoles { get; set; init; }
+    String Codename { get; set; init; }
+    String Config { get; set; init; }
+    Nullable<CustomAppDisplayMode> DisplayMode { get; set; init; }
+    String Name { get; set; init; }
+    String SourceUrl { get; set; init; }
+    CustomAppCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomAppCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.CustomApps
+public enum CustomAppDisplayMode : Enum
+    Dialog
+    FullScreen
+
+// Kontent.Ai.Management.Models.CustomApps
+public sealed class CustomAppModel : IEquatable`1
+    IReadOnlyList<Reference> AllowedRoles { get; set; init; }
+    String Codename { get; set; init; }
+    String Config { get; set; init; }
+    CustomAppDisplayMode DisplayMode { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    String SourceUrl { get; set; init; }
+    CustomAppModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomAppModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
+public sealed class CustomAppAddIntoPatchModel : CustomAppOperationBaseModel, IEquatable`1
+    String Op { get; }
+    CustomAppAddIntoPatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomAppOperationBaseModel other)
+    Boolean Equals(CustomAppAddIntoPatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
+public class CustomAppOperationBaseModel : IEquatable`1
+    String Op { get; }
+    CustomAppPropertyName PropertyName { get; set; init; }
+    Object Value { get; set; init; }
+    CustomAppOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomAppOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
+public sealed class CustomAppPatch
+    static CustomAppAddIntoPatchModel AddAllowedRole(Reference role)
+    static CustomAppRemovePatchModel RemoveAllowedRole(Reference role)
+    static CustomAppReplacePatchModel ReplaceAllowedRoles(Reference[] roles)
+    static CustomAppReplacePatchModel ReplaceCodename(String codename)
+    static CustomAppReplacePatchModel ReplaceConfig(Object config)
+    static CustomAppReplacePatchModel ReplaceDisplayMode(CustomAppDisplayMode displayMode)
+    static CustomAppReplacePatchModel ReplaceName(String name)
+    static CustomAppReplacePatchModel ReplaceSourceUrl(String sourceUrl)
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
+public enum CustomAppPropertyName : Enum
+    AllowedRoles
+    Codename
+    Config
+    DisplayMode
+    Name
+    SourceUrl
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
+public sealed class CustomAppRemovePatchModel : CustomAppOperationBaseModel, IEquatable`1
+    String Op { get; }
+    CustomAppRemovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomAppOperationBaseModel other)
+    Boolean Equals(CustomAppRemovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.CustomApps.Patch
+public sealed class CustomAppReplacePatchModel : CustomAppOperationBaseModel, IEquatable`1
+    String Op { get; }
+    CustomAppReplacePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomAppOperationBaseModel other)
+    Boolean Equals(CustomAppReplacePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.EnvironmentReport
+public sealed class EnvironmentReportModel : IEquatable`1
+    EnvironmentInformationModel Environment { get; set; init; }
+    IReadOnlyList<TypeIssue> TypeIssues { get; set; init; }
+    IReadOnlyList<VariantIssue> VariantIssues { get; set; init; }
+    EnvironmentReportModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentReportModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.EnvironmentReport
+public sealed class TypeIssue : IEquatable`1
+    IReadOnlyList<ElementIssue> Issues { get; set; init; }
+    NamedReference Type { get; set; init; }
+    TypeIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TypeIssue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.EnvironmentReport
+public sealed class VariantIssue : IEquatable`1
+    IReadOnlyList<ElementIssue> Issues { get; set; init; }
+    NamedReference Item { get; set; init; }
+    NamedReference Language { get; set; init; }
+    VariantIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantIssue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public enum CloningState : Enum
+    Done
+    Failed
+    InProgress
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class CopyDataOptions : IEquatable`1
+    Boolean ContentItemsAssets { get; set; init; }
+    Boolean ContentItemVersionHistory { get; set; init; }
+    CopyDataOptions <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CopyDataOptions other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class EnvironmentClonedModel : IEquatable`1
+    String DeliveryPreviewApiKey { get; set; init; }
+    Guid Id { get; set; init; }
+    String ManagementApiKey { get; set; init; }
+    String SecuredDeliveryApiKey { get; set; init; }
+    EnvironmentClonedModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentClonedModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class EnvironmentCloneModel : IEquatable`1
+    CopyDataOptions CopyDataOptions { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<Guid> RolesToActivate { get; set; init; }
+    EnvironmentCloneModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentCloneModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class EnvironmentCloningStateModel : IEquatable`1
+    CloningState CloningState { get; set; init; }
+    EnvironmentCloningStateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentCloningStateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class EnvironmentInformationModel : IEquatable`1
+    String EnvironmentName { get; set; init; }
+    Guid Id { get; set; init; }
+    String ProjectName { get; set; init; }
+    EnvironmentInformationModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentInformationModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class EnvironmentModel : IEquatable`1
+    Guid Id { get; set; init; }
+    Boolean IsProduction { get; set; init; }
+    String Name { get; set; init; }
+    EnvironmentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments
+public sealed class MarkAsProductionModel : IEquatable`1
+    Nullable<Boolean> EnableWebhooks { get; set; init; }
+    MarkAsProductionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(MarkAsProductionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments.Patch
+public class EnvironmentOperationBaseModel : IEquatable`1
+    String Op { get; }
+    EnvironmentOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Environments.Patch
+public sealed class EnvironmentRenamePatchModel : EnvironmentOperationBaseModel, IEquatable`1
+    String Op { get; }
+    String Value { get; set; init; }
+    EnvironmentRenamePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentOperationBaseModel other)
+    Boolean Equals(EnvironmentRenamePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.EnvironmentValidation
+public class AsyncValidationTaskIssueModel : IEquatable`1
+    IReadOnlyList<ElementIssue> Issues { get; set; init; }
+    AsyncValidationTaskIssueType IssueType { get; set; init; }
+    AsyncValidationTaskIssueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskIssueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.EnvironmentValidation
+public enum AsyncValidationTaskIssueType : Enum
+    TypeIssue
+    VariantIssue
+
+// Kontent.Ai.Management.Models.EnvironmentValidation
+public sealed class AsyncValidationTaskModel : IEquatable`1
+    Guid Id { get; set; init; }
+    AsyncValidationTaskStatus Status { get; set; init; }
+    AsyncValidationTaskResult ValidationResult { get; set; init; }
+    AsyncValidationTaskModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.EnvironmentValidation
+public enum AsyncValidationTaskResult : Enum
+    IssuesFound
+    NoIssues
+    None
+
+// Kontent.Ai.Management.Models.EnvironmentValidation
+public enum AsyncValidationTaskStatus : Enum
+    Failed
+    Finished
+    Queued
+
+// Kontent.Ai.Management.Models.EnvironmentValidation
+public sealed class AsyncValidationTaskTypeIssueModel : AsyncValidationTaskIssueModel, IEquatable`1
+    NamedReference Type { get; set; init; }
+    AsyncValidationTaskTypeIssueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskIssueModel other)
+    Boolean Equals(AsyncValidationTaskTypeIssueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.EnvironmentValidation
+public sealed class AsyncValidationTaskVariantIssueModel : AsyncValidationTaskIssueModel, IEquatable`1
+    NamedReference Item { get; set; init; }
+    NamedReference Language { get; set; init; }
+    AsyncValidationTaskVariantIssueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AsyncValidationTaskIssueModel other)
+    Boolean Equals(AsyncValidationTaskVariantIssueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Items
+public sealed class ContentItemCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    Reference Collection { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    Reference Type { get; set; init; }
+    ContentItemCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Items
+public sealed class ContentItemModel : IEquatable`1
+    String Codename { get; set; init; }
+    Reference Collection { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<Reference> SitemapLocations { get; set; init; }
+    IReadOnlyList<Reference> Spaces { get; set; init; }
+    Reference Type { get; set; init; }
+    ContentItemModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Items
+public sealed class ContentItemUpsertModel : IEquatable`1
+    String Codename { get; set; init; }
+    Reference Collection { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<Reference> SitemapLocations { get; set; init; }
+    Reference Type { get; set; init; }
+    ContentItemUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ItemWithVariant
+public sealed class ContentItemWithVariantModel : IEquatable`1
+    ContentItemModel Item { get; set; init; }
+    LanguageVariantModel Variant { get; set; init; }
+    ContentItemWithVariantModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemWithVariantModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ItemWithVariant
+public sealed class ItemWithVariantBulkGetRequestModel : IEquatable`1
+    IReadOnlyList<VariantIdentifierModel> Variants { get; set; init; }
+    ItemWithVariantBulkGetRequestModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ItemWithVariantBulkGetRequestModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ItemWithVariant
+public sealed class ItemWithVariantFilterRequestModel : IEquatable`1
+    VariantFilterFiltersModel Filters { get; set; init; }
+    VariantFilterOrderModel Order { get; set; init; }
+    ItemWithVariantFilterRequestModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ItemWithVariantFilterRequestModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ItemWithVariant
+public sealed class ItemWithVariantFilterResultModel : IEquatable`1
+    Reference Item { get; set; init; }
+    Reference Language { get; set; init; }
+    ItemWithVariantFilterResultModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ItemWithVariantFilterResultModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.ItemWithVariant
+public sealed class VariantIdentifierModel : IEquatable`1
+    Reference Item { get; set; init; }
+    Reference Language { get; set; init; }
+    VariantIdentifierModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantIdentifierModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Languages
+public sealed class LanguageCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Reference FallbackLanguage { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    String Name { get; set; init; }
+    LanguageCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Languages
+public sealed class LanguageModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Reference FallbackLanguage { get; set; init; }
+    Guid Id { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    Boolean IsDefault { get; set; init; }
+    String Name { get; set; init; }
+    LanguageModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Languages.Patch
+public sealed class LanguagePatch
+    static LanguagePatchModel Codename(String codename)
+    static LanguagePatchModel FallbackLanguage(Reference language)
+    static LanguagePatchModel IsActive(Boolean isActive)
+    static LanguagePatchModel Name(String name)
+
+// Kontent.Ai.Management.Models.Languages.Patch
+public sealed class LanguagePatchModel : IEquatable`1
+    String Op { get; }
+    LanguagePropertyName PropertyName { get; set; init; }
+    Object Value { get; set; init; }
+    LanguagePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguagePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Languages.Patch
+public enum LanguagePropertyName : Enum
+    Codename
+    FallbackLanguage
+    IsActive
+    Name
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class ChangeLanguageVariantWorkflowModel : IEquatable`1
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
+    DueDateModel DueDate { get; set; init; }
+    String Note { get; set; init; }
+    Reference Step { get; set; init; }
+    Reference Workflow { get; set; init; }
+    ChangeLanguageVariantWorkflowModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ChangeLanguageVariantWorkflowModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class ComponentModel : IEquatable`1
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
+    Guid Id { get; set; init; }
+    Reference Type { get; set; init; }
+    ComponentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ComponentModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class DueDateModel : IEquatable`1
+    Nullable<DateTimeOffset> Value { get; set; init; }
+    DueDateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(DueDateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class LanguageVariantIdentifier : IEquatable`1
+    Reference ItemIdentifier { get; set; init; }
+    Reference LanguageIdentifier { get; set; init; }
+    LanguageVariantIdentifier <Clone>$()
+    static LanguageVariantIdentifier ByCodenames(String itemCodename, String languageCodename)
+    static LanguageVariantIdentifier ByExternalIds(String itemExternalId, String languageExternalId)
+    static LanguageVariantIdentifier ByIds(Guid itemId, Guid languageId)
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantIdentifier other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public class LanguageVariantMetadata : IEquatable`1
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
+    DueDateModel DueDate { get; set; init; }
+    Reference Item { get; set; init; }
+    Reference Language { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    String Note { get; set; init; }
+    ScheduleResponseModel Schedule { get; set; init; }
+    WorkflowStepIdentifier Workflow { get; set; init; }
+    LanguageVariantMetadata <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantMetadata other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class LanguageVariantModel : LanguageVariantMetadata, IEquatable`1
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
+    LanguageVariantModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantMetadata other)
+    Boolean Equals(LanguageVariantModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class LanguageVariantModel`1<TModel> : LanguageVariantMetadata, IEquatable`1
+    TModel Elements { get; set; init; }
+    LanguageVariantModel<TModel> <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantMetadata other)
+    Boolean Equals(LanguageVariantModel<TModel> other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants
+public sealed class LanguageVariantUpsertModel : IEquatable`1
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
+    DueDateModel DueDate { get; set; init; }
+    IReadOnlyList<BaseElement> Elements { get; set; init; }
+    String Note { get; set; init; }
+    WorkflowStepIdentifier Workflow { get; set; init; }
+    LanguageVariantUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageVariantUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class AssetElement : BaseElement, IEquatable`1
+    IReadOnlyList<AssetReference> Value { get; set; init; }
+    AssetElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(AssetElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public class BaseElement : IEquatable`1
+    Reference Element { get; set; init; }
+    BaseElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class CustomElement : BaseElement, IEquatable`1
+    String SearchableValue { get; set; init; }
+    String Value { get; set; init; }
+    CustomElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(CustomElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class DateTimeElement : BaseElement, IEquatable`1
+    String DisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> Value { get; set; init; }
+    DateTimeElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(DateTimeElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class DynamicElement : BaseElement, IEquatable`1
+    IDictionary<String, JsonElement> AdditionalData { get; set; init; }
+    Object Value { get; set; init; }
+    DynamicElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(DynamicElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class LinkedItemsElement : BaseElement, IEquatable`1
+    IReadOnlyList<Reference> Value { get; set; init; }
+    LinkedItemsElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(LinkedItemsElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class MultipleChoiceElement : BaseElement, IEquatable`1
+    IReadOnlyList<Reference> Value { get; set; init; }
+    MultipleChoiceElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(MultipleChoiceElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class NumberElement : BaseElement, IEquatable`1
+    Nullable<Decimal> Value { get; set; init; }
+    NumberElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(NumberElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class RichTextElement : BaseElement, IEquatable`1
+    IReadOnlyList<ComponentModel> Components { get; set; init; }
+    String Value { get; set; init; }
+    RichTextElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(RichTextElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class SubpagesElement : BaseElement, IEquatable`1
+    IReadOnlyList<Reference> Value { get; set; init; }
+    SubpagesElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(SubpagesElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class TaxonomyElement : BaseElement, IEquatable`1
+    IReadOnlyList<Reference> Value { get; set; init; }
+    TaxonomyElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(TaxonomyElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class TextElement : BaseElement, IEquatable`1
+    String Value { get; set; init; }
+    TextElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(TextElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.LanguageVariants.Elements
+public sealed class UrlSlugElement : BaseElement, IEquatable`1
+    UrlSlugMode Mode { get; set; init; }
+    String Value { get; set; init; }
+    UrlSlugElement <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(BaseElement other)
+    Boolean Equals(UrlSlugElement other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.PreviewConfiguration
+public sealed class PreviewConfigurationModel : IEquatable`1
+    IReadOnlyList<TypePreviewUrlPatternModel> PreviewUrlPatterns { get; set; init; }
+    IReadOnlyList<SpaceDomainModel> SpaceDomains { get; set; init; }
+    PreviewConfigurationModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(PreviewConfigurationModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.PreviewConfiguration
+public sealed class PreviewUrlPatternModel : IEquatable`1
+    Reference Space { get; set; init; }
+    String UrlPattern { get; set; init; }
+    PreviewUrlPatternModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(PreviewUrlPatternModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.PreviewConfiguration
+public sealed class SpaceDomainModel : IEquatable`1
+    String Domain { get; set; init; }
+    Reference Space { get; set; init; }
+    SpaceDomainModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceDomainModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.PreviewConfiguration
+public sealed class TypePreviewUrlPatternModel : IEquatable`1
+    Reference ContentType { get; set; init; }
+    IReadOnlyList<PreviewUrlPatternModel> UrlPatterns { get; set; init; }
+    TypePreviewUrlPatternModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TypePreviewUrlPatternModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Publishing
+public sealed class ScheduleModel : IEquatable`1
+    String DisplayTimeZone { get; set; init; }
+    DateTimeOffset ScheduledTo { get; set; init; }
+    ScheduleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ScheduleModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Publishing
+public sealed class SchedulePublishAndUnpublishModel : IEquatable`1
+    String PublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> PublishScheduledTo { get; set; init; }
+    String UnpublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> UnpublishScheduledTo { get; set; init; }
+    SchedulePublishAndUnpublishModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SchedulePublishAndUnpublishModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Publishing
+public sealed class ScheduleResponseModel : IEquatable`1
+    String PublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> PublishTime { get; set; init; }
+    String UnpublishDisplayTimeZone { get; set; init; }
+    Nullable<DateTimeOffset> UnpublishTime { get; set; init; }
+    ScheduleResponseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ScheduleResponseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Roles
+public sealed class EnvironmentRoleModel : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    EnvironmentRoleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(EnvironmentRoleModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Shared
+public sealed class AssetFolder : IEquatable`1
+    Guid Id { get; set; init; }
+    AssetFolder <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetFolder other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Shared
+public sealed class ElementIssue : IEquatable`1
+    NamedReference Element { get; set; init; }
+    IReadOnlyList<String> Messages { get; set; init; }
+    ElementIssue <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementIssue other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Shared
+public sealed class NamedReference : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    NamedReference <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(NamedReference other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Shared
+public sealed class Reference : IEquatable`1
+    String Codename { get; init; }
+    String ExternalId { get; init; }
+    Nullable<Guid> Id { get; init; }
+    Reference <Clone>$()
+    static Reference ByCodename(String codename)
+    static Reference ByDefaultCodename()
+    static Reference ByDefaultId()
+    static Reference ByExternalId(String externalId)
+    static Reference ById(Guid id)
+    Boolean Equals(Object obj)
+    Boolean Equals(Reference other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Shared
+public sealed class UserIdentifier : IEquatable`1
+    String Email { get; init; }
+    String Id { get; init; }
+    UserIdentifier <Clone>$()
+    static UserIdentifier ByEmail(String email)
+    static UserIdentifier ById(String id)
+    Boolean Equals(Object obj)
+    Boolean Equals(UserIdentifier other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Spaces
+public sealed class SpaceCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    String Name { get; set; init; }
+    Reference RootItem { get; set; init; }
+    SpaceCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Spaces
+public sealed class SpaceModel : IEquatable`1
+    String Codename { get; set; init; }
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    Reference RootItem { get; set; init; }
+    SpaceModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Spaces.Patch
+public sealed class SpacePatch
+    static SpaceReplacePatchModel Codename(String codename)
+    static SpaceReplacePatchModel Collections(Reference[] collections)
+    static SpaceReplacePatchModel Name(String name)
+    static SpaceReplacePatchModel RootItem(Reference rootItem)
+
+// Kontent.Ai.Management.Models.Spaces.Patch
+public enum SpacePropertyName : Enum
+    Codename
+    Collections
+    Name
+    RootItem
+
+// Kontent.Ai.Management.Models.Spaces.Patch
+public sealed class SpaceReplacePatchModel : IEquatable`1
+    String Op { get; }
+    SpacePropertyName PropertyName { get; set; init; }
+    Object Value { get; set; init; }
+    SpaceReplacePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SpaceReplacePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionCollectionGroupModel : IEquatable`1
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<SubscriptionUserRoleModel> Roles { get; set; init; }
+    SubscriptionCollectionGroupModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionCollectionGroupModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionProjectEnvironmentModel : IEquatable`1
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionProjectEnvironmentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionProjectEnvironmentModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionProjectModel : IEquatable`1
+    IReadOnlyList<SubscriptionProjectEnvironmentModel> Environments { get; set; init; }
+    Guid Id { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionProjectModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionProjectModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionUserModel : IEquatable`1
+    String Email { get; set; init; }
+    String FirstName { get; set; init; }
+    Boolean HasPendingInvitation { get; set; init; }
+    String Id { get; set; init; }
+    String LastName { get; set; init; }
+    IReadOnlyList<SubscriptionUserProjectModel> Projects { get; set; init; }
+    SubscriptionUserModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionUserProjectEnvironmentModel : IEquatable`1
+    IReadOnlyList<SubscriptionCollectionGroupModel> CollectionGroups { get; set; init; }
+    Guid Id { get; set; init; }
+    Boolean IsUserActive { get; set; init; }
+    Nullable<DateTime> LastActivityAt { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserProjectEnvironmentModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserProjectEnvironmentModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionUserProjectModel : IEquatable`1
+    IReadOnlyList<SubscriptionUserProjectEnvironmentModel> Environments { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserProjectModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserProjectModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionUserRoleLanguageModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserRoleLanguageModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserRoleLanguageModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Subscription
+public sealed class SubscriptionUserRoleModel : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    IReadOnlyList<SubscriptionUserRoleLanguageModel> Languages { get; set; init; }
+    String Name { get; set; init; }
+    SubscriptionUserRoleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(SubscriptionUserRoleModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups
+public class TaxonomyBaseModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    TaxonomyBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups
+public sealed class TaxonomyGroupCreateModel : TaxonomyBaseModel, IEquatable`1
+    IReadOnlyList<TaxonomyTermCreateModel> Terms { get; set; init; }
+    TaxonomyGroupCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyBaseModel other)
+    Boolean Equals(TaxonomyGroupCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups
+public sealed class TaxonomyGroupModel : TaxonomyBaseModel, IEquatable`1
+    Guid Id { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    IReadOnlyList<TaxonomyTermModel> Terms { get; set; init; }
+    TaxonomyGroupModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyBaseModel other)
+    Boolean Equals(TaxonomyGroupModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups
+public sealed class TaxonomyTermCreateModel : TaxonomyBaseModel, IEquatable`1
+    IReadOnlyList<TaxonomyTermCreateModel> Terms { get; set; init; }
+    TaxonomyTermCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyBaseModel other)
+    Boolean Equals(TaxonomyTermCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups
+public sealed class TaxonomyTermModel : TaxonomyBaseModel, IEquatable`1
+    Guid Id { get; set; init; }
+    IReadOnlyList<TaxonomyTermModel> Terms { get; set; init; }
+    TaxonomyTermModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyBaseModel other)
+    Boolean Equals(TaxonomyTermModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public sealed class TaxonomyGroupAddIntoPatchModel : TaxonomyGroupOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    TaxonomyTermCreateModel Value { get; set; init; }
+    TaxonomyGroupAddIntoPatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyGroupOperationBaseModel other)
+    Boolean Equals(TaxonomyGroupAddIntoPatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public sealed class TaxonomyGroupMovePatchModel : TaxonomyGroupOperationBaseModel, IEquatable`1
+    Reference After { get; set; init; }
+    Reference Before { get; set; init; }
+    String Op { get; }
+    Reference Under { get; set; init; }
+    TaxonomyGroupMovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyGroupOperationBaseModel other)
+    Boolean Equals(TaxonomyGroupMovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public class TaxonomyGroupOperationBaseModel : IEquatable`1
+    String Op { get; }
+    Reference Reference { get; set; init; }
+    TaxonomyGroupOperationBaseModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyGroupOperationBaseModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public sealed class TaxonomyGroupPatch
+    static TaxonomyGroupReplacePatchModel ReplaceCodename(Reference target, String codename)
+    static TaxonomyGroupReplacePatchModel ReplaceName(Reference target, String name)
+    static TaxonomyGroupReplacePatchModel ReplaceTerms(Reference target, TaxonomyTermCreateModel[] terms)
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public enum TaxonomyGroupPropertyName : Enum
+    Codename
+    Name
+    Terms
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public sealed class TaxonomyGroupRemovePatchModel : TaxonomyGroupOperationBaseModel, IEquatable`1
+    String Op { get; }
+    TaxonomyGroupRemovePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyGroupOperationBaseModel other)
+    Boolean Equals(TaxonomyGroupRemovePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TaxonomyGroups.Patch
+public sealed class TaxonomyGroupReplacePatchModel : TaxonomyGroupOperationBaseModel, IEquatable`1
+    String Op { get; }
+    TaxonomyGroupPropertyName PropertyName { get; set; init; }
+    Object Value { get; set; init; }
+    TaxonomyGroupReplacePatchModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyGroupOperationBaseModel other)
+    Boolean Equals(TaxonomyGroupReplacePatchModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types
+public sealed class ContentGroupModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    String Name { get; set; init; }
+    ContentGroupModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentGroupModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types
+public sealed class ContentTypeCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    IReadOnlyList<ContentGroupModel> ContentGroups { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    ContentTypeCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types
+public sealed class ContentTypeModel : IEquatable`1
+    String Codename { get; set; init; }
+    IReadOnlyList<ContentGroupModel> ContentGroups { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    String Name { get; set; init; }
+    ContentTypeModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types
+public sealed class LimitModel : IEquatable`1
+    LimitType Condition { get; set; init; }
+    Int32 Value { get; set; init; }
+    LimitModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LimitModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types
+public enum LimitType : Enum
+    AtLeast
+    AtMost
+    Exactly
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class AssetElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    Nullable<FileType> AllowedFileTypes { get; set; init; }
+    LimitModel AssetCountLimit { get; set; init; }
+    AssetElementDefaultValueModel DefaultValue { get; set; init; }
+    LimitModel ImageHeightLimit { get; set; init; }
+    LimitModel ImageWidthLimit { get; set; init; }
+    Nullable<Int64> MaximumFileSize { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    AssetElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(AssetElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public class ContentElementMetadataBase : ElementMetadataBase, IEquatable`1
+    String Guidelines { get; set; init; }
+    Boolean IsNonLocalizable { get; set; init; }
+    Boolean IsRequired { get; set; init; }
+    ContentElementMetadataBase <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentElementMetadataBase other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class ContentTypeSnippetElementMetadataModel : ElementMetadataBase, IEquatable`1
+    Reference Snippet { get; set; init; }
+    ElementMetadataType Type { get; }
+    ContentTypeSnippetElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(ContentTypeSnippetElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class CustomElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    IReadOnlyList<Reference> AllowedElements { get; set; init; }
+    String JsonParameters { get; set; init; }
+    String Name { get; set; init; }
+    String SourceUrl { get; set; init; }
+    ElementMetadataType Type { get; }
+    CustomElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(CustomElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class DateTimeElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    DateTimeElementDefaultValueModel DefaultValue { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    DateTimeElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(DateTimeElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public class ElementMetadataBase : IEquatable`1
+    String Codename { get; set; init; }
+    Reference ContentGroup { get; set; init; }
+    String ExternalId { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    ElementMetadataType Type { get; }
+    ElementMetadataBase <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementMetadataBase other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum ElementMetadataType : Enum
+    Asset
+    ContentTypeSnippet
+    Custom
+    DateTime
+    Guidelines
+    LinkedItems
+    MultipleChoice
+    Number
+    RichText
+    Subpages
+    Taxonomy
+    Text
+    UrlSlug
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum FileType : Enum
+    Adjustable
+    Any
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class GuidelinesElementMetadataModel : ElementMetadataBase, IEquatable`1
+    String Guidelines { get; set; init; }
+    ElementMetadataType Type { get; }
+    GuidelinesElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementMetadataBase other)
+    Boolean Equals(GuidelinesElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class LinkedItemsElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    IReadOnlyList<Reference> AllowedContentTypes { get; set; init; }
+    LinkedItemsElementDefaultValueModel DefaultValue { get; set; init; }
+    LimitModel ItemCountLimit { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    LinkedItemsElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(LinkedItemsElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class MaximumTextLengthModel : IEquatable`1
+    TextLengthLimitType AppliesTo { get; set; init; }
+    Int32 Value { get; set; init; }
+    MaximumTextLengthModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(MaximumTextLengthModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class MultipleChoiceElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    MultipleChoiceElementDefaultValueModel DefaultValue { get; set; init; }
+    MultipleChoiceMode Mode { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<MultipleChoiceOptionModel> Options { get; set; init; }
+    ElementMetadataType Type { get; }
+    MultipleChoiceElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(MultipleChoiceElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum MultipleChoiceMode : Enum
+    Multiple
+    Single
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class MultipleChoiceOptionModel : IEquatable`1
+    String Codename { get; set; init; }
+    String ExternalId { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    String Name { get; set; init; }
+    MultipleChoiceOptionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(MultipleChoiceOptionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class NumberElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    NumberElementDefaultValueModel DefaultValue { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    NumberElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(NumberElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum RichTextBlockType : Enum
+    ComponentsAndItems
+    Images
+    Tables
+    Text
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class RichTextElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    IReadOnlyList<RichTextBlockType> AllowedBlocks { get; set; init; }
+    IReadOnlyList<Reference> AllowedContentTypes { get; set; init; }
+    IReadOnlyList<RichTextFormattingType> AllowedFormatting { get; set; init; }
+    Nullable<FileType> AllowedImageTypes { get; set; init; }
+    IReadOnlyList<Reference> AllowedItemLinkTypes { get; set; init; }
+    IReadOnlyList<RichTextTableBlockType> AllowedTableBlocks { get; set; init; }
+    IReadOnlyList<RichTextFormattingType> AllowedTableFormatting { get; set; init; }
+    IReadOnlyList<RichTextTextBlockType> AllowedTableTextBlocks { get; set; init; }
+    IReadOnlyList<RichTextTextBlockType> AllowedTextBlocks { get; set; init; }
+    LimitModel ImageHeightLimit { get; set; init; }
+    LimitModel ImageWidthLimit { get; set; init; }
+    Nullable<Int64> MaximumImageSize { get; set; init; }
+    MaximumTextLengthModel MaximumTextLength { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    RichTextElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(RichTextElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum RichTextFormattingType : Enum
+    Bold
+    Code
+    Italic
+    Link
+    Subscript
+    Superscript
+    Unstyled
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum RichTextTableBlockType : Enum
+    Images
+    Text
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum RichTextTextBlockType : Enum
+    HeadingFive
+    HeadingFour
+    HeadingOne
+    HeadingSix
+    HeadingThree
+    HeadingTwo
+    OrderedList
+    Paragraph
+    UnorderedList
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class SubpagesElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    IReadOnlyList<Reference> AllowedContentTypes { get; set; init; }
+    LimitModel ItemCountLimit { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    SubpagesElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(SubpagesElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class TaxonomyElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    TaxonomyElementDefaultValueModel DefaultValue { get; set; init; }
+    String Name { get; set; init; }
+    Reference TaxonomyGroup { get; set; init; }
+    LimitModel TermCountLimit { get; set; init; }
+    ElementMetadataType Type { get; }
+    TaxonomyElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(TaxonomyElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class TextElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    TextElementDefaultValueModel DefaultValue { get; set; init; }
+    MaximumTextLengthModel MaximumTextLength { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    ValidationRegexModel ValidationRegex { get; set; init; }
+    TextElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(TextElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public enum TextLengthLimitType : Enum
+    Characters
+    Words
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class UrlSlugDependency : IEquatable`1
+    Reference Element { get; set; init; }
+    Reference Snippet { get; set; init; }
+    UrlSlugDependency <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UrlSlugDependency other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class UrlSlugElementMetadataModel : ContentElementMetadataBase, IEquatable`1
+    UrlSlugDependency DependsOn { get; set; init; }
+    String Name { get; set; init; }
+    ElementMetadataType Type { get; }
+    ValidationRegexModel ValidationRegex { get; set; init; }
+    UrlSlugElementMetadataModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentElementMetadataBase other)
+    Boolean Equals(UrlSlugElementMetadataModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements
+public sealed class ValidationRegexModel : IEquatable`1
+    String Flags { get; set; init; }
+    Boolean IsActive { get; set; init; }
+    String Regex { get; set; init; }
+    String ValidationMessage { get; set; init; }
+    ValidationRegexModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ValidationRegexModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class AssetElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
+    AssetElementDefaultValueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<AssetReference>> other)
+    Boolean Equals(AssetElementDefaultValueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class DateTimeElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
+    DateTimeElementDefaultValueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<DateTimeOffset> other)
+    Boolean Equals(DateTimeElementDefaultValueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public class ElementDefaultValue`1<TValue> : IEquatable`1
+    ElementDefaultValueEnvelope<TValue> Global { get; set; init; }
+    ElementDefaultValue<TValue> <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<TValue> other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class ElementDefaultValueEnvelope`1<TValue> : IEquatable`1
+    TValue Value { get; set; init; }
+    ElementDefaultValueEnvelope<TValue> <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValueEnvelope<TValue> other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class LinkedItemsElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
+    LinkedItemsElementDefaultValueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<Reference>> other)
+    Boolean Equals(LinkedItemsElementDefaultValueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class MultipleChoiceElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
+    MultipleChoiceElementDefaultValueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<Reference>> other)
+    Boolean Equals(MultipleChoiceElementDefaultValueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class NumberElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
+    NumberElementDefaultValueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<Decimal> other)
+    Boolean Equals(NumberElementDefaultValueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class TaxonomyElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
+    TaxonomyElementDefaultValueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<IReadOnlyList<Reference>> other)
+    Boolean Equals(TaxonomyElementDefaultValueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Elements.DefaultValues
+public sealed class TextElementDefaultValueModel : ElementDefaultValue`1, IEquatable`1
+    TextElementDefaultValueModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ElementDefaultValue<String> other)
+    Boolean Equals(TextElementDefaultValueModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Types.Patch
+public sealed class ContentTypePatch : ContentModelPatchBase
+    static ContentModelOperationBaseModel AddContentGroup(ContentGroupModel group, Reference before, Reference after)
+    static ContentModelOperationBaseModel MoveContentGroupAfter(Reference group, Reference target)
+    static ContentModelOperationBaseModel MoveContentGroupBefore(Reference group, Reference target)
+    static ContentModelOperationBaseModel RemoveContentGroup(Reference group)
+    static ContentModelOperationBaseModel ReplaceContentGroup(Reference element, Reference group)
+
+// Kontent.Ai.Management.Models.TypeSnippets
+public sealed class ContentTypeSnippetCreateModel : IEquatable`1
+    String Codename { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    String Name { get; set; init; }
+    ContentTypeSnippetCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeSnippetCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TypeSnippets
+public sealed class ContentTypeSnippetModel : IEquatable`1
+    String Codename { get; set; init; }
+    IReadOnlyList<ElementMetadataBase> Elements { get; set; init; }
+    String ExternalId { get; set; init; }
+    Guid Id { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    String Name { get; set; init; }
+    ContentTypeSnippetModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeSnippetModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.TypeSnippets.Patch
+public sealed class ContentTypeSnippetPatch : ContentModelPatchBase
+
+// Kontent.Ai.Management.Models.Users
+public sealed class UserCollectionGroup : IEquatable`1
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<UserRoleModel> Roles { get; set; init; }
+    UserCollectionGroup <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserCollectionGroup other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Users
+public sealed class UserInviteModel : IEquatable`1
+    IReadOnlyList<UserCollectionGroup> CollectionGroups { get; set; init; }
+    String Email { get; set; init; }
+    UserInviteModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserInviteModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Users
+public sealed class UserModel : IEquatable`1
+    IReadOnlyList<UserCollectionGroup> CollectionGroups { get; set; init; }
+    String Id { get; set; init; }
+    UserModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Users
+public sealed class UserRoleModel : IEquatable`1
+    Guid Id { get; set; init; }
+    IReadOnlyList<Reference> Languages { get; set; init; }
+    UserRoleModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserRoleModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Users
+public sealed class UserRolesUpdateModel : IEquatable`1
+    IReadOnlyList<UserCollectionGroup> CollectionGroups { get; set; init; }
+    UserRolesUpdateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(UserRolesUpdateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.VariantFilter
+public enum VariantFilterCompletionStatus : Enum
+    AllDone
+    NotTranslated
+    Ready
+    Unfinished
+
+// Kontent.Ai.Management.Models.VariantFilter
+public sealed class VariantFilterFiltersModel : IEquatable`1
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<VariantFilterCompletionStatus> CompletionStatuses { get; set; init; }
+    IReadOnlyList<Reference> ComponentTypes { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    IReadOnlyList<UserIdentifier> Contributors { get; set; init; }
+    Nullable<Boolean> HasNoContributors { get; set; init; }
+    Reference Language { get; set; init; }
+    IReadOnlyList<VariantFilterPublishingState> PublishingStates { get; set; init; }
+    String SearchPhrase { get; set; init; }
+    IReadOnlyList<Reference> Spaces { get; set; init; }
+    IReadOnlyList<VariantFilterTaxonomyGroupModel> TaxonomyGroups { get; set; init; }
+    IReadOnlyList<VariantFilterWorkflowStepsModel> WorkflowSteps { get; set; init; }
+    VariantFilterFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.VariantFilter
+public enum VariantFilterOrderColumn : Enum
+    DueDate
+    LastModified
+    Name
+
+// Kontent.Ai.Management.Models.VariantFilter
+public enum VariantFilterOrderDirection : Enum
+    Ascending
+    Descending
+
+// Kontent.Ai.Management.Models.VariantFilter
+public sealed class VariantFilterOrderModel : IEquatable`1
+    VariantFilterOrderColumn By { get; set; init; }
+    VariantFilterOrderDirection Direction { get; set; init; }
+    VariantFilterOrderModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterOrderModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.VariantFilter
+public enum VariantFilterPublishingState : Enum
+    NotPublishedYet
+    Published
+    Unpublished
+
+// Kontent.Ai.Management.Models.VariantFilter
+public sealed class VariantFilterTaxonomyGroupModel : IEquatable`1
+    Boolean IncludeUncategorized { get; set; init; }
+    Reference TaxonomyGroup { get; set; init; }
+    IReadOnlyList<Reference> Terms { get; set; init; }
+    VariantFilterTaxonomyGroupModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterTaxonomyGroupModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.VariantFilter
+public sealed class VariantFilterWorkflowStepsModel : IEquatable`1
+    IReadOnlyList<Reference> Steps { get; set; init; }
+    Reference Workflow { get; set; init; }
+    VariantFilterWorkflowStepsModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(VariantFilterWorkflowStepsModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks
+public sealed class CustomHeaderModel : IEquatable`1
+    String Key { get; set; init; }
+    String Value { get; set; init; }
+    CustomHeaderModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(CustomHeaderModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks
+public sealed class WebhookCreateModel : IEquatable`1
+    DeliveryTriggersModel DeliveryTriggers { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    IReadOnlyList<CustomHeaderModel> Headers { get; set; init; }
+    String Name { get; set; init; }
+    String Secret { get; set; init; }
+    String Url { get; set; init; }
+    WebhookCreateModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WebhookCreateModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks
+public enum WebhookHealthStatus : Enum
+    Dead
+    Failing
+    Unknown
+    Working
+
+// Kontent.Ai.Management.Models.Webhooks
+public sealed class WebhookModel : IEquatable`1
+    DeliveryTriggersModel DeliveryTriggers { get; set; init; }
+    Boolean Enabled { get; set; init; }
+    IReadOnlyList<CustomHeaderModel> Headers { get; set; init; }
+    WebhookHealthStatus HealthStatus { get; set; init; }
+    Guid Id { get; set; init; }
+    DateTime LastModified { get; set; init; }
+    String Name { get; set; init; }
+    String Secret { get; set; init; }
+    String Url { get; set; init; }
+    WebhookModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WebhookModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers
+public enum DeliverySlot : Enum
+    Preview
+    Published
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers
+public sealed class DeliveryTriggersModel : IEquatable`1
+    AssetTriggerModel Asset { get; set; init; }
+    ContentItemTriggerModel ContentItem { get; set; init; }
+    ContentTypeTriggerModel ContentType { get; set; init; }
+    Nullable<WebhookEvents> Events { get; set; init; }
+    LanguageTriggerModel Language { get; set; init; }
+    Nullable<DeliverySlot> Slot { get; set; init; }
+    TaxonomyTriggerModel Taxonomy { get; set; init; }
+    DeliveryTriggersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(DeliveryTriggersModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers
+public enum WebhookEvents : Enum
+    All
+    Specific
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Asset
+public enum AssetAction : Enum
+    Changed
+    Created
+    Deleted
+    MetadataChanged
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Asset
+public sealed class AssetActionModel : IEquatable`1
+    AssetAction Action { get; set; init; }
+    AssetActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetActionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Asset
+public sealed class AssetTriggerModel : IEquatable`1
+    IReadOnlyList<AssetActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    AssetTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(AssetTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
+public enum ContentItemAction : Enum
+    Changed
+    Created
+    Deleted
+    MetadataChanged
+    Published
+    Unpublished
+    WorkflowStepChanged
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
+public sealed class ContentItemActionModel : IEquatable`1
+    ContentItemAction Action { get; set; init; }
+    IReadOnlyList<ContentItemWorkflowTransition> TransitionTo { get; set; init; }
+    ContentItemActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemActionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
+public sealed class ContentItemFiltersModel : IEquatable`1
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    IReadOnlyList<Reference> Languages { get; set; init; }
+    ContentItemFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
+public sealed class ContentItemTriggerModel : IEquatable`1
+    IReadOnlyList<ContentItemActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    ContentItemFiltersModel Filters { get; set; init; }
+    ContentItemTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem
+public sealed class ContentItemWorkflowTransition : IEquatable`1
+    Reference Step { get; set; init; }
+    Reference Workflow { get; set; init; }
+    ContentItemWorkflowTransition <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentItemWorkflowTransition other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
+public enum ContentTypeAction : Enum
+    Changed
+    Created
+    Deleted
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
+public sealed class ContentTypeActionModel : IEquatable`1
+    ContentTypeAction Action { get; set; init; }
+    ContentTypeActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeActionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
+public sealed class ContentTypeFiltersModel : IEquatable`1
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    ContentTypeFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType
+public sealed class ContentTypeTriggerModel : IEquatable`1
+    IReadOnlyList<ContentTypeActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    ContentTypeFiltersModel Filters { get; set; init; }
+    ContentTypeTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(ContentTypeTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Language
+public enum LanguageAction : Enum
+    Changed
+    Created
+    Deleted
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Language
+public sealed class LanguageActionModel : IEquatable`1
+    LanguageAction Action { get; set; init; }
+    LanguageActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageActionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Language
+public sealed class LanguageFiltersModel : IEquatable`1
+    IReadOnlyList<Reference> Languages { get; set; init; }
+    LanguageFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Language
+public sealed class LanguageTriggerModel : IEquatable`1
+    IReadOnlyList<LanguageActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    LanguageFiltersModel Filters { get; set; init; }
+    LanguageTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(LanguageTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
+public enum TaxonomyAction : Enum
+    Created
+    Deleted
+    MetadataChanged
+    TermChanged
+    TermCreated
+    TermDeleted
+    TermsMoved
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
+public sealed class TaxonomyActionModel : IEquatable`1
+    TaxonomyAction Action { get; set; init; }
+    TaxonomyActionModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyActionModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
+public sealed class TaxonomyFiltersModel : IEquatable`1
+    IReadOnlyList<Reference> Taxonomies { get; set; init; }
+    TaxonomyFiltersModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyFiltersModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy
+public sealed class TaxonomyTriggerModel : IEquatable`1
+    IReadOnlyList<TaxonomyActionModel> Actions { get; set; init; }
+    Nullable<Boolean> Enabled { get; set; init; }
+    TaxonomyFiltersModel Filters { get; set; init; }
+    TaxonomyTriggerModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(TaxonomyTriggerModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowArchivedStepModel : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
+    WorkflowArchivedStepModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowArchivedStepModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowArchivedStepUpsertModel : IEquatable`1
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
+    WorkflowArchivedStepUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowArchivedStepUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowModel : IEquatable`1
+    WorkflowArchivedStepModel ArchivedStep { get; set; init; }
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    WorkflowPublishedStepModel PublishedStep { get; set; init; }
+    WorkflowScheduledStepModel ScheduledStep { get; set; init; }
+    IReadOnlyList<WorkflowScopeModel> Scopes { get; set; init; }
+    IReadOnlyList<WorkflowStepModel> Steps { get; set; init; }
+    WorkflowModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowPublishedStepModel : IEquatable`1
+    String Codename { get; set; init; }
+    IReadOnlyList<Guid> CreateNewVersionRoleIds { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<Guid> UnpublishRoleIds { get; set; init; }
+    WorkflowPublishedStepModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowPublishedStepModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowPublishedStepUpsertModel : IEquatable`1
+    IReadOnlyList<Guid> CreateNewVersionRoleIds { get; set; init; }
+    IReadOnlyList<Guid> UnpublishRoleIds { get; set; init; }
+    WorkflowPublishedStepUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowPublishedStepUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowScheduledStepModel : IEquatable`1
+    String Codename { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    WorkflowScheduledStepModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowScheduledStepModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowScopeModel : IEquatable`1
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    WorkflowScopeModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowScopeModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowScopeUpsertModel : IEquatable`1
+    IReadOnlyList<Reference> Collections { get; set; init; }
+    IReadOnlyList<Reference> ContentTypes { get; set; init; }
+    WorkflowScopeUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowScopeUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public enum WorkflowStepColor : Enum
+    Brown
+    DarkBlue
+    DarkGreen
+    DarkPurple
+    Gray
+    LightBlue
+    LightGreen
+    LightPurple
+    MintGreen
+    Orange
+    PersianGreen
+    Pink
+    Red
+    Rose
+    SkyBlue
+    Yellow
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowStepIdentifier : IEquatable`1
+    Reference Step { get; set; init; }
+    Reference Workflow { get; set; init; }
+    WorkflowStepIdentifier <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowStepIdentifier other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowStepModel : IEquatable`1
+    String Codename { get; set; init; }
+    WorkflowStepColor Color { get; set; init; }
+    Guid Id { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
+    IReadOnlyList<WorkflowStepTransitionToModel> TransitionsTo { get; set; init; }
+    WorkflowStepModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowStepModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowStepTransitionToModel : IEquatable`1
+    Reference Step { get; set; init; }
+    WorkflowStepTransitionToModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowStepTransitionToModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowStepTransitionToUpsertModel : IEquatable`1
+    Reference Step { get; set; init; }
+    WorkflowStepTransitionToUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowStepTransitionToUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowStepUpsertModel : IEquatable`1
+    String Codename { get; set; init; }
+    WorkflowStepColor Color { get; set; init; }
+    Nullable<Guid> Id { get; set; init; }
+    String Name { get; set; init; }
+    IReadOnlyList<Guid> RoleIds { get; set; init; }
+    IReadOnlyList<WorkflowStepTransitionToUpsertModel> TransitionsTo { get; set; init; }
+    WorkflowStepUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowStepUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+
+// Kontent.Ai.Management.Models.Workflow
+public sealed class WorkflowUpsertModel : IEquatable`1
+    WorkflowArchivedStepUpsertModel ArchivedStep { get; set; init; }
+    String Codename { get; set; init; }
+    String Name { get; set; init; }
+    WorkflowPublishedStepUpsertModel PublishedStep { get; set; init; }
+    IReadOnlyList<WorkflowScopeUpsertModel> Scopes { get; set; init; }
+    IReadOnlyList<WorkflowStepUpsertModel> Steps { get; set; init; }
+    WorkflowUpsertModel <Clone>$()
+    Boolean Equals(Object obj)
+    Boolean Equals(WorkflowUpsertModel other)
+    Int32 GetHashCode()
+    String ToString()
+

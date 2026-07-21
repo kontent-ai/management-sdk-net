@@ -1,28 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-
 namespace Kontent.Ai.Management.Models.Roles;
 
 /// <summary>
-/// Represents the environment role model.
+/// An environment role (response shape).
 /// </summary>
-public class EnvironmentRoleModel
+public sealed record EnvironmentRoleModel
 {
     /// <summary>
-    /// Gets or sets the environment role's ID.
+    /// Server-generated role ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the environment role's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets the environment role's codename.
+    /// Codename. Only present for the built-in Project manager role; null for all other roles.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public string? Codename { get; init; }
 }

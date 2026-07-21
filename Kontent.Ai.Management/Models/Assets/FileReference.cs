@@ -1,21 +1,20 @@
-﻿using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Assets;
 
 /// <summary>
-/// Represents binary file reference which can be used in an Asset to point it to a specific binary file.
+/// Reference to a previously uploaded binary file, used to attach it to an asset.
 /// </summary>
-public sealed class FileReference
+public sealed record FileReference
 {
     /// <summary>
-    /// Gets or sets the id of the binary file.
+    /// Binary file ID returned by the upload endpoint.
     /// </summary>
-    [JsonProperty("id", Required = Required.Always)]
-    public string Id { get; set; }
+    [JsonPropertyName("id")]
+    public required string Id { get; init; }
 
     /// <summary>
-    /// Gets or sets file reference type.
+    /// Reference type. Defaults to <see cref="FileReferenceType.Internal"/> — the only type the API uses — so callers never set it.
     /// </summary>
-    [JsonProperty("type", Required = Required.Always)]
-    public FileReferenceTypeEnum Type { get; set; }
+    [JsonPropertyName("type")]
+    public FileReferenceType Type { get; init; } = FileReferenceType.Internal;
 }

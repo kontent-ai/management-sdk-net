@@ -4,7 +4,7 @@
 /// Represents the addInto operation.
 /// More info: https://kontent.ai/learn/reference/management-api-v2#operation/modify-a-custom-app
 /// </summary>
-public class CustomAppAddIntoPatchModel : CustomAppOperationBaseModel
+public sealed record CustomAppAddIntoPatchModel : CustomAppOperationBaseModel
 {
     /// <summary>
     /// Represents the addInto operation.

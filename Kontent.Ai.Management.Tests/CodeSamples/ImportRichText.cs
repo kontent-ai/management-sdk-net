@@ -1,44 +1,34 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Models.Shared;
 using Kontent.Ai.Management.Models.Types;
 using Kontent.Ai.Management.Models.Types.Elements;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-rich-text
 /// </summary>
-public class ImportRichText : IClassFixture<FileSystemFixture>
+public class ImportRichText
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportRichText(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: import_rich_create_button_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateButtonType()
+    public async Task CreateButtonType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
             ExternalId = "button",
             Name = "Button",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new TextElementMetadataModel
                 {
                     Name = "Text",
@@ -49,16 +39,16 @@ public class ImportRichText : IClassFixture<FileSystemFixture>
                     Name = "Link",
                     ExternalId = "button-link",
                 },
-            }
+            ]
         });
     }
 
     // DocSection: import_rich_create_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateItem()
+    public async Task CreateItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         await client.UpsertContentItemAsync(Reference.ByExternalId("simple-example"), new ContentItemUpsertModel
         {
@@ -70,65 +60,57 @@ public class ImportRichText : IClassFixture<FileSystemFixture>
     // DocSection: import_rich_create_simple_type
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateCreateSimpleType()
+    public async Task CreateCreateSimpleType()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.CreateContentTypeAsync(new ContentTypeCreateModel
         {
             Name = "Simple Rich Text",
             Codename = "simple-rich-text",
-            Elements = new ElementMetadataBase[]
-            {
+            Elements =
+            [
                 new RichTextElementMetadataModel
                 {
                     Name = "Rich Text",
                     ExternalId = "rich-text",
                 },
-            }
+            ]
         });
     }
 
     // DocSection: import_rich_upsert_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UpsertVariant()
+    public async Task UpsertVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("123"), Reference.ByCodename("en-US"));
 
         await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-            {
+            Elements =
+            [
                 new RichTextElement
                 {
                     Element = Reference.ByExternalId("rich-text"),
                     Value = "<h1>Lorem Ipsum</h1>\n<p>Lorem ipsum dolor sit amet, consectetur <a href=\"https://wikipedia.org\">adipiscing elit</a>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n<object type=\"application/kenticocloud\" data-type=\"component\" data-id=\"a2ee7bac-15ff-4dce-a244-012b9f98dd7b\"></object>\n<p>Ut enim ad minim veniam, <a data-item-external-id=\"second-page\">quis nostrud</a> exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>\n<ul>\n  <li>Lorem ipsum dolor sit amet</li>\n  <li>Consectetur adipiscing elit</li>\n  <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>\n</ul><figure data-asset-external-id=\"rich-text-asset\"></figure>",
-                    Components = new ComponentModel[]
-                    {
+                    Components =
+                    [
                         new ComponentModel
                         {
                             Id = Guid.Parse("a2ee7bac-15ff-4dce-a244-012b9f98dd7b"),
                             Type = Reference.ByExternalId("button"),
-                            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-                            {
-                                new TextElement
-                                {
-                                    Element = Reference.ByExternalId("button-text"),
-                                    Value = "Buy me",
-                                },
-                                new TextElement
-                                {
-                                    Element = Reference.ByExternalId("button-link"),
-                                    Value = "https://kontent.a",
-                                }
-                            })
-                        }
-                    }
+                            Elements =
+                            [
+                                new TextElement { Element = Reference.ByExternalId("button-text"), Value = "Buy me" },
+                                new TextElement { Element = Reference.ByExternalId("button-link"), Value = "https://kontent.ai" },
+                            ],
+                        },
+                    ],
                 },
-            }),
+            ],
         });
     }
 }

@@ -1,24 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.Collections;
+﻿namespace Kontent.Ai.Management.Models.Collections;
 
 /// <summary>
-/// Represents content collections
+/// Response shape for retrieving the content collection list of an environment.
 /// </summary>
-public class CollectionsModel
+public sealed record CollectionsModel
 {
     /// <summary>
-    /// Gets or sets the list of content collections
+    /// All content collections in the environment.
     /// </summary>
-    [JsonProperty("collections")]
-    public IEnumerable<CollectionModel> Collections { get; set; }
+    [JsonPropertyName("collections")]
+    public required IReadOnlyList<CollectionModel> Collections { get; init; }
 
     /// <summary>
-    /// Gets or sets the ISO-8601 formatted date and time of the last change to content collections.
-    /// This property can be null if the collections were not changed yet.
+    /// ISO-8601 timestamp of the most recent collection change. Null when collections have never been modified.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
+    [JsonPropertyName("last_modified")]
+    public DateTime? LastModified { get; init; }
 }

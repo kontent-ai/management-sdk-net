@@ -1,17 +1,13 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
 
 /// <summary>
-/// Represents the taxonomy filters model.
+/// Filters narrowing which taxonomies fire a webhook.
 /// </summary>
-public class TaxonomyFiltersModel
+public sealed record TaxonomyFiltersModel
 {
     /// <summary>
-    /// References to taxonomies
+    /// Restrict to these taxonomies.
     /// </summary>
-    [JsonProperty("taxonomies")]
-    public IEnumerable<Reference> Taxonomies { get; set; }
+    [JsonPropertyName("taxonomies")]
+    public IReadOnlyList<Reference>? Taxonomies { get; init; }
 }

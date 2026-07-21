@@ -1,22 +1,21 @@
-﻿using Kontent.Ai.Management.Models.PreviewConfiguration;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Kontent.Ai.Management.Extensions;
+using Kontent.Ai.Management.Models.PreviewConfiguration;
 
 namespace Kontent.Ai.Management;
 
 public partial class ManagementClient
 {
     /// <inheritdoc />
-    public async Task<PreviewConfigurationModel> GetPreviewConfigurationAsync()
+    public Task<IManagementResult<PreviewConfigurationModel>> GetPreviewConfigurationAsync(CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildPreviewConfigurationUrl();
-        return await _actionInvoker.InvokeReadOnlyMethodAsync<PreviewConfigurationModel>(endpointUrl, HttpMethod.Get);
+        return _managementApi.GetPreviewConfigurationInternalAsync(cancellationToken).ToManagementResultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<PreviewConfigurationModel> ModifyPreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration)
+    public Task<IManagementResult<PreviewConfigurationModel>> UpdatePreviewConfigurationAsync(PreviewConfigurationModel previewConfiguration, CancellationToken cancellationToken = default)
     {
-        var endpointUrl = _urlBuilder.BuildPreviewConfigurationUrl();
-        return await _actionInvoker.InvokeMethodAsync<PreviewConfigurationModel, PreviewConfigurationModel >(endpointUrl, HttpMethod.Put, previewConfiguration);
+        ArgumentNullException.ThrowIfNull(previewConfiguration);
+
+        return _managementApi.UpdatePreviewConfigurationInternalAsync(previewConfiguration, cancellationToken).ToManagementResultAsync();
     }
 }

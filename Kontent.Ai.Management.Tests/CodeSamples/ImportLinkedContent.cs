@@ -1,34 +1,25 @@
 using Kontent.Ai.Management.Models.Items;
 using Kontent.Ai.Management.Models.LanguageVariants;
 using Kontent.Ai.Management.Models.LanguageVariants.Elements;
-using Kontent.Ai.Management.Models.Shared;
-using Kontent.Ai.Management.Modules.ModelBuilders;
 using Kontent.Ai.Management.Tests.Base;
-using Xunit;
 
 namespace Kontent.Ai.Management.Tests.CodeSamples;
 
 /// <summary>
 /// Source for Code examples being store in https://github.com/Kontent-ai-Learn/kontent-ai-learn-code-samples/tree/master/net/import-linked-content
 /// </summary>
-public class ImportLinkedContent : IClassFixture<FileSystemFixture>
+public class ImportLinkedContent
 {
     // IF YOU MAKE ANY CHANGE TO THIS FILE - ADJUST THE CODE SAMPLES
 
-    private readonly FileSystemFixture _fileSystemFixture;
-
-    public ImportLinkedContent(FileSystemFixture fileSystemFixture)
-    {
-        _fileSystemFixture = fileSystemFixture;
-        _fileSystemFixture.SetSubFolder("CodeSamples");
-    }
+    private const string SampleFolder = "CodeSamples";
 
     // DocSection: import_linked_create_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateItem()
+    public async Task CreateItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         await client.UpsertContentItemAsync(
             Reference.ByExternalId("123"),
@@ -38,9 +29,9 @@ public class ImportLinkedContent : IClassFixture<FileSystemFixture>
     // DocSection: import_linked_create_sec_item
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void CreateSecondItem()
+    public async Task CreateSecondItem()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         await client.UpsertContentItemAsync(
             Reference.ByExternalId("456"),
@@ -50,69 +41,55 @@ public class ImportLinkedContent : IClassFixture<FileSystemFixture>
     // DocSection: import_linked_upsert_Sec_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UpsertSecondVariant()
+    public async Task UpsertSecondVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("456"), Reference.ByCodename("en-US"));
 
         await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-            {
-                new TextElement
-                {
-                    Element = Reference.ByCodename("title"),
-                    Value = "Donate with us"
-                },
+            Elements =
+            [
+                new TextElement { Element = Reference.ByCodename("title"), Value = "Donate with us" },
                 new LinkedItemsElement
                 {
                     Element = Reference.ByCodename("related_articles"),
-                    Value = new []
-                    {
-                        Reference.ByExternalId("123"),
-                    }
-                }
-            })
+                    Value = [Reference.ByExternalId("123")],
+                },
+            ]
         });
     }
 
     // DocSection: import_linked_upsert_variant
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void UsertVariant()
+    public async Task UsertVariant()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("123"), Reference.ByCodename("en-US"));
 
         var response = await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
         {
-            Elements = ElementBuilder.GetElementsAsDynamic(new BaseElement[]
-            {
-                new TextElement
-                {
-                    Element = Reference.ByCodename("title"),
-                    Value = "On Roasts"
-                },
+            Elements =
+            [
+                new TextElement { Element = Reference.ByCodename("title"), Value = "On Roasts" },
                 new LinkedItemsElement
                 {
                     Element = Reference.ByCodename("related_articles"),
-                    Value = new []
-                    {
-                        Reference.ByExternalId("456"),
-                    }
-                }
-            })
+                    Value = [Reference.ByExternalId("456")],
+                },
+            ]
         });
     }
 
     // DocSection: import_linked_validate_content
     // Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
     [Fact]
-    public async void PostValidate()
+    public async Task PostValidate()
     {
-        var client = _fileSystemFixture.CreateMockClientWithResponse("Empty.json");
+        var client = MockClientFactory.CreateForSample(SampleFolder, "Empty.json");
 
         var response = await client.ValidateEnvironmentAsync();
     }

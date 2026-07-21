@@ -1,35 +1,31 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Subscription;
 
 /// <summary>
-/// Represents Set of roles the user is assigned to within the collection.
+/// A role a subscription user holds within a collection group, scoped to a set of languages.
 /// </summary>
-public sealed class SubscriptionUserRoleModel
+public sealed record SubscriptionUserRoleModel
 {
     /// <summary>
-    /// Gets or sets id of user's role.
+    /// Role ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets name of user's role.
+    /// Role display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets codename of user's role.
+    /// Role codename.
     /// </summary>
-    [JsonProperty("codename")]
-    public string Codename { get; set; }
+    [JsonPropertyName("codename")]
+    public required string Codename { get; init; }
 
     /// <summary>
-    /// Gets or sets reference to languages.
+    /// Languages the role is scoped to. An empty array represents the remaining languages not assigned in any other role.
     /// </summary>
-    [JsonProperty("languages")]
-    public IEnumerable<SubscriptionUserRoleLangaugeModel> Languages { get; set; }
+    [JsonPropertyName("languages")]
+    public required IReadOnlyList<SubscriptionUserRoleLanguageModel> Languages { get; init; }
 }

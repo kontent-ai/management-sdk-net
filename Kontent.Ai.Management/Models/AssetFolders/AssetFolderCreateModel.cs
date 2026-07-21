@@ -1,16 +1,13 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace Kontent.Ai.Management.Models.AssetFolders;
+﻿namespace Kontent.Ai.Management.Models.AssetFolders;
 
 /// <summary>
-/// Represents the asset folder list.
+/// Represents the body of an asset-folder create request.
 /// </summary>
-public class AssetFolderCreateModel
+public sealed record AssetFolderCreateModel
 {
     /// <summary>
-    /// Folder listing (recursive)
+    /// The folder hierarchy to create (recursive).
     /// </summary>
-    [JsonProperty("folders")]
-    public IEnumerable<AssetFolderHierarchy> Folders { get; set; }
+    [JsonPropertyName("folders")]
+    public required IReadOnlyList<AssetFolderHierarchy> Folders { get; init; }
 }

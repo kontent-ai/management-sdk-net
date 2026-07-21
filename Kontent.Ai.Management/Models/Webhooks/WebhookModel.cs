@@ -1,68 +1,63 @@
-﻿using Kontent.Ai.Management.Models.Webhooks.Triggers;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+using Kontent.Ai.Management.Models.Webhooks.Triggers;
 
 namespace Kontent.Ai.Management.Models.Webhooks;
 
 /// <summary>
-/// Represents the webhook model.
+/// A webhook (response shape).
 /// </summary>
-public class WebhookModel
+public sealed record WebhookModel
 {
     /// <summary>
-    /// Gets or sets the webhook's internal ID.
+    /// Server-generated webhook ID.
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
-    
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
+
     /// <summary>
-    /// Gets or sets the webhook's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
-    
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
+
     /// <summary>
-    /// Gets or sets the URL to which the webhook notification will be sent.
+    /// URL the webhook notification is sent to.
     /// </summary>
-    [JsonProperty("url")]
-    public string Url { get; set; }
-    
+    [JsonPropertyName("url")]
+    public required string Url { get; init; }
+
     /// <summary>
-    /// Gets or sets the webhook's secret key, used to authenticate that the webhook was sent by Kontent.
+    /// Secret used to sign notifications so receivers can verify they originated from Kontent.ai.
     /// </summary>
-    [JsonProperty("secret")]
-    public string Secret { get; set; }
-    
+    [JsonPropertyName("secret")]
+    public required string Secret { get; init; }
+
     /// <summary>
-    /// Gets or sets webhook's custom HTTP headers, used to send extra information in webhook notifications.
+    /// Custom HTTP headers sent with each notification. Null when none are configured.
     /// </summary>
-    [JsonProperty("headers")]
-    public IEnumerable<CustomHeaderModel> Headers { get; set; }
-    
+    [JsonPropertyName("headers")]
+    public IReadOnlyList<CustomHeaderModel>? Headers { get; init; }
+
     /// <summary>
-    /// Determines if the webhook is enabled. By default, the enabled property is set to true.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether the webhook is enabled.
     /// </summary>
-    [JsonProperty("enabled")]
-    public bool Enabled { get; set; }
-    
+    [JsonPropertyName("enabled")]
+    public required bool Enabled { get; init; }
+
     /// <summary>
-    /// Gets or sets ISO-8601 formatted date/time of the last change to the webhook.
+    /// ISO-8601 timestamp of the last change to the webhook.
     /// </summary>
-    [JsonProperty("last_modified")]
-    public DateTime? LastModified { get; set; }
-    
+    [JsonPropertyName("last_modified")]
+    public required DateTime LastModified { get; init; }
+
     /// <summary>
-    /// The webhook's health status tells you whether the webhook is operational.
+    /// Operational health of the webhook.
     /// </summary>
-    [JsonProperty("health_status")]
-    public WebhookHealthStatus HealthStatus { get; set; }
-    
+    [JsonPropertyName("health_status")]
+    public required WebhookHealthStatus HealthStatus { get; init; }
+
     /// <summary>
-    /// Gets or sets the specific events that trigger the webhook.
-    /// The events can be set for the published or preview data in Delivery API.
+    /// Events that trigger the webhook.
     /// </summary>
-    [JsonProperty("delivery_triggers")]
-    public DeliveryTriggersModel DeliveryTriggers { get; set; }
+    [JsonPropertyName("delivery_triggers")]
+    public required DeliveryTriggersModel DeliveryTriggers { get; init; }
 }

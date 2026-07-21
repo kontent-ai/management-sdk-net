@@ -1,22 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 
 /// <summary>
-/// Specifies a workflow and its workflow step.
+/// A workflow/step pair that fires a content-item workflow-step-changed webhook.
 /// </summary>
-public class ContentItemWorkflowTransition
+public sealed record ContentItemWorkflowTransition
 {
     /// <summary>
-    /// Reference to the content item variant's workflow.
+    /// Reference to the workflow.
     /// </summary>
-    [JsonProperty("workflow_identifier", Required = Required.Always)]
-    public Reference WorkflowReference { get; set; }
-    
+    [JsonPropertyName("workflow_identifier")]
+    public required Reference Workflow { get; init; }
+
     /// <summary>
-    /// Reference to the content item variant's workflow step.
+    /// Reference to the workflow step.
     /// </summary>
-    [JsonProperty("step_identifier", Required = Required.Always)]
-    public Reference WorkflowStepReference { get; set; }
+    [JsonPropertyName("step_identifier")]
+    public required Reference Step { get; init; }
 }

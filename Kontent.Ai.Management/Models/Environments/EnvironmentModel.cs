@@ -1,28 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Kontent.Ai.Management.Models.Environments;
+﻿namespace Kontent.Ai.Management.Models.Environments;
 
 /// <summary>
 /// Represents environment model.
 /// </summary>
-public class EnvironmentModel
+public sealed record EnvironmentModel
 {
     /// <summary>
-    /// Gets or sets the id of the environment
+    /// Gets the id of the environment
     /// </summary>
-    [JsonProperty("id")]
-    public Guid Id { get; set; }
+    [JsonPropertyName("id")]
+    public required Guid Id { get; init; }
 
     /// <summary>
-    /// Gets or sets the name of the environment
+    /// Gets the name of the environment
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the environment is production
+    /// Gets a flag determining whether the environment is production
     /// </summary>
-    [JsonProperty("is_production")]
-    public bool IsProduction { get; set; }
+    [JsonPropertyName("is_production")]
+    public required bool IsProduction { get; init; }
 }

@@ -1,59 +1,35 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Types.Elements;
 
 /// <summary>
-/// Represents a custom element in content types.
+/// A custom element on a content type. Hosts a third-party editing experience served from <see cref="SourceUrl"/>.
 /// </summary>
-public class CustomElementMetadataModel : ElementMetadataBase
+public sealed record CustomElementMetadataModel : ContentElementMetadataBase
 {
     /// <summary>
-    /// Gets or sets the element's display name.
+    /// Display name.
     /// </summary>
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")]
+    public required string Name { get; init; }
 
     /// <summary>
-    /// Gets or sets a flag determining whether the element must be filled in.
+    /// Absolute URL that hosts the custom element's UI.
     /// </summary>
-    [JsonProperty("is_required")]
-    public bool IsRequired { get; set; }
+    [JsonPropertyName("source_url")]
+    public required string SourceUrl { get; init; }
 
     /// <summary>
-    /// Gets or sets element is non-localizable
+    /// Stringified JSON passed to the custom element at runtime. Must be valid JSON when non-null.
     /// </summary>
-    [JsonProperty("is_non_localizable")]
-    public bool IsNonLocalizable { get; set; }
+    [JsonPropertyName("json_parameters")]
+    public string? JsonParameters { get; init; }
 
     /// <summary>
-    /// Gets or sets the element's guidelines, providing instructions on what to fill in.
+    /// Sibling elements that the custom element can read. Null means no elements are exposed.
     /// </summary>
-    [JsonProperty("guidelines")]
-    public string Guidelines { get; set; }
+    [JsonPropertyName("allowed_elements")]
+    public IReadOnlyList<Reference>? AllowedElements { get; init; }
 
-    /// <summary>
-    /// Gets or sets the absolute URL that hosts your custom element.
-    /// </summary>
-    [JsonProperty("source_url")]
-    public string SourceUrl { get; set; }
-
-    /// <summary>
-    /// Gets or sets the optional parameters that allow you to use the element in different content types or provide a customizable layout.
-    /// The value must be a valid stringified JSON.
-    /// </summary>
-    [JsonProperty("json_parameters")]
-    public string JsonParameters { get; set; }
-
-    /// <summary>
-    /// Specifies the elements that this custom element can read from.
-    /// </summary>
-    [JsonProperty("allowed_elements")]
-    public IEnumerable<Reference> AllowedElements { get; set; }
-
-    /// <summary>
-    /// Represents the type of the content type element.
-    /// </summary>
+    /// <inheritdoc/>
+    [JsonPropertyName("type")]
     public override ElementMetadataType Type => ElementMetadataType.Custom;
 }

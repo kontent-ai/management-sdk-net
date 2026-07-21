@@ -1,16 +1,13 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
 namespace Kontent.Ai.Management.Models.Roles;
 
 /// <summary>
-/// Represents environment's roles
+/// Wire envelope for the roles listing (<c>{ "roles": [...] }</c>); unwrapped to the bare list at the client surface.
 /// </summary>
-public class EnvironmentRolesModel
+internal sealed record EnvironmentRolesModel
 {
     /// <summary>
-    /// Gets or sets the list of environment roles
+    /// The environment's roles.
     /// </summary>
-    [JsonProperty("roles")]
-    public IEnumerable<EnvironmentRoleModel> Roles { get; set; }
+    [JsonPropertyName("roles")]
+    public required IReadOnlyList<EnvironmentRoleModel> Roles { get; init; }
 }

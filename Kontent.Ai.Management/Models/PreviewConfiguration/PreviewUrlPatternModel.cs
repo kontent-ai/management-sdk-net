@@ -1,22 +1,19 @@
-﻿using Kontent.Ai.Management.Models.Shared;
-using Newtonsoft.Json;
-
 namespace Kontent.Ai.Management.Models.PreviewConfiguration;
 
 /// <summary>
-/// Represents preview URL pattern model.
+/// A single preview URL pattern, optionally scoped to a space.
 /// </summary>
-public class PreviewUrlPatternModel
+public sealed record PreviewUrlPatternModel
 {
     /// <summary>
-    /// Gets or sets the space reference.
+    /// Reference to the space this pattern applies to. Null for the default (space-agnostic) pattern.
     /// </summary>
-    [JsonProperty("space")]
-    public Reference Space { get; set; }
+    [JsonPropertyName("space")]
+    public Reference? Space { get; init; }
 
     /// <summary>
-    /// Gets or sets the content type URL pattern.
+    /// The preview URL pattern (may contain placeholders such as <c>{URLSlug}</c> and <c>{Space}</c>).
     /// </summary>
-    [JsonProperty("url_pattern")]
-    public string UrlPattern { get; set; }
+    [JsonPropertyName("url_pattern")]
+    public required string UrlPattern { get; init; }
 }

@@ -1,63 +1,55 @@
-﻿using Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
+using Kontent.Ai.Management.Models.Webhooks.Triggers.Asset;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentItem;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.ContentType;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Language;
 using Kontent.Ai.Management.Models.Webhooks.Triggers.Taxonomy;
-using Newtonsoft.Json;
 
 namespace Kontent.Ai.Management.Models.Webhooks.Triggers;
 
 /// <summary>
-/// Represents specific events that trigger the webhook.
+/// The set of events that trigger a webhook. Each category is opt-in; configure only the ones the webhook should react to.
 /// </summary>
-public class DeliveryTriggersModel
+public sealed record DeliveryTriggersModel
 {
     /// <summary>
-    /// Gets or sets triggers for content types.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Content type events.
     /// </summary>
-    [JsonProperty("content_type")]
-    public ContentTypeTriggerModel ContentType { get; set; }
-    
+    [JsonPropertyName("content_type")]
+    public ContentTypeTriggerModel? ContentType { get; init; }
+
     /// <summary>
-    /// Gets or sets triggers for content items.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Content item events.
     /// </summary>
-    [JsonProperty("content_item")]
-    public ContentItemTriggerModel ContentItem { get; set; }
-    
+    [JsonPropertyName("content_item")]
+    public ContentItemTriggerModel? ContentItem { get; init; }
+
     /// <summary>
-    /// Gets or sets triggers for taxonomies.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Taxonomy events.
     /// </summary>
-    [JsonProperty("taxonomy")]
-    public TaxonomyTriggerModel Taxonomy { get; set; }
-    
+    [JsonPropertyName("taxonomy")]
+    public TaxonomyTriggerModel? Taxonomy { get; init; }
+
     /// <summary>
-    /// Gets or sets triggers for assets.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Asset events.
     /// </summary>
-    [JsonProperty("asset")]
-    public AssetTriggerModel Asset { get; set; }
-    
+    [JsonPropertyName("asset")]
+    public AssetTriggerModel? Asset { get; init; }
+
     /// <summary>
-    /// Gets or sets triggers for languages.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Language events.
     /// </summary>
-    [JsonProperty("language")]
-    public LanguageTriggerModel Language { get; set; }
-    
+    [JsonPropertyName("language")]
+    public LanguageTriggerModel? Language { get; init; }
+
     /// <summary>
-    /// Gets or sets the delivery slot.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Delivery slot (published or preview) the events apply to.
     /// </summary>
-    [JsonProperty("slot")]
-    public DeliverySlot? Slot { get; set; }
-    
+    [JsonPropertyName("slot")]
+    public DeliverySlot? Slot { get; init; }
+
     /// <summary>
-    /// Gets or sets webhook events.
-    /// More info: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/Webhook-object
+    /// Whether all events or only the specified subset trigger the webhook.
     /// </summary>
-    [JsonProperty("events")]
-    public WebhookEvents? Events { get; set; }
+    [JsonPropertyName("events")]
+    public WebhookEvents? Events { get; init; }
 }

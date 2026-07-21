@@ -1,191 +1,167 @@
-﻿using FluentAssertions;
-using Kontent.Ai.Management.Extensions;
-using Kontent.Ai.Management.Models.Shared;
+using AwesomeAssertions;
+using Kontent.Ai.Management.Models.Subscription;
 using Kontent.Ai.Management.Tests.Base;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Xunit;
-using static Kontent.Ai.Management.Tests.Base.Scenario;
+using RichardSzalay.MockHttp;
+using System.Text.Json;
+
+using static Kontent.Ai.Management.Tests.Base.PagedFixtures;
 
 namespace Kontent.Ai.Management.Tests.ManagementClientTests;
 
 public class SubscriptionTests
 {
-    private readonly Scenario _scenario;
+    private static string Fixture(string name)
+        => File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "Data", "Subscription", name));
 
-    public SubscriptionTests()
+    [Fact]
+    public async Task ListSubscriptionProjectsAsync_PagesThroughAllProjects()
     {
-        _scenario = new Scenario(folder: "Subscription");
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("ProjectsPage1.json");
+        var page2 = Fixture("ProjectsPage2.json");
+        var page3 = Fixture("ProjectsPage3.json");
+        var url = $"{MockClientFactory.SubscriptionBaseUrl}/projects";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
+
+        var listResult = await client.ListSubscriptionProjectsAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<SubscriptionProjectModel> projects = listResult.Value;
+
+        mock.VerifyNoOutstandingExpectation();
+        projects.Should().BeEquivalentTo(ConcatPages<SubscriptionProjectModel>(page1, page2, page3));
     }
 
     [Fact]
-    public async void ListSubscriptionProjectsAsync_WithContinuation_ListsSubscriptionProjects()
+    public async Task ListSubscriptionUsersAsync_PagesThroughAllUsers()
     {
-        var client = _scenario
-            .WithResponses("ProjectsPage1.json", "ProjectsPage2.json", "ProjectsPage3.json")
-            .CreateManagementClient();
+        var (client, mock) = MockClientFactory.Create();
+        var page1 = Fixture("UsersPage1.json");
+        var page2 = Fixture("UsersPage2.json");
+        var page3 = Fixture("UsersPage3.json");
+        var url = $"{MockClientFactory.SubscriptionBaseUrl}/users";
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page1);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page2);
+        mock.Expect(HttpMethod.Get, url).Respond("application/json", page3);
 
-        var response = await client.ListSubscriptionProjectsAsync().GetAllAsync();
+        var listResult = await client.ListSubscriptionUsersAsync();
+        listResult.IsSuccess.Should().BeTrue();
+        IReadOnlyList<SubscriptionUserModel> users = listResult.Value;
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .ListingResponse(response)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/projects")
-            .Validate();
-    }
-
-
-    [Fact]
-    public async Task ListSubscriptionUsersAsync_WithContinuation_ListsSubscriptionUsers()
-    {
-        var client = _scenario
-            .WithResponses("UsersPage1.json", "UsersPage2.json", "UsersPage3.json")
-            .CreateManagementClient();
-
-        var response = await client.ListSubscriptionUsersAsync().GetAllAsync();
-
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .ListingResponse(response)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        users.Should().BeEquivalentTo(ConcatPages<SubscriptionUserModel>(page1, page2, page3));
     }
 
     [Fact]
     public async Task GetSubscriptionUserAsync_ById_GetsSubscriptionUser()
     {
-        var client = _scenario
-            .WithResponses("User.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
+        var user = Fixture("User.json");
         var identifier = UserIdentifier.ById("some_id");
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.SubscriptionBaseUrl}/users/{identifier.Id}")
+            .Respond("application/json", user);
 
-        var response = await client.GetSubscriptionUserAsync(identifier);
+        var result = await client.GetSubscriptionUserAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/{identifier.Id}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
     }
-
 
     [Fact]
     public async Task GetSubscriptionUserAsync_ByEmail_GetsSubscriptionUser()
     {
-        var client = _scenario
-            .WithResponses("User.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
+        var user = Fixture("User.json");
         var identifier = UserIdentifier.ByEmail("some_email");
+        mock.Expect(HttpMethod.Get, $"{MockClientFactory.SubscriptionBaseUrl}/users/email/{identifier.Email}")
+            .Respond("application/json", user);
 
-        var response = await client.GetSubscriptionUserAsync(identifier);
+        var result = await client.GetSubscriptionUserAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Get)
-            .Response(response)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/email/{identifier.Email}")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().BeEquivalentTo(JsonSerializer.Deserialize<SubscriptionUserModel>(user, SharedTestJsonOptions.Default));
     }
 
     [Fact]
-    public async void GetSubscriptionUserAsync_IdentifierIsNull_Throws()
+    public async Task GetSubscriptionUserAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.GetSubscriptionUserAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.GetSubscriptionUserAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void ActivateSubscriptionUserAsync_ById_ActivatesUser()
+    public async Task ActivateSubscriptionUserAsync_ById_ActivatesUser()
     {
-        var client = _scenario
-            .WithResponses("User.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = UserIdentifier.ById("some_id");
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/{identifier.Id}/activate")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.ActivateSubscriptionUserAsync(identifier);
+        var result = await client.ActivateSubscriptionUserAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/{identifier.Id}/activate")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void ActivateSubscriptionUserAsync_ByEmail_ActivatesUser()
+    public async Task ActivateSubscriptionUserAsync_ByEmail_ActivatesUser()
     {
-        var client = _scenario
-            .WithResponses("User.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = UserIdentifier.ByEmail("some_email");
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/email/{identifier.Email}/activate")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.ActivateSubscriptionUserAsync(identifier);
+        var result = await client.ActivateSubscriptionUserAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/email/{identifier.Email}/activate")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void ActivateSubscriptionUserAsync_IdentifierIsNull_Throws()
+    public async Task ActivateSubscriptionUserAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.ActivateSubscriptionUserAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.ActivateSubscriptionUserAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
-    public async void DeactivateSubscriptionUserAsync_ById_ActivatesUser()
+    public async Task DeactivateSubscriptionUserAsync_ById_DeactivatesUser()
     {
-        var client = _scenario
-            .WithResponses("User.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = UserIdentifier.ById("some_id");
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/{identifier.Id}/deactivate")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeactivateSubscriptionUserAsync(identifier);
+        var result = await client.DeactivateSubscriptionUserAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/{identifier.Id}/deactivate")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeactivateSubscriptionUserAsync_ByEmail_ActivatesUser()
+    public async Task DeactivateSubscriptionUserAsync_ByEmail_DeactivatesUser()
     {
-        var client = _scenario
-            .WithResponses("User.json")
-            .CreateManagementClient();
-
+        var (client, mock) = MockClientFactory.Create();
         var identifier = UserIdentifier.ByEmail("some_email");
+        mock.Expect(HttpMethod.Put, $"{MockClientFactory.SubscriptionBaseUrl}/users/email/{identifier.Email}/deactivate")
+            .Respond(System.Net.HttpStatusCode.OK);
 
-        await client.DeactivateSubscriptionUserAsync(identifier);
+        var result = await client.DeactivateSubscriptionUserAsync(identifier);
 
-        _scenario
-            .CreateExpectations()
-            .HttpMethod(HttpMethod.Put)
-            .Url($"{Endpoint}/subscriptions/{SUBSCRIPTION_ID}/users/email/{identifier.Email}/deactivate")
-            .Validate();
+        mock.VerifyNoOutstandingExpectation();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
-    public async void DeactivateSubscriptionUserAsync_IdentifierIsNull_Throws()
+    public async Task DeactivateSubscriptionUserAsync_IdentifierIsNull_Throws()
     {
-        var client = _scenario.CreateManagementClient();
+        var (client, _) = MockClientFactory.Create();
 
-        await client.Invoking(x => x.DeactivateSubscriptionUserAsync(null)).Should().ThrowAsync<ArgumentNullException>();
+        await client.Invoking(x => x.DeactivateSubscriptionUserAsync(null!)).Should().ThrowAsync<ArgumentNullException>();
     }
 }
