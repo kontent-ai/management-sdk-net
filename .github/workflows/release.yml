@@ -30,13 +30,17 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --no-restore --configuration Release /p:ContinuousIntegrationBuild=true /p:Version="${{ steps.get_version.outputs.version-without-v }}"
+        env:
+          PKG_VERSION: ${{ steps.get_version.outputs.version-without-v }}
+        run: dotnet build --no-restore --configuration Release /p:ContinuousIntegrationBuild=true /p:Version="$PKG_VERSION"
       - name: Test
         run: dotnet test --no-build --verbosity normal --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
       - name: Codecov
         uses: codecov/codecov-action@v5
       - name: Pack
-        run: dotnet pack --no-build --include-symbols --verbosity normal --configuration Release --output ./artifacts /p:PackageVersion="${{ steps.get_version.outputs.version-without-v }}"
+        env:
+          PKG_VERSION: ${{ steps.get_version.outputs.version-without-v }}
+        run: dotnet pack --no-build --include-symbols --verbosity normal --configuration Release --output ./artifacts /p:PackageVersion="$PKG_VERSION"
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -48,7 +52,9 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
       - name: Publish artifacts to NuGet.org
-        run: dotnet nuget push './artifacts/*.nupkg' -s https://api.nuget.org/v3/index.json -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --skip-duplicate
+        env:
+          NUGET_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push './artifacts/*.nupkg' -s https://api.nuget.org/v3/index.json -k "$NUGET_KEY" --skip-duplicate
       - name: Upload artifacts to the GitHub release
         run: gh release upload "$GITHUB_REF_NAME" ./artifacts/*.nupkg ./artifacts/*.snupkg --clobber
         env:
