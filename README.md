@@ -1,3 +1,13 @@
+> [!NOTE]
+> The SDK has moved to a new .NET monorepo: https://github.com/kontent-ai/dotnet
+>
+> This repository is in maintenance until .NET 8 reaches end of life on **10 November 2026**, after
+> which it will be archived.
+>
+> - **Security vulnerabilities:** email security@kontent.ai. Please do not open a public issue.
+> - **Everything else:** open it on [kontent-ai/dotnet](https://github.com/kontent-ai/dotnet/issues).
+>   The new SDK targets .NET 10.
+
 # Kontent.ai Management .NET SDK
 
 [![Build & Test](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml/badge.svg)](https://github.com/kontent-ai/management-sdk-net/actions/workflows/integrate.yml)
